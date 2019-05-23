@@ -30,6 +30,8 @@ class Login extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    displayError = error => <p>{error}</p>;
+
     render() {
         const { email, password, error, loading } = this.state;
 
@@ -67,7 +69,7 @@ class Login extends React.Component {
                     <Message info>
                         <Icon name="help" />
                         Don't have an account?
-                        <Link to="/register">Register</Link>
+                        <Link to="/register"> Register</Link>
                     </Message>
                     {error !== "" && (
                         <Message negative>

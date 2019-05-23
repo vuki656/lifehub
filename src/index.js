@@ -2,38 +2,26 @@ import React from "react";
 import ReactDOM from "react-dom";
 import firebase from "./firebase/Auth";
 
-import { createBrowserHistory } from "history";
-import { Route, Router } from "react-router-dom";
+import AppRouter, { history } from "./routers/AppRouter";
 
 import "semantic-ui-css/semantic.min.css";
 import "./styles/styles.scss";
 
-import App from "./components/App";
-import Login from "./components/Auth/Login";
-import Register from "./components/Auth/Register";
+import LoadingPage from "./components/Misc/LoadingPage";
 
-export const history = createBrowserHistory();
+// Displays the component when fully loaded
+const renderApp = () => {
+    ReactDOM.render(<AppRouter />, document.getElementById("root"));
+};
 
-class AppRouter extends React.Component {
-    componentDidMount() {
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                history.push("/dashboard");
-            } else {
-                history.push("/login");
-            }
-        });
+firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+        history.push("/dashboard");
+        renderApp();
+    } else {
+        history.push("/login");
+        renderApp();
     }
+});
 
-    render() {
-        return (
-            <Router history={history}>
-                <Route path="/dashboard" exact component={App} />
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} />
-            </Router>
-        );
-    }
-}
-
-ReactDOM.render(<AppRouter />, document.getElementById("root"));
+ReactDOM.render(<LoadingPage />, document.getElementById("root"));

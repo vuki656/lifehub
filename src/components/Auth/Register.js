@@ -1,6 +1,8 @@
 import React from "react";
 import firebase from "../../firebase/Auth";
-import { Form, Grid, Message, Button } from "semantic-ui-react";
+
+import { Link } from "react-router-dom";
+import { Form, Grid, Message, Button, Icon } from "semantic-ui-react";
 
 class Register extends React.Component {
     state = {
@@ -117,7 +119,11 @@ class Register extends React.Component {
                             Register
                         </Button>
                     </Form>
-
+                    <Message info>
+                        <Icon name="help" />
+                        Already have an account?
+                        <Link to="/login"> Login</Link>
+                    </Message>
                     {error !== "" && (
                         <Message negative>
                             <Message.Header>Error:</Message.Header>
