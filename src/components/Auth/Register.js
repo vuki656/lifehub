@@ -117,6 +117,7 @@ class Register extends React.Component {
                             Register
                         </Button>
                     </Form>
+
                     {error !== "" && (
                         <Message negative>
                             <Message.Header>Error:</Message.Header>

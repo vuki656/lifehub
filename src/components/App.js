@@ -4,23 +4,7 @@ import { withRouter } from "react-router-dom";
 function App() {
     return (
         <div className="App">
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
-            <p>Hasddddddddddddddddi</p>
+            <p>dashboard</p>
         </div>
     );
 }

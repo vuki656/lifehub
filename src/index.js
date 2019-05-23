@@ -18,7 +18,7 @@ class AppRouter extends React.Component {
     componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                history.push("/");
+                history.push("/dashboard");
             } else {
                 history.push("/login");
             }
@@ -28,7 +28,7 @@ class AppRouter extends React.Component {
     render() {
         return (
             <Router history={history}>
-                <Route path="/" exact component={App} />
+                <Route path="/dashboard" exact component={App} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
             </Router>
