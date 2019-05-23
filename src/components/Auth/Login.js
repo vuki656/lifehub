@@ -2,7 +2,14 @@ import React from "react";
 
 class Login extends React.Component {
     render() {
-        return <p>Login</p>;
+        return (
+            <div>
+                <p>Logasdin</p>
+                <p>Logasdin</p>
+                <p>Logasdin</p>
+                <p>Logasdin</p>
+            </div>
+        );
     }
 }
 
