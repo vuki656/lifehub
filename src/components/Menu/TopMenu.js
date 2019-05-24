@@ -2,7 +2,6 @@ import React from "react";
 import firebase from "../../firebase/Auth";
 
 import { Menu } from "semantic-ui-react";
-import { history } from "../../routers/AppRouter";
 
 class TopMenu extends React.Component {
     state = {};
@@ -11,9 +10,6 @@ class TopMenu extends React.Component {
         firebase
             .auth()
             .signOut()
-            .then(() => {
-                history.psuh("/login");
-            })
             .catch(error => {
                 console.error(error);
             });

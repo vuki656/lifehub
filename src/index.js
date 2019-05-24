@@ -16,7 +16,7 @@ const renderApp = () => {
 
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
-        history.push("/");
+        history.push("/dashboard");
         renderApp();
     } else {
         history.push("/login");

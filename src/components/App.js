@@ -2,16 +2,14 @@ import React from "react";
 
 import { withRouter } from "react-router-dom";
 
-import SideMenu from "./Menu/SideMenu";
-import TopMenu from "./Menu/TopMenu";
+import Menu from "./Menu/Menu";
 
-function App() {
+const App = () => {
     return (
         <div className="App">
-            <TopMenu />
-            <SideMenu />
+            <Menu />
         </div>
     );
-}
+};
 
 export default withRouter(App);
