@@ -1,7 +1,7 @@
 import React from "react";
 import firebase from "../../firebase/Auth";
 
-import { Form, Grid, Message, Button, Icon } from "semantic-ui-react";
+import { Form, Grid, Message, Button, Icon, Header } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 class Login extends React.Component {
@@ -38,6 +38,7 @@ class Login extends React.Component {
         return (
             <Grid textAlign="center" verticalAlign="middle" className="base">
                 <Grid.Column className="login-form">
+                    <Header as="h1">LifeHub Login</Header>
                     <Form onSubmit={this.handleSubmit} className="segment">
                         <Form.Input
                             name="email"

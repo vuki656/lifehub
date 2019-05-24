@@ -11,7 +11,7 @@ export const history = createBrowserHistory();
 
 const AppRouter = () => (
     <Router history={history}>
-        <Route path="/dashboard" exact component={App} />
+        <Route path="/" exact component={App} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
     </Router>

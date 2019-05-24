@@ -2,7 +2,7 @@ import React from "react";
 import firebase from "../../firebase/Auth";
 
 import { Link } from "react-router-dom";
-import { Form, Grid, Message, Button, Icon } from "semantic-ui-react";
+import { Form, Grid, Message, Button, Icon, Header } from "semantic-ui-react";
 
 class Register extends React.Component {
     state = {
@@ -42,7 +42,7 @@ class Register extends React.Component {
         let currentError;
 
         if (password !== passwordConfirmaton) {
-            currentError = "Passwords dont match.";
+            currentError = "Passwords don't match.";
             this.setState({ error: currentError });
             return false;
         } else if (password.length <= 6 || passwordConfirmaton <= 6) {
@@ -70,7 +70,8 @@ class Register extends React.Component {
         return (
             <Grid textAlign="center" verticalAlign="middle" className="base">
                 <Grid.Column className="register-form">
-                    <Form onSubmit={this.handleSubmit}>
+                    <Header as="h1">LifeHub Register</Header>
+                    <Form onSubmit={this.handleSubmit} className="segment">
                         <Form.Input
                             name="username"
                             icon="user"

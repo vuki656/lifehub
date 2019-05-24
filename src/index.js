@@ -9,14 +9,14 @@ import "./styles/styles.scss";
 
 import LoadingPage from "./components/Misc/LoadingPage";
 
-// Displays the component when fully loaded
+// Displays the component after redirect finishes
 const renderApp = () => {
     ReactDOM.render(<AppRouter />, document.getElementById("root"));
 };
 
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
-        history.push("/dashboard");
+        history.push("/");
         renderApp();
     } else {
         history.push("/login");

@@ -3,5 +3,9 @@ body,
 .base {
     height: 100vh;
     background: rgb(255, 255, 255);
-    padding: 1em;
+}
+
+.zero-margin-tb {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
 }
