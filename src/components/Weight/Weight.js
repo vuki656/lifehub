@@ -1,17 +1,26 @@
 import React from "react";
 
-class Weight extends React.Component {
-    state = {};
+import { Grid } from "semantic-ui-react";
 
+import EnterWeightForm from "./EnterWeightForm";
+import WeightTable from "./WeightTable";
+import Chart from "./Chart";
+
+class Weight extends React.Component {
     render() {
         return (
-            <div>
-                <p>Weight</p>
-                <p>Weight</p>
-                <p>Weight</p>
-                <p>Weight</p>
-                <p>Weight</p>
-            </div>
+            <Grid columns="equal">
+                <Grid.Row>
+                    <Grid.Column>
+                        <p>Data Entry History</p>
+                        <EnterWeightForm />
+                        <WeightTable />
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Chart />
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
         );
     }
 }

@@ -79,7 +79,7 @@ class SideMenu extends React.Component {
                                 </Menu.Item>
                             </Menu>
                         </Grid.Column>
-                        <Grid.Column width={10}>
+                        <Grid.Column width={15}>
                             <PrivateRoutes />
                         </Grid.Column>
                     </Router>
