@@ -60,6 +60,7 @@ class EnterWeightForm extends React.Component {
                             value={weight}
                             placeholder="Weight"
                             type="float"
+                            required
                             onChange={this.handleChange}
                         />
                     </Form.Group>
