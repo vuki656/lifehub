@@ -17,24 +17,32 @@ class EnterWeightForm extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    // Possibly good regex
-    // handleNumberCheck = weight => {
-    //     if (/^-?\d+(\.?\d+)?$/.test(weight)) {
-    //         console.log("good");
-    //     }
-    // };
+    handleNumberCheck = weight => {
+        const regEx = /^0$|^[1-9]\d*$|^\.\d+$|^0\.\d*$|^[1-9]\d*\.\d*$/;
+
+        if (regEx.test(weight)) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     // Sends the weight and date object to database
     handleWeightSubmit = () => {
         const { weight, date, weightRef, currentUser } = this.state;
 
-        weightRef
-            .child(currentUser.uid)
-            .push()
-            .set({ weight: weight, date: date })
-            .catch(err => {
-                console.error(err);
-            });
+        if (weight && this.handleNumberCheck(weight)) {
+            weightRef
+                .child(currentUser.uid)
+                .push()
+                .set({ weight: weight, date: date })
+                .catch(err => {
+                    console.error(err);
+                });
+            this.clearForm();
+        } else {
+            console.log("error");
+        }
     };
 
     clearForm = () => {
@@ -43,7 +51,6 @@ class EnterWeightForm extends React.Component {
 
     handleSubmit = () => {
         this.handleWeightSubmit();
-        this.clearForm();
     };
 
     render() {
@@ -60,7 +67,6 @@ class EnterWeightForm extends React.Component {
                             value={weight}
                             placeholder="Weight"
                             type="float"
-                            required
                             onChange={this.handleChange}
                         />
                     </Form.Group>
