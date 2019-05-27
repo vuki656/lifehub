@@ -1,5 +1,4 @@
 import React from "react";
-import firebase from "../../firebase/Auth";
 import moment from "moment";
 
 import { Table, Popup, Icon } from "semantic-ui-react";

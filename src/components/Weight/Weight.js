@@ -58,7 +58,11 @@ class Weight extends React.Component {
 
                 // Grab the first weight entry
                 let firstWeightEntry = this.state.weightList[0];
-                this.setState({ firstWeightEntry: firstWeightEntry.weight });
+                if (firstWeightEntry) {
+                    this.setState({
+                        firstWeightEntry: firstWeightEntry.weight
+                    });
+                }
             });
     };
 
