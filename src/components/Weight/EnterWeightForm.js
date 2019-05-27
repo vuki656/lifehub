@@ -2,14 +2,15 @@ import React from "react";
 import moment from "moment";
 import firebase from "../../firebase/Auth";
 
-import { Form, Button } from "semantic-ui-react";
+import { Form, Button, Message } from "semantic-ui-react";
 
 class EnterWeightForm extends React.Component {
     state = {
         currentUser: firebase.auth().currentUser,
         weightRef: firebase.database().ref("weight"),
         weight: "",
-        date: moment().unix()
+        date: moment().unix(),
+        error: ""
     };
 
     // Set the state value from user input
@@ -17,21 +18,46 @@ class EnterWeightForm extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    // Does weight checks
+    checkWeightFormat = weight => {
+        return this.checkIfWeightExists(weight) &&
+            this.handleNumberCheck(weight)
+            ? true
+            : false;
+    };
+
+    // Checks if weight exists
+    checkIfWeightExists = weight => {
+        if (weight) {
+            this.setState({ error: "" });
+            return true;
+        } else {
+            this.setState({ error: "Please enter a number" });
+            return false;
+        }
+    };
+
+    // Checks the weight format
     handleNumberCheck = weight => {
         const regEx = /^0$|^[1-9]\d*$|^\.\d+$|^0\.\d*$|^[1-9]\d*\.\d*$/;
 
         if (regEx.test(weight)) {
+            this.setState({ error: "" });
             return true;
         } else {
+            this.setState({
+                error:
+                    "Wrong format. Weight can only be a whole number or a decimal with 2 decimal places"
+            });
             return false;
         }
     };
 
     // Sends the weight and date object to database
-    handleWeightSubmit = () => {
+    handleSubmit = () => {
         const { weight, date, weightRef, currentUser } = this.state;
 
-        if (weight && this.handleNumberCheck(weight)) {
+        if (this.checkWeightFormat(weight)) {
             weightRef
                 .child(currentUser.uid)
                 .push()
@@ -40,8 +66,6 @@ class EnterWeightForm extends React.Component {
                     console.error(err);
                 });
             this.clearForm();
-        } else {
-            console.log("error");
         }
     };
 
@@ -49,12 +73,8 @@ class EnterWeightForm extends React.Component {
         this.setState({ weight: "" });
     };
 
-    handleSubmit = () => {
-        this.handleWeightSubmit();
-    };
-
     render() {
-        const { weight } = this.state;
+        const { weight, error } = this.state;
 
         return (
             <React.Fragment>
@@ -70,9 +90,11 @@ class EnterWeightForm extends React.Component {
                             onChange={this.handleChange}
                         />
                     </Form.Group>
-
                     <Button onClick={this.handleSubmit}>Submit</Button>
                 </Form>
+                {error !== "" && (
+                    <Message error header="Error" content={error} />
+                )}
             </React.Fragment>
         );
     }
