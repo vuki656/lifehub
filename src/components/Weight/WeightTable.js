@@ -8,7 +8,8 @@ class WeightTable extends React.Component {
     state = {
         currentUser: firebase.auth().currentUser,
         weightRef: firebase.database().ref("weight"),
-        weightList: ["marko"]
+        weightList: [],
+        firstWeightEntry: 0
     };
 
     componentDidMount() {
@@ -16,7 +17,7 @@ class WeightTable extends React.Component {
         this.addWeightListener(this.state);
     }
 
-    // Add the new weight to state weightList array
+    // Listen for new weight inputs and add them to state
     addWeightListener({ currentUser }) {
         let weightHolder = [];
 
@@ -36,6 +37,7 @@ class WeightTable extends React.Component {
     fetchWeightData = () => {
         const { currentUser } = this.state;
         let weightHolder = [];
+        let previousWeight = "";
 
         firebase
             .database()
@@ -45,26 +47,49 @@ class WeightTable extends React.Component {
                 snapshot.forEach(child => {
                     let date = child.val().date;
                     let weight = child.val().weight;
-                    weightHolder.push({ date, weight });
+                    weightHolder.push({ date, weight, previousWeight });
+                    previousWeight = weight;
                 });
                 this.setState({ weightList: weightHolder });
-                console.log(this.state.weightList);
+
+                // Grab the first weight entry
+                let firstWeightEntry = this.state.weightList[0];
+                this.setState({ firstWeightEntry: firstWeightEntry.weight });
             });
     };
 
+    // Convert the unix timestamp to normal date format 20/03/2019
     unixDateToNormal = date => moment.unix(date).format("DD/MM/YYYY");
 
-    renderTableRows = () =>
-        this.state.weightList.map((weightEntry, index) => (
+    // Calculate the difference between todays weight and previous weight entry
+    calcWeightDif = (currentWeight, entryForComparison) => {
+        let weightDif = currentWeight - entryForComparison;
+
+        return (weightDif <= 0 ? "" : "+") + weightDif;
+    };
+
+    // Render weight data
+    renderTableRows = () => {
+        const { weightList, firstWeightEntry } = this.state;
+
+        return weightList.map((weightEntry, index) => (
             <Table.Row key={index}>
                 <Table.Cell>
                     {this.unixDateToNormal(weightEntry.date)}
                 </Table.Cell>
                 <Table.Cell>{weightEntry.weight}</Table.Cell>
-                <Table.Cell>{weightEntry.weight}</Table.Cell>
-                <Table.Cell>{weightEntry.weight}</Table.Cell>
+                <Table.Cell>
+                    {this.calcWeightDif(
+                        weightEntry.weight,
+                        weightEntry.previousWeight
+                    )}
+                </Table.Cell>
+                <Table.Cell>
+                    {this.calcWeightDif(weightEntry.weight, firstWeightEntry)}
+                </Table.Cell>
             </Table.Row>
         ));
+    };
 
     render() {
         return (
