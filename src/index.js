@@ -14,6 +14,7 @@ const renderApp = () => {
     ReactDOM.render(<AppRouter />, document.getElementById("root"));
 };
 
+// If there is user, redirect to dashboard, else, redirect to login
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
         history.push("/dashboard");

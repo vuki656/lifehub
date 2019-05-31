@@ -18,10 +18,9 @@ class EnterWeightForm extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    // Does weight checks
+    // Check if weight is valid
     checkWeightFormat = weight => {
-        return this.checkIfWeightExists(weight) &&
-            this.handleNumberCheck(weight)
+        return this.checkIfWeightExists(weight) && this.handleNumberCheck(weight)
             ? true
             : false;
     };
@@ -69,6 +68,7 @@ class EnterWeightForm extends React.Component {
         }
     };
 
+    // CLear the form
     clearForm = () => {
         this.setState({ weight: "" });
     };
@@ -92,9 +92,7 @@ class EnterWeightForm extends React.Component {
                     </Form.Group>
                     <Button onClick={this.handleSubmit}>Submit</Button>
                 </Form>
-                {error !== "" && (
-                    <Message error header="Error" content={error} />
-                )}
+                {error !== "" && <Message error header="Error" content={error} />}
             </React.Fragment>
         );
     }

@@ -20,7 +20,7 @@ class SideMenu extends React.Component {
             <Grid>
                 <Grid.Row>
                     <Router>
-                        <Grid.Column width={1}>
+                        <Grid.Column width={2}>
                             <Menu
                                 icon="labeled"
                                 vertical
@@ -79,7 +79,7 @@ class SideMenu extends React.Component {
                                 </Menu.Item>
                             </Menu>
                         </Grid.Column>
-                        <Grid.Column width={15}>
+                        <Grid.Column width={14}>
                             <PrivateRoutes />
                         </Grid.Column>
                     </Router>
