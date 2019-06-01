@@ -4,7 +4,7 @@ import { Checkbox } from "semantic-ui-react";
 
 class TodoCard extends React.Component {
     state = {
-        checked: true
+        checked: false
     };
 
     render() {
