@@ -10,7 +10,6 @@ import WeightChart from "./WeightChart";
 class Weight extends React.Component {
     state = {
         currentUser: firebase.auth().currentUser,
-        weightRef: firebase.database().ref("weight"),
         weightList: [],
         firstWeightEntry: 0
     };
@@ -50,8 +49,9 @@ class Weight extends React.Component {
                 snapshot.forEach(child => {
                     let date = child.val().date;
                     let weight = child.val().weight;
+
                     weightHolder.push({ date, weight, previousWeight });
-                    previousWeight = weight;
+                    previousWeight = weight; // Store the previous weight for weight dif col
                 });
                 // Update the state with new weight list
                 this.setState({ weightList: weightHolder });

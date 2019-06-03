@@ -3,6 +3,8 @@ import React from "react";
 class Dashboard extends React.Component {
     state = {};
 
+    componentDidMount() {}
+
     render() {
         return (
             <div>

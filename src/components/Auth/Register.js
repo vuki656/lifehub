@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "../../firebase/Auth";
+import moment from "moment";
 
 import { Link } from "react-router-dom";
 import { Form, Grid, Message, Button, Icon, Header } from "semantic-ui-react";
@@ -11,12 +12,14 @@ class Register extends React.Component {
         password: "",
         passwordConfirmaton: "",
         error: "",
-        loading: false
+        loading: false,
+        userRef: firebase.database().ref("users")
     };
 
-    // Handle form submit
+    // Create a user and save the register date
     handleSubmit = event => {
         event.preventDefault();
+
         if (this.isPasswordValid(this.state)) {
             this.setState({ loading: true });
             firebase
@@ -25,11 +28,27 @@ class Register extends React.Component {
                     this.state.email,
                     this.state.password
                 )
+                .then(UserCredential => {
+                    this.saveRegDate(UserCredential.user);
+                })
                 .catch(error => {
+                    console.error(error);
                     this.setState({ error: error.message });
                 });
             this.setState({ loading: false });
         }
+    };
+
+    saveRegDate = user => {
+        const { userRef } = this.state;
+        let regDate = moment().valueOf();
+
+        userRef
+            .child(user.uid)
+            .set({ regDate: regDate })
+            .catch(err => {
+                console.error(err);
+            });
     };
 
     // Set the state value from user input

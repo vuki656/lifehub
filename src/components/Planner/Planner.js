@@ -1,56 +1,38 @@
 import React from "react";
-import moment from "moment";
 
 import { Grid } from "semantic-ui-react";
 
 import TaskArea from "./TaskArea";
 import Reminders from "./Reminders";
-import DaysList from "./DaysList";
+import DaysListSidebar from "./DaysListSidebar";
 
 class Planner extends React.Component {
-    state = {};
+    state = {
+        regDate: null
+    };
 
-    generateList = () => {
-        let monthObjectList = [];
+    // Fetches weight data from firebase
+    fetchRegDate = () => {
+        const { currentUser, usersRef } = this.state;
 
-        //Generate next 12 months
-        let monthList = [];
-        for (let i = 0; i < 12; i++) {
-            monthList.push(moment().add(i, "month"));
-        }
-
-        // Itterate trough next 12 months
-        monthList.forEach((monthMomentObject, index) => {
-            let daysInMonthAmount = monthMomentObject.daysInMonth();
-            let year = moment(monthMomentObject).format("YYYY");
-            let month = moment(monthMomentObject).format("MM");
-            let monthDaysList = [];
-
-            // Itterate trough days in month
-            for (let i = 1; i < daysInMonthAmount + 1; i++) {
-                monthDaysList.push(moment(`${i}-${month}-${year}`));
-            }
-
-            monthObjectList.push({
-                month: monthList[index],
-                daysList: monthDaysList
-            });
-
-            // Empty days in month so next month can be put in
-            monthDaysList = [];
+        usersRef.child(currentUser.uid).once("value", snapshot => {
+            let regDate = snapshot.val().regDate; // THIS
+            this.setState({ regDate });
+            console.log(this.state.regDate);
         });
 
-        console.log(monthObjectList);
+        this.generateDays(this.state);
     };
 
     render() {
+        const { regDate } = this.state;
+
         return (
             <div>
-                {this.generateList()}
                 <Grid>
                     <Grid.Row>
                         <Grid.Column width={3} className="sidebar-menu">
-                            <DaysList />
+                            <DaysListSidebar regDate={regDate} />
                         </Grid.Column>
                         <Grid.Column width={10} className="task-area">
                             <TaskArea />
