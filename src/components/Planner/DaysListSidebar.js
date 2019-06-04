@@ -10,7 +10,7 @@ class DaysList extends React.Component {
         currentMonth: moment().format("M/YY"),
         currentUser: firebase.auth().currentUser,
         usersRef: firebase.database().ref("users"),
-        regDate: null
+        regDate: null // Moment timestamp of time when user registered
     };
 
     componentDidMount() {
@@ -53,6 +53,7 @@ class DaysList extends React.Component {
                 );
             }
 
+            // Determine current month in momentMonthLists
             if (
                 moment().format("MM/YYYY") ===
                 moment(momentMonthObject).format("MM/YYYY")
@@ -71,8 +72,6 @@ class DaysList extends React.Component {
             monthDaysList = [];
         });
 
-        console.log(monthObjectList);
-
         monthObjectList.forEach(monthObject => {
             if (monthObject.isCurrentMonth) {
                 currentMonth = monthObject;
@@ -80,7 +79,6 @@ class DaysList extends React.Component {
         });
 
         this.setState({ monthObjectList, currentMonth });
-        // this.findCurrMonthInList(this.state);
     };
 
     displayMonths = monthObjectList =>
@@ -93,7 +91,6 @@ class DaysList extends React.Component {
             </option>
         ));
 
-    // FORMAT SHOULD BE CORRECT BUT IT DOESN'T RETURN ANYTHING
     displayDays = currentMonth =>
         currentMonth.daysList.map((day, index) => (
             <Link to={`/${moment(day).format("DD/MM/YYYY")}`} key={index}>
@@ -101,12 +98,27 @@ class DaysList extends React.Component {
             </Link>
         ));
 
+    // Select new month from momentMonthObjectList
+    selectNewMonth = event => {
+        const { monthObjectList } = this.state;
+        let newMonth = event.target.value;
+
+        monthObjectList.forEach(monthObject => {
+            if (newMonth === moment(monthObject.month).format("M/YY")) {
+                this.setState({ currentMonth: monthObject });
+            }
+        });
+    };
+
     render() {
         const { monthObjectList, currentMonth } = this.state;
 
         return monthObjectList ? (
             <div>
-                <select value={moment(currentMonth.month).format("M/YY")}>
+                <select
+                    defaultValue={moment(currentMonth.month).format("M/YY")}
+                    onChange={this.selectNewMonth}
+                >
                     {this.displayMonths(monthObjectList)}
                 </select>
                 <div>{this.displayDays(currentMonth)}</div>
