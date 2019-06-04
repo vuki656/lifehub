@@ -10,6 +10,7 @@ import WeightChart from "./WeightChart";
 class Weight extends React.Component {
     state = {
         currentUser: firebase.auth().currentUser,
+        dbRef: firebase.database().ref(),
         weightList: [],
         firstWeightEntry: 0
     };
@@ -37,33 +38,29 @@ class Weight extends React.Component {
 
     // Fetches weight data from firebase
     fetchWeightData = () => {
-        const { currentUser } = this.state;
+        const { currentUser, dbRef } = this.state;
         let weightHolder = [];
         let previousWeight = "";
 
-        firebase
-            .database()
-            .ref()
-            .child("weight/" + currentUser.uid)
-            .once("value", snapshot => {
-                snapshot.forEach(child => {
-                    let date = child.val().date;
-                    let weight = child.val().weight;
+        dbRef.child("weight/" + currentUser.uid).once("value", snapshot => {
+            snapshot.forEach(child => {
+                let date = child.val().date;
+                let weight = child.val().weight;
 
-                    weightHolder.push({ date, weight, previousWeight });
-                    previousWeight = weight; // Store the previous weight for weight dif col
-                });
-                // Update the state with new weight list
-                this.setState({ weightList: weightHolder });
-
-                // Grab the first weight entry
-                let firstWeightEntry = this.state.weightList[0];
-                if (firstWeightEntry) {
-                    this.setState({
-                        firstWeightEntry: firstWeightEntry.weight
-                    });
-                }
+                weightHolder.push({ date, weight, previousWeight });
+                previousWeight = weight; // Store the previous weight for weight dif col
             });
+            // Update the state with new weight list
+            this.setState({ weightList: weightHolder });
+
+            // Grab the first weight entry
+            let firstWeightEntry = this.state.weightList[0];
+            if (firstWeightEntry) {
+                this.setState({
+                    firstWeightEntry: firstWeightEntry.weight
+                });
+            }
+        });
     };
 
     render() {

@@ -7,22 +7,30 @@ import { Link } from "react-router-dom";
 class DaysList extends React.Component {
     state = {
         monthObjectList: null,
-        currentMonth: null,
+        currentMonth: moment().format("M/YY"),
         currentUser: firebase.auth().currentUser,
         usersRef: firebase.database().ref("users"),
         regDate: null
     };
 
-    componentDidMount() {}
-
-    componentWillMount() {
-        this.generateDays();
+    componentDidMount() {
+        this.fetchRegDate();
     }
 
+    // Fetches weight data from firebase
+    fetchRegDate = () => {
+        const { currentUser, usersRef } = this.state;
+
+        usersRef.child(currentUser.uid).once("value", snapshot => {
+            let regDate = snapshot.val().regDate;
+            this.generateDays(regDate);
+        });
+    };
+
     // Generate day-month structure
-    generateDays = () => {
-        const { regDate } = this.props;
+    generateDays = regDate => {
         let monthObjectList = [];
+        let currentMonth = null;
 
         //Generate next 12 months
         let monthList = [];
@@ -30,40 +38,63 @@ class DaysList extends React.Component {
             monthList.push(moment(regDate).add(i, "month"));
         }
 
-        // Itterate trough next 12 months
-        monthList.forEach((monthMomentObject, index) => {
-            let daysInMonthAmount = monthMomentObject.daysInMonth();
-            let year = moment(monthMomentObject).format("YYYY");
-            let month = moment(monthMomentObject).format("MM");
+        // Iterate trough next 12 months
+        monthList.forEach((momentMonthObject, index) => {
+            let daysInMonthAmount = momentMonthObject.daysInMonth();
+            let year = moment(momentMonthObject).format("YYYY");
+            let month = moment(momentMonthObject).format("MM");
+            let isCurrentMonth = false;
             let monthDaysList = [];
 
-            // Itterate trough days in month
+            // Iterate trough days in month
             for (let i = 1; i < daysInMonthAmount + 1; i++) {
                 monthDaysList.push(
                     moment(`${i}-${month}-${year}`, "DD/MM/YYYY")
                 );
             }
 
+            if (
+                moment().format("MM/YYYY") ===
+                moment(momentMonthObject).format("MM/YYYY")
+            ) {
+                currentMonth = momentMonthObject;
+                isCurrentMonth = true;
+            }
+
             monthObjectList.push({
                 month: monthList[index],
-                daysList: monthDaysList
+                daysList: monthDaysList,
+                isCurrentMonth: isCurrentMonth
             });
-            console.log(monthObjectList);
 
             // Empty days in month so next month can be put in
             monthDaysList = [];
         });
-        this.setState({ monthObjectList: monthObjectList });
+
+        console.log(monthObjectList);
+
+        monthObjectList.forEach(monthObject => {
+            if (monthObject.isCurrentMonth) {
+                currentMonth = monthObject;
+            }
+        });
+
+        this.setState({ monthObjectList, currentMonth });
+        // this.findCurrMonthInList(this.state);
     };
 
-    displayMonths = ({ monthObjectList }) =>
+    displayMonths = monthObjectList =>
         monthObjectList.map((monthObject, index) => (
-            <option key={index}>
-                {moment(monthObject.month).format("MM - MMM")}
+            <option
+                key={index}
+                value={moment(monthObject.month).format("M/YY")}
+            >
+                {moment(monthObject.month).format("MM/YY - MMM")}
             </option>
         ));
 
-    displayDays = ({ currentMonth }) =>
+    // FORMAT SHOULD BE CORRECT BUT IT DOESN'T RETURN ANYTHING
+    displayDays = currentMonth =>
         currentMonth.daysList.map((day, index) => (
             <Link to={`/${moment(day).format("DD/MM/YYYY")}`} key={index}>
                 <li>{moment(day).format("DD/MM/YYYY")}</li>
@@ -71,17 +102,17 @@ class DaysList extends React.Component {
         ));
 
     render() {
-        return (
+        const { monthObjectList, currentMonth } = this.state;
+
+        return monthObjectList ? (
             <div>
-                <select>
-                    {/* Display months*/}
-                    {this.displayMonths(this.state)}
+                <select value={moment(currentMonth.month).format("M/YY")}>
+                    {this.displayMonths(monthObjectList)}
                 </select>
-                <div>
-                    {/* Display days*/}
-                    {this.displayDays(this.state)}
-                </div>
+                <div>{this.displayDays(currentMonth)}</div>
             </div>
+        ) : (
+            "loading"
         );
     }
 }
