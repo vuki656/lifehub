@@ -10,7 +10,7 @@ class DaysList extends React.Component {
         currentMonth: moment().format("M/YY"),
         currentUser: firebase.auth().currentUser,
         usersRef: firebase.database().ref("users"),
-        regDate: null // Moment timestamp of time when user registered
+        regDate: null
     };
 
     componentDidMount() {
@@ -22,93 +22,105 @@ class DaysList extends React.Component {
         const { currentUser, usersRef } = this.state;
 
         usersRef.child(currentUser.uid).once("value", snapshot => {
-            let regDate = snapshot.val().regDate;
-            this.generateDays(regDate);
+            let regDate = snapshot.val().regDate; // Moment timestamp of time when user registered
+            this.generateMonthDayStructure(regDate);
         });
     };
 
-    // Generate day-month structure
-    generateDays = regDate => {
-        let monthObjectList = [];
-        let currentMonth = null;
+    // Select new month from monthObjectList
+    selectNewMonth = event => {
+        const { monthObjectList } = this.state;
+        let selectedMonth = event.target.value;
 
-        //Generate next 12 months
+        // Find the selected month object in monthObjectList
+        monthObjectList.forEach(monthObject => {
+            if (selectedMonth === this.formatMoment(monthObject, "M/YY")) {
+                this.setState({ currentMonth: monthObject });
+            }
+        });
+    };
+
+    // Returns date formated by given moment format
+    formatMoment = (objectToFormat, stringFormat) => {
+        return moment(objectToFormat.month).format(stringFormat);
+    };
+
+    // Gets the current month in monthObjectList
+    findCurrentMonthInList = monthObjectList => {
+        let currentMonth = moment().format("M/YY");
+        let foundMonth = null;
+
+        monthObjectList.forEach(monthObject => {
+            if (currentMonth === this.formatMoment(monthObject, "M/YY")) {
+                foundMonth = monthObject;
+            }
+        });
+
+        return foundMonth;
+    };
+
+    // Generate next 12 months from user reg date
+    generateMonths = regDate => {
         let monthList = [];
         for (let i = 0; i < 12; i++) {
             monthList.push(moment(regDate).add(i, "month"));
         }
+        return monthList;
+    };
+
+    // Display month lists in sidebar dropdown
+    displayMonths = monthObjectList =>
+        monthObjectList.map((monthObject, index) => (
+            <option key={index} value={this.formatMoment(monthObject, "M/YY")}>
+                {this.formatMoment(monthObject, "MM/YY - MMM")}
+            </option>
+        ));
+
+    // Generate day-month structure
+    // FORMAT:
+    //      [monthObject1: {
+    //          month: momentObject for each month
+    //          daysList: [momentObject for each day]
+    //      }]
+    generateMonthDayStructure = regDate => {
+        let monthObjectList = []; // Holds the full day & month structure
+        let currentMonth = null;
+        let monthList = this.generateMonths(regDate);
 
         // Iterate trough next 12 months
         monthList.forEach((momentMonthObject, index) => {
             let daysInMonthAmount = momentMonthObject.daysInMonth();
             let year = moment(momentMonthObject).format("YYYY");
             let month = moment(momentMonthObject).format("MM");
-            let isCurrentMonth = false;
-            let monthDaysList = [];
+            let daysOfMonthList = [];
 
             // Iterate trough days in month
             for (let i = 1; i < daysInMonthAmount + 1; i++) {
-                monthDaysList.push(
+                daysOfMonthList.push(
                     moment(`${i}-${month}-${year}`, "DD/MM/YYYY")
                 );
             }
 
-            // Determine current month in momentMonthLists
-            if (
-                moment().format("MM/YYYY") ===
-                moment(momentMonthObject).format("MM/YYYY")
-            ) {
-                currentMonth = momentMonthObject;
-                isCurrentMonth = true;
-            }
-
             monthObjectList.push({
                 month: monthList[index],
-                daysList: monthDaysList,
-                isCurrentMonth: isCurrentMonth
+                daysList: daysOfMonthList
             });
 
             // Empty days in month so next month can be put in
-            monthDaysList = [];
+            daysOfMonthList = [];
         });
 
-        monthObjectList.forEach(monthObject => {
-            if (monthObject.isCurrentMonth) {
-                currentMonth = monthObject;
-            }
-        });
-
+        currentMonth = this.findCurrentMonthInList(monthObjectList);
         this.setState({ monthObjectList, currentMonth });
     };
 
-    displayMonths = monthObjectList =>
-        monthObjectList.map((monthObject, index) => (
-            <option
-                key={index}
-                value={moment(monthObject.month).format("M/YY")}
-            >
-                {moment(monthObject.month).format("MM/YY - MMM")}
-            </option>
-        ));
-
+    // Display list of days in the sidebar
     displayDays = currentMonth =>
         currentMonth.daysList.map((day, index) => (
             <Link to={`/${moment(day).format("DD/MM/YYYY")}`} key={index}>
                 <li>{moment(day).format("DD/MM/YYYY")}</li>
             </Link>
         ));
-
-    // Select new month from momentMonthObjectList
-    selectNewMonth = event => {
-        const { monthObjectList } = this.state;
-        let newMonth = event.target.value;
-
-        monthObjectList.forEach(monthObject => {
-            if (newMonth === moment(monthObject.month).format("M/YY")) {
-                this.setState({ currentMonth: monthObject });
-            }
-        });
-    };
 
     render() {
         const { monthObjectList, currentMonth } = this.state;
