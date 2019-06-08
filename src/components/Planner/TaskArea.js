@@ -8,30 +8,52 @@ class TaskArea extends React.Component {
     state = {};
 
     render() {
+        const { monthObjectList, currentDay } = this.props;
+
         return (
             <Grid>
                 <Grid.Row columns={"equal"}>
                     <Grid.Column>
                         <p>Morning</p>
-                        <TodoCard />
+                        <TodoCard
+                            category={"morning"}
+                            monthObjectList={monthObjectList}
+                            currentDay={currentDay}
+                        />
                     </Grid.Column>
                     <Grid.Column>
                         <p>Day</p>
-                        <TodoCard />
+                        <TodoCard
+                            category={"day"}
+                            monthObjectList={monthObjectList}
+                            currentDay={currentDay}
+                        />
                     </Grid.Column>
                     <Grid.Column>
                         <p>Evening</p>
-                        <TodoCard />
+                        <TodoCard
+                            category={"evening"}
+                            monthObjectList={monthObjectList}
+                            currentDay={currentDay}
+                        />
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row columns={"equal"}>
                     <Grid.Column>
                         <p>Work</p>
-                        <TodoCard />
+                        <TodoCard
+                            category={"work"}
+                            monthObjectList={monthObjectList}
+                            currentDay={currentDay}
+                        />
                     </Grid.Column>
                     <Grid.Column>
                         <p>Misc</p>
-                        <TodoCard />
+                        <TodoCard
+                            category={"misc"}
+                            monthObjectList={monthObjectList}
+                            currentDay={currentDay}
+                        />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

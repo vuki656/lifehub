@@ -1,6 +1,8 @@
 import React from "react";
 import moment from "moment";
 
+import { formatMoment } from "../../helpers/Planner";
+
 import { Link } from "react-router-dom";
 
 class DaysList extends React.Component {
@@ -21,30 +23,28 @@ class DaysList extends React.Component {
         };
     }
 
-    // Returns date formated by given moment format
-    formatMoment = (objectToFormat, stringFormat) => {
-        return moment(objectToFormat.month).format(stringFormat);
-    };
-
     // Display month lists in sidebar dropdown
     displayMonths = monthObjectList =>
         monthObjectList.map((monthObject, index) => (
-            <option key={index} value={this.formatMoment(monthObject, "M/YY")}>
-                {this.formatMoment(monthObject, "MM/YY - MMM")}
+            <option key={index} value={formatMoment(monthObject.month, "M/YY")}>
+                {formatMoment(monthObject.month, "MM/YY - MMM")}
             </option>
         ));
 
     // Display list of days in the sidebar
     displayDays = currentMonth =>
-        currentMonth.daysList.map((day, index) => (
+        currentMonth.daysList.map(day => (
             <Link
-                to={`/planner/${moment(day).format("DD/MM/YYYY")}`}
-                key={index}
+                to={`/planner/${formatMoment(day, "DD/MM/YYYY")}`}
+                key={formatMoment(day, "DD/MM/YYYY")}
+                onClick={() => this.props.setCurrentDay(day)}
             >
-                <li>{moment(day).format("DD/MM/YYYY")}</li>
+                <li>{formatMoment(day, "DD/MM/YYYY")}</li>
             </Link>
         ));
 
+    // Dropdown value is accepted here and sent
+    // back to parent(Planner.js) via selectNewMonth funct
     handleDropdownChange = event => {
         let selectedMonth = event.target.value;
         this.props.selectNewMonth(selectedMonth);
