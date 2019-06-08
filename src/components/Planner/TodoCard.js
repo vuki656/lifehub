@@ -1,17 +1,37 @@
 import React from "react";
 import firebase from "firebase";
 
-import { Checkbox, Grid, Button, Form } from "semantic-ui-react";
+import { Checkbox, Grid, Button, Form, Table } from "semantic-ui-react";
 
 class TodoCard extends React.Component {
     state = {
         todo: "",
+        todoList: [],
         category: this.props.category,
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
+        dbRef: firebase.database().ref(),
         currentDay: this.props.currentDay,
         monthObjectList: this.props.monthObjectList
     };
+
+    componentDidMount() {
+        this.fetchTodos();
+        this.addTodoListener(this.state);
+    }
+
+    // Listen for new todo inputs and set the to state so componenet re-renders
+    addTodoListener({ currentUser, dbRef, currentDay, category }) {
+        let todoHolder = [];
+
+        dbRef
+            .child(`todos/${currentUser.uid}/${currentDay}/${[category]}`)
+            .on("child_added", snapshot => {
+                let todo = snapshot.val();
+                todoHolder.push(todo);
+                this.setState({ todoList: todoHolder });
+            });
+    }
 
     // Set the state value from user input
     handleChange = event => {
@@ -36,18 +56,42 @@ class TodoCard extends React.Component {
         this.setState({ todo: "" });
     };
 
+    // Fetches todos from firebase
+    fetchTodos = () => {
+        const { currentUser, dbRef, category, currentDay } = this.state;
+        let todoHolder = [];
+
+        dbRef
+            .child(`todos/${currentUser.uid}/${currentDay}/${category}`)
+            .once("value", snapshot => {
+                snapshot.forEach(child => {
+                    let todo = child.val();
+                    todoHolder.push(todo);
+                });
+
+                // Update the state with new todo list
+                this.setState({ todoList: todoHolder });
+            });
+    };
+
+    // Render todo checkboxes
+    renderTodos = () => {
+        const { todoList } = this.state;
+
+        return todoList.map((todo, index) => (
+            <Grid.Row key={index}>
+                <Checkbox label={todo} />
+            </Grid.Row>
+        ));
+    };
+
     render() {
         const { todo } = this.state;
 
         return (
             <Grid>
                 <Grid.Column>
-                    <Grid.Row>
-                        <Checkbox label="This is a todo" />
-                    </Grid.Row>
-                    <Grid.Row>
-                        <Checkbox label="This is a todo" />
-                    </Grid.Row>
+                    {this.renderTodos()}
                     <Grid.Row>
                         <Form.Group widths="equal">
                             <Form.Input
