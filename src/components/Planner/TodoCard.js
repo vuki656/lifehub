@@ -6,7 +6,7 @@ import { Grid, Button, Form } from "semantic-ui-react";
 import Todo from "./Todo";
 
 class TodoCard extends React.Component {
-    // Used to prevent setState calls when component umounts
+    // Used to prevent setState calls after component umounts
     _isMounted = false;
 
     state = {
@@ -141,7 +141,6 @@ class TodoCard extends React.Component {
         return (
             <Grid>
                 <Grid.Column>
-                    {/* Render todos when data has been fetched */}
                     {this.renderTodos()}
                     <Grid.Row>
                         <Form.Group widths="equal">
