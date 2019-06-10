@@ -6,6 +6,9 @@ import { Grid, Button, Form } from "semantic-ui-react";
 import Todo from "./Todo";
 
 class TodoCard extends React.Component {
+    // Used to prevent setState calls when component umounts
+    _isMounted = false;
+
     state = {
         todo: "",
         todoList: [],
@@ -18,19 +21,21 @@ class TodoCard extends React.Component {
     };
 
     componentDidMount() {
+        this._isMounted = true;
         this.fetchTodos();
         this.addListeners();
     }
 
     componentWillUnmount() {
         this.removeListeners();
+        this._isMounted = false;
     }
 
     // Turn off db connections
     removeListeners = () => {
         const { todoRef, currentUser, currentDay } = this.state;
 
-        todoRef.child(`${currentUser.uid}/${currentDay}`).off();
+        todoRef.child(`${currentUser.uid}/${currentDay}/`).off();
     };
 
     // Listen for db changes
@@ -106,8 +111,11 @@ class TodoCard extends React.Component {
                     let checked = child.val().checked;
                     todoHolder.push({ value, checked, key });
                 });
-            })
-            .then(this.setState({ todoList: todoHolder }));
+            });
+
+        if (this._isMounted) {
+            this.setState({ todoList: todoHolder });
+        }
     };
 
     // Render todos to the screen
