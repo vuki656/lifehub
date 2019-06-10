@@ -1,7 +1,10 @@
 import React from "react";
 import firebase from "firebase";
+import uuidv4 from "uuid";
 
-import { Checkbox, Grid, Button, Form, Table } from "semantic-ui-react";
+import { Grid, Button, Form } from "semantic-ui-react";
+
+import Todo from "./Todo";
 
 class TodoCard extends React.Component {
     state = {
@@ -12,39 +15,63 @@ class TodoCard extends React.Component {
         currentUser: firebase.auth().currentUser,
         dbRef: firebase.database().ref(),
         currentDay: this.props.currentDay,
-        monthObjectList: this.props.monthObjectList
+        monthObjectList: this.props.monthObjectList,
+        dataFetched: false
     };
 
     componentDidMount() {
         this.fetchTodos();
-        this.addTodoListener(this.state);
+        this.addListeners();
     }
 
-    // Listen for new todo inputs and set the to state so componenet re-renders
-    addTodoListener({ currentUser, dbRef, currentDay, category }) {
-        let todoHolder = [];
+    addListeners = () => {
+        this.addTodoListener(this.state);
+        this.removeTodoListener(this.state);
+    };
 
+    // Listen for new todo inputs and set to the state so component re-renders
+    addTodoListener({ currentUser, dbRef, currentDay, category }) {
         dbRef
             .child(`todos/${currentUser.uid}/${currentDay}/${[category]}`)
             .on("child_added", snapshot => {
-                let todo = snapshot.val();
-                todoHolder.push(todo);
-                this.setState({ todoList: todoHolder });
+                let todoHolder = {
+                    value: snapshot.val().value,
+                    checked: snapshot.val().checked,
+                    key: snapshot.key
+                };
+                this.setState({
+                    todoList: [...this.state.todoList, todoHolder]
+                });
             });
     }
+
+    // Listen for new todo deletions
+    removeTodoListener = ({ dbRef, currentUser, currentDay, category }) => {
+        dbRef
+            .child(`todos/${currentUser.uid}/${currentDay}/${[category]}`)
+            .on("child_removed", () => {
+                this.fetchTodos();
+            });
+    };
 
     // Set the state value from user input
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    // Send added todo to firebase
     handleSubmit = () => {
         const { todo, category, currentUser, todoRef, currentDay } = this.state;
+        let pushRef = todoRef.child(
+            `${currentUser.uid}/${currentDay}/${[category]}`
+        );
 
         if (todo) {
-            todoRef
-                .child(`${currentUser.uid}/${currentDay}/${[category]}`)
-                .push(todo)
+            pushRef
+                .push({ value: todo, checked: false })
+                .then(snapshot => {
+                    pushRef.child(snapshot.key).update({ key: snapshot.key });
+                })
                 .catch(err => {
                     console.error(err);
                 });
@@ -52,6 +79,7 @@ class TodoCard extends React.Component {
         }
     };
 
+    // Clear the input form for todo
     clearForm = () => {
         this.setState({ todo: "" });
     };
@@ -65,33 +93,38 @@ class TodoCard extends React.Component {
             .child(`todos/${currentUser.uid}/${currentDay}/${category}`)
             .once("value", snapshot => {
                 snapshot.forEach(child => {
-                    let todo = child.val();
-                    todoHolder.push(todo);
+                    let key = child.val().key;
+                    let value = child.val().value;
+                    let checked = child.val().checked;
+                    todoHolder.push({ value, checked, key });
                 });
 
                 // Update the state with new todo list
-                this.setState({ todoList: todoHolder });
+                this.setState({ todoList: todoHolder, dataFetched: true });
             });
     };
 
-    // Render todo checkboxes
+    // Render todos to the screen
+    // KEY IS NOT UNIQUE FOR SOME REASON
     renderTodos = () => {
-        const { todoList } = this.state;
+        const { todoList, currentDay, category, uuidv4 } = this.state;
+        // let key = uuidv4();
 
-        return todoList.map((todo, index) => (
-            <Grid.Row key={index}>
-                <Checkbox label={todo} />
+        return todoList.map(todo => (
+            <Grid.Row key={todo.key}>
+                <Todo todo={todo} currentDay={currentDay} category={category} />
             </Grid.Row>
         ));
     };
 
     render() {
-        const { todo } = this.state;
+        const { todo, dataFetched } = this.state;
 
         return (
             <Grid>
                 <Grid.Column>
-                    {this.renderTodos()}
+                    {/* Render todos when data has been fetched */}
+                    {dataFetched && this.renderTodos()}
                     <Grid.Row>
                         <Form.Group widths="equal">
                             <Form.Input
