@@ -1,6 +1,5 @@
 import React from "react";
 import firebase from "firebase";
-import uuidv4 from "uuid";
 
 import { Grid, Button, Form } from "semantic-ui-react";
 
@@ -10,13 +9,12 @@ class TodoCard extends React.Component {
     state = {
         todo: "",
         todoList: [],
-        category: this.props.category,
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
-        dbRef: firebase.database().ref(),
+
+        category: this.props.category,
         currentDay: this.props.currentDay,
-        monthObjectList: this.props.monthObjectList,
-        dataFetched: false
+        monthObjectList: this.props.monthObjectList
     };
 
     componentDidMount() {
@@ -24,24 +22,36 @@ class TodoCard extends React.Component {
         this.addListeners();
     }
 
+    componentWillUnmount() {
+        this.removeListeners();
+    }
+
+    // Turn off db connections
+    removeListeners = () => {
+        const { todoRef, currentUser, currentDay } = this.state;
+
+        todoRef.child(`${currentUser.uid}/${currentDay}`).off();
+    };
+
+    // Listen for db changes
     addListeners = () => {
         this.addTodoListener(this.state);
         this.removeTodoListener(this.state);
     };
 
     // Listen for new todo inputs and set to the state so component re-renders
-    addTodoListener({ currentUser, dbRef, currentDay, category }) {
-        dbRef
-            .child(`todos/${currentUser.uid}/${currentDay}/${[category]}`)
+    addTodoListener({ currentUser, todoRef, currentDay, category }) {
+        todoRef
+            .child(`${currentUser.uid}/${currentDay}/${[category]}`)
             .on("child_added", () => {
                 this.fetchTodos();
             });
     }
 
     // Listen for new todo deletions
-    removeTodoListener = ({ dbRef, currentUser, currentDay, category }) => {
-        dbRef
-            .child(`todos/${currentUser.uid}/${currentDay}/${[category]}`)
+    removeTodoListener = ({ todoRef, currentUser, currentDay, category }) => {
+        todoRef
+            .child(`${currentUser.uid}/${currentDay}/${[category]}`)
             .on("child_removed", () => {
                 this.fetchTodos();
             });
@@ -59,16 +69,21 @@ class TodoCard extends React.Component {
             `${currentUser.uid}/${currentDay}/${[category]}`
         );
 
+        // Pushes to firebase and then updates the fields
         if (todo) {
             pushRef
-                .push({ value: todo, checked: false })
+                .push()
                 .then(snapshot => {
-                    pushRef.child(snapshot.key).update({ key: snapshot.key });
+                    pushRef.child(snapshot.key).update({
+                        value: todo,
+                        checked: false,
+                        key: snapshot.key
+                    });
                 })
+                .then(this.clearForm())
                 .catch(err => {
                     console.error(err);
                 });
-            this.clearForm();
         }
     };
 
@@ -79,11 +94,11 @@ class TodoCard extends React.Component {
 
     // Fetches todos from firebase
     fetchTodos = () => {
-        const { currentUser, dbRef, category, currentDay } = this.state;
+        const { currentUser, todoRef, category, currentDay } = this.state;
         let todoHolder = [];
 
-        dbRef
-            .child(`todos/${currentUser.uid}/${currentDay}/${category}`)
+        todoRef
+            .child(`${currentUser.uid}/${currentDay}/${category}`)
             .once("value", snapshot => {
                 snapshot.forEach(child => {
                     let key = child.val().key;
@@ -91,33 +106,35 @@ class TodoCard extends React.Component {
                     let checked = child.val().checked;
                     todoHolder.push({ value, checked, key });
                 });
-
-                // Update the state with new todo list
-                this.setState({ todoList: todoHolder, dataFetched: true });
-            });
+            })
+            .then(this.setState({ todoList: todoHolder }));
     };
 
     // Render todos to the screen
-    // KEY IS NOT UNIQUE FOR SOME REASON
     renderTodos = () => {
-        const { todoList, currentDay, category, uuidv4 } = this.state;
-        // let key = uuidv4();
+        const { todoList, currentDay, category } = this.state;
 
-        return todoList.map(todo => (
-            <Grid.Row key={todo.key}>
-                <Todo todo={todo} currentDay={currentDay} category={category} />
-            </Grid.Row>
-        ));
+        return todoList.map(todo => {
+            return (
+                <Grid.Row key={todo.key}>
+                    <Todo
+                        todo={todo}
+                        currentDay={currentDay}
+                        category={category}
+                    />
+                </Grid.Row>
+            );
+        });
     };
 
     render() {
-        const { todo, dataFetched } = this.state;
+        const { todo } = this.state;
 
         return (
             <Grid>
                 <Grid.Column>
                     {/* Render todos when data has been fetched */}
-                    {dataFetched && this.renderTodos()}
+                    {this.renderTodos()}
                     <Grid.Row>
                         <Form.Group widths="equal">
                             <Form.Input
