@@ -33,15 +33,8 @@ class TodoCard extends React.Component {
     addTodoListener({ currentUser, dbRef, currentDay, category }) {
         dbRef
             .child(`todos/${currentUser.uid}/${currentDay}/${[category]}`)
-            .on("child_added", snapshot => {
-                let todoHolder = {
-                    value: snapshot.val().value,
-                    checked: snapshot.val().checked,
-                    key: snapshot.key
-                };
-                this.setState({
-                    todoList: [...this.state.todoList, todoHolder]
-                });
+            .on("child_added", () => {
+                this.fetchTodos();
             });
     }
 
