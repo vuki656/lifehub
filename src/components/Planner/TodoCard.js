@@ -1,7 +1,7 @@
 import React from "react";
 import firebase from "firebase";
 
-import { Grid, Button, Form } from "semantic-ui-react";
+import { Grid, Icon, Form } from "semantic-ui-react";
 
 import Todo from "./Todo";
 
@@ -23,10 +23,8 @@ class TodoCard extends React.Component {
             monthObjectList: this.props.monthObjectList
         };
 
-        this.onPopupClose = this.onPopupClose.bind(this);
-        this.updateTodoInFirebase = this.updateTodoInFirebase.bind(this);
+        this.fetchTodos = this.fetchTodos.bind(this);
     }
-
     componentDidMount() {
         this._isMounted = true;
         this.fetchTodos();
@@ -72,11 +70,6 @@ class TodoCard extends React.Component {
             .on("child_removed", () => {
                 this.fetchTodos();
             });
-    };
-
-    // Set the state value from user input
-    handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
     };
 
     // Send added todo to firebase
@@ -125,33 +118,14 @@ class TodoCard extends React.Component {
         }
     };
 
+    // Set the state value from user input
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
+
     // Clear the input form for todo
     clearForm = () => {
         this.setState({ todo: "" });
-    };
-
-    // Update todo value in firebase after popup cloases
-    onPopupClose = todoState => {
-        this.updateTodoInFirebase(todoState);
-    };
-
-    // Send edited todo text to firebase
-    updateTodoInFirebase = ({
-        todoRef,
-        currentDay,
-        currentUser,
-        category,
-        todo,
-        newTodo
-    }) => {
-        todoRef
-            .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
-            .update({
-                value: newTodo,
-                key: todo.key
-            })
-            .then(this.fetchTodos())
-            .catch(error => console.error(error));
     };
 
     // Render todos to the screen
@@ -162,12 +136,12 @@ class TodoCard extends React.Component {
             return (
                 <Grid.Row key={todo.key}>
                     <Todo
-                        onPopupClose={this.onPopupClose}
-                        updateTodoInFirebase={this.updateTodoInFirebase}
+                        fetchTodos={this.fetchTodos}
                         todo={todo}
                         currentDay={currentDay}
                         category={category}
                         isChecked={todo.isChecked}
+                        key={todo.key}
                     />
                 </Grid.Row>
             );
@@ -175,8 +149,6 @@ class TodoCard extends React.Component {
     };
 
     render() {
-        const { todo } = this.state;
-
         return (
             <Grid>
                 <Grid.Column>
@@ -185,13 +157,19 @@ class TodoCard extends React.Component {
                         <Form.Group widths="equal">
                             <Form.Input
                                 name="todo"
-                                value={todo}
+                                value={this.state.todo}
                                 placeholder="todo"
                                 type="float"
                                 onChange={this.handleChange}
+                                icon={
+                                    <Icon
+                                        name="add"
+                                        onClick={this.handleSubmit}
+                                        link
+                                    />
+                                }
                             />
                         </Form.Group>
-                        <Button onClick={this.handleSubmit}>Submit</Button>
                     </Grid.Row>
                 </Grid.Column>
             </Grid>

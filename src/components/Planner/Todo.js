@@ -1,7 +1,7 @@
 import React from "react";
 import firebase from "firebase";
 
-import { Checkbox, Icon, Popup, Grid, Input } from "semantic-ui-react";
+import { Checkbox, Icon, Popup, Input } from "semantic-ui-react";
 
 class Todo extends React.Component {
     state = {
@@ -14,10 +14,11 @@ class Todo extends React.Component {
         currentUser: firebase.auth().currentUser
     };
 
-    // Update todo with new text value
+    // Get parent props -> causes re-render
     static getDerivedStateFromProps(props) {
         return {
-            todo: props.todo
+            todo: props.todo,
+            isChecked: props.todo.isChecked
         };
     }
 
@@ -34,7 +35,27 @@ class Todo extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    handleCheckboxChange = ({
+    // Send edited todo text to firebase and rerender
+    handleTodoTextChange = ({
+        todoRef,
+        currentDay,
+        currentUser,
+        category,
+        todo,
+        newTodo
+    }) => {
+        todoRef
+            .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
+            .update({
+                value: newTodo,
+                key: todo.key
+            })
+            .then(this.props.fetchTodos())
+            .catch(error => console.error(error));
+    };
+
+    // Send changed todo checkbox state to firebase and rerender
+    handleTodoCheckboxChange = ({
         todoRef,
         currentUser,
         currentDay,
@@ -42,20 +63,21 @@ class Todo extends React.Component {
         todo,
         isChecked
     }) => {
-        this.setState({ isChecked: !isChecked });
         todoRef
             .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
-            .update({ isChecked: !isChecked });
+            .update({ isChecked: !isChecked })
+            .then(() => this.props.fetchTodos())
+            .catch(error => console.error(error));
     };
 
     render() {
         const { todo, isChecked } = this.state;
         return (
-            <React.Fragment key={todo.key}>
+            <React.Fragment>
                 <Checkbox
                     label={todo.value}
                     checked={isChecked}
-                    onChange={() => this.handleCheckboxChange(this.state)}
+                    onChange={() => this.handleTodoCheckboxChange(this.state)}
                 />
                 <Icon
                     name={"remove"}
@@ -65,18 +87,14 @@ class Todo extends React.Component {
                 <Popup
                     trigger={<Icon name={"pencil"} link={true} />}
                     flowing
-                    onClose={() => this.props.onPopupClose(this.state)}
+                    onClose={() => this.handleTodoTextChange(this.state)}
                     on="click"
                 >
-                    <Grid key={todo.key} centered>
-                        <Grid.Column textAlign="center">
-                            <Input
-                                defaultValue={todo.value}
-                                name={"newTodo"}
-                                onChange={this.handleChange}
-                            />
-                        </Grid.Column>
-                    </Grid>
+                    <Input
+                        defaultValue={todo.value}
+                        name={"newTodo"}
+                        onChange={this.handleChange}
+                    />
                 </Popup>
             </React.Fragment>
         );
