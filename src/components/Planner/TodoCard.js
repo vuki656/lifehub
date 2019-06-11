@@ -60,7 +60,7 @@ class TodoCard extends React.Component {
             });
     }
 
-    // Listen for new todo deletions
+    // Listen for todo deletions
     addRemoveTodoListener = ({
         todoRef,
         currentUser,
@@ -93,7 +93,7 @@ class TodoCard extends React.Component {
                 .then(snapshot => {
                     pushRef.child(snapshot.key).update({
                         value: todo,
-                        checked: false,
+                        isChecked: false,
                         key: snapshot.key
                     });
                 })
@@ -115,8 +115,8 @@ class TodoCard extends React.Component {
                 snapshot.forEach(child => {
                     let key = child.val().key;
                     let value = child.val().value;
-                    let checked = child.val().checked;
-                    todoHolder.push({ value, checked, key });
+                    let isChecked = child.val().isChecked;
+                    todoHolder.push({ value, isChecked, key });
                 });
             });
 
@@ -167,6 +167,7 @@ class TodoCard extends React.Component {
                         todo={todo}
                         currentDay={currentDay}
                         category={category}
+                        isChecked={todo.isChecked}
                     />
                 </Grid.Row>
             );

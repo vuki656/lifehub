@@ -8,8 +8,8 @@ class Todo extends React.Component {
         todo: this.props.todo,
         currentDay: this.props.currentDay,
         category: this.props.category,
+        isChecked: this.props.isChecked,
 
-        newTodo: "",
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser
     };
@@ -22,14 +22,9 @@ class Todo extends React.Component {
     }
 
     // Remove todo in firebase
-    removeTodo = ({ currentDay, currentUser, todo, category }) => {
-        firebase
-            .database()
-            .ref(
-                `/todos/${currentUser.uid}/${currentDay}/${[category]}/${
-                    todo.key
-                }`
-            )
+    removeTodo = ({ currentDay, currentUser, todo, category, todoRef }) => {
+        todoRef
+            .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
             .remove()
             .catch(error => console.error(error));
     };
@@ -39,11 +34,29 @@ class Todo extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    handleCheckboxChange = ({
+        todoRef,
+        currentUser,
+        currentDay,
+        category,
+        todo,
+        isChecked
+    }) => {
+        this.setState({ isChecked: !isChecked });
+        todoRef
+            .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
+            .update({ isChecked: !isChecked });
+    };
+
     render() {
-        const { todo } = this.state;
+        const { todo, isChecked } = this.state;
         return (
             <React.Fragment key={todo.key}>
-                <Checkbox label={todo.value} checked={todo.checked} />
+                <Checkbox
+                    label={todo.value}
+                    checked={isChecked}
+                    onChange={() => this.handleCheckboxChange(this.state)}
+                />
                 <Icon
                     name={"remove"}
                     link={true}
