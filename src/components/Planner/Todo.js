@@ -14,21 +14,12 @@ class Todo extends React.Component {
         currentUser: firebase.auth().currentUser
     };
 
-    // Send edited todo text to firebase
-    updateTodoInFirebase = ({
-        todoRef,
-        currentDay,
-        currentUser,
-        category,
-        todo,
-        newTodo
-    }) => {
-        todoRef
-            .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
-            .update({
-                value: newTodo
-            });
-    };
+    // Update todo with new text value
+    static getDerivedStateFromProps(props) {
+        return {
+            todo: props.todo
+        };
+    }
 
     // Remove todo in firebase
     removeTodo = ({ currentDay, currentUser, todo, category }) => {
@@ -41,11 +32,6 @@ class Todo extends React.Component {
             )
             .remove()
             .catch(error => console.error(error));
-    };
-
-    // Update todo value in firebase after popup cloases
-    onClose = () => {
-        this.updateTodoInFirebase(this.state);
     };
 
     // Set the state value from user input
@@ -66,7 +52,7 @@ class Todo extends React.Component {
                 <Popup
                     trigger={<Icon name={"pencil"} link={true} />}
                     flowing
-                    onClose={this.onClose}
+                    onClose={() => this.props.onPopupClose(this.state)}
                     on="click"
                 >
                     <Grid key={todo.key} centered>

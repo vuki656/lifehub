@@ -9,16 +9,23 @@ class TodoCard extends React.Component {
     // Used to prevent setState calls after component umounts
     _isMounted = false;
 
-    state = {
-        todo: "",
-        todoList: [],
-        todoRef: firebase.database().ref("todos"),
-        currentUser: firebase.auth().currentUser,
+    constructor(props) {
+        super(props);
 
-        category: this.props.category,
-        currentDay: this.props.currentDay,
-        monthObjectList: this.props.monthObjectList
-    };
+        this.state = {
+            todo: "",
+            todoList: [],
+            todoRef: firebase.database().ref("todos"),
+            currentUser: firebase.auth().currentUser,
+
+            category: this.props.category,
+            currentDay: this.props.currentDay,
+            monthObjectList: this.props.monthObjectList
+        };
+
+        this.onPopupClose = this.onPopupClose.bind(this);
+        this.updateTodoInFirebase = this.updateTodoInFirebase.bind(this);
+    }
 
     componentDidMount() {
         this._isMounted = true;
@@ -40,12 +47,12 @@ class TodoCard extends React.Component {
 
     // Listen for db changes
     addListeners = () => {
-        this.addTodoListener(this.state);
-        this.removeTodoListener(this.state);
+        this.addSetTodoListener(this.state);
+        this.addRemoveTodoListener(this.state);
     };
 
     // Listen for new todo inputs and set to the state so component re-renders
-    addTodoListener({ currentUser, todoRef, currentDay, category }) {
+    addSetTodoListener({ currentUser, todoRef, currentDay, category }) {
         todoRef
             .child(`${currentUser.uid}/${currentDay}/${[category]}`)
             .on("child_added", () => {
@@ -54,7 +61,12 @@ class TodoCard extends React.Component {
     }
 
     // Listen for new todo deletions
-    removeTodoListener = ({ todoRef, currentUser, currentDay, category }) => {
+    addRemoveTodoListener = ({
+        todoRef,
+        currentUser,
+        currentDay,
+        category
+    }) => {
         todoRef
             .child(`${currentUser.uid}/${currentDay}/${[category]}`)
             .on("child_removed", () => {
@@ -92,11 +104,6 @@ class TodoCard extends React.Component {
         }
     };
 
-    // Clear the input form for todo
-    clearForm = () => {
-        this.setState({ todo: "" });
-    };
-
     // Fetches todos from firebase
     fetchTodos = () => {
         const { currentUser, todoRef, category, currentDay } = this.state;
@@ -104,7 +111,7 @@ class TodoCard extends React.Component {
 
         todoRef
             .child(`${currentUser.uid}/${currentDay}/${category}`)
-            .once("value", snapshot => {
+            .on("value", snapshot => {
                 snapshot.forEach(child => {
                     let key = child.val().key;
                     let value = child.val().value;
@@ -118,6 +125,35 @@ class TodoCard extends React.Component {
         }
     };
 
+    // Clear the input form for todo
+    clearForm = () => {
+        this.setState({ todo: "" });
+    };
+
+    // Update todo value in firebase after popup cloases
+    onPopupClose = todoState => {
+        this.updateTodoInFirebase(todoState);
+    };
+
+    // Send edited todo text to firebase
+    updateTodoInFirebase = ({
+        todoRef,
+        currentDay,
+        currentUser,
+        category,
+        todo,
+        newTodo
+    }) => {
+        todoRef
+            .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
+            .update({
+                value: newTodo,
+                key: todo.key
+            })
+            .then(this.fetchTodos())
+            .catch(error => console.error(error));
+    };
+
     // Render todos to the screen
     renderTodos = () => {
         const { todoList, currentDay, category } = this.state;
@@ -126,6 +162,8 @@ class TodoCard extends React.Component {
             return (
                 <Grid.Row key={todo.key}>
                     <Todo
+                        onPopupClose={this.onPopupClose}
+                        updateTodoInFirebase={this.updateTodoInFirebase}
                         todo={todo}
                         currentDay={currentDay}
                         category={category}
