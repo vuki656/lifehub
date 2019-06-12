@@ -4,6 +4,7 @@ import firebase from "./firebase/Auth";
 
 import AppRouter, { history } from "./routers/AppRouter";
 
+import "react-datepicker/dist/react-datepicker.css";
 import "semantic-ui-css/semantic.min.css";
 import "./styles/styles.scss";
 

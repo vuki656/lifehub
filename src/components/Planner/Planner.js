@@ -8,8 +8,7 @@ import { Grid } from "semantic-ui-react";
 import { Route } from "react-router-dom";
 
 import TaskArea from "./TaskArea";
-import Reminders from "./Reminders";
-import DaysListSidebar from "./DaysListSidebar";
+import DaysListSidebar from "./DaysList";
 
 class Planner extends React.Component {
     constructor(props) {
@@ -145,15 +144,12 @@ class Planner extends React.Component {
                             setCurrentDay={this.setCurrentDay}
                         />
                     </Grid.Column>
-                    <Grid.Column width={10} className="task-area">
+                    <Grid.Column width={13} className="task-area">
                         {this.generateRoutes(
                             currentMonth,
                             monthObjectList,
                             currentDay
                         )}
-                    </Grid.Column>
-                    <Grid.Column width={3} className="sidebar-menu">
-                        <Reminders />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
