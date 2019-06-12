@@ -8,7 +8,7 @@ import { Grid } from "semantic-ui-react";
 import { Route } from "react-router-dom";
 
 import TaskArea from "./TaskArea";
-import DaysListSidebar from "./DaysList";
+import DaysList from "./DaysList";
 
 class Planner extends React.Component {
     constructor(props) {
@@ -137,7 +137,7 @@ class Planner extends React.Component {
             <Grid>
                 <Grid.Row>
                     <Grid.Column width={3} className="sidebar-menu">
-                        <DaysListSidebar
+                        <DaysList
                             monthObjectList={monthObjectList}
                             currentMonth={currentMonth}
                             selectNewMonth={this.selectNewMonth}

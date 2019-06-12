@@ -1,15 +1,18 @@
 import React from "react";
 import moment from "moment";
 import DatePicker from "react-datepicker";
+import firebase from "../../firebase/Auth";
 
 import { Grid, Modal, Input, Button } from "semantic-ui-react";
 
 class ReminderModal extends React.Component {
     state = {
-        currentDay: moment(this.props.currentDay).toDate(),
-        minDate: moment().toDate(),
-        startDate: null,
-        modalOpen: false
+        currentDay: moment().valueOf(),
+        startDate: moment().toDate(),
+        endDate: null,
+        modalOpen: false,
+        reminder: "",
+        reminderRef: firebase.database().ref("reminders")
     };
 
     fetchReminder = () => {
@@ -17,13 +20,47 @@ class ReminderModal extends React.Component {
         // Or just put the reminder in each day until due date and render that day on click
     };
 
-    handleStartDate = date => {
-        console.log("Start date: " + moment(date).format("DD/MM/YYYY HH:mm"));
-        this.setState({ minDate: date });
+    // Sends the reminder object to firebase
+    sendReminderToFirebase = () => {
+        // Save reminder in each day untill end date
+        const { reminder, startDate, endDate, reminderRef } = this.state;
+        for (
+            let _startDate = moment(startDate);
+            _startDate.isBefore(endDate);
+            _startDate.add(1, "days")
+        ) {
+            // Convert start date to day only date
+            let dayTimestamp = moment(
+                moment(_startDate).startOf("day")
+            ).valueOf();
+
+            reminderRef
+                .child(dayTimestamp)
+                .push()
+                .update({
+                    reminder: reminder,
+                    startDate: startDate,
+                    endDate: endDate
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
     };
 
-    handleEndDate = date => {
-        console.log("End date: " + moment(date).format("DD/MM/YYYY HH:mm"));
+    // Set the state value from user input
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
+
+    // Save start date from calendar picker
+    handleStartDate = startDate => {
+        this.setState({ startDate: moment(startDate).valueOf() });
+    };
+
+    // Save end date from calendar picker
+    handleEndDate = endDate => {
+        this.setState({ endDate: moment(endDate).valueOf() });
     };
 
     closeModal = () => {
@@ -35,7 +72,7 @@ class ReminderModal extends React.Component {
     };
 
     render() {
-        const { currentDay, minDate, modalOpen } = this.state;
+        const { startDate, modalOpen, endDate } = this.state;
 
         return (
             <React.Fragment>
@@ -45,33 +82,44 @@ class ReminderModal extends React.Component {
                             <Grid.Row columns={"equal"}>
                                 <Grid.Column>
                                     <p>Remind me about</p>
-                                    <Input placeholder="Marketing meeting" />
+                                    <Input
+                                        name="reminder"
+                                        onChange={this.handleChange}
+                                        placeholder="Marketing meeting"
+                                    />
                                 </Grid.Column>
                                 <Grid.Column>
                                     <p>Start reminding me when</p>
                                     <DatePicker
-                                        minDate={currentDay}
-                                        selected={currentDay}
+                                        minDate={startDate}
+                                        selected={startDate}
+                                        dateFormat="dd/MM/yyyy"
+                                        timeCaption="time"
                                         onChange={this.handleStartDate}
                                     />
                                 </Grid.Column>
                                 <Grid.Column>
                                     <p>Remind untill</p>
                                     <DatePicker
-                                        minDate={minDate}
-                                        selected={currentDay}
+                                        minDate={startDate}
+                                        selected={endDate}
                                         onChange={this.handleEndDate}
                                         showTimeSelect
                                         timeFormat="HH:mm"
                                         timeIntervals={15}
-                                        dateFormat="MMMM d, yyyy h:mm aa"
+                                        dateFormat="dd/MM/yyyy hh:mm"
                                         timeCaption="time"
                                     />
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row>
                                 <Button.Group>
-                                    <Button primary>Save</Button>
+                                    <Button
+                                        primary
+                                        onClick={this.sendReminderToFirebase}
+                                    >
+                                        Save
+                                    </Button>
                                     <Button>Reset</Button>
                                     <Button secondary onClick={this.closeModal}>
                                         Discard

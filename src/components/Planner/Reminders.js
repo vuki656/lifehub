@@ -6,19 +6,9 @@ import { Grid, Header } from "semantic-ui-react";
 import ReminderModal from "./ReminderModal";
 
 class Reminders extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            modalOpen: false
-        };
-    }
+    state = {};
 
     renderReminders = () => {};
-
-    openModal = () => {
-        this.setState({ modalOpen: true });
-    };
 
     render() {
         const { currentDay } = this.props;
