@@ -8,7 +8,8 @@ class ReminderModal extends React.Component {
     state = {
         currentDay: moment(this.props.currentDay).toDate(),
         minDate: moment().toDate(),
-        startDate: null
+        startDate: null,
+        modalOpen: false
     };
 
     fetchReminder = () => {
@@ -25,49 +26,63 @@ class ReminderModal extends React.Component {
         console.log("End date: " + moment(date).format("DD/MM/YYYY HH:mm"));
     };
 
+    closeModal = () => {
+        this.setState({ modalOpen: false });
+    };
+
+    openModal = () => {
+        this.setState({ modalOpen: true });
+    };
+
     render() {
-        const { currentDay, minDate } = this.state;
+        const { currentDay, minDate, modalOpen } = this.state;
 
         return (
-            <Modal trigger={<Button>Add Reminder</Button>}>
-                <Modal.Content>
-                    <Grid>
-                        <Grid.Row columns={"equal"}>
-                            <Grid.Column>
-                                <p>Remind me about</p>
-                                <Input placeholder="Marketing meeting" />
-                            </Grid.Column>
-                            <Grid.Column>
-                                <p>Start reminding me when</p>
-                                <DatePicker
-                                    minDate={currentDay}
-                                    selected={currentDay}
-                                    onChange={this.handleStartDate}
-                                />
-                            </Grid.Column>
-                            <Grid.Column>
-                                <p>Remind untill</p>
-                                <DatePicker
-                                    minDate={minDate}
-                                    selected={currentDay}
-                                    onChange={this.handleEndDate}
-                                    showTimeSelect
-                                    timeFormat="HH:mm"
-                                    timeIntervals={15}
-                                    dateFormat="MMMM d, yyyy h:mm aa"
-                                    timeCaption="time"
-                                />
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Button.Group>
-                                <Button primary>Save</Button>
-                                <Button secondary>Discard</Button>
-                            </Button.Group>
-                        </Grid.Row>
-                    </Grid>
-                </Modal.Content>
-            </Modal>
+            <React.Fragment>
+                <Modal open={modalOpen}>
+                    <Modal.Content>
+                        <Grid>
+                            <Grid.Row columns={"equal"}>
+                                <Grid.Column>
+                                    <p>Remind me about</p>
+                                    <Input placeholder="Marketing meeting" />
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <p>Start reminding me when</p>
+                                    <DatePicker
+                                        minDate={currentDay}
+                                        selected={currentDay}
+                                        onChange={this.handleStartDate}
+                                    />
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <p>Remind untill</p>
+                                    <DatePicker
+                                        minDate={minDate}
+                                        selected={currentDay}
+                                        onChange={this.handleEndDate}
+                                        showTimeSelect
+                                        timeFormat="HH:mm"
+                                        timeIntervals={15}
+                                        dateFormat="MMMM d, yyyy h:mm aa"
+                                        timeCaption="time"
+                                    />
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Button.Group>
+                                    <Button primary>Save</Button>
+                                    <Button>Reset</Button>
+                                    <Button secondary onClick={this.closeModal}>
+                                        Discard
+                                    </Button>
+                                </Button.Group>
+                            </Grid.Row>
+                        </Grid>
+                    </Modal.Content>
+                </Modal>
+                <Button onClick={this.openModal}>Add Reminder</Button>
+            </React.Fragment>
         );
     }
 }
