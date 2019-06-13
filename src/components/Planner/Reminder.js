@@ -16,7 +16,7 @@ class Reminder extends React.Component {
     };
 
     // Iterate trough days where reminder active and remove it from each
-    removeTodo = ({ currentUser, reminder, remindersRef }) => {
+    removeReminder = ({ currentUser, reminder, remindersRef }) => {
         let startDate = moment(reminder.startDate).toDate();
         let endDate = moment(reminder.endDate).toDate();
 
@@ -53,7 +53,7 @@ class Reminder extends React.Component {
                         <Icon
                             name={"remove"}
                             link={true}
-                            onClick={() => this.removeTodo(this.state)}
+                            onClick={() => this.removeReminder(this.state)}
                         />
 
                         <UpdateReminderModal reminder={reminder} />

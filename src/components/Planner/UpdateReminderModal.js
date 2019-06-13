@@ -40,6 +40,8 @@ class UpdateReminderModal extends React.Component {
         } = this.state;
 
         let _endDate;
+        let _dateToCheckFrom;
+        let _reminderText = reminderText;
 
         // Check if the new date is before the original date
         // If yes use the original date so the loop can conver
@@ -50,9 +52,21 @@ class UpdateReminderModal extends React.Component {
             _endDate = endDate;
         }
 
+        //  Save as above but for settings dayt before the previous
+        if (moment(startDate).isAfter(dateToCheckFrom)) {
+            _dateToCheckFrom = dateToCheckFrom;
+        } else {
+            _dateToCheckFrom = startDate;
+        }
+
+        // If no change in edit reminder text, use original
+        if (!reminderText) {
+            _reminderText = reminder.reminder;
+        }
+
         // Save reminder in each day untill end date
         for (
-            let _startDate = moment(dateToCheckFrom);
+            let _startDate = moment(_dateToCheckFrom);
             _startDate.isBefore(_endDate);
             _startDate.add(1, "days")
         ) {
@@ -70,7 +84,7 @@ class UpdateReminderModal extends React.Component {
                 reminderRef
                     .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)
                     .update({
-                        reminder: reminderText,
+                        reminder: _reminderText,
                         startDate,
                         endDate,
                         key: reminder.key
