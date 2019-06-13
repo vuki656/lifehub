@@ -53,7 +53,7 @@ class DaysList extends React.Component {
     render() {
         const { monthObjectList, currentMonth } = this.state;
 
-        return monthObjectList ? (
+        return (
             <div>
                 <select
                     defaultValue={moment(currentMonth.month).format("M/YY")}
@@ -63,8 +63,6 @@ class DaysList extends React.Component {
                 </select>
                 <div>{this.displayDays(currentMonth)}</div>
             </div>
-        ) : (
-            "loading"
         );
     }
 }

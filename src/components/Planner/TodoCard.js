@@ -129,30 +129,25 @@ class TodoCard extends React.Component {
     };
 
     // Render todos to the screen
-    renderTodos = () => {
-        const { todoList, currentDay, category } = this.state;
-
-        return todoList.map(todo => {
-            return (
-                <Grid.Row key={todo.key}>
-                    <Todo
-                        fetchTodos={this.fetchTodos}
-                        todo={todo}
-                        currentDay={currentDay}
-                        category={category}
-                        isChecked={todo.isChecked}
-                        key={todo.key}
-                    />
-                </Grid.Row>
-            );
-        });
-    };
+    renderTodos = ({ todoList, currentDay, category }) =>
+        todoList.map(todo => (
+            <Grid.Row key={todo.key}>
+                <Todo
+                    fetchTodos={this.fetchTodos}
+                    todo={todo}
+                    currentDay={currentDay}
+                    category={category}
+                    isChecked={todo.isChecked}
+                    key={todo.key}
+                />
+            </Grid.Row>
+        ));
 
     render() {
         return (
             <Grid>
                 <Grid.Column>
-                    {this.renderTodos()}
+                    {this.renderTodos(this.state)}
                     <Grid.Row>
                         <Form.Group widths="equal">
                             <Form.Input
