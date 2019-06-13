@@ -4,15 +4,18 @@ import firebase from "../../firebase/Auth";
 
 import { List, Icon } from "semantic-ui-react";
 
+import UpdateReminderModal from "./UpdateReminderModal";
+
 class Reminder extends React.Component {
     state = {
         remindersRef: firebase.database().ref("reminders"),
         currentUser: firebase.auth().currentUser,
+        modalOpen: false,
 
         reminder: this.props.reminder
     };
 
-    // Iterate trough every day reminder is active and remove reminder
+    // Iterate trough days where reminder active and remove it from each
     removeTodo = ({ currentUser, reminder, remindersRef }) => {
         let startDate = moment(reminder.startDate).toDate();
         let endDate = moment(reminder.endDate).toDate();
@@ -41,20 +44,22 @@ class Reminder extends React.Component {
             <List.Item>
                 <List.Icon
                     name="calendar outline"
-                    size="small"
+                    size="large"
                     verticalAlign="middle"
                 />
                 <List.Content>
                     <List.Header>
-                        {reminder.reminder}{" "}
+                        {reminder.reminder}
                         <Icon
                             name={"remove"}
                             link={true}
                             onClick={() => this.removeTodo(this.state)}
                         />
+
+                        <UpdateReminderModal reminder={reminder} />
                     </List.Header>
                     <List.Description>
-                        {moment(reminder.endDate).from(reminder.startDate)}
+                        <p>Desc</p>
                     </List.Description>
                 </List.Content>
             </List.Item>
