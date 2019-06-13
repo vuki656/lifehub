@@ -39,6 +39,16 @@ class Reminders extends React.Component {
     // Listen for db changes
     addListeners = () => {
         this.addSetReminderListener(this.state);
+        this.addRemoveTodoListener(this.state);
+    };
+
+    // Listen for reminder deletions
+    addRemoveTodoListener = ({ remindersRef, currentUser, currentDay }) => {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}`)
+            .on("child_removed", () => {
+                this.fetchReminders(this.state);
+            });
     };
 
     // Listen for new reminder inputs and set to the state so component re-renders
@@ -65,7 +75,9 @@ class Reminders extends React.Component {
                 snapshot.forEach(child => {
                     let key = child.val().key;
                     let reminder = child.val().reminder;
-                    remindersHolder.push({ reminder, key });
+                    let startDate = child.val().startDate;
+                    let endDate = child.val().endDate;
+                    remindersHolder.push({ reminder, key, startDate, endDate });
                 });
             });
 
