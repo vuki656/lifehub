@@ -19,13 +19,6 @@ class UpdateReminderModal extends React.Component {
         newEndDate: moment(this.props.reminder.endDate).toDate()
     };
 
-    // Get parent props -> causes re-render
-    static getDerivedStateFromProps(props) {
-        return {
-            modalOpen: props.modalOpen
-        };
-    }
-
     // Send reminder object to firebase
     sendReminderToFirebase = () => {
         const {
@@ -44,10 +37,14 @@ class UpdateReminderModal extends React.Component {
             ? oldEndDate
             : newEndDate;
 
-        // Save reminder in each day untill end date
+        // Save new reminder in each day from date range
+        // If there are days outside new day range
+        // delete them, else update them
         for (
             let itterationCurrentDate = moment(itterationStartDate);
-            itterationCurrentDate.isBefore(itterationEndDate);
+            itterationCurrentDate.isBefore(
+                moment(itterationEndDate).add(1, "day")
+            );
             itterationCurrentDate.add(1, "days")
         ) {
             // Convert start date to day only timestamp
@@ -69,13 +66,13 @@ class UpdateReminderModal extends React.Component {
                     dayTimestamp
                 );
             } else {
-                this.deleteReminder(this.state);
+                this.deleteReminder(this.state, dayTimestamp);
             }
         }
         this.closeModal();
     };
 
-    // Updatre remidner in firebase
+    // Update reminder in firebase
     updateReminder = (
         { reminderRef, currentUser, reminder },
         newReminderText,
@@ -83,13 +80,16 @@ class UpdateReminderModal extends React.Component {
         newEndDate,
         dayTimestamp
     ) => {
+        let formatedCurrDay = moment(dayTimestamp).format("DD/MM/YYYY");
+
         reminderRef
             .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)
             .update({
                 reminder: newReminderText,
                 newStartDate: newStartDate,
                 endDate: newEndDate,
-                key: reminder.key
+                key: reminder.key,
+                formatedCurrDay: formatedCurrDay
             })
             .catch(err => {
                 console.error(err);
@@ -98,6 +98,7 @@ class UpdateReminderModal extends React.Component {
 
     // Delete reminder from firebase
     deleteReminder = ({ reminderRef, currentUser, reminder }, dayTimestamp) => {
+        console.log("deleting");
         reminderRef
             .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)
             .remove()

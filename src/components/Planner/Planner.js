@@ -26,7 +26,8 @@ class Planner extends React.Component {
         this.selectNewMonth = this.selectNewMonth.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        this.setState({ currentDay: moment().valueOf() });
         this.fetchRegDate(this.state);
     }
 
@@ -114,13 +115,13 @@ class Planner extends React.Component {
         this.setState({ currentDay: day.valueOf() });
     };
 
-    // Generate routes to switch the task board for selected day
+    // Generate routes to switch the task area for selected day
     generateRoutes = (currentMonth, currentDay) =>
         currentMonth.daysList.map(day => (
             <Route
                 key={moment(day).format("DD/MM/YYYY")}
                 path={`/planner/${moment(day).format("DD/MM/YYYY")}`}
-                render={() => <TaskArea currentDay={currentDay} />} // Same as component, this is used when you need to pass props
+                render={() => <TaskArea currentDay={currentDay} />}
             />
         ));
 

@@ -22,7 +22,7 @@ class Reminder extends React.Component {
 
         for (
             let _startDate = moment(startDate);
-            _startDate.isBefore(endDate);
+            _startDate.isBefore(moment(endDate).add(1, "day"));
             _startDate.add(1, "days")
         ) {
             // Convert start date to day only timestamp

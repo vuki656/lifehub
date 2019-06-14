@@ -56,7 +56,7 @@ class DaysList extends React.Component {
                 >
                     {this.displayMonths(monthObjectList)}
                 </select>
-                <div>{this.displayDays(currentMonth)}</div>
+                {this.displayDays(currentMonth)}
             </React.Fragment>
         );
     }
