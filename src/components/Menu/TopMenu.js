@@ -4,8 +4,7 @@ import firebase from "../../firebase/Auth";
 import { Menu } from "semantic-ui-react";
 
 class TopMenu extends React.Component {
-    state = {};
-
+    // Sign user out
     handleSignOut = () => {
         firebase
             .auth()

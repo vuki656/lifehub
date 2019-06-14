@@ -1,12 +1,10 @@
 import React from "react";
-import moment from "moment";
+
+import { formatMoment } from "../../helpers/Global";
 
 import { Table, Popup, Icon } from "semantic-ui-react";
 
 class WeightTable extends React.Component {
-    // Convert the unix timestamp to normal date format 20/03/2019
-    unixDateToNormal = date => moment.unix(date).format("DD/MM/YYYY");
-
     // Calculate the difference between todays weight and previous weight entry
     calcWeightDif = (currentWeight, entryForComparison) => {
         let weightDif = currentWeight - entryForComparison;
@@ -20,7 +18,7 @@ class WeightTable extends React.Component {
         return weightList.map((weightEntry, index) => (
             <Table.Row key={index}>
                 <Table.Cell>
-                    {this.unixDateToNormal(weightEntry.date)}
+                    {formatMoment(weightEntry.date, "DD/MM/YYYY")}
                 </Table.Cell>
                 <Table.Cell>{weightEntry.weight}</Table.Cell>
                 <Table.Cell>

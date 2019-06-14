@@ -18,13 +18,7 @@ class ReminderModal extends React.Component {
 
     // Sends the reminder object to firebase
     sendReminderToFirebase = () => {
-        const {
-            reminder,
-            startDate,
-            endDate,
-            reminderRef,
-            currentUser
-        } = this.state;
+        const { reminder, startDate, endDate } = this.state;
 
         // Generate a unique key for reminder thats the same in every day
         let key = uuidv4();
@@ -41,20 +35,39 @@ class ReminderModal extends React.Component {
                     moment(_startDate).startOf("day")
                 ).valueOf();
 
-                reminderRef
-                    .child(`${currentUser.uid}/${dayTimestamp}/${key}`)
-                    .update({
-                        key,
-                        reminder,
-                        startDate,
-                        endDate
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    });
+                this.createReminder(
+                    this.state,
+                    dayTimestamp,
+                    key,
+                    reminder,
+                    startDate,
+                    endDate
+                );
             }
         }
         this.closeModal();
+    };
+
+    // Creates reminder in firebase
+    createReminder = (
+        { reminderRef, currentUser },
+        dayTimestamp,
+        key,
+        reminder,
+        startDate,
+        endDate
+    ) => {
+        reminderRef
+            .child(`${currentUser.uid}/${dayTimestamp}/${key}`)
+            .update({
+                key,
+                reminder,
+                startDate,
+                endDate
+            })
+            .catch(err => {
+                console.error(err);
+            });
     };
 
     // Set the state vale of reminder

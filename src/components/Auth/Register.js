@@ -39,6 +39,7 @@ class Register extends React.Component {
         }
     };
 
+    // Save users register date in firebase
     saveRegDate = user => {
         const { userRef } = this.state;
         let regDate = moment().valueOf();

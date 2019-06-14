@@ -15,8 +15,11 @@ class Chart extends React.Component {
         data: null
     };
 
-    componentWillReceiveProps() {
-        this.setState({ data: this.props.weightList });
+    // Get parent props -> causes re-render
+    static getDerivedStateFromProps(props) {
+        return {
+            data: props.weightList
+        };
     }
 
     render() {

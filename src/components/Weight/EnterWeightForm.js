@@ -20,7 +20,8 @@ class EnterWeightForm extends React.Component {
 
     // Check if weight is valid
     checkWeightFormat = weight => {
-        return this.checkIfWeightExists(weight) && this.handleNumberCheck(weight)
+        return this.checkIfWeightExists(weight) &&
+            this.handleNumberCheck(weight)
             ? true
             : false;
     };
@@ -52,7 +53,7 @@ class EnterWeightForm extends React.Component {
         }
     };
 
-    // Sends the weight and date object to database
+    // Sends the weight and date object to firebase
     handleSubmit = () => {
         const { weight, date, weightRef, currentUser } = this.state;
 
@@ -92,7 +93,9 @@ class EnterWeightForm extends React.Component {
                     </Form.Group>
                     <Button onClick={this.handleSubmit}>Submit</Button>
                 </Form>
-                {error !== "" && <Message error header="Error" content={error} />}
+                {error !== "" && (
+                    <Message error header="Error" content={error} />
+                )}
             </React.Fragment>
         );
     }

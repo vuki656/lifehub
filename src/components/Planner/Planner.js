@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 import firebase from "../../firebase/Auth";
 
-import { formatMoment } from "../../helpers/Planner";
+import { formatMoment } from "../../helpers/Global";
 
 import { Grid } from "semantic-ui-react";
 import { Route } from "react-router-dom";
@@ -27,13 +27,11 @@ class Planner extends React.Component {
     }
 
     componentWillMount() {
-        this.fetchRegDate();
+        this.fetchRegDate(this.state);
     }
 
     // Fetches weight data from firebase
-    fetchRegDate = () => {
-        const { currentUser, usersRef } = this.state;
-
+    fetchRegDate = ({ currentUser, usersRef }) => {
         usersRef.child(currentUser.uid).once("value", snapshot => {
             let regDate = snapshot.val().regDate; // Moment timestamp of time when user registered
             this.generateMonthDayStructure(regDate);
@@ -111,22 +109,18 @@ class Planner extends React.Component {
         });
     };
 
+    // Set current day timestmap in state
     setCurrentDay = day => {
         this.setState({ currentDay: day.valueOf() });
     };
 
     // Generate routes to switch the task board for selected day
-    generateRoutes = (currentMonth, monthObjectList, currentDay) =>
+    generateRoutes = (currentMonth, currentDay) =>
         currentMonth.daysList.map(day => (
             <Route
                 key={moment(day).format("DD/MM/YYYY")}
                 path={`/planner/${moment(day).format("DD/MM/YYYY")}`}
-                render={() => (
-                    <TaskArea
-                        monthObjectList={monthObjectList}
-                        currentDay={currentDay}
-                    />
-                )} // Same as component, this is used when you need to pass props
+                render={() => <TaskArea currentDay={currentDay} />} // Same as component, this is used when you need to pass props
             />
         ));
 
@@ -145,11 +139,7 @@ class Planner extends React.Component {
                         />
                     </Grid.Column>
                     <Grid.Column width={13} className="task-area">
-                        {this.generateRoutes(
-                            currentMonth,
-                            monthObjectList,
-                            currentDay
-                        )}
+                        {this.generateRoutes(currentMonth, currentDay)}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

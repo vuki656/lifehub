@@ -10,13 +10,13 @@ class UpdateReminderModal extends React.Component {
         modalOpen: false,
         reminderRef: firebase.database().ref("reminders"),
         currentUser: firebase.auth().currentUser,
-        reminderText: "",
 
-        originalEndDate: this.props.reminder.endDate,
-        dateToCheckFrom: this.props.reminder.startDate,
-        startDate: moment(this.props.reminder.startDate).toDate(),
-        endDate: moment(this.props.reminder.endDate).toDate(),
-        reminder: this.props.reminder
+        newReminderText: this.props.reminder.reminder,
+        oldEndDate: this.props.reminder.endDate,
+        oldStartDate: this.props.reminder.startDate,
+        reminder: this.props.reminder,
+        newStartDate: moment(this.props.reminder.startDate).toDate(),
+        newEndDate: moment(this.props.reminder.endDate).toDate()
     };
 
     // Get parent props -> causes re-render
@@ -26,84 +26,84 @@ class UpdateReminderModal extends React.Component {
         };
     }
 
-    // Sends the reminder object to firebase
+    // Send reminder object to firebase
     sendReminderToFirebase = () => {
         const {
-            reminder,
-            startDate,
-            endDate,
-            reminderRef,
-            currentUser,
-            reminderText,
-            dateToCheckFrom,
-            originalEndDate
+            newStartDate,
+            newEndDate,
+            newReminderText,
+            oldStartDate,
+            oldEndDate
         } = this.state;
 
-        let _endDate;
-        let _dateToCheckFrom;
-        let _reminderText = reminderText;
+        let itterationStartDate = moment(newStartDate).isAfter(oldStartDate)
+            ? oldStartDate
+            : newStartDate;
 
-        // Check if the new date is before the original date
-        // If yes use the original date so the loop can conver
-        // days after it and delete them
-        if (moment(endDate).isBefore(originalEndDate)) {
-            _endDate = originalEndDate;
-        } else {
-            _endDate = endDate;
-        }
-
-        //  Save as above but for settings dayt before the previous
-        if (moment(startDate).isAfter(dateToCheckFrom)) {
-            _dateToCheckFrom = dateToCheckFrom;
-        } else {
-            _dateToCheckFrom = startDate;
-        }
-
-        // If no change in edit reminder text, use original
-        if (!reminderText) {
-            _reminderText = reminder.reminder;
-        }
+        let itterationEndDate = moment(newEndDate).isBefore(oldEndDate)
+            ? oldEndDate
+            : newEndDate;
 
         // Save reminder in each day untill end date
         for (
-            let _startDate = moment(_dateToCheckFrom);
-            _startDate.isBefore(_endDate);
-            _startDate.add(1, "days")
+            let itterationCurrentDate = moment(itterationStartDate);
+            itterationCurrentDate.isBefore(itterationEndDate);
+            itterationCurrentDate.add(1, "days")
         ) {
             // Convert start date to day only timestamp
             let dayTimestamp = moment(
-                moment(_startDate).startOf("day")
+                moment(itterationCurrentDate).startOf("day")
             ).valueOf();
 
             if (
-                moment(_startDate).isBetween(
-                    moment(startDate).subtract(1, "day"),
-                    moment(endDate).add(1, "day")
+                moment(itterationCurrentDate).isBetween(
+                    moment(newStartDate).subtract(1, "day"),
+                    moment(newEndDate).add(1, "day")
                 )
             ) {
-                reminderRef
-                    .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)
-                    .update({
-                        reminder: _reminderText,
-                        startDate,
-                        endDate,
-                        key: reminder.key
-                    })
-                    .catch(err => {
-                        console.error(err);
-                    });
+                this.updateReminder(
+                    this.state,
+                    newReminderText,
+                    newStartDate,
+                    newEndDate,
+                    dayTimestamp
+                );
             } else {
-                reminderRef
-                    .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)
-                    .remove()
-
-                    .catch(err => {
-                        console.error(err);
-                    });
+                this.deleteReminder(this.state);
             }
         }
-
         this.closeModal();
+    };
+
+    // Updatre remidner in firebase
+    updateReminder = (
+        { reminderRef, currentUser, reminder },
+        newReminderText,
+        newStartDate,
+        newEndDate,
+        dayTimestamp
+    ) => {
+        reminderRef
+            .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)
+            .update({
+                reminder: newReminderText,
+                newStartDate: newStartDate,
+                endDate: newEndDate,
+                key: reminder.key
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    };
+
+    // Delete reminder from firebase
+    deleteReminder = ({ reminderRef, currentUser, reminder }, dayTimestamp) => {
+        reminderRef
+            .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)
+            .remove()
+            .catch(err => {
+                console.error(err);
+            });
     };
 
     // Set the state vale of reminder
@@ -112,13 +112,13 @@ class UpdateReminderModal extends React.Component {
     };
 
     // Save start date from calendar picker
-    handleStartDate = startDate => {
-        this.setState({ startDate: moment(startDate).valueOf() });
+    handleStartDate = newStartDate => {
+        this.setState({ newStartDate: moment(newStartDate).valueOf() });
     };
 
     // Save end date from calendar picker
-    handleEndDate = endDate => {
-        this.setState({ endDate: moment(endDate).valueOf() });
+    handleEndDate = newEndDate => {
+        this.setState({ newEndDate: moment(newEndDate).valueOf() });
     };
 
     closeModal = () => {
@@ -130,7 +130,7 @@ class UpdateReminderModal extends React.Component {
     };
 
     render() {
-        const { reminder, modalOpen, startDate, endDate } = this.state;
+        const { reminder, modalOpen, newStartDate, newEndDate } = this.state;
 
         return (
             <Modal
@@ -150,7 +150,7 @@ class UpdateReminderModal extends React.Component {
                             <Grid.Column>
                                 <p>Remind me about</p>
                                 <Input
-                                    name="reminderText"
+                                    name="newReminderText"
                                     onChange={this.handleChange}
                                     placeholder="Marketing meeting"
                                     defaultValue={reminder.reminder}
@@ -160,7 +160,7 @@ class UpdateReminderModal extends React.Component {
                                 <p>Start reminding me when</p>
                                 <DatePicker
                                     minDate={moment().toDate()}
-                                    selected={startDate}
+                                    selected={newStartDate}
                                     dateFormat="dd/MM/yyyy"
                                     timeCaption="time"
                                     onChange={this.handleStartDate}
@@ -169,8 +169,8 @@ class UpdateReminderModal extends React.Component {
                             <Grid.Column>
                                 <p>Remind untill</p>
                                 <DatePicker
-                                    minDate={moment(startDate).toDate()}
-                                    selected={endDate}
+                                    minDate={moment(newStartDate).toDate()}
+                                    selected={newEndDate}
                                     onChange={this.handleEndDate}
                                     showTimeSelect
                                     timeFormat="HH:mm"

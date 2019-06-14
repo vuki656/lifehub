@@ -6,10 +6,8 @@ import TodoCard from "./TodoCard";
 import Reminders from "./Reminders";
 
 class TaskArea extends React.Component {
-    state = {};
-
     render() {
-        const { monthObjectList, currentDay } = this.props;
+        const { currentDay } = this.props;
 
         return (
             <Grid>
@@ -20,7 +18,6 @@ class TaskArea extends React.Component {
                                 <p>Morning</p>
                                 <TodoCard
                                     category={"morning"}
-                                    monthObjectList={monthObjectList}
                                     currentDay={currentDay}
                                 />
                             </Grid.Column>
@@ -28,7 +25,6 @@ class TaskArea extends React.Component {
                                 <p>Day</p>
                                 <TodoCard
                                     category={"day"}
-                                    monthObjectList={monthObjectList}
                                     currentDay={currentDay}
                                 />
                             </Grid.Column>
@@ -36,7 +32,6 @@ class TaskArea extends React.Component {
                                 <p>Evening</p>
                                 <TodoCard
                                     category={"evening"}
-                                    monthObjectList={monthObjectList}
                                     currentDay={currentDay}
                                 />
                             </Grid.Column>
@@ -46,7 +41,6 @@ class TaskArea extends React.Component {
                                 <p>Work</p>
                                 <TodoCard
                                     category={"work"}
-                                    monthObjectList={monthObjectList}
                                     currentDay={currentDay}
                                 />
                             </Grid.Column>
@@ -54,7 +48,6 @@ class TaskArea extends React.Component {
                                 <p>Misc</p>
                                 <TodoCard
                                     category={"misc"}
-                                    monthObjectList={monthObjectList}
                                     currentDay={currentDay}
                                 />
                             </Grid.Column>

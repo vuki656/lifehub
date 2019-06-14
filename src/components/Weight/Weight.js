@@ -48,7 +48,7 @@ class Weight extends React.Component {
                 let weight = child.val().weight;
 
                 weightHolder.push({ date, weight, previousWeight });
-                previousWeight = weight; // Store the previous weight for weight dif col
+                previousWeight = weight; // Store the previous weight for weight diff column
             });
             // Update the state with new weight list
             this.setState({ weightList: weightHolder });

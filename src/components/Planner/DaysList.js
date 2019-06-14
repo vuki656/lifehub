@@ -1,22 +1,17 @@
 import React from "react";
-import moment from "moment";
 
-import { formatMoment } from "../../helpers/Planner";
+import { formatMoment } from "../../helpers/Global";
 
 import { Link } from "react-router-dom";
 
 class DaysList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            monthObjectList: this.props.monthObjectList,
-            currentMonth: this.props.currentMonth
-        };
-    }
+    state = {
+        monthObjectList: this.props.monthObjectList,
+        currentMonth: this.props.currentMonth
+    };
 
-    // Update state when props in parent(Planner) change
+    // Get parent props -> causes re-render
     static getDerivedStateFromProps(props) {
-        // Return in this lifecycle funct is same as normal setState
         return {
             monthObjectList: props.monthObjectList,
             currentMonth: props.currentMonth
@@ -54,15 +49,15 @@ class DaysList extends React.Component {
         const { monthObjectList, currentMonth } = this.state;
 
         return (
-            <div>
+            <React.Fragment>
                 <select
-                    defaultValue={moment(currentMonth.month).format("M/YY")}
+                    defaultValue={formatMoment(currentMonth.month, "M/YY")}
                     onChange={this.handleDropdownChange}
                 >
                     {this.displayMonths(monthObjectList)}
                 </select>
                 <div>{this.displayDays(currentMonth)}</div>
-            </div>
+            </React.Fragment>
         );
     }
 }
