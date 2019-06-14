@@ -68,7 +68,6 @@ class TodoCard extends React.Component {
 
     // Listen for reminder deletions
     addChangeTodoListener = ({ todoRef, currentUser, currentDay }) => {
-        console.log("in");
         todoRef
             .child(`${currentUser.uid}/${currentDay}`)
             .on("child_changed", () => {

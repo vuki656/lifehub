@@ -1,19 +1,20 @@
 import React from "react";
 import moment from "moment";
 import DatePicker from "react-datepicker";
-import firebase from "../../firebase/Auth";
+import firebase from "../../../firebase/Auth";
 import uuidv4 from "uuid/v4";
 
 import { Grid, Modal, Input, Button } from "semantic-ui-react";
 
-class ReminderModal extends React.Component {
+class AddReminderModal extends React.Component {
     state = {
-        startDate: moment().toDate(),
         endDate: null,
         modalOpen: false,
         reminder: "",
         reminderRef: firebase.database().ref("reminders"),
-        currentUser: firebase.auth().currentUser
+        currentUser: firebase.auth().currentUser,
+
+        startDate: this.props.currentDay
     };
 
     // Sends the reminder object to firebase
@@ -94,7 +95,7 @@ class ReminderModal extends React.Component {
     };
 
     render() {
-        const { startDate, modalOpen, endDate } = this.state;
+        const { startDate, modalOpen, endDate, currentDay } = this.state;
 
         return (
             <Modal
@@ -115,8 +116,8 @@ class ReminderModal extends React.Component {
                             <Grid.Column>
                                 <p>Start reminding me when</p>
                                 <DatePicker
-                                    minDate={startDate}
-                                    selected={startDate}
+                                    minDate={moment().toDate()}
+                                    selected={currentDay}
                                     dateFormat="dd/MM/yyyy"
                                     timeCaption="time"
                                     onChange={this.handleStartDate}
@@ -157,4 +158,4 @@ class ReminderModal extends React.Component {
     }
 }
 
-export default ReminderModal;
+export default AddReminderModal;

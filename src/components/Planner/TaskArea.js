@@ -2,8 +2,8 @@ import React from "react";
 
 import { Grid } from "semantic-ui-react";
 
-import TodoCard from "./TodoCard";
-import Reminders from "./Reminders";
+import TodoCard from "./Todos/TodoCard";
+import Reminders from "./Reminders/Reminders";
 
 class TaskArea extends React.Component {
     render() {

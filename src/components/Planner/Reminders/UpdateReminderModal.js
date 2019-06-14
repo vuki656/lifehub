@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import DatePicker from "react-datepicker";
-import firebase from "../../firebase/Auth";
+import firebase from "../../../firebase/Auth";
 
 import { Grid, Modal, Input, Button, Icon } from "semantic-ui-react";
 
@@ -98,7 +98,6 @@ class UpdateReminderModal extends React.Component {
 
     // Delete reminder from firebase
     deleteReminder = ({ reminderRef, currentUser, reminder }, dayTimestamp) => {
-        console.log("deleting");
         reminderRef
             .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)
             .remove()

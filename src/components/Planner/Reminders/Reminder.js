@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import firebase from "../../firebase/Auth";
+import firebase from "../../../firebase/Auth";
 
 import { List, Icon } from "semantic-ui-react";
 
@@ -17,8 +17,6 @@ class Reminder extends React.Component {
 
     // Get parent props -> causes re-render
     static getDerivedStateFromProps(props) {
-        console.log("triggered");
-
         return {
             reminder: props.reminder
         };

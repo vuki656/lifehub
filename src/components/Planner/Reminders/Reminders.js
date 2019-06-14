@@ -1,9 +1,9 @@
 import React from "react";
-import firebase from "../../firebase/Auth";
+import firebase from "../../../firebase/Auth";
 
 import { Grid, List } from "semantic-ui-react";
 
-import ReminderModal from "./ReminderModal";
+import AddReminderModal from "./AddReminderModal";
 import Reminder from "./Reminder";
 
 class Reminders extends React.Component {
@@ -66,7 +66,6 @@ class Reminders extends React.Component {
 
     // Listen for reminder deletions
     addChangeReminderListener = ({ remindersRef, currentUser, currentDay }) => {
-        console.log("in");
         remindersRef
             .child(`${currentUser.uid}/${currentDay}`)
             .on("child_changed", () => {
@@ -111,7 +110,7 @@ class Reminders extends React.Component {
                         <List>{this.renderReminders(this.state)}</List>
                     </Grid.Row>
                     <Grid.Row>
-                        <ReminderModal currentDay={currentDay} />
+                        <AddReminderModal currentDay={currentDay} />
                     </Grid.Row>
                 </Grid.Column>
             </Grid>
