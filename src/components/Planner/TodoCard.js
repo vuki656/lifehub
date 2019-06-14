@@ -9,37 +9,30 @@ class TodoCard extends React.Component {
     // Used to prevent setState calls after component umounts
     _isMounted = false;
 
-    constructor(props) {
-        super(props);
+    state = {
+        todo: "",
+        todoList: [],
+        todoRef: firebase.database().ref("todos"),
+        currentUser: firebase.auth().currentUser,
 
-        this.state = {
-            todo: "",
-            todoList: [],
-            todoRef: firebase.database().ref("todos"),
-            currentUser: firebase.auth().currentUser,
+        category: this.props.category,
+        currentDay: this.props.currentDay,
+        monthObjectList: this.props.monthObjectList
+    };
 
-            category: this.props.category,
-            currentDay: this.props.currentDay,
-            monthObjectList: this.props.monthObjectList
-        };
-
-        this.fetchTodos = this.fetchTodos.bind(this);
-    }
     componentDidMount() {
         this._isMounted = true;
-        this.fetchTodos();
+        this.fetchTodos(this.state);
         this.addListeners();
     }
 
     componentWillUnmount() {
-        this.removeListeners();
+        this.removeListeners(this.state);
         this._isMounted = false;
     }
 
     // Turn off db connections
-    removeListeners = () => {
-        const { todoRef, currentUser, currentDay } = this.state;
-
+    removeListeners = ({ todoRef, currentUser, currentDay }) => {
         todoRef.child(`${currentUser.uid}/${currentDay}/`).off();
     };
 
@@ -47,6 +40,7 @@ class TodoCard extends React.Component {
     addListeners = () => {
         this.addSetTodoListener(this.state);
         this.addRemoveTodoListener(this.state);
+        this.addChangeTodoListener(this.state);
     };
 
     // Listen for new todo inputs and set to the state so component re-renders
@@ -54,7 +48,7 @@ class TodoCard extends React.Component {
         todoRef
             .child(`${currentUser.uid}/${currentDay}/${[category]}`)
             .on("child_added", () => {
-                this.fetchTodos();
+                this.fetchTodos(this.state);
             });
     }
 
@@ -68,7 +62,17 @@ class TodoCard extends React.Component {
         todoRef
             .child(`${currentUser.uid}/${currentDay}/${[category]}`)
             .on("child_removed", () => {
-                this.fetchTodos();
+                this.fetchTodos(this.state);
+            });
+    };
+
+    // Listen for reminder deletions
+    addChangeTodoListener = ({ todoRef, currentUser, currentDay }) => {
+        console.log("in");
+        todoRef
+            .child(`${currentUser.uid}/${currentDay}`)
+            .on("child_changed", () => {
+                this.fetchTodos(this.state);
             });
     };
 
@@ -98,8 +102,7 @@ class TodoCard extends React.Component {
     };
 
     // Fetches todos from firebase
-    fetchTodos = () => {
-        const { currentUser, todoRef, category, currentDay } = this.state;
+    fetchTodos = ({ currentUser, todoRef, category, currentDay }) => {
         let todoHolder = [];
 
         todoRef
@@ -133,7 +136,6 @@ class TodoCard extends React.Component {
         todoList.map(todo => (
             <Grid.Row key={todo.key}>
                 <Todo
-                    fetchTodos={this.fetchTodos}
                     todo={todo}
                     currentDay={currentDay}
                     category={category}

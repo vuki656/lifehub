@@ -50,7 +50,6 @@ class Todo extends React.Component {
                 value: newTodo,
                 key: todo.key
             })
-            .then(this.props.fetchTodos())
             .catch(error => console.error(error));
     };
 
@@ -66,7 +65,6 @@ class Todo extends React.Component {
         todoRef
             .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
             .update({ isChecked: !isChecked })
-            .then(() => this.props.fetchTodos())
             .catch(error => console.error(error));
     };
 

@@ -15,7 +15,16 @@ class Reminder extends React.Component {
         reminder: this.props.reminder
     };
 
-    // Iterate trough days where reminder active and remove it from each
+    // Get parent props -> causes re-render
+    static getDerivedStateFromProps(props) {
+        console.log("triggered");
+
+        return {
+            reminder: props.reminder
+        };
+    }
+
+    // Iterate trough days where reminder stored and remove it from each
     removeReminder = ({ currentUser, reminder, remindersRef }) => {
         let startDate = moment(reminder.startDate).toDate();
         let endDate = moment(reminder.endDate).toDate();

@@ -25,30 +25,20 @@ class Reminders extends React.Component {
     }
 
     componentWillUnmount() {
-        this.removeListeners();
+        this.removeListeners(this.state);
         this._isMounted = false;
     }
 
     // Turn off db connections
-    removeListeners = () => {
-        const { remindersRef, currentUser, currentDay } = this.state;
-
+    removeListeners = ({ remindersRef, currentUser, currentDay }) => {
         remindersRef.child(`${currentUser.uid}/${currentDay}/`).off();
     };
 
     // Listen for db changes
     addListeners = () => {
         this.addSetReminderListener(this.state);
-        this.addRemoveTodoListener(this.state);
-    };
-
-    // Listen for reminder deletions
-    addRemoveTodoListener = ({ remindersRef, currentUser, currentDay }) => {
-        remindersRef
-            .child(`${currentUser.uid}/${currentDay}`)
-            .on("child_removed", () => {
-                this.fetchReminders(this.state);
-            });
+        this.addRemoveReminderListener(this.state);
+        this.addChangeReminderListener(this.state);
     };
 
     // Listen for new reminder inputs and set to the state so component re-renders
@@ -64,6 +54,25 @@ class Reminders extends React.Component {
                 this.fetchReminders(this.state);
             });
     }
+
+    // Listen for reminder deletions
+    addRemoveReminderListener = ({ remindersRef, currentUser, currentDay }) => {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}`)
+            .on("child_removed", () => {
+                this.fetchReminders(this.state);
+            });
+    };
+
+    // Listen for reminder deletions
+    addChangeReminderListener = ({ remindersRef, currentUser, currentDay }) => {
+        console.log("in");
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}`)
+            .on("child_changed", () => {
+                this.fetchReminders(this.state);
+            });
+    };
 
     // Fetches reminders from firebase
     fetchReminders = ({ currentUser, remindersRef, currentDay }) => {
