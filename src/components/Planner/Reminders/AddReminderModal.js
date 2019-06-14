@@ -84,6 +84,19 @@ class AddReminderModal extends React.Component {
         }
     };
 
+    // Check if selelcted end date is before start date
+    // If yes, return start date
+    // If no, return end date
+    getEndingDate = () => {
+        const { startDate, endDate } = this.state;
+
+        if (moment(endDate).isBefore(startDate)) {
+            return startDate;
+        } else {
+            return endDate;
+        }
+    };
+
     // Set the state vale of reminder
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
@@ -107,8 +120,16 @@ class AddReminderModal extends React.Component {
         this.setState({ modalOpen: true });
     };
 
+    resetReminderFields = () => {
+        this.setState({
+            reminder: "",
+            startDate: this.props.currentDay,
+            endDate: ""
+        });
+    };
+
     render() {
-        const { startDate, modalOpen, endDate } = this.state;
+        const { startDate, modalOpen, reminder } = this.state;
 
         return (
             <Modal
@@ -123,6 +144,7 @@ class AddReminderModal extends React.Component {
                                 <Input
                                     name="reminder"
                                     onChange={this.handleChange}
+                                    value={reminder}
                                     placeholder="Marketing meeting"
                                 />
                             </Grid.Column>
@@ -140,7 +162,7 @@ class AddReminderModal extends React.Component {
                                 <p>Remind untill</p>
                                 <DatePicker
                                     minDate={startDate}
-                                    selected={this.getStartingDate()}
+                                    selected={this.getEndingDate()}
                                     onChange={this.handleEndDate}
                                     showTimeSelect
                                     timeFormat="HH:mm"
@@ -158,7 +180,9 @@ class AddReminderModal extends React.Component {
                                 >
                                     Save
                                 </Button>
-                                <Button>Reset</Button>
+                                <Button onClick={this.resetReminderFields}>
+                                    Reset
+                                </Button>
                                 <Button secondary onClick={this.closeModal}>
                                     Cancel
                                 </Button>

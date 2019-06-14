@@ -132,6 +132,10 @@ class UpdateReminderModal extends React.Component {
         }
     };
 
+    resetReminderText = () => {
+        this.setState({ newReminderText: this.props.reminder.reminder });
+    };
+
     // Set the state vale of reminder
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
@@ -156,7 +160,7 @@ class UpdateReminderModal extends React.Component {
     };
 
     render() {
-        const { reminder, modalOpen, newStartDate } = this.state;
+        const { modalOpen, newStartDate, newReminderText } = this.state;
 
         return (
             <Modal
@@ -179,7 +183,7 @@ class UpdateReminderModal extends React.Component {
                                     name="newReminderText"
                                     onChange={this.handleChange}
                                     placeholder="Marketing meeting"
-                                    defaultValue={reminder.reminder}
+                                    value={newReminderText}
                                 />
                             </Grid.Column>
                             <Grid.Column>
@@ -214,7 +218,9 @@ class UpdateReminderModal extends React.Component {
                                 >
                                     Save
                                 </Button>
-                                <Button>Reset</Button>
+                                <Button onClick={this.resetReminderText}>
+                                    Reset Reminder Text
+                                </Button>
                                 <Button secondary onClick={this.closeModal}>
                                     Cancel
                                 </Button>
