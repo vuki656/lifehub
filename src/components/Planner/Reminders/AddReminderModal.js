@@ -71,6 +71,19 @@ class AddReminderModal extends React.Component {
             });
     };
 
+    // Check if selected date is before today
+    // If yes, use today
+    // If no, use selected day's date
+    getStartingDate = () => {
+        const { startDate } = this.state;
+
+        if (moment(startDate).isBefore(moment())) {
+            return moment().toDate();
+        } else {
+            return startDate;
+        }
+    };
+
     // Set the state vale of reminder
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
@@ -95,7 +108,7 @@ class AddReminderModal extends React.Component {
     };
 
     render() {
-        const { startDate, modalOpen, endDate, currentDay } = this.state;
+        const { startDate, modalOpen, endDate } = this.state;
 
         return (
             <Modal
@@ -117,7 +130,7 @@ class AddReminderModal extends React.Component {
                                 <p>Start reminding me when</p>
                                 <DatePicker
                                     minDate={moment().toDate()}
-                                    selected={currentDay}
+                                    selected={this.getStartingDate()}
                                     dateFormat="dd/MM/yyyy"
                                     timeCaption="time"
                                     onChange={this.handleStartDate}
@@ -127,7 +140,7 @@ class AddReminderModal extends React.Component {
                                 <p>Remind untill</p>
                                 <DatePicker
                                     minDate={startDate}
-                                    selected={endDate}
+                                    selected={this.getStartingDate()}
                                     onChange={this.handleEndDate}
                                     showTimeSelect
                                     timeFormat="HH:mm"

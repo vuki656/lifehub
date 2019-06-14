@@ -106,6 +106,32 @@ class UpdateReminderModal extends React.Component {
             });
     };
 
+    // Check if selected start date is before today
+    // If yes, use today
+    // If no, use selected day's date
+    getStartingDate = () => {
+        const { newStartDate } = this.state;
+
+        if (moment(newStartDate).isBefore(moment())) {
+            return moment().toDate();
+        } else {
+            return newStartDate;
+        }
+    };
+
+    // Check if selelcted end date is before start date
+    // If yes, return start date
+    // If no, return end date
+    getEndingDate = () => {
+        const { newEndDate, newStartDate } = this.state;
+
+        if (moment(newEndDate).isBefore(newStartDate)) {
+            return newStartDate;
+        } else {
+            return newEndDate;
+        }
+    };
+
     // Set the state vale of reminder
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
@@ -130,7 +156,7 @@ class UpdateReminderModal extends React.Component {
     };
 
     render() {
-        const { reminder, modalOpen, newStartDate, newEndDate } = this.state;
+        const { reminder, modalOpen, newStartDate } = this.state;
 
         return (
             <Modal
@@ -160,7 +186,7 @@ class UpdateReminderModal extends React.Component {
                                 <p>Start reminding me when</p>
                                 <DatePicker
                                     minDate={moment().toDate()}
-                                    selected={newStartDate}
+                                    selected={this.getStartingDate()}
                                     dateFormat="dd/MM/yyyy"
                                     timeCaption="time"
                                     onChange={this.handleStartDate}
@@ -170,7 +196,7 @@ class UpdateReminderModal extends React.Component {
                                 <p>Remind untill</p>
                                 <DatePicker
                                     minDate={moment(newStartDate).toDate()}
-                                    selected={newEndDate}
+                                    selected={this.getEndingDate()}
                                     onChange={this.handleEndDate}
                                     showTimeSelect
                                     timeFormat="HH:mm"
