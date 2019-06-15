@@ -10,56 +10,67 @@ import WeightChart from "./WeightChart";
 class Weight extends React.Component {
     state = {
         currentUser: firebase.auth().currentUser,
-        dbRef: firebase.database().ref(),
+        weightRef: firebase.database().ref("weight"),
         weightList: [],
         firstWeightEntry: 0
     };
 
     componentDidMount() {
         this.fetchWeightData();
+        this.addListeners(this.state);
+    }
+
+    addListeners = () => {
         this.addWeightListener(this.state);
-    }
+        this.addRemoveWeightListener(this.state);
+    };
 
-    // Listen for new weight inputs and add them to state
-    addWeightListener({ currentUser }) {
-        let weightHolder = [];
+    // Listen for new weight inputs
+    addWeightListener = ({ currentUser, weightRef }) => {
+        weightRef.child(currentUser.uid).on("child_added", () => {
+            this.fetchWeightData();
+        });
+    };
 
-        firebase
-            .database()
-            .ref()
-            .child("weight/" + currentUser.uid)
-            .on("child_added", snapshot => {
-                let date = snapshot.val().date;
-                let weight = snapshot.val().weight;
-                weightHolder.push({ date, weight });
-                this.setState({ weightList: weightHolder });
-            });
-    }
+    // Listen for new weight deletions
+    addRemoveWeightListener = ({ currentUser, weightRef }) => {
+        weightRef.child(currentUser.uid).on("child_removed", () => {
+            this.fetchWeightData();
+        });
+    };
 
     // Fetches weight data from firebase
     fetchWeightData = () => {
-        const { currentUser, dbRef } = this.state;
+        const { currentUser, weightRef } = this.state;
         let weightHolder = [];
         let previousWeight = "";
 
-        dbRef.child("weight/" + currentUser.uid).once("value", snapshot => {
+        weightRef.child(currentUser.uid).once("value", snapshot => {
             snapshot.forEach(child => {
                 let date = child.val().date;
                 let weight = child.val().weight;
+                let key = child.val().key;
 
-                weightHolder.push({ date, weight, previousWeight });
+                weightHolder.push({ date, weight, previousWeight, key });
                 previousWeight = weight; // Store the previous weight for weight diff column
             });
-            // Update the state with new weight list
-            this.setState({ weightList: weightHolder });
 
             // Grab the first weight entry
-            let firstWeightEntry = this.state.weightList[0];
-            if (firstWeightEntry) {
-                this.setState({
-                    firstWeightEntry: firstWeightEntry.weight
+            let firstWeightEntry = 0;
+            weightRef
+                .child(currentUser.uid)
+                .orderByKey()
+                .limitToFirst(1)
+                .once("value", snap => {
+                    snap.forEach(child => {
+                        firstWeightEntry = child.val().weight;
+                    });
                 });
-            }
+
+            this.setState({
+                weightList: weightHolder,
+                firstWeightEntry: firstWeightEntry
+            });
         });
     };
 

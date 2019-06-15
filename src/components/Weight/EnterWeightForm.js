@@ -9,7 +9,7 @@ class EnterWeightForm extends React.Component {
         currentUser: firebase.auth().currentUser,
         weightRef: firebase.database().ref("weight"),
         weight: "",
-        date: moment().unix(),
+        currentDay: moment().valueOf(),
         error: ""
     };
 
@@ -55,16 +55,26 @@ class EnterWeightForm extends React.Component {
 
     // Sends the weight and date object to firebase
     handleSubmit = () => {
-        const { weight, date, weightRef, currentUser } = this.state;
+        const { weight, currentDay, weightRef, currentUser } = this.state;
+        let pushRef = weightRef.child(currentUser.uid);
 
         if (this.checkWeightFormat(weight)) {
-            weightRef
-                .child(currentUser.uid)
+            pushRef
+                .child(`${currentUser.uid}`)
                 .push()
-                .set({ weight: weight, date: date })
-                .catch(err => {
-                    console.error(err);
+                .then(snapshot => {
+                    pushRef
+                        .child(snapshot.key)
+                        .set({
+                            weight: weight,
+                            date: currentDay,
+                            key: snapshot.key
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        });
                 });
+
             this.clearForm();
         }
     };
