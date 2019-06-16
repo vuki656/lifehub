@@ -7,7 +7,7 @@ import { formatMoment } from "../../helpers/Global";
 
 class WeightTableRow extends React.Component {
     state = {
-        weightRef: firebase.database().ref("weight"),
+        weightRef: firebase.database().ref("weight-entries"),
         currentUser: firebase.auth().currentUser,
 
         weightEntry: this.props.weightEntry,

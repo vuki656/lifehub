@@ -8,40 +8,62 @@ import WeightTable from "./WeightTable";
 import WeightChart from "./WeightChart";
 
 class Weight extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     state = {
         currentUser: firebase.auth().currentUser,
-        weightRef: firebase.database().ref("weight"),
+        weightRef: firebase.database().ref("weight-entries"),
         weightList: [],
         firstWeightEntry: 0
     };
 
     componentDidMount() {
-        this.fetchWeightData();
+        this._isMounted = true;
+
+        this.fetchWeightData(this.state);
         this.addListeners(this.state);
+    }
+
+    componentWillUnmount() {
+        this.removeListeners(this.state);
+
+        this._isMounted = false;
     }
 
     addListeners = () => {
         this.addWeightListener(this.state);
         this.addRemoveWeightListener(this.state);
+        this.addUpdateWeightListener(this.state);
+    };
+
+    removeListeners = ({ weightRef, currentUser }) => {
+        weightRef.child(`${currentUser.uid}`).off();
     };
 
     // Listen for new weight inputs
     addWeightListener = ({ currentUser, weightRef }) => {
         weightRef.child(currentUser.uid).on("child_added", () => {
-            this.fetchWeightData();
+            this.fetchWeightData(this.state);
         });
     };
 
     // Listen for new weight deletions
     addRemoveWeightListener = ({ currentUser, weightRef }) => {
         weightRef.child(currentUser.uid).on("child_removed", () => {
-            this.fetchWeightData();
+            this.fetchWeightData(this.state);
+        });
+    };
+
+    // Listen for new weight updates
+    addUpdateWeightListener = ({ currentUser, weightRef }) => {
+        weightRef.child(currentUser.uid).on("child_changed", () => {
+            this.fetchWeightData(this.state);
         });
     };
 
     // Fetches weight data from firebase
-    fetchWeightData = () => {
-        const { currentUser, weightRef } = this.state;
+    fetchWeightData = ({ currentUser, weightRef }) => {
         let weightHolder = [];
         let previousWeight = "";
 
@@ -81,8 +103,8 @@ class Weight extends React.Component {
             <Grid columns="equal">
                 <Grid.Row>
                     <Grid.Column>
-                        <p>Data Entry History</p>
                         <EnterWeightForm />
+                        <p>Data Entry History</p>
                         <WeightTable
                             weightList={weightList}
                             firstWeightEntry={firstWeightEntry}

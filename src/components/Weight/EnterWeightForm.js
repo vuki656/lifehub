@@ -7,7 +7,7 @@ import { Form, Button, Message } from "semantic-ui-react";
 class EnterWeightForm extends React.Component {
     state = {
         currentUser: firebase.auth().currentUser,
-        weightRef: firebase.database().ref("weight"),
+        weightRef: firebase.database().ref("weight-entries"),
         weight: "",
         currentDay: moment().valueOf(),
         error: ""
