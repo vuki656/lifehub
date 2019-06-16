@@ -5,8 +5,6 @@ import moment from "moment";
 
 import { Segment, TextArea, Form, Button, Input } from "semantic-ui-react";
 
-import { formatMoment } from "../../helpers/Global";
-
 class EntryField extends React.Component {
     state = {
         currentUser: firebase.auth().currentUser,

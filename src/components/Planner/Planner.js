@@ -5,7 +5,7 @@ import firebase from "../../firebase/Auth";
 import { formatMoment } from "../../helpers/Global";
 
 import { Grid } from "semantic-ui-react";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import TaskArea from "./TaskArea";
 import DaysList from "./DaysList";
@@ -43,6 +43,21 @@ class Planner extends React.Component {
         });
     };
 
+    // Checks if current month is month user registered,
+    // If yes, return register day so counter can count
+    // from it to end of the month
+    // Else, return 1 so it starts from beggining of month
+    getStartingIndex = (momentMonthObject, regDate) => {
+        if (
+            moment(momentMonthObject).format("MM/YY") ===
+            moment(regDate).format("MM/YY")
+        ) {
+            return moment(regDate).format("DD");
+        } else {
+            return 1;
+        }
+    };
+
     // Generate day-month structure
     // FORMAT:
     //      [monthObject1: {
@@ -60,12 +75,23 @@ class Planner extends React.Component {
             let month = moment(momentMonthObject).format("MM");
             let daysOfMonthList = [];
 
+            let countStart = this.getStartingIndex(momentMonthObject, regDate);
+
             // Iterate trough days in month
-            for (let i = 1; i < daysInMonthAmount + 1; i++) {
+            for (let i = countStart; i < daysInMonthAmount + 1; i++) {
                 daysOfMonthList.push(
                     moment(`${i}-${month}-${year}`, "DD/MM/YYYY")
                 );
             }
+
+            // if (
+            //     moment(`${i}-${month}-${year}`, "MM/YY") ===
+            //     moment(regDate).format("MM/YY")
+            // ) {
+            // } else {
+            // }
+
+            // var a = moment().endOf("month");
 
             monthObjectList.push({
                 month: monthList[index],

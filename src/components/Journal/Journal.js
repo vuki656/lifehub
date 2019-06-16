@@ -104,7 +104,7 @@ class Journal extends React.Component {
         });
     };
 
-    generateEntryRoutes = ({ journalEntries }) =>
+    generateJournalEntryRoutes = ({ journalEntries }) =>
         journalEntries.map(journalEntry => (
             <Route
                 key={journalEntry.key}
@@ -130,7 +130,7 @@ class Journal extends React.Component {
                         <EntryList journalEntries={journalEntries} />
                     </Grid.Column>
                     <Grid.Column width={13}>
-                        {this.generateEntryRoutes(this.state)}
+                        {this.generateJournalEntryRoutes(this.state)}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
