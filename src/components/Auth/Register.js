@@ -28,6 +28,12 @@ class Register extends React.Component {
                     this.state.email,
                     this.state.password
                 )
+                .then(createdUser => {
+                    createdUser.user.updateProfile({
+                        displayName: this.state.username
+                    });
+                    console.log("username set");
+                })
                 .then(UserCredential => {
                     this.saveRegDate(UserCredential.user);
                 })

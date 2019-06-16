@@ -84,15 +84,6 @@ class Planner extends React.Component {
                 );
             }
 
-            // if (
-            //     moment(`${i}-${month}-${year}`, "MM/YY") ===
-            //     moment(regDate).format("MM/YY")
-            // ) {
-            // } else {
-            // }
-
-            // var a = moment().endOf("month");
-
             monthObjectList.push({
                 month: monthList[index],
                 daysList: daysOfMonthList
