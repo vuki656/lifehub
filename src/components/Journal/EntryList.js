@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 
 import { List } from "semantic-ui-react";
 import { Link } from "react-router-dom";

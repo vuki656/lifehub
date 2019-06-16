@@ -3,29 +3,10 @@ import firebase from "../../firebase/Auth";
 import moment from "moment";
 
 import { Grid, Button } from "semantic-ui-react";
-import { Route, BrowserRouter as Router, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import EntryList from "./EntryList";
 import EntryField from "./EntryField";
-
-const routes = [
-    {
-        path: "/",
-        exact: true,
-        sidebar: () => <div>home!</div>,
-        main: () => <h2>Home</h2>
-    },
-    {
-        path: "/bubblegum",
-        sidebar: () => <div>bubblegum!</div>,
-        main: () => <h2>Bubblegum</h2>
-    },
-    {
-        path: "/shoelaces",
-        sidebar: () => <div>shoelaces!</div>,
-        main: () => <h2>Shoelaces</h2>
-    }
-];
 
 class Journal extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -93,8 +74,9 @@ class Journal extends React.Component {
                 let key = child.val().key;
                 let title = child.val().title;
                 let text = child.val().text;
+                let createdAt = child.val().createdAt;
 
-                journalEntryHolder.push({ key, title, text });
+                journalEntryHolder.push({ key, title, text, createdAt });
             });
             this.setState({
                 journalEntries: journalEntryHolder
