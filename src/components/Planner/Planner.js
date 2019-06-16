@@ -5,7 +5,7 @@ import firebase from "../../firebase/Auth";
 import { formatMoment } from "../../helpers/Global";
 
 import { Grid } from "semantic-ui-react";
-import { Route } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 
 import TaskArea from "./TaskArea";
 import DaysList from "./DaysList";
@@ -27,7 +27,11 @@ class Planner extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ currentDay: moment().valueOf() });
+        this.setState({
+            currentDay: moment()
+                .startOf("day")
+                .valueOf()
+        });
         this.fetchRegDate(this.state);
     }
 
@@ -35,7 +39,7 @@ class Planner extends React.Component {
     fetchRegDate = ({ currentUser, usersRef }) => {
         usersRef.child(currentUser.uid).once("value", snapshot => {
             let regDate = snapshot.val().regDate; // Moment timestamp of time when user registered
-            this.generateMonthDayStructure(regDate);
+            this.generateMonthDayStructure(regDate, this.state);
         });
     };
 
@@ -45,7 +49,7 @@ class Planner extends React.Component {
     //          month: momentObject for each month
     //          daysList: [momentObject for each day]
     //      }]
-    generateMonthDayStructure = regDate => {
+    generateMonthDayStructure = (regDate, { currentDay }) => {
         let monthObjectList = []; // Holds the full day & month structure
         let monthList = this.generateMonths(regDate);
 
@@ -73,7 +77,13 @@ class Planner extends React.Component {
         });
 
         let currentMonth = this.findCurrentMonthInList(monthObjectList);
-        this.setState({ monthObjectList, currentMonth });
+
+        // Redirect user to current days planner page after getting data
+        this.setState({ monthObjectList, currentMonth }, () => {
+            this.props.history.push(
+                `/planner/${moment(currentDay).format("DD/MM/YYYY")}`
+            );
+        });
     };
 
     // Generate next 12 months from user reg date
