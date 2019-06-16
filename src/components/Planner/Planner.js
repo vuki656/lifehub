@@ -38,7 +38,7 @@ class Planner extends React.Component {
     // Fetches weight data from firebase
     fetchRegDate = ({ currentUser, usersRef }) => {
         usersRef.child(currentUser.uid).once("value", snapshot => {
-            let regDate = snapshot.val().regDate; // Moment timestamp of time when user registered
+            let regDate = snapshot.val().regDate; // Moment timestamp user register date
             this.generateMonthDayStructure(regDate, this.state);
         });
     };
@@ -56,6 +56,38 @@ class Planner extends React.Component {
         } else {
             return 1;
         }
+    };
+
+    // After each month passes, add one aditional month to
+    // be generated in month list so that you always have
+    // one year from now available in the planner
+    getMonthsToGenerateNo = regDate => {
+        return 12 + moment().diff(regDate, "months");
+    };
+
+    // Generate next 12 months from user reg date
+    generateMonths = regDate => {
+        let monthList = [];
+
+        let noOfMonthsToGenerate = this.getMonthsToGenerateNo(regDate);
+
+        for (let i = 0; i < noOfMonthsToGenerate; i++) {
+            monthList.push(moment(regDate).add(i, "month"));
+        }
+        return monthList;
+    };
+
+    // Gets the current month in monthObjectList
+    findCurrentMonthInList = monthObjectList => {
+        let currentMonth = moment().format("M/YY");
+        let foundMonth = null;
+        monthObjectList.forEach(monthObject => {
+            if (currentMonth === formatMoment(monthObject.month, "M/YY")) {
+                foundMonth = monthObject;
+            }
+        });
+
+        return foundMonth;
     };
 
     // Generate day-month structure
@@ -101,28 +133,6 @@ class Planner extends React.Component {
                 `/planner/${moment(currentDay).format("DD/MM/YYYY")}`
             );
         });
-    };
-
-    // Generate next 12 months from user reg date
-    generateMonths = regDate => {
-        let monthList = [];
-        for (let i = 0; i < 12; i++) {
-            monthList.push(moment(regDate).add(i, "month"));
-        }
-        return monthList;
-    };
-
-    // Gets the current month in monthObjectList
-    findCurrentMonthInList = monthObjectList => {
-        let currentMonth = moment().format("M/YY");
-        let foundMonth = null;
-        monthObjectList.forEach(monthObject => {
-            if (currentMonth === formatMoment(monthObject.month, "M/YY")) {
-                foundMonth = monthObject;
-            }
-        });
-
-        return foundMonth;
     };
 
     // Select new month from monthObjectList

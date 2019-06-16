@@ -27,7 +27,6 @@ class TopMenu extends React.Component {
                     <Menu.Item>LifeHub</Menu.Item>
                 </Menu.Menu>
                 <Menu.Menu position="right">
-                    {console.log("i rendered")}
                     <Menu.Item>{currentUser.displayName}</Menu.Item>
                     <Menu.Item name="logout" onClick={this.handleSignOut} />
                 </Menu.Menu>

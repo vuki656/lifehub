@@ -32,10 +32,7 @@ class Register extends React.Component {
                     createdUser.user.updateProfile({
                         displayName: this.state.username
                     });
-                    console.log("username set");
-                })
-                .then(UserCredential => {
-                    this.saveRegDate(UserCredential.user);
+                    this.saveRegDate(createdUser.user);
                 })
                 .catch(error => {
                     console.error(error);
