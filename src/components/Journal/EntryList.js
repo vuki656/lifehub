@@ -1,8 +1,10 @@
 import React from "react";
 import moment from "moment";
 
-import { Menu } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+
+import { formatMoment } from "../../helpers/Global";
 
 class EntryList extends React.Component {
     state = {
@@ -19,20 +21,29 @@ class EntryList extends React.Component {
     // Display list of journal entries
     displayJournalEntryList = ({ journalEntries }) => {
         return journalEntries.map(journalEntry => (
-            <Menu.Item
+            <List.Item
                 as={Link}
                 to={`/journal/${journalEntry.key}`}
                 key={journalEntry.key}
             >
-                <p> {moment(journalEntry.createdAt).format("DD/MM/YYYY")}</p>
-            </Menu.Item>
+                <List.Icon name="book" size="small" verticalAlign="middle" />
+                <List.Content>
+                    <List.Header>{journalEntry.title}</List.Header>
+                    <List.Description>
+                        <p>
+                            Created at:{" "}
+                            {formatMoment(journalEntry.createdAt, "DD/MM/YYYY")}
+                        </p>
+                    </List.Description>
+                </List.Content>
+            </List.Item>
         ));
     };
     render() {
         return (
-            <React.Fragment>
-                <Menu vertical>{this.displayJournalEntryList(this.state)}</Menu>
-            </React.Fragment>
+            <List divided relaxed>
+                {this.displayJournalEntryList(this.state)}
+            </List>
         );
     }
 }

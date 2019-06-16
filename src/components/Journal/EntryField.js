@@ -1,4 +1,7 @@
 import React from "react";
+
+import { Segment, TextArea, Form } from "semantic-ui-react";
+
 import { formatMoment } from "../../helpers/Global";
 
 class EntryField extends React.Component {
@@ -10,11 +13,21 @@ class EntryField extends React.Component {
         const { journalEntry } = this.state;
 
         return (
-            <div>
-                <p>{journalEntry.title}</p>
-                <p>{formatMoment(journalEntry.createdAt, "DD/MM/YYYY")}</p>
-                <p>{journalEntry.text}</p>
-            </div>
+            <React.Fragment>
+                <Segment>{journalEntry.title}</Segment>
+                <Segment>
+                    {formatMoment(journalEntry.createdAt, "DD/MM/YYYY")}
+                </Segment>
+                <Segment style={{ minHeight: 200 }}>
+                    <Form>
+                        <TextArea
+                            rows={10}
+                            style={{ minHeight: 300 }}
+                            value={journalEntry.text}
+                        />
+                    </Form>
+                </Segment>
+            </React.Fragment>
         );
     }
 }
