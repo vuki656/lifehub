@@ -16,7 +16,6 @@ class EntryField extends React.Component {
         journalEntry: this.props.journalEntry
     };
 
-    // Get parent props -> causes re-render
     static getDerivedStateFromProps(props) {
         return {
             journalEntry: props.journalEntry

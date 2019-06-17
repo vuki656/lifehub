@@ -14,7 +14,6 @@ class WeightTableRow extends React.Component {
         firstWeightEntry: this.props.firstWeightEntry
     };
 
-    // Get parent props -> causes re-render
     static getDerivedStateFromProps(props) {
         return {
             weightEntry: props.weightEntry,

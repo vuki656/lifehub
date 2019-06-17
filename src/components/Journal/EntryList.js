@@ -10,7 +10,6 @@ class EntryList extends React.Component {
         journalEntries: this.props.journalEntries
     };
 
-    // Get parent props -> causes re-render
     static getDerivedStateFromProps(props) {
         return {
             journalEntries: props.journalEntries

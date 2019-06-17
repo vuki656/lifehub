@@ -10,7 +10,6 @@ class DaysList extends React.Component {
         currentMonth: this.props.currentMonth
     };
 
-    // Get parent props -> causes re-render
     static getDerivedStateFromProps(props) {
         return {
             monthObjectList: props.monthObjectList,

@@ -17,7 +17,6 @@ class Reminder extends React.Component {
         reminder: this.props.reminder
     };
 
-    // Get parent props -> causes re-render
     static getDerivedStateFromProps(props) {
         return {
             reminder: props.reminder
