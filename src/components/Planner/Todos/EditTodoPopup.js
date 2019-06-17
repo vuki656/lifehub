@@ -4,6 +4,7 @@ import moment from "moment";
 
 import { Popup, Grid, Input, Icon } from "semantic-ui-react";
 
+import { checkIfIsDayBeingSavedTo } from "../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class EditTodoPopup extends React.Component {
@@ -54,12 +55,7 @@ class EditTodoPopup extends React.Component {
             // Get selected week days string from firebase and convert to array
             let selectedWeekDaysList = todo.repeatingOn.split(",");
 
-            if (
-                this.props.checkIfIsDayBeingSavedTo(
-                    startDate,
-                    selectedWeekDaysList
-                )
-            ) {
+            if (checkIfIsDayBeingSavedTo(startDate, selectedWeekDaysList)) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
                 todoRef
                     .child(

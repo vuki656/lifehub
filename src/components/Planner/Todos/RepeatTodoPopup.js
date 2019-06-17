@@ -4,6 +4,7 @@ import moment from "moment";
 
 import { Popup, Grid, Icon, Button, Dropdown } from "semantic-ui-react";
 
+import { checkIfIsDayBeingSavedTo } from "../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 import {
@@ -42,9 +43,6 @@ class RepeatTodoPopup extends React.Component {
             typeOfRepeating,
             selectedWeekDays
         } = this.state;
-
-        console.log("in");
-        console.log(typeOfRepeating);
 
         switch (typeOfRepeating) {
             case "every-day":
@@ -86,9 +84,7 @@ class RepeatTodoPopup extends React.Component {
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
-            if (
-                this.props.checkIfIsDayBeingSavedTo(startDate, selectedWeekDays)
-            ) {
+            if (checkIfIsDayBeingSavedTo(startDate, selectedWeekDays)) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
                 let repeatingDaysString = selectedWeekDays.toString();
 
@@ -124,7 +120,6 @@ class RepeatTodoPopup extends React.Component {
 
     // Set the repeaeting todo type to state
     handleDropdownChange = (event, value) => {
-        console.log(value.value);
         this.setState({ typeOfRepeating: value.value });
     };
 
@@ -171,7 +166,6 @@ class RepeatTodoPopup extends React.Component {
                                     onChange={this.handleDropdownChange}
                                 />
                             </Grid.Row>
-                            {console.log(typeOfRepeating)}
                             {typeOfRepeating === "every-x-day-of-week" && (
                                 <Grid.Row>
                                     <Dropdown

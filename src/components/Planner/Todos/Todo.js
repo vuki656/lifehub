@@ -10,26 +10,17 @@ import RepeatTodoPopup from "./RepeatTodoPopup";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class Todo extends React.Component {
-    constructor(props) {
-        super(props);
+    state = {
+        todoRef: firebase.database().ref("todos"),
+        currentUser: firebase.auth().currentUser,
+        usersRef: firebase.database().ref("users"),
+        generateUntillDate: null,
 
-        this.state = {
-            todoRef: firebase.database().ref("todos"),
-            currentUser: firebase.auth().currentUser,
-            usersRef: firebase.database().ref("users"),
-            generateUntillDate: null,
-
-            selectedWeekDays: this.props.todo.repeatingOn,
-            todo: this.props.todo,
-            currentDay: this.props.currentDay,
-            category: this.props.category,
-            isChecked: this.props.isChecked
-        };
-
-        this.checkIfIsDayBeingSavedTo = this.checkIfIsDayBeingSavedTo.bind(
-            this
-        );
-    }
+        todo: this.props.todo,
+        currentDay: this.props.currentDay,
+        category: this.props.category,
+        isChecked: this.props.isChecked
+    };
 
     static getDerivedStateFromProps(props) {
         return {
@@ -109,18 +100,6 @@ class Todo extends React.Component {
             .catch(error => console.error(error));
     };
 
-    // Check if itterating date is in selected week days
-    // Used to determin in which days to save todo
-    checkIfIsDayBeingSavedTo = (dateToCheck, selectedWeekDays) => {
-        let dayOfWeek = moment(dateToCheck).format("dddd");
-
-        if (selectedWeekDays.includes(dayOfWeek)) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
     // Fetch date to generate months untill from firebase
     // Used to determin untill when to set repeating todos
     getGenerateUntillDate = ({ usersRef, currentUser }) => {
@@ -157,14 +136,12 @@ class Todo extends React.Component {
                     category={category}
                     currentDay={currentDay}
                     generateUntillDate={generateUntillDate}
-                    checkIfIsDayBeingSavedTo={this.checkIfIsDayBeingSavedTo}
                 />
                 <RepeatTodoPopup
                     todo={todo}
                     category={category}
                     currentDay={currentDay}
                     generateUntillDate={generateUntillDate}
-                    checkIfIsDayBeingSavedTo={this.checkIfIsDayBeingSavedTo}
                 />
             </React.Fragment>
         );
