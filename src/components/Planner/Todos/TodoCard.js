@@ -96,7 +96,8 @@ class TodoCard extends React.Component {
                         isChecked: false,
                         key: snapshot.key,
                         createdAt: createdAt,
-                        isRepeating: false
+                        isRepeating: false,
+                        repeatingOn: ""
                     });
                 })
                 .then(this.clearForm())
@@ -119,12 +120,15 @@ class TodoCard extends React.Component {
                     let isChecked = child.val().isChecked;
                     let createdAt = child.val().createdAt;
                     let isRepeating = child.val().isRepeating;
+                    let repeatingOn = child.val().repeatingOn;
+
                     todoHolder.push({
                         value,
                         isChecked,
                         key,
                         createdAt,
-                        isRepeating
+                        isRepeating,
+                        repeatingOn
                     });
                 });
             });

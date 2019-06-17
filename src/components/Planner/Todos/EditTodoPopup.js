@@ -20,7 +20,7 @@ class EditTodoPopup extends React.Component {
             <Popup
                 trigger={<Icon name={"pencil"} link={true} />}
                 flowing
-                onClose={this.props.handleTodoTextChange}
+                onClose={this.props.handleTodoTextUpdate}
                 on="click"
             >
                 <Grid>
