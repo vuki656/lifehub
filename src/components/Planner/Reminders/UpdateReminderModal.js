@@ -22,7 +22,7 @@ class UpdateReminderModal extends React.Component {
     };
 
     // Send reminder object to firebase
-    sendReminderToFirebase = () => {
+    handleReminderUpdate = () => {
         const {
             newStartDate,
             newEndDate,
@@ -31,10 +31,16 @@ class UpdateReminderModal extends React.Component {
             oldEndDate
         } = this.state;
 
+        // Check if new start date is after old,
+        // If yes, choose old to cover the whole range
+        // So reminders before newStartDate can be deleted
         let itterationStartDate = moment(newStartDate).isAfter(oldStartDate)
             ? oldStartDate
             : newStartDate;
 
+        // Check if new end date is before old,
+        // If yes, choose old to cover the whole range
+        // So reminders after newStartDate can be deleted
         let itterationEndDate = moment(newEndDate).isBefore(oldEndDate)
             ? oldEndDate
             : newEndDate;
@@ -213,7 +219,7 @@ class UpdateReminderModal extends React.Component {
                             <Button.Group>
                                 <Button
                                     primary
-                                    onClick={this.sendReminderToFirebase}
+                                    onClick={this.handleReminderUpdate}
                                 >
                                     Save
                                 </Button>
