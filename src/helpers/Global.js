@@ -4,3 +4,8 @@ import moment from "moment";
 export const formatMoment = (objectToFormat, stringFormat) => {
     return moment(objectToFormat).format(stringFormat);
 };
+
+// Return day only timestamp from given date
+export const getDayOnlyTimestamp = date => {
+    return moment(moment(date).startOf("day")).valueOf();
+};

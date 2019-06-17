@@ -1,7 +1,10 @@
 import React from "react";
 import firebase from "firebase";
+import moment from "moment";
 
 import { Grid, Icon, Form } from "semantic-ui-react";
+
+import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 import Todo from "./Todo";
 
@@ -78,9 +81,10 @@ class TodoCard extends React.Component {
     // Send added todo to firebase
     handleSubmit = () => {
         const { todo, category, currentUser, todoRef, currentDay } = this.state;
-        let pushRef = todoRef.child(
+        const pushRef = todoRef.child(
             `${currentUser.uid}/${currentDay}/${[category]}`
         );
+        let createdAt = getDayOnlyTimestamp(moment());
 
         // Pushes to firebase and then updates the fields
         if (todo) {
@@ -90,7 +94,9 @@ class TodoCard extends React.Component {
                     pushRef.child(snapshot.key).update({
                         value: todo,
                         isChecked: false,
-                        key: snapshot.key
+                        key: snapshot.key,
+                        createdAt: createdAt,
+                        isRepeating: false
                     });
                 })
                 .then(this.clearForm())
@@ -111,7 +117,15 @@ class TodoCard extends React.Component {
                     let key = child.val().key;
                     let value = child.val().value;
                     let isChecked = child.val().isChecked;
-                    todoHolder.push({ value, isChecked, key });
+                    let createdAt = child.val().createdAt;
+                    let isRepeating = child.val().isRepeating;
+                    todoHolder.push({
+                        value,
+                        isChecked,
+                        key,
+                        createdAt,
+                        isRepeating
+                    });
                 });
             });
 

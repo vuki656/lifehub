@@ -6,6 +6,8 @@ import uuidv4 from "uuid/v4";
 
 import { Grid, Modal, Input, Button } from "semantic-ui-react";
 
+import { getDayOnlyTimestamp } from "../../../helpers/Global";
+
 class AddReminderModal extends React.Component {
     state = {
         endDate: null,
@@ -31,10 +33,7 @@ class AddReminderModal extends React.Component {
                 _startDate.isBefore(moment(endDate).add(1, "day"));
                 _startDate.add(1, "days")
             ) {
-                // Convert start date to day only timestamp
-                let dayTimestamp = moment(
-                    moment(_startDate).startOf("day")
-                ).valueOf();
+                let dayTimestamp = getDayOnlyTimestamp(_startDate);
 
                 this.createReminder(
                     this.state,

@@ -34,7 +34,7 @@ class DaysList extends React.Component {
                 key={formatMoment(day, "DD/MM/YYYY")}
                 onClick={() => this.props.setCurrentDay(day)}
             >
-                <li>{formatMoment(day, "DD/MM/YYYY")}</li>
+                <li>{formatMoment(day, "DD/MM/YYYY - ddd")}</li>
             </Link>
         ));
 

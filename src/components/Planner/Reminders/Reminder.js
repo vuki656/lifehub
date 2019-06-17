@@ -4,6 +4,8 @@ import firebase from "../../../firebase/Auth";
 
 import { List, Icon } from "semantic-ui-react";
 
+import { getDayOnlyTimestamp } from "../../../helpers/Global";
+
 import UpdateReminderModal from "./UpdateReminderModal";
 
 class Reminder extends React.Component {
@@ -32,10 +34,7 @@ class Reminder extends React.Component {
             _startDate.isBefore(moment(endDate).add(1, "day"));
             _startDate.add(1, "days")
         ) {
-            // Convert start date to day only timestamp
-            let dayTimestamp = moment(
-                moment(_startDate).startOf("day")
-            ).valueOf();
+            let dayTimestamp = getDayOnlyTimestamp(_startDate);
 
             remindersRef
                 .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)

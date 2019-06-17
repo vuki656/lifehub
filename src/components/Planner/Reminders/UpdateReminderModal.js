@@ -5,6 +5,8 @@ import firebase from "../../../firebase/Auth";
 
 import { Grid, Modal, Input, Button, Icon } from "semantic-ui-react";
 
+import { getDayOnlyTimestamp } from "../../../helpers/Global";
+
 class UpdateReminderModal extends React.Component {
     state = {
         modalOpen: false,
@@ -47,10 +49,7 @@ class UpdateReminderModal extends React.Component {
             );
             itterationCurrentDate.add(1, "days")
         ) {
-            // Convert start date to day only timestamp
-            let dayTimestamp = moment(
-                moment(itterationCurrentDate).startOf("day")
-            ).valueOf();
+            let dayTimestamp = getDayOnlyTimestamp(itterationCurrentDate);
 
             if (
                 moment(itterationCurrentDate).isBetween(
