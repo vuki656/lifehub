@@ -5,30 +5,42 @@ import moment from "moment";
 import { Popup, Grid, Icon, Button, Dropdown } from "semantic-ui-react";
 
 import {
-    checkIfIsDayBeingSavedTo,
-    deleteSingleNode,
+    checkIfIsDayOBeingSavedTo,
+    deleteSingleNodeFromFirebase,
     saveTodoInFirebase
 } from "../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
-import {
-    todoRepeatTypes,
-    daysOfWeek
-} from "../../../data/Planner/RepeatingTodoDropdownOptions";
+import XDayOfWeek from "./DropdownRepeatTypes/XDayOfWeek";
+import XDayOfMonth from "./DropdownRepeatTypes/XDayOfMonth";
+
+import { todoRepeatTypes } from "../../../data/Planner/RepeatingTodoDropdownOptions";
 
 class RepeatTodoPopup extends React.Component {
-    state = {
-        isPopOpen: false,
-        typeOfRepeating: "",
-        todoRef: firebase.database().ref("todos"),
-        currentUser: firebase.auth().currentUser,
+    constructor(props) {
+        super(props);
 
-        selectedWeekDays: this.props.todo.repeatingOn.split(","),
-        category: this.props.category,
-        generateUntillDate: this.props.generateUntillDate,
-        todo: this.props.todo,
-        currentDay: this.props.currentDay
-    };
+        this.state = {
+            isPopOpen: false,
+            typeOfRepeating: "",
+            todoRef: firebase.database().ref("todos"),
+            currentUser: firebase.auth().currentUser,
+
+            selectedMonthDays: this.props.todo.repeatingOnMonthDays.split(","),
+            selectedWeekDays: this.props.todo.repeatingOnWeekDays.split(","),
+            category: this.props.category,
+            generateUntillDate: this.props.generateUntillDate,
+            todo: this.props.todo,
+            currentDay: this.props.currentDay
+        };
+
+        this.handleDaysOfWeekDropdown = this.handleDaysOfWeekDropdown.bind(
+            this
+        );
+        this.handleDaysOfMonthDropdown = this.handleDaysOfMonthDropdown.bind(
+            this
+        );
+    }
 
     static getDerivedStateFromProps(props) {
         return {
@@ -46,7 +58,7 @@ class RepeatTodoPopup extends React.Component {
         // Check if todo is repeating,
         // If yes, update it
         // If no, save it
-        if (todo.repeatingOn) {
+        if (todo.repeatingOnWeekDays) {
             this.handleRepeatingTodoUpdate(this.state);
         } else {
             switch (typeOfRepeating) {
@@ -55,6 +67,9 @@ class RepeatTodoPopup extends React.Component {
                     break;
                 case "every-x-day-of-week":
                     this.handleSaveRepeatingTodoDaysOfWeek(this.state);
+                    break;
+                case "every-x-day-of-month":
+                    this.handleSaveRepeatingTodoDaysOfMonth(this.state);
                     break;
                 default:
                     break;
@@ -66,13 +81,13 @@ class RepeatTodoPopup extends React.Component {
 
     // Save repeating todo to every day in firebase
     handleSaveRepeatingTodoEveryday = ({
-        generateUntillDate,
         todoRef,
         currentUser,
+        currentDay,
         category,
-        selectedWeekDays,
         todo,
-        currentDay
+        generateUntillDate,
+        selectedWeekDays
     }) => {
         for (
             let startDate = moment();
@@ -97,12 +112,12 @@ class RepeatTodoPopup extends React.Component {
 
     // Save repeating todo to selected days of week
     handleSaveRepeatingTodoDaysOfWeek = ({
-        generateUntillDate,
         todoRef,
         currentUser,
+        currentDay,
         category,
         todo,
-        currentDay,
+        generateUntillDate,
         selectedWeekDays
     }) => {
         for (
@@ -110,7 +125,9 @@ class RepeatTodoPopup extends React.Component {
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
-            if (checkIfIsDayBeingSavedTo(startDate, selectedWeekDays)) {
+            if (
+                checkIfIsDayOBeingSavedTo(startDate, selectedWeekDays, "dddd")
+            ) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
                 saveTodoInFirebase(
                     todoRef,
@@ -120,6 +137,38 @@ class RepeatTodoPopup extends React.Component {
                     selectedWeekDays,
                     dayTimestamp,
                     currentDay
+                );
+            }
+        }
+    };
+
+    // Save repeating todo to selected days of month
+    handleSaveRepeatingTodoDaysOfMonth = ({
+        todoRef,
+        currentUser,
+        currentDay,
+        category,
+        todo,
+        generateUntillDate,
+        selectedWeekDays,
+        selectedMonthDays
+    }) => {
+        for (
+            let startDate = moment();
+            startDate.isBefore(moment(generateUntillDate).add(1, "day"));
+            startDate.add(1, "days")
+        ) {
+            if (checkIfIsDayOBeingSavedTo(startDate, selectedMonthDays, "Do")) {
+                let dayTimestamp = getDayOnlyTimestamp(startDate);
+                saveTodoInFirebase(
+                    todoRef,
+                    currentUser,
+                    category,
+                    todo,
+                    selectedWeekDays,
+                    dayTimestamp,
+                    currentDay,
+                    selectedMonthDays
                 );
             }
         }
@@ -145,7 +194,13 @@ class RepeatTodoPopup extends React.Component {
             itterationCurrentDate.add(1, "days")
         ) {
             let dayTimestamp = getDayOnlyTimestamp(itterationCurrentDate);
-            if (checkIfIsDayBeingSavedTo(dayTimestamp, selectedWeekDays)) {
+            if (
+                checkIfIsDayOBeingSavedTo(
+                    dayTimestamp,
+                    selectedWeekDays,
+                    "dddd"
+                )
+            ) {
                 saveTodoInFirebase(
                     todoRef,
                     currentUser,
@@ -155,7 +210,7 @@ class RepeatTodoPopup extends React.Component {
                     dayTimestamp
                 );
             } else {
-                deleteSingleNode(
+                deleteSingleNodeFromFirebase(
                     todoRef,
                     currentUser,
                     dayTimestamp,
@@ -177,6 +232,11 @@ class RepeatTodoPopup extends React.Component {
         this.setState({ selectedWeekDays: value.value });
     };
 
+    // Set selected days of month to state
+    handleDaysOfMonthDropdown = (event, value) => {
+        this.setState({ selectedMonthDays: value.value });
+    };
+
     closePopup = () => {
         this.setState({ isPopOpen: false });
     };
@@ -186,7 +246,12 @@ class RepeatTodoPopup extends React.Component {
     };
 
     render() {
-        const { isPopOpen, typeOfRepeating, selectedWeekDays } = this.state;
+        const {
+            isPopOpen,
+            typeOfRepeating,
+            selectedWeekDays,
+            selectedMonthDays
+        } = this.state;
 
         return (
             <Popup
@@ -216,17 +281,20 @@ class RepeatTodoPopup extends React.Component {
                                 />
                             </Grid.Row>
                             {typeOfRepeating === "every-x-day-of-week" && (
-                                <Grid.Row>
-                                    <Dropdown
-                                        placeholder="Select Days"
-                                        fluid
-                                        multiple
-                                        selection
-                                        value={selectedWeekDays}
-                                        options={daysOfWeek}
-                                        onChange={this.handleDaysOfWeekDropdown}
-                                    />
-                                </Grid.Row>
+                                <XDayOfWeek
+                                    selectedWeekDays={selectedWeekDays}
+                                    handleDaysOfWeekDropdown={
+                                        this.handleDaysOfWeekDropdown
+                                    }
+                                />
+                            )}
+                            {typeOfRepeating === "every-x-day-of-month" && (
+                                <XDayOfMonth
+                                    selectedMonthDays={selectedMonthDays}
+                                    handleDaysOfMonthDropdown={
+                                        this.handleDaysOfMonthDropdown
+                                    }
+                                />
                             )}
                             <Grid.Row>
                                 <Button onClick={this.handleRepeatingTodoSave}>

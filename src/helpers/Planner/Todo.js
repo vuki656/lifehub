@@ -2,10 +2,14 @@ import moment from "moment";
 
 // Check if itterating date is in selected week days
 // Used to determin in which days to save todo
-export const checkIfIsDayBeingSavedTo = (dateToCheck, selectedWeekDays) => {
-    let dayOfWeek = moment(dateToCheck).format("dddd");
+export const checkIfIsDayOBeingSavedTo = (
+    dateToCheck,
+    selectedDays,
+    formatToCheck
+) => {
+    let dayOfWeek = moment(dateToCheck).format(formatToCheck);
 
-    if (selectedWeekDays.includes(dayOfWeek)) {
+    if (selectedDays.includes(dayOfWeek)) {
         return true;
     } else {
         return false;
@@ -13,7 +17,7 @@ export const checkIfIsDayBeingSavedTo = (dateToCheck, selectedWeekDays) => {
 };
 
 // Remove single node in firebase
-export const deleteSingleNode = (
+export const deleteSingleNodeFromFirebase = (
     dbRef,
     currentUser,
     dayToRemove,
@@ -33,11 +37,18 @@ export const saveTodoInFirebase = (
     todo,
     selectedWeekDays,
     dayTimestamp,
-    currentDay
+    currentDay,
+    selectedMonthDays
 ) => {
-    // Convert selected week days array to string
-    let repeatingDaysString = selectedWeekDays.toString();
     let determinedCreatedAtDate;
+
+    // Convert selected days array to string
+    let repeatingDaysOfWeekString = selectedWeekDays
+        ? selectedWeekDays.toString()
+        : "";
+    let repeatingDaysOMonthString = selectedMonthDays
+        ? selectedMonthDays.toString()
+        : "";
 
     // Determine if todo.createdAt exists
     // When creating, currentDay will be used as todo.created at doesent exist
@@ -56,7 +67,8 @@ export const saveTodoInFirebase = (
             key: todo.key,
             value: todo.value,
             isRepeating: true,
-            repeatingOn: repeatingDaysString
+            repeatingOnWeekDays: repeatingDaysOfWeekString,
+            repeatingOnMonthDays: repeatingDaysOMonthString
         })
         .catch(err => {
             console.error(err);
