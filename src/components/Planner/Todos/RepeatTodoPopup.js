@@ -4,7 +4,11 @@ import moment from "moment";
 
 import { Popup, Grid, Icon, Button, Dropdown } from "semantic-ui-react";
 
-import { checkIfIsDayBeingSavedTo } from "../../../helpers/Planner/Todo";
+import {
+    checkIfIsDayBeingSavedTo,
+    deleteSingleNode,
+    saveTodoInFirebase
+} from "../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 import {
@@ -61,20 +65,44 @@ class RepeatTodoPopup extends React.Component {
     };
 
     // Save repeating todo to every day in firebase
-    handleSaveRepeatingTodoEveryday = ({ generateUntillDate }) => {
+    handleSaveRepeatingTodoEveryday = ({
+        generateUntillDate,
+        todoRef,
+        currentUser,
+        category,
+        selectedWeekDays,
+        todo,
+        currentDay
+    }) => {
         for (
             let startDate = moment();
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
             let dayTimestamp = getDayOnlyTimestamp(startDate);
-            this.saveRepeatingTodo(this.state, dayTimestamp);
+            selectedWeekDays =
+                "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday";
+
+            saveTodoInFirebase(
+                todoRef,
+                currentUser,
+                category,
+                todo,
+                selectedWeekDays,
+                dayTimestamp,
+                currentDay
+            );
         }
     };
 
     // Save repeating todo to selected days of week
     handleSaveRepeatingTodoDaysOfWeek = ({
         generateUntillDate,
+        todoRef,
+        currentUser,
+        category,
+        todo,
+        currentDay,
         selectedWeekDays
     }) => {
         for (
@@ -84,37 +112,27 @@ class RepeatTodoPopup extends React.Component {
         ) {
             if (checkIfIsDayBeingSavedTo(startDate, selectedWeekDays)) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
-                this.saveRepeatingTodo(this.state, dayTimestamp);
+                saveTodoInFirebase(
+                    todoRef,
+                    currentUser,
+                    category,
+                    todo,
+                    selectedWeekDays,
+                    dayTimestamp,
+                    currentDay
+                );
             }
         }
-    };
-
-    saveRepeatingTodo = (
-        { todoRef, currentUser, category, todo, currentDay, selectedWeekDays },
-        dayTimestamp
-    ) => {
-        let repeatingDaysString = selectedWeekDays.toString();
-
-        todoRef
-            .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
-            .update({
-                createdAt: currentDay,
-                isChecked: false,
-                key: todo.key,
-                value: todo.value,
-                isRepeating: true,
-                repeatingOn: repeatingDaysString
-            })
-            .catch(err => {
-                console.error(err);
-            });
     };
 
     // Send reminder object to firebase
     handleRepeatingTodoUpdate = ({
         generateUntillDate,
         todo,
-        selectedWeekDays
+        selectedWeekDays,
+        todoRef,
+        currentUser,
+        category
     }) => {
         // Save new reminder in each day from date range
         // If there are days outside new day range
@@ -127,50 +145,26 @@ class RepeatTodoPopup extends React.Component {
             itterationCurrentDate.add(1, "days")
         ) {
             let dayTimestamp = getDayOnlyTimestamp(itterationCurrentDate);
-
             if (checkIfIsDayBeingSavedTo(dayTimestamp, selectedWeekDays)) {
-                this.updateRepeatingTodo(this.state, dayTimestamp);
+                saveTodoInFirebase(
+                    todoRef,
+                    currentUser,
+                    category,
+                    todo,
+                    selectedWeekDays,
+                    dayTimestamp
+                );
             } else {
-                this.deleteRepeatingTodo(this.state, dayTimestamp);
+                deleteSingleNode(
+                    todoRef,
+                    currentUser,
+                    dayTimestamp,
+                    category,
+                    todo
+                );
             }
         }
         this.closePopup();
-    };
-
-    // Update repeating todos days that its repeated on in each day its active
-    updateRepeatingTodo = (
-        { todo, todoRef, category, currentUser, selectedWeekDays },
-        dayTimestamp
-    ) => {
-        // Convert selected week days array to string
-        let selectedWeekDaysString = selectedWeekDays.toString();
-
-        todoRef
-            .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
-            .update({
-                repeatingOn: selectedWeekDaysString,
-                value: todo.value,
-                isChecked: false,
-                key: todo.key,
-                createdAt: todo.createdAt,
-                isRepeating: todo.isRepeating
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    };
-
-    // Delete repeating todo from firebase
-    deleteRepeatingTodo = (
-        { todoRef, currentUser, todo, category },
-        dayTimestamp
-    ) => {
-        todoRef
-            .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
-            .remove()
-            .catch(err => {
-                console.error(err);
-            });
     };
 
     // Set the repeaeting todo type to state
@@ -237,6 +231,9 @@ class RepeatTodoPopup extends React.Component {
                             <Grid.Row>
                                 <Button onClick={this.handleRepeatingTodoSave}>
                                     Save
+                                </Button>
+                                <Button onClick={this.closePopup}>
+                                    Cancel
                                 </Button>
                             </Grid.Row>
                         </Grid.Column>

@@ -25,3 +25,40 @@ export const deleteSingleNode = (
         .remove()
         .catch(error => console.error(error));
 };
+
+export const saveTodoInFirebase = (
+    todoRef,
+    currentUser,
+    category,
+    todo,
+    selectedWeekDays,
+    dayTimestamp,
+    currentDay
+) => {
+    // Convert selected week days array to string
+    let repeatingDaysString = selectedWeekDays.toString();
+    let determinedCreatedAtDate;
+
+    // Determine if todo.createdAt exists
+    // When creating, currentDay will be used as todo.created at doesent exist
+    // When updating, exisiting createdAt will be used from todo
+    if (todo.createdAt) {
+        determinedCreatedAtDate = todo.createdAt;
+    } else {
+        determinedCreatedAtDate = currentDay;
+    }
+
+    todoRef
+        .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
+        .update({
+            createdAt: determinedCreatedAtDate,
+            isChecked: false,
+            key: todo.key,
+            value: todo.value,
+            isRepeating: true,
+            repeatingOn: repeatingDaysString
+        })
+        .catch(err => {
+            console.error(err);
+        });
+};

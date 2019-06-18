@@ -54,7 +54,6 @@ class EditTodoPopup extends React.Component {
         ) {
             // Get selected week days string from firebase and convert to array
             let selectedWeekDaysList = todo.repeatingOn.split(",");
-
             if (checkIfIsDayBeingSavedTo(startDate, selectedWeekDaysList)) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
                 todoRef
