@@ -4,7 +4,7 @@ import moment from "moment";
 
 import { Popup, Grid, Input, Icon } from "semantic-ui-react";
 
-import { checkIfIsDayOBeingSavedTo } from "../../../../helpers/Planner/Todo";
+import { isDayBeingSavedTo } from "../../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class EditTodoPopup extends React.Component {
@@ -32,14 +32,14 @@ class EditTodoPopup extends React.Component {
     handleTodoTextUpdate = () => {
         const { todo } = this.state;
         if (todo.isRepeating) {
-            this.changeRepeatingTodoText(this.state);
+            this.changeRepeatingDaysOfWeekTodoText(this.state);
         } else {
             this.changeSingleTodoText(this.state);
         }
     };
 
     // Update repeating todos text value in each day its active
-    changeRepeatingTodoText = ({
+    changeRepeatingDaysOfWeekTodoText = ({
         todo,
         todoRef,
         category,
@@ -52,14 +52,8 @@ class EditTodoPopup extends React.Component {
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
-            // Get selected week days string from firebase and convert to array
-            let selectedWeekDaysList = todo.repeatingOnWeekDays.split(",");
             if (
-                checkIfIsDayOBeingSavedTo(
-                    startDate,
-                    selectedWeekDaysList,
-                    "dddd"
-                )
+                isDayBeingSavedTo(startDate, todo.repeatingOnWeekDays, "dddd")
             ) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
                 todoRef

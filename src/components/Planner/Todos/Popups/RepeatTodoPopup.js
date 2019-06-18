@@ -5,7 +5,7 @@ import moment from "moment";
 import { Popup, Grid, Icon, Button, Dropdown } from "semantic-ui-react";
 
 import {
-    checkIfIsDayOBeingSavedTo,
+    isDayBeingSavedTo,
     deleteSingleNodeFromFirebase,
     saveTodoInFirebase
 } from "../../../../helpers/Planner/Todo";
@@ -26,8 +26,8 @@ class RepeatTodoPopup extends React.Component {
             todoRef: firebase.database().ref("todos"),
             currentUser: firebase.auth().currentUser,
 
-            selectedMonthDays: this.props.todo.repeatingOnMonthDays.split(","),
-            selectedWeekDays: this.props.todo.repeatingOnWeekDays.split(","),
+            selectedMonthDays: this.props.todo.repeatingOnMonthDays,
+            selectedWeekDays: this.props.todo.repeatingOnWeekDays,
             category: this.props.category,
             generateUntillDate: this.props.generateUntillDate,
             todo: this.props.todo,
@@ -95,8 +95,15 @@ class RepeatTodoPopup extends React.Component {
             startDate.add(1, "days")
         ) {
             let dayTimestamp = getDayOnlyTimestamp(startDate);
-            selectedWeekDays =
-                "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday";
+            selectedWeekDays = [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+            ];
 
             saveTodoInFirebase(
                 todoRef,
@@ -125,9 +132,7 @@ class RepeatTodoPopup extends React.Component {
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
-            if (
-                checkIfIsDayOBeingSavedTo(startDate, selectedWeekDays, "dddd")
-            ) {
+            if (isDayBeingSavedTo(startDate, selectedWeekDays, "dddd")) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
                 saveTodoInFirebase(
                     todoRef,
@@ -158,7 +163,7 @@ class RepeatTodoPopup extends React.Component {
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
-            if (checkIfIsDayOBeingSavedTo(startDate, selectedMonthDays, "Do")) {
+            if (isDayBeingSavedTo(startDate, selectedMonthDays, "Do")) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
                 saveTodoInFirebase(
                     todoRef,
@@ -194,13 +199,7 @@ class RepeatTodoPopup extends React.Component {
             itterationCurrentDate.add(1, "days")
         ) {
             let dayTimestamp = getDayOnlyTimestamp(itterationCurrentDate);
-            if (
-                checkIfIsDayOBeingSavedTo(
-                    dayTimestamp,
-                    selectedWeekDays,
-                    "dddd"
-                )
-            ) {
+            if (isDayBeingSavedTo(dayTimestamp, selectedWeekDays, "dddd")) {
                 saveTodoInFirebase(
                     todoRef,
                     currentUser,

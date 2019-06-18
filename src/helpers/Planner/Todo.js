@@ -2,11 +2,7 @@ import moment from "moment";
 
 // Check if itterating date is in selected week days
 // Used to determin in which days to save todo
-export const checkIfIsDayOBeingSavedTo = (
-    dateToCheck,
-    selectedDays,
-    formatToCheck
-) => {
+export const isDayBeingSavedTo = (dateToCheck, selectedDays, formatToCheck) => {
     let dayOfWeek = moment(dateToCheck).format(formatToCheck);
 
     if (selectedDays.includes(dayOfWeek)) {
@@ -35,20 +31,12 @@ export const saveTodoInFirebase = (
     currentUser,
     category,
     todo,
-    selectedWeekDays,
+    selectedWeekDays = "",
     dayTimestamp,
     currentDay,
-    selectedMonthDays
+    selectedMonthDays = ""
 ) => {
     let determinedCreatedAtDate;
-
-    // Convert selected days array to string
-    let repeatingDaysOfWeekString = selectedWeekDays
-        ? selectedWeekDays.toString()
-        : "";
-    let repeatingDaysOMonthString = selectedMonthDays
-        ? selectedMonthDays.toString()
-        : "";
 
     // Determine if todo.createdAt exists
     // When creating, currentDay will be used as todo.created at doesent exist
@@ -59,6 +47,9 @@ export const saveTodoInFirebase = (
         determinedCreatedAtDate = currentDay;
     }
 
+    console.log("called");
+    console.log(selectedWeekDays);
+
     todoRef
         .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
         .update({
@@ -67,8 +58,8 @@ export const saveTodoInFirebase = (
             key: todo.key,
             value: todo.value,
             isRepeating: true,
-            repeatingOnWeekDays: repeatingDaysOfWeekString,
-            repeatingOnMonthDays: repeatingDaysOMonthString
+            repeatingOnWeekDays: selectedWeekDays,
+            repeatingOnMonthDays: selectedMonthDays
         })
         .catch(err => {
             console.error(err);
