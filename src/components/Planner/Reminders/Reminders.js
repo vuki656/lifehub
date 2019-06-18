@@ -49,7 +49,7 @@ class Reminders extends React.Component {
         category
     }) {
         remindersRef
-            .child(`${currentUser.uid}/${currentDay}/${[category]}`)
+            .child(`${currentUser.uid}/${currentDay}/${category}`)
             .on("child_added", () => {
                 this.fetchReminders(this.state);
             });

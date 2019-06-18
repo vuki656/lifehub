@@ -61,7 +61,7 @@ class RepeatTodoPopup extends React.Component {
     };
 
     // Save repeating todo to every day in firebase
-    handleSaveRepeatingTodoEveryday = ({ generateUntillDate, todo }) => {
+    handleSaveRepeatingTodoEveryday = ({ generateUntillDate }) => {
         for (
             let startDate = moment();
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
@@ -84,22 +84,17 @@ class RepeatTodoPopup extends React.Component {
         ) {
             if (checkIfIsDayBeingSavedTo(startDate, selectedWeekDays)) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
-                let repeatingDaysString = selectedWeekDays.toString();
-
-                this.saveRepeatingTodo(
-                    this.state,
-                    dayTimestamp,
-                    repeatingDaysString
-                );
+                this.saveRepeatingTodo(this.state, dayTimestamp);
             }
         }
     };
 
     saveRepeatingTodo = (
-        { todoRef, currentUser, category, todo, currentDay },
-        dayTimestamp,
-        repeatingDaysString
+        { todoRef, currentUser, category, todo, currentDay, selectedWeekDays },
+        dayTimestamp
     ) => {
+        let repeatingDaysString = selectedWeekDays.toString();
+
         todoRef
             .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
             .update({

@@ -7,6 +7,7 @@ import { Checkbox, Icon } from "semantic-ui-react";
 import EditTodoPopup from "./EditTodoPopup";
 import RepeatTodoPopup from "./RepeatTodoPopup";
 
+import { deleteSingleNode } from "../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class Todo extends React.Component {
@@ -37,11 +38,17 @@ class Todo extends React.Component {
 
     // Check if todo is repeating, if so remove it from
     // each day, if not, remove its single instance
-    handleTodoDeletion = ({ todo }) => {
+    handleTodoDeletion = ({
+        todoRef,
+        currentUser,
+        currentDay,
+        category,
+        todo
+    }) => {
         if (todo.isRepeating) {
             this.deleteRepeatingTodo(this.state);
         } else {
-            this.deleteSingleTodo(this.state);
+            deleteSingleNode(todoRef, currentUser, currentDay, category, todo);
         }
     };
 
@@ -59,30 +66,14 @@ class Todo extends React.Component {
             startDate.add(1, "days")
         ) {
             let dayTimestamp = getDayOnlyTimestamp(startDate);
-
-            todoRef
-                .child(
-                    `${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`
-                )
-                .remove()
-                .catch(err => {
-                    console.error(err);
-                });
+            deleteSingleNode(
+                todoRef,
+                currentUser,
+                dayTimestamp,
+                category,
+                todo
+            );
         }
-    };
-
-    // Remove todo in firebase
-    deleteSingleTodo = ({
-        currentDay,
-        currentUser,
-        todo,
-        category,
-        todoRef
-    }) => {
-        todoRef
-            .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
-            .remove()
-            .catch(error => console.error(error));
     };
 
     // Send changed todo checkbox state to firebase and rerender
@@ -95,7 +86,7 @@ class Todo extends React.Component {
         isChecked
     }) => {
         todoRef
-            .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
+            .child(`${currentUser.uid}/${currentDay}/${category}/${todo.key}`)
             .update({ isChecked: !isChecked })
             .catch(error => console.error(error));
     };

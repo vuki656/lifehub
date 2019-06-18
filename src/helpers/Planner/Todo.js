@@ -11,3 +11,17 @@ export const checkIfIsDayBeingSavedTo = (dateToCheck, selectedWeekDays) => {
         return false;
     }
 };
+
+// Remove single node in firebase
+export const deleteSingleNode = (
+    dbRef,
+    currentUser,
+    dayToRemove,
+    category,
+    todo
+) => {
+    dbRef
+        .child(`${currentUser.uid}/${dayToRemove}/${category}/${todo.key}`)
+        .remove()
+        .catch(error => console.error(error));
+};

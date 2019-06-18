@@ -49,7 +49,7 @@ class TodoCard extends React.Component {
     // Listen for new todo inputs and set to the state so component re-renders
     addSetTodoListener({ currentUser, todoRef, currentDay, category }) {
         todoRef
-            .child(`${currentUser.uid}/${currentDay}/${[category]}`)
+            .child(`${currentUser.uid}/${currentDay}/${category}`)
             .on("child_added", () => {
                 this.fetchTodos(this.state);
             });
@@ -63,7 +63,7 @@ class TodoCard extends React.Component {
         category
     }) => {
         todoRef
-            .child(`${currentUser.uid}/${currentDay}/${[category]}`)
+            .child(`${currentUser.uid}/${currentDay}/${category}`)
             .on("child_removed", () => {
                 this.fetchTodos(this.state);
             });
@@ -82,7 +82,7 @@ class TodoCard extends React.Component {
     handleSubmit = () => {
         const { todo, category, currentUser, todoRef, currentDay } = this.state;
         const pushRef = todoRef.child(
-            `${currentUser.uid}/${currentDay}/${[category]}`
+            `${currentUser.uid}/${currentDay}/${category}`
         );
         let createdAt = getDayOnlyTimestamp(moment());
 

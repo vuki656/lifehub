@@ -81,7 +81,7 @@ class EditTodoPopup extends React.Component {
         newTodo
     }) => {
         todoRef
-            .child(`${currentUser.uid}/${currentDay}/${[category]}/${todo.key}`)
+            .child(`${currentUser.uid}/${currentDay}/${category}/${todo.key}`)
             .update({
                 value: newTodo
             })
