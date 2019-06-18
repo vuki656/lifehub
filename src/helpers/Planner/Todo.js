@@ -38,6 +38,15 @@ export const saveTodoInFirebase = (
 ) => {
     let determinedCreatedAtDate;
 
+    // Convert selected days array to string if exists
+    // Else use empty string
+    let repeatingDaysOfWeekString = selectedWeekDays
+        ? selectedWeekDays.toString()
+        : "";
+    let repeatingDaysOMonthString = selectedMonthDays
+        ? selectedMonthDays.toString()
+        : "";
+
     // Determine if todo.createdAt exists
     // When creating, currentDay will be used as todo.created at doesent exist
     // When updating, exisiting createdAt will be used from todo
@@ -47,9 +56,6 @@ export const saveTodoInFirebase = (
         determinedCreatedAtDate = currentDay;
     }
 
-    console.log("called");
-    console.log(selectedWeekDays);
-
     todoRef
         .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
         .update({
@@ -58,8 +64,8 @@ export const saveTodoInFirebase = (
             key: todo.key,
             value: todo.value,
             isRepeating: true,
-            repeatingOnWeekDays: selectedWeekDays,
-            repeatingOnMonthDays: selectedMonthDays
+            repeatingOnWeekDays: repeatingDaysOfWeekString,
+            repeatingOnMonthDays: repeatingDaysOMonthString
         })
         .catch(err => {
             console.error(err);

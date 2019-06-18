@@ -30,43 +30,62 @@ class EditTodoPopup extends React.Component {
 
     // Check if todo is repeating
     handleTodoTextUpdate = () => {
-        const { todo } = this.state;
-        if (todo.isRepeating) {
-            this.changeRepeatingDaysOfWeekTodoText(this.state);
-        } else {
-            this.changeSingleTodoText(this.state);
-        }
-    };
-
-    // Update repeating todos text value in each day its active
-    changeRepeatingDaysOfWeekTodoText = ({
-        todo,
-        todoRef,
-        category,
-        generateUntillDate,
-        currentUser,
-        newTodo
-    }) => {
+        const { todo, generateUntillDate } = this.state;
         for (
             let startDate = moment(todo.createdAt);
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
             if (
-                isDayBeingSavedTo(startDate, todo.repeatingOnWeekDays, "dddd")
+                todo.isRepeating &&
+                todo.repeatingOnWeekDays &&
+                todo.repeatingOnMonthDays
             ) {
-                let dayTimestamp = getDayOnlyTimestamp(startDate);
-                todoRef
-                    .child(
-                        `${currentUser.uid}/${dayTimestamp}/${category}/${
-                            todo.key
-                        }`
-                    )
-                    .update({ value: newTodo })
-                    .catch(err => {
-                        console.error(err);
-                    });
+                this.changeRepeatingDaysOfWeekTodoText(this.state, startDate);
+                this.changeRepeatingDaysOfMonthTodoText(this.state, startDate);
+            } else if (todo.isRepeating && todo.repeatingOnWeekDays) {
+                this.changeRepeatingDaysOfWeekTodoText(this.state, startDate);
+            } else if (todo.isRepeating && todo.repeatingOnMonthDays) {
+                this.changeRepeatingDaysOfMonthTodoText(this.state, startDate);
+            } else {
+                this.changeSingleTodoText(this.state, startDate);
             }
+        }
+    };
+
+    // Update repeating todos text value in each day its active
+    changeRepeatingDaysOfWeekTodoText = (
+        { todo, todoRef, category, currentUser, newTodo },
+        startDate
+    ) => {
+        if (isDayBeingSavedTo(startDate, todo.repeatingOnWeekDays, "dddd")) {
+            let dayTimestamp = getDayOnlyTimestamp(startDate);
+            todoRef
+                .child(
+                    `${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`
+                )
+                .update({ value: newTodo })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
+    };
+
+    // Update repeating todos text value in each day its active
+    changeRepeatingDaysOfMonthTodoText = (
+        { todo, todoRef, category, currentUser, newTodo },
+        startDate
+    ) => {
+        if (isDayBeingSavedTo(startDate, todo.repeatingOnMonthDays, "Do")) {
+            let dayTimestamp = getDayOnlyTimestamp(startDate);
+            todoRef
+                .child(
+                    `${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`
+                )
+                .update({ value: newTodo })
+                .catch(err => {
+                    console.error(err);
+                });
         }
     };
 
