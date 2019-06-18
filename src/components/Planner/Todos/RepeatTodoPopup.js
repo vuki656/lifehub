@@ -15,11 +15,11 @@ import {
 class RepeatTodoPopup extends React.Component {
     state = {
         isPopOpen: false,
-        selectedWeekDays: "",
         typeOfRepeating: "",
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
 
+        selectedWeekDays: this.props.todo.repeatingOn.split(","),
         category: this.props.category,
         generateUntillDate: this.props.generateUntillDate,
         todo: this.props.todo,
@@ -197,7 +197,7 @@ class RepeatTodoPopup extends React.Component {
     };
 
     render() {
-        const { isPopOpen, typeOfRepeating } = this.state;
+        const { isPopOpen, typeOfRepeating, selectedWeekDays } = this.state;
 
         return (
             <Popup
@@ -233,6 +233,7 @@ class RepeatTodoPopup extends React.Component {
                                         fluid
                                         multiple
                                         selection
+                                        value={selectedWeekDays}
                                         options={daysOfWeek}
                                         onChange={this.handleDaysOfWeekDropdown}
                                     />
