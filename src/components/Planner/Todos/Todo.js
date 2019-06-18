@@ -4,8 +4,8 @@ import moment from "moment";
 
 import { Checkbox, Icon } from "semantic-ui-react";
 
-import EditTodoPopup from "./EditTodoPopup";
-import RepeatTodoPopup from "./RepeatTodoPopup";
+import EditTodoPopup from "./Popups/EditTodoPopup";
+import RepeatTodoPopup from "./Popups/RepeatTodoPopup";
 
 import { deleteSingleNodeFromFirebase } from "../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";

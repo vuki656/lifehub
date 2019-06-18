@@ -1,11 +1,11 @@
 import React from "react";
-import firebase from "../../../firebase/Auth";
+import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 
 import { Popup, Grid, Input, Icon } from "semantic-ui-react";
 
-import { checkIfIsDayOBeingSavedTo } from "../../../helpers/Planner/Todo";
-import { getDayOnlyTimestamp } from "../../../helpers/Global";
+import { checkIfIsDayOBeingSavedTo } from "../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class EditTodoPopup extends React.Component {
     state = {

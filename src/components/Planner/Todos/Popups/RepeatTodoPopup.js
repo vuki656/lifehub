@@ -1,5 +1,5 @@
 import React from "react";
-import firebase from "../../../firebase/Auth";
+import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 
 import { Popup, Grid, Icon, Button, Dropdown } from "semantic-ui-react";
@@ -8,13 +8,13 @@ import {
     checkIfIsDayOBeingSavedTo,
     deleteSingleNodeFromFirebase,
     saveTodoInFirebase
-} from "../../../helpers/Planner/Todo";
-import { getDayOnlyTimestamp } from "../../../helpers/Global";
+} from "../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
-import XDayOfWeek from "./DropdownRepeatTypes/XDayOfWeek";
-import XDayOfMonth from "./DropdownRepeatTypes/XDayOfMonth";
+import XDayOfWeek from "../DropdownRepeatTypes/XDayOfWeek";
+import XDayOfMonth from "../DropdownRepeatTypes/XDayOfMonth";
 
-import { todoRepeatTypes } from "../../../data/Planner/RepeatingTodoDropdownOptions";
+import { todoRepeatTypes } from "../../../../data/Planner/RepeatingTodoDropdownOptions";
 
 class RepeatTodoPopup extends React.Component {
     constructor(props) {
