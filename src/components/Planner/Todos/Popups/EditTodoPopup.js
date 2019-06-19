@@ -40,7 +40,12 @@ class EditTodoPopup extends React.Component {
             itteratingDate.add(1, "days")
         ) {
             if (todo.isRepeating) {
-                this.handleRepeatingTodoTextUpdate(itteratingDate, todo);
+                this.handleRepeatingTodoTextUpdate(
+                    this.state,
+                    itteratingDate,
+                    todo,
+                    itteratingDate
+                );
             } else {
                 this.changeTodoTextInFirebase(this.state, currentDay);
             }
@@ -48,10 +53,26 @@ class EditTodoPopup extends React.Component {
     };
 
     // Check if itterating date matches repeating month day or week day
-    handleRepeatingTodoTextUpdate = (date, todo) => {
+    handleRepeatingTodoTextUpdate = (
+        { repeatAtStartOfMonth, repeatAtEndOfMonth },
+        date,
+        todo,
+        itteratingDate
+    ) => {
+        let dayTimestamp = getDayOnlyTimestamp(itteratingDate);
+
+        let startOfMonth = repeatAtStartOfMonth
+            ? getDayOnlyTimestamp(moment(itteratingDate).startOf("month"))
+            : "";
+        let endOfMonth = repeatAtEndOfMonth
+            ? getDayOnlyTimestamp(moment(itteratingDate).endOf("month"))
+            : "";
+
         if (
             isDayBeingSavedTo(date, todo.repeatingOnMonthDays, "Do") ||
-            isDayBeingSavedTo(date, todo.repeatingOnWeekDays, "dddd")
+            isDayBeingSavedTo(date, todo.repeatingOnWeekDays, "dddd") ||
+            startOfMonth === dayTimestamp ||
+            endOfMonth === dayTimestamp
         ) {
             this.changeTodoTextInFirebase(this.state, date);
         }

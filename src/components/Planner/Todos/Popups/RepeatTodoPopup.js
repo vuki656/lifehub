@@ -32,6 +32,8 @@ class RepeatTodoPopup extends React.Component {
             todoRef: firebase.database().ref("todos"),
             currentUser: firebase.auth().currentUser,
 
+            repeatAtStartOfMonth: this.props.todo.repeatAtStartOfMonth,
+            repeatAtEndOfMonth: this.props.todo.repeatAtEndOfMonth,
             selectedMonthDays: this.props.todo.repeatingOnMonthDays.split(","),
             selectedWeekDays: this.props.todo.repeatingOnWeekDays.split(","),
             category: this.props.category,
@@ -40,6 +42,7 @@ class RepeatTodoPopup extends React.Component {
             currentDay: this.props.currentDay
         };
 
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handleDaysOfWeekDropdown = this.handleDaysOfWeekDropdown.bind(
             this
         );
@@ -87,7 +90,9 @@ class RepeatTodoPopup extends React.Component {
             category,
             todo,
             selectedMonthDays,
-            generateUntillDate
+            generateUntillDate,
+            repeatAtEndOfMonth,
+            repeatAtStartOfMonth
         },
         selectedWeekDays,
         todoCreatedAtDate
@@ -102,11 +107,22 @@ class RepeatTodoPopup extends React.Component {
             itteratingDate.add(1, "days")
         ) {
             let dayTimestamp = getDayOnlyTimestamp(itteratingDate);
+
+            // If start or end date are checked, use start/end date of month
+            let startOfMonth = repeatAtStartOfMonth
+                ? getDayOnlyTimestamp(moment(itteratingDate).startOf("month"))
+                : "";
+            let endOfMonth = repeatAtEndOfMonth
+                ? getDayOnlyTimestamp(moment(itteratingDate).endOf("month"))
+                : "";
+
             if (
                 isDayBeingSavedTo(itteratingDate, selectedMonthDays, "Do") ||
-                isDayBeingSavedTo(itteratingDate, selectedWeekDays, "dddd")
+                isDayBeingSavedTo(itteratingDate, selectedWeekDays, "dddd") ||
+                startOfMonth === dayTimestamp ||
+                endOfMonth === dayTimestamp
             ) {
-                this.saveTodoInFirebase(
+                this.saveSingleTodoInFirebase(
                     this.state,
                     selectedWeekDays,
                     dayTimestamp
@@ -124,8 +140,17 @@ class RepeatTodoPopup extends React.Component {
         this.closePopup();
     };
 
-    saveTodoInFirebase = (
-        { todoRef, currentUser, category, todo, currentDay, selectedMonthDays },
+    saveSingleTodoInFirebase = (
+        {
+            todoRef,
+            currentUser,
+            category,
+            todo,
+            currentDay,
+            selectedMonthDays,
+            repeatAtStartOfMonth,
+            repeatAtEndOfMonth
+        },
         selectedWeekDays,
         dayTimestamp
     ) => {
@@ -162,7 +187,9 @@ class RepeatTodoPopup extends React.Component {
                 value: todo.value,
                 isRepeating: true,
                 repeatingOnWeekDays: repeatingDaysOfWeekString,
-                repeatingOnMonthDays: repeatingDaysOMonthString
+                repeatingOnMonthDays: repeatingDaysOMonthString,
+                repeatAtStartOfMonth: repeatAtStartOfMonth,
+                repeatAtEndOfMonth: repeatAtEndOfMonth
             })
             .catch(err => {
                 console.error(err);
@@ -173,8 +200,15 @@ class RepeatTodoPopup extends React.Component {
         this.setState({
             isRepeatingEveryDay: !this.state.isRepeatingEveryDay,
             selectedMonthDays: [],
-            selectedWeekDays: daysOfWeekArr
+            selectedWeekDays: daysOfWeekArr,
+            repeatAtEndOfMonth: false,
+            repeatAtStartOfMonth: false
         });
+    };
+
+    // Set the state value from checkbox
+    handleCheckboxChange = (event, value) => {
+        this.setState({ [value.name]: value.checked });
     };
 
     // Set selected days of week to state
@@ -200,7 +234,9 @@ class RepeatTodoPopup extends React.Component {
             isPopOpen,
             isRepeatingEveryDay,
             selectedWeekDays,
-            selectedMonthDays
+            selectedMonthDays,
+            repeatAtStartOfMonth,
+            repeatAtEndOfMonth
         } = this.state;
 
         return (
@@ -239,6 +275,11 @@ class RepeatTodoPopup extends React.Component {
                                 <RepeatOptions
                                     selectedWeekDays={selectedWeekDays}
                                     selectedMonthDays={selectedMonthDays}
+                                    repeatAtStartOfMonth={repeatAtStartOfMonth}
+                                    repeatAtEndOfMonth={repeatAtEndOfMonth}
+                                    handleCheckboxChange={
+                                        this.handleCheckboxChange
+                                    }
                                     handleDaysOfMonthDropdown={
                                         this.handleDaysOfMonthDropdown
                                     }

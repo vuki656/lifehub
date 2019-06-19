@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Grid, Dropdown } from "semantic-ui-react";
+import { Grid, Dropdown, Checkbox } from "semantic-ui-react";
 
 import {
     daysOfMonth,
@@ -10,18 +10,27 @@ import {
 class RepeatOptions extends React.Component {
     state = {
         selectedWeekDays: this.props.selectedWeekDays,
-        selectedMonthDays: this.props.selectedMonthDays
+        selectedMonthDays: this.props.selectedMonthDays,
+        repeatAtEndOfMonth: this.props.repeatAtEndOfMonth,
+        repeatAtStartOfMonth: this.props.repeatAtStartOfMonth
     };
 
     static getDerivedStateFromProps(props) {
         return {
             selectedWeekDays: props.selectedWeekDays,
-            selectedMonthDays: props.selectedMonthDays
+            selectedMonthDays: props.selectedMonthDays,
+            repeatAtStartOfMonth: props.repeatAtStartOfMonth,
+            repeatAtEndOfMonth: props.repeatAtEndOfMonth
         };
     }
 
     render() {
-        const { selectedWeekDays, selectedMonthDays } = this.state;
+        const {
+            selectedWeekDays,
+            selectedMonthDays,
+            repeatAtStartOfMonth,
+            repeatAtEndOfMonth
+        } = this.state;
 
         return (
             <React.Fragment>
@@ -29,6 +38,7 @@ class RepeatOptions extends React.Component {
                     <p>Select Week Days</p>
                     <Dropdown
                         placeholder="Select Days"
+                        name="selectedWeekDays"
                         fluid
                         multiple
                         selection
@@ -41,12 +51,27 @@ class RepeatOptions extends React.Component {
                     <p>Select Days Of Month</p>
                     <Dropdown
                         placeholder="Select Days"
+                        name="selectedMonthDays"
                         fluid
                         multiple
                         selection
                         value={selectedMonthDays}
                         options={daysOfMonth}
                         onChange={this.props.handleDaysOfMonthDropdown}
+                    />
+                </Grid.Row>
+                <Grid.Row>
+                    <Checkbox
+                        label={"Repeat at the start of month"}
+                        name="repeatAtStartOfMonth"
+                        checked={repeatAtStartOfMonth}
+                        onChange={this.props.handleCheckboxChange}
+                    />
+                    <Checkbox
+                        label={"Repeat at the end of month"}
+                        name="repeatAtEndOfMonth"
+                        checked={repeatAtEndOfMonth}
+                        onChange={this.props.handleCheckboxChange}
                     />
                 </Grid.Row>
             </React.Fragment>
