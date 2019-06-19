@@ -13,7 +13,7 @@ import {
 
 import {
     isDayBeingSavedTo,
-    deleteSingleNodeFromFirebase,
+    deleteTodoFromFirebase,
     saveTodoInFirebase
 } from "../../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
@@ -135,11 +135,6 @@ class RepeatTodoPopup extends React.Component {
         selectedWeekDays,
         selectedMonthDays
     }) => {
-        console.log(
-            "will save these month days into week days rep: " +
-                selectedMonthDays
-        );
-
         for (
             let startDate = moment();
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
@@ -175,9 +170,6 @@ class RepeatTodoPopup extends React.Component {
         selectedWeekDays,
         selectedMonthDays
     }) => {
-        console.log(
-            "will save these WEEK days into MONTH days rep: " + selectedWeekDays
-        );
         for (
             let startDate = moment();
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
@@ -239,7 +231,7 @@ class RepeatTodoPopup extends React.Component {
                     selectedMonthDays
                 );
             } else {
-                deleteSingleNodeFromFirebase(
+                deleteTodoFromFirebase(
                     todoRef,
                     currentUser,
                     dayTimestamp,
@@ -283,7 +275,7 @@ class RepeatTodoPopup extends React.Component {
                     selectedMonthDays
                 );
             } else {
-                deleteSingleNodeFromFirebase(
+                deleteTodoFromFirebase(
                     todoRef,
                     currentUser,
                     dayTimestamp,

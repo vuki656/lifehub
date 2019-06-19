@@ -1,11 +1,15 @@
 import moment from "moment";
+import { getDayOnlyTimestamp } from "../Global";
 
-// Check if itterating date is in selected week days
-// Used to determin in which days to save todo
-export const isDayBeingSavedTo = (dateToCheck, selectedDays, formatToCheck) => {
-    let dayOfWeek = moment(dateToCheck).format(formatToCheck);
+// Checks if itterating date contains repating week or month days
+export const isDayBeingSavedTo = (
+    dateToCheck,
+    repeatingOnDays,
+    formatToCheck
+) => {
+    let itteratingDate = moment(dateToCheck).format(formatToCheck);
 
-    if (selectedDays.includes(dayOfWeek)) {
+    if (repeatingOnDays.includes(itteratingDate)) {
         return true;
     } else {
         return false;
@@ -13,7 +17,7 @@ export const isDayBeingSavedTo = (dateToCheck, selectedDays, formatToCheck) => {
 };
 
 // Remove single node in firebase
-export const deleteSingleNodeFromFirebase = (
+export const deleteTodoFromFirebase = (
     dbRef,
     currentUser,
     dayToRemove,
@@ -31,15 +35,16 @@ export const saveTodoInFirebase = (
     currentUser,
     category,
     todo,
-    selectedWeekDays = "",
+    selectedWeekDays,
     dayTimestamp,
     currentDay,
-    selectedMonthDays = ""
+    selectedMonthDays
 ) => {
     let determinedCreatedAtDate;
 
-    // Convert selected days array to string if exists
-    // Else use empty string
+    /*  Convert selected days array to string if exists
+        Else use empty string
+    */
     let repeatingDaysOfWeekString = selectedWeekDays
         ? selectedWeekDays.toString()
         : "";
@@ -47,9 +52,10 @@ export const saveTodoInFirebase = (
         ? selectedMonthDays.toString()
         : "";
 
-    // Determine if todo.createdAt exists
-    // When creating, currentDay will be used as todo.created at doesent exist
-    // When updating, exisiting createdAt will be used from todo
+    /*  Determine if todo.createdAt exists
+        When creating, currentDay will be used as todo.created at doesent exist
+        When updating, exisiting createdAt will be used from todo
+    */
     if (todo.createdAt) {
         determinedCreatedAtDate = todo.createdAt;
     } else {
@@ -67,6 +73,20 @@ export const saveTodoInFirebase = (
             repeatingOnWeekDays: repeatingDaysOfWeekString,
             repeatingOnMonthDays: repeatingDaysOMonthString
         })
+        .catch(err => {
+            console.error(err);
+        });
+};
+
+// Change todo text in firebase in given date
+export const chnageTodoTextInFirebase = (
+    { todo, todoRef, category, currentUser, newTodo },
+    date
+) => {
+    let dayTimestamp = getDayOnlyTimestamp(date);
+    todoRef
+        .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
+        .update({ value: newTodo })
         .catch(err => {
             console.error(err);
         });

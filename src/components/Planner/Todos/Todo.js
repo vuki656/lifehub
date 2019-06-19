@@ -7,7 +7,7 @@ import { Checkbox, Icon } from "semantic-ui-react";
 import EditTodoPopup from "./Popups/EditTodoPopup";
 import RepeatTodoPopup from "./Popups/RepeatTodoPopup";
 
-import { deleteSingleNodeFromFirebase } from "../../../helpers/Planner/Todo";
+import { deleteTodoFromFirebase } from "../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class Todo extends React.Component {
@@ -48,7 +48,7 @@ class Todo extends React.Component {
         if (todo.isRepeating) {
             this.deleteRepeatingTodo(this.state);
         } else {
-            deleteSingleNodeFromFirebase(
+            deleteTodoFromFirebase(
                 todoRef,
                 currentUser,
                 currentDay,
@@ -72,7 +72,7 @@ class Todo extends React.Component {
             startDate.add(1, "days")
         ) {
             let dayTimestamp = getDayOnlyTimestamp(startDate);
-            deleteSingleNodeFromFirebase(
+            deleteTodoFromFirebase(
                 todoRef,
                 currentUser,
                 dayTimestamp,
