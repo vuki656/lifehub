@@ -13,8 +13,7 @@ import {
 
 import {
     isDayBeingSavedTo,
-    deleteTodoFromFirebase,
-    saveTodoInFirebase
+    deleteTodoFromFirebase
 } from "../../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
@@ -120,15 +119,10 @@ class RepeatTodoPopup extends React.Component {
                 isDayBeingSavedTo(itteratingDate, selectedMonthDays, "Do") ||
                 isDayBeingSavedTo(itteratingDate, selectedWeekDays, "dddd")
             ) {
-                saveTodoInFirebase(
-                    todoRef,
-                    currentUser,
-                    category,
-                    todo,
+                this.saveTodoInFirebase(
+                    this.state,
                     selectedWeekDays,
-                    dayTimestamp,
-                    currentDay,
-                    selectedMonthDays
+                    dayTimestamp
                 );
             } else {
                 deleteTodoFromFirebase(
@@ -141,6 +135,51 @@ class RepeatTodoPopup extends React.Component {
             }
         }
         this.closePopup();
+    };
+
+    saveTodoInFirebase = (
+        { todoRef, currentUser, category, todo, currentDay, selectedMonthDays },
+        selectedWeekDays,
+        dayTimestamp
+    ) => {
+        let determinedCreatedAtDate;
+
+        /*  Convert selected days array to string if exists
+            Else use empty string
+        */
+        let repeatingDaysOfWeekString = selectedWeekDays
+            ? selectedWeekDays.toString()
+            : "";
+        let repeatingDaysOMonthString = selectedMonthDays
+            ? selectedMonthDays.toString()
+            : "";
+
+        /*  Determine if todo.createdAt exists
+            When creating, currentDay will be used as createdAt date
+            becasue todo.createdAt doesent exist
+            When updating, exisiting createdAt from todo will
+            be used as createdAt date
+        */
+        if (todo.createdAt) {
+            determinedCreatedAtDate = todo.createdAt;
+        } else {
+            determinedCreatedAtDate = currentDay;
+        }
+
+        todoRef
+            .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
+            .update({
+                createdAt: determinedCreatedAtDate,
+                isChecked: false,
+                key: todo.key,
+                value: todo.value,
+                isRepeating: true,
+                repeatingOnWeekDays: repeatingDaysOfWeekString,
+                repeatingOnMonthDays: repeatingDaysOMonthString
+            })
+            .catch(err => {
+                console.error(err);
+            });
     };
 
     // Set the repeaeting todo type to state

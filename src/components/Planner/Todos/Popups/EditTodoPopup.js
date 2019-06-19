@@ -4,10 +4,8 @@ import moment from "moment";
 
 import { Popup, Grid, Input, Icon } from "semantic-ui-react";
 
-import {
-    isDayBeingSavedTo,
-    changeTodoTextInFirebase
-} from "../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../../../helpers/Global";
+import { isDayBeingSavedTo } from "../../../../helpers/Planner/Todo";
 
 class EditTodoPopup extends React.Component {
     state = {
@@ -44,7 +42,7 @@ class EditTodoPopup extends React.Component {
             if (todo.isRepeating) {
                 this.handleRepeatingTodoTextUpdate(itteratingDate, todo);
             } else {
-                changeTodoTextInFirebase(this.state, currentDay);
+                this.changeTodoTextInFirebase(this.state, currentDay);
             }
         }
     };
@@ -55,8 +53,21 @@ class EditTodoPopup extends React.Component {
             isDayBeingSavedTo(date, todo.repeatingOnMonthDays, "Do") ||
             isDayBeingSavedTo(date, todo.repeatingOnWeekDays, "dddd")
         ) {
-            changeTodoTextInFirebase(this.state, date);
+            this.changeTodoTextInFirebase(this.state, date);
         }
+    };
+
+    changeTodoTextInFirebase = (
+        { todo, todoRef, category, currentUser, newTodo },
+        date
+    ) => {
+        let dayTimestamp = getDayOnlyTimestamp(date);
+        todoRef
+            .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
+            .update({ value: newTodo })
+            .catch(err => {
+                console.error(err);
+            });
     };
 
     // Set the state value from user input
