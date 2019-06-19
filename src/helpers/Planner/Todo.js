@@ -8,7 +8,6 @@ export const isDayBeingSavedTo = (
     formatToCheck
 ) => {
     let itteratingDate = moment(dateToCheck).format(formatToCheck);
-
     if (repeatingOnDays.includes(itteratingDate)) {
         return true;
     } else {
@@ -53,8 +52,11 @@ export const saveTodoInFirebase = (
         : "";
 
     /*  Determine if todo.createdAt exists
-        When creating, currentDay will be used as todo.created at doesent exist
-        When updating, exisiting createdAt will be used from todo
+        //
+        When creating, currentDay will be used as createdAt date
+        becasue todo.createdAt doesent exist
+        When updating, exisiting createdAt from todo will
+        be used as createdAt date
     */
     if (todo.createdAt) {
         determinedCreatedAtDate = todo.createdAt;
@@ -79,7 +81,7 @@ export const saveTodoInFirebase = (
 };
 
 // Change todo text in firebase in given date
-export const chnageTodoTextInFirebase = (
+export const changeTodoTextInFirebase = (
     { todo, todoRef, category, currentUser, newTodo },
     date
 ) => {

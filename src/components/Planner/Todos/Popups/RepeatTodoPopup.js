@@ -22,6 +22,7 @@ import XDayOfWeek from "../DropdownRepeatTypes/XDayOfWeek";
 import XDayOfMonth from "../DropdownRepeatTypes/XDayOfMonth";
 
 import { todoRepeatTypes } from "../../../../data/Planner/RepeatingTodoDropdownOptions";
+import { daysOfWeekArr } from "../../../../data/StockData";
 
 class RepeatTodoPopup extends React.Component {
     constructor(props) {
@@ -60,165 +61,64 @@ class RepeatTodoPopup extends React.Component {
 
     // Determine if todo is repeating and what kind
     handleRepeatingTodoSave = () => {
-        const { todo, typeOfRepeating } = this.state;
+        const { todo, typeOfRepeating, selectedWeekDays } = this.state;
 
         // Check if todo is repeating,
         // If yes, update it
         // If no, save it
         if (todo.isRepeating) {
-            this.handleRepeatingTodoUpdate(this.state);
+            this.saveRepeatingTodo(
+                this.state,
+                selectedWeekDays,
+                todo.createdAt
+            );
         } else {
             switch (typeOfRepeating) {
                 case "every-day":
-                    this.handleSaveRepeatingTodoEveryday(this.state);
+                    // Save in every day of week
+                    this.saveRepeatingTodo(this.state, daysOfWeekArr);
                     break;
                 case "every-x-day-of-week":
-                    this.handleSaveRepeatingTodoDaysOfWeek(this.state);
+                    // Save in selected week and month days
+                    this.saveRepeatingTodo(this.state, selectedWeekDays);
                     break;
                 case "every-x-day-of-month":
-                    this.handleSaveRepeatingTodoDaysOfMonth(this.state);
+                    // Save in selected week and month days
+                    this.saveRepeatingTodo(this.state, selectedWeekDays);
                     break;
                 default:
                     break;
             }
         }
-
         this.closePopup();
     };
 
-    // Save repeating todo to every day in firebase
-    handleSaveRepeatingTodoEveryday = ({
-        todoRef,
-        currentUser,
-        currentDay,
-        category,
-        todo,
-        generateUntillDate,
-        selectedWeekDays
-    }) => {
-        for (
-            let startDate = moment();
-            startDate.isBefore(moment(generateUntillDate).add(1, "day"));
-            startDate.add(1, "days")
-        ) {
-            let dayTimestamp = getDayOnlyTimestamp(startDate);
-            selectedWeekDays = [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday"
-            ];
-
-            saveTodoInFirebase(
-                todoRef,
-                currentUser,
-                category,
-                todo,
-                selectedWeekDays,
-                dayTimestamp,
-                currentDay
-            );
-        }
-    };
-
-    // Save repeating todo to selected days of week
-    handleSaveRepeatingTodoDaysOfWeek = ({
-        todoRef,
-        currentUser,
-        currentDay,
-        category,
-        todo,
-        generateUntillDate,
+    saveRepeatingTodo = (
+        {
+            todoRef,
+            currentUser,
+            currentDay,
+            category,
+            todo,
+            selectedMonthDays,
+            generateUntillDate
+        },
         selectedWeekDays,
-        selectedMonthDays
-    }) => {
-        for (
-            let startDate = moment();
-            startDate.isBefore(moment(generateUntillDate).add(1, "day"));
-            startDate.add(1, "days")
-        ) {
-            if (
-                isDayBeingSavedTo(startDate, selectedMonthDays, "Do") ||
-                isDayBeingSavedTo(startDate, selectedWeekDays, "dddd")
-            ) {
-                let dayTimestamp = getDayOnlyTimestamp(startDate);
-                saveTodoInFirebase(
-                    todoRef,
-                    currentUser,
-                    category,
-                    todo,
-                    selectedWeekDays,
-                    dayTimestamp,
-                    currentDay,
-                    selectedMonthDays
-                );
-            }
-        }
-    };
+        todoCreatedAtDate
+    ) => {
+        // When updating, use todo created date to update from
+        // When saving, use current day to save from
+        let startFromDate = todoCreatedAtDate ? todoCreatedAtDate : moment();
 
-    // Save repeating todo to selected days of month
-    handleSaveRepeatingTodoDaysOfMonth = ({
-        todoRef,
-        currentUser,
-        currentDay,
-        category,
-        todo,
-        generateUntillDate,
-        selectedWeekDays,
-        selectedMonthDays
-    }) => {
         for (
-            let startDate = moment();
-            startDate.isBefore(moment(generateUntillDate).add(1, "day"));
-            startDate.add(1, "days")
+            let itteratingDate = moment(startFromDate);
+            itteratingDate.isBefore(moment(generateUntillDate).add(1, "day"));
+            itteratingDate.add(1, "days")
         ) {
+            let dayTimestamp = getDayOnlyTimestamp(itteratingDate);
             if (
-                isDayBeingSavedTo(startDate, selectedMonthDays, "Do") ||
-                isDayBeingSavedTo(startDate, selectedWeekDays, "dddd")
-            ) {
-                let dayTimestamp = getDayOnlyTimestamp(startDate);
-                saveTodoInFirebase(
-                    todoRef,
-                    currentUser,
-                    category,
-                    todo,
-                    selectedWeekDays,
-                    dayTimestamp,
-                    currentDay,
-                    selectedMonthDays
-                );
-            }
-        }
-    };
-
-    // Send todo object to firebase
-    handleRepeatingTodoUpdate = ({
-        generateUntillDate,
-        todo,
-        selectedWeekDays,
-        todoRef,
-        currentUser,
-        category,
-        selectedMonthDays,
-        currentDay
-    }) => {
-        // Save new todo in each day from date range
-        // If there are days outside new day range
-        // delete them, else update them
-        for (
-            let itterationCurrentDate = moment(todo.createdAt);
-            itterationCurrentDate.isBefore(
-                moment(generateUntillDate).add(1, "day")
-            );
-            itterationCurrentDate.add(1, "days")
-        ) {
-            let dayTimestamp = getDayOnlyTimestamp(itterationCurrentDate);
-            if (
-                isDayBeingSavedTo(dayTimestamp, selectedWeekDays, "dddd") ||
-                isDayBeingSavedTo(dayTimestamp, selectedMonthDays, "Do")
+                isDayBeingSavedTo(itteratingDate, selectedMonthDays, "Do") ||
+                isDayBeingSavedTo(itteratingDate, selectedWeekDays, "dddd")
             ) {
                 saveTodoInFirebase(
                     todoRef,
@@ -228,50 +128,6 @@ class RepeatTodoPopup extends React.Component {
                     selectedWeekDays,
                     dayTimestamp,
                     currentDay,
-                    selectedMonthDays
-                );
-            } else {
-                deleteTodoFromFirebase(
-                    todoRef,
-                    currentUser,
-                    dayTimestamp,
-                    category,
-                    todo
-                );
-            }
-        }
-        this.closePopup();
-    };
-
-    // Send todo object to firebase
-    handleRepeatingTodoMonthDaysUpdate = ({
-        generateUntillDate,
-        todo,
-        selectedMonthDays,
-        todoRef,
-        currentUser,
-        category,
-        selectedWeekDays
-    }) => {
-        // Save new todo in each day from date range
-        // If there are days outside new day range
-        // delete them, else update them
-        for (
-            let itterationCurrentDate = moment(todo.createdAt);
-            itterationCurrentDate.isBefore(
-                moment(generateUntillDate).add(1, "day")
-            );
-            itterationCurrentDate.add(1, "days")
-        ) {
-            let dayTimestamp = getDayOnlyTimestamp(itterationCurrentDate);
-            if (isDayBeingSavedTo(dayTimestamp, selectedMonthDays, "dddd")) {
-                saveTodoInFirebase(
-                    todoRef,
-                    currentUser,
-                    category,
-                    todo,
-                    selectedWeekDays,
-                    dayTimestamp,
                     selectedMonthDays
                 );
             } else {

@@ -6,7 +6,7 @@ import { Popup, Grid, Input, Icon } from "semantic-ui-react";
 
 import {
     isDayBeingSavedTo,
-    chnageTodoTextInFirebase
+    changeTodoTextInFirebase
 } from "../../../../helpers/Planner/Todo";
 
 class EditTodoPopup extends React.Component {
@@ -31,9 +31,7 @@ class EditTodoPopup extends React.Component {
     }
 
     /*  Itterate trough all days
-        Where todo is repeating on both week and month days, update in both
-        If only week days, update it only there
-        If only month days, update it only there
+        If todo is repeaeting, update wherever its active
         If todo not repeating, update its single instance
     */
     handleTodoTextUpdate = () => {
@@ -44,46 +42,20 @@ class EditTodoPopup extends React.Component {
             itteratingDate.add(1, "days")
         ) {
             if (todo.isRepeating) {
-                if (todo.repeatingOnWeekDays && todo.repeatingOnMonthDays) {
-                    // Update in matching week days
-                    this.handleRepeatingTodoTextUpdate(
-                        itteratingDate,
-                        todo.repeatingOnWeekDays,
-                        "dddd"
-                    );
-                    // Update in matching month days
-                    this.handleRepeatingTodoTextUpdate(
-                        itteratingDate,
-                        todo.repeatingOnMonthDays,
-                        "Do"
-                    );
-                } else if (todo.repeatingOnWeekDays) {
-                    this.handleRepeatingTodoTextUpdate(
-                        itteratingDate,
-                        todo.repeatingOnWeekDays,
-                        "dddd"
-                    );
-                } else if (todo.repeatingOnMonthDays) {
-                    this.handleRepeatingTodoTextUpdate(
-                        itteratingDate,
-                        todo.repeatingOnMonthDays,
-                        "Do"
-                    );
-                }
+                this.handleRepeatingTodoTextUpdate(itteratingDate, todo);
             } else {
-                this.chnageTodoTextInFirebase(this.state, currentDay);
+                changeTodoTextInFirebase(this.state, currentDay);
             }
         }
     };
 
     // Check if itterating date matches repeating month day or week day
-    handleRepeatingTodoTextUpdate = (
-        itteratingDate,
-        repeatingOnDays,
-        dayFormat
-    ) => {
-        if (isDayBeingSavedTo(itteratingDate, repeatingOnDays, dayFormat)) {
-            chnageTodoTextInFirebase(this.state, itteratingDate);
+    handleRepeatingTodoTextUpdate = (date, todo) => {
+        if (
+            isDayBeingSavedTo(date, todo.repeatingOnMonthDays, "Do") ||
+            isDayBeingSavedTo(date, todo.repeatingOnWeekDays, "dddd")
+        ) {
+            changeTodoTextInFirebase(this.state, date);
         }
     };
 
