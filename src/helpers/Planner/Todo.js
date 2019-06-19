@@ -1,5 +1,4 @@
 import moment from "moment";
-import { getDayOnlyTimestamp } from "../Global";
 
 // Checks if itterating date contains repating week or month days
 export const isDayBeingSavedTo = (

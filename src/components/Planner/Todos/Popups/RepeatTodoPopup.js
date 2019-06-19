@@ -7,8 +7,9 @@ import {
     Grid,
     Icon,
     Button,
-    Dropdown,
-    Message
+    Message,
+    Checkbox,
+    Segment
 } from "semantic-ui-react";
 
 import {
@@ -17,10 +18,8 @@ import {
 } from "../../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
-import XDayOfWeek from "../DropdownRepeatTypes/XDayOfWeek";
-import XDayOfMonth from "../DropdownRepeatTypes/XDayOfMonth";
+import RepeatOptions from "./RepeatOptions";
 
-import { todoRepeatTypes } from "../../../../data/Planner/RepeatingTodoDropdownOptions";
 import { daysOfWeekArr } from "../../../../data/StockData";
 
 class RepeatTodoPopup extends React.Component {
@@ -28,8 +27,8 @@ class RepeatTodoPopup extends React.Component {
         super(props);
 
         this.state = {
+            isRepeatingEveryDay: false,
             isPopOpen: false,
-            typeOfRepeating: "",
             todoRef: firebase.database().ref("todos"),
             currentUser: firebase.auth().currentUser,
 
@@ -60,7 +59,7 @@ class RepeatTodoPopup extends React.Component {
 
     // Determine if todo is repeating and what kind
     handleRepeatingTodoSave = () => {
-        const { todo, typeOfRepeating, selectedWeekDays } = this.state;
+        const { todo, selectedWeekDays, isRepeatingEveryDay } = this.state;
 
         // Check if todo is repeating,
         // If yes, update it
@@ -72,21 +71,10 @@ class RepeatTodoPopup extends React.Component {
                 todo.createdAt
             );
         } else {
-            switch (typeOfRepeating) {
-                case "every-day":
-                    // Save in every day of week
-                    this.saveRepeatingTodo(this.state, daysOfWeekArr);
-                    break;
-                case "every-x-day-of-week":
-                    // Save in selected week and month days
-                    this.saveRepeatingTodo(this.state, selectedWeekDays);
-                    break;
-                case "every-x-day-of-month":
-                    // Save in selected week and month days
-                    this.saveRepeatingTodo(this.state, selectedWeekDays);
-                    break;
-                default:
-                    break;
+            if (isRepeatingEveryDay) {
+                this.saveRepeatingTodo(this.state, daysOfWeekArr);
+            } else {
+                this.saveRepeatingTodo(this.state, selectedWeekDays);
             }
         }
         this.closePopup();
@@ -96,7 +84,6 @@ class RepeatTodoPopup extends React.Component {
         {
             todoRef,
             currentUser,
-            currentDay,
             category,
             todo,
             selectedMonthDays,
@@ -182,9 +169,12 @@ class RepeatTodoPopup extends React.Component {
             });
     };
 
-    // Set the repeaeting todo type to state
-    handleDropdownChange = (event, value) => {
-        this.setState({ typeOfRepeating: value.value });
+    handleRepeatEveryDayCheckbox = () => {
+        this.setState({
+            isRepeatingEveryDay: !this.state.isRepeatingEveryDay,
+            selectedMonthDays: [],
+            selectedWeekDays: daysOfWeekArr
+        });
     };
 
     // Set selected days of week to state
@@ -208,7 +198,7 @@ class RepeatTodoPopup extends React.Component {
     render() {
         const {
             isPopOpen,
-            typeOfRepeating,
+            isRepeatingEveryDay,
             selectedWeekDays,
             selectedMonthDays
         } = this.state;
@@ -234,28 +224,29 @@ class RepeatTodoPopup extends React.Component {
                     <Grid.Row columns={"equal"}>
                         <Grid.Column>
                             <Grid.Row>
-                                <Dropdown
-                                    placeholder="Select Option"
-                                    options={todoRepeatTypes}
-                                    onChange={this.handleDropdownChange}
+                                <Checkbox
+                                    label={"Repeat every day"}
+                                    checked={isRepeatingEveryDay}
+                                    onChange={this.handleRepeatEveryDayCheckbox}
                                 />
                             </Grid.Row>
-                            {typeOfRepeating === "every-x-day-of-week" && (
-                                <XDayOfWeek
+                            <Grid.Row
+                                as={Segment}
+                                className={
+                                    isRepeatingEveryDay ? "disabled" : ""
+                                }
+                            >
+                                <RepeatOptions
                                     selectedWeekDays={selectedWeekDays}
-                                    handleDaysOfWeekDropdown={
-                                        this.handleDaysOfWeekDropdown
-                                    }
-                                />
-                            )}
-                            {typeOfRepeating === "every-x-day-of-month" && (
-                                <XDayOfMonth
                                     selectedMonthDays={selectedMonthDays}
                                     handleDaysOfMonthDropdown={
                                         this.handleDaysOfMonthDropdown
                                     }
+                                    handleDaysOfWeekDropdown={
+                                        this.handleDaysOfWeekDropdown
+                                    }
                                 />
-                            )}
+                            </Grid.Row>
                             <Grid.Row>
                                 <Button onClick={this.handleRepeatingTodoSave}>
                                     Save
