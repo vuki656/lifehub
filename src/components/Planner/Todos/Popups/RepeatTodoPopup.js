@@ -132,14 +132,23 @@ class RepeatTodoPopup extends React.Component {
         category,
         todo,
         generateUntillDate,
-        selectedWeekDays
+        selectedWeekDays,
+        selectedMonthDays
     }) => {
+        console.log(
+            "will save these month days into week days rep: " +
+                selectedMonthDays
+        );
+
         for (
             let startDate = moment();
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
-            if (isDayBeingSavedTo(startDate, selectedWeekDays, "dddd")) {
+            if (
+                isDayBeingSavedTo(startDate, selectedMonthDays, "Do") ||
+                isDayBeingSavedTo(startDate, selectedWeekDays, "dddd")
+            ) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
                 saveTodoInFirebase(
                     todoRef,
@@ -148,7 +157,8 @@ class RepeatTodoPopup extends React.Component {
                     todo,
                     selectedWeekDays,
                     dayTimestamp,
-                    currentDay
+                    currentDay,
+                    selectedMonthDays
                 );
             }
         }
@@ -165,12 +175,18 @@ class RepeatTodoPopup extends React.Component {
         selectedWeekDays,
         selectedMonthDays
     }) => {
+        console.log(
+            "will save these WEEK days into MONTH days rep: " + selectedWeekDays
+        );
         for (
             let startDate = moment();
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
-            if (isDayBeingSavedTo(startDate, selectedMonthDays, "Do")) {
+            if (
+                isDayBeingSavedTo(startDate, selectedMonthDays, "Do") ||
+                isDayBeingSavedTo(startDate, selectedWeekDays, "dddd")
+            ) {
                 let dayTimestamp = getDayOnlyTimestamp(startDate);
                 saveTodoInFirebase(
                     todoRef,
