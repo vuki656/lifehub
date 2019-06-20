@@ -32,6 +32,9 @@ class RepeatOptions extends React.Component {
             repeatAtEndOfMonth
         } = this.state;
 
+        let weekDays = selectedWeekDays ? selectedWeekDays : [];
+        let monthDays = selectedMonthDays ? selectedMonthDays : [];
+
         return (
             <React.Fragment>
                 <Grid.Row>
@@ -42,7 +45,7 @@ class RepeatOptions extends React.Component {
                         fluid
                         multiple
                         selection
-                        value={selectedWeekDays}
+                        value={weekDays}
                         options={daysOfWeek}
                         onChange={this.props.handleDaysOfWeekDropdown}
                     />
@@ -55,7 +58,7 @@ class RepeatOptions extends React.Component {
                         fluid
                         multiple
                         selection
-                        value={selectedMonthDays}
+                        value={monthDays}
                         options={daysOfMonth}
                         onChange={this.props.handleDaysOfMonthDropdown}
                     />

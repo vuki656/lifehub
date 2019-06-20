@@ -37,11 +37,11 @@ class RepeatTodoPopup extends React.Component {
             createdAt: this.props.todo.createdAt,
             repeatAtStartOfMonth: this.props.todo.repeatAtStartOfMonth,
             repeatAtEndOfMonth: this.props.todo.repeatAtEndOfMonth,
-            selectedMonthDays: this.props.todo.repeatingOnMonthDays.split(","),
-            selectedWeekDays: this.props.todo.repeatingOnWeekDays.split(","),
+            selectedMonthDays: this.props.todo.repeatingOnMonthDays,
+            selectedWeekDays: this.props.todo.repeatingOnWeekDays,
+            todo: this.props.todo,
             category: this.props.category,
             generateUntillDate: this.props.generateUntillDate,
-            todo: this.props.todo,
             currentDay: this.props.currentDay
         };
 
@@ -180,7 +180,6 @@ class RepeatTodoPopup extends React.Component {
             be used as createdAt date
         */
         if (createdAt) {
-            console.log("Start from " + moment(createdAt).format("DD/MM/YYYY"));
             determinedCreatedAtDate = createdAt;
         } else {
             determinedCreatedAtDate = currentDay;
@@ -209,6 +208,7 @@ class RepeatTodoPopup extends React.Component {
         this.setState({ createdAt: getDayOnlyTimestamp(newRepeatFromDate) });
     };
 
+    // Reset all repeating options if
     handleRepeatEveryDayCheckbox = () => {
         this.setState({
             isRepeatingEveryDay: !this.state.isRepeatingEveryDay,
@@ -304,6 +304,8 @@ class RepeatTodoPopup extends React.Component {
                                         this.handleDaysOfWeekDropdown
                                     }
                                 />
+                            </Grid.Row>
+                            <Grid.Row>
                                 <Checkbox
                                     label={"Start repeating from certain date"}
                                     name={"repeatFromDate"}
