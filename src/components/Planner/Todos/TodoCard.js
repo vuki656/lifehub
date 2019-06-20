@@ -100,7 +100,8 @@ class TodoCard extends React.Component {
                         repeatingOnWeekDays: "",
                         repeatingOnMonthDays: "",
                         repeatAtEndOfMonth: false,
-                        repeatAtStartOfMonth: false
+                        repeatAtStartOfMonth: false,
+                        repeatFromDate: false
                     });
                 })
                 .then(this.clearForm())
@@ -127,6 +128,7 @@ class TodoCard extends React.Component {
                     let repeatingOnMonthDays = child.val().repeatingOnMonthDays;
                     let repeatAtStartOfMonth = child.val().repeatAtStartOfMonth;
                     let repeatAtEndOfMonth = child.val().repeatAtEndOfMonth;
+                    let repeatFromDate = child.val().repeatFromDate;
 
                     todoHolder.push({
                         value,
@@ -137,7 +139,8 @@ class TodoCard extends React.Component {
                         repeatingOnWeekDays,
                         repeatingOnMonthDays,
                         repeatAtStartOfMonth,
-                        repeatAtEndOfMonth
+                        repeatAtEndOfMonth,
+                        repeatFromDate
                     });
                 });
             });

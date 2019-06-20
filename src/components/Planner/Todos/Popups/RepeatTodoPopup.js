@@ -1,6 +1,7 @@
 import React from "react";
 import firebase from "../../../../firebase/Auth";
 import moment from "moment";
+import DatePicker from "react-datepicker";
 
 import {
     Popup,
@@ -32,6 +33,8 @@ class RepeatTodoPopup extends React.Component {
             todoRef: firebase.database().ref("todos"),
             currentUser: firebase.auth().currentUser,
 
+            repeatFromDate: this.props.todo.repeatFromDate,
+            createdAt: this.props.todo.createdAt,
             repeatAtStartOfMonth: this.props.todo.repeatAtStartOfMonth,
             repeatAtEndOfMonth: this.props.todo.repeatAtEndOfMonth,
             selectedMonthDays: this.props.todo.repeatingOnMonthDays.split(","),
@@ -62,22 +65,23 @@ class RepeatTodoPopup extends React.Component {
 
     // Determine if todo is repeating and what kind
     handleRepeatingTodoSave = () => {
-        const { todo, selectedWeekDays, isRepeatingEveryDay } = this.state;
+        const {
+            todo,
+            selectedWeekDays,
+            isRepeatingEveryDay,
+            createdAt
+        } = this.state;
 
         // Check if todo is repeating,
         // If yes, update it
         // If no, save it
         if (todo.isRepeating) {
-            this.saveRepeatingTodo(
-                this.state,
-                selectedWeekDays,
-                todo.createdAt
-            );
+            this.saveRepeatingTodo(this.state, selectedWeekDays, createdAt);
         } else {
             if (isRepeatingEveryDay) {
-                this.saveRepeatingTodo(this.state, daysOfWeekArr);
+                this.saveRepeatingTodo(this.state, daysOfWeekArr, createdAt);
             } else {
-                this.saveRepeatingTodo(this.state, selectedWeekDays);
+                this.saveRepeatingTodo(this.state, selectedWeekDays, createdAt);
             }
         }
         this.closePopup();
@@ -97,12 +101,8 @@ class RepeatTodoPopup extends React.Component {
         selectedWeekDays,
         todoCreatedAtDate
     ) => {
-        // When updating, use todo created date to update from
-        // When saving, use current day to save from
-        let startFromDate = todoCreatedAtDate ? todoCreatedAtDate : moment();
-
         for (
-            let itteratingDate = moment(startFromDate);
+            let itteratingDate = moment();
             itteratingDate.isBefore(moment(generateUntillDate).add(1, "day"));
             itteratingDate.add(1, "days")
         ) {
@@ -117,10 +117,15 @@ class RepeatTodoPopup extends React.Component {
                 : "";
 
             if (
-                isDayBeingSavedTo(itteratingDate, selectedMonthDays, "Do") ||
-                isDayBeingSavedTo(itteratingDate, selectedWeekDays, "dddd") ||
-                startOfMonth === dayTimestamp ||
-                endOfMonth === dayTimestamp
+                (isDayBeingSavedTo(itteratingDate, selectedMonthDays, "Do") ||
+                    isDayBeingSavedTo(
+                        itteratingDate,
+                        selectedWeekDays,
+                        "dddd"
+                    ) ||
+                    startOfMonth === dayTimestamp ||
+                    endOfMonth === dayTimestamp) &&
+                moment(itteratingDate).isAfter(todoCreatedAtDate)
             ) {
                 this.saveSingleTodoInFirebase(
                     this.state,
@@ -149,7 +154,9 @@ class RepeatTodoPopup extends React.Component {
             currentDay,
             selectedMonthDays,
             repeatAtStartOfMonth,
-            repeatAtEndOfMonth
+            repeatAtEndOfMonth,
+            createdAt,
+            repeatFromDate
         },
         selectedWeekDays,
         dayTimestamp
@@ -166,14 +173,15 @@ class RepeatTodoPopup extends React.Component {
             ? selectedMonthDays.toString()
             : "";
 
-        /*  Determine if todo.createdAt exists
-            When creating, currentDay will be used as createdAt date
+        /*  Determine if todo.createdAt exists.
+            When creating a todo, currentDay will be used as createdAt date
             becasue todo.createdAt doesent exist
             When updating, exisiting createdAt from todo will
             be used as createdAt date
         */
-        if (todo.createdAt) {
-            determinedCreatedAtDate = todo.createdAt;
+        if (createdAt) {
+            console.log("Start from " + moment(createdAt).format("DD/MM/YYYY"));
+            determinedCreatedAtDate = createdAt;
         } else {
             determinedCreatedAtDate = currentDay;
         }
@@ -189,11 +197,16 @@ class RepeatTodoPopup extends React.Component {
                 repeatingOnWeekDays: repeatingDaysOfWeekString,
                 repeatingOnMonthDays: repeatingDaysOMonthString,
                 repeatAtStartOfMonth: repeatAtStartOfMonth,
-                repeatAtEndOfMonth: repeatAtEndOfMonth
+                repeatAtEndOfMonth: repeatAtEndOfMonth,
+                repeatFromDate: repeatFromDate
             })
             .catch(err => {
                 console.error(err);
             });
+    };
+
+    handleRepeatFromDate = newRepeatFromDate => {
+        this.setState({ createdAt: getDayOnlyTimestamp(newRepeatFromDate) });
     };
 
     handleRepeatEveryDayCheckbox = () => {
@@ -202,7 +215,9 @@ class RepeatTodoPopup extends React.Component {
             selectedMonthDays: [],
             selectedWeekDays: daysOfWeekArr,
             repeatAtEndOfMonth: false,
-            repeatAtStartOfMonth: false
+            repeatAtStartOfMonth: false,
+            createdAt: this.state.todo.createdAt,
+            repeatFromDate: false
         });
     };
 
@@ -236,7 +251,9 @@ class RepeatTodoPopup extends React.Component {
             selectedWeekDays,
             selectedMonthDays,
             repeatAtStartOfMonth,
-            repeatAtEndOfMonth
+            repeatAtEndOfMonth,
+            repeatFromDate,
+            createdAt
         } = this.state;
 
         return (
@@ -287,7 +304,22 @@ class RepeatTodoPopup extends React.Component {
                                         this.handleDaysOfWeekDropdown
                                     }
                                 />
+                                <Checkbox
+                                    label={"Start repeating from certain date"}
+                                    name={"repeatFromDate"}
+                                    checked={repeatFromDate}
+                                    onChange={this.handleCheckboxChange}
+                                />
+                                {repeatFromDate && (
+                                    <DatePicker
+                                        minDate={moment().toDate()}
+                                        name={"createdAt"}
+                                        selected={createdAt}
+                                        onChange={this.handleRepeatFromDate}
+                                    />
+                                )}
                             </Grid.Row>
+
                             <Grid.Row>
                                 <Button onClick={this.handleRepeatingTodoSave}>
                                     Save
@@ -298,12 +330,10 @@ class RepeatTodoPopup extends React.Component {
                             </Grid.Row>
                             <Grid.Row>
                                 <Message compact>
-                                    Todo repeating will start from day you make
-                                    it repeating. <br />
-                                    It will not be displayed before it. <br />
-                                    Ex: If you make it repeating on 25th,
-                                    <br /> it will display from 25th onward, it
-                                    wont be visible before 25th.
+                                    Todo repeating will start from today date
+                                    <br /> no matter in which day you create it.
+                                    If you want it to start repeating from
+                                    <br /> certain date. Use the checkbox
                                 </Message>
                             </Grid.Row>
                         </Grid.Column>
