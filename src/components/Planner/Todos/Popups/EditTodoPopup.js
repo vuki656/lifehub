@@ -84,7 +84,11 @@ class EditTodoPopup extends React.Component {
     ) => {
         let dayTimestamp = getDayOnlyTimestamp(date);
         todoRef
-            .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
+            .child(
+                `${currentUser.uid}/${dayTimestamp}/categories/${category}/${
+                    todo.key
+                }`
+            )
             .update({ value: newTodo })
             .catch(err => {
                 console.error(err);

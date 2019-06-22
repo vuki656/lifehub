@@ -5,13 +5,13 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-const helpers = require("./helpers");
+const helpers = require("./helpers/GetTodoData");
 
 // Update todo count every time theres an add, delete, update
 exports.countTodos = functions.database
     .ref("/todos/{userId}/{day}/")
     .onWrite(async (snap, context) => {
         const todoRef = snap.after.ref;
-        // let dataObject = await helpers.getDataFromSnap(todoRef);
-        // return await todoRef.update(dataObject);
+        let dataObject = await helpers.getDataFromSnap(todoRef);
+        return await todoRef.update(dataObject);
     });

@@ -92,7 +92,11 @@ class Todo extends React.Component {
         isChecked
     }) => {
         todoRef
-            .child(`${currentUser.uid}/${currentDay}/${category}/${todo.key}`)
+            .child(
+                `${currentUser.uid}/${currentDay}/categories/${category}/${
+                    todo.key
+                }`
+            )
             .update({ isChecked: !isChecked })
             .catch(error => console.error(error));
     };

@@ -16,11 +16,11 @@ class TaskArea extends React.Component {
         let isInPast = moment(currentDay).isBefore(
             getDayOnlyTimestamp(moment())
         )
-            ? "disabled"
-            : "";
+            ? true
+            : false;
 
         return (
-            <Grid as={Segment} className={isInPast}>
+            <Grid as={Segment} disabled={isInPast}>
                 <Grid.Row>
                     <Header>
                         {moment(currentDay).format("DD/MM/YYYY - dddd")}

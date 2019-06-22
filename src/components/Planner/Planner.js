@@ -43,6 +43,64 @@ class Planner extends React.Component {
         });
     };
 
+    // Generate day-month structure
+    // FORMAT:
+    //      [monthObject1: {
+    //          month: momentObject for each month
+    //          daysList: [momentObject for each day]
+    //      }]
+    generateMonthDayStructure = (regDate, { currentDay }) => {
+        let monthObjectList = []; // Holds the full day & month structure
+        let monthList = this.generateMonths(regDate);
+
+        // Iterate trough next 12 months
+        monthList.forEach((momentMonthObject, index) => {
+            let daysInMonthAmount = momentMonthObject.daysInMonth();
+            let year = moment(momentMonthObject).format("YYYY");
+            let month = moment(momentMonthObject).format("MM");
+            let daysOfMonthList = [];
+
+            let countStart = this.getStartingIndex(momentMonthObject, regDate);
+
+            // Iterate trough days in month
+            for (let i = 1; i < daysInMonthAmount + 1; i++) {
+                daysOfMonthList.push(
+                    moment(`${i}-${month}-${year}`, "DD/MM/YYYY")
+                );
+            }
+
+            monthObjectList.push({
+                month: monthList[index],
+                daysList: daysOfMonthList
+            });
+
+            // Empty days in month so next month can be put in
+            daysOfMonthList = [];
+        });
+
+        let currentMonth = this.findCurrentMonthInList(monthObjectList);
+
+        // Redirect user to current days planner page after getting data
+        this.setState({ monthObjectList, currentMonth }, () => {
+            this.props.history.push(
+                `/planner/${moment(currentDay).format("DD/MM/YYYY")}`
+            );
+        });
+    };
+
+    // Generate next 12 months from user reg date
+    generateMonths = regDate => {
+        let monthList = [];
+
+        let noOfMonthsToGenerate = this.getMonthsToGenerateNo(regDate);
+        this.saveDateUntillMonthsGenerated(this.state, noOfMonthsToGenerate);
+
+        for (let i = 0; i < noOfMonthsToGenerate; i++) {
+            monthList.push(moment(regDate).add(i, "month"));
+        }
+        return monthList;
+    };
+
     // Checks if current month is month user registered,
     // If yes, return register day so counter can count
     // from it to end of the month
@@ -56,6 +114,19 @@ class Planner extends React.Component {
         } else {
             return 1;
         }
+    };
+
+    // Gets the current month in monthObjectList
+    findCurrentMonthInList = monthObjectList => {
+        let currentMonth = moment().format("M/YY");
+        let foundMonth = null;
+        monthObjectList.forEach(monthObject => {
+            if (currentMonth === formatMoment(monthObject.month, "M/YY")) {
+                foundMonth = monthObject;
+            }
+        });
+
+        return foundMonth;
     };
 
     // Save the date untill months are generated
@@ -79,77 +150,6 @@ class Planner extends React.Component {
     // one year from now available in the planner
     getMonthsToGenerateNo = regDate => {
         return 12 + moment().diff(regDate, "months");
-    };
-
-    // Generate next 12 months from user reg date
-    generateMonths = regDate => {
-        let monthList = [];
-
-        let noOfMonthsToGenerate = this.getMonthsToGenerateNo(regDate);
-        this.saveDateUntillMonthsGenerated(this.state, noOfMonthsToGenerate);
-
-        for (let i = 0; i < noOfMonthsToGenerate; i++) {
-            monthList.push(moment(regDate).add(i, "month"));
-        }
-        return monthList;
-    };
-
-    // Gets the current month in monthObjectList
-    findCurrentMonthInList = monthObjectList => {
-        let currentMonth = moment().format("M/YY");
-        let foundMonth = null;
-        monthObjectList.forEach(monthObject => {
-            if (currentMonth === formatMoment(monthObject.month, "M/YY")) {
-                foundMonth = monthObject;
-            }
-        });
-
-        return foundMonth;
-    };
-
-    // Generate day-month structure
-    // FORMAT:
-    //      [monthObject1: {
-    //          month: momentObject for each month
-    //          daysList: [momentObject for each day]
-    //      }]
-    generateMonthDayStructure = (regDate, { currentDay }) => {
-        let monthObjectList = []; // Holds the full day & month structure
-        let monthList = this.generateMonths(regDate);
-
-        // Iterate trough next 12 months
-        monthList.forEach((momentMonthObject, index) => {
-            let daysInMonthAmount = momentMonthObject.daysInMonth();
-            let year = moment(momentMonthObject).format("YYYY");
-            let month = moment(momentMonthObject).format("MM");
-            let daysOfMonthList = [];
-
-            let countStart = this.getStartingIndex(momentMonthObject, regDate);
-
-            // Iterate trough days in month
-            for (let i = countStart; i < daysInMonthAmount + 1; i++) {
-                daysOfMonthList.push(
-                    moment(`${i}-${month}-${year}`, "DD/MM/YYYY")
-                );
-            }
-
-            monthObjectList.push({
-                month: monthList[index],
-                daysList: daysOfMonthList
-            });
-
-            // Empty days in month so next month can be put in
-            daysOfMonthList = [];
-        });
-
-        let currentMonth = this.findCurrentMonthInList(monthObjectList);
-
-        // Redirect user to current days planner page after getting data
-        this.setState({ monthObjectList, currentMonth }, () => {
-            this.props.history.push(
-                `/planner/${moment(currentDay).format("DD/MM/YYYY")}`
-            );
-        });
     };
 
     // Select new month from monthObjectList

@@ -23,7 +23,11 @@ export const deleteTodoFromFirebase = (
     todo
 ) => {
     dbRef
-        .child(`${currentUser.uid}/${dayToRemove}/${category}/${todo.key}`)
+        .child(
+            `${currentUser.uid}/${dayToRemove}/categories/${category}/${
+                todo.key
+            }`
+        )
         .remove()
         .catch(error => console.error(error));
 };

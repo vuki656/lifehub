@@ -186,7 +186,11 @@ class RepeatTodoPopup extends React.Component {
         }
 
         todoRef
-            .child(`${currentUser.uid}/${dayTimestamp}/${category}/${todo.key}`)
+            .child(
+                `${currentUser.uid}/${dayTimestamp}/categories/${category}/${
+                    todo.key
+                }`
+            )
             .update({
                 createdAt: determinedCreatedAtDate,
                 isChecked: false,
