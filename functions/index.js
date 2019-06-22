@@ -12,6 +12,6 @@ exports.countTodos = functions.database
     .ref("/todos/{userId}/{day}/")
     .onWrite(async (snap, context) => {
         const todoRef = snap.after.ref;
-        let dataObject = await helpers.getDataFromSnap(todoRef);
-        return await todoRef.update(dataObject);
+        // let dataObject = await helpers.getDataFromSnap(todoRef);
+        // return await todoRef.update(dataObject);
     });

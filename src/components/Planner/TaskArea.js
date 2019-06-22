@@ -1,7 +1,9 @@
 import React from "react";
 import moment from "moment";
 
-import { Grid, Header } from "semantic-ui-react";
+import { Grid, Header, Segment } from "semantic-ui-react";
+
+import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 import TodoCard from "./Todos/TodoCard";
 import Reminders from "./Reminders/Reminders";
@@ -10,8 +12,15 @@ class TaskArea extends React.Component {
     render() {
         const { currentDay } = this.props;
 
+        // Checks if day is in the past, if yes disable editing of todos
+        let isInPast = moment(currentDay).isBefore(
+            getDayOnlyTimestamp(moment())
+        )
+            ? "disabled"
+            : "";
+
         return (
-            <Grid>
+            <Grid as={Segment} className={isInPast}>
                 <Grid.Row>
                     <Header>
                         {moment(currentDay).format("DD/MM/YYYY - dddd")}
