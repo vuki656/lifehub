@@ -21,6 +21,8 @@ exports.pushTodosToNextDayCRON = functions.pubsub
     .schedule("* * * * *")
     .onRun(async context => {
         let stamp = await cron.getYesterdayStamp();
-        console.log("between");
-        await cron.print(admin, stamp);
+        let userList = await cron.listAllUsers(admin);
+        console.log("VERSION 30");
+        console.log("STAMP: " + stamp);
+        await cron.print(admin, stamp, userList);
     });
