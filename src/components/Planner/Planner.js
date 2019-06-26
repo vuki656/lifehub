@@ -63,7 +63,7 @@ class Planner extends React.Component {
             let countStart = this.getStartingIndex(momentMonthObject, regDate);
 
             // Iterate trough days in month
-            for (let i = 1; i < daysInMonthAmount + 1; i++) {
+            for (let i = countStart; i < daysInMonthAmount + 1; i++) {
                 daysOfMonthList.push(
                     moment(`${i}-${month}-${year}`, "DD/MM/YYYY")
                 );
