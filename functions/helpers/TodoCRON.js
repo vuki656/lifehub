@@ -10,7 +10,8 @@ module.exports.getYesterdayStamp = async () => {
         .valueOf();
 };
 
-module.exports.listAllUsers = async (admin, nextPageToken) => {
+// Get a list of all users by their ids
+module.exports.getUserList = async (admin, nextPageToken) => {
     let userList = [];
 
     await admin
@@ -24,26 +25,64 @@ module.exports.listAllUsers = async (admin, nextPageToken) => {
         })
         .then()
         .catch(err => {
-            console.log("Error printing users: " + err);
+            console.error(err);
         });
 
     return userList;
 };
 
-module.exports.print = (admin, stamp, userList) => {
+// Moves given todo from yesterday to today and
+// deletes it from yesterday
+module.exports.moveTodoToNextDay = (
+    category,
+    yesterdayStamp,
+    admin,
+    todoSnap,
+    userId
+) => {
+    let todayStamp = moment(yesterdayStamp)
+        .add(1, "day")
+        .valueOf();
+    let todoKey = todoSnap.val().key;
+
+    // Set the todo in today
+    admin
+        .database()
+        .ref(`todos`)
+        .child(`${userId}/${todayStamp}/categories/${category}`)
+        .update({ [todoKey]: todoSnap.val() })
+        .catch(err => {
+            console.error(err);
+        });
+
+    // Remove todo from yesterday
+    admin
+        .database()
+        .ref(`todos`)
+        .child(`${userId}/${yesterdayStamp}/categories/${category}/${todoKey}`)
+        .remove();
+};
+
+// Itterate trough all todos from yesterday and move them to today
+// If they are not repeating or not checked
+module.exports.handleTodoMove = (admin, yesterdayStamp, userList) => {
     userList.forEach(async userId => {
-        await console.log("from user: " + userId);
         await admin
             .database()
             .ref(`todos`)
-            .child(`${userId}/${stamp}/categories/`)
-            .on("value", categories => {
+            .child(`${userId}/${yesterdayStamp}/categories/`)
+            .once("value", categories => {
                 categories.forEach(category => {
-                    console.log("category key: " + category.key);
                     category.forEach(todo => {
-                        key = todo.val().key;
-                        value = todo.val().value;
-                        console.log("key: " + key + " " + value);
+                        if (!todo.val().isRepeating && !todo.val().isChecked) {
+                            this.moveTodoToNextDay(
+                                category.key,
+                                yesterdayStamp,
+                                admin,
+                                todo,
+                                userId
+                            );
+                        }
                     });
                 });
             });
