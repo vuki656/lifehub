@@ -1,8 +1,9 @@
 import React from "react";
 
-import { formatMoment } from "../../helpers/Global";
-
 import { Link } from "react-router-dom";
+import { Icon } from "semantic-ui-react";
+
+import { formatMoment } from "../../helpers/Global";
 
 class DaysList extends React.Component {
     state = {
@@ -33,7 +34,10 @@ class DaysList extends React.Component {
                 key={formatMoment(day, "DD/MM/YYYY")}
                 onClick={() => this.props.setCurrentDay(day)}
             >
-                <li>{formatMoment(day, "DD/MM/YYYY - ddd")}</li>
+                <li>
+                    {formatMoment(day, "DD/MM/YYYY - ddd")}{" "}
+                    <Icon name="check" />
+                </li>
             </Link>
         ));
 

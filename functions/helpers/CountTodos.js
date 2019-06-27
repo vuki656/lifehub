@@ -142,6 +142,85 @@ module.exports.getDataFromSnap = async todoRef => {
 
     let dataObject = {
         count: {
+            total:
+                morningRepeating +
+                morningNonRepeating +
+                dayRepeating +
+                dayNonRepeating +
+                eveningRepeating +
+                eveningNonRepeating +
+                workRepeating +
+                workNonRepeating +
+                miscRepeating +
+                miscNonRepeating,
+            totalChecked:
+                morningRepeatingChecked +
+                dayRepeatingChecked +
+                eveningRepeatingChecked +
+                workRepeatingChecked +
+                miscRepeatingChecked +
+                morningNonRepeatingChecked +
+                dayNonRepeatingChecked +
+                eveningNonRepeatingChecked +
+                workNonRepeatingChecked +
+                miscNonRepeatingChecked,
+            totalUnchecked:
+                morningRepeatingUnChecked +
+                dayRepeatingUnChecked +
+                eveningRepeatingUnChecked +
+                workRepeatingUnChecked +
+                miscRepeatingUnChecked +
+                morningNonRepeatingUnChecked +
+                dayNonRepeatingUnChecked +
+                eveningNonRepeatingUnChecked +
+                workNonRepeatingUnChecked +
+                miscNonRepeatingUnChecked,
+            totalRepeating:
+                morningRepeating +
+                dayRepeating +
+                eveningRepeating +
+                workRepeating +
+                miscRepeating,
+            totalNonRepeating:
+                morningNonRepeating +
+                dayNonRepeating +
+                eveningNonRepeating +
+                workNonRepeating +
+                miscNonRepeating,
+            types: {
+                repeating: {
+                    completion: {
+                        checked:
+                            morningRepeatingChecked +
+                            dayRepeatingChecked +
+                            eveningRepeatingChecked +
+                            workRepeatingChecked +
+                            miscRepeatingChecked,
+                        unChecked:
+                            morningRepeatingUnChecked +
+                            dayRepeatingUnChecked +
+                            eveningRepeatingUnChecked +
+                            workRepeatingUnChecked +
+                            miscRepeatingUnChecked
+                    }
+                },
+                nonRepeating: {
+                    completion: {
+                        checked:
+                            morningNonRepeatingChecked +
+                            dayNonRepeatingChecked +
+                            eveningNonRepeatingChecked +
+                            workNonRepeatingChecked +
+                            miscNonRepeatingChecked,
+                        unChecked:
+                            morningNonRepeatingUnChecked +
+                            dayNonRepeatingUnChecked +
+                            eveningNonRepeatingUnChecked +
+                            workNonRepeatingUnChecked +
+                            miscNonRepeatingUnChecked
+                    }
+                }
+            },
             categories: {
                 morning: {
                     total: morningRepeating + morningNonRepeating,
