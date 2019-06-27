@@ -8,7 +8,7 @@ import { Grid } from "semantic-ui-react";
 import { Route } from "react-router-dom";
 
 import TaskArea from "./TaskArea";
-import DaysList from "./DaysList";
+import DaysList from "./DaysList/DaysList";
 
 class Planner extends React.Component {
     constructor(props) {

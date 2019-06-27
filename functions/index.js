@@ -14,7 +14,7 @@ exports.countTodos = functions.database
     .onWrite(async (snap, context) => {
         const todoRef = snap.after.ref;
         let dataObject = await countHelpers.getDataFromSnap(todoRef);
-        return await todoRef.update(dataObject);
+        return await todoRef.parent.update(dataObject);
     });
 
 // On 00:01 today move all move all unfinished

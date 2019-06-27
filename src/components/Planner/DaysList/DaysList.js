@@ -1,9 +1,8 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
-import { Icon } from "semantic-ui-react";
+import { formatMoment } from "../../../helpers/Global";
 
-import { formatMoment } from "../../helpers/Global";
+import DaysListItem from "./DaysListItem";
 
 class DaysList extends React.Component {
     state = {
@@ -29,16 +28,11 @@ class DaysList extends React.Component {
     // Display list of days in the sidebar
     displayDays = currentMonth =>
         currentMonth.daysList.map(day => (
-            <Link
-                to={`/planner/${formatMoment(day, "DD/MM/YYYY")}`}
-                key={formatMoment(day, "DD/MM/YYYY")}
-                onClick={() => this.props.setCurrentDay(day)}
-            >
-                <li>
-                    {formatMoment(day, "DD/MM/YYYY - ddd")}{" "}
-                    <Icon name="check" />
-                </li>
-            </Link>
+            <DaysListItem
+                key={day}
+                day={day}
+                setCurrentDay={this.props.setCurrentDay}
+            />
         ));
 
     // Dropdown value is accepted here and sent
