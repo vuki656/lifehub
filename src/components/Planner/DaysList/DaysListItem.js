@@ -1,14 +1,14 @@
 import React from "react";
+import firebase from "../../../firebase/Auth";
 
 import { Link } from "react-router-dom";
 import { Icon } from "semantic-ui-react";
 
 import { formatMoment } from "../../../helpers/Global";
-import firebase from "../../../firebase/Auth";
 
 class DaysListItem extends React.Component {
     state = {
-        iconStatus: "delete",
+        iconStatus: "",
         compleatedAmount: null,
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
@@ -34,30 +34,44 @@ class DaysListItem extends React.Component {
         todoRef
             .child(`${currentUser.uid}/${day.valueOf()}/count/`)
             .on("value", counts => {
-                if (counts.exists()) {
-                    // Get how many todos are compleated
-                    let compleatedTodosAmount = `${counts.val().totalChecked}/${
-                        counts.val().total
-                    }`;
+                this.setDayCompletionAmount(counts);
 
+                // If there are todos, set day finished status
+                // Else mark days as done
+                if (counts.exists()) {
                     if (counts.val().total === counts.val().totalChecked) {
-                        this.setState({
-                            iconStatus: "checkmark",
-                            compleatedAmount: compleatedTodosAmount
-                        });
+                        this.setDayAsDone();
                     } else {
-                        this.setState({
-                            iconStatus: "delete",
-                            compleatedAmount: compleatedTodosAmount
-                        });
+                        this.setDayAsNotDone();
                     }
-                } else {
-                    this.setState({
-                        iconStatus: "checkmark",
-                        compleatedAmount: "0/0"
-                    });
-                }
+                } else this.setDayAsDone();
             });
+    };
+
+    // Set how many todos are compleated in the day
+    setDayCompletionAmount = counts => {
+        if (counts.exists()) {
+            // Get how many todos are compleated
+            let compleatedTodosAmount = `${counts.val().totalChecked}/${
+                counts.val().total
+            }`;
+
+            this.setState({ compleatedAmount: compleatedTodosAmount });
+        } else {
+            this.setState({ compleatedAmount: "0/0 " });
+        }
+    };
+
+    setDayAsDone = () => {
+        this.setState({
+            iconStatus: "checkmark"
+        });
+    };
+
+    setDayAsNotDone = () => {
+        this.setState({
+            iconStatus: "delete"
+        });
     };
 
     render() {
