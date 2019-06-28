@@ -2,7 +2,7 @@ import React from "react";
 import firebase from "../../../firebase/Auth";
 
 import { Link } from "react-router-dom";
-import { Icon } from "semantic-ui-react";
+import { Icon, Grid } from "semantic-ui-react";
 
 import { formatMoment } from "../../../helpers/Global";
 
@@ -78,17 +78,26 @@ class DaysListItem extends React.Component {
         const { day, iconStatus, compleatedAmount } = this.state;
 
         return (
-            <Link
+            <Grid.Row
+                style={{
+                    paddingTop: 5,
+                    paddingBottom: 5
+                }}
+                as={Link}
                 to={`/planner/${formatMoment(day, "DD/MM/YYYY")}`}
                 key={formatMoment(day, "DD/MM/YYYY")}
                 onClick={() => this.props.setCurrentDay(day)}
             >
-                <li>
+                <Grid.Column floated="left" width={11}>
                     {formatMoment(day, "DD/MM/YYYY - ddd")}
+                </Grid.Column>
+                <Grid.Column floated="right" width={2}>
                     <Icon name={iconStatus} />
+                </Grid.Column>
+                <Grid.Column floated="right" width={3}>
                     {compleatedAmount}
-                </li>
-            </Link>
+                </Grid.Column>
+            </Grid.Row>
         );
     }
 }

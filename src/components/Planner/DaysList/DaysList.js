@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Grid } from "semantic-ui-react";
+
 import { formatMoment } from "../../../helpers/Global";
 
 import DaysListItem from "./DaysListItem";
@@ -53,7 +55,13 @@ class DaysList extends React.Component {
                 >
                     {this.displayMonths(monthObjectList)}
                 </select>
-                {this.displayDays(currentMonth)}
+                <Grid
+                    style={{
+                        marginTop: 10
+                    }}
+                >
+                    {this.displayDays(currentMonth)}
+                </Grid>
             </React.Fragment>
         );
     }
