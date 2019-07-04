@@ -1,21 +1,3 @@
-export const todoRepeatTypes = [
-    {
-        key: 0,
-        value: "every-day",
-        text: "Every Day"
-    },
-    {
-        key: 1,
-        value: "every-x-day-of-week",
-        text: "Every (Day Of Week)"
-    },
-    {
-        key: 2,
-        value: "every-x-day-of-month",
-        text: "Every (Day Of Month)"
-    }
-];
-
 export const daysOfWeek = [
     {
         key: 0,
