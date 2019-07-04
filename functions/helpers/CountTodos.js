@@ -175,52 +175,47 @@ module.exports.getDataFromSnap = async todoRef => {
                 eveningNonRepeatingUnChecked +
                 workNonRepeatingUnChecked +
                 miscNonRepeatingUnChecked,
-            totalRepeating:
-                morningRepeating +
-                dayRepeating +
-                eveningRepeating +
-                workRepeating +
-                miscRepeating,
-            totalNonRepeating:
-                morningNonRepeating +
-                dayNonRepeating +
-                eveningNonRepeating +
-                workNonRepeating +
-                miscNonRepeating,
-            types: {
-                repeating: {
-                    completion: {
-                        checked:
-                            morningRepeatingChecked +
-                            dayRepeatingChecked +
-                            eveningRepeatingChecked +
-                            workRepeatingChecked +
-                            miscRepeatingChecked,
-                        unChecked:
-                            morningRepeatingUnChecked +
-                            dayRepeatingUnChecked +
-                            eveningRepeatingUnChecked +
-                            workRepeatingUnChecked +
-                            miscRepeatingUnChecked
-                    }
-                },
-                nonRepeating: {
-                    completion: {
-                        checked:
-                            morningNonRepeatingChecked +
-                            dayNonRepeatingChecked +
-                            eveningNonRepeatingChecked +
-                            workNonRepeatingChecked +
-                            miscNonRepeatingChecked,
-                        unChecked:
-                            morningNonRepeatingUnChecked +
-                            dayNonRepeatingUnChecked +
-                            eveningNonRepeatingUnChecked +
-                            workNonRepeatingUnChecked +
-                            miscNonRepeatingUnChecked
-                    }
-                }
+            totalRepeating: {
+                total:
+                    morningRepeating +
+                    dayRepeating +
+                    eveningRepeating +
+                    workRepeating +
+                    miscRepeating,
+                checked:
+                    morningRepeatingChecked +
+                    dayRepeatingChecked +
+                    eveningRepeatingChecked +
+                    workRepeatingChecked +
+                    miscRepeatingChecked,
+                unChecked:
+                    morningRepeatingUnChecked +
+                    dayRepeatingUnChecked +
+                    eveningRepeatingUnChecked +
+                    workRepeatingUnChecked +
+                    miscRepeatingUnChecked
             },
+            totalNonRepeating: {
+                total:
+                    morningNonRepeating +
+                    dayNonRepeating +
+                    eveningNonRepeating +
+                    workNonRepeating +
+                    miscNonRepeating,
+                checked:
+                    morningNonRepeatingChecked +
+                    dayNonRepeatingChecked +
+                    eveningNonRepeatingChecked +
+                    workNonRepeatingChecked +
+                    miscNonRepeatingChecked,
+                unChecked:
+                    morningNonRepeatingUnChecked +
+                    dayNonRepeatingUnChecked +
+                    eveningNonRepeatingUnChecked +
+                    workNonRepeatingUnChecked +
+                    miscNonRepeatingUnChecked
+            },
+
             categories: {
                 morning: {
                     total: morningRepeating + morningNonRepeating,

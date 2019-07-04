@@ -17,8 +17,7 @@ exports.countTodos = functions.database
         return await todoRef.parent.update(dataObject);
     });
 
-// On 00:01 today move all move all unfinished
-// todos from yesterday to today
+// On 00:01 today move all unfinished todos from yesterday to today
 exports.pushTodosToNextDayCRON = functions.pubsub
     .schedule("1 00 * * *")
     .onRun(async context => {
