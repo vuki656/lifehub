@@ -21,6 +21,10 @@ class TotalTodosForDay extends React.Component {
         this.fetchTotalTodosForDay(this.state);
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     fetchTotalTodosForDay = ({ todoRef, currentUser, currentDay }) => {
         todoRef
             .child(`${currentUser.uid}/${currentDay}/count/`)

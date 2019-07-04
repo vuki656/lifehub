@@ -1,10 +1,11 @@
 import React from "react";
 import firebase from "../../../firebase/Auth";
+import moment from "moment";
 
 import { Link } from "react-router-dom";
 import { Icon, Grid } from "semantic-ui-react";
 
-import { formatMoment } from "../../../helpers/Global";
+import { formatMoment, getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class DaysListItem extends React.Component {
     state = {
@@ -21,11 +22,22 @@ class DaysListItem extends React.Component {
         this.getCompletionStatus(this.state);
     }
 
+    componentWillUnmount() {
+        this.removeListeners(this.state);
+    }
+
     // Listen for compleated todo amount change
-    addTodoCompleatedAmountListener = ({ todoRef, currentUser }) => {
-        todoRef.child(`${currentUser.uid}/`).on("child_changed", () => {
-            this.getCompletionStatus(this.state);
-        });
+    addTodoCompleatedAmountListener = ({ todoRef, currentUser, day }) => {
+        if (moment(day).isSame(getDayOnlyTimestamp(moment()))) {
+            console.log("listening for");
+            todoRef.child(`${currentUser.uid}/`).on("child_changed", () => {
+                this.getCompletionStatus(this.state);
+            });
+        }
+    };
+
+    removeListeners = ({ todoRef, currentUser }) => {
+        todoRef.child(`${currentUser.uid}`).off();
     };
 
     // Set how many todos are compleated

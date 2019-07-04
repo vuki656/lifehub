@@ -15,7 +15,6 @@ class Dashboard extends React.Component {
                 <Grid.Row>
                     <QuoteBar />
                 </Grid.Row>
-
                 <Grid.Row>
                     <Header>
                         Todos for today: <TotalTodosForToday />
