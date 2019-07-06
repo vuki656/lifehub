@@ -1,7 +1,10 @@
+// Object Imports
 import React from "react";
 
+// Destructured Imports
 import { Route } from "react-router-dom";
 
+// Component Imports
 import Dashboard from "../components/Dashboard/Dashboard";
 import Planner from "../components/Planner/Planner";
 import Journal from "../components/Journal/Journal";

@@ -1,7 +1,10 @@
+// Object Imports
 import React from "react";
 
+// Destructured Imports
 import { Grid, Dropdown, Checkbox } from "semantic-ui-react";
 
+// Data Imports
 import {
     daysOfMonth,
     daysOfWeek

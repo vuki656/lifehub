@@ -1,8 +1,11 @@
+// Object Imports
 import React from "react";
 import firebase from "../../../firebase/Auth";
 
+// Destructured Imports
 import { Grid, List } from "semantic-ui-react";
 
+// Component Imports
 import AddReminderModal from "./AddReminderModal";
 import Reminder from "./Reminder";
 

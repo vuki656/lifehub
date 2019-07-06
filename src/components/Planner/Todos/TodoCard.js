@@ -1,12 +1,16 @@
+// Object Imports
 import React from "react";
 import firebase from "firebase";
 import moment from "moment";
 
+// Destructured Imports
 import { Grid, Icon, Form } from "semantic-ui-react";
 
-import { getDayOnlyTimestamp } from "../../../helpers/Global";
-
+// Component Imports
 import Todo from "./Todo";
+
+// Helper Imports
+import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class TodoCard extends React.Component {
     // Used to prevent setState calls after component umounts

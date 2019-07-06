@@ -1,12 +1,16 @@
+// Object Imports
 import React from "react";
 import moment from "moment";
 import firebase from "../../../firebase/Auth";
 
+// Destructured Imports
 import { List, Icon } from "semantic-ui-react";
 
-import { getDayOnlyTimestamp } from "../../../helpers/Global";
-
+// Component Imports
 import UpdateReminderModal from "./UpdateReminderModal";
+
+// Helper Imports
+import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class Reminder extends React.Component {
     state = {

@@ -1,8 +1,11 @@
+// Object Imports
 import React from "react";
 
+// Destructured Imports
 import { List } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
+// Helper Imports
 import { formatMoment } from "../../helpers/Global";
 
 class EntryList extends React.Component {

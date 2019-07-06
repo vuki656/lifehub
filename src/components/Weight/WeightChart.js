@@ -1,5 +1,7 @@
+// Object Imports
 import React from "react";
 
+// Destructured Imports
 import {
     LineChart,
     Line,

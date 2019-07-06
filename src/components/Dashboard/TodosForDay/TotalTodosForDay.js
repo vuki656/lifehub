@@ -1,7 +1,9 @@
+// Object Imports
 import React from "react";
 import firebase from "../.././../firebase/Auth";
 import moment from "moment";
 
+// Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class TotalTodosForDay extends React.Component {

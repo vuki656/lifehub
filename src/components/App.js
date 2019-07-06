@@ -1,7 +1,10 @@
+// Object Imports
 import React from "react";
 
+// Destructured Imports
 import { withRouter } from "react-router-dom";
 
+// Component Imports
 import Menu from "./Menu/Menu";
 
 const App = () => {

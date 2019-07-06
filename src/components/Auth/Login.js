@@ -1,6 +1,8 @@
+// Object Imports
 import React from "react";
 import firebase from "../../firebase/Auth";
 
+// Destructured Imports
 import { Form, Grid, Message, Button, Icon, Header } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 

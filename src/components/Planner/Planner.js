@@ -1,14 +1,18 @@
+// Object Imports
 import React from "react";
 import moment from "moment";
 import firebase from "../../firebase/Auth";
 
-import { formatMoment } from "../../helpers/Global";
-
+// Destructured Imports
 import { Grid } from "semantic-ui-react";
 import { Route } from "react-router-dom";
 
+// Component Imports
 import TaskArea from "./TaskArea";
 import DaysList from "./DaysList/DaysList";
+
+// Helper Imports
+import { formatMoment } from "../../helpers/Global";
 
 class Planner extends React.Component {
     constructor(props) {

@@ -1,7 +1,9 @@
+// Object Imports
 import React from "react";
 import firebase from "../../firebase/Auth";
 import moment from "moment";
 
+// Destructured Imports
 import { Link } from "react-router-dom";
 import { Form, Grid, Message, Button, Icon, Header } from "semantic-ui-react";
 

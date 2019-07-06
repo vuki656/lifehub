@@ -1,5 +1,7 @@
+// Object Imports
 import React from "react";
 
+// Destructured Imports
 import { Message } from "semantic-ui-react";
 
 class QuoteBar extends React.Component {

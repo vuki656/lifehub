@@ -1,12 +1,16 @@
+// Object Imports
 import React from "react";
 import moment from "moment";
 
+// Destructured Imports
 import { Grid, Header, Segment } from "semantic-ui-react";
 
-import { getDayOnlyTimestamp } from "../../helpers/Global";
-
+// Component Imports
 import TodoCard from "./Todos/TodoCard";
 import Reminders from "./Reminders/Reminders";
+
+// Helper Imports
+import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 class TaskArea extends React.Component {
     render() {

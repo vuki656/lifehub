@@ -1,10 +1,13 @@
+// Object Imports
 import React from "react";
 import firebase from "../../firebase/Auth";
 import moment from "moment";
 
+// Destructured Imports
 import { Grid, Button } from "semantic-ui-react";
 import { Route } from "react-router-dom";
 
+// Component Imports
 import EntryList from "./EntryList";
 import EntryField from "./EntryField";
 

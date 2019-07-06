@@ -1,8 +1,11 @@
+// Object Imports
 import React from "react";
 
+// Destructured Imports
 import { Link, BrowserRouter as Router } from "react-router-dom";
 import { Icon, Menu, Grid } from "semantic-ui-react";
 
+// Component Imports
 import PrivateRoutes from "../../routers/PrivateRoutes";
 
 class SideMenu extends React.Component {

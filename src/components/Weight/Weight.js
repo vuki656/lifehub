@@ -1,8 +1,11 @@
+// Object Imports
 import React from "react";
 import firebase from "../../firebase/Auth";
 
+// Destructured Imports
 import { Grid } from "semantic-ui-react";
 
+// Component Imports
 import EnterWeightForm from "./EnterWeightForm";
 import WeightTable from "./WeightTable";
 import WeightChart from "./WeightChart";

@@ -1,9 +1,12 @@
+// Object Imports
 import React from "react";
 import firebase from "../../../firebase/Auth";
 import moment from "moment";
 
+// Destructured Imports
 import { Card, Icon } from "semantic-ui-react";
 
+// Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class TodosForDayCard extends React.Component {
@@ -41,11 +44,13 @@ class TodosForDayCard extends React.Component {
                 `${currentUser.uid}/${currentDay}/count/categories/${category}`
             )
             .on("value", counts => {
-                let totalTodos = counts.val().total;
-                let totalCheckedTodos = counts.val().totalChecked;
+                if (counts) {
+                    let totalTodos = counts.val().total;
+                    let totalCheckedTodos = counts.val().totalChecked;
 
-                if (this._isMounted) {
-                    this.setState({ totalTodos, totalCheckedTodos });
+                    if (this._isMounted) {
+                        this.setState({ totalTodos, totalCheckedTodos });
+                    }
                 }
             });
     };

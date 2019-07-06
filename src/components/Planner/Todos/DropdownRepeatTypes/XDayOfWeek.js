@@ -1,7 +1,10 @@
+// Object Imports
 import React from "react";
 
+// Destructured Imports
 import { Grid, Dropdown } from "semantic-ui-react";
 
+// Data Imports
 import { daysOfWeek } from "../../../../data/Planner/RepeatingTodoDropdownOptions";
 
 class XDayOfWeek extends React.Component {

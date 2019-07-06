@@ -1,8 +1,10 @@
+// Object Imports
 import React from "react";
 import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 
+// Destructured Imports
 import {
     Popup,
     Grid,
@@ -13,14 +15,17 @@ import {
     Segment
 } from "semantic-ui-react";
 
+// Component Imports
+import RepeatOptions from "./RepeatOptions";
+
+// Helper Imports
 import {
     isDayBeingSavedTo,
     deleteTodoFromFirebase
 } from "../../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
-import RepeatOptions from "./RepeatOptions";
-
+// Data Imports
 import { daysOfWeekArr } from "../../../../data/StockData";
 
 class RepeatTodoPopup extends React.Component {

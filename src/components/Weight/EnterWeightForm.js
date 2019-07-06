@@ -1,7 +1,9 @@
+// Object Imports
 import React from "react";
 import moment from "moment";
 import firebase from "../../firebase/Auth";
 
+// Destructured Imports
 import { Form, Button, Message } from "semantic-ui-react";
 
 class EnterWeightForm extends React.Component {

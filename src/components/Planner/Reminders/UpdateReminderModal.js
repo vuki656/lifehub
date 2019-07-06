@@ -1,10 +1,13 @@
+// Object Imports
 import React from "react";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import firebase from "../../../firebase/Auth";
 
+// Destructured Imports
 import { Grid, Modal, Input, Button, Icon } from "semantic-ui-react";
 
+// Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class UpdateReminderModal extends React.Component {

@@ -1,7 +1,10 @@
+// Object Imports
 import React from "react";
 
+// Destructured Imports
 import { Table, Popup, Icon } from "semantic-ui-react";
 
+// Component Imports
 import WeightTableRow from "./WeightTableRow";
 
 class WeightTable extends React.Component {

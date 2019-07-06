@@ -1,9 +1,12 @@
+// Object Imports
 import React from "react";
 import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 
+// Destructured Imports
 import { Popup, Grid, Input, Icon } from "semantic-ui-react";
 
+// Helper Imports
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 import { isDayBeingSavedTo } from "../../../../helpers/Planner/Todo";
 

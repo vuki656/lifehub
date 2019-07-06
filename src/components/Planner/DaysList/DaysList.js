@@ -1,10 +1,14 @@
+// Object Imports
 import React from "react";
 
+// Helper Imports
 import { Grid } from "semantic-ui-react";
 
-import { formatMoment } from "../../../helpers/Global";
-
+// Component Imports
 import DaysListItem from "./DaysListItem";
+
+// Helper Imports
+import { formatMoment } from "../../../helpers/Global";
 
 class DaysList extends React.Component {
     state = {

@@ -1,12 +1,16 @@
+// Object Imports
 import React from "react";
 import firebase from "firebase";
 import moment from "moment";
 
+// Destructured Imports
 import { Checkbox, Icon } from "semantic-ui-react";
 
+// Component Imports
 import EditTodoPopup from "./Popups/EditTodoPopup";
 import RepeatTodoPopup from "./Popups/RepeatTodoPopup";
 
+// Helper Imports
 import { deleteTodoFromFirebase } from "../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
@@ -127,11 +131,6 @@ class Todo extends React.Component {
                     checked={isChecked}
                     onChange={() => this.handleTodoCheckboxChange(this.state)}
                 />
-                <Icon
-                    name={"remove"}
-                    link={true}
-                    onClick={() => this.handleTodoDeletion(this.state)}
-                />
                 <EditTodoPopup
                     todo={todo}
                     category={category}
@@ -143,6 +142,11 @@ class Todo extends React.Component {
                     category={category}
                     currentDay={currentDay}
                     generateUntillDate={generateUntillDate}
+                />
+                <Icon
+                    name={"remove"}
+                    link={true}
+                    onClick={() => this.handleTodoDeletion(this.state)}
                 />
             </React.Fragment>
         );

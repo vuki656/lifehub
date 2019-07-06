@@ -1,10 +1,13 @@
+// Object Imports
 import React from "react";
 import firebase from "../../../firebase/Auth";
 import moment from "moment";
 
+// Destructured Imports
 import { Link } from "react-router-dom";
 import { Icon, Grid } from "semantic-ui-react";
 
+// Helper Imports
 import { formatMoment, getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class DaysListItem extends React.Component {
@@ -29,7 +32,6 @@ class DaysListItem extends React.Component {
     // Listen for compleated todo amount change
     addTodoCompleatedAmountListener = ({ todoRef, currentUser, day }) => {
         if (moment(day).isSame(getDayOnlyTimestamp(moment()))) {
-            console.log("listening for");
             todoRef.child(`${currentUser.uid}/`).on("child_changed", () => {
                 this.getCompletionStatus(this.state);
             });
