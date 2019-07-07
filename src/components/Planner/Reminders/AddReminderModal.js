@@ -9,7 +9,7 @@ import uuidv4 from "uuid/v4";
 import { Grid, Modal, Input, Button } from "semantic-ui-react";
 
 // Component Imports
-import SelectTagDropdown from "./SelectTagDropdown/SelectTagDropdown";
+import Tags from "./Tags/Tags";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
@@ -145,40 +145,46 @@ class AddReminderModal extends React.Component {
                 <Modal.Content>
                     <Grid>
                         <Grid.Row>
-                            <p>Remind me about</p>
-                            <Input
-                                name="reminder"
-                                onChange={this.handleChange}
-                                value={reminder}
-                                placeholder="Marketing meeting"
-                            />
-                        </Grid.Row>
-                        <Grid.Row>
-                            <p>Start reminding me when</p>
-                            <DatePicker
-                                minDate={moment().toDate()}
-                                selected={this.getStartingDate()}
-                                dateFormat="dd/MM/yyyy"
-                                timeCaption="time"
-                                onChange={this.handleStartDate}
-                            />
-                        </Grid.Row>
-                        <Grid.Row>
-                            <p>Remind untill</p>
-                            <DatePicker
-                                minDate={startDate}
-                                selected={this.getEndingDate()}
-                                onChange={this.handleEndDate}
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={15}
-                                dateFormat="dd/MM/yyyy hh:mm"
-                                timeCaption="time"
-                            />
-                        </Grid.Row>
-                        <Grid.Row>
-                            <p>Set a Tag</p>
-                            <SelectTagDropdown />
+                            <Grid.Column width={6}>
+                                <Grid.Row>
+                                    <p>Remind me about</p>
+                                    <Input
+                                        name="reminder"
+                                        onChange={this.handleChange}
+                                        value={reminder}
+                                        placeholder="Marketing meeting"
+                                    />
+                                </Grid.Row>
+                                <Grid.Row>
+                                    <p>Start reminding me when</p>
+                                    <DatePicker
+                                        minDate={moment().toDate()}
+                                        selected={this.getStartingDate()}
+                                        dateFormat="dd/MM/yyyy"
+                                        timeCaption="time"
+                                        onChange={this.handleStartDate}
+                                    />
+                                </Grid.Row>
+                                <Grid.Row>
+                                    <p>Remind untill</p>
+                                    <DatePicker
+                                        minDate={startDate}
+                                        selected={this.getEndingDate()}
+                                        onChange={this.handleEndDate}
+                                        showTimeSelect
+                                        timeFormat="HH:mm"
+                                        timeIntervals={15}
+                                        dateFormat="dd/MM/yyyy hh:mm"
+                                        timeCaption="time"
+                                    />
+                                </Grid.Row>
+                            </Grid.Column>
+                            <Grid.Column width={10}>
+                                <Grid.Row>
+                                    <p>Set a Tag</p>
+                                    <Tags />
+                                </Grid.Row>
+                            </Grid.Column>
                         </Grid.Row>
                         <Grid.Row>
                             <Button.Group>

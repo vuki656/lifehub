@@ -33,6 +33,7 @@ class TodosForDayCard extends React.Component {
         this._isMounted = false;
     }
 
+    // Get todo count from firebase
     fetchCategoryTodoCount = ({
         todoRef,
         currentUser,
