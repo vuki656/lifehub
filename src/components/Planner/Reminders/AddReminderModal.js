@@ -8,6 +8,9 @@ import uuidv4 from "uuid/v4";
 // Destructured Imports
 import { Grid, Modal, Input, Button } from "semantic-ui-react";
 
+// Component Imports
+import SelectTagDropdown from "./SelectTagDropdown/SelectTagDropdown";
+
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
@@ -138,41 +141,44 @@ class AddReminderModal extends React.Component {
                 open={modalOpen}
                 trigger={<Button onClick={this.openModal}>Add Reminder</Button>}
             >
+                <Modal.Header>Customize Your Reminder</Modal.Header>
                 <Modal.Content>
                     <Grid>
-                        <Grid.Row columns={"equal"}>
-                            <Grid.Column>
-                                <p>Remind me about</p>
-                                <Input
-                                    name="reminder"
-                                    onChange={this.handleChange}
-                                    value={reminder}
-                                    placeholder="Marketing meeting"
-                                />
-                            </Grid.Column>
-                            <Grid.Column>
-                                <p>Start reminding me when</p>
-                                <DatePicker
-                                    minDate={moment().toDate()}
-                                    selected={this.getStartingDate()}
-                                    dateFormat="dd/MM/yyyy"
-                                    timeCaption="time"
-                                    onChange={this.handleStartDate}
-                                />
-                            </Grid.Column>
-                            <Grid.Column>
-                                <p>Remind untill</p>
-                                <DatePicker
-                                    minDate={startDate}
-                                    selected={this.getEndingDate()}
-                                    onChange={this.handleEndDate}
-                                    showTimeSelect
-                                    timeFormat="HH:mm"
-                                    timeIntervals={15}
-                                    dateFormat="dd/MM/yyyy hh:mm"
-                                    timeCaption="time"
-                                />
-                            </Grid.Column>
+                        <Grid.Row>
+                            <p>Remind me about</p>
+                            <Input
+                                name="reminder"
+                                onChange={this.handleChange}
+                                value={reminder}
+                                placeholder="Marketing meeting"
+                            />
+                        </Grid.Row>
+                        <Grid.Row>
+                            <p>Start reminding me when</p>
+                            <DatePicker
+                                minDate={moment().toDate()}
+                                selected={this.getStartingDate()}
+                                dateFormat="dd/MM/yyyy"
+                                timeCaption="time"
+                                onChange={this.handleStartDate}
+                            />
+                        </Grid.Row>
+                        <Grid.Row>
+                            <p>Remind untill</p>
+                            <DatePicker
+                                minDate={startDate}
+                                selected={this.getEndingDate()}
+                                onChange={this.handleEndDate}
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                dateFormat="dd/MM/yyyy hh:mm"
+                                timeCaption="time"
+                            />
+                        </Grid.Row>
+                        <Grid.Row>
+                            <p>Set a Tag</p>
+                            <SelectTagDropdown />
                         </Grid.Row>
                         <Grid.Row>
                             <Button.Group>

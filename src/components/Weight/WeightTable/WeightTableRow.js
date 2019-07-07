@@ -1,12 +1,12 @@
 // Object Imports
 import React from "react";
-import firebase from "../../firebase/Auth";
+import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
 import { Table, Icon } from "semantic-ui-react";
 
 // Helper Imports
-import { formatMoment } from "../../helpers/Global";
+import { formatMoment } from "../../../helpers/Global";
 
 class WeightTableRow extends React.Component {
     state = {

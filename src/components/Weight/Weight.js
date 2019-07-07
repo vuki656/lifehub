@@ -7,7 +7,7 @@ import { Grid } from "semantic-ui-react";
 
 // Component Imports
 import EnterWeightForm from "./EnterWeightForm";
-import WeightTable from "./WeightTable";
+import WeightTable from "./WeightTable/WeightTable";
 import WeightChart from "./WeightChart";
 
 class Weight extends React.Component {
