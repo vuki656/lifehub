@@ -3,23 +3,30 @@ import React from "react";
 import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
-import { Grid, List } from "semantic-ui-react";
+import { Grid, List, Button } from "semantic-ui-react";
 
 // Component Imports
-import AddReminderModal from "./AddReminderModal";
+import ReminderModal from "./ReminderModal";
 import Reminder from "./Reminder";
 
 class Reminders extends React.Component {
     // Used to prevent setState calls after component umounts
     _isMounted = false;
 
-    state = {
-        remindersList: [],
-        remindersRef: firebase.database().ref("reminders"),
-        currentUser: firebase.auth().currentUser,
+    constructor(props) {
+        super(props);
 
-        currentDay: this.props.currentDay
-    };
+        this.state = {
+            remindersList: [],
+            remindersRef: firebase.database().ref("reminders"),
+            currentUser: firebase.auth().currentUser,
+            modalOpen: false,
+
+            currentDay: this.props.currentDay
+        };
+
+        this.closeModal = this.closeModal.bind(this);
+    }
 
     componentDidMount() {
         this._isMounted = true;
@@ -85,10 +92,10 @@ class Reminders extends React.Component {
             .on("value", snapshot => {
                 snapshot.forEach(child => {
                     let key = child.val().key;
-                    let reminder = child.val().reminder;
+                    let text = child.val().text;
                     let startDate = child.val().startDate;
                     let endDate = child.val().endDate;
-                    remindersHolder.push({ reminder, key, startDate, endDate });
+                    remindersHolder.push({ text, key, startDate, endDate });
                 });
             });
 
@@ -98,22 +105,42 @@ class Reminders extends React.Component {
     };
 
     // Render reminders to the screen
-    renderReminders = ({ remindersList }) =>
-        remindersList.map(reminder => (
-            <Reminder reminder={reminder} key={reminder.key} />
+    renderReminders = ({ remindersList, currentDay }) => {
+        return remindersList.map(reminder => (
+            <Reminder
+                reminder={reminder}
+                key={reminder.key}
+                currentDay={currentDay}
+            />
         ));
+    };
+
+    closeModal = () => {
+        this.setState({ modalOpen: false });
+    };
+
+    openModal = () => {
+        this.setState({ modalOpen: true });
+    };
 
     render() {
-        const { currentDay } = this.props;
+        const { currentDay, modalOpen } = this.state;
 
         return (
             <Grid>
                 <Grid.Column>
                     <Grid.Row>
+                        <Button onClick={this.openModal}>Add Reminder</Button>
+                    </Grid.Row>
+                    <Grid.Row>
                         <List>{this.renderReminders(this.state)}</List>
                     </Grid.Row>
                     <Grid.Row>
-                        <AddReminderModal currentDay={currentDay} />
+                        <ReminderModal
+                            modalOpen={modalOpen}
+                            currentDay={currentDay}
+                            closeModal={this.closeModal}
+                        />
                     </Grid.Row>
                 </Grid.Column>
             </Grid>

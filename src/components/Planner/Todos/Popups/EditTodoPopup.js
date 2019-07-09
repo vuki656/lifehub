@@ -4,7 +4,7 @@ import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Popup, Grid, Input, Icon } from "semantic-ui-react";
+import { Popup, Input, Icon } from "semantic-ui-react";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
@@ -113,17 +113,11 @@ class EditTodoPopup extends React.Component {
                 onClose={this.handleTodoTextUpdate}
                 on="click"
             >
-                <Grid>
-                    <Grid.Column>
-                        <Grid.Row>
-                            <Input
-                                defaultValue={todo.value}
-                                name={"newTodo"}
-                                onChange={this.handleChange}
-                            />
-                        </Grid.Row>
-                    </Grid.Column>
-                </Grid>
+                <Input
+                    defaultValue={todo.value}
+                    name={"newTodo"}
+                    onChange={this.handleChange}
+                />
             </Popup>
         );
     }

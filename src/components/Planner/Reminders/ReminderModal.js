@@ -14,25 +14,58 @@ import Tags from "./Tags/Tags";
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
-class AddReminderModal extends React.Component {
+class ReminderModal extends React.Component {
     state = {
         endDate: null,
-        modalOpen: false,
-        reminder: "",
+        text: "",
         reminderRef: firebase.database().ref("reminders"),
         currentUser: firebase.auth().currentUser,
 
+        modalOpen: this.props.modalOpen,
         startDate: this.props.currentDay
     };
 
-    // Sends the reminder object to firebase
-    sendReminderToFirebase = () => {
-        const { reminder, startDate, endDate } = this.state;
+    static getDerivedStateFromProps(props) {
+        return {
+            modalOpen: props.modalOpen
+        };
+    }
 
-        // Generate a unique key for reminder thats the same in every day
+    componentDidMount() {
+        // If updating reminder, use its data
+        if (this.props.reminder) {
+            this.setExistingReminderState(this.props.reminder);
+        }
+    }
+
+    // Set the existing reminder state
+    setExistingReminderState = reminder => {
+        this.setState({
+            text: reminder.text,
+            startDate: reminder.startDate,
+            endDate: reminder.endDate,
+            reminder: reminder,
+            oldEndDate: reminder.endDate,
+            oldStartDate: reminder.startDate
+        });
+    };
+
+    // If reminder exists, update it, else create it
+    handleReminderSave = () => {
+        if (this.props.reminder) {
+            this.handleReminderUpdate(this.state);
+        } else {
+            this.saveReminderToFirebase(this.state);
+        }
+    };
+
+    // Sends the reminder object to firebase
+    saveReminderToFirebase = ({ text, startDate, endDate }) => {
+        // Generate a unique key for reminder thats
+        // the same in every day its repeating
         let key = uuidv4();
 
-        if (reminder) {
+        if (text) {
             // Save reminder in each day untill end date
             for (
                 let _startDate = moment(startDate);
@@ -41,36 +74,105 @@ class AddReminderModal extends React.Component {
             ) {
                 let dayTimestamp = getDayOnlyTimestamp(_startDate);
 
-                this.createReminder(
+                this.setReminder(
                     this.state,
-                    dayTimestamp,
-                    key,
-                    reminder,
+                    text,
                     startDate,
-                    endDate
+                    endDate,
+                    dayTimestamp,
+                    key
                 );
             }
         }
-        this.closeModal();
+        this.props.closeModal();
     };
 
-    // Creates reminder in firebase
-    createReminder = (
-        { reminderRef, currentUser },
-        dayTimestamp,
-        key,
-        reminder,
+    // Send reminder object to firebase
+    handleReminderUpdate = ({
         startDate,
-        endDate
+        endDate,
+        text,
+        oldStartDate,
+        oldEndDate,
+        reminder
+    }) => {
+        // Check if new start date is after old,
+        // If yes, choose old to cover the whole range
+        // So reminders before newStartDate can be deleted
+        let itterationStartDate = moment(startDate).isAfter(oldStartDate)
+            ? oldStartDate
+            : startDate;
+
+        // Check if new end date is before old,
+        // If yes, choose old to cover the whole range
+        // So reminders after newStartDate can be deleted
+        let itterationEndDate = moment(endDate).isBefore(oldEndDate)
+            ? oldEndDate
+            : endDate;
+
+        // Save new reminder in each day from date range
+        // If there are days outside new day range
+        // delete them, else update them
+        for (
+            let itterationCurrentDate = moment(itterationStartDate).subtract(
+                1,
+                "day"
+            );
+            itterationCurrentDate.isBefore(
+                moment(itterationEndDate).add(1, "day")
+            );
+            itterationCurrentDate.add(1, "days")
+        ) {
+            let dayTimestamp = getDayOnlyTimestamp(itterationCurrentDate);
+
+            if (
+                moment(itterationCurrentDate).isBetween(
+                    moment(startDate).subtract(1, "day"),
+                    moment(endDate).add(1, "day")
+                )
+            ) {
+                this.setReminder(
+                    this.state,
+                    text,
+                    startDate,
+                    endDate,
+                    dayTimestamp,
+                    reminder.key
+                );
+            } else {
+                this.deleteReminder(this.state, dayTimestamp);
+            }
+        }
+        this.props.closeModal();
+    };
+
+    // Update reminder in firebase
+    setReminder = (
+        { reminderRef, currentUser },
+        text,
+        startDate,
+        endDate,
+        dayTimestamp,
+        key
     ) => {
         reminderRef
             .child(`${currentUser.uid}/${dayTimestamp}/${key}`)
             .update({
                 key,
-                reminder,
+                text,
                 startDate,
                 endDate
             })
+            .catch(err => {
+                console.error(err);
+            });
+    };
+
+    // Delete reminder from firebase
+    deleteReminder = ({ reminderRef, currentUser, reminder }, dayTimestamp) => {
+        reminderRef
+            .child(`${currentUser.uid}/${dayTimestamp}/${reminder.key}`)
+            .remove()
             .catch(err => {
                 console.error(err);
             });
@@ -85,7 +187,7 @@ class AddReminderModal extends React.Component {
         if (moment(startDate).isBefore(moment())) {
             return moment().toDate();
         } else {
-            return startDate;
+            return moment(startDate).toDate();
         }
     };
 
@@ -117,30 +219,11 @@ class AddReminderModal extends React.Component {
         this.setState({ endDate: moment(endDate).valueOf() });
     };
 
-    closeModal = () => {
-        this.setState({ modalOpen: false });
-    };
-
-    openModal = () => {
-        this.setState({ modalOpen: true });
-    };
-
-    resetReminderFields = () => {
-        this.setState({
-            reminder: "",
-            startDate: this.props.currentDay,
-            endDate: ""
-        });
-    };
-
     render() {
-        const { startDate, modalOpen, reminder } = this.state;
+        const { startDate, modalOpen, text } = this.state;
 
         return (
-            <Modal
-                open={modalOpen}
-                trigger={<Button onClick={this.openModal}>Add Reminder</Button>}
-            >
+            <Modal open={modalOpen}>
                 <Modal.Header>Customize Your Reminder</Modal.Header>
                 <Modal.Content>
                     <Grid>
@@ -149,9 +232,9 @@ class AddReminderModal extends React.Component {
                                 <Grid.Row>
                                     <p>Remind me about</p>
                                     <Input
-                                        name="reminder"
+                                        name="text"
                                         onChange={this.handleChange}
-                                        value={reminder}
+                                        value={text}
                                         placeholder="Marketing meeting"
                                     />
                                 </Grid.Row>
@@ -168,7 +251,7 @@ class AddReminderModal extends React.Component {
                                 <Grid.Row>
                                     <p>Remind untill</p>
                                     <DatePicker
-                                        minDate={startDate}
+                                        minDate={moment(startDate).toDate()}
                                         selected={this.getEndingDate()}
                                         onChange={this.handleEndDate}
                                         showTimeSelect
@@ -182,7 +265,7 @@ class AddReminderModal extends React.Component {
                             <Grid.Column width={10}>
                                 <Grid.Row>
                                     <p>Set a Tag</p>
-                                    <Tags />
+                                    <Tags currentDay={this.props.currentDay} />
                                 </Grid.Row>
                             </Grid.Column>
                         </Grid.Row>
@@ -190,14 +273,14 @@ class AddReminderModal extends React.Component {
                             <Button.Group>
                                 <Button
                                     primary
-                                    onClick={this.sendReminderToFirebase}
+                                    onClick={this.handleReminderSave}
                                 >
                                     Save
                                 </Button>
-                                <Button onClick={this.resetReminderFields}>
-                                    Reset
-                                </Button>
-                                <Button secondary onClick={this.closeModal}>
+                                <Button
+                                    secondary
+                                    onClick={this.props.closeModal}
+                                >
                                     Cancel
                                 </Button>
                             </Button.Group>
@@ -209,4 +292,4 @@ class AddReminderModal extends React.Component {
     }
 }
 
-export default AddReminderModal;
+export default ReminderModal;

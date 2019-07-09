@@ -7,23 +7,31 @@ import firebase from "../../../firebase/Auth";
 import { List, Icon } from "semantic-ui-react";
 
 // Component Imports
-import UpdateReminderModal from "./UpdateReminderModal";
+import ReminderModal from "./ReminderModal";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class Reminder extends React.Component {
-    state = {
-        remindersRef: firebase.database().ref("reminders"),
-        currentUser: firebase.auth().currentUser,
-        modalOpen: false,
+    constructor(props) {
+        super(props);
 
-        reminder: this.props.reminder
-    };
+        this.state = {
+            remindersRef: firebase.database().ref("reminders"),
+            currentUser: firebase.auth().currentUser,
+            modalOpen: false,
+
+            currentDay: this.props.currentDay,
+            reminder: this.props.reminder
+        };
+
+        this.closeModal = this.closeModal.bind(this);
+    }
 
     static getDerivedStateFromProps(props) {
         return {
-            reminder: props.reminder
+            reminder: props.reminder,
+            currentDay: props.currentDay
         };
     }
 
@@ -46,8 +54,16 @@ class Reminder extends React.Component {
         }
     };
 
+    closeModal = () => {
+        this.setState({ modalOpen: false });
+    };
+
+    openModal = () => {
+        this.setState({ modalOpen: true });
+    };
+
     render() {
-        const { reminder } = this.state;
+        const { reminder, modalOpen, currentDay } = this.state;
 
         return (
             <List.Item>
@@ -58,18 +74,24 @@ class Reminder extends React.Component {
                 />
                 <List.Content>
                     <List.Header>
-                        {reminder.reminder}
+                        {reminder.text}
                         <Icon
                             name={"remove"}
                             link={true}
                             onClick={() => this.removeReminder(this.state)}
                         />
-
-                        <UpdateReminderModal reminder={reminder} />
+                        <Icon
+                            name={"pencil"}
+                            link={true}
+                            onClick={this.openModal}
+                        />
+                        <ReminderModal
+                            reminder={reminder}
+                            modalOpen={modalOpen}
+                            closeModal={this.closeModal}
+                            currentDay={currentDay}
+                        />
                     </List.Header>
-                    <List.Description>
-                        <p>Desc</p>
-                    </List.Description>
                 </List.Content>
             </List.Item>
         );
