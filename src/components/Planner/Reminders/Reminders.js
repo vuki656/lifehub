@@ -109,7 +109,6 @@ class Reminders extends React.Component {
 
     // Render reminders to the screen
     renderReminders = ({ remindersList }) => {
-        console.log(remindersList);
         return remindersList.map(reminder => (
             <Reminder reminder={reminder} key={reminder.key} />
         ));
@@ -147,12 +146,9 @@ class Reminders extends React.Component {
     }
 }
 
-const mapStateToProps = state => (
-    console.log("i ran"),
-    {
-        currentDay: state.planner.currentDay
-    }
-);
+const mapStateToProps = state => ({
+    currentDay: state.planner.currentDay
+});
 
 export default connect(
     mapStateToProps,
