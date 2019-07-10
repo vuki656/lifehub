@@ -5,6 +5,7 @@ import moment from "moment";
 
 // Destructured Imports
 import { Checkbox, Icon } from "semantic-ui-react";
+import { connect } from "react-redux";
 
 // Component Imports
 import EditTodoPopup from "./Popups/EditTodoPopup";
@@ -22,9 +23,11 @@ class Todo extends React.Component {
         generateUntillDate: null,
 
         todo: this.props.todo,
-        currentDay: this.props.currentDay,
         category: this.props.category,
-        isChecked: this.props.isChecked
+        isChecked: this.props.isChecked,
+
+        // Redux Props
+        currentDay: this.props.currentDay
     };
 
     static getDerivedStateFromProps(props) {
@@ -116,13 +119,7 @@ class Todo extends React.Component {
     };
 
     render() {
-        const {
-            todo,
-            isChecked,
-            category,
-            generateUntillDate,
-            currentDay
-        } = this.state;
+        const { todo, isChecked, category, generateUntillDate } = this.state;
 
         return (
             <React.Fragment>
@@ -134,13 +131,11 @@ class Todo extends React.Component {
                 <EditTodoPopup
                     todo={todo}
                     category={category}
-                    currentDay={currentDay}
                     generateUntillDate={generateUntillDate}
                 />
                 <RepeatTodoPopup
                     todo={todo}
                     category={category}
-                    currentDay={currentDay}
                     generateUntillDate={generateUntillDate}
                 />
                 <Icon
@@ -153,4 +148,11 @@ class Todo extends React.Component {
     }
 }
 
-export default Todo;
+const mapStateToProps = state => ({
+    currentDay: state.planner.currentDay
+});
+
+export default connect(
+    mapStateToProps,
+    null
+)(Todo);

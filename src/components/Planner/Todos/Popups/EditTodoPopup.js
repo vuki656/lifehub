@@ -5,6 +5,7 @@ import moment from "moment";
 
 // Destructured Imports
 import { Popup, Input, Icon } from "semantic-ui-react";
+import { connect } from "react-redux";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
@@ -17,10 +18,12 @@ class EditTodoPopup extends React.Component {
         usersRef: firebase.database().ref("users"),
         newTodo: "",
 
-        currentDay: this.props.currentDay,
         generateUntillDate: this.props.generateUntillDate,
         todo: this.props.todo,
-        category: this.props.category
+        category: this.props.category,
+
+        // Redux Props
+        currentDay: this.props.currentDay
     };
 
     static getDerivedStateFromProps(props) {
@@ -37,6 +40,7 @@ class EditTodoPopup extends React.Component {
     */
     handleTodoTextUpdate = () => {
         const { todo, generateUntillDate, currentDay } = this.state;
+
         for (
             let itteratingDate = moment(todo.createdAt);
             itteratingDate.isBefore(moment(generateUntillDate).add(1, "day"));
@@ -123,4 +127,11 @@ class EditTodoPopup extends React.Component {
     }
 }
 
-export default EditTodoPopup;
+const mapStateToProps = state => ({
+    currentDay: state.planner.currentDay
+});
+
+export default connect(
+    mapStateToProps,
+    null
+)(EditTodoPopup);

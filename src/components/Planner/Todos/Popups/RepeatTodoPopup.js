@@ -14,6 +14,7 @@ import {
     Checkbox,
     Segment
 } from "semantic-ui-react";
+import { connect } from "react-redux";
 
 // Component Imports
 import RepeatOptions from "./RepeatOptions";
@@ -47,6 +48,8 @@ class RepeatTodoPopup extends React.Component {
             todo: this.props.todo,
             category: this.props.category,
             generateUntillDate: this.props.generateUntillDate,
+
+            // Redux Props
             currentDay: this.props.currentDay
         };
 
@@ -355,4 +358,11 @@ class RepeatTodoPopup extends React.Component {
     }
 }
 
-export default RepeatTodoPopup;
+const mapStateToProps = state => ({
+    currentDay: state.planner.currentDay
+});
+
+export default connect(
+    mapStateToProps,
+    null
+)(RepeatTodoPopup);

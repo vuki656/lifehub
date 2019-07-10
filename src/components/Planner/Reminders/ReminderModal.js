@@ -7,6 +7,7 @@ import uuidv4 from "uuid/v4";
 
 // Destructured Imports
 import { Grid, Modal, Input, Button } from "semantic-ui-react";
+import { connect } from "react-redux";
 
 // Component Imports
 import Tags from "./Tags/Tags";
@@ -21,13 +22,18 @@ class ReminderModal extends React.Component {
         reminderRef: firebase.database().ref("reminders"),
         currentUser: firebase.auth().currentUser,
 
+        reminder: this.props.reminder,
         modalOpen: this.props.modalOpen,
+
+        // Redux Props
         startDate: this.props.currentDay
     };
 
     static getDerivedStateFromProps(props) {
         return {
-            modalOpen: props.modalOpen
+            modalOpen: props.modalOpen,
+            reminder: props.reminder,
+            startDate: props.currentDay
         };
     }
 
@@ -220,7 +226,7 @@ class ReminderModal extends React.Component {
     };
 
     render() {
-        const { startDate, modalOpen, text } = this.state;
+        const { startDate, modalOpen, text, reminder } = this.state;
 
         return (
             <Modal open={modalOpen}>
@@ -265,7 +271,7 @@ class ReminderModal extends React.Component {
                             <Grid.Column width={10}>
                                 <Grid.Row>
                                     <p>Set a Tag</p>
-                                    <Tags currentDay={this.props.currentDay} />
+                                    <Tags reminder={reminder} />
                                 </Grid.Row>
                             </Grid.Column>
                         </Grid.Row>
@@ -292,4 +298,11 @@ class ReminderModal extends React.Component {
     }
 }
 
-export default ReminderModal;
+const mapStateToProps = state => ({
+    currentDay: state.planner.currentDay
+});
+
+export default connect(
+    mapStateToProps,
+    null
+)(ReminderModal);

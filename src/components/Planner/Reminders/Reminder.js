@@ -5,6 +5,7 @@ import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
 import { List, Icon } from "semantic-ui-react";
+import { connect } from "react-redux";
 
 // Component Imports
 import ReminderModal from "./ReminderModal";
@@ -21,8 +22,10 @@ class Reminder extends React.Component {
             currentUser: firebase.auth().currentUser,
             modalOpen: false,
 
-            currentDay: this.props.currentDay,
-            reminder: this.props.reminder
+            reminder: this.props.reminder,
+
+            // Redux Props
+            currentDay: this.props.currentDay
         };
 
         this.closeModal = this.closeModal.bind(this);
@@ -63,7 +66,7 @@ class Reminder extends React.Component {
     };
 
     render() {
-        const { reminder, modalOpen, currentDay } = this.state;
+        const { reminder, modalOpen } = this.state;
 
         return (
             <List.Item>
@@ -89,7 +92,6 @@ class Reminder extends React.Component {
                             reminder={reminder}
                             modalOpen={modalOpen}
                             closeModal={this.closeModal}
-                            currentDay={currentDay}
                         />
                     </List.Header>
                 </List.Content>
@@ -98,4 +100,11 @@ class Reminder extends React.Component {
     }
 }
 
-export default Reminder;
+const mapStateToProps = state => ({
+    currentDay: state.planner.currentDay
+});
+
+export default connect(
+    mapStateToProps,
+    null
+)(Reminder);

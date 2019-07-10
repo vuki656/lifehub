@@ -6,9 +6,13 @@ import moment from "moment";
 // Destructured Imports
 import { Link } from "react-router-dom";
 import { Icon, Grid } from "semantic-ui-react";
+import { connect } from "react-redux";
 
 // Helper Imports
 import { formatMoment, getDayOnlyTimestamp } from "../../../helpers/Global";
+
+// Redux Actions Imports
+import { setCurrentDay } from "../../../actions/plannerActions";
 
 class DaysListItem extends React.Component {
     state = {
@@ -17,6 +21,7 @@ class DaysListItem extends React.Component {
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
 
+        // Redux Props
         day: this.props.day
     };
 
@@ -116,4 +121,7 @@ class DaysListItem extends React.Component {
     }
 }
 
-export default DaysListItem;
+export default connect(
+    null,
+    { setCurrentDay }
+)(DaysListItem);

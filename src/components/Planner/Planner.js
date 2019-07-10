@@ -6,6 +6,7 @@ import firebase from "../../firebase/Auth";
 // Destructured Imports
 import { Grid } from "semantic-ui-react";
 import { Route } from "react-router-dom";
+import { connect } from "react-redux";
 
 // Component Imports
 import TaskArea from "./TaskArea";
@@ -21,21 +22,24 @@ class Planner extends React.Component {
         this.state = {
             monthObjectList: null,
             currentMonth: null,
-            currentDay: null,
             regDate: null,
             usersRef: firebase.database().ref("users"),
-            currentUser: firebase.auth().currentUser
+            currentUser: firebase.auth().currentUser,
+
+            // Redux Props
+            currentDay: this.props.currentDay
         };
 
         this.selectNewMonth = this.selectNewMonth.bind(this);
     }
 
+    static getDerivedStateFromProps(props) {
+        return {
+            currentDay: props.currentDay
+        };
+    }
+
     componentDidMount() {
-        this.setState({
-            currentDay: moment()
-                .startOf("day")
-                .valueOf()
-        });
         this.fetchRegDate(this.state);
     }
 
@@ -168,18 +172,13 @@ class Planner extends React.Component {
         });
     };
 
-    // Set current day timestmap in state
-    setCurrentDay = day => {
-        this.setState({ currentDay: day.valueOf() });
-    };
-
     // Generate routes to switch the task area for selected day
-    generateRoutes = (currentMonth, currentDay) =>
+    generateRoutes = currentMonth =>
         currentMonth.daysList.map(day => (
             <Route
                 key={moment(day).format("DD/MM/YYYY")}
                 path={`/planner/${moment(day).format("DD/MM/YYYY")}`}
-                render={() => <TaskArea currentDay={currentDay} />}
+                render={() => <TaskArea />}
             />
         ));
 
@@ -194,7 +193,6 @@ class Planner extends React.Component {
                             monthObjectList={monthObjectList}
                             currentMonth={currentMonth}
                             selectNewMonth={this.selectNewMonth}
-                            setCurrentDay={this.setCurrentDay}
                         />
                     </Grid.Column>
                     <Grid.Column width={13} className="task-area">
@@ -208,4 +206,11 @@ class Planner extends React.Component {
     }
 }
 
-export default Planner;
+const mapStateToProps = state => ({
+    currentDay: state.planner.currentDay
+});
+
+export default connect(
+    mapStateToProps,
+    null
+)(Planner);

@@ -4,6 +4,7 @@ import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
 import { Grid, List, Button } from "semantic-ui-react";
+import { connect } from "react-redux";
 
 // Component Imports
 import ReminderModal from "./ReminderModal";
@@ -22,10 +23,17 @@ class Reminders extends React.Component {
             currentUser: firebase.auth().currentUser,
             modalOpen: false,
 
+            // Redux Props
             currentDay: this.props.currentDay
         };
 
         this.closeModal = this.closeModal.bind(this);
+    }
+
+    static getDerivedStateFromProps(props) {
+        return {
+            currentDay: props.currentDay
+        };
     }
 
     componentDidMount() {
@@ -51,15 +59,31 @@ class Reminders extends React.Component {
         this.addChangeReminderListener(this.state);
     };
 
-    // Listen for new reminder inputs and set to the state so component re-renders
-    addSetReminderListener({
-        currentUser,
-        remindersRef,
-        currentDay,
-        category
-    }) {
+    // Fetches reminders from firebase
+    fetchReminders = ({ currentUser, remindersRef, currentDay }) => {
+        let remindersHolder = [];
+
         remindersRef
-            .child(`${currentUser.uid}/${currentDay}/categories/${category}`)
+            .child(`${currentUser.uid}/${currentDay}`)
+            .on("value", snapshot => {
+                snapshot.forEach(child => {
+                    let key = child.val().key;
+                    let text = child.val().text;
+                    let startDate = child.val().startDate;
+                    let endDate = child.val().endDate;
+                    remindersHolder.push({ text, key, startDate, endDate });
+                });
+            });
+
+        if (this._isMounted) {
+            this.setState({ remindersList: remindersHolder });
+        }
+    };
+
+    // Listen for new reminder inputs and set to the state so component re-renders
+    addSetReminderListener({ currentUser, remindersRef, currentDay }) {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}`)
             .on("child_added", () => {
                 this.fetchReminders(this.state);
             });
@@ -83,35 +107,11 @@ class Reminders extends React.Component {
             });
     };
 
-    // Fetches reminders from firebase
-    fetchReminders = ({ currentUser, remindersRef, currentDay }) => {
-        let remindersHolder = [];
-
-        remindersRef
-            .child(`${currentUser.uid}/${currentDay}`)
-            .on("value", snapshot => {
-                snapshot.forEach(child => {
-                    let key = child.val().key;
-                    let text = child.val().text;
-                    let startDate = child.val().startDate;
-                    let endDate = child.val().endDate;
-                    remindersHolder.push({ text, key, startDate, endDate });
-                });
-            });
-
-        if (this._isMounted) {
-            this.setState({ remindersList: remindersHolder });
-        }
-    };
-
     // Render reminders to the screen
-    renderReminders = ({ remindersList, currentDay }) => {
+    renderReminders = ({ remindersList }) => {
+        console.log(remindersList);
         return remindersList.map(reminder => (
-            <Reminder
-                reminder={reminder}
-                key={reminder.key}
-                currentDay={currentDay}
-            />
+            <Reminder reminder={reminder} key={reminder.key} />
         ));
     };
 
@@ -124,7 +124,7 @@ class Reminders extends React.Component {
     };
 
     render() {
-        const { currentDay, modalOpen } = this.state;
+        const { modalOpen } = this.state;
 
         return (
             <Grid>
@@ -138,7 +138,6 @@ class Reminders extends React.Component {
                     <Grid.Row>
                         <ReminderModal
                             modalOpen={modalOpen}
-                            currentDay={currentDay}
                             closeModal={this.closeModal}
                         />
                     </Grid.Row>
@@ -148,4 +147,14 @@ class Reminders extends React.Component {
     }
 }
 
-export default Reminders;
+const mapStateToProps = state => (
+    console.log("i ran"),
+    {
+        currentDay: state.planner.currentDay
+    }
+);
+
+export default connect(
+    mapStateToProps,
+    null
+)(Reminders);

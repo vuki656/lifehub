@@ -33,13 +33,7 @@ class DaysList extends React.Component {
 
     // Display list of days in the sidebar
     displayDays = currentMonth =>
-        currentMonth.daysList.map(day => (
-            <DaysListItem
-                key={day}
-                day={day}
-                setCurrentDay={this.props.setCurrentDay}
-            />
-        ));
+        currentMonth.daysList.map(day => <DaysListItem key={day} day={day} />);
 
     // Dropdown value is accepted here and sent
     // back to parent(Planner.js) via selectNewMonth funct

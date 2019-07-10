@@ -1,8 +1,12 @@
 import { combineReducers } from "redux";
 
 // Reducer imports
-import tagsReducer from "../reducers/reminders/tagsReducer";
+import tagsReducer from "./tagsReducer";
+import plannerReducer from "./plannerReducer";
 
-const rootReducer = combineReducers({ tagsReducer });
+const rootReducer = combineReducers({
+    tags: tagsReducer,
+    planner: plannerReducer
+});
 
 export default rootReducer;

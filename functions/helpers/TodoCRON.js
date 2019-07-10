@@ -45,9 +45,6 @@ module.exports.moveTodoToNextDay = (
         .valueOf();
     let todoKey = todoSnap.val().key;
 
-    // Put to see when exatly its running by local time not server time
-    console.log("stamp whenn CRON ran: " + yesterdayStamp);
-
     // Set the todo in today
     admin
         .database()

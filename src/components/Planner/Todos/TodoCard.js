@@ -5,6 +5,7 @@ import moment from "moment";
 
 // Destructured Imports
 import { Grid, Icon, Form } from "semantic-ui-react";
+import { connect } from "react-redux";
 
 // Component Imports
 import Todo from "./Todo";
@@ -23,9 +24,17 @@ class TodoCard extends React.Component {
         currentUser: firebase.auth().currentUser,
 
         category: this.props.category,
-        currentDay: this.props.currentDay,
-        monthObjectList: this.props.monthObjectList
+        monthObjectList: this.props.monthObjectList,
+
+        // Redux Props
+        currentDay: this.props.currentDay
     };
+
+    static getDerivedStateFromProps(props) {
+        return {
+            currentDay: props.currentDay
+        };
+    }
 
     componentDidMount() {
         this._isMounted = true;
@@ -165,12 +174,11 @@ class TodoCard extends React.Component {
     };
 
     // Render todos to the screen
-    renderTodos = ({ todoList, currentDay, category }) =>
+    renderTodos = ({ todoList, category }) =>
         todoList.map(todo => (
             <Grid.Row key={todo.key}>
                 <Todo
                     todo={todo}
-                    currentDay={currentDay}
                     category={category}
                     isChecked={todo.isChecked}
                     key={todo.key}
@@ -207,4 +215,11 @@ class TodoCard extends React.Component {
     }
 }
 
-export default TodoCard;
+const mapStateToProps = state => ({
+    currentDay: state.planner.currentDay
+});
+
+export default connect(
+    mapStateToProps,
+    null
+)(TodoCard);
