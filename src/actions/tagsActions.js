@@ -24,27 +24,25 @@ export const fetchReminderTags = ({
     currentUser,
     reminder
 }) => async dispatch => {
-    let reminderTagHolder = [];
-
-    remindersRef
-        .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags/`)
-        .once("value", reminderTags => {
-            if (reminderTags) {
-                reminderTags.forEach(tag => {
+    // If reminder doesent exist, dont fetch it tags
+    if (reminder) {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags/`)
+            .once("value", reminderTagList => {
+                let reminderTagHolder = [];
+                reminderTagList.forEach(tag => {
                     let key = tag.key;
                     let text = tag.val().text;
                     let color = tag.val().color;
                     reminderTagHolder.push({ key, text, color });
                 });
-            }
-        })
-        .then(
-            // WHY IS DISPATCH HERE???
-            dispatch({
-                type: actionTypes.FETCH_REMINDER_TAGS,
-                payload: {
-                    reminderTagList: reminderTagHolder
-                }
-            })
-        );
+
+                dispatch({
+                    type: actionTypes.FETCH_REMINDER_TAGS,
+                    payload: {
+                        reminderTagList: reminderTagHolder
+                    }
+                });
+            });
+    }
 };

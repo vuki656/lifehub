@@ -120,19 +120,14 @@ class ReminderModal extends React.Component {
         // If there are days outside new day range
         // delete them, else update them
         for (
-            let itterationCurrentDate = moment(itterationStartDate).subtract(
-                1,
-                "day"
-            );
-            itterationCurrentDate.isBefore(
-                moment(itterationEndDate).add(1, "day")
-            );
-            itterationCurrentDate.add(1, "days")
+            let itterationDate = moment(itterationStartDate).subtract(1, "day");
+            itterationDate.isBefore(moment(itterationEndDate).add(1, "day"));
+            itterationDate.add(1, "days")
         ) {
-            let dayTimestamp = getDayOnlyTimestamp(itterationCurrentDate);
+            let dayTimestamp = getDayOnlyTimestamp(itterationDate);
 
             if (
-                moment(itterationCurrentDate).isBetween(
+                moment(itterationDate).isBetween(
                     moment(startDate).subtract(1, "day"),
                     moment(endDate).add(1, "day")
                 )

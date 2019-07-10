@@ -1,10 +1,15 @@
 // Object Imports
 import React from "react";
 import firebase from "../../../../firebase/Auth";
+import uuidv4 from "uuid/v4";
 
 // Destructured Imports
 import { Icon, Grid, Segment, Input, Button } from "semantic-ui-react";
 import { ChromePicker } from "react-color";
+import { connect } from "react-redux";
+
+// Redux Actions Imports
+import { addTagToList } from "../../../../actions/tagsActions";
 
 class AddTagSection extends React.Component {
     state = {
@@ -22,7 +27,7 @@ class AddTagSection extends React.Component {
         });
     };
 
-    // Save tag in firebase
+    // Save tag
     saveTag = () => {
         const {
             tagColor,
@@ -31,11 +36,16 @@ class AddTagSection extends React.Component {
             currentUser
         } = this.state;
 
+        let key = uuidv4();
+
+        // Save in firebase
         reminderTagsRef
-            .child(`${currentUser.uid}`)
-            .push()
+            .child(`${currentUser.uid}/${key}`)
             .set({ text: newTagText, color: tagColor })
             .catch(err => console.err(err));
+
+        // Save in redux
+        this.props.addTagToList({ text: newTagText, color: tagColor });
 
         // Close color picker after tag save
         this.setState({ displayColorPicker: false });
@@ -84,4 +94,7 @@ class AddTagSection extends React.Component {
     }
 }
 
-export default AddTagSection;
+export default connect(
+    null,
+    { AddTagSection }
+)(AddTagSection);

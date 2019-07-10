@@ -13,7 +13,6 @@ import { fetchReminderTags } from "../../../../actions/tagsActions";
 
 class TagsList extends React.Component {
     state = {
-        selectedTags: null,
         tagList: null,
         reminderTags: null,
         reminderTagsRef: firebase.database().ref("reminder-tags"),
@@ -27,7 +26,7 @@ class TagsList extends React.Component {
     };
 
     componentDidMount() {
-        // this.props.fetchReminderTags(this.state);
+        this.props.fetchReminderTags(this.state);
         this.fetchTagList(this.state);
         this.addListeners();
     }
@@ -77,14 +76,10 @@ class TagsList extends React.Component {
     };
 
     // Render tag list
-    renderTags = ({ tagList }) => {
+    renderTags = ({ tagList, reminder }) => {
         if (tagList) {
             return tagList.map(tag => (
-                <TagListItem
-                    tag={tag}
-                    key={tag.key}
-                    handleTagAdd={this.props.handleTagAdd}
-                />
+                <TagListItem tag={tag} key={tag.key} reminder={reminder} />
             ));
         } else {
             return "No Tags";

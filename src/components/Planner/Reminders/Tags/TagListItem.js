@@ -1,25 +1,43 @@
 // Object Imports
 import React from "react";
 import firebase from "../../../../firebase/Auth";
+import moment from "moment";
 
 // Destructured Imports
 import { Icon, Grid, Checkbox, Popup, Input, Button } from "semantic-ui-react";
 import { ChromePicker } from "react-color";
+import { connect } from "react-redux";
+
+// Helper Imports
+import { getDayOnlyTimestamp } from "../../../../helpers/Global";
+
+// Redux Actions Imports
+import {
+    addTagToList,
+    removeTagFromList
+} from "../../../../actions/tagsActions";
 
 class TagListItem extends React.Component {
     state = {
+        remindersRef: firebase.database().ref("reminders"),
         reminderTagsRef: firebase.database().ref("reminder-tags"),
         currentUser: firebase.auth().currentUser,
         displayColorPicker: false,
 
+        reminder: this.props.reminder,
         newTagColor: this.props.tag.color,
         newTagText: this.props.tag.text,
-        tag: this.props.tag
+        tag: this.props.tag,
+
+        // Redux Props
+        selectedTags: this.props.selectedTags
     };
 
     static getDerivedStateFromProps(props) {
         return {
-            tag: props.tag
+            reminder: props.reminder,
+            tag: props.tag,
+            selectedTags: props.selectedTags
         };
     }
 
@@ -43,6 +61,7 @@ class TagListItem extends React.Component {
             .catch(err => console.err(err));
     };
 
+    // Open/close color picker
     toggleColorPicker = () => {
         this.setState({
             displayColorPicker: !this.state.displayColorPicker
@@ -71,6 +90,57 @@ class TagListItem extends React.Component {
         this.toggleColorPicker();
     };
 
+    // Determine should tag be added or removed
+    handleTagCheck = ({ selectedTags }, tag) => {
+        if (selectedTags.includes(tag)) {
+            this.handleTagRemoval(tag);
+        } else {
+            this.handleTagAdd(tag);
+        }
+    };
+
+    // Add tag to redux and firebase
+    handleTagAdd = tag => {
+        this.props.addTagToList(tag);
+        this.setTagInFirebase(this.state, tag);
+    };
+
+    // Remove tag from redux and firebase
+    handleTagRemoval = tag => {
+        this.props.removeTagFromList(tag);
+        this.setTagInFirebase(this.state, tag, tag.text, tag.color);
+    };
+
+    // Set tag in its reminder
+    // When removing use empty text and color so its removed
+    // When adding, use passed args so its added
+    setTagInFirebase = (
+        { remindersRef, currentUser, reminder },
+        tag,
+        tagText = null,
+        tagColor = null
+    ) => {
+        for (
+            let itterationDate = moment(reminder.startDate);
+            itterationDate.isBefore(moment(reminder.endDate).add(1, "day"));
+            itterationDate.add(1, "days")
+        ) {
+            let dayTimestamp = getDayOnlyTimestamp(itterationDate);
+
+            remindersRef
+                .child(
+                    `${currentUser.uid}/${dayTimestamp}/${reminder.key}/tags`
+                )
+                .update({
+                    [tag.key]: {
+                        text: tagText,
+                        color: tagColor
+                    }
+                })
+                .catch(err => console.err(err));
+        }
+    };
+
     render() {
         const { tag, displayColorPicker, newTagColor } = this.state;
 
@@ -84,10 +154,9 @@ class TagListItem extends React.Component {
                     ""
                 )}
                 <Grid.Row style={{ backgroundColor: newTagColor }}>
-                    {/* prop funct not yet set */}
                     <Checkbox
                         label={tag.text}
-                        onChange={() => this.props.handleTagAdd(tag)}
+                        onChange={() => this.handleTagCheck(this.state, tag)}
                     />
                     <Icon
                         name={"remove"}
@@ -125,4 +194,11 @@ class TagListItem extends React.Component {
     }
 }
 
-export default TagListItem;
+const mapStateToProps = state => ({
+    selectedTags: state.tags.reminderTagList
+});
+
+export default connect(
+    mapStateToProps,
+    { addTagToList, removeTagFromList }
+)(TagListItem);
