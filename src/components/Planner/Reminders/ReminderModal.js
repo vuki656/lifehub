@@ -26,14 +26,16 @@ class ReminderModal extends React.Component {
         modalOpen: this.props.modalOpen,
 
         // Redux Props
-        startDate: this.props.currentDay
+        startDate: this.props.currentDay,
+        selectedTags: this.props.selectedTags
     };
 
     static getDerivedStateFromProps(props) {
         return {
             modalOpen: props.modalOpen,
             reminder: props.reminder,
-            startDate: props.currentDay
+            startDate: props.currentDay,
+            selectedTags: props.selectedTags
         };
     }
 
@@ -66,7 +68,7 @@ class ReminderModal extends React.Component {
     };
 
     // Sends the reminder object to firebase
-    saveReminderToFirebase = ({ text, startDate, endDate }) => {
+    saveReminderToFirebase = ({ text, startDate, endDate, selectedTags }) => {
         // Generate a unique key for reminder thats
         // the same in every day its repeating
         let key = uuidv4();
@@ -86,7 +88,8 @@ class ReminderModal extends React.Component {
                     startDate,
                     endDate,
                     dayTimestamp,
-                    key
+                    key,
+                    selectedTags
                 );
             }
         }
@@ -100,7 +103,8 @@ class ReminderModal extends React.Component {
         text,
         oldStartDate,
         oldEndDate,
-        reminder
+        reminder,
+        selectedTags
     }) => {
         // Check if new start date is after old,
         // If yes, choose old to cover the whole range
@@ -138,7 +142,8 @@ class ReminderModal extends React.Component {
                     startDate,
                     endDate,
                     dayTimestamp,
-                    reminder.key
+                    reminder.key,
+                    selectedTags
                 );
             } else {
                 this.deleteReminder(this.state, dayTimestamp);
@@ -154,15 +159,19 @@ class ReminderModal extends React.Component {
         startDate,
         endDate,
         dayTimestamp,
-        key
+        key,
+        selectedTags
     ) => {
+        let tagList = this.formatTagList(selectedTags);
+
         reminderRef
             .child(`${currentUser.uid}/${dayTimestamp}/${key}`)
             .update({
                 key,
                 text,
                 startDate,
-                endDate
+                endDate,
+                tags: tagList
             })
             .catch(err => {
                 console.error(err);
@@ -177,6 +186,20 @@ class ReminderModal extends React.Component {
             .catch(err => {
                 console.error(err);
             });
+    };
+
+    // Format the tag list into list of object with keys
+    // So its saved in firebase with correct model
+    formatTagList = selectedTags => {
+        let _selectedTags = {};
+
+        selectedTags.forEach(tag => {
+            Object.assign(_selectedTags, {
+                [tag.key]: { text: tag.text, color: tag.color }
+            });
+        });
+
+        return _selectedTags;
     };
 
     // Check if selected date is before today
@@ -294,7 +317,8 @@ class ReminderModal extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    currentDay: state.planner.currentDay
+    currentDay: state.planner.currentDay,
+    selectedTags: state.tags.reminderTagList
 });
 
 export default connect(

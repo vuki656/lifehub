@@ -21,7 +21,8 @@ const tagsReducer = (state = initialState, action) => {
             };
         case actionTypes.REMOVE_TAG:
             let updatedReminderList = state.reminderTagList.filter(
-                tagFromList => tagFromList !== action.payload.tagToRemove
+                tagFromList =>
+                    tagFromList.key !== action.payload.tagToRemove.key
             );
 
             return {

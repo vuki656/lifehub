@@ -8,9 +8,6 @@ import { Icon, Grid, Segment, Input, Button } from "semantic-ui-react";
 import { ChromePicker } from "react-color";
 import { connect } from "react-redux";
 
-// Redux Actions Imports
-import { addTagToList } from "../../../../actions/tagsActions";
-
 class AddTagSection extends React.Component {
     state = {
         newTagText: "",
@@ -27,7 +24,7 @@ class AddTagSection extends React.Component {
         });
     };
 
-    // Save tag
+    // Save tag in firebase
     saveTag = () => {
         const {
             tagColor,
@@ -38,14 +35,10 @@ class AddTagSection extends React.Component {
 
         let key = uuidv4();
 
-        // Save in firebase
         reminderTagsRef
             .child(`${currentUser.uid}/${key}`)
             .set({ text: newTagText, color: tagColor })
             .catch(err => console.err(err));
-
-        // Save in redux
-        this.props.addTagToList({ text: newTagText, color: tagColor });
 
         // Close color picker after tag save
         this.setState({ displayColorPicker: false });

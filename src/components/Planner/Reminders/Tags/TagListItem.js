@@ -1,15 +1,11 @@
 // Object Imports
 import React from "react";
 import firebase from "../../../../firebase/Auth";
-import moment from "moment";
 
 // Destructured Imports
 import { Icon, Grid, Checkbox, Popup, Input, Button } from "semantic-ui-react";
 import { ChromePicker } from "react-color";
 import { connect } from "react-redux";
-
-// Helper Imports
-import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 // Redux Actions Imports
 import {
@@ -23,6 +19,7 @@ class TagListItem extends React.Component {
         reminderTagsRef: firebase.database().ref("reminder-tags"),
         currentUser: firebase.auth().currentUser,
         displayColorPicker: false,
+        isSelected: false,
 
         reminder: this.props.reminder,
         newTagColor: this.props.tag.color,
@@ -40,6 +37,20 @@ class TagListItem extends React.Component {
             selectedTags: props.selectedTags
         };
     }
+
+    componentDidMount() {
+        this.getTagSelectedState(this.state);
+    }
+
+    // Check if tag from the list is saved in reminder
+    getTagSelectedState = ({ selectedTags, tag }) => {
+        for (let i = 0; i < selectedTags.length; i++) {
+            if (selectedTags[i].key === tag.key) {
+                this.setState({ isSelected: true });
+                break;
+            }
+        }
+    };
 
     // Remove tag from firebase
     removeTag = () => {
@@ -91,58 +102,18 @@ class TagListItem extends React.Component {
     };
 
     // Determine should tag be added or removed
-    handleTagCheck = ({ selectedTags }, tag) => {
-        if (selectedTags.includes(tag)) {
-            this.handleTagRemoval(tag);
+    handleTagCheck = ({ isSelected }, tag) => {
+        if (isSelected) {
+            this.props.removeTagFromList(tag);
+            this.setState({ isSelected: false });
         } else {
-            this.handleTagAdd(tag);
-        }
-    };
-
-    // Add tag to redux and firebase
-    handleTagAdd = tag => {
-        this.props.addTagToList(tag);
-        this.setTagInFirebase(this.state, tag);
-    };
-
-    // Remove tag from redux and firebase
-    handleTagRemoval = tag => {
-        this.props.removeTagFromList(tag);
-        this.setTagInFirebase(this.state, tag, tag.text, tag.color);
-    };
-
-    // Set tag in its reminder
-    // When removing use empty text and color so its removed
-    // When adding, use passed args so its added
-    setTagInFirebase = (
-        { remindersRef, currentUser, reminder },
-        tag,
-        tagText = null,
-        tagColor = null
-    ) => {
-        for (
-            let itterationDate = moment(reminder.startDate);
-            itterationDate.isBefore(moment(reminder.endDate).add(1, "day"));
-            itterationDate.add(1, "days")
-        ) {
-            let dayTimestamp = getDayOnlyTimestamp(itterationDate);
-
-            remindersRef
-                .child(
-                    `${currentUser.uid}/${dayTimestamp}/${reminder.key}/tags`
-                )
-                .update({
-                    [tag.key]: {
-                        text: tagText,
-                        color: tagColor
-                    }
-                })
-                .catch(err => console.err(err));
+            this.props.addTagToList(tag);
+            this.setState({ isSelected: true });
         }
     };
 
     render() {
-        const { tag, displayColorPicker, newTagColor } = this.state;
+        const { tag, displayColorPicker, newTagColor, isSelected } = this.state;
 
         return (
             <React.Fragment>
@@ -155,6 +126,7 @@ class TagListItem extends React.Component {
                 )}
                 <Grid.Row style={{ backgroundColor: newTagColor }}>
                     <Checkbox
+                        checked={isSelected}
                         label={tag.text}
                         onChange={() => this.handleTagCheck(this.state, tag)}
                     />
