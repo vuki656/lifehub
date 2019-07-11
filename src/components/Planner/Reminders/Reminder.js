@@ -18,7 +18,6 @@ class Reminder extends React.Component {
         super(props);
 
         this.state = {
-            reminderTags: null,
             remindersRef: firebase.database().ref("reminders"),
             currentUser: firebase.auth().currentUser,
             modalOpen: false,

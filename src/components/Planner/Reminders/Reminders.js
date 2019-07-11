@@ -94,7 +94,7 @@ class Reminders extends React.Component {
         let reminderTagsHolder = [];
         // Convert object of objects to array of objects
         // So it can be itterated over
-        let arrOfTags = Object.values(tags);
+        let arrOfTags = Object.values(tags ? tags : []);
 
         arrOfTags.forEach(tag => {
             let text = tag.text;

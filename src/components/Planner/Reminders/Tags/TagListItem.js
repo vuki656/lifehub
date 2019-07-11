@@ -8,10 +8,7 @@ import { ChromePicker } from "react-color";
 import { connect } from "react-redux";
 
 // Redux Actions Imports
-import {
-    addTagToList,
-    removeTagFromList
-} from "../../../../actions/tagsActions";
+import { addTagToList, updateTagList } from "../../../../actions/tagsActions";
 
 class TagListItem extends React.Component {
     state = {
@@ -104,13 +101,18 @@ class TagListItem extends React.Component {
     // Determine should tag be added or removed
     handleTagCheck = ({ isSelected }, tag) => {
         if (isSelected) {
-            this.props.removeTagFromList(tag);
+            let updatedTagList = this.removeTagFromList(this.state, tag);
+            this.props.updateTagList(updatedTagList);
             this.setState({ isSelected: false });
         } else {
             this.props.addTagToList(tag);
             this.setState({ isSelected: true });
         }
     };
+
+    // Return tag list without the given tag
+    removeTagFromList = ({ selectedTags }, tag) =>
+        selectedTags.filter(tagFromList => tagFromList.key !== tag.key);
 
     render() {
         const { tag, displayColorPicker, newTagColor, isSelected } = this.state;
@@ -172,5 +174,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { addTagToList, removeTagFromList }
+    { addTagToList, updateTagList }
 )(TagListItem);

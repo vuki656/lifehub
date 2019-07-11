@@ -9,11 +9,11 @@ export const addTagToList = tag => {
     };
 };
 
-export const removeTagFromList = tag => {
+export const updateTagList = updatedTaglist => {
     return {
-        type: actionTypes.REMOVE_TAG,
+        type: actionTypes.UPDATE_TAG_LIST,
         payload: {
-            tagToRemove: tag
+            updatedTagList: updatedTaglist
         }
     };
 };
