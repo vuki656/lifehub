@@ -1,20 +1,22 @@
 // Object Imports
 import React from "react";
+import firebase from "../../../../firebase/Auth";
 
 // Destructured Imports
 import { connect } from "react-redux";
-import firebase from "../../../../firebase/Auth";
 
 // Component Imports
 import TagListItem from "./TagListItem";
 
 // Redux Actions Imports
-import { fetchReminderTags } from "../../../../actions/tagsActions";
+import {
+    fetchReminderTags,
+    updateTagList
+} from "../../../../actions/tagsActions";
 
 class TagsList extends React.Component {
     state = {
         tagList: null,
-        reminderTags: null,
         reminderTagsRef: firebase.database().ref("reminder-tags"),
         remindersRef: firebase.database().ref("reminders"),
         currentUser: firebase.auth().currentUser,
@@ -50,6 +52,7 @@ class TagsList extends React.Component {
                     tagHolder.push({ key, text, color });
                 });
                 this.setState({ tagList: tagHolder });
+                this.props.updateTagList(tagHolder);
             }
         });
     };
@@ -97,5 +100,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { fetchReminderTags }
+    { fetchReminderTags, updateTagList }
 )(TagsList);
