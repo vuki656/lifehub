@@ -72,6 +72,18 @@ class TagListItem extends React.Component {
             .catch(err => console.err(err));
     };
 
+    // Save selected color in firebase to corresponding tag
+    handleTagColorUpdate = () => {
+        const { newTagColor, reminderTagsRef, currentUser, tag } = this.state;
+
+        reminderTagsRef
+            .child(`${currentUser.uid}/${tag.key}`)
+            .update({ color: newTagColor })
+            .catch(err => console.err(err));
+
+        this.toggleColorPicker();
+    };
+
     // Open/close color picker
     toggleColorPicker = () => {
         this.setState({
@@ -87,18 +99,6 @@ class TagListItem extends React.Component {
     // Set the hex color from color picker
     handleTagColorChange = color => {
         this.setState({ newTagColor: color.hex });
-    };
-
-    // Save selected color in firebase to corresponding tag
-    saveTagColorInFirebase = () => {
-        const { newTagColor, reminderTagsRef, currentUser, tag } = this.state;
-
-        reminderTagsRef
-            .child(`${currentUser.uid}/${tag.key}`)
-            .update({ color: newTagColor })
-            .catch(err => console.err(err));
-
-        this.toggleColorPicker();
     };
 
     // Determine should tag be added or removed
@@ -118,7 +118,7 @@ class TagListItem extends React.Component {
         return (
             <React.Fragment>
                 {displayColorPicker ? (
-                    <Button onClick={this.saveTagColorInFirebase}>
+                    <Button onClick={this.handleTagColorUpdate}>
                         SaveColor
                     </Button>
                 ) : (

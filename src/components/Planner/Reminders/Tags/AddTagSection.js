@@ -37,7 +37,7 @@ class AddTagSection extends React.Component {
 
         reminderTagsRef
             .child(`${currentUser.uid}/${key}`)
-            .set({ text: newTagText, color: tagColor })
+            .set({ text: newTagText, color: tagColor, key })
             .catch(err => console.err(err));
 
         // Close color picker after tag save

@@ -65,19 +65,46 @@ class Reminders extends React.Component {
 
         remindersRef
             .child(`${currentUser.uid}/${currentDay}`)
-            .on("value", snapshot => {
-                snapshot.forEach(child => {
-                    let key = child.val().key;
-                    let text = child.val().text;
-                    let startDate = child.val().startDate;
-                    let endDate = child.val().endDate;
-                    remindersHolder.push({ text, key, startDate, endDate });
+            .on("value", reminders => {
+                reminders.forEach(reminder => {
+                    let key = reminder.val().key;
+                    let text = reminder.val().text;
+                    let startDate = reminder.val().startDate;
+                    let endDate = reminder.val().endDate;
+                    let reminderTags = this.getReminderTagList(
+                        reminder.val().tags
+                    );
+                    remindersHolder.push({
+                        text,
+                        key,
+                        startDate,
+                        endDate,
+                        reminderTags
+                    });
                 });
             });
 
         if (this._isMounted) {
             this.setState({ remindersList: remindersHolder });
         }
+    };
+
+    // Get all active tags in reminder
+    getReminderTagList = tags => {
+        let reminderTagsHolder = [];
+        // Convert object of objects to array of objects
+        // So it can be itterated over
+        let arrOfTags = Object.values(tags);
+
+        arrOfTags.forEach(tag => {
+            let text = tag.text;
+            let color = tag.color;
+            let key = tag.key;
+
+            reminderTagsHolder.push({ text, color, key });
+        });
+
+        return reminderTagsHolder;
     };
 
     // Listen for new reminder inputs and set to the state so component re-renders
@@ -108,11 +135,10 @@ class Reminders extends React.Component {
     };
 
     // Render reminders to the screen
-    renderReminders = ({ remindersList }) => {
-        return remindersList.map(reminder => (
+    renderReminders = ({ remindersList }) =>
+        remindersList.map(reminder => (
             <Reminder reminder={reminder} key={reminder.key} />
         ));
-    };
 
     closeModal = () => {
         this.setState({ modalOpen: false });

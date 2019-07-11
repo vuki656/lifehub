@@ -20,6 +20,7 @@ const tagsReducer = (state = initialState, action) => {
                 ]
             };
         case actionTypes.REMOVE_TAG:
+            // Return tag list without the given tag
             let updatedReminderList = state.reminderTagList.filter(
                 tagFromList =>
                     tagFromList.key !== action.payload.tagToRemove.key

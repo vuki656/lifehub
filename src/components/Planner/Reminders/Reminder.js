@@ -4,7 +4,7 @@ import moment from "moment";
 import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
-import { List, Icon } from "semantic-ui-react";
+import { List, Icon, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
@@ -18,6 +18,7 @@ class Reminder extends React.Component {
         super(props);
 
         this.state = {
+            reminderTags: null,
             remindersRef: firebase.database().ref("reminders"),
             currentUser: firebase.auth().currentUser,
             modalOpen: false,
@@ -57,6 +58,14 @@ class Reminder extends React.Component {
         }
     };
 
+    // Render all active tags from reminder
+    renderReminderTags = reminder =>
+        reminder.reminderTags.map(tag => (
+            <Label key={tag.key} style={{ backgroundColor: tag.color }}>
+                {tag.text}
+            </Label>
+        ));
+
     closeModal = () => {
         this.setState({ modalOpen: false });
     };
@@ -94,6 +103,7 @@ class Reminder extends React.Component {
                             closeModal={this.closeModal}
                         />
                     </List.Header>
+                    {this.renderReminderTags(reminder)}
                 </List.Content>
             </List.Item>
         );

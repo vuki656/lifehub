@@ -195,7 +195,7 @@ class ReminderModal extends React.Component {
 
         selectedTags.forEach(tag => {
             Object.assign(_selectedTags, {
-                [tag.key]: { text: tag.text, color: tag.color }
+                [tag.key]: { text: tag.text, color: tag.color, key: tag.key }
             });
         });
 
