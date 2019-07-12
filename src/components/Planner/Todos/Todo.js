@@ -111,9 +111,9 @@ class Todo extends React.Component {
     // Fetch date to generate months untill from firebase
     // Used to determin untill when to set repeating todos
     getGenerateUntillDate = ({ usersRef, currentUser }) => {
-        usersRef.child(currentUser.uid).once("value", snapshot => {
+        usersRef.child(currentUser.uid).once("value", generateUntillDate => {
             this.setState({
-                generateUntillDate: snapshot.val().generateUntill
+                generateUntillDate: generateUntillDate.val().generateUntill
             });
         });
     };
@@ -124,7 +124,7 @@ class Todo extends React.Component {
         return (
             <React.Fragment>
                 <Checkbox
-                    label={todo.value}
+                    label={todo.text}
                     checked={isChecked}
                     onChange={() => this.handleTodoCheckboxChange(this.state)}
                 />

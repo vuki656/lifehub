@@ -189,7 +189,7 @@ class ReminderModal extends React.Component {
     };
 
     // Format the tag list into list of object with keys
-    // So its saved in firebase with correct model
+    // So its saved in firebase as correct cata model
     formatTagList = selectedTags => {
         let _selectedTags = {};
 

@@ -12,18 +12,18 @@ module.exports.getDataFromSnap = async todoRef => {
     let morningNonRepeatingChecked = 0;
     let morningNonRepeatingUnChecked = 0;
 
-    await morningRef.once("value", snap => {
-        snap.forEach(child => {
-            if (child.val().isRepeating) {
+    await morningRef.once("value", category => {
+        category.forEach(todo => {
+            if (todo.val().isRepeating) {
                 morningRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     morningRepeatingChecked++;
                 } else {
                     morningRepeatingUnChecked++;
                 }
             } else {
                 morningNonRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     morningNonRepeatingChecked++;
                 } else {
                     morningNonRepeatingUnChecked++;
@@ -39,18 +39,18 @@ module.exports.getDataFromSnap = async todoRef => {
     let dayNonRepeatingChecked = 0;
     let dayNonRepeatingUnChecked = 0;
 
-    await dayRef.once("value", snap => {
-        snap.forEach(child => {
-            if (child.val().isRepeating) {
+    await dayRef.once("value", category => {
+        category.forEach(todo => {
+            if (todo.val().isRepeating) {
                 dayRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     dayRepeatingChecked++;
                 } else {
                     dayRepeatingUnChecked++;
                 }
             } else {
                 dayNonRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     dayNonRepeatingChecked++;
                 } else {
                     dayNonRepeatingUnChecked++;
@@ -66,18 +66,18 @@ module.exports.getDataFromSnap = async todoRef => {
     let eveningNonRepeatingChecked = 0;
     let eveningNonRepeatingUnChecked = 0;
 
-    await eveningRef.once("value", snap => {
-        snap.forEach(child => {
-            if (child.val().isRepeating) {
+    await eveningRef.once("value", category => {
+        category.forEach(todo => {
+            if (todo.val().isRepeating) {
                 eveningRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     eveningRepeatingChecked++;
                 } else {
                     eveningRepeatingUnChecked++;
                 }
             } else {
                 eveningNonRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     eveningNonRepeatingChecked++;
                 } else {
                     eveningNonRepeatingUnChecked++;
@@ -93,18 +93,18 @@ module.exports.getDataFromSnap = async todoRef => {
     let workNonRepeatingChecked = 0;
     let workNonRepeatingUnChecked = 0;
 
-    await workRef.once("value", snap => {
-        snap.forEach(child => {
-            if (child.val().isRepeating) {
+    await workRef.once("value", category => {
+        category.forEach(todo => {
+            if (todo.val().isRepeating) {
                 workRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     workRepeatingChecked++;
                 } else {
                     workRepeatingUnChecked++;
                 }
             } else {
                 workNonRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     workNonRepeatingChecked++;
                 } else {
                     workNonRepeatingUnChecked++;
@@ -120,18 +120,18 @@ module.exports.getDataFromSnap = async todoRef => {
     let miscNonRepeatingChecked = 0;
     let miscNonRepeatingUnChecked = 0;
 
-    await miscRef.once("value", snap => {
-        snap.forEach(child => {
-            if (child.val().isRepeating) {
+    await miscRef.once("value", category => {
+        category.forEach(todo => {
+            if (todo.val().isRepeating) {
                 miscRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     miscRepeatingChecked++;
                 } else {
                     miscRepeatingUnChecked++;
                 }
             } else {
                 miscNonRepeating++;
-                if (child.val().isChecked) {
+                if (todo.val().isChecked) {
                     miscNonRepeatingChecked++;
                 } else {
                     miscNonRepeatingUnChecked++;

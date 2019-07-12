@@ -45,9 +45,8 @@ class Planner extends React.Component {
 
     // Fetches weight data from firebase
     fetchRegDate = ({ currentUser, usersRef }) => {
-        usersRef.child(currentUser.uid).once("value", snapshot => {
-            let regDate = snapshot.val().regDate; // Moment timestamp user register date
-            this.generateMonthDayStructure(regDate, this.state);
+        usersRef.child(currentUser.uid).once("value", regDate => {
+            this.generateMonthDayStructure(regDate.val().regDate, this.state);
         });
     };
 

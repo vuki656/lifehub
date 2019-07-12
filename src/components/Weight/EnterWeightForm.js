@@ -64,13 +64,13 @@ class EnterWeightForm extends React.Component {
             pushRef
                 .child(`${currentUser.uid}`)
                 .push()
-                .then(snapshot => {
+                .then(weightEntry => {
                     pushRef
-                        .child(snapshot.key)
+                        .child(weightEntry.key)
                         .set({
                             weight: weight,
                             date: currentDay,
-                            key: snapshot.key
+                            key: weightEntry.key
                         })
                         .catch(err => {
                             console.error(err);

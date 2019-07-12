@@ -18,7 +18,7 @@ class TodoCard extends React.Component {
     _isMounted = false;
 
     state = {
-        todo: "",
+        todoText: "",
         todoList: [],
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
@@ -93,22 +93,28 @@ class TodoCard extends React.Component {
 
     // Send added todo to firebase
     handleSubmit = () => {
-        const { todo, category, currentUser, todoRef, currentDay } = this.state;
+        const {
+            todoText,
+            category,
+            currentUser,
+            todoRef,
+            currentDay
+        } = this.state;
         const pushRef = todoRef.child(
             `${currentUser.uid}/${currentDay}/categories/${category}`
         );
         let createdAt = getDayOnlyTimestamp(moment());
 
         // Pushes to firebase and then updates the fields
-        if (todo) {
+        if (todoText) {
             pushRef
                 .push()
-                .then(snapshot => {
-                    pushRef.child(snapshot.key).update({
-                        value: todo,
+                .then(todo => {
+                    pushRef.child(todo.key).update({
+                        text: todoText,
                         isChecked: false,
-                        key: snapshot.key,
-                        createdAt: createdAt,
+                        key: todo.key,
+                        createdAt,
                         isRepeating: false,
                         repeatingOnWeekDays: "",
                         repeatingOnMonthDays: "",
@@ -130,21 +136,21 @@ class TodoCard extends React.Component {
 
         todoRef
             .child(`${currentUser.uid}/${currentDay}/categories/${category}`)
-            .on("value", snapshot => {
-                snapshot.forEach(child => {
-                    let key = child.val().key;
-                    let value = child.val().value;
-                    let isChecked = child.val().isChecked;
-                    let createdAt = child.val().createdAt;
-                    let isRepeating = child.val().isRepeating;
-                    let repeatingOnWeekDays = child.val().repeatingOnWeekDays;
-                    let repeatingOnMonthDays = child.val().repeatingOnMonthDays;
-                    let repeatAtStartOfMonth = child.val().repeatAtStartOfMonth;
-                    let repeatAtEndOfMonth = child.val().repeatAtEndOfMonth;
-                    let repeatFromDate = child.val().repeatFromDate;
+            .on("value", todo => {
+                todo.forEach(todo => {
+                    let key = todo.val().key;
+                    let text = todo.val().text;
+                    let isChecked = todo.val().isChecked;
+                    let createdAt = todo.val().createdAt;
+                    let isRepeating = todo.val().isRepeating;
+                    let repeatingOnWeekDays = todo.val().repeatingOnWeekDays;
+                    let repeatingOnMonthDays = todo.val().repeatingOnMonthDays;
+                    let repeatAtStartOfMonth = todo.val().repeatAtStartOfMonth;
+                    let repeatAtEndOfMonth = todo.val().repeatAtEndOfMonth;
+                    let repeatFromDate = todo.val().repeatFromDate;
 
                     todoHolder.push({
-                        value,
+                        text,
                         isChecked,
                         key,
                         createdAt,
@@ -170,7 +176,7 @@ class TodoCard extends React.Component {
 
     // Clear the input form for todo
     clearForm = () => {
-        this.setState({ todo: "" });
+        this.setState({ todoText: "" });
     };
 
     // Render todos to the screen
@@ -194,8 +200,8 @@ class TodoCard extends React.Component {
                     <Grid.Row>
                         <Form.Group widths="equal">
                             <Form.Input
-                                name="todo"
-                                value={this.state.todo}
+                                name="todoText"
+                                value={this.state.todoText}
                                 placeholder="todo"
                                 type="float"
                                 onChange={this.handleChange}

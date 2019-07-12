@@ -72,12 +72,12 @@ class Journal extends React.Component {
     fetchJournalEntries = ({ journalRef, currentUser }) => {
         let journalEntryHolder = [];
 
-        journalRef.child(currentUser.uid).once("value", snapshot => {
-            snapshot.forEach(child => {
-                let key = child.val().key;
-                let title = child.val().title;
-                let text = child.val().text;
-                let createdAt = child.val().createdAt;
+        journalRef.child(currentUser.uid).once("value", journalEntries => {
+            journalEntries.forEach(journalEntry => {
+                let key = journalEntry.val().key;
+                let title = journalEntry.val().title;
+                let text = journalEntry.val().text;
+                let createdAt = journalEntry.val().createdAt;
 
                 journalEntryHolder.push({ key, title, text, createdAt });
             });
@@ -92,14 +92,14 @@ class Journal extends React.Component {
         let createdAt = moment().valueOf();
         let pushRef = journalRef.child(currentUser.uid);
 
-        pushRef.push().then(snapshot => {
+        pushRef.push().then(journalEntry => {
             pushRef
-                .child(snapshot.key)
+                .child(journalEntry.key)
                 .set({
                     title: "no title",
                     createdAt: createdAt,
                     text: "no text",
-                    key: snapshot.key
+                    key: journalEntry.key
                 })
                 .catch(error => {
                     console.error(error);

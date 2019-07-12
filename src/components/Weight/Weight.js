@@ -70,11 +70,11 @@ class Weight extends React.Component {
         let weightHolder = [];
         let previousWeight = "";
 
-        weightRef.child(currentUser.uid).once("value", snapshot => {
-            snapshot.forEach(child => {
-                let date = child.val().date;
-                let weight = child.val().weight;
-                let key = child.val().key;
+        weightRef.child(currentUser.uid).once("value", weightEntries => {
+            weightEntries.forEach(weightEntry => {
+                let date = weightEntry.val().date;
+                let weight = weightEntry.val().weight;
+                let key = weightEntry.val().key;
 
                 weightHolder.push({ date, weight, previousWeight, key });
                 previousWeight = weight; // Store the previous weight for weight diff column
@@ -86,9 +86,9 @@ class Weight extends React.Component {
                 .child(currentUser.uid)
                 .orderByKey()
                 .limitToFirst(1)
-                .once("value", snap => {
-                    snap.forEach(child => {
-                        firstWeightEntry = child.val().weight;
+                .once("value", weightEntries => {
+                    weightEntries.forEach(weightEntry => {
+                        firstWeightEntry = weightEntry.val().weight;
                     });
                 });
 
