@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../../../../firebase/Auth";
 
 // Destructured Imports
 import { connect } from "react-redux";
@@ -12,7 +12,7 @@ import TagListItem from "./TagListItem";
 import {
     fetchReminderTags,
     updateTagList
-} from "../../../../actions/tagsActions";
+} from "../../../../../actions/tagsActions";
 
 class TagsList extends React.Component {
     state = {

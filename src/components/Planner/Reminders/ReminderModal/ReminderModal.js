@@ -2,7 +2,7 @@
 import React from "react";
 import moment from "moment";
 import DatePicker from "react-datepicker";
-import firebase from "../../../firebase/Auth";
+import firebase from "../../../../firebase/Auth";
 import uuidv4 from "uuid/v4";
 
 // Destructured Imports
@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import Tags from "./Tags/Tags";
 
 // Helper Imports
-import { getDayOnlyTimestamp } from "../../../helpers/Global";
+import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class ReminderModal extends React.Component {
     state = {

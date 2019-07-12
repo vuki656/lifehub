@@ -8,7 +8,7 @@ import { List, Icon, Label } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
-import ReminderModal from "./ReminderModal";
+import ReminderModal from "./ReminderModal/ReminderModal";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";

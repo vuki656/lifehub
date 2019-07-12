@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../../../../firebase/Auth";
 
 // Destructured Imports
 import { Icon, Grid, Checkbox, Popup, Input, Button } from "semantic-ui-react";
@@ -8,7 +8,10 @@ import { ChromePicker } from "react-color";
 import { connect } from "react-redux";
 
 // Redux Actions Imports
-import { addTagToList, updateTagList } from "../../../../actions/tagsActions";
+import {
+    addTagToList,
+    updateTagList
+} from "../../../../../actions/tagsActions";
 
 class TagListItem extends React.Component {
     state = {

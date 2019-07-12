@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../../../../firebase/Auth";
 import uuidv4 from "uuid/v4";
 
 // Destructured Imports
