@@ -1,5 +1,6 @@
 import * as actionTypes from "./types";
 
+// Add given tag to tag arr
 export const addTagToList = tag => {
     return {
         type: actionTypes.ADD_TAG,
@@ -9,7 +10,8 @@ export const addTagToList = tag => {
     };
 };
 
-export const updateTagList = updatedTaglist => {
+// Update tag arr with given arr
+export const updateTagList = (updatedTaglist = []) => {
     return {
         type: actionTypes.UPDATE_TAG_LIST,
         payload: {
@@ -18,6 +20,7 @@ export const updateTagList = updatedTaglist => {
     };
 };
 
+// Fetch active tags from given reminder
 export const fetchReminderTags = ({
     currentDay,
     remindersRef,

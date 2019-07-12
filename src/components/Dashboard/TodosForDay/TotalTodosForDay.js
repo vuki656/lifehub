@@ -31,11 +31,15 @@ class TotalTodosForDay extends React.Component {
         todoRef
             .child(`${currentUser.uid}/${currentDay}/count/`)
             .on("value", counts => {
-                let totalTodos = counts.val().total;
-                let totalCheckedTodos = counts.val().totalChecked;
+                if (counts.val()) {
+                    let totalTodos = counts.val().total;
+                    let totalCheckedTodos = counts.val().totalChecked;
 
-                if (this._isMounted) {
-                    this.setState({ totalTodos, totalCheckedTodos });
+                    if (this._isMounted) {
+                        this.setState({ totalTodos, totalCheckedTodos });
+                    }
+                } else {
+                    this.setState({ totalTodos: 0, totalCheckedTodos: 0 });
                 }
             });
     };

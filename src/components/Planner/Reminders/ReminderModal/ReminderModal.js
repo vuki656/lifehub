@@ -15,6 +15,9 @@ import Tags from "./Tags/Tags";
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
+// Redux Actions Imports
+import { updateTagList } from "../../../../actions/tagsActions";
+
 class ReminderModal extends React.Component {
     state = {
         endDate: null,
@@ -65,6 +68,12 @@ class ReminderModal extends React.Component {
         } else {
             this.saveReminderToFirebase(this.state);
         }
+        this.props.updateTagList();
+    };
+
+    handleReminderCancel = () => {
+        this.props.updateTagList();
+        this.props.closeModal();
     };
 
     // Sends the reminder object to firebase
@@ -303,7 +312,7 @@ class ReminderModal extends React.Component {
                                 </Button>
                                 <Button
                                     secondary
-                                    onClick={this.props.closeModal}
+                                    onClick={this.handleReminderCancel}
                                 >
                                     Cancel
                                 </Button>
@@ -323,5 +332,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    null
+    { updateTagList }
 )(ReminderModal);

@@ -45,13 +45,15 @@ class TodosForDayCard extends React.Component {
                 `${currentUser.uid}/${currentDay}/count/categories/${category}`
             )
             .on("value", counts => {
-                if (counts) {
+                if (counts.val()) {
                     let totalTodos = counts.val().total;
                     let totalCheckedTodos = counts.val().totalChecked;
 
                     if (this._isMounted) {
                         this.setState({ totalTodos, totalCheckedTodos });
                     }
+                } else {
+                    this.setState({ totalTodos: 0, totalCheckedTodos: 0 });
                 }
             });
     };
