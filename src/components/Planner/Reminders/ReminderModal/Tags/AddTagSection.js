@@ -41,7 +41,7 @@ class AddTagSection extends React.Component {
             .catch(err => console.err(err));
 
         // Close color picker after tag save
-        this.setState({ displayColorPicker: false });
+        this.setState({ displayColorPicker: false, newTagText: "" });
     };
 
     // Set new tag text
@@ -55,7 +55,7 @@ class AddTagSection extends React.Component {
     };
 
     render() {
-        const { displayColorPicker, tagColor } = this.state;
+        const { displayColorPicker, tagColor, newTagText } = this.state;
 
         return (
             <Segment>
@@ -63,6 +63,7 @@ class AddTagSection extends React.Component {
                     Add a New Tag
                     <Input
                         placeholder="Tag Text"
+                        value={newTagText}
                         onChange={this.handleTagTextAdd}
                         onClick={this.onInputClick}
                     />
