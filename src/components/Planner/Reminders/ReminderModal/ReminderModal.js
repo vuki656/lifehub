@@ -31,7 +31,8 @@ class ReminderModal extends React.Component {
         currentDay: this.props.currentDay,
         startDate: this.props.currentDay,
         reminderTags: this.props.reminderTags,
-        tagList: this.props.tagList
+        tagList: this.props.tagList,
+        generateUntillDate: this.props.generateUntillDate
     };
 
     static getDerivedStateFromProps(props) {
@@ -40,7 +41,8 @@ class ReminderModal extends React.Component {
             reminder: props.reminder,
             startDate: props.currentDay,
             reminderTags: props.reminderTags,
-            tagList: props.tagList
+            tagList: props.tagList,
+            generateUntillDate: props.generateUntillDate
         };
     }
 
@@ -263,7 +265,14 @@ class ReminderModal extends React.Component {
     };
 
     render() {
-        const { startDate, modalOpen, text, reminder, error } = this.state;
+        const {
+            startDate,
+            modalOpen,
+            text,
+            reminder,
+            error,
+            generateUntillDate
+        } = this.state;
 
         return (
             <Modal open={modalOpen}>
@@ -301,6 +310,9 @@ class ReminderModal extends React.Component {
                                     <p>Remind untill</p>
                                     <DatePicker
                                         minDate={moment(startDate).toDate()}
+                                        maxDate={moment(
+                                            generateUntillDate
+                                        ).toDate()}
                                         selected={this.getEndingDate()}
                                         onChange={this.handleEndDateChange}
                                         showTimeSelect
@@ -343,6 +355,7 @@ class ReminderModal extends React.Component {
 
 const mapStateToProps = state => ({
     currentDay: state.planner.currentDay,
+    generateUntillDate: state.planner.generateUntillDate,
     reminderTags: state.tags.reminderTags,
     tagList: state.tags.tagList
 });
