@@ -2,7 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import firebase from "./firebase/Auth";
-import store from "./store";
+import store from "./redux/store";
 import AppRouter, { history } from "./routers/AppRouter";
 
 // Destructured Imports
