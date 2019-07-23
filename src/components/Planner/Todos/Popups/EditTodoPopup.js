@@ -18,12 +18,12 @@ class EditTodoPopup extends React.Component {
         usersRef: firebase.database().ref("users"),
         newTodo: "",
 
-        generateUntillDate: this.props.generateUntillDate,
         todo: this.props.todo,
         category: this.props.category,
 
         // Redux Props
-        currentDay: this.props.currentDay
+        currentDay: this.props.currentDay,
+        generateUntillDate: this.props.generateUntillDate
     };
 
     static getDerivedStateFromProps(props) {
@@ -96,7 +96,7 @@ class EditTodoPopup extends React.Component {
                     todo.key
                 }`
             )
-            .update({ value: newTodo })
+            .update({ text: newTodo })
             .catch(err => {
                 console.error(err);
             });
@@ -118,7 +118,7 @@ class EditTodoPopup extends React.Component {
                 on="click"
             >
                 <Input
-                    defaultValue={todo.value}
+                    defaultValue={todo.text}
                     name={"newTodo"}
                     onChange={this.handleChange}
                 />
@@ -128,7 +128,8 @@ class EditTodoPopup extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    currentDay: state.planner.currentDay
+    currentDay: state.planner.currentDay,
+    generateUntillDate: state.planner.generateUntillDate
 });
 
 export default connect(

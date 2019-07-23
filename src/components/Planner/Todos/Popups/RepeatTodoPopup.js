@@ -47,10 +47,10 @@ class RepeatTodoPopup extends React.Component {
             selectedWeekDays: this.props.todo.repeatingOnWeekDays,
             todo: this.props.todo,
             category: this.props.category,
-            generateUntillDate: this.props.generateUntillDate,
 
             // Redux Props
-            currentDay: this.props.currentDay
+            currentDay: this.props.currentDay,
+            generateUntillDate: this.props.generateUntillDate
         };
 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
@@ -359,7 +359,8 @@ class RepeatTodoPopup extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    currentDay: state.planner.currentDay
+    currentDay: state.planner.currentDay,
+    generateUntillDate: state.planner.generateUntillDate
 });
 
 export default connect(

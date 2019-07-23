@@ -1,5 +1,6 @@
 /* Planner Actions */
 export const SET_CURRENT_DAY = "SET_CURRENT_DAY";
+export const FETCH_USER_SETTINGS = "FETCH_USER_SETTINGS";
 
 /* Tags Actions */
 export const FETCH_TAGS = "FETCH_TAGS";

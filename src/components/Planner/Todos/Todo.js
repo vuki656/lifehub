@@ -20,14 +20,14 @@ class Todo extends React.Component {
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
         usersRef: firebase.database().ref("users"),
-        generateUntillDate: null,
 
         todo: this.props.todo,
         category: this.props.category,
         isChecked: this.props.isChecked,
 
         // Redux Props
-        currentDay: this.props.currentDay
+        currentDay: this.props.currentDay,
+        generateUntillDate: this.props.generateUntillDate
     };
 
     static getDerivedStateFromProps(props) {
@@ -35,12 +35,9 @@ class Todo extends React.Component {
             todo: props.todo,
             isChecked: props.todo.isChecked,
             category: props.category,
-            currentDay: props.currentDay
+            currentDay: props.currentDay,
+            generateUntillDate: props.generateUntillDate
         };
-    }
-
-    componentDidMount() {
-        this.getGenerateUntillDate(this.state);
     }
 
     // Check if todo is repeating, if so remove it from
@@ -108,18 +105,8 @@ class Todo extends React.Component {
             .catch(error => console.error(error));
     };
 
-    // Fetch date to generate months untill from firebase
-    // Used to determin untill when to set repeating todos
-    getGenerateUntillDate = ({ usersRef, currentUser }) => {
-        usersRef.child(currentUser.uid).once("value", generateUntillDate => {
-            this.setState({
-                generateUntillDate: generateUntillDate.val().generateUntill
-            });
-        });
-    };
-
     render() {
-        const { todo, isChecked, category, generateUntillDate } = this.state;
+        const { todo, isChecked, category } = this.state;
 
         return (
             <React.Fragment>
@@ -128,16 +115,8 @@ class Todo extends React.Component {
                     checked={isChecked}
                     onChange={() => this.handleTodoCheckboxChange(this.state)}
                 />
-                <EditTodoPopup
-                    todo={todo}
-                    category={category}
-                    generateUntillDate={generateUntillDate}
-                />
-                <RepeatTodoPopup
-                    todo={todo}
-                    category={category}
-                    generateUntillDate={generateUntillDate}
-                />
+                <EditTodoPopup todo={todo} category={category} />
+                <RepeatTodoPopup todo={todo} category={category} />
                 <Icon
                     name={"remove"}
                     link={true}
@@ -149,7 +128,8 @@ class Todo extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    currentDay: state.planner.currentDay
+    currentDay: state.planner.currentDay,
+    generateUntillDate: state.planner.generateUntillDate
 });
 
 export default connect(

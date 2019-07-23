@@ -6,7 +6,9 @@ import * as actionTypes from "../actions/types";
 import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 const initialState = {
-    currentDay: getDayOnlyTimestamp(moment())
+    currentDay: getDayOnlyTimestamp(moment()),
+    generateUntillDate: "",
+    regDate: ""
 };
 
 const plannerReducer = (state = initialState, action) => {
@@ -15,6 +17,12 @@ const plannerReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentDay: action.payload.currentDay
+            };
+        case actionTypes.FETCH_USER_SETTINGS:
+            return {
+                ...state,
+                generateUntillDate: action.payload.settings.generateUntill,
+                regDate: action.payload.settings.regDate
             };
         default:
             return state;

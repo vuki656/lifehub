@@ -14,3 +14,24 @@ export const setCurrentDay = currentDay => {
         }
     };
 };
+
+// Fetch user specific data from firebase
+export const fetchUserSettings = ({
+    usersRef,
+    currentUser
+}) => async dispatch => {
+    usersRef.child(`${currentUser.uid}`).once("value", settingsList => {
+        let settingsHolder = {};
+
+        settingsList.forEach(setting => {
+            settingsHolder[setting.key] = setting.val();
+        });
+
+        dispatch({
+            type: actionTypes.FETCH_USER_SETTINGS,
+            payload: {
+                settings: settingsHolder
+            }
+        });
+    });
+};

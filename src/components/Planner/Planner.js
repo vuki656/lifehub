@@ -15,19 +15,22 @@ import DaysList from "./DaysList/DaysList";
 // Helper Imports
 import { formatMoment } from "../../helpers/Global";
 
+// Redux Actions Imports
+import { fetchUserSettings } from "../../redux/actions/plannerActions";
+
 class Planner extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            monthObjectList: null,
-            currentMonth: null,
-            regDate: null,
             usersRef: firebase.database().ref("users"),
             currentUser: firebase.auth().currentUser,
+            monthObjectList: null,
+            currentMonth: null,
 
             // Redux Props
-            currentDay: this.props.currentDay
+            currentDay: this.props.currentDay,
+            regDate: this.props.regDate
         };
 
         this.selectNewMonth = this.selectNewMonth.bind(this);
@@ -35,20 +38,20 @@ class Planner extends React.Component {
 
     static getDerivedStateFromProps(props) {
         return {
-            currentDay: props.currentDay
+            currentDay: props.currentDay,
+            regDate: props.regDate
         };
     }
 
     componentDidMount() {
-        this.fetchRegDate(this.state);
+        this.props.fetchUserSettings(this.state);
     }
 
-    // Fetches weight data from firebase
-    fetchRegDate = ({ currentUser, usersRef }) => {
-        usersRef.child(currentUser.uid).once("value", regDate => {
-            this.generateMonthDayStructure(regDate.val().regDate, this.state);
-        });
-    };
+    componentDidUpdate(prevProps) {
+        if (this.props.regDate !== prevProps.regDate) {
+            this.generateMonthDayStructure(this.state.regDate, this.state);
+        }
+    }
 
     // Generate day-month structure
     // FORMAT:
@@ -206,10 +209,11 @@ class Planner extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    currentDay: state.planner.currentDay
+    currentDay: state.planner.currentDay,
+    regDate: state.planner.regDate
 });
 
 export default connect(
     mapStateToProps,
-    null
+    { fetchUserSettings }
 )(Planner);

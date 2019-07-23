@@ -91,7 +91,6 @@ class Reminder extends React.Component {
         reminder,
         tagList
     }) => {
-        console.log(tagList);
         remindersRef
             .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
             .once("value", tags => {
@@ -105,7 +104,6 @@ class Reminder extends React.Component {
                         });
                     }
                 });
-                console.log(tagValueHolder);
                 this.setState({ reminderTagValues: tagValueHolder });
             });
     };
