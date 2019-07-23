@@ -10,6 +10,12 @@ import { connect } from "react-redux";
 import ReminderModal from "./ReminderModal/ReminderModal";
 import Reminder from "./Reminder";
 
+// Redux Actions Imports
+import {
+    fetchTags,
+    fetchReminderTags
+} from "../../../redux/actions/tagsActions";
+
 class Reminders extends React.Component {
     // Used to prevent setState calls after component umounts
     _isMounted = false;
@@ -20,6 +26,7 @@ class Reminders extends React.Component {
         this.state = {
             remindersList: [],
             remindersRef: firebase.database().ref("reminders"),
+            tagsRef: firebase.database().ref("reminder-tags"),
             currentUser: firebase.auth().currentUser,
             modalOpen: false,
 
@@ -37,6 +44,7 @@ class Reminders extends React.Component {
     }
 
     componentDidMount() {
+        this.props.fetchTags(this.state);
         this._isMounted = true;
         this.fetchReminders(this.state);
         this.addListeners();
@@ -71,15 +79,14 @@ class Reminders extends React.Component {
                     let text = reminder.val().text;
                     let startDate = reminder.val().startDate;
                     let endDate = reminder.val().endDate;
-                    let reminderTags = this.getReminderTagList(
-                        reminder.val().tags
-                    );
+                    let tags = reminder.val().tags;
+
                     remindersHolder.push({
                         text,
                         key,
                         startDate,
                         endDate,
-                        reminderTags
+                        tags
                     });
                 });
             });
@@ -87,24 +94,6 @@ class Reminders extends React.Component {
         if (this._isMounted) {
             this.setState({ remindersList: remindersHolder });
         }
-    };
-
-    // Get all active tags in reminder
-    getReminderTagList = tags => {
-        let reminderTagsHolder = [];
-        // Convert object of objects to array of objects
-        // So it can be itterated over
-        let arrOfTags = Object.values(tags ? tags : []);
-
-        arrOfTags.forEach(tag => {
-            let text = tag.text;
-            let color = tag.color;
-            let key = tag.key;
-
-            reminderTagsHolder.push({ text, color, key });
-        });
-
-        return reminderTagsHolder;
     };
 
     // Listen for new reminder inputs and set to the state so component re-renders
@@ -144,7 +133,8 @@ class Reminders extends React.Component {
         this.setState({ modalOpen: false });
     };
 
-    openModal = () => {
+    handleModalOpen = () => {
+        this.props.fetchReminderTags(this.state);
         this.setState({ modalOpen: true });
     };
 
@@ -155,7 +145,9 @@ class Reminders extends React.Component {
             <Grid>
                 <Grid.Column>
                     <Grid.Row>
-                        <Button onClick={this.openModal}>Add Reminder</Button>
+                        <Button onClick={this.handleModalOpen}>
+                            Add Reminder
+                        </Button>
                     </Grid.Row>
                     <Grid.Row>
                         <List>{this.renderReminders(this.state)}</List>
@@ -178,5 +170,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    null
+    { fetchTags, fetchReminderTags }
 )(Reminders);

@@ -8,15 +8,12 @@ import { ChromePicker } from "react-color";
 import { connect } from "react-redux";
 
 // Redux Actions Imports
-import {
-    addTagToList,
-    updateTagList
-} from "../../../../../actions/tagsActions";
+import { updateTagList } from "../../../../../redux/actions/tagsActions";
 
 class TagListItem extends React.Component {
     state = {
         remindersRef: firebase.database().ref("reminders"),
-        reminderTagsRef: firebase.database().ref("reminder-tags"),
+        tagsRef: firebase.database().ref("reminder-tags"),
         currentUser: firebase.auth().currentUser,
         displayColorPicker: false,
         isSelected: false,
@@ -27,14 +24,17 @@ class TagListItem extends React.Component {
         tag: this.props.tag,
 
         // Redux Props
-        selectedTags: this.props.selectedTags
+        reminderTags: this.props.reminderTags,
+        tagList: this.props.tagList,
+        currentDay: this.props.currentDay
     };
 
     static getDerivedStateFromProps(props) {
         return {
             reminder: props.reminder,
             tag: props.tag,
-            selectedTags: props.selectedTags
+            reminderTags: props.reminderTags,
+            tagList: props.tagList
         };
     }
 
@@ -43,20 +43,34 @@ class TagListItem extends React.Component {
     }
 
     // Check if tag from the list is saved in reminder
-    getTagSelectedState = ({ selectedTags, tag }) => {
-        for (let i = 0; i < selectedTags.length; i++) {
-            if (selectedTags[i].key === tag.key) {
-                this.setState({ isSelected: true });
-                break;
-            }
+    getTagSelectedState = ({
+        remindersRef,
+        currentUser,
+        currentDay,
+        reminder,
+        tag
+    }) => {
+        if (reminder) {
+            remindersRef
+                .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
+                .once("value", reminderTags => {
+                    reminderTags.forEach(reminderTag => {
+                        if (
+                            reminderTag.val() === true &&
+                            tag.key === reminderTag.key
+                        ) {
+                            this.setState({ isSelected: true });
+                        }
+                    });
+                });
         }
     };
 
     // Remove tag from firebase
     removeTag = () => {
-        const { tag, reminderTagsRef, currentUser } = this.state;
+        const { tag, tagsRef, currentUser } = this.state;
 
-        reminderTagsRef
+        tagsRef
             .child(`${currentUser.uid}/${tag.key}`)
             .remove()
             .catch(err => console.err(err));
@@ -64,9 +78,9 @@ class TagListItem extends React.Component {
 
     // Update tag text in firebase
     handleTagTextUpdate = () => {
-        const { newTagText, reminderTagsRef, currentUser, tag } = this.state;
+        const { newTagText, tagsRef, currentUser, tag } = this.state;
 
-        reminderTagsRef
+        tagsRef
             .child(`${currentUser.uid}/${tag.key}`)
             .update({ text: newTagText })
             .catch(err => console.err(err));
@@ -74,9 +88,9 @@ class TagListItem extends React.Component {
 
     // Save selected color in firebase to corresponding tag
     handleTagColorUpdate = () => {
-        const { newTagColor, reminderTagsRef, currentUser, tag } = this.state;
+        const { newTagColor, tagsRef, currentUser, tag } = this.state;
 
-        reminderTagsRef
+        tagsRef
             .child(`${currentUser.uid}/${tag.key}`)
             .update({ color: newTagColor })
             .catch(err => console.err(err));
@@ -102,20 +116,17 @@ class TagListItem extends React.Component {
     };
 
     // Determine should tag be added or removed
-    handleTagCheck = ({ isSelected }, tag) => {
+    handleTagCheck = ({ isSelected, reminderTags }, tag) => {
         if (isSelected) {
-            let updatedTagList = this.removeTagFromList(this.state, tag);
-            this.props.updateTagList(updatedTagList);
+            reminderTags[tag.key] = false;
+            this.props.updateTagList(reminderTags);
             this.setState({ isSelected: false });
         } else {
-            this.props.addTagToList(tag);
+            reminderTags[tag.key] = true;
+            this.props.updateTagList(reminderTags);
             this.setState({ isSelected: true });
         }
     };
-
-    // Return tag list without the given tag
-    removeTagFromList = ({ selectedTags }, tag) =>
-        selectedTags.filter(tagFromList => tagFromList.key !== tag.key);
 
     render() {
         const { tag, displayColorPicker, newTagColor, isSelected } = this.state;
@@ -172,10 +183,12 @@ class TagListItem extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    selectedTags: state.tags.reminderTagList
+    reminderTags: state.tags.reminderTags,
+    tagList: state.tags.tagList,
+    currentDay: state.planner.currentDay
 });
 
 export default connect(
     mapStateToProps,
-    { addTagToList, updateTagList }
+    { updateTagList }
 )(TagListItem);

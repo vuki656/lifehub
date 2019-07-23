@@ -9,27 +9,28 @@ import { connect } from "react-redux";
 import TagListItem from "./TagListItem";
 
 // Redux Actions Imports
-import {
-    fetchReminderTags,
-    updateTagList
-} from "../../../../../actions/tagsActions";
+import { fetchTags } from "../../../../../redux/actions/tagsActions";
 
 class TagsList extends React.Component {
     state = {
-        tagList: null,
-        reminderTagsRef: firebase.database().ref("reminder-tags"),
+        tagsRef: firebase.database().ref("reminder-tags"),
         remindersRef: firebase.database().ref("reminders"),
         currentUser: firebase.auth().currentUser,
 
         reminder: this.props.reminder,
 
         // Redux Props
-        currentDay: this.props.currentDay
+        currentDay: this.props.currentDay,
+        tagList: this.props.tagList
     };
 
+    static getDerivedStateFromProps(props) {
+        return {
+            tagList: props.tagList
+        };
+    }
+
     componentDidMount() {
-        this.props.fetchReminderTags(this.state);
-        this.fetchTagList(this.state);
         this.addListeners();
     }
 
@@ -39,55 +40,32 @@ class TagsList extends React.Component {
         this.addUpdateTagListener(this.state);
     };
 
-    // Fetch reminder tag list from firebase
-    fetchTagList = ({ reminderTagsRef, currentUser }) => {
-        let tagHolder = [];
-
-        reminderTagsRef.child(currentUser.uid).once("value", tags => {
-            if (tags) {
-                tags.forEach(tag => {
-                    let key = tag.key;
-                    let text = tag.val().text;
-                    let color = tag.val().color;
-                    tagHolder.push({ key, text, color });
-                });
-                this.setState({ tagList: tagHolder });
-                this.props.updateTagList(tagHolder);
-            }
-        });
-    };
-
     // Listen for tag deletions
-    addRemoveTagListener = ({ reminderTagsRef, currentUser }) => {
-        reminderTagsRef.child(`${currentUser.uid}`).on("child_removed", () => {
-            this.fetchTagList(this.state);
+    addRemoveTagListener = ({ tagsRef, currentUser }) => {
+        tagsRef.child(`${currentUser.uid}`).on("child_removed", () => {
+            this.props.fetchTags(this.state);
         });
     };
 
     // Listen for new tag adds
-    addTagListener = ({ reminderTagsRef, currentUser }) => {
-        reminderTagsRef.child(`${currentUser.uid}`).on("child_added", () => {
-            this.fetchTagList(this.state);
+    addTagListener = ({ tagsRef, currentUser }) => {
+        tagsRef.child(`${currentUser.uid}`).on("child_added", () => {
+            this.props.fetchTags(this.state);
         });
     };
 
     // Listen for tag updates
-    addUpdateTagListener = ({ reminderTagsRef, currentUser }) => {
-        reminderTagsRef.child(`${currentUser.uid}`).on("child_changed", () => {
-            this.fetchTagList(this.state);
+    addUpdateTagListener = ({ tagsRef, currentUser }) => {
+        tagsRef.child(`${currentUser.uid}`).on("child_changed", () => {
+            this.props.fetchTags(this.state);
         });
     };
 
     // Render tag list
-    renderTags = ({ tagList, reminder }) => {
-        if (tagList) {
-            return tagList.map(tag => (
-                <TagListItem tag={tag} key={tag.key} reminder={reminder} />
-            ));
-        } else {
-            return "No Tags";
-        }
-    };
+    renderTags = ({ tagList, reminder }) =>
+        tagList.map(tag => (
+            <TagListItem tag={tag} key={tag.key} reminder={reminder} />
+        ));
 
     render() {
         return <React.Fragment>{this.renderTags(this.state)}</React.Fragment>;
@@ -95,10 +73,11 @@ class TagsList extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    currentDay: state.planner.currentDay
+    currentDay: state.planner.currentDay,
+    tagList: state.tags.tagList
 });
 
 export default connect(
     mapStateToProps,
-    { fetchReminderTags, updateTagList }
+    { fetchTags }
 )(TagsList);

@@ -38,7 +38,7 @@ export const fetchReminderTags = ({
     reminder,
     tagsRef
 }) => async dispatch => {
-    // If reminder doesent exist, use all false tag list
+    // If reminder doesent exist, set all false tag list
     if (reminder) {
         remindersRef
             .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags/`)

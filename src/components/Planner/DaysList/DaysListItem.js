@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import { formatMoment, getDayOnlyTimestamp } from "../../../helpers/Global";
 
 // Redux Actions Imports
-import { setCurrentDay } from "../../../actions/plannerActions";
+import { setCurrentDay } from "../../../redux/actions/plannerActions";
 
 class DaysListItem extends React.Component {
     state = {

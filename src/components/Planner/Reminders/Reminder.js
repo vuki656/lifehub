@@ -13,19 +13,26 @@ import ReminderModal from "./ReminderModal/ReminderModal";
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
+// Redux Actions Imports
+import { fetchReminderTags } from "../../../redux/actions/tagsActions";
+
 class Reminder extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             remindersRef: firebase.database().ref("reminders"),
+            tagsRef: firebase.database().ref("reminder-tags"),
             currentUser: firebase.auth().currentUser,
             modalOpen: false,
+            reminderTagValues: [],
 
             reminder: this.props.reminder,
 
             // Redux Props
-            currentDay: this.props.currentDay
+            currentDay: this.props.currentDay,
+            tagList: this.props.tagList,
+            reminderTags: this.props.reminderTags
         };
 
         this.closeModal = this.closeModal.bind(this);
@@ -34,9 +41,21 @@ class Reminder extends React.Component {
     static getDerivedStateFromProps(props) {
         return {
             reminder: props.reminder,
-            currentDay: props.currentDay
+            currentDay: props.currentDay,
+            reminderTags: props.reminderTags
         };
     }
+
+    componentDidMount() {
+        this.fetchReminderTagValues(this.state);
+        this.addListeners();
+    }
+
+    addListeners = () => {
+        this.addChangeTagListener(this.state);
+        this.addRemoveTagListener(this.state);
+        this.addSetTagListener(this.state);
+    };
 
     // Iterate trough days where reminder stored and remove it from each
     removeReminder = ({ currentUser, reminder, remindersRef }) => {
@@ -57,9 +76,71 @@ class Reminder extends React.Component {
         }
     };
 
+    // If tag is active, get its value and color
+    fetchReminderTagValues = ({
+        currentUser,
+        remindersRef,
+        currentDay,
+        reminder,
+        tagList
+    }) => {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
+            .once("value", tags => {
+                let tagValueHolder = [];
+                tags.forEach(tag => {
+                    if (tag.val() === true) {
+                        tagList.forEach(tagFromList => {
+                            if (tag.key === tagFromList.key) {
+                                tagValueHolder.push(tagFromList);
+                            }
+                        });
+                    }
+                });
+                this.setState({ reminderTagValues: tagValueHolder });
+            });
+    };
+
+    // Listen for new tag inputs
+    addSetTagListener({ currentUser, remindersRef, currentDay, reminder }) {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
+            .on("child_added", () => {
+                this.fetchReminderTagValues(this.state);
+            });
+    }
+
+    // Listen for tag deletions
+    addRemoveTagListener = ({
+        remindersRef,
+        currentUser,
+        currentDay,
+        reminder
+    }) => {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
+            .on("child_removed", () => {
+                this.fetchReminderTagValues(this.state);
+            });
+    };
+
+    // Listen for tag deletions
+    addChangeTagListener = ({
+        remindersRef,
+        currentUser,
+        currentDay,
+        reminder
+    }) => {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
+            .on("child_changed", () => {
+                this.fetchReminderTagValues(this.state);
+            });
+    };
+
     // Render all active tags from reminder
-    renderReminderTags = reminder =>
-        reminder.reminderTags.map(tag => (
+    renderReminderTags = ({ reminderTagValues }) =>
+        reminderTagValues.map(tag => (
             <Label key={tag.key} style={{ backgroundColor: tag.color }}>
                 {tag.text}
             </Label>
@@ -69,7 +150,8 @@ class Reminder extends React.Component {
         this.setState({ modalOpen: false });
     };
 
-    openModal = () => {
+    handleModalOpen = () => {
+        this.props.fetchReminderTags(this.state);
         this.setState({ modalOpen: true });
     };
 
@@ -94,7 +176,7 @@ class Reminder extends React.Component {
                         <Icon
                             name={"pencil"}
                             link={true}
-                            onClick={this.openModal}
+                            onClick={this.handleModalOpen}
                         />
                         <ReminderModal
                             reminder={reminder}
@@ -102,18 +184,20 @@ class Reminder extends React.Component {
                             closeModal={this.closeModal}
                         />
                     </List.Header>
-                    {this.renderReminderTags(reminder)}
                 </List.Content>
+                {this.renderReminderTags(this.state)}
             </List.Item>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    currentDay: state.planner.currentDay
+    currentDay: state.planner.currentDay,
+    tagList: state.tags.tagList,
+    reminderTags: state.tags.reminderTags
 });
 
 export default connect(
     mapStateToProps,
-    null
+    { fetchReminderTags }
 )(Reminder);
