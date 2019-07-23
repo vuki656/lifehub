@@ -154,9 +154,9 @@ class Planner extends React.Component {
 
     // After each month passes, add one aditional month to
     // be generated in month list so that you always have
-    // one year from now available in the planner
+    // one year from now available in the planner days list
     getMonthsToGenerateNo = regDate => {
-        return 12 + moment().diff(regDate, "months");
+        return 13 + moment(moment()).diff(regDate, "months");
     };
 
     // Select new month from monthObjectList
