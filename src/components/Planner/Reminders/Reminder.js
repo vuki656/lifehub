@@ -42,13 +42,20 @@ class Reminder extends React.Component {
         return {
             reminder: props.reminder,
             currentDay: props.currentDay,
-            reminderTags: props.reminderTags
+            reminderTags: props.reminderTags,
+            tagList: props.tagList
         };
     }
 
     componentDidMount() {
         this.fetchReminderTagValues(this.state);
         this.addListeners();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.tagList !== prevProps.tagList) {
+            this.fetchReminderTagValues(this.state);
+        }
     }
 
     addListeners = () => {
@@ -84,6 +91,7 @@ class Reminder extends React.Component {
         reminder,
         tagList
     }) => {
+        console.log(tagList);
         remindersRef
             .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
             .once("value", tags => {
@@ -97,6 +105,7 @@ class Reminder extends React.Component {
                         });
                     }
                 });
+                console.log(tagValueHolder);
                 this.setState({ reminderTagValues: tagValueHolder });
             });
     };
