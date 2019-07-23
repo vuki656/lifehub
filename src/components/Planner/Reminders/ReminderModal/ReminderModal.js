@@ -45,22 +45,27 @@ class ReminderModal extends React.Component {
     }
 
     componentDidMount() {
-        // If updating reminder, use its data
-        if (this.props.reminder) {
+        this.setExistingReminderState(this.props.reminder);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.modalOpen !== prevProps.modalOpen) {
             this.setExistingReminderState(this.props.reminder);
         }
     }
 
     // Set the existing reminder state
     setExistingReminderState = reminder => {
-        this.setState({
-            text: reminder.text,
-            startDate: reminder.startDate,
-            endDate: reminder.endDate,
-            reminder: reminder,
-            oldEndDate: reminder.endDate,
-            oldStartDate: reminder.startDate
-        });
+        if (reminder) {
+            this.setState({
+                text: reminder.text,
+                startDate: reminder.startDate,
+                endDate: reminder.endDate,
+                reminder: reminder,
+                oldEndDate: reminder.endDate,
+                oldStartDate: reminder.startDate
+            });
+        }
     };
 
     // If reminder exists, update it, else create it

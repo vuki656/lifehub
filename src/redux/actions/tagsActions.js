@@ -44,6 +44,7 @@ export const fetchReminderTags = ({
             .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags/`)
             .once("value", tags => {
                 let reminderTagHolder = {};
+
                 tags.forEach(tag => {
                     reminderTagHolder[tag.key] = tag.val();
                 });
