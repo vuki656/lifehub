@@ -6,7 +6,7 @@ import firebase from "../../../../firebase/Auth";
 import uuidv4 from "uuid/v4";
 
 // Destructured Imports
-import { Grid, Modal, Input, Button } from "semantic-ui-react";
+import { Grid, Modal, Input, Button, Message } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
@@ -17,11 +17,12 @@ import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class ReminderModal extends React.Component {
     state = {
-        endDate: null,
-        text: "",
         tagsRef: firebase.database().ref("reminder-tags"),
         remindersRef: firebase.database().ref("reminders"),
         currentUser: firebase.auth().currentUser,
+        endDate: null,
+        text: "",
+        error: "",
 
         reminder: this.props.reminder,
         modalOpen: this.props.modalOpen,
@@ -64,12 +65,19 @@ class ReminderModal extends React.Component {
 
     // If reminder exists, update it, else create it
     handleReminderSave = () => {
-        if (this.props.reminder) {
-            this.handleReminderUpdate(this.state);
+        const { endDate, text } = this.state;
+
+        // Check if end date and text set before saving
+        if (endDate && text) {
+            if (this.props.reminder) {
+                this.handleReminderUpdate(this.state);
+            } else {
+                this.saveReminderToFirebase(this.state);
+            }
+            this.clearModalFields(this.state);
         } else {
-            this.saveReminderToFirebase(this.state);
+            this.setState({ error: "Please fill out all fields" });
         }
-        this.clearModalFields(this.state);
     };
 
     handleReminderCancel = () => {
@@ -81,7 +89,8 @@ class ReminderModal extends React.Component {
         this.setState({
             text: "",
             startDate: this.props.currentDay,
-            endDate: null
+            endDate: null,
+            error: ""
         });
     };
 
@@ -249,13 +258,18 @@ class ReminderModal extends React.Component {
     };
 
     render() {
-        const { startDate, modalOpen, text, reminder } = this.state;
+        const { startDate, modalOpen, text, reminder, error } = this.state;
 
         return (
             <Modal open={modalOpen}>
                 <Modal.Header>Customize Your Reminder</Modal.Header>
                 <Modal.Content>
                     <Grid>
+                        {error && (
+                            <Grid.Row>
+                                <Message error header="Error" content={error} />
+                            </Grid.Row>
+                        )}
                         <Grid.Row>
                             <Grid.Column width={6}>
                                 <Grid.Row>
@@ -264,6 +278,7 @@ class ReminderModal extends React.Component {
                                         name="text"
                                         onChange={this.handleChange}
                                         value={text}
+                                        required
                                         placeholder="Marketing meeting"
                                     />
                                 </Grid.Row>
