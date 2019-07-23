@@ -69,10 +69,20 @@ class ReminderModal extends React.Component {
         } else {
             this.saveReminderToFirebase(this.state);
         }
+        this.clearModalFields(this.state);
     };
 
     handleReminderCancel = () => {
+        this.clearModalFields(this.state);
         this.props.closeModal();
+    };
+
+    clearModalFields = () => {
+        this.setState({
+            text: "",
+            startDate: this.props.currentDay,
+            endDate: null
+        });
     };
 
     // Sends the reminder object to firebase
@@ -229,12 +239,12 @@ class ReminderModal extends React.Component {
     };
 
     // Save start date from calendar picker
-    handleStartDate = startDate => {
+    handleStartDateChange = startDate => {
         this.setState({ startDate: moment(startDate).valueOf() });
     };
 
     // Save end date from calendar picker
-    handleEndDate = endDate => {
+    handleEndDateChange = endDate => {
         this.setState({ endDate: moment(endDate).valueOf() });
     };
 
@@ -264,7 +274,7 @@ class ReminderModal extends React.Component {
                                         selected={this.getStartingDate()}
                                         dateFormat="dd/MM/yyyy"
                                         timeCaption="time"
-                                        onChange={this.handleStartDate}
+                                        onChange={this.handleStartDateChange}
                                     />
                                 </Grid.Row>
                                 <Grid.Row>
@@ -272,7 +282,7 @@ class ReminderModal extends React.Component {
                                     <DatePicker
                                         minDate={moment(startDate).toDate()}
                                         selected={this.getEndingDate()}
-                                        onChange={this.handleEndDate}
+                                        onChange={this.handleEndDateChange}
                                         showTimeSelect
                                         timeFormat="HH:mm"
                                         timeIntervals={15}
