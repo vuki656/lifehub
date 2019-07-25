@@ -9,7 +9,10 @@ import { connect } from "react-redux";
 import TagListItem from "./TagListItem";
 
 // Redux Actions Imports
-import { fetchTags } from "../../../../../redux/actions/tagsActions";
+import {
+    fetchTags,
+    fetchReminderTags
+} from "../../../../../redux/actions/tagsActions";
 
 class TagsList extends React.Component {
     state = {
@@ -40,17 +43,29 @@ class TagsList extends React.Component {
         this.addUpdateTagListener(this.state);
     };
 
-    // Listen for tag deletions
-    addRemoveTagListener = ({ tagsRef, currentUser }) => {
-        tagsRef.child(`${currentUser.uid}`).on("child_removed", () => {
-            this.props.fetchTags(this.state);
-        });
-    };
-
     // Listen for new tag adds
     addTagListener = ({ tagsRef, currentUser }) => {
         tagsRef.child(`${currentUser.uid}`).on("child_added", () => {
             this.props.fetchTags(this.state);
+            this.props.fetchReminderTags(this.state);
+        });
+
+        tagsRef.child(`${currentUser.uid}`).on("value", tags => {
+            if (tags.val()) {
+                let tagsKeysArr = Object.keys(tags.val());
+                this.addTagToReminders(this.state, tagsKeysArr);
+            }
+        });
+    };
+
+    // Listen for tag deletions
+    addRemoveTagListener = ({ tagsRef, currentUser }) => {
+        tagsRef.child(`${currentUser.uid}`).on("child_removed", tagToRemove => {
+            this.props.fetchTags(this.state);
+            this.props.fetchReminderTags(this.state);
+            if (tagToRemove.val()) {
+                this.removeTagFromReminders(this.state, tagToRemove);
+            }
         });
     };
 
@@ -58,6 +73,50 @@ class TagsList extends React.Component {
     addUpdateTagListener = ({ tagsRef, currentUser }) => {
         tagsRef.child(`${currentUser.uid}`).on("child_changed", () => {
             this.props.fetchTags(this.state);
+        });
+    };
+
+    // Check if reminder tag list contains new tag, if not, add it
+    addTagToReminders = ({ remindersRef, currentUser }, tagsKeysArr) => {
+        remindersRef.child(currentUser.uid).once("value", days => {
+            days.forEach(day => {
+                day.forEach(reminder => {
+                    tagsKeysArr.forEach(tag => {
+                        // Add if there are no tags or if list doesent contain it
+                        if (
+                            reminder.val().tags === undefined ||
+                            !reminder.val().tags.hasOwnProperty(tag)
+                        ) {
+                            remindersRef
+                                .child(
+                                    `${currentUser.uid}/${day.key}/${
+                                        reminder.key
+                                    }/tags`
+                                )
+                                .update({
+                                    [tag]: false
+                                });
+                        }
+                    });
+                });
+            });
+        });
+    };
+
+    // Remove tag id from all reminders tag list
+    removeTagFromReminders = ({ remindersRef, currentUser }, tagToRemove) => {
+        remindersRef.child(currentUser.uid).once("value", days => {
+            days.forEach(day => {
+                day.forEach(reminder => {
+                    remindersRef
+                        .child(
+                            `${currentUser.uid}/${day.key}/${
+                                reminder.key
+                            }/tags/${tagToRemove.key}`
+                        )
+                        .remove();
+                });
+            });
         });
     };
 
@@ -79,5 +138,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { fetchTags }
+    { fetchTags, fetchReminderTags }
 )(TagsList);

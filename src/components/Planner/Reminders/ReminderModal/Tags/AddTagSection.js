@@ -6,10 +6,6 @@ import uuidv4 from "uuid/v4";
 // Destructured Imports
 import { Icon, Grid, Segment, Input, Button } from "semantic-ui-react";
 import { ChromePicker } from "react-color";
-import { connect } from "react-redux";
-
-// Redux Actions Imports
-import { fetchTags } from "../../../../../redux/actions/tagsActions";
 
 class AddTagSection extends React.Component {
     state = {
@@ -20,12 +16,8 @@ class AddTagSection extends React.Component {
         currentUser: firebase.auth().currentUser
     };
 
-    componentDidMount() {
-        this.props.fetchTags(this.state);
-    }
-
     // Opens the color picker trough bool
-    openColorPicker = event => {
+    openColorPicker = () => {
         this.setState({
             displayColorPicker: !this.state.displayColorPicker
         });
@@ -90,7 +82,4 @@ class AddTagSection extends React.Component {
     }
 }
 
-export default connect(
-    null,
-    { fetchTags }
-)(AddTagSection);
+export default AddTagSection;
