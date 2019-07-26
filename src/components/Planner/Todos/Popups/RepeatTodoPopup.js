@@ -203,7 +203,7 @@ class RepeatTodoPopup extends React.Component {
                 createdAt: determinedCreatedAtDate,
                 isChecked: false,
                 key: todo.key,
-                value: todo.value,
+                text: todo.text,
                 isRepeating: true,
                 repeatingOnWeekDays: repeatingDaysOfWeekString,
                 repeatingOnMonthDays: repeatingDaysOMonthString,

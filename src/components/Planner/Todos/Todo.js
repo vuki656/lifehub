@@ -8,7 +8,7 @@ import { Checkbox, Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
-import EditTodoPopup from "./Popups/EditTodoPopup";
+import EditTodoNamePopup from "./Popups/EditTodoNamePopup";
 import RepeatTodoPopup from "./Popups/RepeatTodoPopup";
 
 // Helper Imports
@@ -114,7 +114,7 @@ class Todo extends React.Component {
                     checked={isChecked}
                     onChange={() => this.handleTodoCheckboxChange(this.state)}
                 />
-                <EditTodoPopup todo={todo} category={category} />
+                <EditTodoNamePopup todo={todo} category={category} />
                 <RepeatTodoPopup todo={todo} category={category} />
                 <Icon
                     name={"remove"}
