@@ -23,7 +23,6 @@ module.exports.getUserList = async (admin, nextPageToken) => {
             });
             return null;
         })
-        .then()
         .catch(err => {
             console.error(err);
         });

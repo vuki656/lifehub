@@ -19,7 +19,6 @@ class Todo extends React.Component {
     state = {
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
-        usersRef: firebase.database().ref("users"),
 
         todo: this.props.todo,
         category: this.props.category,

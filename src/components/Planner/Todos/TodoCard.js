@@ -1,231 +1,115 @@
 // Object Imports
 import React from "react";
-import firebase from "firebase";
+import firebase from "../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Grid, Icon, Form } from "semantic-ui-react";
-import { connect } from "react-redux";
+import { Grid, Icon } from "semantic-ui-react";
 
 // Component Imports
-import Todo from "./Todo";
+import TodoList from "./TodoList";
+import EditTodoCardNamePopup from "./Popups/EditTodoCardNamePopup";
+import AddTodoSection from "./AddTodoSection";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class TodoCard extends React.Component {
-    // Used to prevent setState calls after component umounts
-    _isMounted = false;
-
     state = {
-        todoText: "",
-        todoList: [],
-        todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
+        todoCardRef: firebase.database().ref("todo-cards"),
+        todosRef: firebase.database().ref("todos"),
+        todayTimestamp: getDayOnlyTimestamp(moment()),
 
-        category: this.props.category,
-        monthObjectList: this.props.monthObjectList,
-
-        // Redux Props
-        currentDay: this.props.currentDay
+        name: this.props.todoCard.name,
+        todoCard: this.props.todoCard
     };
 
     static getDerivedStateFromProps(props) {
         return {
-            currentDay: props.currentDay
+            todoCard: props.todoCard
         };
     }
 
     componentDidMount() {
-        this._isMounted = true;
-        this.fetchTodos(this.state);
-        this.addListeners();
+        this.addChangeTodoCardListener(this.state);
     }
 
-    componentWillUnmount() {
-        this.removeListeners(this.state);
-        this._isMounted = false;
-    }
-
-    // Turn off db connections
-    removeListeners = ({ todoRef, currentUser, currentDay }) => {
-        todoRef.child(`${currentUser.uid}/${currentDay}/`).off();
-    };
-
-    // Listen for db changes
-    addListeners = () => {
-        this.addSetTodoListener(this.state);
-        this.addRemoveTodoListener(this.state);
-        this.addChangeTodoListener(this.state);
-    };
-
-    // Listen for new todo inputs and set to the state so component re-renders
-    addSetTodoListener({ currentUser, todoRef, currentDay, category }) {
-        todoRef
-            .child(`${currentUser.uid}/${currentDay}/categories/${category}`)
-            .on("child_added", () => {
-                this.fetchTodos(this.state);
+    addChangeTodoCardListener = ({ todoCardRef, currentUser, todoCard }) => {
+        todoCardRef
+            .child(`${currentUser.uid}/${todoCard.key}`)
+            .on("child_changed", changedTodoCard => {
+                this.setState({ name: changedTodoCard.val() });
             });
-    }
+    };
 
-    // Listen for todo deletions
-    addRemoveTodoListener = ({
-        todoRef,
+    handleTodoCardDeletion = () => {
+        this.deleteTodoCard(this.state);
+        this.removeTodoCardTodos(this.state);
+    };
+
+    // Delete todo card in firebase
+    deleteTodoCard = ({ todoCardRef, currentUser, todoCard }) => {
+        todoCardRef
+            .child(`${currentUser.uid}/${todoCard.key}`)
+            .remove()
+            .catch(err => console.error(err));
+    };
+
+    // Delete all todos that were under the deleted card
+    removeTodoCardTodos = ({
+        todosRef,
         currentUser,
-        currentDay,
-        category
+        todayTimestamp,
+        todoCard
     }) => {
-        todoRef
-            .child(`${currentUser.uid}/${currentDay}/categories/${category}`)
-            .on("child_removed", () => {
-                this.fetchTodos(this.state);
-            });
-    };
+        let endDate = this.getLastDayWithTodos(this.state);
 
-    // Listen for reminder deletions
-    addChangeTodoListener = ({ todoRef, currentUser, currentDay }) => {
-        todoRef
-            .child(`${currentUser.uid}/${currentDay}`)
-            .on("child_changed", () => {
-                this.fetchTodos(this.state);
-            });
-    };
-
-    // Send added todo to firebase
-    handleSubmit = () => {
-        const {
-            todoText,
-            category,
-            currentUser,
-            todoRef,
-            currentDay
-        } = this.state;
-        const pushRef = todoRef.child(
-            `${currentUser.uid}/${currentDay}/categories/${category}`
-        );
-        let createdAt = getDayOnlyTimestamp(moment());
-
-        // Pushes to firebase and then updates the fields
-        if (todoText) {
-            pushRef
-                .push()
-                .then(todo => {
-                    pushRef.child(todo.key).update({
-                        text: todoText,
-                        isChecked: false,
-                        key: todo.key,
-                        createdAt,
-                        isRepeating: false,
-                        repeatingOnWeekDays: "",
-                        repeatingOnMonthDays: "",
-                        repeatAtEndOfMonth: false,
-                        repeatAtStartOfMonth: false,
-                        repeatFromDate: false
-                    });
-                })
-                .then(this.clearForm())
-                .catch(err => {
-                    console.error(err);
-                });
+        for (
+            let itteratingDate = moment(todayTimestamp);
+            itteratingDate.isBefore(moment(endDate).add(1, "day"));
+            itteratingDate.add(1, "days")
+        ) {
+            let dayStampOnly = getDayOnlyTimestamp(itteratingDate);
+            todosRef
+                .child(
+                    `${currentUser.uid}/${dayStampOnly}/categories/${
+                        todoCard.key
+                    }`
+                )
+                .remove()
+                .catch(err => console.error(err));
         }
     };
 
-    // Fetches todos from firebase
-    fetchTodos = ({ currentUser, todoRef, category, currentDay }) => {
-        let todoHolder = [];
-
-        todoRef
-            .child(`${currentUser.uid}/${currentDay}/categories/${category}`)
-            .on("value", todo => {
-                todo.forEach(todo => {
-                    let key = todo.val().key;
-                    let text = todo.val().text;
-                    let isChecked = todo.val().isChecked;
-                    let createdAt = todo.val().createdAt;
-                    let isRepeating = todo.val().isRepeating;
-                    let repeatingOnWeekDays = todo.val().repeatingOnWeekDays;
-                    let repeatingOnMonthDays = todo.val().repeatingOnMonthDays;
-                    let repeatAtStartOfMonth = todo.val().repeatAtStartOfMonth;
-                    let repeatAtEndOfMonth = todo.val().repeatAtEndOfMonth;
-                    let repeatFromDate = todo.val().repeatFromDate;
-
-                    todoHolder.push({
-                        text,
-                        isChecked,
-                        key,
-                        createdAt,
-                        isRepeating,
-                        repeatingOnWeekDays,
-                        repeatingOnMonthDays,
-                        repeatAtStartOfMonth,
-                        repeatAtEndOfMonth,
-                        repeatFromDate
-                    });
-                });
+    getLastDayWithTodos = ({ todosRef, currentUser }) => {
+        todosRef
+            .child(currentUser.uid)
+            .limitToLast(1)
+            .once("value", lastDay => {
+                return lastDay.val().key;
             });
-
-        if (this._isMounted) {
-            this.setState({ todoList: todoHolder });
-        }
     };
-
-    // Set the state value from user input
-    handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
-    };
-
-    // Clear the input form for todo
-    clearForm = () => {
-        this.setState({ todoText: "" });
-    };
-
-    // Render todos to the screen
-    renderTodos = ({ todoList, category }) =>
-        todoList.map(todo => (
-            <Grid.Row key={todo.key}>
-                <Todo
-                    todo={todo}
-                    category={category}
-                    isChecked={todo.isChecked}
-                    key={todo.key}
-                />
-            </Grid.Row>
-        ));
 
     render() {
+        const { todoCard, name } = this.state;
+
         return (
-            <Grid>
-                <Grid.Column>
-                    {this.renderTodos(this.state)}
-                    <Grid.Row>
-                        <Form.Group widths="equal">
-                            <Form.Input
-                                name="todoText"
-                                value={this.state.todoText}
-                                placeholder="todo"
-                                type="float"
-                                onChange={this.handleChange}
-                                icon={
-                                    <Icon
-                                        name="add"
-                                        onClick={this.handleSubmit}
-                                        link
-                                    />
-                                }
-                            />
-                        </Form.Group>
-                    </Grid.Row>
-                </Grid.Column>
-            </Grid>
+            <Grid.Column>
+                {name}
+                <EditTodoCardNamePopup todoCard={todoCard} />
+                <Icon
+                    name={"remove"}
+                    link={true}
+                    onClick={this.handleTodoCardDeletion}
+                />
+                <TodoList todoCard={todoCard} />
+                <Grid.Row>
+                    <AddTodoSection todoCard={todoCard} />
+                </Grid.Row>
+            </Grid.Column>
         );
     }
 }
 
-const mapStateToProps = state => ({
-    currentDay: state.planner.currentDay
-});
-
-export default connect(
-    mapStateToProps,
-    null
-)(TodoCard);
+export default TodoCard;

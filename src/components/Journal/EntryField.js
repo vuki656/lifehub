@@ -24,11 +24,6 @@ class EntryField extends React.Component {
         };
     }
 
-    // Set the state value from user input
-    handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
-    };
-
     // Send edited journal entry title to firebase and rerender
     handleJournalEntryChanges = ({
         journalEntry,
@@ -58,6 +53,11 @@ class EntryField extends React.Component {
 
     handleDateChange = newCreatedAtDate => {
         this.setState({ newJournalEntryCreatedDate: newCreatedAtDate });
+    };
+
+    // Set the state value from user input
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
     };
 
     render() {
