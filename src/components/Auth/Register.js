@@ -94,7 +94,7 @@ class Register extends React.Component {
 
         return (
             <Grid textAlign="center" verticalAlign="middle" className="base">
-                <Grid.Column className="register-form">
+                <Grid.Column className="max-w-30-p">
                     <Header as="h1">LifeHub Register</Header>
                     <Form onSubmit={this.handleSubmit} className="segment">
                         <Form.Input

@@ -5,12 +5,12 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 // Component Imports
-import Menu from "./Menu/Menu";
+import SideMenu from "./SideMenu";
 
 const App = () => {
     return (
         <div className="App">
-            <Menu />
+            <SideMenu />
         </div>
     );
 };

@@ -39,7 +39,7 @@ class Login extends React.Component {
 
         return (
             <Grid textAlign="center" verticalAlign="middle" className="base">
-                <Grid.Column className="login-form">
+                <Grid.Column className="max-w-30-p">
                     <Header as="h1">LifeHub Login</Header>
                     <Form onSubmit={this.handleSubmit} className="segment">
                         <Form.Input

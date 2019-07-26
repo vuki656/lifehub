@@ -1,0 +1,14 @@
+.side-menu {
+    background-color: #844bbb;
+}
+
+.side-menu-item {
+    color: white !important;
+}
+
+// Override
+.ui.menu {
+    background: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
