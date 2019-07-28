@@ -77,7 +77,7 @@ class DaysListItem extends React.Component {
 
             this.setState({ compleatedAmount: compleatedTodosAmount });
         } else {
-            this.setState({ compleatedAmount: "0/0 " });
+            this.setState({ compleatedAmount: "0/0" });
         }
     };
 
@@ -98,23 +98,26 @@ class DaysListItem extends React.Component {
 
         return (
             <Grid.Row
-                style={{
-                    paddingTop: 5,
-                    paddingBottom: 5
-                }}
                 as={Link}
                 to={`/planner/${formatMoment(day, "DD/MM/YYYY")}`}
                 key={formatMoment(day, "DD/MM/YYYY")}
                 onClick={() => this.props.setCurrentDay(day)}
+                className="days-list-item"
             >
-                <Grid.Column floated="left" width={11}>
+                <Grid.Column
+                    floated="left"
+                    width={10}
+                    className="days-list-item-date"
+                >
                     {formatMoment(day, "DD/MM/YYYY - ddd")}
                 </Grid.Column>
-                <Grid.Column floated="right" width={2}>
-                    <Icon name={iconStatus} />
+                <Grid.Column floated="right" width={3} className="count-column">
+                    <span className="todo-count">{compleatedAmount}</span>
                 </Grid.Column>
-                <Grid.Column floated="right" width={3}>
-                    {compleatedAmount}
+                <Grid.Column floated="right" width={3} className="icon-column">
+                    <span className="icon-box">
+                        <Icon className="icon" name={iconStatus} />
+                    </span>
                 </Grid.Column>
             </Grid.Row>
         );

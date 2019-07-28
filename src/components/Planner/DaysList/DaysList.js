@@ -50,14 +50,11 @@ class DaysList extends React.Component {
                 <select
                     defaultValue={formatMoment(currentMonth.month, "M/YY")}
                     onChange={this.handleDropdownChange}
+                    className="month-dropdown"
                 >
                     {this.displayMonths(monthObjectList)}
                 </select>
-                <Grid
-                    style={{
-                        marginTop: 10
-                    }}
-                >
+                <Grid className="days-list">
                     {this.displayDays(currentMonth)}
                 </Grid>
             </React.Fragment>

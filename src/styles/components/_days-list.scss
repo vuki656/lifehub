@@ -1,0 +1,64 @@
+// Base
+.days-list {
+    margin-top: 10px !important;
+    margin-left: 0 !important;
+}
+
+// Dropdown
+.month-dropdown {
+    width: 100% !important;
+    border: none;
+    font-family: Roboto, sans-serif;
+    padding-left: 20px;
+}
+
+// List item
+.days-list-item {
+    color: $main-purple;
+    font-family: Roboto, sans-serif;
+    padding: 5px 10px 5px 10px !important;
+}
+
+.days-list-item:hover {
+    color: $grey;
+    background: $light-grey;
+    font-family: Roboto, sans-serif;
+    border-left: 5px solid $main-purple;
+}
+
+.days-list-item-date {
+    padding-top: 3px;
+}
+
+// Count
+.todo-count {
+    background: $main-purple;
+    color: white;
+    font-weight: bold;
+    padding: 3px 4px 3px 6px !important;
+    letter-spacing: 3px;
+    border-radius: 9px;
+}
+
+.count-column {
+    padding-top: 2px;
+}
+
+// Icon
+.icon-box {
+    padding: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: #63ea90;
+    padding: 3px 4px 3px 6px !important;
+    margin: 0 !important;
+    border-radius: 9px;
+}
+
+.icon {
+    margin: 0 !important;
+}
+
+.icon-column {
+    padding-top: 2px;
+}

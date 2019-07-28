@@ -187,10 +187,13 @@ class Planner extends React.Component {
     render() {
         const { monthObjectList, currentMonth, currentDay } = this.state;
 
-        return monthObjectList && currentMonth ? (
+        return currentMonth ? (
             <Grid>
                 <Grid.Row>
-                    <Grid.Column width={3} className="sidebar-menu">
+                    <Grid.Column
+                        width={3}
+                        className="sidebar-menu pad-lef-rig-0"
+                    >
                         <DaysList
                             monthObjectList={monthObjectList}
                             currentMonth={currentMonth}
