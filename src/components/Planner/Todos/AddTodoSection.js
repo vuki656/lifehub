@@ -4,7 +4,7 @@ import firebase from "../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Form, Icon } from "semantic-ui-react";
+import { Input, Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Helper Imports
@@ -82,16 +82,15 @@ class AddTodoSection extends React.Component {
         const { todoText } = this.state;
 
         return (
-            <Form.Group widths="equal">
-                <Form.Input
-                    name="todoText"
-                    value={todoText}
-                    placeholder="todo"
-                    type="float"
-                    onChange={this.handleChange}
-                    icon={<Icon name="add" onClick={this.handleSubmit} link />}
-                />
-            </Form.Group>
+            <Input
+                className="add-todo-input-field"
+                name="todoText"
+                value={todoText}
+                placeholder="Todo Text"
+                type="float"
+                onChange={this.handleChange}
+                icon={<Icon name="add" onClick={this.handleSubmit} link />}
+            />
         );
     }
 }

@@ -4,16 +4,13 @@ import firebase from "../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Grid, Header, Segment } from "semantic-ui-react";
+import { Grid, Header } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
 import TodoCard from "./Todos/TodoCard";
 import Reminders from "./Reminders/Reminders";
 import AddTodoCard from "./Todos/AddTodoCard";
-
-// Helper Imports
-import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 class TaskArea extends React.Component {
     state = {
@@ -35,7 +32,6 @@ class TaskArea extends React.Component {
     componentDidMount() {
         this.addListeners();
         this.fetchTodoCards(this.state);
-        this.checkIfShouldDisable(this.state);
     }
 
     addListeners = () => {
@@ -71,29 +67,18 @@ class TaskArea extends React.Component {
         });
     };
 
-    // Checks if day is in the past, if yes disable editing of todos
-    checkIfShouldDisable = ({ currentDay }) => {
-        if (moment(currentDay).isBefore(getDayOnlyTimestamp(moment()))) {
-            this.setState({ isInPast: true });
-        } else {
-            this.setState({ isInpast: false });
-        }
-    };
-
     renderTodoCards = ({ todoCards }) =>
         todoCards.map(todoCard => (
             <TodoCard todoCard={todoCard} key={todoCard.key} />
         ));
 
     render() {
-        const { currentDay, isInPast } = this.state;
+        const { currentDay } = this.state;
 
         return (
-            <Grid as={Segment} disabled={isInPast}>
-                <Grid.Row>
-                    <Header>
-                        {moment(currentDay).format("DD/MM/YYYY - dddd")}
-                    </Header>
+            <Grid className="task-area">
+                <Grid.Row className="task-area-header">
+                    {moment(currentDay).format("DD/MM/YYYY - dddd")}
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column width={12}>

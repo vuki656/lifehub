@@ -1,0 +1,40 @@
+.todo-card-title {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.todo-card-title:hover {
+    .todo-card-icon {
+        color: $main-purple;
+    }
+}
+
+.todo-card-icon {
+    color: white;
+}
+
+.todo-card-item {
+    padding: 0 !important;
+    margin: 6px 0px 6px 0px;
+}
+
+.todo-card-item:hover {
+    background: $light-grey;
+
+    .todo-card-icon {
+        color: $main-purple;
+    }
+}
+
+.add-todo-input-row {
+    margin: 10px 0px 10px 0px;
+    opacity: 0;
+}
+
+.add-todo-input-row:hover {
+    opacity: 1;
+}
+
+.add-todo-input-field input {
+    border: none !important;
+}

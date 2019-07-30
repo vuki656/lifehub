@@ -36,7 +36,13 @@ class EditTodoCardNamePopup extends React.Component {
 
         return (
             <Popup
-                trigger={<Icon name={"pencil"} link={true} />}
+                trigger={
+                    <Icon
+                        name={"pencil"}
+                        link={true}
+                        className="todo-card-icon"
+                    />
+                }
                 flowing
                 onClose={() => this.handleTodoCardNameUpdate(this.state)}
                 on="click"

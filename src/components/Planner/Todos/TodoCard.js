@@ -63,7 +63,7 @@ class TodoCard extends React.Component {
         todayTimestamp,
         todoCard
     }) => {
-        let endDate = this.getLastDayWithTodos(this.state);
+        let endDate = this.getLastDayOfDaysList(this.state);
 
         for (
             let itteratingDate = moment(todayTimestamp);
@@ -82,12 +82,15 @@ class TodoCard extends React.Component {
         }
     };
 
-    getLastDayWithTodos = ({ todosRef, currentUser }) => {
+    // Get the last day timestamp in todos days list node
+    getLastDayOfDaysList = ({ todosRef, currentUser }) => {
         todosRef
             .child(currentUser.uid)
             .limitToLast(1)
             .once("value", lastDay => {
-                return lastDay.val().key;
+                if (lastDay.val().key) {
+                    return lastDay.val().key;
+                }
             });
     };
 
@@ -96,15 +99,24 @@ class TodoCard extends React.Component {
 
         return (
             <Grid.Column>
-                {name}
-                <EditTodoCardNamePopup todoCard={todoCard} />
-                <Icon
-                    name={"remove"}
-                    link={true}
-                    onClick={this.handleTodoCardDeletion}
-                />
+                <Grid className="todo-card-title">
+                    <Grid.Row>
+                        <Grid.Column floated="left" width={10}>
+                            {name}
+                        </Grid.Column>
+                        <Grid.Column floated="right" width={6}>
+                            <EditTodoCardNamePopup todoCard={todoCard} />
+                            <Icon
+                                name={"remove"}
+                                link={true}
+                                onClick={this.handleTodoCardDeletion}
+                                className="todo-card-icon"
+                            />
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
                 <TodoList todoCard={todoCard} />
-                <Grid.Row>
+                <Grid.Row className="add-todo-input-row">
                     <AddTodoSection todoCard={todoCard} />
                 </Grid.Row>
             </Grid.Column>

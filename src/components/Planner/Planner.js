@@ -200,7 +200,7 @@ class Planner extends React.Component {
                             selectNewMonth={this.selectNewMonth}
                         />
                     </Grid.Column>
-                    <Grid.Column width={13} className="task-area">
+                    <Grid.Column width={13}>
                         {this.generateRoutes(currentMonth, currentDay)}
                     </Grid.Column>
                 </Grid.Row>

@@ -4,7 +4,7 @@ import firebase from "firebase";
 import moment from "moment";
 
 // Destructured Imports
-import { Checkbox, Icon } from "semantic-ui-react";
+import { Checkbox, Icon, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
@@ -108,20 +108,29 @@ class Todo extends React.Component {
         const { todo, isChecked, category } = this.state;
 
         return (
-            <React.Fragment>
-                <Checkbox
-                    label={todo.text}
-                    checked={isChecked}
-                    onChange={() => this.handleTodoCheckboxChange(this.state)}
-                />
-                <EditTodoNamePopup todo={todo} category={category} />
-                <RepeatTodoPopup todo={todo} category={category} />
-                <Icon
-                    name={"remove"}
-                    link={true}
-                    onClick={() => this.handleTodoDeletion(this.state)}
-                />
-            </React.Fragment>
+            <Grid>
+                <Grid.Row className="todo-card-item">
+                    <Grid.Column floated="left" width={10}>
+                        <Checkbox
+                            label={todo.text}
+                            checked={isChecked}
+                            onChange={() =>
+                                this.handleTodoCheckboxChange(this.state)
+                            }
+                        />
+                    </Grid.Column>
+                    <Grid.Column floated="right" width={6}>
+                        <EditTodoNamePopup todo={todo} category={category} />
+                        <RepeatTodoPopup todo={todo} category={category} />
+                        <Icon
+                            name={"remove"}
+                            link={true}
+                            onClick={() => this.handleTodoDeletion(this.state)}
+                            className="todo-card-icon"
+                        />
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
         );
     }
 }

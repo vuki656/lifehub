@@ -275,6 +275,7 @@ class RepeatTodoPopup extends React.Component {
                         name={"repeat"}
                         link={true}
                         onClick={this.openPopup}
+                        className="todo-card-icon"
                     />
                 }
                 flowing
