@@ -1,3 +1,9 @@
+// Genereal
+.todo-card-icon {
+    color: white;
+}
+
+// Card title
 .todo-card-title {
     font-size: 21px;
     font-weight: bold;
@@ -5,14 +11,11 @@
 
 .todo-card-title:hover {
     .todo-card-icon {
-        color: $main-purple;
+        color: $main;
     }
 }
 
-.todo-card-icon {
-    color: white;
-}
-
+// Card item
 .todo-card-item {
     padding: 0 !important;
     margin: 6px 0px 6px 0px;
@@ -22,10 +25,11 @@
     background: $light-grey;
 
     .todo-card-icon {
-        color: $main-purple;
+        color: $main;
     }
 }
 
+// Input
 .add-todo-input-row {
     margin: 10px 0px 10px 0px;
     opacity: 0;

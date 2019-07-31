@@ -1,9 +1,35 @@
 .side-menu {
-    background-color: $main-purple;
+    background-color: white;
 }
 
 .side-menu-item {
-    color: white !important;
+    color: $light-grey !important;
+    font-weight: bold;
+}
+
+.side-menu-item:hover {
+    color: $main !important;
+    border-right: 3px solid $main !important;
+    border-radius: 0 !important;
+
+    .sidebar-menu-item-icon {
+        color: $main !important;
+    }
+}
+
+.sidebar-menu-item-icon {
+    color: $light-grey !important;
+}
+
+// Add left border to active menu item
+.ui.vertical.menu .active.item {
+    border-right: 3px solid $main;
+    border-radius: 0 !important;
+    color: $main !important;
+
+    .sidebar-menu-item-icon {
+        color: $main !important;
+    }
 }
 
 // Override
@@ -11,4 +37,28 @@
     background: none !important;
     box-shadow: none !important;
     border: none !important;
+}
+
+.logo-section {
+    padding-bottom: 2rem;
+}
+
+.sidebar-username {
+    margin: 0 !important;
+    padding-top: 0.5rem;
+    color: $grey;
+    font-weight: bold;
+    text-align: center;
+}
+
+// Logo font fix
+.logo text {
+    font-family: "Montserrat" !important;
+    fill: $grey !important;
+}
+
+.logo {
+    width: 77%;
+    display: block;
+    margin: auto;
 }

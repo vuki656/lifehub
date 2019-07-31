@@ -4,7 +4,7 @@ import firebase from "../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Grid, Header } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports

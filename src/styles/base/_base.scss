@@ -3,8 +3,10 @@
 
 html,
 body,
-.base {
+.base,
+.app {
     height: 100vh;
+    widows: 100vh;
     background: rgb(255, 255, 255);
 }
 
@@ -13,17 +15,13 @@ body,
     margin-top: 0 !important;
 }
 
-.full-height {
+.react-app {
     height: 100vh;
+    margin-left: 0 !important;
 }
 
 .max-w-30-p {
     max-width: 30%;
-}
-
-// Square checkbox corners globaly
-.ui.checkbox {
-    border-radius: 0;
 }
 
 // Remove semantic-ui-rect opacity change on hover

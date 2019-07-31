@@ -3,11 +3,14 @@ import React from "react";
 import firebase from "../firebase/Auth";
 
 // Destructured Imports
-import { Icon, Menu, Grid, Header } from "semantic-ui-react";
+import { Icon, Menu, Grid } from "semantic-ui-react";
 import { Link, BrowserRouter as Router } from "react-router-dom";
 
 // Component Imports
 import PrivateRoutes from "../routers/PrivateRoutes";
+
+// File Imports
+import { ReactComponent as Logo } from "../files/svg.svg";
 
 class SideMenu extends React.Component {
     state = {
@@ -32,17 +35,19 @@ class SideMenu extends React.Component {
         const { activeItem, currentUser } = this.state;
 
         return (
-            <Grid className="full-height">
+            <Grid className="react-app">
                 <Grid.Row>
                     <Router>
                         <Grid.Column
                             width={2}
                             className="side-menu pad-top-bot-10-px pad-lef-rig-0"
                         >
-                            <Header textAlign="center">LifeHub</Header>
-                            <Header textAlign="center" size="small">
-                                {currentUser.displayName}
-                            </Header>
+                            <div className="logo-section">
+                                <Logo className="logo" />
+                                <p className="sidebar-username">
+                                    {currentUser.displayName}
+                                </p>
+                            </div>
                             <Menu
                                 vertical
                                 fluid
@@ -62,8 +67,8 @@ class SideMenu extends React.Component {
                                             <Grid.Column>
                                                 <Icon
                                                     name="dashboard"
-                                                    inverted
                                                     color="grey"
+                                                    className="sidebar-menu-item-icon"
                                                 />
                                             </Grid.Column>
                                             <Grid.Column>Dashboard</Grid.Column>
@@ -82,7 +87,10 @@ class SideMenu extends React.Component {
                                     <Grid>
                                         <Grid.Row>
                                             <Grid.Column>
-                                                <Icon name="tasks" inverted />
+                                                <Icon
+                                                    name="tasks"
+                                                    className="sidebar-menu-item-icon"
+                                                />
                                             </Grid.Column>
                                             <Grid.Column>Planner</Grid.Column>
                                         </Grid.Row>
@@ -99,7 +107,10 @@ class SideMenu extends React.Component {
                                     <Grid>
                                         <Grid.Row>
                                             <Grid.Column>
-                                                <Icon name="book" inverted />
+                                                <Icon
+                                                    name="book"
+                                                    className="sidebar-menu-item-icon"
+                                                />
                                             </Grid.Column>
                                             <Grid.Column>Journal</Grid.Column>
                                         </Grid.Row>
@@ -116,7 +127,10 @@ class SideMenu extends React.Component {
                                     <Grid>
                                         <Grid.Row>
                                             <Grid.Column>
-                                                <Icon name="weight" inverted />
+                                                <Icon
+                                                    name="weight"
+                                                    className="sidebar-menu-item-icon"
+                                                />
                                             </Grid.Column>
                                             <Grid.Column>Weight</Grid.Column>
                                         </Grid.Row>
@@ -133,7 +147,10 @@ class SideMenu extends React.Component {
                                     <Grid>
                                         <Grid.Row>
                                             <Grid.Column>
-                                                <Icon name="cog" inverted />
+                                                <Icon
+                                                    name="cog"
+                                                    className="sidebar-menu-item-icon"
+                                                />
                                             </Grid.Column>
                                             <Grid.Column>Settings</Grid.Column>
                                         </Grid.Row>
@@ -149,7 +166,7 @@ class SideMenu extends React.Component {
                                             <Grid.Column>
                                                 <Icon
                                                     name="sign-out"
-                                                    inverted
+                                                    className="sidebar-menu-item-icon"
                                                 />
                                             </Grid.Column>
                                             <Grid.Column>Logout</Grid.Column>

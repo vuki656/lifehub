@@ -14,15 +14,15 @@
 
 // List item
 .days-list-item {
-    color: $main-purple;
+    color: $main;
     font-family: Roboto, sans-serif;
     padding: 5px 10px 5px 10px !important;
 }
 
 .days-list-item:hover {
-    color: $grey;
-    background: $light-grey;
-    border-left: 5px solid $main-purple;
+    color: $grey !important;
+    background: $light-grey !important;
+    border-left: 5px solid $main !important;
 }
 
 .days-list-item-date {
@@ -31,7 +31,7 @@
 
 // Count
 .todo-count {
-    background: $main-purple;
+    background: $main;
     color: white;
     font-weight: bold;
     padding: 3px 4px 3px 6px !important;
