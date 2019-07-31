@@ -45,6 +45,7 @@ class Planner extends React.Component {
 
     componentDidMount() {
         this.props.fetchUserSettings(this.state);
+        this.generateMonthDayStructure(this.state.regDate, this.state);
     }
 
     componentDidUpdate(prevProps) {
