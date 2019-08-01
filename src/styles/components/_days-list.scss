@@ -37,16 +37,18 @@
 
 // List item
 .days-list-item {
+    background: $extra-light-blue;
     color: $grey;
     font-family: Roboto, sans-serif;
     padding: 5px 10px 5px 10px !important;
+    border-right: 4px solid transparent !important;
 }
 
 .days-list-item:hover {
     color: $grey !important;
     font-weight: bold;
     background: $main-extra-light !important;
-    border-right: 3px solid $main !important;
+    border-right: 4px solid $main !important;
 }
 
 .days-list-item-date {
@@ -70,11 +72,8 @@
 
 // Icon
 .icon-box {
-    padding: 0;
-    margin-left: 10px;
-    margin-right: 10px;
     background: #63ea90;
-    padding: 3px 4px 3px 6px !important;
+    padding: 3px 4px 3px 4px !important;
     margin: 0 !important;
     border-radius: 5px;
     font-size: 11px;

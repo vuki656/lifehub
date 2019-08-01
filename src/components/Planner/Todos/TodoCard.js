@@ -99,26 +99,30 @@ class TodoCard extends React.Component {
 
         return (
             <Grid.Column>
-                <Grid className="todo-card-title">
-                    <Grid.Row>
-                        <Grid.Column floated="left" width={10}>
-                            {name}
-                        </Grid.Column>
-                        <Grid.Column floated="right" width={6}>
-                            <EditTodoCardNamePopup todoCard={todoCard} />
-                            <Icon
-                                name={"remove"}
-                                link={true}
-                                onClick={this.handleTodoCardDeletion}
-                                className="todo-card-icon"
-                            />
-                        </Grid.Column>
+                <div className="todo-card">
+                    <Grid className="todo-card-title">
+                        <Grid.Row className="pad-top-bot-0">
+                            <Grid.Column floated="left" width={11}>
+                                {name}
+                            </Grid.Column>
+                            <Grid.Column floated="right" width={5}>
+                                <EditTodoCardNamePopup todoCard={todoCard} />
+                                <Icon
+                                    name={"remove"}
+                                    link={true}
+                                    onClick={this.handleTodoCardDeletion}
+                                    className="todo-card-icon"
+                                />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                    <div className="todo-card-todos">
+                        <TodoList todoCard={todoCard} />
+                    </div>
+                    <Grid.Row className="add-todo-input-row">
+                        <AddTodoSection todoCard={todoCard} />
                     </Grid.Row>
-                </Grid>
-                <TodoList todoCard={todoCard} />
-                <Grid.Row className="add-todo-input-row">
-                    <AddTodoSection todoCard={todoCard} />
-                </Grid.Row>
+                </div>
             </Grid.Column>
         );
     }

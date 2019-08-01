@@ -2,11 +2,15 @@
     margin: 0 !important;
 }
 
+.todo-area {
+    padding: 1rem 2rem 1rem 2rem !important;
+    height: 100vh;
+}
+
 .task-area-header {
     padding: 10px !important;
     font-weight: bold;
     font-size: 20px;
-    background: $main;
-    color: white;
+    color: $grey;
     font-family: Roboto, sans-serif;
 }

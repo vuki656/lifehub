@@ -81,7 +81,7 @@ class TaskArea extends React.Component {
                     {moment(currentDay).format("DD/MM/YYYY - dddd")}
                 </Grid.Row>
                 <Grid.Row>
-                    <Grid.Column width={12}>
+                    <Grid.Column className="todo-area" width={13}>
                         <Grid>
                             <Grid.Row columns={3}>
                                 {this.renderTodoCards(this.state)}
@@ -89,7 +89,7 @@ class TaskArea extends React.Component {
                             </Grid.Row>
                         </Grid>
                     </Grid.Column>
-                    <Grid.Column width={4}>
+                    <Grid.Column width={3}>
                         <Reminders />
                     </Grid.Column>
                 </Grid.Row>

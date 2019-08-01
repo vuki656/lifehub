@@ -1,12 +1,20 @@
 // Genereal
+.todo-card {
+    background: white;
+    margin-bottom: 2rem !important;
+}
+
 .todo-card-icon {
     color: white;
 }
 
 // Card title
 .todo-card-title {
-    font-size: 21px;
+    font-size: 15px;
     font-weight: bold;
+    margin: 0 !important;
+    padding: 0.4rem !important;
+    border-left: 4px solid $main;
 }
 
 .todo-card-title:hover {
@@ -15,14 +23,21 @@
     }
 }
 
+// Todo List
+.todo-card-todos {
+    padding: 1rem;
+}
+
 // Card item
 .todo-card-item {
     padding: 0 !important;
     margin: 6px 0px 6px 0px;
+    border-left: 4px solid transparent;
 }
 
 .todo-card-item:hover {
-    background: $light-grey;
+    background: $extra-light-blue;
+    border-left: 4px solid $main-red;
 
     .todo-card-icon {
         color: $main;
