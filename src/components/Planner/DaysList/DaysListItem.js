@@ -116,7 +116,10 @@ class DaysListItem extends React.Component {
                 </Grid.Column>
                 <Grid.Column floated="right" width={3} className="icon-column">
                     <span className="icon-box">
-                        <Icon className="icon" name={iconStatus} />
+                        <Icon
+                            className="days-list-item-icon"
+                            name={iconStatus}
+                        />
                     </span>
                 </Grid.Column>
             </Grid.Row>

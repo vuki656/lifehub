@@ -1,28 +1,52 @@
 // Base
 .days-list {
-    margin-top: 10px !important;
+    margin-top: 0 !important;
     margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.sidebar-menu {
+    background: white !important;
+}
+
+.sidebar-menu-item-icon {
+    color: $light-grey !important;
 }
 
 // Dropdown
 .month-dropdown {
     width: 100% !important;
+    box-sizing: border-box;
     border: none;
     font-family: Roboto, sans-serif;
-    padding-left: 20px;
+    padding: 10px 20px 10px 20px;
+    background: $main-red;
+    font-weight: bold;
+    color: white;
+}
+
+// Remove dropdown main box outline
+.month-dropdown:focus {
+    outline: none !important;
+}
+
+// Signle dropdown item
+.month-dropdown option {
+    padding: 10px;
 }
 
 // List item
 .days-list-item {
-    color: $main;
+    color: $grey;
     font-family: Roboto, sans-serif;
     padding: 5px 10px 5px 10px !important;
 }
 
 .days-list-item:hover {
     color: $grey !important;
-    background: $light-grey !important;
-    border-left: 5px solid $main !important;
+    font-weight: bold;
+    background: $main-extra-light !important;
+    border-right: 3px solid $main !important;
 }
 
 .days-list-item-date {
@@ -31,12 +55,13 @@
 
 // Count
 .todo-count {
-    background: $main;
+    background: $light-grey;
     color: white;
     font-weight: bold;
     padding: 3px 4px 3px 6px !important;
     letter-spacing: 3px;
-    border-radius: 9px;
+    border-radius: 5px;
+    font-size: 11px;
 }
 
 .count-column {
@@ -51,11 +76,13 @@
     background: #63ea90;
     padding: 3px 4px 3px 6px !important;
     margin: 0 !important;
-    border-radius: 9px;
+    border-radius: 5px;
+    font-size: 11px;
 }
 
-.icon {
+.days-list-item-icon {
     margin: 0 !important;
+    color: white;
 }
 
 .icon-column {

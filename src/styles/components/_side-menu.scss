@@ -11,14 +11,11 @@
     color: $main !important;
     border-right: 3px solid $main !important;
     border-radius: 0 !important;
+    background: $main-extra-light !important;
 
     .sidebar-menu-item-icon {
         color: $main !important;
     }
-}
-
-.sidebar-menu-item-icon {
-    color: $light-grey !important;
 }
 
 // Add left border to active menu item
@@ -26,6 +23,7 @@
     border-right: 3px solid $main;
     border-radius: 0 !important;
     color: $main !important;
+    background: $main-extra-light !important;
 
     .sidebar-menu-item-icon {
         color: $main !important;

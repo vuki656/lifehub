@@ -10,7 +10,7 @@ import { Link, BrowserRouter as Router } from "react-router-dom";
 import PrivateRoutes from "../routers/PrivateRoutes";
 
 // File Imports
-import { ReactComponent as Logo } from "../files/svg.svg";
+import { ReactComponent as Logo } from "../files/logo.svg";
 
 class SideMenu extends React.Component {
     state = {
