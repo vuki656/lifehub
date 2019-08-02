@@ -14,3 +14,22 @@
 .max-w-30-p {
     max-width: 30%;
 }
+
+// == OVERRIDES ==
+// Remove defaults from menu item
+.ui.menu {
+    background: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+// Input
+// Remove input field defaults
+.ui.input > input {
+    border-radius: 0 !important;
+}
+
+// Remove blue border on active from input field
+.ui.input > input:focus {
+    border: 1px solid rgba(34, 36, 38, 0.15) !important;
+}

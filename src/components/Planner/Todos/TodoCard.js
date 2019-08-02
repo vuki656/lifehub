@@ -9,7 +9,7 @@ import { Grid, Icon } from "semantic-ui-react";
 // Component Imports
 import TodoList from "./TodoList";
 import EditTodoCardNamePopup from "./Popups/EditTodoCardNamePopup";
-import AddTodoSection from "./AddTodoSection";
+import AddTodoInput from "./AddTodoInput";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
@@ -120,7 +120,7 @@ class TodoCard extends React.Component {
                         <TodoList todoCard={todoCard} />
                     </div>
                     <Grid.Row className="add-todo-input-row">
-                        <AddTodoSection todoCard={todoCard} />
+                        <AddTodoInput todoCard={todoCard} />
                     </Grid.Row>
                 </div>
             </Grid.Column>

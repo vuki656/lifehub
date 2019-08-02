@@ -13,6 +13,11 @@ class AddTodoCard extends React.Component {
         todoCardName: ""
     };
 
+    handleTodoCardSave = () => {
+        this.setState({ displayOptions: false });
+        this.saveTodoCard(this.state);
+    };
+
     // Save todo card in firebase
     saveTodoCard = ({ todoCardRef, currentUser, todoCardName }) => {
         if (todoCardName) {
@@ -49,29 +54,39 @@ class AddTodoCard extends React.Component {
 
         return (
             <Grid.Column width={5}>
-                <Segment className="add-todo-card-segment" placeholder>
+                <Segment className="add-todo-card" placeholder>
                     {!displayOptions && (
-                        <Button icon onClick={this.toggleTodoCardOptions}>
+                        <Button
+                            icon
+                            className="main-button"
+                            onClick={this.toggleTodoCardOptions}
+                        >
                             <Icon name="add" />
                         </Button>
                     )}
                     {displayOptions && (
                         <React.Fragment>
+                            <p className="add-todo-card-text">
+                                Enter Card Name
+                            </p>
                             <Input
                                 value={todoCardName}
                                 name={"todoCardName"}
                                 onChange={this.handleChange}
                                 placeholder="Enter Card Name"
+                                className="add-todo-card-input"
                             />
                             <Button.Group>
                                 <Button
-                                    onClick={() =>
-                                        this.saveTodoCard(this.state)
-                                    }
+                                    onClick={this.handleTodoCardSave}
+                                    className="main-button add-todo-card-button"
                                 >
                                     Save
                                 </Button>
-                                <Button onClick={this.toggleTodoCardOptions}>
+                                <Button
+                                    onClick={this.toggleTodoCardOptions}
+                                    className="secondary-button add-todo-card-button"
+                                >
                                     Cancel
                                 </Button>
                             </Button.Group>

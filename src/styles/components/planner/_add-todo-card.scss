@@ -1,6 +1,33 @@
 // == BASE ==
-.add-todo-card-segment {
+.add-todo-card {
     background: white !important;
-    border-radius: 0px !important;
     box-shadow: none !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.add-todo-card:hover {
+    background: $blue-light !important;
+    border-radius: 0px !important;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.05), 0 10px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+// == INPUT ==
+.add-todo-card-input {
+    padding: 1rem 0rem 1rem 0rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+// == BUTTON ==
+.add-todo-card-button {
+    font-size: 13px !important;
+}
+
+// == TEXT ==
+.add-todo-card-text {
+    font-weight: bold;
+    font-size: 14px;
+    padding-left: 10px;
+    border-left: 4px solid $blue;
+    margin-bottom: 0;
 }

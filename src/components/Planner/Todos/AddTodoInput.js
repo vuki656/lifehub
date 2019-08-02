@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
-class AddTodoSection extends React.Component {
+class AddTodoInput extends React.Component {
     state = {
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
@@ -102,4 +102,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     null
-)(AddTodoSection);
+)(AddTodoInput);
