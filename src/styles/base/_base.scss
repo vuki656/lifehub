@@ -1,29 +1,19 @@
-@import "./paddings";
-@import "./fonts";
-
-html,
-body,
-.base,
-.app {
-    height: 100vh;
-    background: rgb(255, 255, 255);
-}
-
-.zero-margin-tb {
-    margin-bottom: 0 !important;
-    margin-top: 0 !important;
-}
-
+// == BASE ==
+// Fit app in screen
 .react-app {
     height: 100vh;
     margin-left: 0 !important;
-}
-
-.max-w-30-p {
-    max-width: 30%;
 }
 
 // Remove semantic-ui-rect opacity change on hover
 .icon {
     opacity: 1 !important;
 }
+
+// == WIDTH ==
+.max-w-30-p {
+    max-width: 30%;
+}
+
+// == BORDERS ==
+$main-border-width: 4px;

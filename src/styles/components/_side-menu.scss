@@ -1,44 +1,54 @@
+// == BASE ==
 .side-menu {
     background-color: white;
 }
 
+// == SIDE MENU ITEM ==
 .side-menu-item {
     color: $light-grey !important;
     font-weight: bold;
 }
 
 .side-menu-item:hover {
-    color: $main !important;
-    border-right: 4px solid $main !important;
+    color: $blue !important;
+    border-right: $main-border-width solid $blue !important;
     border-radius: 0 !important;
     background: $main-extra-light !important;
 
     .sidebar-menu-item-icon {
-        color: $main !important;
+        color: $blue !important;
     }
 }
 
 // Add left border to active menu item
 .ui.vertical.menu .active.item {
-    border-right: 4px solid $main;
+    border-right: 4px solid $blue;
     border-radius: 0 !important;
-    color: $main !important;
+    color: $blue !important;
     background: $main-extra-light !important;
 
     .sidebar-menu-item-icon {
-        color: $main !important;
+        color: $blue !important;
     }
 }
 
 // Override
+// Remove defaults from menu item
 .ui.menu {
     background: none !important;
     box-shadow: none !important;
     border: none !important;
 }
 
+// == LOGO SECTION ==
 .logo-section {
     padding-bottom: 2rem;
+}
+
+.logo {
+    width: 77%;
+    display: block;
+    margin: auto;
 }
 
 .sidebar-username {
@@ -47,16 +57,4 @@
     color: $grey;
     font-weight: bold;
     text-align: center;
-}
-
-// Logo font fix
-.logo text {
-    font-family: "Montserrat" !important;
-    fill: $grey !important;
-}
-
-.logo {
-    width: 77%;
-    display: block;
-    margin: auto;
 }

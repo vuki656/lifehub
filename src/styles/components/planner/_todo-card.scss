@@ -1,4 +1,4 @@
-// Genereal
+// == BASE ==
 .todo-card {
     background: white;
     margin-bottom: 2rem !important;
@@ -8,27 +8,26 @@
     color: white;
 }
 
-// Card title
+// == TITLE ==
 .todo-card-title {
     font-size: 15px;
     font-weight: bold;
     margin: 0 !important;
     padding: 0.4rem !important;
-    border-left: 4px solid $main;
+    border-left: 4px solid $blue;
 }
 
 .todo-card-title:hover {
     .todo-card-icon {
-        color: $main;
+        color: $blue;
     }
 }
 
-// Todo List
+// == TODO CARD TODOS ==
 .todo-card-todos {
     padding: 1rem;
 }
 
-// Card item
 .todo-card-item {
     padding: 0 !important;
     margin: 6px 0px 6px 0px;
@@ -40,11 +39,11 @@
     border-left: 4px solid $main-red;
 
     .todo-card-icon {
-        color: $main;
+        color: $blue;
     }
 }
 
-// Input
+// == ADD TODO SECTION ==
 .add-todo-input-row {
     margin: 10px 0px 10px 0px;
     opacity: 0;

@@ -1,4 +1,4 @@
-// Base
+// == BASE ==
 .days-list {
     margin-top: 0 !important;
     margin-left: 0 !important;
@@ -13,7 +13,7 @@
     color: $light-grey !important;
 }
 
-// Dropdown
+// == DROPDOWN ==
 .month-dropdown {
     width: 100% !important;
     box-sizing: border-box;
@@ -35,7 +35,7 @@
     padding: 10px;
 }
 
-// List item
+// == DAYS LIST ITEM ==
 .days-list-item {
     background: $extra-light-blue;
     color: $grey;
@@ -48,14 +48,14 @@
     color: $grey !important;
     font-weight: bold;
     background: $main-extra-light !important;
-    border-right: 4px solid $main !important;
+    border-right: 4px solid $blue !important;
 }
 
 .days-list-item-date {
     padding-top: 3px;
 }
 
-// Count
+// == COUNT ==
 .todo-count {
     background: $light-grey;
     color: white;
@@ -70,7 +70,7 @@
     padding-top: 2px;
 }
 
-// Icon
+// == ICON ==
 .icon-box {
     background: #63ea90;
     padding: 3px 4px 3px 4px !important;

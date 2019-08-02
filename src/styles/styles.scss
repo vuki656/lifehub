@@ -1,8 +1,17 @@
+// == BASE ==
 @import "./base/base";
-@import "./base/defaults";
 @import "./base/margins";
+@import "./base/paddings";
+@import "./base/fonts";
+@import "./base/colors";
+@import "./base/widths";
+
+// == ** COMPONENTS ** ==
+// == SIDE MENU ==
 @import "./components/side-menu";
-@import "./components/days-list";
-@import "./components/task-area";
-@import "./components/todo-card";
-@import "./components/add-todo-card";
+
+// == PLANNER ==
+@import "./components/planner/days-list";
+@import "./components/planner/task-area";
+@import "./components/planner/todo-card";
+@import "./components/planner/add-todo-card";
