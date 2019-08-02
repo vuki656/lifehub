@@ -52,7 +52,7 @@ class SideMenu extends React.Component {
                                 vertical
                                 fluid
                                 borderless
-                                className="zero-margin-tb"
+                                className="mar-top-bot-0"
                             >
                                 <Menu.Item
                                     as={Link}

@@ -90,16 +90,19 @@ class EditTodoPopup extends React.Component {
         date
     ) => {
         let dayTimestamp = getDayOnlyTimestamp(date);
-        todoRef
-            .child(
-                `${currentUser.uid}/${dayTimestamp}/categories/${category}/${
-                    todo.key
-                }`
-            )
-            .update({ text: newTodo })
-            .catch(err => {
-                console.error(err);
-            });
+
+        if (newTodo !== "") {
+            todoRef
+                .child(
+                    `${
+                        currentUser.uid
+                    }/${dayTimestamp}/categories/${category}/${todo.key}`
+                )
+                .update({ text: newTodo })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
     };
 
     // Set the state value from user input
@@ -114,7 +117,7 @@ class EditTodoPopup extends React.Component {
             <Popup
                 trigger={
                     <Icon
-                        name={"pencil"}
+                        name={"edit"}
                         link={true}
                         className="todo-card-icon"
                     />

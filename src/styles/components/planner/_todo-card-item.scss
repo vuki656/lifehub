@@ -35,8 +35,3 @@
     color: white !important;
     background: $green !important;
 }
-
-// Remove blue outline after unchecking todo
-.ui.checkbox input:focus label:before {
-    border-color: $grey-transparent !important;
-}

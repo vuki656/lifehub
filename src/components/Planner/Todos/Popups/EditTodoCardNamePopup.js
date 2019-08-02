@@ -21,9 +21,11 @@ class EditTodoCardNamePopup extends React.Component {
         todoCard,
         newTodoCardName
     }) => {
-        todoCardRef
-            .child(`${currentUser.uid}/${todoCard.key}`)
-            .update({ name: newTodoCardName });
+        if (newTodoCardName !== "") {
+            todoCardRef
+                .child(`${currentUser.uid}/${todoCard.key}`)
+                .update({ name: newTodoCardName });
+        }
     };
 
     // Set the state value from user input
