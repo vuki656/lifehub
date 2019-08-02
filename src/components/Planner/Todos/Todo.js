@@ -112,6 +112,7 @@ class Todo extends React.Component {
                 <Grid.Row className="todo-card-item">
                     <Grid.Column floated="left" width={10}>
                         <Checkbox
+                            className="todo-checkbox"
                             label={todo.text}
                             checked={isChecked}
                             onChange={() =>

@@ -25,22 +25,7 @@
 
 // == TODO CARD TODOS ==
 .todo-card-todos {
-    padding: 1rem;
-}
-
-.todo-card-item {
-    padding: 0 !important;
-    margin: 6px 0px 6px 0px;
-    border-left: 4px solid transparent;
-}
-
-.todo-card-item:hover {
-    background: $blue-light;
-    border-left: 4px solid $red;
-
-    .todo-card-icon {
-        color: $blue;
-    }
+    padding: 2rem 1rem 0 1rem;
 }
 
 // == ADD TODO SECTION ==

@@ -1,0 +1,42 @@
+// == BASE ==
+.todo-card-item {
+    margin-bottom: 1rem !important;
+    padding: 0 !important;
+    border-left: 4px solid transparent;
+}
+
+.todo-card-item:hover {
+    background: $blue-light;
+    border-left: 4px solid $red;
+
+    .todo-card-icon {
+        color: $blue;
+    }
+}
+
+// == CHECKBOX ==
+.todo-checkbox {
+    padding-top: 2px !important;
+}
+
+// Checkbox box
+.todo-checkbox label:before {
+    border-radius: 0 !important;
+}
+
+.ui.checkbox label:hover::before {
+    background: $green-transparent !important;
+    border-color: $green-transparent !important;
+    border: 1px solid $green-transparent !important;
+}
+
+// Clicked checkbox box
+.ui.checkbox input:checked ~ label:after {
+    color: white !important;
+    background: $green !important;
+}
+
+// Remove blue outline after unchecking todo
+.ui.checkbox input:focus label:before {
+    border-color: $grey-transparent !important;
+}

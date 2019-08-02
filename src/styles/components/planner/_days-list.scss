@@ -47,7 +47,7 @@
 .days-list-item:hover {
     color: $grey !important;
     font-weight: bold;
-    background: $blue-extra-transparent !important;
+    background: $blue-transparent !important;
     border-right: 4px solid $blue !important;
 }
 
@@ -72,7 +72,7 @@
 
 // == ICON ==
 .icon-box {
-    background: #63ea90;
+    background: $green;
     padding: 3px 4px 3px 4px !important;
     margin: 0 !important;
     border-radius: 5px;
