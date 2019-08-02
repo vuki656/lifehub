@@ -10,7 +10,7 @@
 }
 
 .sidebar-menu-item-icon {
-    color: $light-grey !important;
+    color: $grey-light !important;
 }
 
 // == DROPDOWN ==
@@ -20,7 +20,7 @@
     border: none;
     font-family: Roboto, sans-serif;
     padding: 10px 20px 10px 20px;
-    background: $main-red;
+    background: $red;
     font-weight: bold;
     color: white;
 }
@@ -37,7 +37,7 @@
 
 // == DAYS LIST ITEM ==
 .days-list-item {
-    background: $extra-light-blue;
+    background: $blue-light;
     color: $grey;
     font-family: Roboto, sans-serif;
     padding: 5px 10px 5px 10px !important;
@@ -47,7 +47,7 @@
 .days-list-item:hover {
     color: $grey !important;
     font-weight: bold;
-    background: $main-extra-light !important;
+    background: $blue-extra-transparent !important;
     border-right: 4px solid $blue !important;
 }
 
@@ -57,7 +57,7 @@
 
 // == COUNT ==
 .todo-count {
-    background: $light-grey;
+    background: $grey-light;
     color: white;
     font-weight: bold;
     padding: 3px 4px 3px 6px !important;

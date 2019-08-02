@@ -5,7 +5,7 @@
 
 // == SIDE MENU ITEM ==
 .side-menu-item {
-    color: $light-grey !important;
+    color: $grey-light !important;
     font-weight: bold;
 }
 
@@ -13,7 +13,7 @@
     color: $blue !important;
     border-right: $main-border-width solid $blue !important;
     border-radius: 0 !important;
-    background: $main-extra-light !important;
+    background: $blue-extra-transparent !important;
 
     .sidebar-menu-item-icon {
         color: $blue !important;
@@ -25,7 +25,7 @@
     border-right: 4px solid $blue;
     border-radius: 0 !important;
     color: $blue !important;
-    background: $main-extra-light !important;
+    background: $blue-extra-transparent !important;
 
     .sidebar-menu-item-icon {
         color: $blue !important;
