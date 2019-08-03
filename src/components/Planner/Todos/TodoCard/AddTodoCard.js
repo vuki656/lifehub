@@ -54,45 +54,43 @@ class AddTodoCard extends React.Component {
 
         return (
             <Grid.Column width={5}>
-                <Segment className="add-todo-card" placeholder>
-                    {!displayOptions && (
-                        <Button
-                            icon
-                            className="main-button"
-                            onClick={this.toggleTodoCardOptions}
-                        >
+                {!displayOptions && (
+                    <Segment
+                        className="add-todo-card"
+                        onClick={this.toggleTodoCardOptions}
+                        placeholder
+                    >
+                        <Button icon className="main-button">
                             <Icon name="add" />
                         </Button>
-                    )}
-                    {displayOptions && (
-                        <React.Fragment>
-                            <p className="add-todo-card-text">
-                                Enter Card Name
-                            </p>
-                            <Input
-                                value={todoCardName}
-                                name={"todoCardName"}
-                                onChange={this.handleChange}
-                                placeholder="Enter Card Name"
-                                className="add-todo-card-input"
-                            />
-                            <Button.Group>
-                                <Button
-                                    onClick={this.handleTodoCardSave}
-                                    className="main-button add-todo-card-button"
-                                >
-                                    Save
-                                </Button>
-                                <Button
-                                    onClick={this.toggleTodoCardOptions}
-                                    className="secondary-button add-todo-card-button"
-                                >
-                                    Cancel
-                                </Button>
-                            </Button.Group>
-                        </React.Fragment>
-                    )}
-                </Segment>
+                    </Segment>
+                )}
+                {displayOptions && (
+                    <Segment className="add-todo-card-input-section">
+                        <p className="add-todo-card-text">Enter Card Name</p>
+                        <Input
+                            value={todoCardName}
+                            name={"todoCardName"}
+                            onChange={this.handleChange}
+                            placeholder="Enter Card Name"
+                            className="add-todo-card-input"
+                        />
+                        <Button.Group>
+                            <Button
+                                onClick={this.handleTodoCardSave}
+                                className="main-button add-todo-card-button"
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                onClick={this.toggleTodoCardOptions}
+                                className="secondary-button add-todo-card-button"
+                            >
+                                Cancel
+                            </Button>
+                        </Button.Group>
+                    </Segment>
+                )}
             </Grid.Column>
         );
     }

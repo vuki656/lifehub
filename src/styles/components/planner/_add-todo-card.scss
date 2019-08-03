@@ -1,17 +1,23 @@
 // == BASE ==
 .add-todo-card {
+    border-radius: 0 !important;
     background: white !important;
     box-shadow: none !important;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .add-todo-card:hover {
+    cursor: pointer;
     background: $blue-light !important;
     border-radius: 0px !important;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.05), 0 10px 10px rgba(0, 0, 0, 0.05) !important;
 }
 
 // == INPUT ==
+.add-todo-card-input-section {
+    border-radius: 0 !important;
+}
+
 .add-todo-card-input {
     padding: 1rem 0rem 1rem 0rem !important;
     margin-left: 0 !important;
