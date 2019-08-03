@@ -18,20 +18,3 @@
 .todo-checkbox {
     padding-top: 2px !important;
 }
-
-// Checkbox box
-.todo-checkbox label:before {
-    border-radius: 0 !important;
-}
-
-.ui.checkbox label:hover::before {
-    background: $green-transparent !important;
-    border-color: $green-transparent !important;
-    border: 1px solid $green-transparent !important;
-}
-
-// Clicked checkbox box
-.ui.checkbox input:checked ~ label:after {
-    color: white !important;
-    background: $green !important;
-}

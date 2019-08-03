@@ -8,7 +8,7 @@ import { Grid, Dropdown, Checkbox } from "semantic-ui-react";
 import {
     daysOfMonth,
     daysOfWeek
-} from "../../../../data/Planner/RepeatingTodoDropdownOptions";
+} from "../../../../../data/Planner/RepeatingTodoDropdownOptions";
 
 class RepeatOptions extends React.Component {
     state = {
@@ -41,8 +41,9 @@ class RepeatOptions extends React.Component {
         return (
             <React.Fragment>
                 <Grid.Row>
-                    <p>Select Week Days</p>
+                    <p className="repeat-todo-subtitle">Select Week Days</p>
                     <Dropdown
+                        className="repeat-todo-dropdown"
                         placeholder="Select Days"
                         name="selectedWeekDays"
                         fluid
@@ -54,8 +55,9 @@ class RepeatOptions extends React.Component {
                     />
                 </Grid.Row>
                 <Grid.Row>
-                    <p>Select Days Of Month</p>
+                    <p className="repeat-todo-subtitle">Select Days Of Month</p>
                     <Dropdown
+                        className="repeat-todo-dropdown"
                         placeholder="Select Days"
                         name="selectedMonthDays"
                         fluid
@@ -68,12 +70,15 @@ class RepeatOptions extends React.Component {
                 </Grid.Row>
                 <Grid.Row>
                     <Checkbox
+                        className="mar-bot-0-5-rem"
                         label={"Repeat at the start of month"}
                         name="repeatAtStartOfMonth"
                         checked={repeatAtStartOfMonth}
                         onChange={this.props.handleCheckboxChange}
                     />
+                    <br />
                     <Checkbox
+                        className="mar-bot-0-5-rem"
                         label={"Repeat at the end of month"}
                         name="repeatAtEndOfMonth"
                         checked={repeatAtEndOfMonth}

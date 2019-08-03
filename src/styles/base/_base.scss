@@ -5,6 +5,10 @@
     margin-left: 0 !important;
 }
 
+.dropdown {
+    display: block;
+}
+
 // Remove semantic-ui-rect opacity change on hover
 .icon {
     opacity: 1 !important;
@@ -23,7 +27,7 @@
     border: none !important;
 }
 
-// Input
+// == INPUT ==
 // Remove input field defaults
 .ui.input > input {
     border-radius: 0 !important;
@@ -32,4 +36,22 @@
 // Remove blue border on active from input field
 .ui.input > input:focus {
     border: 1px solid rgba(34, 36, 38, 0.15) !important;
+}
+
+// == CHECKBOX ==
+// Checkbox box
+.ui.checkbox label:before {
+    border-radius: 0 !important;
+}
+
+.ui.checkbox label:hover::before {
+    background: $green-transparent !important;
+    border-color: $green-transparent !important;
+    border: 1px solid $green-transparent !important;
+}
+
+// Clicked checkbox box
+.ui.checkbox input:checked ~ label:after {
+    color: white !important;
+    background: $green !important;
 }

@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 // Component Imports
 import EditTodoNamePopup from "./Popups/EditTodoNamePopup";
-import RepeatTodoPopup from "./Popups/RepeatTodoPopup";
+import RepeatTodoPopup from "./Popups/RepeatTodoPopup/RepeatTodoPopup";
 
 // Helper Imports
 import { deleteTodoFromFirebase } from "../../../helpers/Planner/Todo";

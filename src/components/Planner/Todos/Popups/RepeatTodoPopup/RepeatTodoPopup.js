@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../../../../firebase/Auth";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 
@@ -23,11 +23,11 @@ import RepeatOptions from "./RepeatOptions";
 import {
     isDayBeingSavedTo,
     deleteTodoFromFirebase
-} from "../../../../helpers/Planner/Todo";
-import { getDayOnlyTimestamp } from "../../../../helpers/Global";
+} from "../../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../../../../helpers/Global";
 
 // Data Imports
-import { daysOfWeekArr } from "../../../../data/StockData";
+import { daysOfWeekArr } from "../../../../../data/StockData";
 
 class RepeatTodoPopup extends React.Component {
     constructor(props) {
@@ -270,6 +270,7 @@ class RepeatTodoPopup extends React.Component {
 
         return (
             <Popup
+                basic
                 trigger={
                     <Icon
                         name={"repeat"}
@@ -282,74 +283,103 @@ class RepeatTodoPopup extends React.Component {
                 on="click"
                 open={isPopOpen}
                 onClose={this.closePopup}
+                className="repeat-todo-popup"
             >
                 <Grid>
-                    <Grid.Row>
-                        <p>How often to repeat it</p>
+                    <Grid.Row className="repeat-todo-row repeat-todo-title">
+                        How Often To Repeat It
                     </Grid.Row>
-                    <Grid.Row columns={"equal"}>
-                        <Grid.Column>
-                            <Grid.Row>
+                    <Grid.Row className="pad-top-bot-0">
+                        <span className="repeat-todo-message">
+                            Todo repeating will start from today date no matter
+                            in which day you create it. If you want it to start
+                            repeating from certain date. Use the checkbox at the
+                            bottom.
+                        </span>
+                    </Grid.Row>
+                    <Grid.Row className="repeat-todo-row" columns={"equal"}>
+                        <Grid.Column className="repeat-todo-column">
+                            <Grid.Row className="mar-bot-1-rem">
                                 <Checkbox
                                     label={"Repeat every day"}
                                     checked={isRepeatingEveryDay}
                                     onChange={this.handleRepeatEveryDayCheckbox}
                                 />
                             </Grid.Row>
-                            <Grid.Row
-                                as={Segment}
-                                className={
-                                    isRepeatingEveryDay ? "disabled" : ""
-                                }
-                            >
-                                <RepeatOptions
-                                    selectedWeekDays={selectedWeekDays}
-                                    selectedMonthDays={selectedMonthDays}
-                                    repeatAtStartOfMonth={repeatAtStartOfMonth}
-                                    repeatAtEndOfMonth={repeatAtEndOfMonth}
-                                    handleCheckboxChange={
-                                        this.handleCheckboxChange
+                            <div className="repeat-todo-options">
+                                <Grid.Row
+                                    as={Segment}
+                                    className={
+                                        isRepeatingEveryDay ? "disabled" : ""
                                     }
-                                    handleDaysOfMonthDropdown={
-                                        this.handleDaysOfMonthDropdown
-                                    }
-                                    handleDaysOfWeekDropdown={
-                                        this.handleDaysOfWeekDropdown
-                                    }
-                                />
-                            </Grid.Row>
-                            <Grid.Row>
-                                <Checkbox
-                                    label={"Start repeating from certain date"}
-                                    name={"repeatFromDate"}
-                                    checked={repeatFromDate}
-                                    onChange={this.handleCheckboxChange}
-                                />
-                                {repeatFromDate && (
-                                    <DatePicker
-                                        minDate={moment().toDate()}
-                                        name={"createdAt"}
-                                        selected={createdAt}
-                                        onChange={this.handleRepeatFromDate}
+                                >
+                                    <RepeatOptions
+                                        selectedWeekDays={selectedWeekDays}
+                                        selectedMonthDays={selectedMonthDays}
+                                        repeatAtStartOfMonth={
+                                            repeatAtStartOfMonth
+                                        }
+                                        repeatAtEndOfMonth={repeatAtEndOfMonth}
+                                        handleCheckboxChange={
+                                            this.handleCheckboxChange
+                                        }
+                                        handleDaysOfMonthDropdown={
+                                            this.handleDaysOfMonthDropdown
+                                        }
+                                        handleDaysOfWeekDropdown={
+                                            this.handleDaysOfWeekDropdown
+                                        }
                                     />
-                                )}
-                            </Grid.Row>
-
+                                </Grid.Row>
+                            </div>
                             <Grid.Row>
-                                <Button onClick={this.handleRepeatingTodoSave}>
-                                    Save
-                                </Button>
-                                <Button onClick={this.closePopup}>
-                                    Cancel
-                                </Button>
+                                <Grid>
+                                    <Grid.Row>
+                                        <Grid.Column floated="left" width={8}>
+                                            <Checkbox
+                                                className="mar-bot-1-rem"
+                                                label={
+                                                    "Start repeating from certain date"
+                                                }
+                                                name={"repeatFromDate"}
+                                                checked={repeatFromDate}
+                                                onChange={
+                                                    this.handleCheckboxChange
+                                                }
+                                            />
+                                        </Grid.Column>
+                                        <Grid.Column floated="right" width={8}>
+                                            {repeatFromDate && (
+                                                <DatePicker
+                                                    className="datepicker-box"
+                                                    minDate={moment().toDate()}
+                                                    name={"createdAt"}
+                                                    selected={createdAt}
+                                                    onChange={
+                                                        this
+                                                            .handleRepeatFromDate
+                                                    }
+                                                />
+                                            )}
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
                             </Grid.Row>
                             <Grid.Row>
-                                <Message compact>
-                                    Todo repeating will start from today date
-                                    <br /> no matter in which day you create it.
-                                    If you want it to start repeating from
-                                    <br /> certain date. Use the checkbox
-                                </Message>
+                                <Button.Group>
+                                    <Button
+                                        className="main-button"
+                                        onClick={this.handleRepeatingTodoSave}
+                                    >
+                                        Save
+                                    </Button>
+                                    <Button
+                                        className="secondary-button"
+                                        onClick={this.closePopup}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Button.Group>
                             </Grid.Row>
                         </Grid.Column>
                     </Grid.Row>
