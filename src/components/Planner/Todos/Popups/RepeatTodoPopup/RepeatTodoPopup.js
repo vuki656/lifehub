@@ -10,7 +10,6 @@ import {
     Grid,
     Icon,
     Button,
-    Message,
     Checkbox,
     Segment
 } from "semantic-ui-react";

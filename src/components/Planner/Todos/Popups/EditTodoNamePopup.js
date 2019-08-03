@@ -4,7 +4,7 @@ import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Popup, Input, Icon } from "semantic-ui-react";
+import { Popup, Input, Icon, Button, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Helper Imports
@@ -17,6 +17,7 @@ class EditTodoPopup extends React.Component {
         currentUser: firebase.auth().currentUser,
         usersRef: firebase.database().ref("users"),
         newTodo: "",
+        isPopOpen: false,
 
         todo: this.props.todo,
         category: this.props.category,
@@ -57,6 +58,8 @@ class EditTodoPopup extends React.Component {
                 this.changeTodoTextInFirebase(this.state, currentDay);
             }
         }
+
+        this.closePopup();
     };
 
     // Check if itterating date matches repeating month day or week day
@@ -105,32 +108,69 @@ class EditTodoPopup extends React.Component {
         }
     };
 
+    openPopup = () => {
+        this.setState({ isPopOpen: true });
+    };
+
+    closePopup = () => {
+        this.setState({ isPopOpen: false });
+    };
+
     // Set the state value from user input
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
     };
 
     render() {
-        const { todo } = this.state;
+        const { todo, isPopOpen } = this.state;
 
         return (
             <Popup
+                className="edit-todo-name-popup"
+                basic
                 trigger={
                     <Icon
                         name={"edit"}
                         link={true}
+                        onClick={this.openPopup}
                         className="todo-card-icon"
                     />
                 }
                 flowing
-                onClose={this.handleTodoTextUpdate}
+                open={isPopOpen}
                 on="click"
             >
-                <Input
-                    defaultValue={todo.text}
-                    name={"newTodo"}
-                    onChange={this.handleChange}
-                />
+                <Grid className="pad-all-1-rem">
+                    <Grid.Row className="pad-top-bot-0">
+                        <span className="edit-todo-name-popup-title">
+                            Enter a New Name
+                        </span>
+                    </Grid.Row>
+                    <Grid.Row className="pad-top-bot-0">
+                        <Input
+                            className="edit-todo-name-popup-input"
+                            defaultValue={todo.text}
+                            name={"newTodo"}
+                            onChange={this.handleChange}
+                        />
+                    </Grid.Row>
+                    <Grid.Row className="pad-top-bot-0">
+                        <Button.Group>
+                            <Button
+                                className="main-button"
+                                onClick={this.handleTodoTextUpdate}
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                className="secondary-button"
+                                onClick={this.closePopup}
+                            >
+                                Cancel
+                            </Button>
+                        </Button.Group>
+                    </Grid.Row>
+                </Grid>
             </Popup>
         );
     }
