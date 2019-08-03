@@ -31,7 +31,7 @@
 .repeat-todo-message {
     color: $grey;
     border-left: $main-border-width solid $red;
-    font-size: 13px;
+    font-size: $text-small;
     padding-left: 1rem;
     margin-bottom: 1rem;
 }

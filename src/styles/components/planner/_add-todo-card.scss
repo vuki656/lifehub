@@ -26,13 +26,13 @@
 
 // == BUTTON ==
 .add-todo-card-button {
-    font-size: 13px !important;
+    font-size: $text-default !important;
 }
 
 // == TEXT ==
 .add-todo-card-text {
     font-weight: bold;
-    font-size: 14px;
+    font-size: $text-default;
     padding-left: 10px;
     border-left: 4px solid $blue;
     margin-bottom: 0;
