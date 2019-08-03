@@ -5,7 +5,7 @@
 }
 
 .todo-card-icon {
-    color: white;
+    color: transparent;
 }
 
 // == TITLE ==
@@ -15,6 +15,7 @@
     margin: 0 !important;
     padding: 0.4rem !important;
     border-left: 4px solid $blue;
+    background: $blue-transparent;
 }
 
 .todo-card-title:hover {

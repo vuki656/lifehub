@@ -137,6 +137,7 @@ class EditTodoPopup extends React.Component {
                     />
                 }
                 flowing
+                onClose={this.closePopup}
                 open={isPopOpen}
                 on="click"
             >

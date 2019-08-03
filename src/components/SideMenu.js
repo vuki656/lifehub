@@ -35,8 +35,8 @@ class SideMenu extends React.Component {
         const { activeItem, currentUser } = this.state;
 
         return (
-            <Grid className="react-app">
-                <Grid.Row>
+            <Grid>
+                <Grid.Row className="react-app">
                     <Router>
                         <Grid.Column
                             width={2}
@@ -175,7 +175,7 @@ class SideMenu extends React.Component {
                                 </Menu.Item>
                             </Menu>
                         </Grid.Column>
-                        <Grid.Column width={14}>
+                        <Grid.Column width={14} className="view-height">
                             <PrivateRoutes />
                         </Grid.Column>
                     </Router>

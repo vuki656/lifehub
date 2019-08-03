@@ -1,7 +1,18 @@
 // == BASE ==
+html,
+body {
+    height: 100vh;
+    margin: 0;
+}
+
+.view-height {
+    height: 100vh !important;
+}
+
 // Fit app in screen
 .react-app {
     height: 100vh;
+    padding-bottom: 0 !important;
     margin-left: 0 !important;
 }
 

@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../firebase/Auth";
+import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
@@ -8,11 +8,11 @@ import { Grid, Icon } from "semantic-ui-react";
 
 // Component Imports
 import TodoList from "./TodoList";
-import EditTodoCardNamePopup from "./Popups/EditTodoCardNamePopup";
+import EditTodoCardNamePopup from "../Popups/EditTodoCardNamePopup";
 import AddTodoInput from "./AddTodoInput";
 
 // Helper Imports
-import { getDayOnlyTimestamp } from "../../../helpers/Global";
+import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class TodoCard extends React.Component {
     state = {
@@ -98,7 +98,7 @@ class TodoCard extends React.Component {
         const { todoCard, name } = this.state;
 
         return (
-            <Grid.Column>
+            <Grid.Column stretched>
                 <div className="todo-card">
                     <Grid className="todo-card-title">
                         <Grid.Row className="pad-top-bot-0">

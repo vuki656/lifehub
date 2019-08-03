@@ -189,11 +189,11 @@ class Planner extends React.Component {
         const { monthObjectList, currentMonth, currentDay } = this.state;
 
         return currentMonth ? (
-            <Grid>
-                <Grid.Row>
+            <Grid className="view-height">
+                <Grid.Row className="view-height" stretched>
                     <Grid.Column
                         width={3}
-                        className="sidebar-menu pad-lef-rig-0"
+                        className="view-height pad-lef-rig-0"
                     >
                         <DaysList
                             monthObjectList={monthObjectList}
@@ -201,7 +201,7 @@ class Planner extends React.Component {
                             selectNewMonth={this.selectNewMonth}
                         />
                     </Grid.Column>
-                    <Grid.Column width={13}>
+                    <Grid.Column width={13} className="view-height" stretched>
                         {this.generateRoutes(currentMonth, currentDay)}
                     </Grid.Column>
                 </Grid.Row>

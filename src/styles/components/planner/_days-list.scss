@@ -3,6 +3,8 @@
     margin-top: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+    overflow: scroll;
+    height: 100vh !important;
 }
 
 .sidebar-menu {
@@ -16,7 +18,6 @@
 // == DROPDOWN ==
 .month-dropdown {
     width: 100% !important;
-    box-sizing: border-box;
     border: none;
     font-family: Roboto, sans-serif;
     padding: 10px 20px 10px 20px;
@@ -62,7 +63,7 @@
     font-weight: bold;
     padding: 3px 4px 3px 6px !important;
     letter-spacing: 3px;
-    border-radius: 5px;
+    border-radius: 0;
     font-size: 11px;
 }
 
@@ -75,7 +76,7 @@
     background: $green;
     padding: 3px 4px 3px 4px !important;
     margin: 0 !important;
-    border-radius: 5px;
+    border-radius: 0;
     font-size: 11px;
 }
 

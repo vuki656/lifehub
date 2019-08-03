@@ -8,9 +8,9 @@ import { Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
-import TodoCard from "./Todos/TodoCard";
+import TodoCard from "./Todos/TodoCard/TodoCard";
 import Reminders from "./Reminders/Reminders";
-import AddTodoCard from "./Todos/AddTodoCard";
+import AddTodoCard from "./Todos/TodoCard/AddTodoCard";
 
 class TaskArea extends React.Component {
     state = {
@@ -76,12 +76,16 @@ class TaskArea extends React.Component {
         const { currentDay } = this.state;
 
         return (
-            <Grid className="task-area">
+            <Grid className="task-area view-height">
                 <Grid.Row className="task-area-header">
                     {moment(currentDay).format("DD/MM/YYYY - dddd")}
                 </Grid.Row>
-                <Grid.Row>
-                    <Grid.Column className="todo-area" width={13}>
+                <Grid.Row className="view-height">
+                    <Grid.Column
+                        className="todo-area view-height"
+                        width={13}
+                        stretched
+                    >
                         <Grid>
                             <Grid.Row columns={3}>
                                 {this.renderTodoCards(this.state)}

@@ -8,12 +8,12 @@ import { Checkbox, Icon, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
-import EditTodoNamePopup from "./Popups/EditTodoNamePopup";
-import RepeatTodoPopup from "./Popups/RepeatTodoPopup/RepeatTodoPopup";
+import EditTodoNamePopup from "../Popups/EditTodoNamePopup";
+import RepeatTodoPopup from "../Popups/RepeatTodoPopup/RepeatTodoPopup";
 
 // Helper Imports
-import { deleteTodoFromFirebase } from "../../../helpers/Planner/Todo";
-import { getDayOnlyTimestamp } from "../../../helpers/Global";
+import { deleteTodoFromFirebase } from "../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class Todo extends React.Component {
     state = {
