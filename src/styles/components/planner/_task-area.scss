@@ -1,16 +1,26 @@
 // == BASE ==
-.task-area {
+.planner-area {
     margin: 0 !important;
 }
 
+.task-area {
+    padding: 0 !important;
+}
+
 .todo-area {
-    padding: 1rem 2rem 1rem 2rem !important;
+    padding: 1rem 0 1rem 0 !important;
     height: 100vh;
+}
+
+.task-area-todo-section {
+    padding: 0 !important;
 }
 
 // == HEADER ==
 .task-area-header {
-    padding: 10px !important;
+    padding: 1rem !important;
+    border-left: $main-border-width solid $blue;
+    background: $blue-transparent;
     font-weight: bold;
     font-size: $title-big-size;
     color: $grey;

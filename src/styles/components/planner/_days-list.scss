@@ -12,7 +12,7 @@
 }
 
 .sidebar-menu-item-icon {
-    color: $grey-light !important;
+    color: $grey-transparent !important;
 }
 
 // == DROPDOWN ==
@@ -58,7 +58,7 @@
 
 // == COUNT ==
 .todo-count {
-    background: $grey-light;
+    background: $grey-transparent;
     color: white;
     font-weight: bold;
     padding: 3px 4px 3px 6px !important;

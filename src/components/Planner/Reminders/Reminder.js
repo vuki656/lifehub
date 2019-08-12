@@ -166,7 +166,7 @@ class Reminder extends React.Component {
         const { reminder, modalOpen } = this.state;
 
         return (
-            <List.Item>
+            <List.Item className="reminder-list-item">
                 <List.Icon
                     name="calendar outline"
                     size="large"

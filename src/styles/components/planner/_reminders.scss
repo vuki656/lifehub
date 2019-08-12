@@ -1,0 +1,30 @@
+// == BASE ==
+.reminder-section {
+    padding: 1rem !important;
+}
+
+// == TITLE ==
+.reminders-title {
+    font-size: $title-size;
+    background: $red-transparent;
+    border-left: $main-border-width solid $red;
+    padding: 0.4rem !important;
+    font-weight: bold;
+}
+
+.add-reminder-icon:hover {
+    cursor: pointer;
+}
+
+// == LIST ==
+.reminder-list {
+    padding: 1rem 0 1rem 0;
+}
+
+.reminder-list-item {
+    background: $blue-transparent;
+    margin-top: 2px;
+    padding: 0.5rem 1rem 0.5rem 1rem !important;
+    font-size: $text-small;
+    font-weight: 400 !important;
+}

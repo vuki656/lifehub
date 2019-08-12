@@ -76,11 +76,11 @@ class TaskArea extends React.Component {
         const { currentDay } = this.state;
 
         return (
-            <Grid className="task-area view-height">
+            <Grid className="planner-area view-height">
                 <Grid.Row className="task-area-header">
                     {moment(currentDay).format("DD/MM/YYYY - dddd")}
                 </Grid.Row>
-                <Grid.Row className="view-height">
+                <Grid.Row className="view-height task-area">
                     <Grid.Column
                         className="todo-area view-height"
                         width={13}
@@ -93,7 +93,7 @@ class TaskArea extends React.Component {
                             </Grid.Row>
                         </Grid>
                     </Grid.Column>
-                    <Grid.Column width={3}>
+                    <Grid.Column width={3} className="reminder-section">
                         <Reminders />
                     </Grid.Column>
                 </Grid.Row>

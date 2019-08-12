@@ -3,7 +3,7 @@ import React from "react";
 import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
-import { Grid, List, Button } from "semantic-ui-react";
+import { Grid, List, Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
@@ -142,14 +142,25 @@ class Reminders extends React.Component {
         const { modalOpen } = this.state;
 
         return (
-            <Grid>
-                <Grid.Column>
+            <Grid className="mar-all-0">
+                <Grid.Column className="padd-all-0">
                     <Grid.Row>
-                        <Button onClick={this.handleModalOpen}>
-                            Add Reminder
-                        </Button>
+                        <Grid className="reminder-section">
+                            <Grid.Row className="reminders-title">
+                                <Grid.Column floated="left" width={11}>
+                                    Reminders
+                                </Grid.Column>
+                                <Grid.Column floated="right" width={5}>
+                                    <Icon
+                                        className="add-reminder-icon"
+                                        name="add"
+                                        onClick={this.handleModalOpen}
+                                    />
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
                     </Grid.Row>
-                    <Grid.Row>
+                    <Grid.Row className="reminder-list">
                         <List>{this.renderReminders(this.state)}</List>
                     </Grid.Row>
                     <Grid.Row>
