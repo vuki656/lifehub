@@ -367,13 +367,13 @@ class RepeatTodoPopup extends React.Component {
                             <Grid.Row>
                                 <Button.Group>
                                     <Button
-                                        className="main-button"
+                                        className="button-primary"
                                         onClick={this.handleRepeatingTodoSave}
                                     >
                                         Save
                                     </Button>
                                     <Button
-                                        className="secondary-button"
+                                        className="button-secondary"
                                         onClick={this.closePopup}
                                     >
                                         Cancel

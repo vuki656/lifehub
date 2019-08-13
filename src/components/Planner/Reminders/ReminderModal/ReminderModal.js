@@ -6,7 +6,15 @@ import firebase from "../../../../firebase/Auth";
 import uuidv4 from "uuid/v4";
 
 // Destructured Imports
-import { Grid, Modal, Input, Button, Message } from "semantic-ui-react";
+import {
+    Grid,
+    Modal,
+    Input,
+    Button,
+    Message,
+    Form,
+    TextArea
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
@@ -275,8 +283,10 @@ class ReminderModal extends React.Component {
         } = this.state;
 
         return (
-            <Modal open={modalOpen}>
-                <Modal.Header>Customize Your Reminder</Modal.Header>
+            <Modal className="reminder-modal" open={modalOpen}>
+                <Modal.Header className="reminder-modal-title">
+                    Customize Your Reminder
+                </Modal.Header>
                 <Modal.Content>
                     <Grid>
                         {error && (
@@ -285,10 +295,11 @@ class ReminderModal extends React.Component {
                             </Grid.Row>
                         )}
                         <Grid.Row>
-                            <Grid.Column width={6}>
+                            <Grid.Column width={11}>
                                 <Grid.Row>
-                                    <p>Remind me about</p>
+                                    <p className="subtitle">Reminder Title</p>
                                     <Input
+                                        className="reminder-title-input"
                                         name="text"
                                         onChange={this.handleChange}
                                         value={text}
@@ -297,8 +308,19 @@ class ReminderModal extends React.Component {
                                     />
                                 </Grid.Row>
                                 <Grid.Row>
-                                    <p>Start reminding me when</p>
+                                    <p className="subtitle">
+                                        Reminder Description
+                                    </p>
+                                    <Form className="reminder-description-input">
+                                        <TextArea className="reminder-description-input-box" />
+                                    </Form>
+                                </Grid.Row>
+                                <Grid.Row>
+                                    <p className="subtitle">
+                                        Start reminding me when
+                                    </p>
                                     <DatePicker
+                                        className="datepicker-box"
                                         minDate={moment().toDate()}
                                         selected={this.getStartingDate()}
                                         dateFormat="dd/MM/yyyy"
@@ -307,8 +329,11 @@ class ReminderModal extends React.Component {
                                     />
                                 </Grid.Row>
                                 <Grid.Row>
-                                    <p>Remind untill</p>
+                                    <p className="subtitle mar-top-1-rem">
+                                        Remind untill
+                                    </p>
                                     <DatePicker
+                                        className="datepicker-box"
                                         minDate={moment(startDate).toDate()}
                                         maxDate={moment(
                                             generateUntillDate
@@ -323,9 +348,10 @@ class ReminderModal extends React.Component {
                                     />
                                 </Grid.Row>
                             </Grid.Column>
-                            <Grid.Column width={10}>
-                                <Grid.Row>
-                                    <p>Set a Tag</p>
+                            <Grid.Column width={5}>
+                                <Grid.Row className="tag-row">
+                                    <p className="title">Tags</p>
+                                    <p className="subtitle">Set a Tag</p>
                                     <Tags reminder={reminder} />
                                 </Grid.Row>
                             </Grid.Column>
@@ -335,12 +361,14 @@ class ReminderModal extends React.Component {
                                 <Button
                                     primary
                                     onClick={this.handleReminderSave}
+                                    className="button-primary"
                                 >
                                     Save
                                 </Button>
                                 <Button
                                     secondary
                                     onClick={this.handleReminderCancel}
+                                    className="button-secondary"
                                 >
                                     Cancel
                                 </Button>

@@ -70,35 +70,3 @@
     color: $grey;
     border-radius: 0 !important;
 }
-
-// == DATEPICKER ==
-
-// Input box
-.datepicker-box {
-    border: 2px solid #0085ff1f;
-    padding: 2px 10px 2px 10px;
-}
-
-// Calendar box
-.react-datepicker {
-    border-radius: 0 !important;
-}
-
-// Selected day
-.react-datepicker__day--selected {
-    background: $red;
-    color: white;
-    border-radius: 0 !important;
-}
-
-// Day hover
-.react-datepicker__day:hover {
-    color: white;
-    background: $blue;
-    border-radius: 0 !important;
-}
-
-// Header
-.react-datepicker__header {
-    background-color: $blue-light;
-}

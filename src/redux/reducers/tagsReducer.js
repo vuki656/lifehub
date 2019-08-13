@@ -2,11 +2,17 @@ import * as actionTypes from "../actions/types";
 
 const initialState = {
     tagList: [],
-    reminderTags: {}
+    reminderTags: {},
+    tagColor: "#2185d0"
 };
 
 const tagsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.SET_TAG_COLOR:
+            return {
+                ...state,
+                tagColor: action.payload.tagColor
+            };
         case actionTypes.FETCH_TAGS:
             return {
                 ...state,

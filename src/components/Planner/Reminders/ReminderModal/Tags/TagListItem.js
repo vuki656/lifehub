@@ -140,34 +140,54 @@ class TagListItem extends React.Component {
                 ) : (
                     ""
                 )}
-                <Grid.Row style={{ backgroundColor: newTagColor }}>
-                    <Checkbox
-                        checked={isSelected}
-                        label={tag.text}
-                        onChange={() => this.handleTagCheck(this.state, tag)}
-                    />
-                    <Icon
-                        name={"remove"}
-                        link={true}
-                        onClick={() => this.removeTag(this.state)}
-                    />
-                    <Icon
-                        name={"paint brush"}
-                        link={true}
-                        onClick={this.toggleColorPicker}
-                    />
-                    <Popup
-                        trigger={<Icon name={"pencil"} link={true} />}
-                        flowing
-                        onClose={this.handleTagTextUpdate}
-                        on="click"
-                    >
-                        <Input
-                            defaultValue={tag.text}
-                            name={"newTagText"}
-                            onChange={this.handleChange}
-                        />
-                    </Popup>
+                <Grid.Row>
+                    <Grid className="pad-lef-rig-1-rem">
+                        <Grid.Row
+                            className="tag-list-item"
+                            style={{ backgroundColor: newTagColor }}
+                        >
+                            <Grid.Column className="padd-all-0" width={10}>
+                                <Checkbox
+                                    checked={isSelected}
+                                    label={tag.text}
+                                    onChange={() =>
+                                        this.handleTagCheck(this.state, tag)
+                                    }
+                                />
+                            </Grid.Column>
+                            <Grid.Column
+                                className="padd-all-0 tag-list-item-icons"
+                                width={6}
+                                floated="right"
+                            >
+                                <Icon
+                                    name={"remove"}
+                                    link={true}
+                                    onClick={() => this.removeTag(this.state)}
+                                />
+                                <Icon
+                                    name={"paint brush"}
+                                    link={true}
+                                    onClick={this.toggleColorPicker}
+                                />
+                                <Popup
+                                    trigger={
+                                        <Icon name={"pencil"} link={true} />
+                                    }
+                                    flowing
+                                    onClose={this.handleTagTextUpdate}
+                                    on="click"
+                                >
+                                    <Input
+                                        defaultValue={tag.text}
+                                        name={"newTagText"}
+                                        onChange={this.handleChange}
+                                    />
+                                </Popup>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+
                     {displayColorPicker ? (
                         <ChromePicker
                             color={newTagColor}

@@ -82,7 +82,7 @@ class TagsList extends React.Component {
             days.forEach(day => {
                 day.forEach(reminder => {
                     tagsKeysArr.forEach(tag => {
-                        // Add if there are no tags or if list doesent contain it
+                        // Add if there are no tags or if list doesent contain that tag
                         if (
                             reminder.val().tags === undefined ||
                             !reminder.val().tags.hasOwnProperty(tag)
@@ -127,7 +127,7 @@ class TagsList extends React.Component {
         ));
 
     render() {
-        return <React.Fragment>{this.renderTags(this.state)}</React.Fragment>;
+        return <div className="tags-list">{this.renderTags(this.state)}</div>;
     }
 }
 

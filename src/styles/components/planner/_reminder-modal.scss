@@ -1,0 +1,87 @@
+// == BASE ==
+.reminder-modal {
+    padding: 2rem !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+// == TITLE ==
+.reminder-modal-title {
+    border-radius: 0 !important;
+    border-bottom: none !important;
+    font-size: $title-big-size;
+    font-weight: bold;
+    border-left: $main-border-width solid $blue;
+    padding: 0 1rem 0 1rem !important;
+    margin-bottom: 1rem !important;
+}
+
+// == TAGS ==
+.tags-list {
+    padding-top: 1rem !important;
+}
+
+.tag-list-item {
+    padding: 0 !important;
+    margin-bottom: 1rem !important;
+}
+
+.tag-list-item:hover {
+    .tag-list-item-icons {
+        color: $black;
+        background: $blue-transparent;
+        border-left: $main-border-width solid $blue;
+        opacity: 1 !important;
+    }
+}
+
+.tag-list-item-icons {
+    opacity: 0 !important;
+    text-align: right !important;
+}
+
+// Color picker
+.tag-color-picker-popup {
+    border-radius: 0 !important;
+    width: 15rem !important;
+}
+
+// Save button
+.tag-color-picker-button {
+    border-radius: 0 !important;
+    padding: 0.5rem 1rem 0.5rem 1rem !important;
+    margin: 1rem 0 1rem 0 !important;
+    color: white !important;
+    background: #0085ff !important;
+    font-size: 12px;
+    width: 100%;
+}
+
+.add-tag-section {
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.add-tag-input {
+    width: 100% !important;
+}
+
+.tag-row {
+    padding: 1rem;
+    background: $blue-transparent;
+}
+
+// == INPUTS ==
+.reminder-title-input {
+    padding-bottom: 1rem;
+}
+
+.reminder-description-input {
+    padding-bottom: 1rem;
+}
+
+.reminder-description-input-box {
+    border-radius: 0 !important;
+}

@@ -1,5 +1,15 @@
 import * as actionTypes from "./types";
 
+// Set new tag color
+export const setTagColor = tagColor => {
+    return {
+        type: actionTypes.SET_TAG_COLOR,
+        payload: {
+            tagColor: tagColor
+        }
+    };
+};
+
 // Update tag arr with given arr
 export const updateTagList = updatedReminderTaglist => {
     return {

@@ -158,13 +158,13 @@ class EditTodoPopup extends React.Component {
                     <Grid.Row className="pad-top-bot-0">
                         <Button.Group>
                             <Button
-                                className="main-button"
+                                className="button-primary"
                                 onClick={this.handleTodoTextUpdate}
                             >
                                 Save
                             </Button>
                             <Button
-                                className="secondary-button"
+                                className="button-secondary"
                                 onClick={this.closePopup}
                             >
                                 Cancel

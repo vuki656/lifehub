@@ -60,7 +60,7 @@ class AddTodoCard extends React.Component {
                         onClick={this.toggleTodoCardOptions}
                         placeholder
                     >
-                        <Button icon className="main-button">
+                        <Button icon className="button-primary">
                             <Icon name="add" />
                         </Button>
                     </Segment>
@@ -78,13 +78,13 @@ class AddTodoCard extends React.Component {
                         <Button.Group>
                             <Button
                                 onClick={this.handleTodoCardSave}
-                                className="main-button add-todo-card-button"
+                                className="button-primary add-todo-card-button"
                             >
                                 Save
                             </Button>
                             <Button
                                 onClick={this.toggleTodoCardOptions}
-                                className="secondary-button add-todo-card-button"
+                                className="button-secondary add-todo-card-button"
                             >
                                 Cancel
                             </Button>
