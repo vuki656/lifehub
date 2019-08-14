@@ -26,11 +26,11 @@ class EntryList extends React.Component {
                 as={Link}
                 to={`/journal/${journalEntry.key}`}
                 key={journalEntry.key}
+                className="journal-list-item"
             >
-                <List.Icon name="book" size="small" verticalAlign="middle" />
                 <List.Content>
                     <List.Header>{journalEntry.title}</List.Header>
-                    <List.Description>
+                    <List.Description className="journal-list-item-date">
                         <p>
                             Created at:{" "}
                             {formatMoment(journalEntry.createdAt, "DD/MM/YYYY")}
@@ -42,7 +42,7 @@ class EntryList extends React.Component {
     };
     render() {
         return (
-            <List divided relaxed>
+            <List divided relaxed className="mar-top-bot-0">
                 {this.displayJournalEntryList(this.state)}
             </List>
         );

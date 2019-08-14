@@ -64,46 +64,50 @@ class EntryField extends React.Component {
         const { journalEntry, newJournalEntryCreatedDate } = this.state;
 
         return (
-            <React.Fragment>
-                <Segment>
-                    <Input
-                        defaultValue={journalEntry.title}
-                        name={"newJournalEntryTitle"}
+            <div className="journal-entry-fields-section">
+                <p className="subtitle">Title</p>
+                <Input
+                    className="mar-bot-1-rem"
+                    defaultValue={journalEntry.title}
+                    name={"newJournalEntryTitle"}
+                    onChange={this.handleChange}
+                />
+                <p className="subtitle">Date</p>
+                <DatePicker
+                    className="datepicker-box mar-bot-1-rem"
+                    selected={moment(newJournalEntryCreatedDate).toDate()}
+                    dateFormat="dd/MM/yyyy"
+                    timeCaption="time"
+                    onChange={this.handleDateChange}
+                />
+                <p className="subtitle">Text</p>
+                <Form style={{ minHeight: 200 }}>
+                    <TextArea
+                        className="mar-bot-1-rem border-radius-0"
+                        rows={10}
+                        name={"newJournalEntryText"}
+                        style={{ minHeight: 300 }}
+                        defaultValue={journalEntry.text}
                         onChange={this.handleChange}
                     />
-                </Segment>
-                <Segment>
-                    <DatePicker
-                        selected={moment(newJournalEntryCreatedDate).toDate()}
-                        dateFormat="dd/MM/yyyy"
-                        timeCaption="time"
-                        onChange={this.handleDateChange}
-                    />
-                </Segment>
-                <Segment style={{ minHeight: 200 }}>
-                    <Form>
-                        <TextArea
-                            rows={10}
-                            name={"newJournalEntryText"}
-                            style={{ minHeight: 300 }}
-                            defaultValue={journalEntry.text}
-                            onChange={this.handleChange}
-                        />
-                    </Form>
-                </Segment>
-                <Segment>
+                </Form>
+                <Button.Group>
                     <Button
+                        className="button-primary"
                         onClick={() =>
                             this.handleJournalEntryChanges(this.state)
                         }
                     >
                         Save Changes
                     </Button>
-                    <Button onClick={() => this.deleteJournalEntry(this.state)}>
+                    <Button
+                        className="button-secondary"
+                        onClick={() => this.deleteJournalEntry(this.state)}
+                    >
                         Delete Entry
                     </Button>
-                </Segment>
-            </React.Fragment>
+                </Button.Group>
+            </div>
         );
     }
 }

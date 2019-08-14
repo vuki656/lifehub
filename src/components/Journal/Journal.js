@@ -96,9 +96,9 @@ class Journal extends React.Component {
             pushRef
                 .child(journalEntry.key)
                 .set({
-                    title: "no title",
+                    title: "No title",
                     createdAt: createdAt,
-                    text: "no text",
+                    text: "No text",
                     key: journalEntry.key
                 })
                 .catch(error => {
@@ -122,8 +122,12 @@ class Journal extends React.Component {
         return journalEntries ? (
             <Grid>
                 <Grid.Row>
-                    <Grid.Column width={3}>
+                    <Grid.Column
+                        width={3}
+                        className="journal-entry-list-column"
+                    >
                         <Button
+                            className="button-primary width-100-pcnt"
                             onClick={() =>
                                 this.createNewJournalEntry(this.state)
                             }
