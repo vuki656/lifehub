@@ -41,6 +41,13 @@
 
 // Icons
 .reminder-list-item-icons {
-    color: $blue;
+    color: $blue !important;
     opacity: 0;
+}
+
+// == ITEM TAGS ==
+.reminder-list-item-tag {
+    border-radius: 0 !important;
+    padding: 0.1rem 0.5rem !important;
+    color: white !important;
 }

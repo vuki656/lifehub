@@ -148,7 +148,11 @@ class Reminder extends React.Component {
     // Render all active tags from reminder
     renderReminderTags = ({ reminderTagValues }) =>
         reminderTagValues.map(tag => (
-            <Label key={tag.key} style={{ backgroundColor: tag.color }}>
+            <Label
+                key={tag.key}
+                style={{ backgroundColor: tag.color }}
+                className="reminder-list-item-tag"
+            >
                 {tag.text}
             </Label>
         ));
