@@ -6,15 +6,7 @@ import firebase from "../../../../firebase/Auth";
 import uuidv4 from "uuid/v4";
 
 // Destructured Imports
-import {
-    Grid,
-    Modal,
-    Input,
-    Button,
-    Message,
-    Form,
-    TextArea
-} from "semantic-ui-react";
+import { Grid, Modal, Input, Button, Form, TextArea } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports

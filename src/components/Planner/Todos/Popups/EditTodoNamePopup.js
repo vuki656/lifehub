@@ -19,6 +19,7 @@ class EditTodoPopup extends React.Component {
         newTodo: "",
         isPopOpen: false,
 
+        // Props
         todo: this.props.todo,
         category: this.props.category,
 

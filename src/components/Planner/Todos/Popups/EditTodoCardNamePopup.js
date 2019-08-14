@@ -3,19 +3,26 @@ import React from "react";
 import firebase from "../../../../firebase/Auth";
 
 // Destructured Imports
-import { Popup, Icon, Input } from "semantic-ui-react";
+import { Popup, Icon, Input, Grid, Button } from "semantic-ui-react";
 
 class EditTodoCardNamePopup extends React.Component {
     state = {
         todoCardRef: firebase.database().ref("todo-cards"),
         currentUser: firebase.auth().currentUser,
         newTodoCardName: "",
+        isPopOpen: false,
 
+        // Props
         todoCard: this.props.todoCard
     };
 
+    handleTodoCardNameUpdate = () => {
+        this.updateTodoCardname(this.state);
+        this.togglePopup();
+    };
+
     // Change todoCard name in firebase
-    handleTodoCardNameUpdate = ({
+    updateTodoCardname = ({
         todoCardRef,
         currentUser,
         todoCard,
@@ -33,27 +40,58 @@ class EditTodoCardNamePopup extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    togglePopup = () => {
+        this.setState({ isPopOpen: !this.state.isPopOpen });
+    };
+
     render() {
-        const { todoCard } = this.state;
+        const { todoCard, isPopOpen } = this.state;
 
         return (
             <Popup
+                basic
                 trigger={
                     <Icon
-                        name={"pencil"}
+                        name={"edit"}
                         link={true}
+                        onClick={this.togglePopup}
                         className="todo-card-icon"
                     />
                 }
                 flowing
-                onClose={() => this.handleTodoCardNameUpdate(this.state)}
+                onClose={this.togglePopup}
+                open={isPopOpen}
                 on="click"
             >
-                <Input
-                    defaultValue={todoCard.name}
-                    name={"newTodoCardName"}
-                    onChange={this.handleChange}
-                />
+                <Grid className="pad-all-1-rem edit-tag-name-popup">
+                    <Grid.Row className="pad-top-bot-0">
+                        <span className="subtitle">Enter a New Name</span>
+                    </Grid.Row>
+                    <Grid.Row className="pad-top-bot-0">
+                        <Input
+                            className="edit-todo-name-popup-input"
+                            defaultValue={todoCard.name}
+                            name={"newTodoCardName"}
+                            onChange={this.handleChange}
+                        />
+                    </Grid.Row>
+                    <Grid.Row className="pad-top-bot-0">
+                        <Button.Group>
+                            <Button
+                                className="button-primary"
+                                onClick={this.handleTodoCardNameUpdate}
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                className="button-secondary"
+                                onClick={this.togglePopup}
+                            >
+                                Cancel
+                            </Button>
+                        </Button.Group>
+                    </Grid.Row>
+                </Grid>
             </Popup>
         );
     }
