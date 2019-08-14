@@ -25,6 +25,15 @@
     background: $blue-transparent;
     margin-top: 2px;
     padding: 0.5rem 1rem 0.5rem 1rem !important;
-    font-size: $text-small;
+    border-left: $main-border-width solid $red;
+}
+
+.reminder-list-item-text {
     font-weight: 400 !important;
+    font-size: 13px;
+}
+
+// Icons
+.reminder-list-item-icons {
+    color: $blue;
 }

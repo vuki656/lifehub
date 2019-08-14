@@ -4,7 +4,7 @@ import moment from "moment";
 import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
-import { List, Icon, Label } from "semantic-ui-react";
+import { List, Icon, Label, Grid, Popup } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
@@ -167,29 +167,51 @@ class Reminder extends React.Component {
 
         return (
             <List.Item className="reminder-list-item">
-                <List.Icon
-                    name="calendar outline"
-                    size="large"
-                    verticalAlign="middle"
-                />
                 <List.Content>
                     <List.Header>
-                        {reminder.text}
-                        <Icon
-                            name={"remove"}
-                            link={true}
-                            onClick={() => this.removeReminder(this.state)}
-                        />
-                        <Icon
-                            name={"pencil"}
-                            link={true}
-                            onClick={this.handleModalOpen}
-                        />
-                        <ReminderModal
-                            reminder={reminder}
-                            modalOpen={modalOpen}
-                            closeModal={this.closeModal}
-                        />
+                        <Grid>
+                            <Grid.Row>
+                                <Grid.Column floated="left" width={10}>
+                                    <p className="reminder-list-item-text">
+                                        {reminder.text}
+                                    </p>
+                                </Grid.Column>
+                                <Grid.Column
+                                    floated="right"
+                                    width={6}
+                                    className="reminder-list-item-icons"
+                                >
+                                    <Icon
+                                        name={"edit"}
+                                        link={true}
+                                        onClick={this.handleModalOpen}
+                                    />
+
+                                    <Popup
+                                        basic
+                                        trigger={
+                                            <Icon name={"eye"} link={true} />
+                                        }
+                                        content={<p>{reminder.text}</p>}
+                                        on={["hover", "click"]}
+                                    />
+
+                                    <Icon
+                                        name={"remove"}
+                                        link={true}
+                                        onClick={() =>
+                                            this.removeReminder(this.state)
+                                        }
+                                    />
+
+                                    <ReminderModal
+                                        reminder={reminder}
+                                        modalOpen={modalOpen}
+                                        closeModal={this.closeModal}
+                                    />
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
                     </List.Header>
                 </List.Content>
                 {this.renderReminderTags(this.state)}

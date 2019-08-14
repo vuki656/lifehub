@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 
 // Component Imports
 import ReminderModal from "./ReminderModal/ReminderModal";
-import Reminder from "./Reminder";
+import Reminder from "./ReminderListItem";
 
 // Redux Actions Imports
 import {

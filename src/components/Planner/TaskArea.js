@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 // Component Imports
 import TodoCard from "./Todos/TodoCard/TodoCard";
-import Reminders from "./Reminders/Reminders";
+import RemindersList from "./Reminders/RemindersList";
 import AddTodoCard from "./Todos/TodoCard/AddTodoCard";
 
 class TaskArea extends React.Component {
@@ -83,7 +83,7 @@ class TaskArea extends React.Component {
                 <Grid.Row className="view-height task-area">
                     <Grid.Column
                         className="todo-area view-height"
-                        width={13}
+                        width={12}
                         stretched
                     >
                         <Grid>
@@ -93,8 +93,8 @@ class TaskArea extends React.Component {
                             </Grid.Row>
                         </Grid>
                     </Grid.Column>
-                    <Grid.Column width={3} className="reminder-section">
-                        <Reminders />
+                    <Grid.Column width={4} className="reminder-section">
+                        <RemindersList />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
