@@ -80,13 +80,15 @@ class Reminders extends React.Component {
                     let startDate = reminder.val().startDate;
                     let endDate = reminder.val().endDate;
                     let tags = reminder.val().tags;
+                    let description = reminder.val().description;
 
                     remindersHolder.push({
                         text,
                         key,
                         startDate,
                         endDate,
-                        tags
+                        tags,
+                        description
                     });
                 });
             });

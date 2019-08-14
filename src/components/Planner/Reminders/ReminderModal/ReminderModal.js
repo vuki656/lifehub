@@ -30,8 +30,10 @@ class ReminderModal extends React.Component {
         currentUser: firebase.auth().currentUser,
         endDate: null,
         text: "",
+        description: "",
         error: "",
 
+        // Props
         reminder: this.props.reminder,
         modalOpen: this.props.modalOpen,
 
@@ -68,6 +70,7 @@ class ReminderModal extends React.Component {
     setExistingReminderState = reminder => {
         if (reminder) {
             this.setState({
+                description: reminder.description,
                 text: reminder.text,
                 startDate: reminder.startDate,
                 endDate: reminder.endDate,
@@ -105,12 +108,19 @@ class ReminderModal extends React.Component {
             text: "",
             startDate: this.props.currentDay,
             endDate: null,
-            error: ""
+            error: "",
+            description: ""
         });
     };
 
     // Sends the reminder object to firebase
-    saveReminderToFirebase = ({ text, startDate, endDate, reminderTags }) => {
+    saveReminderToFirebase = ({
+        text,
+        startDate,
+        endDate,
+        reminderTags,
+        description
+    }) => {
         // Generate a unique key for reminder thats
         // the same in every day its repeating
         let key = uuidv4();
@@ -131,7 +141,8 @@ class ReminderModal extends React.Component {
                     endDate,
                     dayTimestamp,
                     key,
-                    reminderTags
+                    reminderTags,
+                    description
                 );
             }
         }
@@ -146,7 +157,8 @@ class ReminderModal extends React.Component {
         oldStartDate,
         oldEndDate,
         reminder,
-        reminderTags
+        reminderTags,
+        description
     }) => {
         // Check if new start date is after old,
         // If yes, choose old to cover the whole range
@@ -185,7 +197,8 @@ class ReminderModal extends React.Component {
                     endDate,
                     dayTimestamp,
                     reminder.key,
-                    reminderTags
+                    reminderTags,
+                    description
                 );
             } else {
                 this.deleteReminder(this.state, dayTimestamp);
@@ -202,7 +215,8 @@ class ReminderModal extends React.Component {
         endDate,
         dayTimestamp,
         key,
-        tagList
+        tagList,
+        description
     ) => {
         remindersRef
             .child(`${currentUser.uid}/${dayTimestamp}/${key}`)
@@ -211,7 +225,8 @@ class ReminderModal extends React.Component {
                 text,
                 startDate,
                 endDate,
-                tags: tagList
+                tags: tagList,
+                description
             })
             .catch(err => {
                 console.error(err);
@@ -291,7 +306,7 @@ class ReminderModal extends React.Component {
                     <Grid className="mar-all-0">
                         {error && (
                             <Grid.Row>
-                                <p  className="reminder-modal-error">{error}</p>
+                                <p className="reminder-modal-error">{error}</p>
                             </Grid.Row>
                         )}
                         <Grid.Row>
@@ -312,7 +327,11 @@ class ReminderModal extends React.Component {
                                         Reminder Description
                                     </p>
                                     <Form className="reminder-description-input">
-                                        <TextArea className="reminder-description-input-box" />
+                                        <TextArea
+                                            className="reminder-description-input-box"
+                                            name="description"
+                                            onChange={this.handleChange}
+                                        />
                                     </Form>
                                 </Grid.Row>
                                 <Grid.Row>

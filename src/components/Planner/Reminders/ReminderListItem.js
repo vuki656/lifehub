@@ -188,11 +188,19 @@ class Reminder extends React.Component {
                                     />
 
                                     <Popup
+                                        className="border-radius-0"
                                         basic
                                         trigger={
                                             <Icon name={"eye"} link={true} />
                                         }
-                                        content={<p>{reminder.text}</p>}
+                                        content={
+                                            <div>
+                                                <p className="subtitle">
+                                                    {reminder.text}
+                                                </p>
+                                                <p>{reminder.description}</p>
+                                            </div>
+                                        }
                                         on={["hover", "click"]}
                                     />
 

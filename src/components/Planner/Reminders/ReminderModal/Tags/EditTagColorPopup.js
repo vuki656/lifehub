@@ -47,7 +47,7 @@ class EditTagColorPopup extends React.Component {
                 className="tag-color-picker-popup"
                 trigger={
                     <Icon
-                        name=" paint brush"
+                        name="paint brush"
                         onClick={this.props.toggleColorPicker}
                     />
                 }
