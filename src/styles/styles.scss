@@ -18,5 +18,7 @@
 @import "./components/planner/todo-card-item";
 @import "./components/planner/repeat-todo-popup";
 @import "./components/planner/edit-todo-name-popup";
-@import "./components/planner/reminders";
-@import "./components/planner/reminder-modal";
+// Reminders
+@import "./components/planner/reminders/reminders";
+@import "./components/planner/reminders/reminder-modal";
+@import "./components/planner/reminders/tags";

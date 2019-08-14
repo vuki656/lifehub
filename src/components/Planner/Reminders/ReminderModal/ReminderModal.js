@@ -287,15 +287,15 @@ class ReminderModal extends React.Component {
                 <Modal.Header className="reminder-modal-title">
                     Customize Your Reminder
                 </Modal.Header>
-                <Modal.Content>
-                    <Grid>
+                <Modal.Content className="reminder-modal-content">
+                    <Grid className="mar-all-0">
                         {error && (
                             <Grid.Row>
-                                <Message error header="Error" content={error} />
+                                <p  className="reminder-modal-error">{error}</p>
                             </Grid.Row>
                         )}
                         <Grid.Row>
-                            <Grid.Column width={11}>
+                            <Grid.Column width={11} className="pad-lef-rig-0">
                                 <Grid.Row>
                                     <p className="subtitle">Reminder Title</p>
                                     <Input

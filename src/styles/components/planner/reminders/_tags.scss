@@ -1,0 +1,71 @@
+// == BASE ==
+.tags-list {
+    padding-top: 1rem !important;
+}
+
+.add-tag-section {
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.tag-row {
+    padding: 1rem;
+    background: $blue-transparent;
+}
+
+// == ITEM ==
+.tag-list-item {
+    padding: 0 !important;
+    margin-bottom: 1rem !important;
+}
+
+.tag-list-item:hover {
+    .tag-list-item-icons {
+        color: $black;
+        background: $blue-transparent;
+        border-left: $main-border-width solid $blue;
+        opacity: 1 !important;
+    }
+}
+
+// Icons
+.tag-list-item-icons {
+    opacity: 0 !important;
+    text-align: right !important;
+}
+
+// Color picker
+.tag-color-picker-popup {
+    border-radius: 0 !important;
+    width: 15rem !important;
+}
+
+// Save button
+.tag-color-picker-button {
+    border-radius: 0 !important;
+    padding: 0.5rem 1rem 0.5rem 1rem !important;
+    margin: 1rem 0 1rem 0 !important;
+    color: white !important;
+    background: #0085ff !important;
+    font-size: 12px;
+    width: 100%;
+}
+
+.add-tag-input {
+    width: 100% !important;
+}
+
+// Edit tag name pop
+.edit-tag-name-pop {
+    border-radius: 0 !important;
+}
+
+.edit-tag-name-grid {
+    width: 15rem;
+}
+
+.edit-tag-name-input {
+    padding-bottom: 1rem !important;
+    width: 100%;
+}

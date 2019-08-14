@@ -3,31 +3,40 @@ import React from "react";
 import firebase from "../../../../../firebase/Auth";
 
 // Destructured Imports
-import { Icon, Grid, Checkbox, Popup, Input, Button } from "semantic-ui-react";
-import { ChromePicker } from "react-color";
+import { Icon, Grid, Checkbox } from "semantic-ui-react";
 import { connect } from "react-redux";
+
+// Component Imports
+import EditTagNamePopup from "./EditTagNamePopup";
+import EditTagColorPopup from "./EditTagColorPopup";
 
 // Redux Actions Imports
 import { updateTagList } from "../../../../../redux/actions/tagsActions";
 
 class TagListItem extends React.Component {
-    state = {
-        remindersRef: firebase.database().ref("reminders"),
-        tagsRef: firebase.database().ref("reminder-tags"),
-        currentUser: firebase.auth().currentUser,
-        displayColorPicker: false,
-        isSelected: false,
+    constructor(props) {
+        super(props);
+        this.state = {
+            remindersRef: firebase.database().ref("reminders"),
+            tagsRef: firebase.database().ref("reminder-tags"),
+            currentUser: firebase.auth().currentUser,
+            displayColorPicker: false,
+            isSelected: false,
 
-        reminder: this.props.reminder,
-        newTagColor: this.props.tag.color,
-        newTagText: this.props.tag.text,
-        tag: this.props.tag,
+            reminder: this.props.reminder,
+            newTagColor: this.props.tag.color,
+            newTagText: this.props.tag.text,
+            tag: this.props.tag,
 
-        // Redux Props
-        reminderTags: this.props.reminderTags,
-        tagList: this.props.tagList,
-        currentDay: this.props.currentDay
-    };
+            // Redux Props
+            reminderTags: this.props.reminderTags,
+            tagList: this.props.tagList,
+            currentDay: this.props.currentDay
+        };
+
+        this.toggleColorPicker = this.toggleColorPicker.bind(this);
+        this.handleTagColorChange = this.handleTagColorChange.bind(this);
+    }
 
     static getDerivedStateFromProps(props) {
         return {
@@ -76,45 +85,6 @@ class TagListItem extends React.Component {
             .catch(err => console.err(err));
     };
 
-    // Update tag text in firebase
-    handleTagTextUpdate = () => {
-        const { newTagText, tagsRef, currentUser, tag } = this.state;
-
-        tagsRef
-            .child(`${currentUser.uid}/${tag.key}`)
-            .update({ text: newTagText })
-            .catch(err => console.err(err));
-    };
-
-    // Save selected color in firebase to corresponding tag
-    handleTagColorUpdate = () => {
-        const { newTagColor, tagsRef, currentUser, tag } = this.state;
-
-        tagsRef
-            .child(`${currentUser.uid}/${tag.key}`)
-            .update({ color: newTagColor })
-            .catch(err => console.err(err));
-
-        this.toggleColorPicker();
-    };
-
-    // Open/close color picker
-    toggleColorPicker = () => {
-        this.setState({
-            displayColorPicker: !this.state.displayColorPicker
-        });
-    };
-
-    // Set the state value from user input
-    handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
-    };
-
-    // Set the hex color from color picker
-    handleTagColorChange = color => {
-        this.setState({ newTagColor: color.hex });
-    };
-
     // Determine should tag be added or removed
     handleTagCheck = ({ isSelected, reminderTags }, tag) => {
         if (isSelected) {
@@ -128,76 +98,62 @@ class TagListItem extends React.Component {
         }
     };
 
+    // Set the hex color from color picker
+    handleTagColorChange = color => {
+        this.setState({ newTagColor: color.hex });
+    };
+
+    toggleColorPicker = () => {
+        this.setState({ displayColorPicker: !this.state.displayColorPicker });
+    };
+
+    handlePopClose = () => {
+        this.setState({ newTagColor: this.state.tag.color });
+        this.toggleColorPicker();
+    };
+
     render() {
-        const { tag, displayColorPicker, newTagColor, isSelected } = this.state;
+        const { tag, newTagColor, isSelected, displayColorPicker } = this.state;
 
         return (
-            <React.Fragment>
-                {displayColorPicker ? (
-                    <Button onClick={this.handleTagColorUpdate}>
-                        SaveColor
-                    </Button>
-                ) : (
-                    ""
-                )}
-                <Grid.Row>
-                    <Grid className="pad-lef-rig-1-rem">
-                        <Grid.Row
-                            className="tag-list-item"
-                            style={{ backgroundColor: newTagColor }}
+            <Grid.Row>
+                <Grid className="pad-lef-rig-1-rem">
+                    <Grid.Row
+                        className="tag-list-item"
+                        style={{ backgroundColor: newTagColor }}
+                    >
+                        <Grid.Column className="padd-all-0" width={10}>
+                            <Checkbox
+                                checked={isSelected}
+                                label={tag.text}
+                                onChange={() =>
+                                    this.handleTagCheck(this.state, tag)
+                                }
+                            />
+                        </Grid.Column>
+                        <Grid.Column
+                            className="padd-all-0 tag-list-item-icons"
+                            width={6}
+                            floated="right"
                         >
-                            <Grid.Column className="padd-all-0" width={10}>
-                                <Checkbox
-                                    checked={isSelected}
-                                    label={tag.text}
-                                    onChange={() =>
-                                        this.handleTagCheck(this.state, tag)
-                                    }
-                                />
-                            </Grid.Column>
-                            <Grid.Column
-                                className="padd-all-0 tag-list-item-icons"
-                                width={6}
-                                floated="right"
-                            >
-                                <Icon
-                                    name={"remove"}
-                                    link={true}
-                                    onClick={() => this.removeTag(this.state)}
-                                />
-                                <Icon
-                                    name={"paint brush"}
-                                    link={true}
-                                    onClick={this.toggleColorPicker}
-                                />
-                                <Popup
-                                    trigger={
-                                        <Icon name={"pencil"} link={true} />
-                                    }
-                                    flowing
-                                    onClose={this.handleTagTextUpdate}
-                                    on="click"
-                                >
-                                    <Input
-                                        defaultValue={tag.text}
-                                        name={"newTagText"}
-                                        onChange={this.handleChange}
-                                    />
-                                </Popup>
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
+                            <EditTagNamePopup tag={tag} />
+                            <EditTagColorPopup
+                                displayColorPicker={displayColorPicker}
+                                newTagColor={newTagColor}
+                                tag={tag}
+                                handleTagColorChange={this.handleTagColorChange}
+                                toggleColorPicker={this.toggleColorPicker}
+                            />
 
-                    {displayColorPicker ? (
-                        <ChromePicker
-                            color={newTagColor}
-                            onChange={this.handleTagColorChange}
-                        />
-                    ) : (
-                        ""
-                    )}
-                </Grid.Row>
-            </React.Fragment>
+                            <Icon
+                                name={"remove"}
+                                link={true}
+                                onClick={() => this.removeTag(this.state)}
+                            />
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </Grid.Row>
         );
     }
 }
