@@ -294,7 +294,8 @@ class ReminderModal extends React.Component {
             text,
             reminder,
             error,
-            generateUntillDate
+            generateUntillDate,
+            description
         } = this.state;
 
         return (
@@ -328,6 +329,7 @@ class ReminderModal extends React.Component {
                                     </p>
                                     <Form className="reminder-description-input">
                                         <TextArea
+                                            value={description}
                                             className="reminder-description-input-box"
                                             name="description"
                                             onChange={this.handleChange}

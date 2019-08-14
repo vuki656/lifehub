@@ -28,6 +28,12 @@
     border-left: $main-border-width solid $red;
 }
 
+.reminder-list-item:hover {
+    .reminder-list-item-icons {
+        opacity: 1;
+    }
+}
+
 .reminder-list-item-text {
     font-weight: 400 !important;
     font-size: 13px;
@@ -36,4 +42,5 @@
 // Icons
 .reminder-list-item-icons {
     color: $blue;
+    opacity: 0;
 }
