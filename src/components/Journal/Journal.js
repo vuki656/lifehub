@@ -121,13 +121,13 @@ class Journal extends React.Component {
 
         return journalEntries ? (
             <Grid>
-                <Grid.Row>
+                <Grid.Row className="pad-bot-0">
                     <Grid.Column
                         width={3}
                         className="journal-entry-list-column"
                     >
                         <Button
-                            className="button-primary width-100-pcnt"
+                            className="button-primary width-100-pcnt mar-all-0"
                             onClick={() =>
                                 this.createNewJournalEntry(this.state)
                             }
