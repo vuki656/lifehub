@@ -51,9 +51,7 @@ class WeightTableRow extends React.Component {
                         onClick={() => this.removeWeightEntry(this.state)}
                     />
                 </Table.Cell>
-                <Table.Cell>
-                    {formatMoment(weightEntry.date, "DD/MM/YYYY")}
-                </Table.Cell>
+                <Table.Cell>{weightEntry.date}</Table.Cell>
                 <Table.Cell>{weightEntry.weight}</Table.Cell>
                 <Table.Cell>
                     {this.calcWeightDif(

@@ -6,9 +6,12 @@ import firebase from "../../firebase/Auth";
 import { Grid } from "semantic-ui-react";
 
 // Component Imports
-import EnterWeightForm from "./EnterWeightForm";
+import EnterWeightPop from "./EnterWeightPop";
 import WeightTable from "./WeightTable/WeightTable";
 import WeightChart from "./WeightChart";
+
+// Helper Imports
+import { formatMoment } from "../../helpers/Global";
 
 class Weight extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -23,14 +26,12 @@ class Weight extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
-
         this.fetchWeightData(this.state);
         this.addListeners(this.state);
     }
 
     componentWillUnmount() {
         this.removeListeners(this.state);
-
         this._isMounted = false;
     }
 
@@ -72,7 +73,7 @@ class Weight extends React.Component {
 
         weightRef.child(currentUser.uid).once("value", weightEntries => {
             weightEntries.forEach(weightEntry => {
-                let date = weightEntry.val().date;
+                let date = formatMoment(weightEntry.val().date, "DD/MM/YY");
                 let weight = weightEntry.val().weight;
                 let key = weightEntry.val().key;
 
@@ -104,18 +105,15 @@ class Weight extends React.Component {
 
         return (
             <Grid columns="equal">
+                <Grid.Row className="width-100-pcnt">
+                    <WeightChart weightList={weightList} />
+                </Grid.Row>
                 <Grid.Row>
-                    <Grid.Column>
-                        <EnterWeightForm />
-                        <p>Data Entry History</p>
-                        <WeightTable
-                            weightList={weightList}
-                            firstWeightEntry={firstWeightEntry}
-                        />
-                    </Grid.Column>
-                    <Grid.Column>
-                        <WeightChart weightList={weightList} />
-                    </Grid.Column>
+                <EnterWeightPop />
+                    <WeightTable
+                        weightList={weightList}
+                        firstWeightEntry={firstWeightEntry}
+                    />
                 </Grid.Row>
             </Grid>
         );
