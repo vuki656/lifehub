@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import moment from "moment";
 
 // Destructured Imports
-import { Segment, TextArea, Form, Button, Input } from "semantic-ui-react";
+import { TextArea, Form, Button, Input } from "semantic-ui-react";
 
 class EntryField extends React.Component {
     state = {

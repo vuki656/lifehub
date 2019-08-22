@@ -23,9 +23,9 @@ class WeightTable extends React.Component {
 
     render() {
         return (
-            <Table celled fixed singleLine>
+            <Table className="weight-table" celled fixed singleLine>
                 <Table.Header>
-                    <Table.Row>
+                    <Table.Row className="table-header">
                         <Table.HeaderCell>Remove</Table.HeaderCell>
                         <Table.HeaderCell>Date</Table.HeaderCell>
                         <Table.HeaderCell>Weight (KG)</Table.HeaderCell>

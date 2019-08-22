@@ -4,7 +4,7 @@ import moment from "moment";
 import firebase from "../../firebase/Auth";
 
 // Destructured Imports
-import { Form, Button, Message, Popup } from "semantic-ui-react";
+import { Form, Button, Popup } from "semantic-ui-react";
 
 class EnterWeightPop extends React.Component {
     state = {
