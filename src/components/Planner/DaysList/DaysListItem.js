@@ -16,10 +16,11 @@ import { setCurrentDay } from "../../../redux/actions/plannerActions";
 
 class DaysListItem extends React.Component {
     state = {
-        iconStatus: "",
-        compleatedAmount: null,
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
+        iconStatus: "",
+        compleatedAmount: null,
+        color: "",
 
         // Redux Props
         day: this.props.day
@@ -35,12 +36,10 @@ class DaysListItem extends React.Component {
     }
 
     // Listen for compleated todo amount change
-    addTodoCompleatedAmountListener = ({ todoRef, currentUser, day }) => {
-        if (moment(day).isSame(getDayOnlyTimestamp(moment()))) {
-            todoRef.child(`${currentUser.uid}/`).on("child_changed", () => {
-                this.getCompletionStatus(this.state);
-            });
-        }
+    addTodoCompleatedAmountListener = ({ todoRef, currentUser }) => {
+        todoRef.child(`${currentUser.uid}/`).on("child_changed", () => {
+            this.getCompletionStatus(this.state);
+        });
     };
 
     removeListeners = ({ todoRef, currentUser }) => {
@@ -48,53 +47,59 @@ class DaysListItem extends React.Component {
     };
 
     // Set how many todos are compleated
-    // Determine if day is done or not
+    // Determine if day is compleated or not
     getCompletionStatus = ({ todoRef, currentUser, day }) => {
+        let total = 0;
+        let checked = 0;
+
         todoRef
             .child(`${currentUser.uid}/${day.valueOf()}/count/`)
-            .on("value", counts => {
-                this.setDayCompletionAmount(counts);
-
-                // If there are todos, set day finished status
-                // Else mark days as done
-                if (counts.exists()) {
-                    if (counts.val().total === counts.val().totalChecked) {
-                        this.setDayAsDone();
-                    } else {
-                        this.setDayAsNotDone();
-                    }
-                } else this.setDayAsDone();
+            .on("value", countCategories => {
+                if (countCategories.exists()) {
+                    countCategories.forEach(countCategory => {
+                        total = total + countCategory.val().total;
+                        checked = checked + countCategory.val().checked;
+                    });
+                }
             });
+
+        this.setDayCompletionIcon(total, checked);
+        this.setDayCompletionAmount(total, checked);
     };
 
     // Set how many todos are compleated in the day
-    setDayCompletionAmount = counts => {
-        if (counts.exists()) {
-            // Get how many todos are compleated
-            let compleatedTodosAmount = `${counts.val().totalChecked}/${
-                counts.val().total
-            }`;
-
-            this.setState({ compleatedAmount: compleatedTodosAmount });
+    setDayCompletionAmount = (total, checked) => {
+        if (total) {
+            this.setState({ compleatedAmount: `${checked}/${total}` });
         } else {
             this.setState({ compleatedAmount: "0/0" });
         }
     };
 
-    setDayAsDone = () => {
-        this.setState({
-            iconStatus: "checkmark"
-        });
-    };
-
-    setDayAsNotDone = () => {
-        this.setState({
-            iconStatus: "delete"
-        });
+    // Determine weather to put a checkmark or an X
+    setDayCompletionIcon = (total, checked) => {
+        if (total) {
+            if (checked === total) {
+                this.setState({
+                    iconStatus: "checkmark",
+                    color: "#63ea90"
+                });
+            } else {
+                this.setState({
+                    iconStatus: "delete",
+                    color: "#f12b2c"
+                });
+            }
+        } else {
+            this.setState({
+                iconStatus: "checkmark",
+                color: "#63ea90"
+            });
+        }
     };
 
     render() {
-        const { day, iconStatus, compleatedAmount } = this.state;
+        const { color, day, iconStatus, compleatedAmount } = this.state;
 
         return (
             <Grid.Row
@@ -115,7 +120,10 @@ class DaysListItem extends React.Component {
                     <span className="todo-count">{compleatedAmount}</span>
                 </Grid.Column>
                 <Grid.Column floated="right" width={3} className="icon-column">
-                    <span className="icon-box">
+                    <span
+                        className="icon-box"
+                        style={{ backgroundColor: color }}
+                    >
                         <Icon
                             className="days-list-item-icon"
                             name={iconStatus}

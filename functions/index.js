@@ -14,7 +14,7 @@ exports.countTodos = functions.database
     .onWrite(async (snap, context) => {
         const todoRef = snap.after.ref;
         let dataObject = await countHelpers.getDataFromSnap(todoRef);
-        return await todoRef.parent.update({ counts: dataObject });
+        return await todoRef.parent.update({ count: dataObject });
     });
 
 // On 00:01 today move all unfinished todos from yesterday to today
