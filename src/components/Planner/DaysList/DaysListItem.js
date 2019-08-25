@@ -1,7 +1,6 @@
 // Object Imports
 import React from "react";
 import firebase from "../../../firebase/Auth";
-import moment from "moment";
 
 // Destructured Imports
 import { Link } from "react-router-dom";
@@ -9,7 +8,7 @@ import { Icon, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Helper Imports
-import { formatMoment, getDayOnlyTimestamp } from "../../../helpers/Global";
+import { formatMoment } from "../../../helpers/Global";
 
 // Redux Actions Imports
 import { setCurrentDay } from "../../../redux/actions/plannerActions";

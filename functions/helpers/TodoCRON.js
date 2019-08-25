@@ -1,16 +1,16 @@
 const moment = require("moment");
 
 // Get day before timestamp
-// Sub 18 is used because there is a time
+// Sub 26 is used because there is a time
 // difference on google server and it returns
 // wrong value
-module.exports.getYesterdayStamp = async () => {
+module.exports.getYesterdayStamp = () => {
     return moment(moment().startOf("day"))
-        .subtract(18, "hours")
+        .subtract(26, "hours")
         .valueOf();
 };
 
-// Get a list of all users by their ids
+// Get a list of all users by their IDs
 module.exports.getUserList = async (admin, nextPageToken) => {
     let userList = [];
 
@@ -30,7 +30,7 @@ module.exports.getUserList = async (admin, nextPageToken) => {
     return userList;
 };
 
-// Moves given todo from yesterday to today and
+// Copies given todo from yesterday to today and
 // deletes it from yesterday
 module.exports.moveTodoToNextDay = (
     category,
