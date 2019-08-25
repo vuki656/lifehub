@@ -21,6 +21,7 @@
     padding: 1rem 0 1rem 0;
 }
 
+// == ITEM ==
 .reminder-list-item {
     background: $blue-transparent;
     margin-top: 2px;
@@ -37,6 +38,14 @@
 .reminder-list-item-text {
     font-weight: 400 !important;
     font-size: 13px;
+}
+
+// Remaining days tag
+.reminder-list-time-left-tag {
+    border-radius: 0 !important;
+    padding: 0.1rem 0.5rem !important;
+    color: white !important;
+    background: $blue !important;
 }
 
 // Icons

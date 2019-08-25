@@ -27,6 +27,7 @@ class Reminder extends React.Component {
             modalOpen: false,
             reminderTagValues: [],
 
+            // Props
             reminder: this.props.reminder,
 
             // Redux Props
@@ -157,13 +158,27 @@ class Reminder extends React.Component {
             </Label>
         ));
 
-    closeModal = () => {
-        this.setState({ modalOpen: false });
+    // Calculates time left from selected day till reminder due date
+    calculateTimeLeft = ({ currentDay, reminder }) => {
+        let daysLeft = moment.duration(
+            moment(reminder.endDate).diff(moment(currentDay))
+        );
+
+        // If reminder is due today, return "Today"
+        if (daysLeft._data.days === 0) {
+            return "Today";
+        } else {
+            return `${daysLeft._data.days} Days Left`;
+        }
     };
 
     handleModalOpen = () => {
         this.props.fetchReminderTags(this.state);
         this.setState({ modalOpen: true });
+    };
+
+    closeModal = () => {
+        this.setState({ modalOpen: false });
     };
 
     render() {
@@ -172,6 +187,9 @@ class Reminder extends React.Component {
         return (
             <List.Item className="reminder-list-item">
                 <List.Content>
+                    <Label className="reminder-list-time-left-tag">
+                        {this.calculateTimeLeft(this.state)}
+                    </Label>
                     <List.Header>
                         <Grid>
                             <Grid.Row>
