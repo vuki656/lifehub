@@ -77,11 +77,10 @@ class TodosForDay extends React.Component {
         });
     };
 
-    renderCategoryList = ({ categories }) => {
-        return categories.map(category => (
+    renderCategoryList = ({ categories }) =>
+        categories.map(category => (
             <TodosForDayListItem category={category} key={category} />
         ));
-    };
 
     render() {
         return (
