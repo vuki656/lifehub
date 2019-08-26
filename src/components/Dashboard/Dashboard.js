@@ -18,14 +18,14 @@ const Dashboard = () => (
         </Grid.Row>
         <Grid.Row>
             <Grid.Column width={8}>
+                <AddDashboardNote />
+                <DashboardNotes />
+            </Grid.Column>
+            <Grid.Column width={8}>
                 <p className="subtitle">
                     Todos for today: <TotalTodosForToday />
                 </p>
                 <TodosForDay />
-            </Grid.Column>
-            <Grid.Column width={8}>
-                <AddDashboardNote />
-                <DashboardNotes />
             </Grid.Column>
         </Grid.Row>
     </Grid>
