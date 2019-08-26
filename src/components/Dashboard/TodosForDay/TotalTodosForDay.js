@@ -14,8 +14,8 @@ class TotalTodosForDay extends React.Component {
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
         currentDay: getDayOnlyTimestamp(moment()),
-        totalTodos: null,
-        totalCheckedTodos: null
+        totalTodos: 0,
+        totalCheckedTodos: 0
     };
 
     componentDidMount() {
@@ -28,16 +28,21 @@ class TotalTodosForDay extends React.Component {
     }
 
     fetchTotalTodosForDay = ({ todoRef, currentUser, currentDay }) => {
+        let total = 0;
+        let checked = 0;
+
         todoRef
             .child(`${currentUser.uid}/${currentDay}/count/`)
-            .on("value", counts => {
-                if (counts.val()) {
-                    let totalTodos = counts.val().total;
-                    let totalCheckedTodos = counts.val().totalChecked;
-
-                    if (this._isMounted) {
-                        this.setState({ totalTodos, totalCheckedTodos });
-                    }
+            .on("value", countCategories => {
+                if (countCategories.exists()) {
+                    countCategories.forEach(countCategory => {
+                        total = total + countCategory.val().total;
+                        checked = checked + countCategory.val().checked;
+                    });
+                    this.setState({
+                        totalTodos: total,
+                        totalCheckedTodos: checked
+                    });
                 } else {
                     this.setState({ totalTodos: 0, totalCheckedTodos: 0 });
                 }

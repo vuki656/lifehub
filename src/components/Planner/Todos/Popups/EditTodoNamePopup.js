@@ -144,9 +144,7 @@ class EditTodoPopup extends React.Component {
             >
                 <Grid className="pad-all-1-rem">
                     <Grid.Row className="pad-top-bot-0">
-                        <span className="edit-todo-name-popup-title">
-                            Enter a New Name
-                        </span>
+                        <span className="subtitle">Enter a New Name</span>
                     </Grid.Row>
                     <Grid.Row className="pad-top-bot-0">
                         <Input

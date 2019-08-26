@@ -26,5 +26,6 @@ module.exports.getDataFromSnap = async todoRef => {
         .catch(err => {
             console.error(err);
         });
+
     return todoSumForDay;
 };

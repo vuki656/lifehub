@@ -20,7 +20,9 @@ const Dashboard = () => (
             </Header>
         </Grid.Row>
         <Grid.Row>
-            <TodosForDay />
+            <Grid.Column width={5}>
+                <TodosForDay />
+            </Grid.Column>
         </Grid.Row>
     </Grid>
 );
