@@ -98,6 +98,9 @@ class Weight extends React.Component {
                     });
                 });
 
+            // Sort the data by date ASC
+            weightHolder.sort((a, b) => parseFloat(a.x) - parseFloat(b.x));
+
             this.setState({
                 weightList: weightHolder,
                 firstWeightEntry: firstWeightEntry
@@ -107,6 +110,7 @@ class Weight extends React.Component {
 
     render() {
         const { weightList, firstWeightEntry } = this.state;
+        // console.log("TCL: render -> weightList", weightList);
 
         return (
             <Grid columns="equal">
