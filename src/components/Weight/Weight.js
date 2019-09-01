@@ -77,7 +77,12 @@ class Weight extends React.Component {
                 let weight = weightEntry.val().weight;
                 let key = weightEntry.val().key;
 
-                weightHolder.push({ date, weight, previousWeight, key });
+                weightHolder.push({
+                    x: date,
+                    y: weight,
+                    previousWeight,
+                    key
+                });
                 previousWeight = weight; // Store the previous weight for weight diff column
             });
 
@@ -105,11 +110,11 @@ class Weight extends React.Component {
 
         return (
             <Grid columns="equal">
-                <Grid.Row className="width-100-pcnt">
+                <Grid.Row className="width-100-pcnt" style={{ height: 600 }}>
                     <WeightChart weightList={weightList} />
                 </Grid.Row>
                 <Grid.Row>
-                <EnterWeightPop />
+                    <EnterWeightPop />
                     <WeightTable
                         weightList={weightList}
                         firstWeightEntry={firstWeightEntry}

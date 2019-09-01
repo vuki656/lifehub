@@ -48,16 +48,16 @@ class WeightTableRow extends React.Component {
                         onClick={() => this.removeWeightEntry(this.state)}
                     />
                 </Table.Cell>
-                <Table.Cell>{weightEntry.date}</Table.Cell>
-                <Table.Cell>{weightEntry.weight}</Table.Cell>
+                <Table.Cell>{weightEntry.x}</Table.Cell>
+                <Table.Cell>{weightEntry.y}</Table.Cell>
                 <Table.Cell>
                     {this.calcWeightDif(
-                        weightEntry.weight,
+                        weightEntry.y,
                         weightEntry.previousWeight
                     )}
                 </Table.Cell>
                 <Table.Cell>
-                    {this.calcWeightDif(weightEntry.weight, firstWeightEntry)}
+                    {this.calcWeightDif(weightEntry.y, firstWeightEntry)}
                 </Table.Cell>
             </Table.Row>
         );

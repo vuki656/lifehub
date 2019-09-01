@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@nivo/line": "^0.59.3",
         "chart.js": "2.8.0",
         "eslint-plugin-promise": "^4.2.1",
         "firebase": "6.0.2",
