@@ -7,7 +7,7 @@ import { Grid } from "semantic-ui-react";
 // Component Imports
 import QuoteBar from "./QuoteBar";
 import TodosForDay from "./TodosForDay/TodosForDay";
-import TotalTodosForToday from "./TodosForDay/TotalTodosForDay";
+import TodosForDayList from "./TodosForDay/TodosForDayList";
 import DashboardNotes from "./DashboardNotes/DashboardNotesList";
 import AddDashboardNote from "./DashboardNotes/AddDashboardNote";
 
@@ -23,7 +23,7 @@ const Dashboard = () => (
             </Grid.Column>
             <Grid.Column width={8}>
                 <p className="subtitle">
-                    Todos for today: <TotalTodosForToday />
+                    Todos for today: <TodosForDayList />
                 </p>
                 <TodosForDay />
             </Grid.Column>
