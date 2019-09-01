@@ -5,6 +5,9 @@ import firebase from "../../../firebase/Auth";
 // Destructured Imports
 import { Table, Icon } from "semantic-ui-react";
 
+// Helper Imports
+import { formatMoment } from "../../../helpers/Global";
+
 class WeightTableRow extends React.Component {
     state = {
         weightRef: firebase.database().ref("weight-entries"),
@@ -65,7 +68,9 @@ class WeightTableRow extends React.Component {
                         onClick={() => this.removeWeightEntry(this.state)}
                     />
                 </Table.Cell>
-                <Table.Cell>{weightEntry.x}</Table.Cell>
+                <Table.Cell>
+                    {formatMoment(weightEntry.x, "DD/MM/YY")}
+                </Table.Cell>
                 <Table.Cell>{weightEntry.y}</Table.Cell>
                 <Table.Cell
                     className={this.determineDayToDayDifference(this.state)}

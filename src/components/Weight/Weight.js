@@ -10,9 +10,6 @@ import EnterWeightPop from "./EnterWeightPop";
 import WeightTable from "./WeightTable/WeightTable";
 import WeightChart from "./WeightChart";
 
-// Helper Imports
-import { formatMoment } from "../../helpers/Global";
-
 class Weight extends React.Component {
     // Used to prevent setState calls after component umounts
     _isMounted = false;
@@ -73,7 +70,7 @@ class Weight extends React.Component {
 
         weightRef.child(currentUser.uid).once("value", weightEntries => {
             weightEntries.forEach(weightEntry => {
-                let date = formatMoment(weightEntry.val().date, "DD/MM/YY");
+                let date = weightEntry.val().date;
                 let weight = weightEntry.val().weight;
                 let key = weightEntry.val().key;
 
@@ -98,8 +95,8 @@ class Weight extends React.Component {
                     });
                 });
 
-            // Sort the data by date ASC
-            weightHolder.sort((a, b) => parseFloat(a.x) - parseFloat(b.x));
+            // Sort the data by date DESC
+            weightHolder.sort((a, b) => (a.x > b.x ? 1 : -1));
 
             this.setState({
                 weightList: weightHolder,
@@ -110,7 +107,6 @@ class Weight extends React.Component {
 
     render() {
         const { weightList, firstWeightEntry } = this.state;
-        // console.log("TCL: render -> weightList", weightList);
 
         return (
             <Grid columns="equal">

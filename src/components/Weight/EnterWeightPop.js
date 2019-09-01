@@ -2,6 +2,7 @@
 import React from "react";
 import moment from "moment";
 import firebase from "../../firebase/Auth";
+import DatePicker from "react-datepicker";
 
 // Destructured Imports
 import { Form, Button, Popup } from "semantic-ui-react";
@@ -11,7 +12,7 @@ class EnterWeightPop extends React.Component {
         currentUser: firebase.auth().currentUser,
         weightRef: firebase.database().ref("weight-entries"),
         weight: "",
-        currentDay: moment().valueOf(),
+        weightDate: moment().valueOf(),
         error: "",
         isPopOpen: false
     };
@@ -57,7 +58,7 @@ class EnterWeightPop extends React.Component {
     };
 
     // Sends the weight and date object to firebase
-    handleSubmit = ({ weight, currentDay, weightRef, currentUser }) => {
+    handleSubmit = ({ weight, weightDate, weightRef, currentUser }) => {
         let pushRef = weightRef.child(currentUser.uid);
 
         if (this.checkWeightFormat(weight)) {
@@ -69,7 +70,7 @@ class EnterWeightPop extends React.Component {
                         .child(weightEntry.key)
                         .set({
                             weight: weight,
-                            date: currentDay,
+                            date: weightDate,
                             key: weightEntry.key
                         })
                         .catch(err => {
@@ -102,8 +103,12 @@ class EnterWeightPop extends React.Component {
         this.togglePopup();
     };
 
+    handleDateChange = newCreatedAtDate => {
+        this.setState({ weightDate: moment(newCreatedAtDate).valueOf() });
+    };
+
     render() {
-        const { weight, error, isPopOpen } = this.state;
+        const { weight, error, isPopOpen, weightDate } = this.state;
 
         return (
             <React.Fragment>
@@ -127,7 +132,16 @@ class EnterWeightPop extends React.Component {
                         {error !== "" && (
                             <p className="weight-entry-pop-error">{error}</p>
                         )}
-
+                        <p>Date</p>
+                        <DatePicker
+                            className="datepicker-box mar-bot-1-rem"
+                            selected={weightDate}
+                            dateFormat="dd/MM/yyyy"
+                            timeCaption="time"
+                            onChange={this.handleDateChange}
+                            maxDate={moment().toDate()}
+                        />
+                        <p>Weight</p>
                         <Form>
                             <Form.Group widths="equal">
                                 <Form.Input
