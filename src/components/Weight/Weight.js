@@ -9,6 +9,7 @@ import { Grid } from "semantic-ui-react";
 import EnterWeightPop from "./EnterWeightPop";
 import WeightTable from "./WeightTable/WeightTable";
 import WeightChart from "./WeightChart";
+import { formatMoment } from "../../helpers/Global";
 
 class Weight extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -18,7 +19,8 @@ class Weight extends React.Component {
         currentUser: firebase.auth().currentUser,
         weightRef: firebase.database().ref("weight-entries"),
         weightList: [],
-        firstWeightEntry: 0
+        firstWeightEntry: 0,
+        dayRange: 30
     };
 
     componentDidMount() {
@@ -67,12 +69,19 @@ class Weight extends React.Component {
     fetchWeightData = ({ currentUser, weightRef }) => {
         let weightHolder = [];
         let previousWeight = "";
+        let firstWeightEntry = 0;
+        let firstEntryGotten = false;
 
         weightRef.child(currentUser.uid).once("value", weightEntries => {
             weightEntries.forEach(weightEntry => {
                 let date = weightEntry.val().date;
                 let weight = weightEntry.val().weight;
                 let key = weightEntry.val().key;
+
+                if (!firstEntryGotten) {
+                    firstWeightEntry = weightEntry.val().weight;
+                    firstEntryGotten = true;
+                }
 
                 weightHolder.push({
                     x: date,
@@ -83,26 +92,28 @@ class Weight extends React.Component {
                 previousWeight = weight; // Store the previous weight for weight diff column
             });
 
-            // Grab the first weight entry
-            let firstWeightEntry = 0;
-            weightRef
-                .child(currentUser.uid)
-                .orderByKey()
-                .limitToFirst(1)
-                .once("value", weightEntries => {
-                    weightEntries.forEach(weightEntry => {
-                        firstWeightEntry = weightEntry.val().weight;
-                    });
-                });
+            // MAKE A FOR LOOP THAT WILL INSERT AMOUNT OF INDEX THAT IS SELECTED BY THE USER
 
-            // Sort the data by date DESC
-            weightHolder.sort((a, b) => (a.x > b.x ? 1 : -1));
+            let formatedWeightList = this.formatWeightList(weightHolder);
 
             this.setState({
-                weightList: weightHolder,
+                weightList: formatedWeightList,
                 firstWeightEntry: firstWeightEntry
             });
         });
+    };
+
+    // Sort than format object dates
+    formatWeightList = weightHolder => {
+        // Sort the data by date DESC
+        weightHolder.sort((a, b) => (a.x > b.x ? 1 : -1));
+
+        return weightHolder.map(weightEntry => ({
+            x: formatMoment(weightEntry.x, "DD/MM/YY"),
+            y: weightEntry.y,
+            previousWeight: weightEntry.previousWeight,
+            key: weightEntry.key
+        }));
     };
 
     render() {

@@ -73,9 +73,7 @@ class TodoCard extends React.Component {
             let dayStampOnly = getDayOnlyTimestamp(itteratingDate);
             todosRef
                 .child(
-                    `${currentUser.uid}/${dayStampOnly}/categories/${
-                        todoCard.key
-                    }`
+                    `${currentUser.uid}/${dayStampOnly}/categories/${todoCard.key}`
                 )
                 .remove()
                 .catch(err => console.error(err));
@@ -88,7 +86,7 @@ class TodoCard extends React.Component {
             .child(currentUser.uid)
             .limitToLast(1)
             .once("value", lastDay => {
-                if (lastDay.val().key) {
+                if (lastDay.val()) {
                     return lastDay.val().key;
                 }
             });

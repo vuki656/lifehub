@@ -57,7 +57,21 @@ class WeightTable extends React.Component {
                                     Compared to day before
                                 </Popup>
                             </Table.HeaderCell>
-                            <Table.HeaderCell>Total Loss/Gain</Table.HeaderCell>
+                            <Table.HeaderCell>
+                                Total Loss/Gain
+                                <Popup
+                                    basic
+                                    trigger={
+                                        <Icon
+                                            circular
+                                            name="info"
+                                            size="small"
+                                        />
+                                    }
+                                >
+                                    Compared to first weight entry
+                                </Popup>
+                            </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>{this.renderTableRows(this.state)}</Table.Body>
