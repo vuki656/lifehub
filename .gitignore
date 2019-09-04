@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.github.com/articgit rmles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
@@ -32,3 +32,6 @@ firebase-debug.log
 # Firebase cache
 .firebase/hosting.cHVibGlj.cache
 .firebase/hosting.YnVpbGQ.cache
+
+# Firebase config
+src/firebase/Auth.js
