@@ -33,5 +33,5 @@ firebase-debug.log
 .firebase/hosting.cHVibGlj.cache
 .firebase/hosting.YnVpbGQ.cache
 
-# Firebase config
-src/firebase/Auth.js
+# Firebase Files
+.firebase

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "lifehub-prod"
+    "default": "lifehub365",
+    "prod": "lifehub-prod-bf96a"
   }
 }
