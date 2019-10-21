@@ -165,15 +165,11 @@ class Reminder extends React.Component {
             moment(reminder.endDate).diff(moment(currentDay))
         );
 
-        // Convert millis diff in rounded int days
+        // Convert millis to days
         let timeLeftDays = parseInt(timeLeftMilis.asDays(), 10);
 
         // If reminder is due today, return "Today" else number of days
-        if (timeLeftDays === 0) {
-            return "Today";
-        } else {
-            return `${timeLeftDays} Days Left`;
-        }
+        return timeLeftDays === 0 ? "Today" : `${timeLeftDays} Days Left`;
     };
 
     handleModalOpen = () => {
