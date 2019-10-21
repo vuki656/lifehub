@@ -23,7 +23,8 @@ class WeightTableRow extends React.Component {
 
     // Calculate the difference between todays weight and previous weight entry
     calcWeightDif = (currentWeight, entryForComparison) => {
-        let weightDif = currentWeight - entryForComparison;
+        let weightDif = (currentWeight - entryForComparison).toFixed(2);
+
         return (weightDif <= 0 ? "" : "+") + weightDif;
     };
 
