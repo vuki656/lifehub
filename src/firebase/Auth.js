@@ -1,6 +1,7 @@
 import * as firebase from "firebase";
 
-var devConfig = {
+// eslint-disable-next-line
+const devConfig = {
     apiKey: "AIzaSyD8msbJoAv3ARkzaAd3OfskJsyUogsaCdY",
     authDomain: "lifehub365.firebaseapp.com",
     databaseURL: "https://lifehub365.firebaseio.com",
@@ -10,6 +11,7 @@ var devConfig = {
     appId: "1:238134375190:web:b27c0d72dc8df709"
 };
 
+// eslint-disable-next-line
 const prodConfig = {
     apiKey: "AIzaSyDRKti1aV0ySu9EznEu8hxlLA1yFsHJ96A",
     authDomain: "lifehub-prod-bf96a.firebaseapp.com",

@@ -286,7 +286,6 @@ class ReminderModal extends React.Component {
             text,
             reminder,
             error,
-            generateUntillDate,
             description
         } = this.state;
 
@@ -348,9 +347,6 @@ class ReminderModal extends React.Component {
                                     <DatePicker
                                         className="datepicker-box"
                                         minDate={moment(startDate).toDate()}
-                                        maxDate={moment(
-                                            generateUntillDate
-                                        ).toDate()}
                                         selected={this.getEndingDate()}
                                         onChange={this.handleEndDateChange}
                                         showTimeSelect

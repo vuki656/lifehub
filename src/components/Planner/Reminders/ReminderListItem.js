@@ -160,15 +160,19 @@ class Reminder extends React.Component {
 
     // Calculates time left from selected day till reminder due date
     calculateTimeLeft = ({ currentDay, reminder }) => {
-        let daysLeft = moment.duration(
+        // Calculate difference in millis
+        let timeLeftMilis = moment.duration(
             moment(reminder.endDate).diff(moment(currentDay))
         );
 
-        // If reminder is due today, return "Today"
-        if (daysLeft._data.days === 0) {
+        // Convert millis diff in rounded int days
+        let timeLeftDays = parseInt(timeLeftMilis.asDays(), 10);
+
+        // If reminder is due today, return "Today" else number of days
+        if (timeLeftDays === 0) {
             return "Today";
         } else {
-            return `${daysLeft._data.days} Days Left`;
+            return `${timeLeftDays} Days Left`;
         }
     };
 
