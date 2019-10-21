@@ -33,6 +33,7 @@
 .add-todo-input-row {
     margin: 10px 0px 10px 0px;
     opacity: 0 !important;
+    width: 100% !important;
 }
 
 .add-todo-input-row:hover {
@@ -40,6 +41,7 @@
 }
 
 .add-todo-input-row-visible {
+    width: 100% !important;
     margin: 10px 0px 10px 0px;
     opacity: 1 !important;
 }
