@@ -16,6 +16,7 @@ class AddTodoInput extends React.Component {
         currentUser: firebase.auth().currentUser,
         todoText: "",
 
+        // Props
         todoCard: this.props.todoCard,
 
         // Redux Props
@@ -68,6 +69,11 @@ class AddTodoInput extends React.Component {
         }
     };
 
+    // If there is text in input box, dont hide it
+    checkVisibility = ({ todoText }) => {
+        return todoText ? "add-todo-input-row-visible" : "add-todo-input-row";
+    };
+
     // Set the state value from user input
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
@@ -83,7 +89,7 @@ class AddTodoInput extends React.Component {
 
         return (
             <Input
-                className="add-todo-input-field"
+                className={this.checkVisibility(this.state)}
                 name="todoText"
                 value={todoText}
                 placeholder="Todo Text"

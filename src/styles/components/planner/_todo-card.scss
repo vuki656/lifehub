@@ -32,11 +32,16 @@
 // == ADD TODO SECTION ==
 .add-todo-input-row {
     margin: 10px 0px 10px 0px;
-    opacity: 0;
+    opacity: 0 !important;
 }
 
 .add-todo-input-row:hover {
-    opacity: 1;
+    opacity: 1 !important;
+}
+
+.add-todo-input-row-visible {
+    margin: 10px 0px 10px 0px;
+    opacity: 1 !important;
 }
 
 .add-todo-input-field input {

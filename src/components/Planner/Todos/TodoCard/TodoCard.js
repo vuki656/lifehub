@@ -117,7 +117,7 @@ class TodoCard extends React.Component {
                     <div className="todo-card-todos">
                         <TodoList todoCard={todoCard} />
                     </div>
-                    <Grid.Row className="add-todo-input-row">
+                    <Grid.Row>
                         <AddTodoInput todoCard={todoCard} />
                     </Grid.Row>
                 </div>
