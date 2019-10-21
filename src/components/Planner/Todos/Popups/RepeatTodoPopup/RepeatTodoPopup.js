@@ -194,9 +194,7 @@ class RepeatTodoPopup extends React.Component {
 
         todoRef
             .child(
-                `${currentUser.uid}/${dayTimestamp}/categories/${category}/${
-                    todo.key
-                }`
+                `${currentUser.uid}/${dayTimestamp}/categories/${category}/${todo.key}`
             )
             .update({
                 createdAt: determinedCreatedAtDate,
@@ -230,6 +228,11 @@ class RepeatTodoPopup extends React.Component {
             createdAt: this.state.todo.createdAt,
             repeatFromDate: false
         });
+    };
+
+    // If todo is repeating, show repeating icon all the time
+    checkIfRepeating = ({ todo }) => {
+        return todo.isRepeating ? "todo-card-active-icon" : "todo-card-icon";
     };
 
     // Set the state value from checkbox
@@ -275,7 +278,7 @@ class RepeatTodoPopup extends React.Component {
                         name={"repeat"}
                         link={true}
                         onClick={this.openPopup}
-                        className="todo-card-icon"
+                        className={this.checkIfRepeating(this.state)}
                     />
                 }
                 flowing
