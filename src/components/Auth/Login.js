@@ -3,16 +3,7 @@ import React from "react";
 import firebase from "../../firebase/Auth";
 
 // Destructured Imports
-import {
-    Form,
-    Grid,
-    Message,
-    Button,
-    Icon,
-    Header,
-    Image,
-    Segment
-} from "semantic-ui-react";
+import { Form, Grid, Message, Button, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 // File Imports
@@ -108,57 +99,6 @@ class Login extends React.Component {
                     )}
                 </Grid.Column>
             </Grid>
-
-            // <Grid
-            //     textAlign="center"
-            //     style={{ height: "100vh" }}
-            //     verticalAlign="middle"
-            // >
-            //     <Grid.Column style={{ maxWidth: 450 }}>
-            //         <div className="logo-section">
-            //             <Logo className="logo" />
-            //         </div>
-            //         <Form onSubmit={this.handleSubmit}>
-            //             <Form.Input
-            //                 name="email"
-            //                 icon="mail"
-            //                 iconPosition="left"
-            //                 fluid
-            //                 placeholder="E-Mail"
-            //                 required
-            //                 type="email"
-            //                 onChange={this.handleChange}
-            //                 value={email}
-            //             />
-            //             <Form.Input
-            //                 name="password"
-            //                 icon="lock"
-            //                 iconPosition="left"
-            //                 fluid
-            //                 placeholder="Password"
-            //                 required
-            //                 type="password"
-            //                 onChange={this.handleChange}
-            //                 value={password}
-            //             />
-
-            //             <Button fluid className={loading ? "loading" : ""}>
-            //                 Login
-            //             </Button>
-            //         </Form>
-            //         <Message info>
-            //             <Icon name="help" />
-            //             Don't have an account?
-            //             <Link to="/register"> Register</Link>
-            //         </Message>
-            //         {error !== "" && (
-            //             <Message negative>
-            //                 <Message.Header>Error:</Message.Header>
-            //                 {this.displayError(error)}
-            //             </Message>
-            //         )}
-            //     </Grid.Column>
-            // </Grid>
         );
     }
 }
