@@ -182,8 +182,8 @@ class RepeatTodoPopup extends React.Component {
 
         /*  Determine if todo.createdAt exists.
             When creating a todo, currentDay will be used as createdAt date
-            becasue todo.createdAt doesent exist
-            When updating, exisiting createdAt from todo will
+            because todo.createdAt doesn't exist
+            When updating, existing createdAt from todo will
             be used as createdAt date
         */
         if (createdAt) {

@@ -115,7 +115,7 @@ class Planner extends React.Component {
     // Checks if current month is month user registered,
     // If yes, return register day so counter can count
     // from it to end of the month
-    // Else, return 1 so it starts from beggining of month
+    // Else, return 1 so it starts from beginning of month
     getStartingIndex = (momentMonthObject, regDate) => {
         if (
             moment(momentMonthObject).format("MM/YY") ===
@@ -156,7 +156,7 @@ class Planner extends React.Component {
             .update({ generateUntill: generateMonthsUntillDate });
     };
 
-    // After each month passes, add one aditional month to
+    // After each month passes, add one additional month to
     // be generated in month list so that you always have
     // one year from now available in the planner days list
     getMonthsToGenerateNo = regDate => {
