@@ -66,11 +66,11 @@ class TodoCard extends React.Component {
         let endDate = this.getLastDayOfDaysList(this.state);
 
         for (
-            let itteratingDate = moment(todayTimestamp);
-            itteratingDate.isBefore(moment(endDate).add(1, "day"));
-            itteratingDate.add(1, "days")
+            let iteratingDate = moment(todayTimestamp);
+            iteratingDate.isBefore(moment(endDate).add(1, "day"));
+            iteratingDate.add(1, "days")
         ) {
-            let dayStampOnly = getDayOnlyTimestamp(itteratingDate);
+            let dayStampOnly = getDayOnlyTimestamp(iteratingDate);
             todosRef
                 .child(
                     `${currentUser.uid}/${dayStampOnly}/categories/${todoCard.key}`

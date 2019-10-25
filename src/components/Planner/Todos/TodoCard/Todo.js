@@ -67,10 +67,11 @@ class Todo extends React.Component {
         currentUser,
         todo,
         generateUntillDate,
-        category
+        category,
+        currentDay
     }) => {
         for (
-            let startDate = moment(todo.createdAt);
+            let startDate = moment(currentDay);
             startDate.isBefore(moment(generateUntillDate).add(1, "day"));
             startDate.add(1, "days")
         ) {
@@ -96,9 +97,7 @@ class Todo extends React.Component {
     }) => {
         todoRef
             .child(
-                `${currentUser.uid}/${currentDay}/categories/${category}/${
-                    todo.key
-                }`
+                `${currentUser.uid}/${currentDay}/categories/${category}/${todo.key}`
             )
             .update({ isChecked: !isChecked })
             .catch(error => console.error(error));
