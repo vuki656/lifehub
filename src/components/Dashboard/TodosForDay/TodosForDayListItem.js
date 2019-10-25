@@ -25,7 +25,7 @@ class TodosForDayCard extends React.Component {
 
     componentDidMount() {
         this.fetchCategoryTodoCount(this.state);
-        this.fectCategoryName(this.state);
+        this.fetchCategoryName(this.state);
     }
 
     // Get todo count from firebase
@@ -50,7 +50,7 @@ class TodosForDayCard extends React.Component {
     };
 
     // Get category name by ID from firebase
-    fectCategoryName = ({ categoryRef, currentUser, category }) => {
+    fetchCategoryName = ({ categoryRef, currentUser, category }) => {
         categoryRef
             .child(`${currentUser.uid}/${category}`)
             .once("value", category => {

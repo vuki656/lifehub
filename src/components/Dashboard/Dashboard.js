@@ -17,16 +17,16 @@ import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 const Dashboard = () => (
     <Grid>
-        <Grid.Row>
+        <Grid.Row className="quote-section">
             <QuoteBar />
         </Grid.Row>
-        <Grid.Row>
+        <Grid.Row className="main-section">
             <Grid.Column width={8}>
                 <AddDashboardNote />
                 <DashboardNotes />
             </Grid.Column>
             <Grid.Column width={8}>
-                <p className="subtitle">
+                <p className="title">
                     Todos for today:{" "}
                     <TodosForDayCount day={getDayOnlyTimestamp(moment())} />
                 </p>

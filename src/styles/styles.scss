@@ -11,17 +11,22 @@
 @import "./components/side-menu";
 
 // == DASHBOARD ==
-@import "./components/dashboard/add-dashboard-note";
-@import "./components/dashboard/dashboad-note-list-item";
+@import "./components/dashboard/dashboard";
+// Dashboard Notes
+@import "./components/dashboard/dashboard-notes/add-dashboard-note";
+@import "./components/dashboard/dashboard-notes/dashboard-note-list-item";
+// Todos For Day
+@import "./components/dashboard/todos-for-day/todos-for-day-list-item";
 
 // == PLANNER ==
 @import "./components/planner/days-list";
 @import "./components/planner/task-area";
-@import "./components/planner/todo-card";
-@import "./components/planner/add-todo-card";
-@import "./components/planner/todo-card-item";
-@import "./components/planner/repeat-todo-popup";
-@import "./components/planner/edit-todo-name-popup";
+// Todos
+@import "./components/planner/todos/todo-card";
+@import "./components/planner/todos/add-todo-card";
+@import "./components/planner/todos/todo-card-item";
+@import "./components/planner/todos/repeat-todo-popup";
+@import "./components/planner/todos/edit-todo-name-popup";
 // Reminders
 @import "./components/planner/reminders/reminders";
 @import "./components/planner/reminders/reminder-modal";

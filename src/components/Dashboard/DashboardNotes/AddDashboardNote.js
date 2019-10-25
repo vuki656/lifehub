@@ -46,8 +46,9 @@ class AddDashboardNotes extends React.Component {
                     basic
                     trigger={
                         <React.Fragment>
-                            <span className="subtitle">Enter Your Note </span>
+                            <span className="title">Enter Your Note </span>
                             <Icon
+                                className="add-dashboard-note-icon"
                                 name={"add"}
                                 link={true}
                                 onClick={this.togglePopup}
