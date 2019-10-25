@@ -84,7 +84,7 @@ class TodosForDay extends React.Component {
 
     render() {
         return (
-            <List divided verticalAlign="middle">
+            <List divided verticalAlign="middle" className="todos-for-day-list">
                 {this.renderCategoryList(this.state)}
             </List>
         );

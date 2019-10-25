@@ -1,0 +1,24 @@
+.todos-for-day-list {
+    padding: 1em 0 !important;
+}
+
+// List Item
+.todos-for-day-list-item {
+    background: $grey-light-extra;
+    margin-bottom: 5px;
+    border-top: none !important;
+    font-weight: bold;
+}
+
+// List Item Text
+.todos-for-day-list-item-text {
+    padding: 0.8rem !important;
+}
+
+// Count
+.todos-for-day-list-item-count {
+    padding-top: 0.8em !important;
+    background: $blue;
+    color: white;
+    padding: 0.2rem 0.5rem 0.3rem 0.5rem;
+}
