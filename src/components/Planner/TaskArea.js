@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import TodoCard from "./Todos/TodoCard/TodoCard";
 import RemindersList from "./Reminders/RemindersList";
 import AddTodoCard from "./Todos/TodoCard/AddTodoCard";
+import TodosForDayCount from "../Global/TodosForDayCount";
 
 class TaskArea extends React.Component {
     state = {
@@ -78,7 +79,10 @@ class TaskArea extends React.Component {
         return (
             <Grid className="planner-area view-height">
                 <Grid.Row className="task-area-header">
-                    {moment(currentDay).format("DD/MM/YYYY - dddd")}
+                    <span className="date-with-name">
+                        {moment(currentDay).format("DD/MM/YYYY - dddd")}
+                    </span>
+                    <TodosForDayCount day={currentDay} />
                 </Grid.Row>
                 <Grid.Row className="view-height task-area">
                     <Grid.Column

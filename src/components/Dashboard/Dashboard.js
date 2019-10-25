@@ -1,5 +1,6 @@
 // Object Imports
 import React from "react";
+import moment from "moment";
 
 // Destructured Imports
 import { Grid } from "semantic-ui-react";
@@ -7,9 +8,12 @@ import { Grid } from "semantic-ui-react";
 // Component Imports
 import QuoteBar from "./QuoteBar";
 import TodosForDay from "./TodosForDay/TodosForDay";
-import TodosForDayList from "./TodosForDay/TodosForDayList";
+import TodosForDayCount from "../Global/TodosForDayCount";
 import DashboardNotes from "./DashboardNotes/DashboardNotesList";
 import AddDashboardNote from "./DashboardNotes/AddDashboardNote";
+
+// Helper Imports
+import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 const Dashboard = () => (
     <Grid>
@@ -23,7 +27,8 @@ const Dashboard = () => (
             </Grid.Column>
             <Grid.Column width={8}>
                 <p className="subtitle">
-                    Todos for today: <TodosForDayList />
+                    Todos for today:{" "}
+                    <TodosForDayCount day={getDayOnlyTimestamp(moment())} />
                 </p>
                 <TodosForDay />
             </Grid.Column>
