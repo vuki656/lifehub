@@ -7,9 +7,9 @@ import moment from "moment";
 import { Grid, Icon } from "semantic-ui-react";
 
 // Component Imports
-import TodoList from "./TodoList";
+import TodoList from "../TodoList";
 import EditTodoCardNamePopup from "../Popups/EditTodoCardNamePopup";
-import AddTodoInput from "./AddTodoInput";
+import AddTodoInput from "../AddTodoInput";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
