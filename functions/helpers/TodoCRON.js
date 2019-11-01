@@ -1,13 +1,8 @@
 const moment = require("moment");
 
 // Get day before timestamp
-// Sub 26 is used because there is a time
-// difference on google server and it returns
-// wrong value
 module.exports.getYesterdayStamp = () => {
-    return moment(moment().startOf("day"))
-        .subtract(26, "hours")
-        .valueOf();
+    return moment(moment().startOf("day")).valueOf();
 };
 
 // Get a list of all users by their IDs
@@ -62,7 +57,7 @@ module.exports.moveTodoToNextDay = (
         .remove();
 };
 
-// Itterate trough all todos from yesterday and move them to today
+// Iterate trough all todos from yesterday and move them to today
 // If they are not repeating or not checked
 module.exports.handleTodoMove = (admin, yesterdayStamp, userList) => {
     userList.forEach(async userId => {

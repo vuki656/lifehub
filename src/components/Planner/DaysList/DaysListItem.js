@@ -26,7 +26,7 @@ class DaysListItem extends React.Component {
     };
 
     componentDidMount() {
-        this.addTodoCompleatedAmountListener(this.state);
+        this.addTodoCompletedAmountListener(this.state);
         this.getCompletionStatus(this.state);
     }
 
@@ -34,8 +34,8 @@ class DaysListItem extends React.Component {
         this.removeListeners(this.state);
     }
 
-    // Listen for compleated todo amount change
-    addTodoCompleatedAmountListener = ({ todoRef, currentUser }) => {
+    // Listen for completed todo amount change
+    addTodoCompletedAmountListener = ({ todoRef, currentUser }) => {
         todoRef.child(`${currentUser.uid}/`).on("child_changed", () => {
             this.getCompletionStatus(this.state);
         });
@@ -66,7 +66,7 @@ class DaysListItem extends React.Component {
         this.setDayCompletionAmount(total, checked);
     };
 
-    // Set how many todos are compleated in the day
+    // Set how many todos are completed in the day
     setDayCompletionAmount = (total, checked) => {
         if (total) {
             this.setState({ compleatedAmount: `${checked}/${total}` });

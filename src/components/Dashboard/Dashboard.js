@@ -6,7 +6,6 @@ import moment from "moment";
 import { Grid } from "semantic-ui-react";
 
 // Component Imports
-import QuoteBar from "./QuoteBar";
 import TodosForDay from "./TodosForDay/TodosForDay";
 import TodosForDayCount from "../Global/TodosForDayCount";
 import DashboardNotes from "./DashboardNotes/DashboardNotesList";
@@ -17,9 +16,6 @@ import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 const Dashboard = () => (
     <Grid>
-        <Grid.Row className="quote-section">
-            <QuoteBar />
-        </Grid.Row>
         <Grid.Row className="main-section">
             <Grid.Column width={8}>
                 <AddDashboardNote />
