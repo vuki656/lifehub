@@ -47,9 +47,17 @@ class PushTodoToTomorrow extends React.Component {
     };
 
     // Remove todo from current day
-    deleteTodoFromToday = ({ todoRef, currentUser, category, currentDay }) => {
+    deleteTodoFromToday = ({
+        todoRef,
+        currentUser,
+        category,
+        currentDay,
+        todo
+    }) => {
         todoRef
-            .child(`${currentUser.uid}/${currentDay}/categories/${category}/`)
+            .child(
+                `${currentUser.uid}/${currentDay}/categories/${category}/${todo.key}`
+            )
             .remove()
             .catch(error => console.error(error));
     };
