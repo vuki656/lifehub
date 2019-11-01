@@ -14,9 +14,9 @@ class TodoList extends React.Component {
     _isMounted = false;
 
     state = {
-        todoList: [],
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
+        todoList: [],
 
         // Redux Props
         currentDay: this.props.currentDay
@@ -79,7 +79,7 @@ class TodoList extends React.Component {
             });
     };
 
-    // Listen for reminder deletions
+    // Listen for todo deletions
     addChangeTodoListener = ({ todoRef, currentUser, currentDay }) => {
         todoRef
             .child(`${currentUser.uid}/${currentDay}`)

@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 // Component Imports
 import EditTodoNamePopup from "./Popups/EditTodoNamePopup";
 import RepeatTodoPopup from "./Popups/RepeatTodoPopup/RepeatTodoPopup";
+import PushTodoToTomorrow from "./PushTodoToTomorrow";
 
 // Helper Imports
 import { deleteTodoFromFirebase } from "../../../helpers/Planner/Todo";
@@ -120,6 +121,7 @@ class Todo extends React.Component {
                         />
                     </Grid.Column>
                     <Grid.Column floated="right" width={6}>
+                        <PushTodoToTomorrow todo={todo} category={category} />
                         <EditTodoNamePopup todo={todo} category={category} />
                         <RepeatTodoPopup todo={todo} category={category} />
                         <Icon
