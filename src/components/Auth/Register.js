@@ -5,14 +5,17 @@ import moment from "moment";
 
 // Destructured Imports
 import { Link } from "react-router-dom";
-import { Form, Grid, Message, Button, Icon, Header } from "semantic-ui-react";
+import { Form, Grid, Message, Button, Icon } from "semantic-ui-react";
+
+// File Imports
+import { ReactComponent as Logo } from "../../files/logo.svg";
 
 class Register extends React.Component {
     state = {
         username: "",
         email: "",
         password: "",
-        passwordConfirmaton: "",
+        passwordConfirmation: "",
         error: "",
         loading: false,
         userRef: firebase.database().ref("users")
@@ -63,14 +66,14 @@ class Register extends React.Component {
     };
 
     // Check if passwords match and longer than 6 chars
-    isPasswordValid = ({ password, passwordConfirmaton }) => {
+    isPasswordValid = ({ password, passwordConfirmation }) => {
         let currentError;
 
-        if (password !== passwordConfirmaton) {
+        if (password !== passwordConfirmation) {
             currentError = "Passwords don't match.";
             this.setState({ error: currentError });
             return false;
-        } else if (password.length <= 6 || passwordConfirmaton <= 6) {
+        } else if (password.length <= 6 || passwordConfirmation <= 6) {
             currentError =
                 "Password is too short. It must be 7 or more characters.";
             this.setState({ error: currentError });
@@ -93,10 +96,17 @@ class Register extends React.Component {
         } = this.state;
 
         return (
-            <Grid textAlign="center" verticalAlign="middle" className="base">
+            <Grid
+                style={{ height: "100vh" }}
+                textAlign="center"
+                verticalAlign="middle"
+                className="base"
+            >
                 <Grid.Column className="max-w-30-p">
-                    <Header as="h1">LifeHub Register</Header>
-                    <Form onSubmit={this.handleSubmit} className="segment">
+                    <div className="logo-section">
+                        <Logo className="logo" />
+                    </div>
+                    <Form onSubmit={this.handleSubmit}>
                         <Form.Input
                             name="username"
                             icon="user"
@@ -131,7 +141,7 @@ class Register extends React.Component {
                             value={password}
                         />
                         <Form.Input
-                            name="passwordConfirmaton"
+                            name="passwordConfirmation"
                             icon="repeat"
                             iconPosition="left"
                             fluid
@@ -141,15 +151,22 @@ class Register extends React.Component {
                             onChange={this.handleChange}
                             value={passwordConfirmation}
                         />
-                        <Button fluid className={loading ? "loading" : ""}>
+                        <Button
+                            fluid
+                            className={
+                                loading
+                                    ? "loading button-primary"
+                                    : "button-primary"
+                            }
+                        >
                             Register
                         </Button>
                     </Form>
-                    <Message info>
+                    <div className="login-bottom-section">
                         <Icon name="help" />
                         Already have an account?
                         <Link to="/login"> Login</Link>
-                    </Message>
+                    </div>
                     {error !== "" && (
                         <Message negative>
                             <Message.Header>Error:</Message.Header>

@@ -4,15 +4,7 @@ class Settings extends React.Component {
     state = {};
 
     render() {
-        return (
-            <div>
-                <p>Settings</p>
-                <p>Settings</p>
-                <p>Settings</p>
-                <p>Settings</p>
-                <p>Settings</p>
-            </div>
-        );
+        return <p>Settings</p>;
     }
 }
 
