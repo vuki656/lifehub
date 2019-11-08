@@ -45,7 +45,7 @@ class WeightTableRow extends React.Component {
         }
     };
 
-    deteterineDayToStartDifference = ({ weightEntry, firstWeightEntry }) => {
+    determineDayToStartDifference = ({ weightEntry, firstWeightEntry }) => {
         if (weightEntry.y < firstWeightEntry) {
             return "weight-table-row-green";
         } else {
@@ -67,7 +67,7 @@ class WeightTableRow extends React.Component {
                     />
                 </Table.Cell>
                 <Table.Cell>{weightEntry.x}</Table.Cell>
-                <Table.Cell>{weightEntry.y}</Table.Cell>
+                <Table.Cell>{parseFloat(weightEntry.y).toFixed(2)}</Table.Cell>
                 <Table.Cell
                     className={this.determineDayToDayDifference(this.state)}
                 >
@@ -77,7 +77,7 @@ class WeightTableRow extends React.Component {
                     )}
                 </Table.Cell>
                 <Table.Cell
-                    className={this.deteterineDayToStartDifference(this.state)}
+                    className={this.determineDayToStartDifference(this.state)}
                 >
                     {this.calcWeightDif(weightEntry.y, firstWeightEntry)}
                 </Table.Cell>
