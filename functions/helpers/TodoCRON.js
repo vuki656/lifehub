@@ -2,7 +2,11 @@ const moment = require("moment");
 
 // Get day before timestamp
 module.exports.getYesterdayStamp = () => {
-    return moment(moment().startOf("day")).valueOf();
+    return moment(
+        moment()
+            .startOf("day")
+            .subtract(25, "hours")
+    ).valueOf();
 };
 
 // Get a list of all users by their IDs

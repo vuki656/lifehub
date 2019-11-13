@@ -1,14 +1,13 @@
-// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
+// Main Imports
 const functions = require("firebase-functions");
-
-// The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require("firebase-admin");
-admin.initializeApp();
+const moment = require("moment");
 
+// Helper Imports
 const countHelpers = require("./helpers/CountTodos");
 const cron = require("./helpers/TodoCRON");
 
-const moment = require("moment");
+admin.initializeApp();
 
 // Update todo count every time theres an add, delete, update
 exports.countTodos = functions.database
@@ -25,6 +24,7 @@ exports.pushTodosToNextDayCRON = functions.pubsub
     .onRun(async context => {
         console.log("RAN AT: " + moment().format("dd/MM/YYYY ss:mm"));
         let yesterdayStamp = await cron.getYesterdayStamp();
+        console.log("TCL: yesterdayStamp", yesterdayStamp);
         let userList = await cron.getUserList(admin);
         await cron.handleTodoMove(admin, yesterdayStamp, userList);
     });
