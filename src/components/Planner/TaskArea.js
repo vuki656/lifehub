@@ -8,9 +8,9 @@ import { Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
-import TodoCard from "./Todos/TodoCard/TodoCard";
+import TodoCard from "./TodoCard/TodoCard";
 import RemindersList from "./Reminders/RemindersList";
-import AddTodoCard from "./Todos/TodoCard/AddTodoCard";
+import AddTodoCardButton from "./TodoCard/Buttons/AddTodoCardButton";
 
 class TaskArea extends React.Component {
     state = {
@@ -91,7 +91,7 @@ class TaskArea extends React.Component {
                         <Grid>
                             <Grid.Row columns={3}>
                                 {this.renderTodoCards(this.state)}
-                                <AddTodoCard />
+                                <AddTodoCardButton />
                             </Grid.Row>
                         </Grid>
                     </Grid.Column>
@@ -108,7 +108,4 @@ const mapStateToProps = state => ({
     currentDay: state.planner.currentDay
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(TaskArea);
+export default connect(mapStateToProps, null)(TaskArea);

@@ -8,7 +8,7 @@ import { Grid, Dropdown, Checkbox } from "semantic-ui-react";
 import {
     daysOfMonth,
     daysOfWeek
-} from "../../../../../data/Planner/RepeatingTodoDropdownOptions";
+} from "../../../../../../data/Planner/RepeatingTodoDropdownOptions";
 
 class RepeatOptions extends React.Component {
     state = {

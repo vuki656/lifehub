@@ -104,7 +104,7 @@ class Planner extends React.Component {
         let monthList = [];
 
         let noOfMonthsToGenerate = this.getMonthsToGenerateNo(regDate);
-        this.saveDateUntillMonthsGenerated(this.state, noOfMonthsToGenerate);
+        this.saveDateUntilMonthsGenerated(this.state, noOfMonthsToGenerate);
 
         for (let i = 0; i < noOfMonthsToGenerate; i++) {
             monthList.push(moment(regDate).add(i, "month"));
@@ -140,12 +140,12 @@ class Planner extends React.Component {
         return foundMonth;
     };
 
-    // Save the date untill months are generated
-    saveDateUntillMonthsGenerated = (
+    // Save the date until months are generated
+    saveDateUntilMonthsGenerated = (
         { usersRef, currentUser },
         monthsToGenerate
     ) => {
-        let generateMonthsUntillDate = moment()
+        let generateMonthsUntilDate = moment()
             .add(monthsToGenerate, "months")
             .endOf("month")
             .startOf("day")
@@ -153,7 +153,7 @@ class Planner extends React.Component {
 
         usersRef
             .child(currentUser.uid)
-            .update({ generateUntill: generateMonthsUntillDate });
+            .update({ generateUntill: generateMonthsUntilDate });
     };
 
     // After each month passes, add one additional month to
@@ -217,7 +217,4 @@ const mapStateToProps = state => ({
     regDate: state.planner.regDate
 });
 
-export default connect(
-    mapStateToProps,
-    { fetchUserSettings }
-)(Planner);
+export default connect(mapStateToProps, { fetchUserSettings })(Planner);

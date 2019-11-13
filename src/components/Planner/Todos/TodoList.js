@@ -7,7 +7,7 @@ import { Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
-import Todo from "./Todo";
+import Todo from "./Todo/Todo";
 
 class TodoList extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -151,7 +151,4 @@ const mapStateToProps = state => ({
     currentDay: state.planner.currentDay
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(TodoList);
+export default connect(mapStateToProps, null)(TodoList);

@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
@@ -8,10 +8,10 @@ import { Popup, Input, Icon, Button, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Helper Imports
-import { getDayOnlyTimestamp } from "../../../../helpers/Global";
-import { isDayBeingSavedTo } from "../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../../../../helpers/Global";
+import { isDayBeingSavedTo } from "../../../../../helpers/Planner/Todo";
 
-class EditTodoPopup extends React.Component {
+class EditTodoNameButton extends React.Component {
     state = {
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
@@ -98,9 +98,7 @@ class EditTodoPopup extends React.Component {
         if (newTodo !== "") {
             todoRef
                 .child(
-                    `${
-                        currentUser.uid
-                    }/${dayTimestamp}/categories/${category}/${todo.key}`
+                    `${currentUser.uid}/${dayTimestamp}/categories/${category}/${todo.key}`
                 )
                 .update({ text: newTodo })
                 .catch(err => {
@@ -181,7 +179,4 @@ const mapStateToProps = state => ({
     generateUntillDate: state.planner.generateUntillDate
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(EditTodoPopup);
+export default connect(mapStateToProps, null)(EditTodoNameButton);

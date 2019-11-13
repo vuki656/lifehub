@@ -5,7 +5,7 @@ import firebase from "../../../../firebase/Auth";
 // Destructured Imports
 import { Icon, Segment, Grid, Button, Input } from "semantic-ui-react";
 
-class AddTodoCard extends React.Component {
+class AddTodoCardButton extends React.Component {
     state = {
         todoCardRef: firebase.database().ref("todo-cards"),
         currentUser: firebase.auth().currentUser,
@@ -96,4 +96,4 @@ class AddTodoCard extends React.Component {
     }
 }
 
-export default AddTodoCard;
+export default AddTodoCardButton;

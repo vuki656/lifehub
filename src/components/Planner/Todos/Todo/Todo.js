@@ -8,13 +8,13 @@ import { Checkbox, Icon, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Component Imports
-import EditTodoNamePopup from "./Popups/EditTodoNamePopup";
-import RepeatTodoPopup from "./Popups/RepeatTodoPopup/RepeatTodoPopup";
-import PushTodoToTomorrow from "./PushTodoToTomorrow";
+import EditTodoNameButton from "./Buttons/EditTodoNameButton";
+import RepeatTodoButton from "./Buttons/RepeatTodoButton/RepeatTodoButton";
+import PushToTomorrowButton from "./Buttons/PushToTomorrowButton";
 
 // Helper Imports
-import { deleteTodoFromFirebase } from "../../../helpers/Planner/Todo";
-import { getDayOnlyTimestamp } from "../../../helpers/Global";
+import { deleteTodoFromFirebase } from "../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class Todo extends React.Component {
     state = {
@@ -121,9 +121,9 @@ class Todo extends React.Component {
                         />
                     </Grid.Column>
                     <Grid.Column floated="right" width={6}>
-                        <PushTodoToTomorrow todo={todo} category={category} />
-                        <EditTodoNamePopup todo={todo} category={category} />
-                        <RepeatTodoPopup todo={todo} category={category} />
+                        <PushToTomorrowButton todo={todo} category={category} />
+                        <EditTodoNameButton todo={todo} category={category} />
+                        <RepeatTodoButton todo={todo} category={category} />
                         <Icon
                             name={"remove"}
                             link={true}
@@ -142,7 +142,4 @@ const mapStateToProps = state => ({
     generateUntillDate: state.planner.generateUntillDate
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(Todo);
+export default connect(mapStateToProps, null)(Todo);

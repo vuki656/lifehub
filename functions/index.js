@@ -24,7 +24,6 @@ exports.pushTodosToNextDayCRON = functions.pubsub
     .onRun(async context => {
         console.log("RAN AT: " + moment().format("dd/MM/YYYY ss:mm"));
         let yesterdayStamp = await cron.getYesterdayStamp();
-        console.log("TCL: yesterdayStamp", yesterdayStamp);
         let userList = await cron.getUserList(admin);
         await cron.handleTodoMove(admin, yesterdayStamp, userList);
     });

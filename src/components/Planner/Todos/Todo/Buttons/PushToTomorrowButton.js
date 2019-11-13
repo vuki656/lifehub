@@ -1,13 +1,13 @@
 // Object Imports
 import React from "react";
 import moment from "moment";
-import firebase from "../../../firebase/Auth";
+import firebase from "../../../../../firebase/Auth";
 
 // Destructured Imports
 import { Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 
-class PushTodoToTomorrow extends React.Component {
+class PushToTomorrowButton extends React.Component {
     state = {
         todoRef: firebase.database().ref("todos"),
         currentUser: firebase.auth().currentUser,
@@ -78,7 +78,4 @@ const mapStateToProps = state => ({
     currentDay: state.planner.currentDay
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(PushTodoToTomorrow);
+export default connect(mapStateToProps, null)(PushToTomorrowButton);

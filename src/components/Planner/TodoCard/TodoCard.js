@@ -1,18 +1,18 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
 import { Grid, Icon } from "semantic-ui-react";
 
 // Component Imports
-import TodoList from "../TodoList";
-import EditTodoCardNamePopup from "../Popups/EditTodoCardNamePopup";
-import AddTodoInput from "../AddTodoInput";
+import TodoList from "../Todos/TodoList";
+import EditTodoCardNameButton from "./Buttons/EditTodoCardNameButton";
+import AddTodoInput from "../Todos/AddTodoInput";
 
 // Helper Imports
-import { getDayOnlyTimestamp } from "../../../../helpers/Global";
+import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class TodoCard extends React.Component {
     state = {
@@ -104,7 +104,7 @@ class TodoCard extends React.Component {
                                 {name}
                             </Grid.Column>
                             <Grid.Column floated="right" width={5}>
-                                <EditTodoCardNamePopup todoCard={todoCard} />
+                                <EditTodoCardNameButton todoCard={todoCard} />
                                 <Icon
                                     name={"remove"}
                                     link={true}
