@@ -3,7 +3,7 @@ import React from "react";
 import moment from "moment";
 
 // Destructured Imports
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 
 // Component Imports
 import TodosForDay from "./TodosForDay/TodosForDay";
@@ -23,10 +23,10 @@ const Dashboard = () => (
             <DashboardNotes />
         </Grid>
         <Grid item xs={6}>
-            <p className="title">
+            <Typography variant={"h5"}>
                 Todos for today:{" "}
                 <TodosForDayCount day={getDayOnlyTimestamp(moment())} />
-            </p>
+            </Typography>
             <TodosForDay />
         </Grid>
     </Grid>
