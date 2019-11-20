@@ -87,7 +87,7 @@ class Todo extends React.Component {
         }
     };
 
-    // Send changed todo checkbox state to firebase and rerender
+    // Send changed todo checkbox state to firebase and re-render
     handleTodoCheckboxChange = ({
         todoRef,
         currentUser,

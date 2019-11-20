@@ -109,30 +109,50 @@ class RepeatTodoButton extends React.Component {
         todoCreatedAtDate
     ) => {
         for (
-            let itteratingDate = moment();
-            itteratingDate.isBefore(moment(generateUntillDate).add(1, "day"));
-            itteratingDate.add(1, "days")
+            let iteratingDate = moment();
+            iteratingDate.isBefore(moment(generateUntillDate).add(1, "day"));
+            iteratingDate.add(1, "days")
         ) {
-            let dayTimestamp = getDayOnlyTimestamp(itteratingDate);
+            let dayTimestamp = getDayOnlyTimestamp(iteratingDate);
 
             // If start or end date are checked, use start/end date of month
             let startOfMonth = repeatAtStartOfMonth
-                ? getDayOnlyTimestamp(moment(itteratingDate).startOf("month"))
+                ? getDayOnlyTimestamp(moment(iteratingDate).startOf("month"))
                 : "";
             let endOfMonth = repeatAtEndOfMonth
-                ? getDayOnlyTimestamp(moment(itteratingDate).endOf("month"))
+                ? getDayOnlyTimestamp(moment(iteratingDate).endOf("month"))
                 : "";
 
+            // Check if todo is repeating in month days
+            let isDayOfMonth = isDayBeingSavedTo(
+                iteratingDate,
+                selectedMonthDays,
+                "Do"
+            );
+
+            // Check if todo is repeating in week days
+            let isDayOfYear = isDayBeingSavedTo(
+                iteratingDate,
+                selectedWeekDays,
+                "dddd"
+            );
+
+            // Check if todo is repeating on the 1st in month
+            let isStartOfMonth = startOfMonth === dayTimestamp;
+
+            // Check if todo is repeating on the last in month
+            let isEndOfMonth = endOfMonth === dayTimestamp;
+
+            let isAfterCreationDate = moment(iteratingDate).isAfter(
+                todoCreatedAtDate
+            );
+
             if (
-                (isDayBeingSavedTo(itteratingDate, selectedMonthDays, "Do") ||
-                    isDayBeingSavedTo(
-                        itteratingDate,
-                        selectedWeekDays,
-                        "dddd"
-                    ) ||
-                    startOfMonth === dayTimestamp ||
-                    endOfMonth === dayTimestamp) &&
-                moment(itteratingDate).isAfter(todoCreatedAtDate)
+                (isDayOfMonth ||
+                    isDayOfYear ||
+                    isStartOfMonth ||
+                    isEndOfMonth) &&
+                isAfterCreationDate
             ) {
                 this.saveSingleTodoInFirebase(
                     this.state,
