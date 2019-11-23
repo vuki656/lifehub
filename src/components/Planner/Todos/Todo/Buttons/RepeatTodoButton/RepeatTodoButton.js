@@ -5,7 +5,7 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 
 // Destructured Imports
-import { Popup, Icon, Button, Checkbox, Segment } from "semantic-ui-react";
+import { Popup, Icon, Button, Checkbox } from "semantic-ui-react";
 import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 

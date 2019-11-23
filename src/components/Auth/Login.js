@@ -3,7 +3,7 @@ import React from "react";
 import firebase from "../../firebase/Auth";
 
 // Destructured Imports
-import { Form, Grid, Message, Button, Icon } from "semantic-ui-react";
+import { Grid, TextField, Button, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 // File Imports
@@ -13,21 +13,18 @@ class Login extends React.Component {
     state = {
         email: "",
         password: "",
-        error: "",
-        loading: false
+        error: ""
     };
 
     // Handle form submit
     handleSubmit = event => {
         event.preventDefault();
-        this.setState({ loading: true });
         firebase
             .auth()
             .signInWithEmailAndPassword(this.state.email, this.state.password)
             .catch(error => {
                 this.setState({ error: error.message });
             });
-        this.setState({ loading: false });
     };
 
     // Set the state value from user input
@@ -35,69 +32,71 @@ class Login extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    // Display error to the UI
     displayError = error => <p>{error}</p>;
 
     render() {
-        const { email, password, error, loading } = this.state;
+        const { error } = this.state;
 
         return (
             <Grid
-                style={{ height: "100vh" }}
-                textAlign="center"
-                verticalAlign="middle"
-                className="base"
+                container
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: "100vh" }}
             >
-                <Grid.Column className="max-w-30-p">
-                    <div className="logo-section">
+                <Grid xs={4}>
+                    <Grid xs={12} className="mar-bot-1-rem">
                         <Logo className="logo" />
-                    </div>
-                    <Form onSubmit={this.handleSubmit}>
-                        <Form.Input
+                    </Grid>
+                    <Grid xs={12}>
+                        <TextField
+                            required
+                            label="Email"
                             name="email"
-                            icon="mail"
-                            iconPosition="left"
-                            fluid
-                            placeholder="E-Mail"
-                            required
-                            type="email"
+                            fullWidth
                             onChange={this.handleChange}
-                            value={email}
+                            className="mar-bot-1-rem"
                         />
-                        <Form.Input
+                        <TextField
+                            required
                             name="password"
-                            icon="lock"
-                            iconPosition="left"
-                            fluid
-                            placeholder="Password"
-                            required
+                            label="Password"
                             type="password"
+                            fullWidth
                             onChange={this.handleChange}
-                            value={password}
+                            className="mar-bot-1-rem"
                         />
-
-                        <Button
-                            fluid
-                            className={
-                                loading
-                                    ? "loading button-primary"
-                                    : "button-primary"
-                            }
+                        <Grid container justify="center">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.handleSubmit}
+                                className="mar-bot-1-rem"
+                            >
+                                Login
+                            </Button>
+                        </Grid>
+                        <Typography
+                            variant="subtitle1"
+                            align="center"
+                            className="mar-bot-1-rem"
                         >
-                            Login
-                        </Button>
-                    </Form>
-                    <div className="login-bottom-section">
-                        <Icon name="help" />
-                        Don't have an account?
-                        <Link to="/register"> Register</Link>
-                    </div>
-                    {error !== "" && (
-                        <Message negative>
-                            <Message.Header>Error:</Message.Header>
-                            {this.displayError(error)}
-                        </Message>
-                    )}
-                </Grid.Column>
+                            Don't have an account?{" "}
+                            <Link to="/register">Register</Link>
+                        </Typography>
+                        {error !== "" && (
+                            <Typography
+                                color="error"
+                                align="center"
+                                className="mar-bot-1-rem"
+                            >
+                                Error
+                                {this.displayError(error)}
+                            </Typography>
+                        )}
+                    </Grid>
+                </Grid>
             </Grid>
         );
     }
