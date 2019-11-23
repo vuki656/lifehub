@@ -5,7 +5,7 @@ import moment from "moment";
 
 // Destructured Imports
 import { Link } from "react-router-dom";
-import { Form, Grid, Message, Button, Icon } from "semantic-ui-react";
+import { Grid, Typography, TextField, Button } from "@material-ui/core";
 
 // File Imports
 import { ReactComponent as Logo } from "../../files/logo.svg";
@@ -86,94 +86,87 @@ class Register extends React.Component {
     displayError = error => <p>{error}</p>;
 
     render() {
-        const {
-            username,
-            email,
-            password,
-            passwordConfirmation,
-            error,
-            loading
-        } = this.state;
+        const { error } = this.state;
 
         return (
             <Grid
-                style={{ height: "100vh" }}
-                textAlign="center"
-                verticalAlign="middle"
-                className="base"
+                container
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: "100vh" }}
             >
-                <Grid.Column className="max-w-30-p">
-                    <div className="logo-section">
+                <Grid xs={4}>
+                    <Grid xs={12} className="mar-bot-1-rem">
                         <Logo className="logo" />
-                    </div>
-                    <Form onSubmit={this.handleSubmit}>
-                        <Form.Input
+                    </Grid>
+                    <Grid xs={12}>
+                        <TextField
+                            required="true"
+                            label="Username"
                             name="username"
-                            icon="user"
-                            iconPosition="left"
-                            fluid
-                            placeholder="Username"
-                            required
-                            type="text"
+                            fullWidth
                             onChange={this.handleChange}
-                            value={username}
+                            className="mar-bot-1-rem"
                         />
-                        <Form.Input
+
+                        <TextField
+                            required
+                            label="Email"
                             name="email"
-                            icon="mail"
-                            iconPosition="left"
-                            fluid
-                            placeholder="E-Mail"
-                            required
-                            type="email"
+                            fullWidth
                             onChange={this.handleChange}
-                            value={email}
+                            className="mar-bot-1-rem"
                         />
-                        <Form.Input
-                            name="password"
-                            icon="lock"
-                            iconPosition="left"
-                            fluid
-                            placeholder="Password"
+
+                        <TextField
                             required
-                            type="password"
-                            onChange={this.handleChange}
-                            value={password}
-                        />
-                        <Form.Input
                             name="passwordConfirmation"
-                            icon="repeat"
-                            iconPosition="left"
-                            fluid
-                            placeholder="Retype Password"
-                            required
+                            label="Password"
                             type="password"
+                            fullWidth
                             onChange={this.handleChange}
-                            value={passwordConfirmation}
+                            className="mar-bot-1-rem"
                         />
-                        <Button
-                            fluid
-                            className={
-                                loading
-                                    ? "loading button-primary"
-                                    : "button-primary"
-                            }
+                        <TextField
+                            required
+                            name="passwordConfirmation"
+                            label="Repeat Password"
+                            type="password"
+                            fullWidth
+                            onChange={this.handleChange}
+                            className="mar-bot-1-rem"
+                        />
+
+                        <Grid container justify="center">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.handleSubmit}
+                                className="mar-bot-1-rem"
+                            >
+                                Register
+                            </Button>
+                        </Grid>
+                        <Typography
+                            variant="subtitle1"
+                            align="center"
+                            className="mar-bot-1-rem"
                         >
-                            Register
-                        </Button>
-                    </Form>
-                    <div className="login-bottom-section">
-                        <Icon name="help" />
-                        Already have an account?
-                        <Link to="/login"> Login</Link>
-                    </div>
-                    {error !== "" && (
-                        <Message negative>
-                            <Message.Header>Error:</Message.Header>
-                            {this.displayError(error)}
-                        </Message>
-                    )}
-                </Grid.Column>
+                            Already have an account?
+                            <Link to="/login"> Login</Link>
+                        </Typography>
+                        {error !== "" && (
+                            <Typography
+                                color="error"
+                                align="center"
+                                className="mar-bot-1-rem"
+                            >
+                                Error:
+                                {this.displayError(error)}
+                            </Typography>
+                        )}
+                    </Grid>
+                </Grid>
             </Grid>
         );
     }
