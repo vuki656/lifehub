@@ -5,9 +5,11 @@ import moment from "moment";
 
 // Destructured Imports
 import { List } from "semantic-ui-react";
+import { Box } from "@material-ui/core";
 
 // Component Imports
 import TodosForDayListItem from "./TodosForDayListItem";
+import TodosForDayCount from "./TodosForDayCount";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
@@ -35,12 +37,14 @@ class TodosForDay extends React.Component {
         this._isMounted = false;
     }
 
+    // Activate database listeners
     addListeners = () => {
         this.addSetCategoryListener(this.state);
         this.addRemoveCategoryListener(this.state);
         this.addChangeCategoryListener(this.state);
     };
 
+    // Deactivate database listeners
     removeListeners = ({ categoryRef, currentUser }) => {
         categoryRef.child(`${currentUser.uid}`).off();
     };
@@ -77,6 +81,7 @@ class TodosForDay extends React.Component {
         });
     };
 
+    // Render category list
     renderCategoryList = ({ categories }) =>
         categories.map(category => (
             <TodosForDayListItem category={category} key={category} />
@@ -84,9 +89,16 @@ class TodosForDay extends React.Component {
 
     render() {
         return (
-            <List divided verticalAlign="middle" className="todos-for-day-list">
-                {this.renderCategoryList(this.state)}
-            </List>
+            <Box>
+                <TodosForDayCount day={getDayOnlyTimestamp(moment())} />
+                <List
+                    divided
+                    verticalAlign="middle"
+                    className="todos-for-day-list"
+                >
+                    {this.renderCategoryList(this.state)}
+                </List>
+            </Box>
         );
     }
 }

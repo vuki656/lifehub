@@ -1,6 +1,9 @@
 // Object Imports
 import React from "react";
-import firebase from "../../firebase/Auth";
+import firebase from "../../../firebase/Auth";
+
+// Destructured Imports
+import { Typography } from "@material-ui/core";
 
 class TodosForDayCount extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -25,6 +28,7 @@ class TodosForDayCount extends React.Component {
         this._isMounted = false;
     }
 
+    // Fetch todo number for current day from firebase
     fetchTotalTodosForDay = ({ todoRef, currentUser, day }) => {
         let total = 0;
         let checked = 0;
@@ -51,9 +55,9 @@ class TodosForDayCount extends React.Component {
         const { totalTodos, totalCheckedTodos } = this.state;
 
         return (
-            <span className="total-todos-for-day-count">
-                {`${totalCheckedTodos}/${totalTodos}`}
-            </span>
+            <Typography variant={"h4"}>
+                Todos for today: {`${totalCheckedTodos}/${totalTodos}`}
+            </Typography>
         );
     }
 }

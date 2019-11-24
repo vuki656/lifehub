@@ -2,7 +2,7 @@
 import React from "react";
 
 // Destructured Imports
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 
 // Component Imports
 import DashboardNotesList from "./DashboardNotesList/DashboardNotesList";
@@ -10,8 +10,9 @@ import AddDashboardNote from "./AddDashboardNote";
 
 const DashboardNotes = () => (
     <Box>
-        <AddDashboardNote />
+        <Typography variant="h4">Notes</Typography>
         <DashboardNotesList />
+        <AddDashboardNote />
     </Box>
 );
 

@@ -3,7 +3,7 @@ import React from "react";
 import firebase from "../../../../firebase/Auth";
 
 // Destructured Imports
-import { List } from "semantic-ui-react";
+import { List } from "@material-ui/core";
 
 // Component Imports
 import DashboardNotesListItem from "./DashboardNotesListItem";
@@ -20,16 +20,18 @@ class DashboardNotesList extends React.Component {
         this.addListeners();
     }
 
+    componentWillUnmount() {
+        this.removeListeners(this.state);
+    }
+
+    // Activate database listeners
     addListeners = () => {
         this.addSetNoteListener(this.state);
         this.addRemoveNoteListener(this.state);
         this.addChangeNoteListener(this.state);
     };
 
-    componentWillUnmount() {
-        this.removeListeners(this.state);
-    }
-
+    // Deactivate database listeners
     removeListeners = ({ notesRef, currentUser }) => {
         notesRef.child(`${currentUser.uid}`).off();
     };
@@ -66,6 +68,7 @@ class DashboardNotesList extends React.Component {
 
                 noteHolder.push({ text, key });
             });
+
             this.setState({ notesList: noteHolder });
         });
     };

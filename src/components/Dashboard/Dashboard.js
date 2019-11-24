@@ -1,18 +1,13 @@
 // Object Imports
 import React from "react";
-import moment from "moment";
 
 // Destructured Imports
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 // Component Imports
 import TodosForDay from "./TodosForDay/TodosForDay";
-import TodosForDayCount from "../Global/TodosForDayCount";
 import DashboardNotes from "./DashboardNotes/DashboardNotes";
 import Stats from "./Stats/Stats";
-
-// Helper Imports
-import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 const Dashboard = () => (
     <Grid container spacing={3}>
@@ -23,10 +18,6 @@ const Dashboard = () => (
             <DashboardNotes />
         </Grid>
         <Grid item xs={6}>
-            <Typography variant={"h5"}>
-                Todos for today:{" "}
-                <TodosForDayCount day={getDayOnlyTimestamp(moment())} />
-            </Typography>
             <TodosForDay />
         </Grid>
     </Grid>
