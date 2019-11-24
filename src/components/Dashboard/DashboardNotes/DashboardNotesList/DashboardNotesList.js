@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../firebase/Auth";
+import firebase from "../../../../firebase/Auth";
 
 // Destructured Imports
 import { List } from "semantic-ui-react";
@@ -8,7 +8,7 @@ import { List } from "semantic-ui-react";
 // Component Imports
 import DashboardNotesListItem from "./DashboardNotesListItem";
 
-class DashboardNotes extends React.Component {
+class DashboardNotesList extends React.Component {
     state = {
         notesRef: firebase.database().ref("dashboard-notes"),
         currentUser: firebase.auth().currentUser,
@@ -81,4 +81,4 @@ class DashboardNotes extends React.Component {
     }
 }
 
-export default DashboardNotes;
+export default DashboardNotesList;

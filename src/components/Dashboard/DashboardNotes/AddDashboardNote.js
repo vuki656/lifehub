@@ -13,10 +13,12 @@ class AddDashboardNotes extends React.Component {
         isPopOpen: false
     };
 
+    // Open/close popup
     togglePopup = () => {
         this.setState({ isPopOpen: !this.state.isPopOpen });
     };
 
+    // Handle note saving
     handleNoteSave = () => {
         this.saveToFirebase(this.state);
         this.togglePopup();

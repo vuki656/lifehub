@@ -8,8 +8,7 @@ import { Grid, Typography } from "@material-ui/core";
 // Component Imports
 import TodosForDay from "./TodosForDay/TodosForDay";
 import TodosForDayCount from "../Global/TodosForDayCount";
-import DashboardNotes from "./DashboardNotes/DashboardNotesList";
-import AddDashboardNote from "./DashboardNotes/AddDashboardNote";
+import DashboardNotes from "./DashboardNotes/DashboardNotes";
 import Stats from "./Stats/Stats";
 
 // Helper Imports
@@ -17,9 +16,10 @@ import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 const Dashboard = () => (
     <Grid container spacing={3}>
-        <Stats />
+        <Grid item xs={12}>
+            <Stats />
+        </Grid>
         <Grid item xs={6}>
-            <AddDashboardNote />
             <DashboardNotes />
         </Grid>
         <Grid item xs={6}>
