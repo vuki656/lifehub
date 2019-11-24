@@ -122,7 +122,7 @@ class TagListItem extends React.Component {
                         className="tag-list-item"
                         style={{ backgroundColor: newTagColor }}
                     >
-                        <Grid.Column className="padd-all-0" width={10}>
+                        <Grid.Column className="pad-all-0" width={10}>
                             <Checkbox
                                 checked={isSelected}
                                 label={tag.text}
@@ -132,7 +132,7 @@ class TagListItem extends React.Component {
                             />
                         </Grid.Column>
                         <Grid.Column
-                            className="padd-all-0 tag-list-item-icons"
+                            className="pad-all-0 tag-list-item-icons"
                             width={6}
                             floated="right"
                         >
@@ -164,7 +164,4 @@ const mapStateToProps = state => ({
     currentDay: state.planner.currentDay
 });
 
-export default connect(
-    mapStateToProps,
-    { updateTagList }
-)(TagListItem);
+export default connect(mapStateToProps, { updateTagList })(TagListItem);

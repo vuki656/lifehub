@@ -145,7 +145,7 @@ class Reminders extends React.Component {
 
         return (
             <Grid className="mar-all-0">
-                <Grid.Column className="padd-all-0">
+                <Grid.Column className="pad-all-0">
                     <Grid.Row>
                         <Grid className="reminder-section">
                             <Grid.Row className="reminders-title">
@@ -181,7 +181,6 @@ const mapStateToProps = state => ({
     currentDay: state.planner.currentDay
 });
 
-export default connect(
-    mapStateToProps,
-    { fetchTags, fetchReminderTags }
-)(Reminders);
+export default connect(mapStateToProps, { fetchTags, fetchReminderTags })(
+    Reminders
+);

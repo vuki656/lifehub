@@ -10,8 +10,8 @@ import AddDashboardNote from "./AddDashboardNote";
 
 const DashboardNotes = () => (
     <Box>
-        <DashboardNotesList />
         <AddDashboardNote />
+        <DashboardNotesList />
     </Box>
 );
 

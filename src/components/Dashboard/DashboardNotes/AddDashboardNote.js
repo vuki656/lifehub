@@ -3,25 +3,50 @@ import React from "react";
 import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
-import { TextArea, Popup, Grid, Button, Icon } from "semantic-ui-react";
+import {
+    Popper,
+    Paper,
+    Box,
+    Typography,
+    TextareaAutosize,
+    Button,
+    Grid
+} from "@material-ui/core";
+
+// Icon Imports
+import NoteOutlinedIcon from "@material-ui/icons/NoteOutlined";
 
 class AddDashboardNotes extends React.Component {
     state = {
         notesRef: firebase.database().ref("dashboard-notes"),
         currentUser: firebase.auth().currentUser,
         noteText: "",
-        isPopOpen: false
+        isPopOpen: false,
+        anchorElement: null
     };
 
-    // Open/close popup
-    togglePopup = () => {
-        this.setState({ isPopOpen: !this.state.isPopOpen });
+    // Handle popup toggle actions
+    handlePopToggle = event => {
+        this.setAnchorElement(event);
+        this.togglePopup();
     };
 
     // Handle note saving
     handleNoteSave = () => {
         this.saveToFirebase(this.state);
         this.togglePopup();
+    };
+
+    // Open/close popup
+    togglePopup = () => {
+        this.setState({
+            isPopOpen: !this.state.isPopOpen
+        });
+    };
+
+    // Set anchor element (position where to open the pop)
+    setAnchorElement = event => {
+        this.setState({ anchorElement: event.currentTarget });
     };
 
     // Save note in firebase
@@ -35,64 +60,75 @@ class AddDashboardNotes extends React.Component {
 
     // Set the state value from user input
     handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({
+            [event.target.name]: event.target.value
+        });
     };
 
     render() {
-        const { isPopOpen } = this.state;
+        const { isPopOpen, anchorElement } = this.state;
 
         return (
-            <React.Fragment>
-                <Popup
-                    className="edit-todo-name-popup"
-                    basic
-                    trigger={
-                        <React.Fragment>
-                            <span className="title">Enter Your Note </span>
-                            <Icon
-                                className="add-dashboard-note-icon"
-                                name={"add"}
-                                link={true}
-                                onClick={this.togglePopup}
-                            />
-                        </React.Fragment>
-                    }
-                    flowing
-                    onClose={this.togglePopup}
-                    open={isPopOpen}
-                    on="click"
+            <Box>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    endIcon={<NoteOutlinedIcon />}
+                    onClick={this.handlePopToggle}
                 >
-                    <Grid className="add-dashboard-note-pop pad-all-1-rem">
-                        <Grid.Row className="pad-top-bot-0">
-                            <span className="subtitle">Note Text</span>
-                        </Grid.Row>
-                        <Grid.Row className="pad-top-bot-0">
-                            <TextArea
-                                className="add-dashboard-note-textarea"
-                                rows={6}
-                                name={"noteText"}
-                                onChange={this.handleChange}
-                            />
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Button.Group>
-                                <Button
-                                    className="button-primary"
-                                    onClick={this.handleNoteSave}
-                                >
-                                    Save
-                                </Button>
-                                <Button
-                                    className="button-secondary"
-                                    onClick={this.togglePopup}
-                                >
-                                    Cancel
-                                </Button>
-                            </Button.Group>
-                        </Grid.Row>
-                    </Grid>
-                </Popup>
-            </React.Fragment>
+                    Add Note
+                </Button>
+                <Popper
+                    open={isPopOpen}
+                    anchorEl={anchorElement}
+                    placement="right-start"
+                    style={{ maxWidth: "350px" }}
+                    modifiers={{
+                        flip: {
+                            enabled: true
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            boundariesElement: "undefined"
+                        }
+                    }}
+                >
+                    <Paper>
+                        <Box p={2}>
+                            <Grid container>
+                                <Grid xs={12} item>
+                                    <Typography variant="h3">
+                                        Enter Your Note
+                                    </Typography>
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <TextareaAutosize
+                                        placeholder="Note text"
+                                        name={"noteText"}
+                                        onChange={this.handleChange}
+                                    />
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={this.handleNoteSave}
+                                    >
+                                        Save
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        onClick={this.togglePopup}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </Paper>
+                </Popper>
+            </Box>
         );
     }
 }

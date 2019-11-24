@@ -157,7 +157,7 @@ class SideMenu extends React.Component {
                             <ListItemText primary="Log Out" />
                         </ListItem>
                     </Grid>
-                    <Grid xs>
+                    <Grid item xs>
                         <PrivateRoutes />
                     </Grid>
                 </Router>
