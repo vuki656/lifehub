@@ -4,7 +4,7 @@ import firebase from "../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Grid } from "semantic-ui-react";
+import { Grid, Card, CardContent, Typography } from "@material-ui/core";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
@@ -62,18 +62,17 @@ class TodosForDayCard extends React.Component {
         const { totalTodos, totalCheckedTodos, categoryName } = this.state;
 
         return (
-            <Grid>
-                <Grid.Row className="todos-for-day-list-item pad-top-bot-0">
-                    <Grid.Column className="todos-for-day-list-item-text">
-                        {categoryName}
-                    </Grid.Column>
-                    <Grid.Column
-                        floated="right"
-                        className="todos-for-day-list-item-count"
-                    >
-                        {`${totalCheckedTodos}/${totalTodos}`}
-                    </Grid.Column>
-                </Grid.Row>
+            <Grid xs={3} item>
+                <Card>
+                    <CardContent>
+                        <Typography variant="h4" align="center">
+                            {`${totalCheckedTodos}/${totalTodos}`}
+                        </Typography>
+                        <Typography variant="subtitle1" align="center">
+                            {categoryName}
+                        </Typography>
+                    </CardContent>
+                </Card>
             </Grid>
         );
     }

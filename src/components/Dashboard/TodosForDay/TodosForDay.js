@@ -4,11 +4,10 @@ import firebase from "../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { List } from "semantic-ui-react";
-import { Box } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 
 // Component Imports
-import TodosForDayListItem from "./TodosForDayListItem";
+import TodosForDayCard from "./TodosForDayCard";
 import TodosForDayCount from "./TodosForDayCount";
 
 // Helper Imports
@@ -84,20 +83,16 @@ class TodosForDay extends React.Component {
     // Render category list
     renderCategoryList = ({ categories }) =>
         categories.map(category => (
-            <TodosForDayListItem category={category} key={category} />
+            <TodosForDayCard category={category} key={category} />
         ));
 
     render() {
         return (
             <Box>
                 <TodosForDayCount day={getDayOnlyTimestamp(moment())} />
-                <List
-                    divided
-                    verticalAlign="middle"
-                    className="todos-for-day-list"
-                >
+                <Grid container spacing={3}>
                     {this.renderCategoryList(this.state)}
-                </List>
+                </Grid>
             </Box>
         );
     }
