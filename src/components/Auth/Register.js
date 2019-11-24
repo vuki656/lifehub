@@ -101,7 +101,7 @@ class Register extends React.Component {
                     </Grid>
                     <Grid xs={12}>
                         <TextField
-                            required="true"
+                            required
                             label="Username"
                             name="username"
                             fullWidth

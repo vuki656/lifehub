@@ -3,8 +3,23 @@ import React from "react";
 import firebase from "../firebase/Auth";
 
 // Destructured Imports
-import { Icon, Menu, Grid } from "semantic-ui-react";
+import {
+    Grid,
+    Typography,
+    ListItem,
+    ListItemText,
+    ListItemIcon,
+    Box
+} from "@material-ui/core";
 import { Link, BrowserRouter as Router } from "react-router-dom";
+
+// Icon Imports
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import BookIcon from "@material-ui/icons/Book";
+import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
+import SettingsIcon from "@material-ui/icons/Settings";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 // Component Imports
 import PrivateRoutes from "../routers/PrivateRoutes";
@@ -28,158 +43,116 @@ class SideMenu extends React.Component {
             });
     };
 
-    // Sets the active menu item(background)
-    handleActiveItem = (event, { name }) => this.setState({ activeItem: name });
+    // Sets the active menu item
+    handleActiveItem = event => {
+        this.setState({ activeItem: event.currentTarget.name });
+    };
 
     render() {
         const { activeItem, currentUser } = this.state;
 
         return (
-            <Grid>
-                <Grid.Row className="react-app">
-                    <Router>
-                        <Grid.Column
-                            width={2}
-                            className="side-menu pad-top-bot-10-px pad-lef-rig-0"
-                        >
-                            <div className="logo-section">
-                                <Logo className="logo" />
-                                <p className="sidebar-username">
-                                    {currentUser.displayName}
-                                </p>
-                            </div>
-                            <Menu
-                                vertical
-                                fluid
-                                borderless
-                                className="mar-top-bot-0"
+            <Grid container>
+                <Router>
+                    <Grid className="side-menu">
+                        <Box>
+                            <Logo className="logo" />
+                            <Typography
+                                variant="subtitle1"
+                                align="center"
+                                className="mar-bot-1-rem"
                             >
-                                <Menu.Item
-                                    as={Link}
-                                    to="/dashboard"
-                                    name="dashboard"
-                                    active={activeItem === "dashboard"}
-                                    onClick={this.handleActiveItem}
-                                    className="pad-lef-25-px side-menu-item"
-                                >
-                                    <Grid>
-                                        <Grid.Row>
-                                            <Grid.Column>
-                                                <Icon
-                                                    name="dashboard"
-                                                    color="grey"
-                                                    className="sidebar-menu-item-icon"
-                                                />
-                                            </Grid.Column>
-                                            <Grid.Column>Dashboard</Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
-                                    <React.Fragment />
-                                </Menu.Item>
-                                <Menu.Item
-                                    as={Link}
-                                    to="/planner"
-                                    name="planner"
-                                    active={activeItem === "planner"}
-                                    onClick={this.handleActiveItem}
-                                    className="pad-lef-25-px side-menu-item"
-                                >
-                                    <Grid>
-                                        <Grid.Row>
-                                            <Grid.Column>
-                                                <Icon
-                                                    name="tasks"
-                                                    className="sidebar-menu-item-icon"
-                                                />
-                                            </Grid.Column>
-                                            <Grid.Column>Planner</Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
-                                </Menu.Item>
-                                <Menu.Item
-                                    as={Link}
-                                    to="/journal"
-                                    name="journal"
-                                    active={activeItem === "journal"}
-                                    onClick={this.handleActiveItem}
-                                    className="pad-lef-25-px side-menu-item"
-                                >
-                                    <Grid>
-                                        <Grid.Row>
-                                            <Grid.Column>
-                                                <Icon
-                                                    name="book"
-                                                    className="sidebar-menu-item-icon"
-                                                />
-                                            </Grid.Column>
-                                            <Grid.Column>Journal</Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
-                                </Menu.Item>
-                                <Menu.Item
-                                    as={Link}
-                                    to="/weight"
-                                    name="weight"
-                                    active={activeItem === "weight"}
-                                    onClick={this.handleActiveItem}
-                                    className="pad-lef-25-px side-menu-item"
-                                >
-                                    <Grid>
-                                        <Grid.Row>
-                                            <Grid.Column>
-                                                <Icon
-                                                    name="weight"
-                                                    className="sidebar-menu-item-icon"
-                                                />
-                                            </Grid.Column>
-                                            <Grid.Column>Weight</Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
-                                </Menu.Item>
-                                <Menu.Item
-                                    as={Link}
-                                    to="/settings"
-                                    name="settings"
-                                    active={activeItem === "settings"}
-                                    onClick={this.handleActiveItem}
-                                    className="pad-lef-25-px side-menu-item"
-                                >
-                                    <Grid>
-                                        <Grid.Row>
-                                            <Grid.Column>
-                                                <Icon
-                                                    name="cog"
-                                                    className="sidebar-menu-item-icon"
-                                                />
-                                            </Grid.Column>
-                                            <Grid.Column>Settings</Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
-                                </Menu.Item>
-
-                                <Menu.Item
-                                    onClick={this.handleSignOut}
-                                    className="pad-lef-25-px side-menu-item"
-                                >
-                                    <Grid>
-                                        <Grid.Row>
-                                            <Grid.Column>
-                                                <Icon
-                                                    name="sign-out"
-                                                    className="sidebar-menu-item-icon"
-                                                />
-                                            </Grid.Column>
-                                            <Grid.Column>Logout</Grid.Column>
-                                        </Grid.Row>
-                                    </Grid>
-                                </Menu.Item>
-                            </Menu>
-                        </Grid.Column>
-                        <Grid.Column width={14} className="view-height">
-                            <PrivateRoutes />
-                        </Grid.Column>
-                    </Router>
-                </Grid.Row>
+                                {currentUser.displayName}
+                            </Typography>
+                        </Box>
+                        <Link
+                            to="/dashboard"
+                            name="dashboard"
+                            onClick={this.handleActiveItem}
+                        >
+                            <ListItem
+                                button
+                                selected={activeItem === "dashboard"}
+                            >
+                                <ListItemIcon>
+                                    <DashboardIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Dashboard" />
+                            </ListItem>
+                        </Link>
+                        <Link
+                            to="/planner"
+                            name="planner"
+                            onClick={this.handleActiveItem}
+                        >
+                            <ListItem
+                                button
+                                selected={activeItem === "planner"}
+                            >
+                                <ListItemIcon>
+                                    <DoneAllIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Planner" />
+                            </ListItem>
+                        </Link>
+                        <Link
+                            to="/journal"
+                            name="journal"
+                            onClick={this.handleActiveItem}
+                        >
+                            <ListItem
+                                button
+                                selected={activeItem === "journal"}
+                            >
+                                <ListItemIcon>
+                                    <BookIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Journal" />
+                            </ListItem>
+                        </Link>
+                        <Link
+                            to="/weight"
+                            name="weight"
+                            onClick={this.handleActiveItem}
+                        >
+                            <ListItem button selected={activeItem === "weight"}>
+                                <ListItemIcon>
+                                    <FitnessCenterIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Weight" />
+                            </ListItem>
+                        </Link>
+                        <Link
+                            to="/settings"
+                            name="settings"
+                            onClick={this.handleActiveItem}
+                        >
+                            <ListItem
+                                button
+                                selected={activeItem === "settings"}
+                            >
+                                <ListItemIcon>
+                                    <SettingsIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Settings" />
+                            </ListItem>
+                        </Link>
+                        <ListItem
+                            button
+                            name="logout"
+                            selected={activeItem === "logout"}
+                            onClick={this.handleSignOut}
+                        >
+                            <ListItemIcon>
+                                <ExitToAppIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Log Out" />
+                        </ListItem>
+                    </Grid>
+                    <Grid xs>
+                        <PrivateRoutes />
+                    </Grid>
+                </Router>
             </Grid>
         );
     }
