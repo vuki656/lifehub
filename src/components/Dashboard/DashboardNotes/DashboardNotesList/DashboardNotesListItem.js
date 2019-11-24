@@ -3,7 +3,15 @@ import React from "react";
 import firebase from "../../../../firebase/Auth";
 
 // Destructured Imports
-import { List, Icon } from "semantic-ui-react";
+import {
+    ListItem,
+    ListItemText,
+    ListItemIcon,
+    IconButton
+} from "@material-ui/core";
+
+// Icon Imports
+import DeleteIcon from "@material-ui/icons/Delete";
 
 class DashboardNotesListItem extends React.Component {
     state = {
@@ -23,15 +31,14 @@ class DashboardNotesListItem extends React.Component {
         const { note } = this.state;
 
         return (
-            <List.Item className="add-dashboard-note-list-item">
-                <Icon
-                    name="remove"
-                    onClick={() => this.deleteNote(this.state)}
-                />
-                <List.Content>
-                    <List.Description>{note.text}</List.Description>
-                </List.Content>
-            </List.Item>
+            <ListItem wrap="nowrap">
+                <ListItemIcon>
+                    <IconButton onClick={() => this.deleteNote(this.state)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </ListItemIcon>
+                <ListItemText primary={note.text} />
+            </ListItem>
         );
     }
 }
