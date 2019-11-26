@@ -4,7 +4,7 @@ import moment from "moment";
 import firebase from "../../firebase/Auth";
 
 // Destructured Imports
-import { Grid } from "semantic-ui-react";
+import { Grid } from "@material-ui/core";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -189,22 +189,17 @@ class Planner extends React.Component {
         const { monthObjectList, currentMonth, currentDay } = this.state;
 
         return currentMonth ? (
-            <Grid className="view-height">
-                <Grid.Row className="view-height" stretched>
-                    <Grid.Column
-                        width={3}
-                        className="view-height pad-lef-rig-0"
-                    >
-                        <DaysSidebar
-                            monthObjectList={monthObjectList}
-                            currentMonth={currentMonth}
-                            selectNewMonth={this.selectNewMonth}
-                        />
-                    </Grid.Column>
-                    <Grid.Column width={13} className="view-height" stretched>
-                        {this.generateRoutes(currentMonth, currentDay)}
-                    </Grid.Column>
-                </Grid.Row>
+            <Grid container>
+                <Grid item xs={2}>
+                    <DaysSidebar
+                        monthObjectList={monthObjectList}
+                        currentMonth={currentMonth}
+                        selectNewMonth={this.selectNewMonth}
+                    />
+                </Grid>
+                <Grid item xs={10}>
+                    {this.generateRoutes(currentMonth, currentDay)}
+                </Grid>
             </Grid>
         ) : (
             "loading"

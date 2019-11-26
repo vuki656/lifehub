@@ -10,6 +10,7 @@ import DaysList from "./DaysList/DaysList";
 
 class DaysSidebar extends React.Component {
     state = {
+        // Props
         monthObjectList: this.props.monthObjectList,
         currentMonth: this.props.currentMonth
     };
