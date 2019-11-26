@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 
 // Component Imports
 import TaskArea from "./TaskArea";
-import DaysList from "./DaysList/DaysList";
+import DaysSidebar from "./DaysSidebar/DaysSidebar";
 
 // Helper Imports
 import { formatMoment } from "../../helpers/Global";
@@ -195,7 +195,7 @@ class Planner extends React.Component {
                         width={3}
                         className="view-height pad-lef-rig-0"
                     >
-                        <DaysList
+                        <DaysSidebar
                             monthObjectList={monthObjectList}
                             currentMonth={currentMonth}
                             selectNewMonth={this.selectNewMonth}

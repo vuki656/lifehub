@@ -1,21 +1,21 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../firebase/Auth";
+import firebase from "../../../../firebase/Auth";
 
 // Destructured Imports
 import { Link } from "react-router-dom";
 import { Grid, Chip } from "@material-ui/core";
 import { connect } from "react-redux";
 
-// Icon Icon
+// Icon Imports
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
 
 // Helper Imports
-import { formatMoment } from "../../../helpers/Global";
+import { formatMoment } from "../../../../helpers/Global";
 
 // Redux Actions Imports
-import { setCurrentDay } from "../../../redux/actions/plannerActions";
+import { setCurrentDay } from "../../../../redux/actions/plannerActions";
 
 class DaysListItem extends React.Component {
     state = {
@@ -80,7 +80,7 @@ class DaysListItem extends React.Component {
         }
     };
 
-    // Determine weather to put a green checkmark box or red X box
+    // Determine weather to put a green checkmark box or red empty box
     setDayCompletionIcon = (total, checked) => {
         let greenColor = "#63ea90";
         let redColor = "#f12b2c";
@@ -107,18 +107,18 @@ class DaysListItem extends React.Component {
         }
     };
 
-    // Determine the icon based on the completion status
+    // Determine and return the icon based on the completion status
     getIcon = (iconStatus, color) => {
-        let checkBox = <CheckBoxIcon style={{ fill: color }} />;
-        let emptyBox = <CheckBoxOutlineBlankIcon style={{ fill: color }} />;
+        let doneBox = <CheckBoxIcon style={{ fill: color }} />;
+        let notDoneBox = <IndeterminateCheckBoxIcon style={{ fill: color }} />;
 
         switch (iconStatus) {
             case "done":
-                return checkBox;
+                return doneBox;
             case "undone":
-                return emptyBox;
+                return notDoneBox;
             default:
-                return checkBox;
+                return doneBox;
         }
     };
 
