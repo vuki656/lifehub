@@ -4,8 +4,12 @@ import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
 import { Link } from "react-router-dom";
-import { Icon, Grid } from "semantic-ui-react";
+import { Grid, Chip } from "@material-ui/core";
 import { connect } from "react-redux";
+
+// Icon Icon
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 
 // Helper Imports
 import { formatMoment } from "../../../helpers/Global";
@@ -41,12 +45,13 @@ class DaysListItem extends React.Component {
         });
     };
 
+    // Deactivate database listeners
     removeListeners = ({ todoRef, currentUser }) => {
         todoRef.child(`${currentUser.uid}`).off();
     };
 
-    // Set how many todos are compleated
-    // Determine if day is compleated or not
+    // Set how many todos are completed
+    // Determine if day is completed or not
     getCompletionStatus = ({ todoRef, currentUser, day }) => {
         let total = 0;
         let checked = 0;
@@ -75,25 +80,45 @@ class DaysListItem extends React.Component {
         }
     };
 
-    // Determine weather to put a checkmark or an X
+    // Determine weather to put a green checkmark box or red X box
     setDayCompletionIcon = (total, checked) => {
+        let greenColor = "#63ea90";
+        let redColor = "#f12b2c";
+        let completedStatus = "done";
+        let unCompletedStatus = "undone";
+
         if (total) {
             if (checked === total) {
                 this.setState({
-                    iconStatus: "checkmark",
-                    color: "#63ea90"
+                    iconStatus: completedStatus,
+                    color: greenColor
                 });
             } else {
                 this.setState({
-                    iconStatus: "delete",
-                    color: "#f12b2c"
+                    iconStatus: unCompletedStatus,
+                    color: redColor
                 });
             }
         } else {
             this.setState({
-                iconStatus: "checkmark",
-                color: "#63ea90"
+                iconStatus: completedStatus,
+                color: greenColor
             });
+        }
+    };
+
+    // Determine the icon based on the completion status
+    getIcon = (iconStatus, color) => {
+        let checkBox = <CheckBoxIcon style={{ fill: color }} />;
+        let emptyBox = <CheckBoxOutlineBlankIcon style={{ fill: color }} />;
+
+        switch (iconStatus) {
+            case "done":
+                return checkBox;
+            case "undone":
+                return emptyBox;
+            default:
+                return checkBox;
         }
     };
 
@@ -101,40 +126,30 @@ class DaysListItem extends React.Component {
         const { color, day, iconStatus, compleatedAmount } = this.state;
 
         return (
-            <Grid.Row
-                as={Link}
+            <Link
                 to={`/planner/${formatMoment(day, "DD/MM/YYYY")}`}
                 key={formatMoment(day, "DD/MM/YYYY")}
                 onClick={() => this.props.setCurrentDay(day)}
-                className="days-list-item"
             >
-                <Grid.Column
-                    floated="left"
-                    width={10}
-                    className="days-list-item-date"
+                <Grid
+                    container
+                    direction="row"
+                    justify="space-between"
+                    alignItems="stretch"
                 >
-                    {formatMoment(day, "DD/MM/YYYY - ddd")}
-                </Grid.Column>
-                <Grid.Column floated="right" width={3} className="count-column">
-                    <span className="todo-count">{compleatedAmount}</span>
-                </Grid.Column>
-                <Grid.Column floated="right" width={3} className="icon-column">
-                    <span
-                        className="icon-box"
-                        style={{ backgroundColor: color }}
-                    >
-                        <Icon
-                            className="days-list-item-icon"
-                            name={iconStatus}
-                        />
-                    </span>
-                </Grid.Column>
-            </Grid.Row>
+                    <Grid xs={9} item>
+                        {formatMoment(day, "DD/MM/YYYY - ddd")}
+                    </Grid>
+                    <Grid xs={2} item>
+                        <Chip label={compleatedAmount} />
+                    </Grid>
+                    <Grid xs={1} item>
+                        {this.getIcon(iconStatus, color)}
+                    </Grid>
+                </Grid>
+            </Link>
         );
     }
 }
 
-export default connect(
-    null,
-    { setCurrentDay }
-)(DaysListItem);
+export default connect(null, { setCurrentDay })(DaysListItem);

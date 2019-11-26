@@ -30,11 +30,10 @@ const renderApp = () => {
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
         history.push("/dashboard");
-        renderApp();
     } else {
         history.push("/login");
-        renderApp();
     }
+    renderApp();
 });
 
 ReactDOM.render(<LoadingPage />, document.getElementById("root"));
