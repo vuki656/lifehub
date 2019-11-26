@@ -54,25 +54,19 @@ class SideMenu extends React.Component {
         return (
             <Grid container>
                 <Router>
-                    <Grid className="side-menu">
-                        <Box>
-                            <Grid
-                                container
-                                alignItems="center"
-                                justify="center"
-                            >
-                                <Grid item xs={8}>
-                                    <Logo className="logo" />
-                                </Grid>
+                    <Grid item className="side-menu">
+                        <Grid container alignItems="center" justify="center">
+                            <Grid item xs={8}>
+                                <Logo className="logo" />
                             </Grid>
-                            <Typography
-                                variant="subtitle1"
-                                align="center"
-                                className="mar-bot-1-rem"
-                            >
-                                {currentUser.displayName}
-                            </Typography>
-                        </Box>
+                        </Grid>
+                        <Typography
+                            variant="subtitle1"
+                            align="center"
+                            className="mar-bot-1-rem"
+                        >
+                            {currentUser.displayName}
+                        </Typography>
                         <Link
                             to="/dashboard"
                             name="dashboard"
