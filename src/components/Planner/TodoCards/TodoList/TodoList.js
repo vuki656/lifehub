@@ -3,7 +3,7 @@ import React from "react";
 import firebase from "../../../../firebase/Auth";
 
 // Destructured Imports
-import { Grid } from "semantic-ui-react";
+import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 
 // Component Imports
@@ -132,18 +132,27 @@ class TodoList extends React.Component {
     // Render todos to the screen
     renderTodos = ({ todoList, todoCard }) =>
         todoList.map(todo => (
-            <Grid.Row key={todo.key}>
+            <Grid item xs={12} key={todo.key}>
                 <Todo
                     todo={todo}
                     category={todoCard.key}
                     isChecked={todo.isChecked}
                     key={todo.key}
                 />
-            </Grid.Row>
+            </Grid>
         ));
 
     render() {
-        return <React.Fragment>{this.renderTodos(this.state)}</React.Fragment>;
+        return (
+            <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="stretch"
+            >
+                {this.renderTodos(this.state)}
+            </Grid>
+        );
     }
 }
 
