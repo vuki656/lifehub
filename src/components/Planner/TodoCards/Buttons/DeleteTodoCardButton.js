@@ -20,6 +20,7 @@ class DeleteTodoCardButton extends React.Component {
         todoCard: this.props.todoCard
     };
 
+    // Handle todo card deletion
     handleTodoCardDeletion = () => {
         this.deleteTodoCard(this.state);
         this.removeTodoCardTodos(this.state);

@@ -3,7 +3,17 @@ import React from "react";
 import firebase from "../../../../firebase/Auth";
 
 // Destructured Imports
-import { Popup, Icon, Input, Grid, Button } from "semantic-ui-react";
+import {
+    Box,
+    Popper,
+    Paper,
+    Typography,
+    TextField,
+    Button,
+    Grid
+} from "@material-ui/core";
+
+import CreateIcon from "@material-ui/icons/Create";
 
 class EditTodoCardNamePopup extends React.Component {
     state = {
@@ -11,11 +21,35 @@ class EditTodoCardNamePopup extends React.Component {
         currentUser: firebase.auth().currentUser,
         newTodoCardName: "",
         isPopOpen: false,
+        anchorElement: null,
 
         // Props
         todoCard: this.props.todoCard
     };
 
+    static getDerivedStateFromProps(props) {
+        return {
+            todoCard: props.todoCard
+        };
+    }
+
+    // Handle popup toggle actions
+    handlePopToggle = event => {
+        this.setAnchorElement(event);
+        this.togglePopup();
+    };
+
+    // Set anchor element (position where to open the pop)
+    setAnchorElement = event => {
+        this.setState({ anchorElement: event.currentTarget });
+    };
+
+    // Toggle popup
+    togglePopup = () => {
+        this.setState({ isPopOpen: !this.state.isPopOpen });
+    };
+
+    // Handle updating todo card name
     handleTodoCardNameUpdate = () => {
         this.updateTodoCardname(this.state);
         this.togglePopup();
@@ -40,59 +74,64 @@ class EditTodoCardNamePopup extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    togglePopup = () => {
-        this.setState({ isPopOpen: !this.state.isPopOpen });
-    };
-
     render() {
-        const { todoCard, isPopOpen } = this.state;
+        const { todoCard, isPopOpen, anchorElement } = this.state;
 
         return (
-            <Popup
-                basic
-                trigger={
-                    <Icon
-                        name={"edit"}
-                        link={true}
-                        onClick={this.togglePopup}
-                        className="todo-card-icon"
-                    />
-                }
-                flowing
-                onClose={this.togglePopup}
-                open={isPopOpen}
-                on="click"
-            >
-                <Grid className="pad-all-1-rem edit-tag-name-popup">
-                    <Grid.Row className="pad-top-bot-0">
-                        <span className="subtitle">Enter a New Name</span>
-                    </Grid.Row>
-                    <Grid.Row className="pad-top-bot-0">
-                        <Input
-                            className="edit-todo-name-popup-input"
-                            defaultValue={todoCard.name}
-                            name={"newTodoCardName"}
-                            onChange={this.handleChange}
-                        />
-                    </Grid.Row>
-                    <Grid.Row className="pad-top-bot-0">
-                        <Button.Group>
-                            <Button
-                                className="button-primary"
-                                onClick={this.handleTodoCardNameUpdate}
-                            >
-                                Save
-                            </Button>
-                            <Button
-                                className="button-secondary"
-                                onClick={this.togglePopup}
-                            >
-                                Cancel
-                            </Button>
-                        </Button.Group>
-                    </Grid.Row>
-                </Grid>
-            </Popup>
+            <Box>
+                <CreateIcon onClick={this.handlePopToggle} />
+                <Popper
+                    open={isPopOpen}
+                    anchorEl={anchorElement}
+                    placement="right-start"
+                    style={{ maxWidth: "350px" }}
+                    modifiers={{
+                        flip: {
+                            enabled: true
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            boundariesElement: "undefined"
+                        }
+                    }}
+                >
+                    <Paper>
+                        <Box p={2}>
+                            <Grid container>
+                                <Grid xs={12} item>
+                                    <Typography variant="h4">
+                                        Enter a New Name
+                                    </Typography>
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <TextField
+                                        name="newTodoCardName"
+                                        defaultValue={todoCard.name}
+                                        label="Name"
+                                        onChange={this.handleChange}
+                                    />
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={this.handleTodoCardNameUpdate}
+                                    >
+                                        Save
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        onClick={this.togglePopup}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </Paper>
+                </Popper>
+            </Box>
         );
     }
 }
