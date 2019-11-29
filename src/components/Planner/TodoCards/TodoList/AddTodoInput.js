@@ -4,8 +4,16 @@ import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Input, Icon } from "semantic-ui-react";
+import {
+    Input,
+    InputAdornment,
+    IconButton,
+    FormControl
+} from "@material-ui/core";
 import { connect } from "react-redux";
+
+// Icon Imports
+import AddIcon from "@material-ui/icons/Add";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
@@ -69,11 +77,6 @@ class AddTodoInput extends React.Component {
         }
     };
 
-    // If there is text in input box, dont hide it
-    checkVisibility = ({ todoText }) => {
-        return todoText ? "add-todo-input-row-visible" : "add-todo-input-row";
-    };
-
     // Set the state value from user input
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
@@ -88,15 +91,21 @@ class AddTodoInput extends React.Component {
         const { todoText } = this.state;
 
         return (
-            <Input
-                className={this.checkVisibility(this.state)}
-                name="todoText"
-                value={todoText}
-                placeholder="Todo Text"
-                type="float"
-                onChange={this.handleChange}
-                icon={<Icon name="add" onClick={this.handleSubmit} link />}
-            />
+            <FormControl fullWidth>
+                <Input
+                    name="todoText"
+                    value={todoText}
+                    type={"text"}
+                    onChange={this.handleChange}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton onClick={this.handleSubmit}>
+                                <AddIcon />
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                />
+            </FormControl>
         );
     }
 }
