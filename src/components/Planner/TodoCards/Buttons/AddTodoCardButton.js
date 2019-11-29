@@ -3,7 +3,17 @@ import React from "react";
 import firebase from "../../../../firebase/Auth";
 
 // Destructured Imports
-import { Icon, Segment, Grid, Button, Input } from "semantic-ui-react";
+import {
+    Paper,
+    Typography,
+    TextField,
+    Grid,
+    Button,
+    Box
+} from "@material-ui/core";
+
+// Icon Imports
+import AddIcon from "@material-ui/icons/Add";
 
 class AddTodoCardButton extends React.Component {
     state = {
@@ -53,48 +63,65 @@ class AddTodoCardButton extends React.Component {
     };
 
     render() {
-        const { displayOptions, todoCardName } = this.state;
+        const { displayOptions } = this.state;
 
         return (
-            <Grid.Column width={5}>
+            <Box>
                 {!displayOptions && (
-                    <Segment
-                        className="add-todo-card"
-                        onClick={this.toggleTodoCardOptions}
-                        placeholder
+                    <Grid
+                        container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
                     >
-                        <Button icon className="button-primary">
-                            <Icon name="add" />
-                        </Button>
-                    </Segment>
+                        <Paper onClick={this.toggleTodoCardOptions}>
+                            <Grid item xs={12}>
+                                <AddIcon />
+                            </Grid>
+                        </Paper>
+                    </Grid>
                 )}
                 {displayOptions && (
-                    <Segment className="add-todo-card-input-section">
-                        <p className="add-todo-card-text">Enter Card Name</p>
-                        <Input
-                            value={todoCardName}
-                            name={"todoCardName"}
-                            onChange={this.handleChange}
-                            placeholder="Enter Card Name"
-                            className="add-todo-card-input"
-                        />
-                        <Button.Group>
-                            <Button
-                                onClick={this.handleTodoCardSave}
-                                className="button-primary add-todo-card-button"
-                            >
-                                Save
-                            </Button>
-                            <Button
-                                onClick={this.toggleTodoCardOptions}
-                                className="button-secondary add-todo-card-button"
-                            >
-                                Cancel
-                            </Button>
-                        </Button.Group>
-                    </Segment>
+                    <Grid
+                        container
+                        direction="column"
+                        justify="space-around"
+                        alignItems="center"
+                    >
+                        <Paper>
+                            <Grid item xs={12}>
+                                <Typography variant="h4">
+                                    Enter Card Name
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="todoCardName"
+                                    label="Card Name"
+                                    onChange={this.handleChange}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={this.handleTodoCardSave}
+                                >
+                                    Save
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={this.toggleTodoCardOptions}
+                                >
+                                    Cancel
+                                </Button>
+                            </Grid>
+                        </Paper>
+                    </Grid>
                 )}
-            </Grid.Column>
+            </Box>
         );
     }
 }

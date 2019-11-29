@@ -74,7 +74,9 @@ class TodoCards extends React.Component {
                 spacing={2}
             >
                 {this.renderTodoCards(this.state)}
-                <AddTodoCardButton />
+                <Grid item xs={4}>
+                    <AddTodoCardButton />
+                </Grid>
             </Grid>
         );
     }
