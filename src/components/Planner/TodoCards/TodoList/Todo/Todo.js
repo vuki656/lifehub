@@ -1,20 +1,16 @@
 // Object Imports
 import React from "react";
 import firebase from "firebase";
-import moment from "moment";
 
 // Destructured Imports
-import { Checkbox, Icon, Grid } from "semantic-ui-react";
+import { Grid, Checkbox, FormControlLabel } from "@material-ui/core";
 import { connect } from "react-redux";
 
 // Component Imports
 import EditTodoNameButton from "./Buttons/EditTodoNameButton";
 import RepeatTodoButton from "./Buttons/RepeatTodoButton/RepeatTodoButton";
 import PushToTomorrowButton from "./Buttons/PushToTomorrowButton";
-
-// Helper Imports
-import { deleteTodoFromFirebase } from "../../../../../helpers/Planner/Todo";
-import { getDayOnlyTimestamp } from "../../../../../helpers/Global";
+import DeleteTodoButton from "./Buttons/DeleteTodoButton";
 
 class Todo extends React.Component {
     state = {
@@ -26,8 +22,7 @@ class Todo extends React.Component {
         isChecked: this.props.isChecked,
 
         // Redux Props
-        currentDay: this.props.currentDay,
-        generateUntillDate: this.props.generateUntillDate
+        currentDay: this.props.currentDay
     };
 
     static getDerivedStateFromProps(props) {
@@ -35,57 +30,9 @@ class Todo extends React.Component {
             todo: props.todo,
             isChecked: props.todo.isChecked,
             category: props.category,
-            currentDay: props.currentDay,
-            generateUntillDate: props.generateUntillDate
+            currentDay: props.currentDay
         };
     }
-
-    // Check if todo is repeating, if so remove it from
-    // each day, if not, remove its single instance
-    handleTodoDeletion = ({
-        todoRef,
-        currentUser,
-        currentDay,
-        category,
-        todo
-    }) => {
-        if (todo.isRepeating) {
-            this.deleteRepeatingTodo(this.state);
-        } else {
-            deleteTodoFromFirebase(
-                todoRef,
-                currentUser,
-                currentDay,
-                category,
-                todo
-            );
-        }
-    };
-
-    // Delete repeating todo from firebase
-    deleteRepeatingTodo = ({
-        todoRef,
-        currentUser,
-        todo,
-        generateUntillDate,
-        category,
-        currentDay
-    }) => {
-        for (
-            let startDate = moment(currentDay);
-            startDate.isBefore(moment(generateUntillDate).add(1, "day"));
-            startDate.add(1, "days")
-        ) {
-            let dayTimestamp = getDayOnlyTimestamp(startDate);
-            deleteTodoFromFirebase(
-                todoRef,
-                currentUser,
-                dayTimestamp,
-                category,
-                todo
-            );
-        }
-    };
 
     // Send changed todo checkbox state to firebase and re-render
     handleTodoCheckboxChange = ({
@@ -108,38 +55,38 @@ class Todo extends React.Component {
         const { todo, isChecked, category } = this.state;
 
         return (
-            <Grid>
-                <Grid.Row className="todo-card-item">
-                    <Grid.Column floated="left" width={10}>
-                        <Checkbox
-                            className="todo-checkbox"
-                            label={todo.text}
-                            checked={isChecked}
-                            onChange={() =>
-                                this.handleTodoCheckboxChange(this.state)
-                            }
-                        />
-                    </Grid.Column>
-                    <Grid.Column floated="right" width={6}>
-                        <PushToTomorrowButton todo={todo} category={category} />
-                        <EditTodoNameButton todo={todo} category={category} />
-                        <RepeatTodoButton todo={todo} category={category} />
-                        <Icon
-                            name={"remove"}
-                            link={true}
-                            onClick={() => this.handleTodoDeletion(this.state)}
-                            className="todo-card-icon"
-                        />
-                    </Grid.Column>
-                </Grid.Row>
+            <Grid
+                container
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+            >
+                <Grid item xs={8}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={isChecked}
+                                onChange={() =>
+                                    this.handleTodoCheckboxChange(this.state)
+                                }
+                            />
+                        }
+                        label={todo.text}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <PushToTomorrowButton todo={todo} category={category} />
+                    <EditTodoNameButton todo={todo} category={category} />
+                    <RepeatTodoButton todo={todo} category={category} />
+                    <DeleteTodoButton todo={todo} category={category} />
+                </Grid>
             </Grid>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    currentDay: state.planner.currentDay,
-    generateUntillDate: state.planner.generateUntillDate
+    currentDay: state.planner.currentDay
 });
 
 export default connect(mapStateToProps, null)(Todo);

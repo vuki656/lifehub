@@ -4,8 +4,10 @@ import moment from "moment";
 import firebase from "../../../../../../firebase/Auth";
 
 // Destructured Imports
-import { Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
+
+// Icon Imports
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 class PushToTomorrowButton extends React.Component {
     state = {
@@ -26,6 +28,7 @@ class PushToTomorrowButton extends React.Component {
         };
     }
 
+    // Handle todo move to next day
     handleTodoMove = () => {
         this.copyTodoToTomorrow(this.state);
         this.deleteTodoFromToday(this.state);
@@ -63,14 +66,7 @@ class PushToTomorrowButton extends React.Component {
     };
 
     render() {
-        return (
-            <Icon
-                name="arrow circle down"
-                onClick={this.handleTodoMove}
-                link
-                className="todo-card-icon"
-            />
-        );
+        return <ExitToAppIcon onClick={this.handleTodoMove} />;
     }
 }
 
