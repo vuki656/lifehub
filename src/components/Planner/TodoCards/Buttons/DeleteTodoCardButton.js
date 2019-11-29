@@ -3,8 +3,8 @@ import React from "react";
 import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 
-// Destructured Imports
-import { Icon } from "semantic-ui-react";
+// Icon Imports
+import DeleteIcon from "@material-ui/icons/Delete";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
@@ -70,14 +70,7 @@ class DeleteTodoCardButton extends React.Component {
     };
 
     render() {
-        return (
-            <Icon
-                name={"remove"}
-                link={true}
-                onClick={this.handleTodoCardDeletion}
-                className="todo-card-icon"
-            />
-        );
+        return <DeleteIcon onClick={this.handleTodoCardDeletion} />;
     }
 }
 

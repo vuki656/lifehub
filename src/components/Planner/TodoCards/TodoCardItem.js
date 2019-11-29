@@ -53,7 +53,7 @@ class TodoCard extends React.Component {
                 <Grid item xs={12}>
                     {name}
                     <EditTodoCardNameButton todoCard={todoCard} />
-                    <DeleteTodoCardButton todoCar={todoCard} />
+                    <DeleteTodoCardButton todoCard={todoCard} />
                 </Grid>
                 <Grid item xs={12}>
                     <TodoList todoCard={todoCard} />
