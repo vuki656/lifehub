@@ -4,8 +4,19 @@ import firebase from "../../../../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Popup, Input, Icon, Button, Grid } from "semantic-ui-react";
+import {
+    Grid,
+    Button,
+    Box,
+    Popper,
+    Typography,
+    TextField,
+    Paper
+} from "@material-ui/core";
 import { connect } from "react-redux";
+
+// Icon Imports
+import CreateIcon from "@material-ui/icons/Create";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../../../../helpers/Global";
@@ -18,6 +29,7 @@ class EditTodoNameButton extends React.Component {
         usersRef: firebase.database().ref("users"),
         newTodo: "",
         isPopOpen: false,
+        anchorElement: null,
 
         // Props
         todo: this.props.todo,
@@ -36,8 +48,24 @@ class EditTodoNameButton extends React.Component {
         };
     }
 
-    /*  Itterate trough all days
-        If todo is repeaeting, update wherever its active
+    // Handle popup toggle actions
+    handlePopToggle = event => {
+        this.setAnchorElement(event);
+        this.togglePopup();
+    };
+
+    // Set anchor element (position where to open the pop)
+    setAnchorElement = event => {
+        this.setState({ anchorElement: event.currentTarget });
+    };
+
+    // Toggle popup
+    togglePopup = () => {
+        this.setState({ isPopOpen: !this.state.isPopOpen });
+    };
+
+    /*  Iterate trough all days
+        If todo is repeating, update wherever its active
         If todo not repeating, update its single instance
     */
     handleTodoTextUpdate = () => {
@@ -60,7 +88,7 @@ class EditTodoNameButton extends React.Component {
             }
         }
 
-        this.closePopup();
+        this.togglePopup();
     };
 
     // Check if itterating date matches repeating month day or week day
@@ -89,6 +117,7 @@ class EditTodoNameButton extends React.Component {
         }
     };
 
+    // Change todo text in firebase
     changeTodoTextInFirebase = (
         { todo, todoRef, category, currentUser, newTodo },
         date
@@ -107,69 +136,69 @@ class EditTodoNameButton extends React.Component {
         }
     };
 
-    openPopup = () => {
-        this.setState({ isPopOpen: true });
-    };
-
-    closePopup = () => {
-        this.setState({ isPopOpen: false });
-    };
-
     // Set the state value from user input
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
     };
 
     render() {
-        const { todo, isPopOpen } = this.state;
+        const { todo, isPopOpen, anchorElement } = this.state;
 
         return (
-            <Popup
-                className="edit-todo-name-popup"
-                basic
-                trigger={
-                    <Icon
-                        name={"edit"}
-                        link={true}
-                        onClick={this.openPopup}
-                        className="todo-card-icon"
-                    />
-                }
-                flowing
-                onClose={this.closePopup}
-                open={isPopOpen}
-                on="click"
-            >
-                <Grid className="pad-all-1-rem">
-                    <Grid.Row className="pad-top-bot-0">
-                        <span className="subtitle">Enter a New Name</span>
-                    </Grid.Row>
-                    <Grid.Row className="pad-top-bot-0">
-                        <Input
-                            className="edit-todo-name-popup-input"
-                            defaultValue={todo.text}
-                            name={"newTodo"}
-                            onChange={this.handleChange}
-                        />
-                    </Grid.Row>
-                    <Grid.Row className="pad-top-bot-0">
-                        <Button.Group>
-                            <Button
-                                className="button-primary"
-                                onClick={this.handleTodoTextUpdate}
-                            >
-                                Save
-                            </Button>
-                            <Button
-                                className="button-secondary"
-                                onClick={this.closePopup}
-                            >
-                                Cancel
-                            </Button>
-                        </Button.Group>
-                    </Grid.Row>
-                </Grid>
-            </Popup>
+            <Box>
+                <CreateIcon onClick={this.handlePopToggle} />
+                <Popper
+                    open={isPopOpen}
+                    anchorEl={anchorElement}
+                    placement="right-start"
+                    style={{ maxWidth: "350px" }}
+                    modifiers={{
+                        flip: {
+                            enabled: true
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            boundariesElement: "undefined"
+                        }
+                    }}
+                >
+                    <Paper>
+                        <Box p={2}>
+                            <Grid container>
+                                <Grid xs={12} item>
+                                    <Typography variant="h4">
+                                        Enter a New Name
+                                    </Typography>
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <TextField
+                                        label="Name"
+                                        defaultValue={todo.text}
+                                        name={"newTodo"}
+                                        onChange={this.handleChange}
+                                    />
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={this.handleTodoTextUpdate}
+                                    >
+                                        Save
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        onClick={this.togglePopup}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </Paper>
+                </Popper>
+            </Box>
         );
     }
 }
