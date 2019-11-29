@@ -13,6 +13,7 @@ class AddTodoCardButton extends React.Component {
         todoCardName: ""
     };
 
+    // Handle new todo card save in firebase
     handleTodoCardSave = () => {
         this.setState({ displayOptions: false });
         this.saveTodoCard(this.state);
@@ -36,10 +37,12 @@ class AddTodoCardButton extends React.Component {
         }
     };
 
+    // Clear the name input field
     clearInputField = () => {
         this.setState({ todoCardName: "" });
     };
 
+    // Toggle card name display
     toggleTodoCardOptions = () => {
         this.setState({ displayOptions: !this.state.displayOptions });
     };

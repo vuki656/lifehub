@@ -6,13 +6,13 @@ import { Box, Typography } from "@material-ui/core";
 
 // Component Imports
 import DashboardNotesList from "./DashboardNotesList/DashboardNotesList";
-import AddDashboardNote from "./AddDashboardNote";
+import AddDashboardNoteButton from "./Buttons/AddDashboardNoteButton";
 
 const DashboardNotes = () => (
     <Box>
         <Typography variant="h4">Notes</Typography>
         <DashboardNotesList />
-        <AddDashboardNote />
+        <AddDashboardNoteButton />
     </Box>
 );
 
