@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../../../firebase/Auth";
+import firebase from "../../../../../../../firebase/Auth";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 
@@ -16,11 +16,11 @@ import RepeatOptions from "./RepeatOptions";
 import {
     isDayBeingSavedTo,
     deleteTodoFromFirebase
-} from "../../../../../../helpers/Planner/Todo";
-import { getDayOnlyTimestamp } from "../../../../../../helpers/Global";
+} from "../../../../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../../../../../../helpers/Global";
 
 // Data Imports
-import { daysOfWeekArr } from "../../../../../../data/StockData";
+import { daysOfWeekArr } from "../../../../../../../data/StockData";
 
 class RepeatTodoButton extends React.Component {
     constructor(props) {

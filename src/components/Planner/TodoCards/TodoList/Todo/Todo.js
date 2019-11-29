@@ -13,8 +13,8 @@ import RepeatTodoButton from "./Buttons/RepeatTodoButton/RepeatTodoButton";
 import PushToTomorrowButton from "./Buttons/PushToTomorrowButton";
 
 // Helper Imports
-import { deleteTodoFromFirebase } from "../../../../helpers/Planner/Todo";
-import { getDayOnlyTimestamp } from "../../../../helpers/Global";
+import { deleteTodoFromFirebase } from "../../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../../../../helpers/Global";
 
 class Todo extends React.Component {
     state = {
