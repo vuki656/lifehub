@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../firebase/Auth";
+import firebase from "../../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
@@ -8,7 +8,7 @@ import { Input, Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 
 // Helper Imports
-import { getDayOnlyTimestamp } from "../../../helpers/Global";
+import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class AddTodoInput extends React.Component {
     state = {
@@ -105,7 +105,4 @@ const mapStateToProps = state => ({
     currentDay: state.planner.currentDay
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(AddTodoInput);
+export default connect(mapStateToProps, null)(AddTodoInput);

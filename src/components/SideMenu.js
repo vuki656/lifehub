@@ -8,8 +8,7 @@ import {
     Typography,
     ListItem,
     ListItemText,
-    ListItemIcon,
-    Box
+    ListItemIcon
 } from "@material-ui/core";
 import { Link, BrowserRouter as Router } from "react-router-dom";
 
