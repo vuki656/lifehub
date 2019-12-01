@@ -58,10 +58,14 @@ class TodoCardItem extends React.Component {
                         <Grid item xs={10}>
                             {todoCard.name}
                         </Grid>
-                        <Grid item xs={1}>
+                        <Grid
+                            container
+                            direction="row"
+                            justify="flex-end"
+                            alignItems="center"
+                            xs={2}
+                        >
                             <EditTodoCardNameButton todoCard={todoCard} />
-                        </Grid>
-                        <Grid item xs={1}>
                             <DeleteTodoCardButton todoCard={todoCard} />
                         </Grid>
                     </Grid>

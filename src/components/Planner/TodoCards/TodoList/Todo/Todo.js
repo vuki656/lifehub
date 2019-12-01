@@ -74,7 +74,13 @@ class Todo extends React.Component {
                         label={todo.text}
                     />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid
+                    container
+                    direction="row"
+                    justify="flex-end"
+                    alignItems="center"
+                    xs={4}
+                >
                     <PushToTomorrowButton todo={todo} category={category} />
                     <EditTodoNameButton todo={todo} category={category} />
                     <RepeatTodoButton todo={todo} category={category} />
