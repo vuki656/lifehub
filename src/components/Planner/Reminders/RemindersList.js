@@ -105,9 +105,7 @@ class Reminders extends React.Component {
                 });
             });
 
-        if (this._isMounted) {
-            this.setState({ remindersList: remindersHolder });
-        }
+        this._isMounted && this.setState({ remindersList: remindersHolder });
     };
 
     // Listen for new reminder inputs and set to the state so component re-renders
@@ -151,13 +149,15 @@ class Reminders extends React.Component {
             <Reminder reminder={reminder} key={reminder.key} />
         ));
 
-    closeModal = () => {
-        this.setState({ modalOpen: false });
-    };
-
+    // Handle modal open
     handleModalOpen = () => {
         this.props.fetchReminderTags(this.state);
-        this.setState({ modalOpen: true });
+        this._isMounted && this.setState({ modalOpen: true });
+    };
+
+    // Handle modal close
+    closeModal = () => {
+        this._isMounted && this.setState({ modalOpen: false });
     };
 
     render() {

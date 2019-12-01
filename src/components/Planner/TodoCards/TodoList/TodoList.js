@@ -132,9 +132,7 @@ class TodoList extends React.Component {
                 });
             });
 
-        if (this._isMounted) {
-            this.setState({ todoList: todoHolder });
-        }
+        this._isMounted && this.setState({ todoList: todoHolder });
     };
 
     // Render todos to the screen

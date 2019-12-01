@@ -41,7 +41,7 @@ class DashboardNotesList extends React.Component {
 
     // Deactivate database listeners
     deactivateListeners = () => {
-        this.deactivateListeners(this.state);
+        this.deactivateNotesListener(this.state);
     };
 
     // Deactivate notes ref listener
@@ -82,7 +82,7 @@ class DashboardNotesList extends React.Component {
                 noteHolder.push({ text, key });
             });
 
-            this.setState({ notesList: noteHolder });
+            this._isMounted && this.setState({ notesList: noteHolder });
         });
     };
 

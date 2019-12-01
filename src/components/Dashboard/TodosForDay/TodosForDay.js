@@ -90,7 +90,7 @@ class TodosForDay extends React.Component {
             categories.forEach(category => {
                 categoryDetails.push(category.key);
             });
-            this.setState({ categories: categoryDetails });
+            this._isMounted && this.setState({ categories: categoryDetails });
         });
     };
 

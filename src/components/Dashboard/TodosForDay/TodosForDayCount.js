@@ -44,12 +44,14 @@ class TodosForDayCount extends React.Component {
                         total = total + countCategory.val().total;
                         checked = checked + countCategory.val().checked;
                     });
-                    this.setState({
-                        totalTodos: total,
-                        totalCheckedTodos: checked
-                    });
+                    this._isMounted &&
+                        this.setState({
+                            totalTodos: total,
+                            totalCheckedTodos: checked
+                        });
                 } else {
-                    this.setState({ totalTodos: 0, totalCheckedTodos: 0 });
+                    this._isMounted &&
+                        this.setState({ totalTodos: 0, totalCheckedTodos: 0 });
                 }
             });
     };

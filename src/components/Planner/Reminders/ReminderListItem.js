@@ -17,6 +17,9 @@ import { getDayOnlyTimestamp } from "../../../helpers/Global";
 import { fetchReminderTags } from "../../../redux/actions/tagsActions";
 
 class Reminder extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
@@ -173,7 +176,8 @@ class Reminder extends React.Component {
                         });
                     }
                 });
-                this.setState({ reminderTagValues: tagValueHolder });
+                this._isMounted &&
+                    this.setState({ reminderTagValues: tagValueHolder });
             });
     };
 
@@ -203,13 +207,15 @@ class Reminder extends React.Component {
         return timeLeftDays === 0 ? "Today" : `${timeLeftDays} Days Left`;
     };
 
+    // Handle modal open
     handleModalOpen = () => {
         this.props.fetchReminderTags(this.state);
-        this.setState({ modalOpen: true });
+        this._isMounted && this.setState({ modalOpen: true });
     };
 
+    // Handle modal close
     closeModal = () => {
-        this.setState({ modalOpen: false });
+        this._isMounted && this.setState({ modalOpen: false });
     };
 
     render() {

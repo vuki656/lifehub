@@ -110,7 +110,7 @@ class TagsList extends React.Component {
             days.forEach(day => {
                 day.forEach(reminder => {
                     tagsKeysArr.forEach(tag => {
-                        // Add if there are no tags or if list doesent contain that tag
+                        // Add if there are no tags or if list doesn't contain that tag
                         if (
                             reminder.val().tags === undefined ||
                             !reminder.val().tags.hasOwnProperty(tag)

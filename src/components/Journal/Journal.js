@@ -87,9 +87,10 @@ class Journal extends React.Component {
 
                 journalEntryHolder.push({ key, title, text, createdAt });
             });
-            this.setState({
-                journalEntries: journalEntryHolder
-            });
+            this._isMounted &&
+                this.setState({
+                    journalEntries: journalEntryHolder
+                });
         });
     };
 

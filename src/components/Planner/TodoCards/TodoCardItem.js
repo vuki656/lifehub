@@ -12,6 +12,9 @@ import AddTodoInput from "./TodoList/AddTodoInput";
 import DeleteTodoCardButton from "./Buttons/DeleteTodoCardButton";
 
 class TodoCardItem extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     state = {
         // Firebase
         currentUser: firebase.auth().currentUser,
@@ -22,7 +25,12 @@ class TodoCardItem extends React.Component {
     };
 
     componentDidMount() {
+        this._isMounted = true;
         this.addChangeTodoCardListener(this.state);
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     // Listen for todo card name changes and fetch changed db values from card
@@ -30,12 +38,13 @@ class TodoCardItem extends React.Component {
         todoCardRef
             .child(`${currentUser.uid}/${todoCard.key}`)
             .on("child_changed", changedTodoCard => {
-                this.setState({
-                    todoCard: {
-                        ...todoCard,
-                        name: changedTodoCard.val()
-                    }
-                });
+                this._isMounted &&
+                    this.setState({
+                        todoCard: {
+                            ...todoCard,
+                            name: changedTodoCard.val()
+                        }
+                    });
             });
     };
 

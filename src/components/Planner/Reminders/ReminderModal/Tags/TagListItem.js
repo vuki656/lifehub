@@ -14,6 +14,9 @@ import EditTagColorPopup from "./EditTagColorPopup";
 import { updateTagList } from "../../../../../redux/actions/tagsActions";
 
 class TagListItem extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -52,7 +55,12 @@ class TagListItem extends React.Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.getTagSelectedState(this.state);
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     // Check if tag from the list is saved in reminder
@@ -72,7 +80,8 @@ class TagListItem extends React.Component {
                             reminderTag.val() === true &&
                             tag.key === reminderTag.key
                         ) {
-                            this.setState({ isSelected: true });
+                            this._isMounted &&
+                                this.setState({ isSelected: true });
                         }
                     });
                 });
@@ -94,25 +103,30 @@ class TagListItem extends React.Component {
         if (isSelected) {
             reminderTags[tag.key] = false;
             this.props.updateTagList(reminderTags);
-            this.setState({ isSelected: false });
+            this._isMounted && this.setState({ isSelected: false });
         } else {
             reminderTags[tag.key] = true;
             this.props.updateTagList(reminderTags);
-            this.setState({ isSelected: true });
+            this._isMounted && this.setState({ isSelected: true });
         }
     };
 
     // Set the hex color from color picker
     handleTagColorChange = color => {
-        this.setState({ newTagColor: color.hex });
+        this._isMounted && this.setState({ newTagColor: color.hex });
     };
 
+    // Toggle color picker
     toggleColorPicker = () => {
-        this.setState({ displayColorPicker: !this.state.displayColorPicker });
+        this._isMounted &&
+            this.setState({
+                displayColorPicker: !this.state.displayColorPicker
+            });
     };
 
+    // Handle popup close
     handlePopClose = () => {
-        this.setState({ newTagColor: this.state.tag.color });
+        this._isMounted && this.setState({ newTagColor: this.state.tag.color });
         this.toggleColorPicker();
     };
 

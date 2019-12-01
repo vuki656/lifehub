@@ -10,6 +10,9 @@ import TodoCardItem from "./TodoCardItem";
 import AddTodoCardButton from "./Buttons/AddTodoCardButton";
 
 class TodoCards extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     state = {
         // Firebase
         currentUser: firebase.auth().currentUser,
@@ -72,7 +75,7 @@ class TodoCards extends React.Component {
                     key: todoCard.val().key
                 });
             });
-            this.setState({ todoCards: todoCardHolder });
+            this._isMounted && this.setState({ todoCards: todoCardHolder });
         });
     };
 

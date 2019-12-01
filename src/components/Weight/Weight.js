@@ -102,14 +102,13 @@ class Weight extends React.Component {
                 previousWeight = weight; // Store the previous weight for weight diff column
             });
 
-            // MAKE A FOR LOOP THAT WILL INSERT AMOUNT OF INDEX THAT IS SELECTED BY THE USER
-
             let formatedWeightList = this.formatWeightList(weightHolder);
 
-            this.setState({
-                weightList: formatedWeightList,
-                firstWeightEntry: firstWeightEntry
-            });
+            this._isMounted &&
+                this.setState({
+                    weightList: formatedWeightList,
+                    firstWeightEntry: firstWeightEntry
+                });
         });
     };
 

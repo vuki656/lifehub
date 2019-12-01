@@ -10,6 +10,9 @@ import { Grid, Card, CardContent, Typography } from "@material-ui/core";
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class TodosForDayCard extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     state = {
         // Firebase
         currentUser: firebase.auth().currentUser,
@@ -27,8 +30,13 @@ class TodosForDayCard extends React.Component {
     };
 
     componentDidMount() {
+        this._isMounted = true;
         this.fetchCategoryTodoCount(this.state);
         this.fetchCategoryName(this.state);
+    }
+
+    componentWillMount() {
+        this._isMounted = false;
     }
 
     // Get todo count from firebase
@@ -45,9 +53,11 @@ class TodosForDayCard extends React.Component {
                     let totalTodos = counts.val().total;
                     let totalCheckedTodos = counts.val().checked;
 
-                    this.setState({ totalTodos, totalCheckedTodos });
+                    this._isMounted &&
+                        this.setState({ totalTodos, totalCheckedTodos });
                 } else {
-                    this.setState({ totalTodos: 0, totalCheckedTodos: 0 });
+                    this._isMounted &&
+                        this.setState({ totalTodos: 0, totalCheckedTodos: 0 });
                 }
             });
     };
@@ -57,7 +67,8 @@ class TodosForDayCard extends React.Component {
         categoryRef
             .child(`${currentUser.uid}/${category}`)
             .once("value", category => {
-                this.setState({ categoryName: category.val().name });
+                this._isMounted &&
+                    this.setState({ categoryName: category.val().name });
             });
     };
 

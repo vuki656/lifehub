@@ -18,6 +18,9 @@ import { formatMoment } from "../../../../helpers/Global";
 import { setCurrentDay } from "../../../../redux/actions/plannerActions";
 
 class DaysListItem extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     state = {
         // Firebase
         currentUser: firebase.auth().currentUser,
@@ -33,12 +36,15 @@ class DaysListItem extends React.Component {
     };
 
     componentDidMount() {
+        this._isMounted = true;
+
         this.addTodoCompletedAmountListener(this.state);
         this.getCompletionStatus(this.state);
     }
 
     componentWillUnmount() {
         this.removeListeners(this.state);
+        this._isMounted = false;
     }
 
     // Listen for completed todo amount change
@@ -77,9 +83,10 @@ class DaysListItem extends React.Component {
     // Set how many todos are completed in the day
     setDayCompletionAmount = (total, checked) => {
         if (total) {
-            this.setState({ compleatedAmount: `${checked}/${total}` });
+            this._isMounted &&
+                this.setState({ compleatedAmount: `${checked}/${total}` });
         } else {
-            this.setState({ compleatedAmount: "0/0" });
+            this._isMounted && this.setState({ compleatedAmount: "0/0" });
         }
     };
 
@@ -92,21 +99,24 @@ class DaysListItem extends React.Component {
 
         if (total) {
             if (checked === total) {
+                this._isMounted &&
+                    this.setState({
+                        iconStatus: completedStatus,
+                        color: greenColor
+                    });
+            } else {
+                this._isMounted &&
+                    this.setState({
+                        iconStatus: unCompletedStatus,
+                        color: redColor
+                    });
+            }
+        } else {
+            this._isMounted &&
                 this.setState({
                     iconStatus: completedStatus,
                     color: greenColor
                 });
-            } else {
-                this.setState({
-                    iconStatus: unCompletedStatus,
-                    color: redColor
-                });
-            }
-        } else {
-            this.setState({
-                iconStatus: completedStatus,
-                color: greenColor
-            });
         }
     };
 

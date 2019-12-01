@@ -16,6 +16,9 @@ import Tags from "./Tags/Tags";
 import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class ReminderModal extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     state = {
         // Props
         currentUser: firebase.auth().currentUser,
@@ -52,6 +55,8 @@ class ReminderModal extends React.Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
+
         this.setExistingReminderState(this.props.reminder);
     }
 
@@ -61,18 +66,23 @@ class ReminderModal extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     // Set the existing reminder state
     setExistingReminderState = reminder => {
         if (reminder) {
-            this.setState({
-                description: reminder.description,
-                text: reminder.text,
-                startDate: reminder.startDate,
-                endDate: reminder.endDate,
-                reminder: reminder,
-                oldEndDate: reminder.endDate,
-                oldStartDate: reminder.startDate
-            });
+            this._isMounted &&
+                this.setState({
+                    description: reminder.description,
+                    text: reminder.text,
+                    startDate: reminder.startDate,
+                    endDate: reminder.endDate,
+                    reminder: reminder,
+                    oldEndDate: reminder.endDate,
+                    oldStartDate: reminder.startDate
+                });
         }
     };
 
@@ -89,23 +99,27 @@ class ReminderModal extends React.Component {
             }
             this.clearModalFields(this.state);
         } else {
-            this.setState({ error: "Please fill out all fields" });
+            this._isMounted &&
+                this.setState({ error: "Please fill out all fields" });
         }
     };
 
+    // Handle reminder cancel button press
     handleReminderCancel = () => {
         this.clearModalFields(this.state);
         this.props.closeModal();
     };
 
+    // Set the modal fields to default value
     clearModalFields = () => {
-        this.setState({
-            text: "",
-            startDate: this.props.currentDay,
-            endDate: null,
-            error: "",
-            description: ""
-        });
+        this._isMounted &&
+            this.setState({
+                text: "",
+                startDate: this.props.currentDay,
+                endDate: null,
+                error: "",
+                description: ""
+            });
     };
 
     // Sends the reminder object to firebase
@@ -121,7 +135,7 @@ class ReminderModal extends React.Component {
         let key = uuidv4();
 
         if (text) {
-            // Save reminder in each day untill end date
+            // Save reminder in each day until end date
             for (
                 let _startDate = moment(startDate);
                 _startDate.isBefore(moment(endDate).add(1, "day"));
@@ -254,7 +268,7 @@ class ReminderModal extends React.Component {
         }
     };
 
-    // Check if selelcted end date is before start date
+    // Check if selected end date is before start date
     // If yes, return start date
     // If no, return end date
     getEndingDate = () => {
@@ -269,17 +283,20 @@ class ReminderModal extends React.Component {
 
     // Set the state vale of reminder
     handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+        this._isMounted &&
+            this.setState({ [event.target.name]: event.target.value });
     };
 
     // Save start date from calendar picker
     handleStartDateChange = startDate => {
-        this.setState({ startDate: moment(startDate).valueOf() });
+        this._isMounted &&
+            this.setState({ startDate: moment(startDate).valueOf() });
     };
 
     // Save end date from calendar picker
     handleEndDateChange = endDate => {
-        this.setState({ endDate: moment(endDate).valueOf() });
+        this._isMounted &&
+            this.setState({ endDate: moment(endDate).valueOf() });
     };
 
     render() {

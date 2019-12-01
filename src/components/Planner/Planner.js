@@ -19,6 +19,9 @@ import { formatMoment } from "../../helpers/Global";
 import { fetchUserSettings } from "../../redux/actions/plannerActions";
 
 class Planner extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
@@ -47,6 +50,7 @@ class Planner extends React.Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.props.fetchUserSettings(this.state);
         this.generateMonthDayStructure(this.state.regDate, this.state);
     }
@@ -55,6 +59,10 @@ class Planner extends React.Component {
         if (this.props.regDate !== prevProps.regDate) {
             this.generateMonthDayStructure(this.state.regDate, this.state);
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     // Generate day-month structure
@@ -95,11 +103,12 @@ class Planner extends React.Component {
         let currentMonth = this.findCurrentMonthInList(monthObjectList);
 
         // Redirect user to current days planner page after getting data
-        this.setState({ monthObjectList, currentMonth }, () => {
-            this.props.history.push(
-                `/planner/${moment(currentDay).format("DD/MM/YYYY")}`
-            );
-        });
+        this._isMounted &&
+            this.setState({ monthObjectList, currentMonth }, () => {
+                this.props.history.push(
+                    `/planner/${moment(currentDay).format("DD/MM/YYYY")}`
+                );
+            });
     };
 
     // Generate next 12 months from user reg date
@@ -173,7 +182,7 @@ class Planner extends React.Component {
         // Find the selected month object in monthObjectList
         monthObjectList.forEach(monthObject => {
             if (selectedMonth === formatMoment(monthObject.month, "M/YY")) {
-                this.setState({ currentMonth: monthObject });
+                this._isMounted && this.setState({ currentMonth: monthObject });
             }
         });
     };
