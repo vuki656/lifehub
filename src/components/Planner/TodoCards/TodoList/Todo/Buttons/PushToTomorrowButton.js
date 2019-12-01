@@ -11,8 +11,9 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 class PushToTomorrowButton extends React.Component {
     state = {
-        todoRef: firebase.database().ref("todos"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoRef: firebase.database().ref("todos"),
 
         // Props
         todo: this.props.todo,

@@ -15,11 +15,16 @@ import {
 } from "../../../../../redux/actions/tagsActions";
 
 class TagsList extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     state = {
+        // Firebase
+        currentUser: firebase.auth().currentUser,
         tagsRef: firebase.database().ref("reminder-tags"),
         remindersRef: firebase.database().ref("reminders"),
-        currentUser: firebase.auth().currentUser,
 
+        // Props
         reminder: this.props.reminder,
 
         // Redux Props
@@ -34,17 +39,40 @@ class TagsList extends React.Component {
     }
 
     componentDidMount() {
-        this.addListeners();
+        this._isMounted = true;
+        this.activateListeners();
     }
 
-    addListeners = () => {
-        this.addRemoveTagListener(this.state);
-        this.addTagListener(this.state);
-        this.addUpdateTagListener(this.state);
+    componentWillUnmount() {
+        this.deactivateListeners(this.state);
+        this._isMounted = false;
+    }
+
+    // Activate database listeners
+    activateListeners = () => {
+        this.activateRemoveTagListener(this.state);
+        this.activateTagListener(this.state);
+        this.activateUpdateTagListener(this.state);
+    };
+
+    // Deactivate database listeners
+    deactivateListeners = () => {
+        this.deactivateRemindersListener(this.state);
+        this.deactivateTagsListener(this.state);
+    };
+
+    // Deactivate reminders ref listener
+    deactivateRemindersListener = ({ remindersRef, currentUser }) => {
+        remindersRef.child(`${currentUser.uid}`).off();
+    };
+
+    // Deactivate tags ref listener
+    deactivateTagsListener = ({ tagsRef, currentUser }) => {
+        tagsRef.child(`${currentUser.uid}`).off();
     };
 
     // Listen for new tag adds
-    addTagListener = ({ tagsRef, currentUser }) => {
+    activateTagListener = ({ tagsRef, currentUser }) => {
         tagsRef.child(`${currentUser.uid}`).on("child_added", () => {
             this.props.fetchTags(this.state);
             this.props.fetchReminderTags(this.state);
@@ -59,7 +87,7 @@ class TagsList extends React.Component {
     };
 
     // Listen for tag deletions
-    addRemoveTagListener = ({ tagsRef, currentUser }) => {
+    activateRemoveTagListener = ({ tagsRef, currentUser }) => {
         tagsRef.child(`${currentUser.uid}`).on("child_removed", tagToRemove => {
             this.props.fetchTags(this.state);
             this.props.fetchReminderTags(this.state);
@@ -70,7 +98,7 @@ class TagsList extends React.Component {
     };
 
     // Listen for tag updates
-    addUpdateTagListener = ({ tagsRef, currentUser }) => {
+    activateUpdateTagListener = ({ tagsRef, currentUser }) => {
         tagsRef.child(`${currentUser.uid}`).on("child_changed", () => {
             this.props.fetchTags(this.state);
         });
@@ -89,9 +117,7 @@ class TagsList extends React.Component {
                         ) {
                             remindersRef
                                 .child(
-                                    `${currentUser.uid}/${day.key}/${
-                                        reminder.key
-                                    }/tags`
+                                    `${currentUser.uid}/${day.key}/${reminder.key}/tags`
                                 )
                                 .update({
                                     [tag]: false
@@ -110,9 +136,7 @@ class TagsList extends React.Component {
                 day.forEach(reminder => {
                     remindersRef
                         .child(
-                            `${currentUser.uid}/${day.key}/${
-                                reminder.key
-                            }/tags/${tagToRemove.key}`
+                            `${currentUser.uid}/${day.key}/${reminder.key}/tags/${tagToRemove.key}`
                         )
                         .remove();
                 });
@@ -136,7 +160,6 @@ const mapStateToProps = state => ({
     tagList: state.tags.tagList
 });
 
-export default connect(
-    mapStateToProps,
-    { fetchTags, fetchReminderTags }
-)(TagsList);
+export default connect(mapStateToProps, { fetchTags, fetchReminderTags })(
+    TagsList
+);

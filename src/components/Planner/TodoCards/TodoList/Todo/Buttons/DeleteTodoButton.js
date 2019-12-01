@@ -15,8 +15,9 @@ import { getDayOnlyTimestamp } from "../../../../../../helpers/Global";
 
 class DeleteTodoButton extends React.Component {
     state = {
-        todoRef: firebase.database().ref("todos"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoRef: firebase.database().ref("todos"),
 
         // Props
         todo: this.props.todo,

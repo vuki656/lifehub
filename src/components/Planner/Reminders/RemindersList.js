@@ -24,10 +24,13 @@ class Reminders extends React.Component {
         super(props);
 
         this.state = {
-            remindersList: [],
+            // Firebase
+            currentUser: firebase.auth().currentUser,
             remindersRef: firebase.database().ref("reminders"),
             tagsRef: firebase.database().ref("reminder-tags"),
-            currentUser: firebase.auth().currentUser,
+
+            // Base
+            remindersList: [],
             modalOpen: false,
 
             // Redux Props
@@ -47,24 +50,33 @@ class Reminders extends React.Component {
         this.props.fetchTags(this.state);
         this._isMounted = true;
         this.fetchReminders(this.state);
-        this.addListeners();
+        this.activateListeners();
     }
 
     componentWillUnmount() {
-        this.removeListeners(this.state);
+        this.deactivateListeners();
         this._isMounted = false;
     }
 
-    // Turn off db connections
-    removeListeners = ({ remindersRef, currentUser, currentDay }) => {
-        remindersRef.child(`${currentUser.uid}/${currentDay}/`).off();
+    // Activate database listeners
+    activateListeners = () => {
+        this.activateSetReminderListener(this.state);
+        this.activateRemoveReminderListener(this.state);
+        this.activateChangeReminderListener(this.state);
     };
 
-    // Listen for db changes
-    addListeners = () => {
-        this.addSetReminderListener(this.state);
-        this.addRemoveReminderListener(this.state);
-        this.addChangeReminderListener(this.state);
+    // Deactivate database listeners
+    deactivateListeners = () => {
+        this.deactivateRemindersListener(this.state);
+    };
+
+    // Deactivate reminders ref listener
+    deactivateRemindersListener = ({
+        remindersRef,
+        currentUser,
+        currentDay
+    }) => {
+        remindersRef.child(`${currentUser.uid}/${currentDay}/`).off();
     };
 
     // Fetches reminders from firebase
@@ -99,7 +111,7 @@ class Reminders extends React.Component {
     };
 
     // Listen for new reminder inputs and set to the state so component re-renders
-    addSetReminderListener({ currentUser, remindersRef, currentDay }) {
+    activateSetReminderListener({ currentUser, remindersRef, currentDay }) {
         remindersRef
             .child(`${currentUser.uid}/${currentDay}`)
             .on("child_added", () => {
@@ -108,7 +120,11 @@ class Reminders extends React.Component {
     }
 
     // Listen for reminder deletions
-    addRemoveReminderListener = ({ remindersRef, currentUser, currentDay }) => {
+    activateRemoveReminderListener = ({
+        remindersRef,
+        currentUser,
+        currentDay
+    }) => {
         remindersRef
             .child(`${currentUser.uid}/${currentDay}`)
             .on("child_removed", () => {
@@ -117,7 +133,11 @@ class Reminders extends React.Component {
     };
 
     // Listen for reminder deletions
-    addChangeReminderListener = ({ remindersRef, currentUser, currentDay }) => {
+    activateChangeReminderListener = ({
+        remindersRef,
+        currentUser,
+        currentDay
+    }) => {
         remindersRef
             .child(`${currentUser.uid}/${currentDay}`)
             .on("child_changed", () => {

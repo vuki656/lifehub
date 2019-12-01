@@ -9,49 +9,62 @@ import { List } from "@material-ui/core";
 import DashboardNotesListItem from "./DashboardNotesListItem";
 
 class DashboardNotesList extends React.Component {
+    // Used to prevent setState calls after component umounts
+    _isMounted = false;
+
     state = {
-        notesRef: firebase.database().ref("dashboard-notes"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        notesRef: firebase.database().ref("dashboard-notes"),
+
+        // Base
         notesList: []
     };
 
     componentDidMount() {
+        this._isMounted = true;
         this.fetchNotes(this.state);
-        this.addListeners();
+        this.activateListeners();
     }
 
     componentWillUnmount() {
-        this.removeListeners(this.state);
+        this.deactivateListeners();
+        this._isMounted = false;
     }
 
     // Activate database listeners
-    addListeners = () => {
-        this.addSetNoteListener(this.state);
-        this.addRemoveNoteListener(this.state);
-        this.addChangeNoteListener(this.state);
+    activateListeners = () => {
+        this.activateSetNoteListener(this.state);
+        this.activateRemoveNoteListener(this.state);
+        this.activateChangeNoteListener(this.state);
     };
 
     // Deactivate database listeners
-    removeListeners = ({ notesRef, currentUser }) => {
+    deactivateListeners = () => {
+        this.deactivateListeners(this.state);
+    };
+
+    // Deactivate notes ref listener
+    deactivateNotesListener = ({ notesRef, currentUser }) => {
         notesRef.child(`${currentUser.uid}`).off();
     };
 
     // Listen for new note adds
-    addSetNoteListener({ currentUser, notesRef }) {
+    activateSetNoteListener({ currentUser, notesRef }) {
         notesRef.child(currentUser.uid).on("child_added", () => {
             this.fetchNotes(this.state);
         });
     }
 
     // Listen for new note deletions
-    addRemoveNoteListener = ({ currentUser, notesRef }) => {
+    activateRemoveNoteListener = ({ currentUser, notesRef }) => {
         notesRef.child(currentUser.uid).on("child_removed", () => {
             this.fetchNotes(this.state);
         });
     };
 
     // Listen for note changes
-    addChangeNoteListener = ({ currentUser, notesRef }) => {
+    activateChangeNoteListener = ({ currentUser, notesRef }) => {
         notesRef.child(currentUser.uid).on("child_changed", () => {
             this.fetchNotes(this.state);
         });

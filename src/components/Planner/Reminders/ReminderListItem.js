@@ -21,9 +21,12 @@ class Reminder extends React.Component {
         super(props);
 
         this.state = {
+            // Firebase
+            currentUser: firebase.auth().currentUser,
             remindersRef: firebase.database().ref("reminders"),
             tagsRef: firebase.database().ref("reminder-tags"),
-            currentUser: firebase.auth().currentUser,
+
+            // Base
             modalOpen: false,
             reminderTagValues: [],
 
@@ -49,8 +52,9 @@ class Reminder extends React.Component {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.fetchReminderTagValues(this.state);
-        this.addListeners();
+        this.activateListeners();
     }
 
     componentDidUpdate(prevProps) {
@@ -59,10 +63,74 @@ class Reminder extends React.Component {
         }
     }
 
-    addListeners = () => {
-        this.addChangeTagListener(this.state);
-        this.addRemoveTagListener(this.state);
-        this.addSetTagListener(this.state);
+    componentWillUnmount() {
+        this.deactivateListeners();
+        this._isMounted = false;
+    }
+
+    // Activate database listeners
+    activateListeners = () => {
+        this.activateChangeTagListener(this.state);
+        this.activateRemoveTagListener(this.state);
+        this.activateSetTagListener(this.state);
+    };
+
+    // Deactivate database listeners
+    deactivateListeners = () => {
+        this.deactivateRemindersListener(this.state);
+        this.deactivateTagsListener(this.state);
+    };
+
+    // Deactivate reminders ref listener
+    deactivateRemindersListener = ({ remindersRef, currentUser }) => {
+        remindersRef.child(`${currentUser.uid}`).off();
+    };
+
+    // Deactivate tags ref listener
+    deactivateTagsListener = ({ tagsRef, currentUser }) => {
+        tagsRef.child(`${currentUser.uid}`).off();
+    };
+
+    // Listen for new tag inputs
+    activateSetTagListener({
+        currentUser,
+        remindersRef,
+        currentDay,
+        reminder
+    }) {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
+            .on("child_added", () => {
+                this.fetchReminderTagValues(this.state);
+            });
+    }
+
+    // Listen for tag deletions
+    activateRemoveTagListener = ({
+        remindersRef,
+        currentUser,
+        currentDay,
+        reminder
+    }) => {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
+            .on("child_removed", () => {
+                this.fetchReminderTagValues(this.state);
+            });
+    };
+
+    // Listen for tag deletions
+    activateChangeTagListener = ({
+        remindersRef,
+        currentUser,
+        currentDay,
+        reminder
+    }) => {
+        remindersRef
+            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
+            .on("child_changed", () => {
+                this.fetchReminderTagValues(this.state);
+            });
     };
 
     // Iterate trough days where reminder stored and remove it from each
@@ -106,43 +174,6 @@ class Reminder extends React.Component {
                     }
                 });
                 this.setState({ reminderTagValues: tagValueHolder });
-            });
-    };
-
-    // Listen for new tag inputs
-    addSetTagListener({ currentUser, remindersRef, currentDay, reminder }) {
-        remindersRef
-            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
-            .on("child_added", () => {
-                this.fetchReminderTagValues(this.state);
-            });
-    }
-
-    // Listen for tag deletions
-    addRemoveTagListener = ({
-        remindersRef,
-        currentUser,
-        currentDay,
-        reminder
-    }) => {
-        remindersRef
-            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
-            .on("child_removed", () => {
-                this.fetchReminderTagValues(this.state);
-            });
-    };
-
-    // Listen for tag deletions
-    addChangeTagListener = ({
-        remindersRef,
-        currentUser,
-        currentDay,
-        reminder
-    }) => {
-        remindersRef
-            .child(`${currentUser.uid}/${currentDay}/${reminder.key}/tags`)
-            .on("child_changed", () => {
-                this.fetchReminderTagValues(this.state);
             });
     };
 
@@ -256,7 +287,4 @@ const mapStateToProps = state => ({
     reminderTags: state.tags.reminderTags
 });
 
-export default connect(
-    mapStateToProps,
-    { fetchReminderTags }
-)(Reminder);
+export default connect(mapStateToProps, { fetchReminderTags })(Reminder);

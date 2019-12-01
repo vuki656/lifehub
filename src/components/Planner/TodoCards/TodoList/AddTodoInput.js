@@ -20,8 +20,11 @@ import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class AddTodoInput extends React.Component {
     state = {
-        todoRef: firebase.database().ref("todos"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoRef: firebase.database().ref("todos"),
+
+        // Base
         todoText: "",
 
         // Props

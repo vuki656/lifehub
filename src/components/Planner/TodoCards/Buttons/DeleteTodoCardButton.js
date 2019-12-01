@@ -11,9 +11,12 @@ import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class DeleteTodoCardButton extends React.Component {
     state = {
+        // Firebase
         currentUser: firebase.auth().currentUser,
         todosRef: firebase.database().ref("todos"),
         todoCardRef: firebase.database().ref("todo-cards"),
+
+        // Base
         todayTimestamp: getDayOnlyTimestamp(moment()),
 
         // Props

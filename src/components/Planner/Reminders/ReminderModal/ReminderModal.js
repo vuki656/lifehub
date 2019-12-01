@@ -17,9 +17,12 @@ import { getDayOnlyTimestamp } from "../../../../helpers/Global";
 
 class ReminderModal extends React.Component {
     state = {
+        // Props
+        currentUser: firebase.auth().currentUser,
         tagsRef: firebase.database().ref("reminder-tags"),
         remindersRef: firebase.database().ref("reminders"),
-        currentUser: firebase.auth().currentUser,
+
+        // Base
         endDate: null,
         text: "",
         description: "",
@@ -397,7 +400,4 @@ const mapStateToProps = state => ({
     tagList: state.tags.tagList
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(ReminderModal);
+export default connect(mapStateToProps, null)(ReminderModal);

@@ -7,11 +7,15 @@ import { Grid, Popup, Icon, Input, Button } from "semantic-ui-react";
 
 class EditTagNamePopup extends React.Component {
     state = {
-        tagsRef: firebase.database().ref("reminder-tags"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        tagsRef: firebase.database().ref("reminder-tags"),
+
+        // Base
         isPopOpen: false,
         newTagText: "",
 
+        // Props
         tag: this.props.tag
     };
 

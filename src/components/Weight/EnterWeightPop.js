@@ -9,8 +9,11 @@ import { Form, Button, Popup } from "semantic-ui-react";
 
 class EnterWeightPop extends React.Component {
     state = {
+        // Firebase
         currentUser: firebase.auth().currentUser,
         weightRef: firebase.database().ref("weight-entries"),
+
+        // Base
         weight: "",
         weightDate: moment().valueOf(),
         error: "",

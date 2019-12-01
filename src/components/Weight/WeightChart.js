@@ -6,6 +6,7 @@ import { ResponsiveLine } from "@nivo/line";
 
 class Chart extends React.Component {
     state = {
+        // Base
         data: []
     };
 

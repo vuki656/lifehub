@@ -12,8 +12,11 @@ import ColorPickerPopup from "./ColorPickerPopup";
 
 class AddTagSection extends React.Component {
     state = {
-        tagsRef: firebase.database().ref("reminder-tags"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        tagsRef: firebase.database().ref("reminder-tags"),
+
+        // Base
         newTagText: "",
         displayAddTagSection: false,
 
@@ -104,7 +107,4 @@ const mapStateToProps = state => ({
     tagColor: state.tags.tagColor
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(AddTagSection);
+export default connect(mapStateToProps, null)(AddTagSection);

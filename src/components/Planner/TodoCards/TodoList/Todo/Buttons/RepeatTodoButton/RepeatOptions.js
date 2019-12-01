@@ -21,6 +21,7 @@ import {
 
 class RepeatOptions extends React.Component {
     state = {
+        // Props
         selectedWeekDays: this.props.selectedWeekDays,
         selectedMonthDays: this.props.selectedMonthDays,
         repeatAtEndOfMonth: this.props.repeatAtEndOfMonth,

@@ -9,6 +9,7 @@ import EntryListItem from "./EntryListItem";
 
 class EntryList extends React.Component {
     state = {
+        // Base
         journalEntries: this.props.journalEntries
     };
 

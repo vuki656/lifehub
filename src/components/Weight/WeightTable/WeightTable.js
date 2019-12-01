@@ -9,6 +9,7 @@ import WeightTableRow from "./WeightTableRow";
 
 class WeightTable extends React.Component {
     state = {
+        // Props
         weightList: this.props.weightList,
         firstWeightEntry: this.props.firstWeightEntry
     };

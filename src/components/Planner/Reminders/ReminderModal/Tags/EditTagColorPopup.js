@@ -8,9 +8,11 @@ import { Popup, Button, Icon } from "semantic-ui-react";
 
 class EditTagColorPopup extends React.Component {
     state = {
-        tagsRef: firebase.database().ref("reminder-tags"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        tagsRef: firebase.database().ref("reminder-tags"),
 
+        // Props
         displayColorPicker: this.props.displayColorPicker,
         newTagColor: this.props.tag.color,
         tag: this.props.tag

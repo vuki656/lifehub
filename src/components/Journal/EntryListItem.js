@@ -11,8 +11,11 @@ import { formatMoment } from "../../helpers/Global";
 
 class EntryListItem extends React.Component {
     state = {
+        // Firebase
         currentUser: firebase.auth().currentUser,
         journalRef: firebase.database().ref("journal-entries"),
+
+        // Props
         journalEntry: this.props.journalEntry
     };
 

@@ -17,12 +17,16 @@ class TagListItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            // Firebase
+            currentUser: firebase.auth().currentUser,
             remindersRef: firebase.database().ref("reminders"),
             tagsRef: firebase.database().ref("reminder-tags"),
-            currentUser: firebase.auth().currentUser,
+
+            // Base
             displayColorPicker: false,
             isSelected: false,
 
+            // Props
             reminder: this.props.reminder,
             newTagColor: this.props.tag.color,
             newTagText: this.props.tag.text,

@@ -17,8 +17,11 @@ import CreateIcon from "@material-ui/icons/Create";
 
 class EditTodoCardNamePopup extends React.Component {
     state = {
-        todoCardRef: firebase.database().ref("todo-cards"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoCardRef: firebase.database().ref("todo-cards"),
+        
+         // Base
         newTodoCardName: "",
         isPopOpen: false,
         anchorElement: null, // Point from where the popup is opened

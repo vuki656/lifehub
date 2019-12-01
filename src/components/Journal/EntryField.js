@@ -9,9 +9,11 @@ import { TextArea, Form, Button, Input } from "semantic-ui-react";
 
 class EntryField extends React.Component {
     state = {
+        // Firebase
         currentUser: firebase.auth().currentUser,
         journalRef: firebase.database().ref("journal-entries"),
 
+        // Props
         newJournalEntryTitle: this.props.journalEntry.title,
         newJournalEntryText: this.props.journalEntry.text,
         newJournalEntryCreatedDate: this.props.journalEntry.createdAt,

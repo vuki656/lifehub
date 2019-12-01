@@ -11,6 +11,7 @@ import { ReactComponent as Logo } from "../../files/logo.svg";
 
 class Login extends React.Component {
     state = {
+        // Base
         email: "",
         password: "",
         error: ""

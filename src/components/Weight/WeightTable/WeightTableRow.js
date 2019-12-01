@@ -7,9 +7,11 @@ import { Table, Icon } from "semantic-ui-react";
 
 class WeightTableRow extends React.Component {
     state = {
-        weightRef: firebase.database().ref("weight-entries"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        weightRef: firebase.database().ref("weight-entries"),
 
+        // Props
         weightEntry: this.props.weightEntry,
         firstWeightEntry: this.props.firstWeightEntry
     };

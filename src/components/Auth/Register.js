@@ -12,13 +12,16 @@ import { ReactComponent as Logo } from "../../files/logo.svg";
 
 class Register extends React.Component {
     state = {
+        // Firebase
+        userRef: firebase.database().ref("users"),
+
+        // Base
         username: "",
         email: "",
         password: "",
         passwordConfirmation: "",
         error: "",
-        loading: false,
-        userRef: firebase.database().ref("users")
+        loading: false
     };
 
     // Create a user and save the register date

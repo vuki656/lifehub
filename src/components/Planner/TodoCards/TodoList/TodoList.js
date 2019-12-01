@@ -14,8 +14,11 @@ class TodoList extends React.Component {
     _isMounted = false;
 
     state = {
-        todoRef: firebase.database().ref("todos"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoRef: firebase.database().ref("todos"),
+
+        // Base
         todoList: [],
 
         // Redux Props
@@ -32,28 +35,33 @@ class TodoList extends React.Component {
     componentDidMount() {
         this._isMounted = true;
         this.fetchTodos(this.state);
-        this.addListeners();
+        this.activateListeners();
     }
 
     componentWillUnmount() {
-        this.removeListeners(this.state);
+        this.deactivateListeners();
         this._isMounted = false;
     }
 
-    // Turn off db connections
-    removeListeners = ({ todoRef, currentUser, currentDay }) => {
+    // Activate database listeners
+    activateListeners = () => {
+        this.activateSetTodoListener(this.state);
+        this.activateRemoveTodoListener(this.state);
+        this.activateChangeTodoListener(this.state);
+    };
+
+    // Deactivate database listeners
+    deactivateListeners = () => {
+        this.deactivateTodoListener = this.state;
+    };
+
+    // Deactivate todo ref listener
+    deactivateTodoListener = ({ todoRef, currentUser, currentDay }) => {
         todoRef.child(`${currentUser.uid}/${currentDay}/`).off();
     };
 
-    // Listen for db changes
-    addListeners = () => {
-        this.addSetTodoListener(this.state);
-        this.addRemoveTodoListener(this.state);
-        this.addChangeTodoListener(this.state);
-    };
-
     // Listen for new todo inputs and set to the state so component re-renders
-    addSetTodoListener({ currentUser, todoRef, currentDay, todoCard }) {
+    activateSetTodoListener({ currentUser, todoRef, currentDay, todoCard }) {
         todoRef
             .child(
                 `${currentUser.uid}/${currentDay}/categories/${todoCard.key}`
@@ -64,7 +72,7 @@ class TodoList extends React.Component {
     }
 
     // Listen for todo deletions
-    addRemoveTodoListener = ({
+    activateRemoveTodoListener = ({
         todoRef,
         currentUser,
         currentDay,
@@ -80,7 +88,7 @@ class TodoList extends React.Component {
     };
 
     // Listen for todo deletions
-    addChangeTodoListener = ({ todoRef, currentUser, currentDay }) => {
+    activateChangeTodoListener = ({ todoRef, currentUser, currentDay }) => {
         todoRef
             .child(`${currentUser.uid}/${currentDay}`)
             .on("child_changed", () => {

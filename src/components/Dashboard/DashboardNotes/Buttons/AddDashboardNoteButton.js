@@ -18,8 +18,11 @@ import NoteOutlinedIcon from "@material-ui/icons/NoteOutlined";
 
 class AddDashboardNotes extends React.Component {
     state = {
-        notesRef: firebase.database().ref("dashboard-notes"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        notesRef: firebase.database().ref("dashboard-notes"),
+
+        // Base
         noteText: "",
         isPopOpen: false,
         anchorElement: null // Point from where the popup is opened

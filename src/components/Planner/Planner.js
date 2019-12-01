@@ -23,8 +23,11 @@ class Planner extends React.Component {
         super(props);
 
         this.state = {
-            usersRef: firebase.database().ref("users"),
+            // Firebase
             currentUser: firebase.auth().currentUser,
+            usersRef: firebase.database().ref("users"),
+
+            // Base
             monthObjectList: null,
             currentMonth: null,
 

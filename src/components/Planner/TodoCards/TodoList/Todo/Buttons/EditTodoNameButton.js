@@ -24,9 +24,12 @@ import { isDayBeingSavedTo } from "../../../../../../helpers/Planner/Todo";
 
 class EditTodoNameButton extends React.Component {
     state = {
-        todoRef: firebase.database().ref("todos"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoRef: firebase.database().ref("todos"),
         usersRef: firebase.database().ref("users"),
+
+        // Base
         newTodo: "",
         isPopOpen: false,
         anchorElement: null, // Point from where the popup is opened
@@ -98,11 +101,15 @@ class EditTodoNameButton extends React.Component {
         todo,
         itteratingDate
     ) => {
+        // Convert iterating date to epoch timestamp
         let dayTimestamp = getDayOnlyTimestamp(itteratingDate);
 
+        // Check if the selected dates includes start of month
         let startOfMonth = repeatAtStartOfMonth
             ? getDayOnlyTimestamp(moment(itteratingDate).startOf("month"))
             : "";
+
+        // Check if the selected dates includes end of month
         let endOfMonth = repeatAtEndOfMonth
             ? getDayOnlyTimestamp(moment(itteratingDate).endOf("month"))
             : "";

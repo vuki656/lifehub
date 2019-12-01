@@ -19,8 +19,11 @@ import { setCurrentDay } from "../../../../redux/actions/plannerActions";
 
 class DaysListItem extends React.Component {
     state = {
-        todoRef: firebase.database().ref("todos"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoRef: firebase.database().ref("todos"),
+
+        // Base
         iconStatus: "",
         compleatedAmount: null,
         color: "",

@@ -28,7 +28,10 @@ import { ReactComponent as Logo } from "../files/logo.svg";
 
 class SideMenu extends React.Component {
     state = {
+        // Firebase
         currentUser: firebase.auth().currentUser,
+       
+        // Base
         activeItem: "dashboard"
     };
 

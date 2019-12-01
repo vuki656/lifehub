@@ -17,8 +17,11 @@ import AddIcon from "@material-ui/icons/Add";
 
 class AddTodoCardButton extends React.Component {
     state = {
-        todoCardRef: firebase.database().ref("todo-cards"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoCardRef: firebase.database().ref("todo-cards"),
+
+        // Base
         displayOptions: false,
         todoCardName: ""
     };

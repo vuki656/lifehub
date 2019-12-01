@@ -18,9 +18,12 @@ class TodosForDay extends React.Component {
     _isMounted = false;
 
     state = {
+        // Firebase
+        currentUser: firebase.auth().currentUser,
         todoRef: firebase.database().ref("todos"),
         categoryRef: firebase.database().ref("todo-cards"),
-        currentUser: firebase.auth().currentUser,
+
+        // Base
         currentDay: getDayOnlyTimestamp(moment()),
         categories: []
     };
@@ -28,42 +31,53 @@ class TodosForDay extends React.Component {
     componentDidMount() {
         this._isMounted = true;
         this.fetchCategoryList(this.state);
-        this.addListeners();
+        this.activateListeners();
     }
 
     componentWillUnmount() {
-        this.removeListeners(this.state);
+        this.deactivateListeners();
         this._isMounted = false;
     }
 
     // Activate database listeners
-    addListeners = () => {
-        this.addSetCategoryListener(this.state);
-        this.addRemoveCategoryListener(this.state);
-        this.addChangeCategoryListener(this.state);
+    activateListeners = () => {
+        this.activateSetCategoryListener(this.state);
+        this.activateRemoveCategoryListener(this.state);
+        this.activateChangeCategoryListener(this.state);
     };
 
     // Deactivate database listeners
-    removeListeners = ({ categoryRef, currentUser }) => {
+    deactivateListeners = () => {
+        this.deactivateCategoryListener(this.state);
+        this.deactivateTodoListener(this.state);
+    };
+
+    // Deactivate category ref listener
+    deactivateCategoryListener = ({ categoryRef, currentUser }) => {
         categoryRef.child(`${currentUser.uid}`).off();
     };
 
+    // Deactivate todo ref listener
+    deactivateTodoListener = ({ todoRef, currentUser }) => {
+        todoRef.child(`${currentUser.uid}`).off();
+    };
+
     // Listen for new category adds
-    addSetCategoryListener({ currentUser, categoryRef }) {
+    activateSetCategoryListener({ currentUser, categoryRef }) {
         categoryRef.child(currentUser.uid).on("child_added", () => {
             this.fetchCategoryList(this.state);
         });
     }
 
     // Listen for new category deletions
-    addRemoveCategoryListener = ({ currentUser, categoryRef }) => {
+    activateRemoveCategoryListener = ({ currentUser, categoryRef }) => {
         categoryRef.child(currentUser.uid).on("child_removed", () => {
             this.fetchCategoryList(this.state);
         });
     };
 
     // Listen for category changes
-    addChangeCategoryListener = ({ currentUser, categoryRef }) => {
+    activateChangeCategoryListener = ({ currentUser, categoryRef }) => {
         categoryRef.child(currentUser.uid).on("child_changed", () => {
             this.fetchCategoryList(this.state);
         });

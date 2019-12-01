@@ -6,9 +6,11 @@ import { Card, CardContent, Typography } from "@material-ui/core";
 
 class TotalCompletedHabits extends React.Component {
     state = {
-        todoRef: firebase.database().ref("todos"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoRef: firebase.database().ref("todos"),
 
+         // Base
         totalCompletedHabits: 0
     };
 

@@ -15,54 +15,60 @@ class Journal extends React.Component {
     // Used to prevent setState calls after component umounts
     _isMounted = false;
 
-    constructor(props) {
-        super(props);
+    state = {
+        // Firebase
+        currentUser: firebase.auth().currentUser,
+        journalRef: firebase.database().ref("journal-entries"),
 
-        this.state = {
-            journalEntries: null,
-            currentUser: firebase.auth().currentUser,
-            journalRef: firebase.database().ref("journal-entries"),
-            activeEntry: ""
-        };
-    }
+        // Base
+        journalEntries: null,
+        activeEntry: ""
+    };
 
     componentDidMount() {
         this._isMounted = true;
         this.fetchJournalEntries(this.state);
-        this.addListeners();
+        this.activateListeners();
     }
 
     componentWillUnmount() {
-        this.removeListeners(this.state);
+        this.deactivateListeners();
         this._isMounted = false;
     }
 
-    addListeners = () => {
-        this.addJournalEntryListener(this.state);
-        this.addRemoveJournalEntryListener(this.state);
-        this.addUpdateJournalEntryListener(this.state);
+    // Activate database listeners
+    activateListeners = () => {
+        this.activateJournalEntryListener(this.state);
+        this.activateRemoveJournalEntryListener(this.state);
+        this.activateUpdateJournalEntryListener(this.state);
     };
 
-    removeListeners = ({ journalRef, currentUser }) => {
+    // Deactivate database listeners
+    deactivateListeners = () => {
+        this.deactivateJournalListener(this.state);
+    };
+
+    // Deactivate journal ref listener
+    deactivateJournalListener = ({ journalRef, currentUser }) => {
         journalRef.child(`${currentUser.uid}`).off();
     };
 
     // Listen for new journal inputs
-    addJournalEntryListener = ({ currentUser, journalRef }) => {
+    activateJournalEntryListener = ({ currentUser, journalRef }) => {
         journalRef.child(currentUser.uid).on("child_added", () => {
             this.fetchJournalEntries(this.state);
         });
     };
 
     // Listen for new journal deletions
-    addRemoveJournalEntryListener = ({ currentUser, journalRef }) => {
+    activateRemoveJournalEntryListener = ({ currentUser, journalRef }) => {
         journalRef.child(currentUser.uid).on("child_removed", () => {
             this.fetchJournalEntries(this.state);
         });
     };
 
     // Listen for new journal updates
-    addUpdateJournalEntryListener = ({ currentUser, journalRef }) => {
+    activateUpdateJournalEntryListener = ({ currentUser, journalRef }) => {
         journalRef.child(currentUser.uid).on("child_changed", () => {
             this.fetchJournalEntries(this.state);
         });

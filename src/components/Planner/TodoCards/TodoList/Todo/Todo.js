@@ -14,9 +14,11 @@ import DeleteTodoButton from "./Buttons/DeleteTodoButton";
 
 class Todo extends React.Component {
     state = {
-        todoRef: firebase.database().ref("todos"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoRef: firebase.database().ref("todos"),
 
+        // Props
         todo: this.props.todo,
         category: this.props.category,
         isChecked: this.props.isChecked,

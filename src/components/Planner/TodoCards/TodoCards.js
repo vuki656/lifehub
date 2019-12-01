@@ -11,31 +11,51 @@ import AddTodoCardButton from "./Buttons/AddTodoCardButton";
 
 class TodoCards extends React.Component {
     state = {
-        todoCardRef: firebase.database().ref("todo-cards"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoCardRef: firebase.database().ref("todo-cards"),
+
+        // Base
         isInPast: false,
         todoCards: []
     };
 
     componentDidMount() {
-        this.addListeners();
+        this._isMounted = true;
+        this.activateListeners();
         this.fetchTodoCards(this.state);
     }
 
-    addListeners = () => {
-        this.addTodoCardListener(this.state);
-        this.addRemoveTodoCardListener(this.state);
+    componentWillUnmount() {
+        this.deactivateListeners();
+        this._isMounted = false;
+    }
+
+    // Activate database listeners
+    activateListeners = () => {
+        this.activateTodoCardListener(this.state);
+        this.activateRemoveTodoCardListener(this.state);
+    };
+
+    // Deactivate database listeners
+    deactivateListeners = () => {
+        this.deactivateTodoCardListener(this.state);
+    };
+
+    // Deactivate todoCard ref listener
+    deactivateTodoCardListener = ({ todoCardRef, currentUser }) => {
+        todoCardRef.child(`${currentUser.uid}`).off();
     };
 
     // Listen for todo card additions
-    addTodoCardListener = ({ currentUser, todoCardRef }) => {
+    activateTodoCardListener = ({ currentUser, todoCardRef }) => {
         todoCardRef.child(currentUser.uid).on("child_added", () => {
             this.fetchTodoCards(this.state);
         });
     };
 
     // Listen for new todo card deletions
-    addRemoveTodoCardListener = ({ currentUser, todoCardRef }) => {
+    activateRemoveTodoCardListener = ({ currentUser, todoCardRef }) => {
         todoCardRef.child(currentUser.uid).on("child_removed", () => {
             this.fetchTodoCards(this.state);
         });

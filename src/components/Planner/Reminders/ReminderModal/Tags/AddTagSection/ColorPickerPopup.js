@@ -11,6 +11,7 @@ import { setTagColor } from "../../../../../../redux/actions/tagsActions";
 
 class ColorPickerPopup extends React.Component {
     state = {
+        // Base
         displayColorPicker: false,
 
         // Redux Props
@@ -87,7 +88,4 @@ const mapStateToProps = state => ({
     tagColor: state.tags.tagColor
 });
 
-export default connect(
-    mapStateToProps,
-    { setTagColor }
-)(ColorPickerPopup);
+export default connect(mapStateToProps, { setTagColor })(ColorPickerPopup);

@@ -15,8 +15,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 class DashboardNotesListItem extends React.Component {
     state = {
-        notesRef: firebase.database().ref("dashboard-notes"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        notesRef: firebase.database().ref("dashboard-notes"),
 
         // Props
         note: this.props.note

@@ -40,8 +40,11 @@ class RepeatTodoButton extends React.Component {
         super(props);
 
         this.state = {
-            todoRef: firebase.database().ref("todos"),
+            // Firebase
             currentUser: firebase.auth().currentUser,
+            todoRef: firebase.database().ref("todos"),
+
+            // Base
             isRepeatingEveryDay: false,
             isPopOpen: false,
             anchorElement: null, // Point from where the popup is opened

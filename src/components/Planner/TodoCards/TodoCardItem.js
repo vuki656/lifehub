@@ -13,6 +13,7 @@ import DeleteTodoCardButton from "./Buttons/DeleteTodoCardButton";
 
 class TodoCardItem extends React.Component {
     state = {
+        // Firebase
         currentUser: firebase.auth().currentUser,
         todoCardRef: firebase.database().ref("todo-cards"),
 

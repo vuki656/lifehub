@@ -10,8 +10,11 @@ class TodosForDayCount extends React.Component {
     _isMounted = false;
 
     state = {
-        todoRef: firebase.database().ref("todos"),
+        // Firebase
         currentUser: firebase.auth().currentUser,
+        todoRef: firebase.database().ref("todos"),
+
+        // Base
         totalTodos: 0,
         totalCheckedTodos: 0,
 

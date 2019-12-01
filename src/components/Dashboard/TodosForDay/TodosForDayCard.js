@@ -11,9 +11,12 @@ import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
 class TodosForDayCard extends React.Component {
     state = {
+        // Firebase
+        currentUser: firebase.auth().currentUser,
         todoRef: firebase.database().ref("todos"),
         categoryRef: firebase.database().ref("todo-cards"),
-        currentUser: firebase.auth().currentUser,
+
+        // Base
         currentDay: getDayOnlyTimestamp(moment()),
         totalTodos: null,
         totalCheckedTodos: null,
