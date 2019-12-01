@@ -22,7 +22,7 @@ class AddDashboardNotes extends React.Component {
         currentUser: firebase.auth().currentUser,
         noteText: "",
         isPopOpen: false,
-        anchorElement: null
+        anchorElement: null // Point from where the popup is opened
     };
 
     // Handle popup toggle actions

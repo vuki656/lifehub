@@ -44,7 +44,7 @@ class RepeatTodoButton extends React.Component {
             currentUser: firebase.auth().currentUser,
             isRepeatingEveryDay: false,
             isPopOpen: false,
-            anchorElement: null,
+            anchorElement: null, // Point from where the popup is opened
 
             // Props
             repeatFromDate: this.props.todo.repeatFromDate,
@@ -62,12 +62,7 @@ class RepeatTodoButton extends React.Component {
         };
 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-        this.handleDaysOfWeekDropdown = this.handleDaysOfWeekDropdown.bind(
-            this
-        );
-        this.handleDaysOfMonthDropdown = this.handleDaysOfMonthDropdown.bind(
-            this
-        );
+        this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.handleRepeatFromDate = this.handleRepeatFromDate.bind(this);
     }
 
@@ -287,14 +282,9 @@ class RepeatTodoButton extends React.Component {
         this.setState({ [event.target.name]: value });
     };
 
-    // Set selected days of week to state
-    handleDaysOfWeekDropdown = (event, value) => {
-        this.setState({ selectedWeekDays: value.value });
-    };
-
-    // Set selected days of month to state
-    handleDaysOfMonthDropdown = (event, value) => {
-        this.setState({ selectedMonthDays: value.value });
+    // Handle dropdown value selecting
+    handleDropdownChange = (event, value) => {
+        this.setState({ [event.target.name]: event.target.value });
     };
 
     // Toggle popup
@@ -375,11 +365,8 @@ class RepeatTodoButton extends React.Component {
                                         handleCheckboxChange={
                                             this.handleCheckboxChange
                                         }
-                                        handleDaysOfMonthDropdown={
-                                            this.handleDaysOfMonthDropdown
-                                        }
-                                        handleDaysOfWeekDropdown={
-                                            this.handleDaysOfWeekDropdown
+                                        handleDropdownChange={
+                                            this.handleDropdownChange
                                         }
                                     />
                                 </Grid>

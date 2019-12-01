@@ -29,7 +29,7 @@ class EditTodoNameButton extends React.Component {
         usersRef: firebase.database().ref("users"),
         newTodo: "",
         isPopOpen: false,
-        anchorElement: null,
+        anchorElement: null, // Point from where the popup is opened
 
         // Props
         todo: this.props.todo,

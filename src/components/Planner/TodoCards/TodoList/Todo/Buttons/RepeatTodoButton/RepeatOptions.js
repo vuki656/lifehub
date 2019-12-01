@@ -2,7 +2,16 @@
 import React from "react";
 
 // Destructured Imports
-import { Grid, Dropdown, Checkbox } from "semantic-ui-react";
+import {
+    Grid,
+    Typography,
+    Checkbox,
+    FormControlLabel,
+    MenuItem,
+    Select,
+    Box,
+    Chip
+} from "@material-ui/core";
 
 // Data Imports
 import {
@@ -39,53 +48,92 @@ class RepeatOptions extends React.Component {
         let monthDays = selectedMonthDays ? selectedMonthDays : [];
 
         return (
-            <React.Fragment>
-                <Grid.Row>
-                    <p className="repeat-todo-subtitle">Select Week Days</p>
-                    <Dropdown
-                        className="repeat-todo-dropdown"
-                        placeholder="Select Days"
+            <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="flex-start"
+            >
+                <Grid item xs={12}>
+                    <Typography variant="h5">Select Week Days</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Select
                         name="selectedWeekDays"
-                        fluid
                         multiple
-                        selection
                         value={weekDays}
-                        options={daysOfWeek}
-                        onChange={this.props.handleDaysOfWeekDropdown}
-                    />
-                </Grid.Row>
-                <Grid.Row>
-                    <p className="repeat-todo-subtitle">Select Days Of Month</p>
-                    <Dropdown
-                        className="repeat-todo-dropdown"
-                        placeholder="Select Days"
-                        name="selectedMonthDays"
-                        fluid
+                        onChange={this.props.handleDropdownChange}
+                        // Works without this, but with this it renders chips as selected values
+                        // instead of default text components
+                        renderValue={monthDays => (
+                            <Box>
+                                {weekDays.map(weekDay => (
+                                    <Chip key={weekDay} label={weekDay} />
+                                ))}
+                            </Box>
+                        )}
+                    >
+                        {daysOfWeek.map(daysOfWeek => (
+                            <MenuItem
+                                key={daysOfWeek.key}
+                                value={daysOfWeek.value}
+                            >
+                                {daysOfWeek.text}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="h5">Select Month Days</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Select
+                        name="electedMonthDays"
                         multiple
-                        selection
                         value={monthDays}
-                        options={daysOfMonth}
-                        onChange={this.props.handleDaysOfMonthDropdown}
-                    />
-                </Grid.Row>
-                <Grid.Row>
-                    <Checkbox
-                        className="mar-bot-0-5-rem"
+                        onChange={this.props.handleDropdownChange}
+                        // Works without this, but with this it renders chips as selected values
+                        // instead of default text components
+                        renderValue={monthDays => (
+                            <Box>
+                                {monthDays.map(monthDay => (
+                                    <Chip key={monthDay} label={monthDay} />
+                                ))}
+                            </Box>
+                        )}
+                    >
+                        {daysOfMonth.map(monthDay => (
+                            <MenuItem key={monthDay.key} value={monthDay.value}>
+                                {monthDay.text}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name={"repeatAtStartOfMonth"}
+                                checked={repeatAtStartOfMonth}
+                                onChange={this.props.handleCheckboxChange}
+                            />
+                        }
                         label={"Repeat at the start of month"}
-                        name="repeatAtStartOfMonth"
-                        checked={repeatAtStartOfMonth}
-                        onChange={this.props.handleCheckboxChange}
                     />
-                    <br />
-                    <Checkbox
-                        className="mar-bot-0-5-rem"
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name={"repeatAtEndOfMonth"}
+                                checked={repeatAtEndOfMonth}
+                                onChange={this.props.handleCheckboxChange}
+                            />
+                        }
                         label={"Repeat at the end of month"}
-                        name="repeatAtEndOfMonth"
-                        checked={repeatAtEndOfMonth}
-                        onChange={this.props.handleCheckboxChange}
                     />
-                </Grid.Row>
-            </React.Fragment>
+                </Grid>
+            </Grid>
         );
     }
 }

@@ -21,7 +21,7 @@ class EditTodoCardNamePopup extends React.Component {
         currentUser: firebase.auth().currentUser,
         newTodoCardName: "",
         isPopOpen: false,
-        anchorElement: null,
+        anchorElement: null, // Point from where the popup is opened
 
         // Props
         todoCard: this.props.todoCard
