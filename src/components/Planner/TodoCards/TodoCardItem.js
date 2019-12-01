@@ -59,6 +59,7 @@ class TodoCardItem extends React.Component {
                             {todoCard.name}
                         </Grid>
                         <Grid
+                            item
                             container
                             direction="row"
                             justify="flex-end"

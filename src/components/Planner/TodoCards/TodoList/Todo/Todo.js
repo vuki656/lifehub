@@ -76,6 +76,7 @@ class Todo extends React.Component {
                 </Grid>
                 <Grid
                     container
+                    item
                     direction="row"
                     justify="flex-end"
                     alignItems="center"

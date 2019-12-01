@@ -2,7 +2,6 @@
 import React from "react";
 import firebase from "../../../../../../../firebase/Auth";
 import moment from "moment";
-import DatePicker from "react-datepicker";
 
 // Destructured Imports
 import {
@@ -29,6 +28,9 @@ import {
     deleteTodoFromFirebase
 } from "../../../../../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../../../../../helpers/Global";
+
+// Component Imports
+import StartRepeatingFromButton from "./StartRepeatingFromButton";
 
 // Data Imports
 import { daysOfWeekArr } from "../../../../../../../data/StockData";
@@ -66,6 +68,7 @@ class RepeatTodoButton extends React.Component {
         this.handleDaysOfMonthDropdown = this.handleDaysOfMonthDropdown.bind(
             this
         );
+        this.handleRepeatFromDate = this.handleRepeatFromDate.bind(this);
     }
 
     static getDerivedStateFromProps(props) {
@@ -76,17 +79,6 @@ class RepeatTodoButton extends React.Component {
             currentDay: props.currentDay
         };
     }
-
-    // Handle popup toggle actions
-    handlePopToggle = event => {
-        this.setAnchorElement(event);
-        this.togglePopup();
-    };
-
-    // Set anchor element (position where to open the pop)
-    setAnchorElement = event => {
-        this.setState({ anchorElement: event.currentTarget });
-    };
 
     // Determine if todo is repeating and what kind
     handleRepeatingTodoSave = () => {
@@ -162,7 +154,9 @@ class RepeatTodoButton extends React.Component {
             // Check if todo is repeating on the last in month
             let isEndOfMonth = endOfMonth === dayTimestamp;
 
-            // Check if custom "start repeating from" date has been set
+            // Check if date being set to is in the past, if yes, it will be ignored
+            // until its it gets to todays date
+            // Reason is because you cant put todo in the past
             let isAfterCreationDate = moment(iteratingDate).isAfter(
                 todoCreatedAtDate
             );
@@ -254,6 +248,17 @@ class RepeatTodoButton extends React.Component {
             });
     };
 
+    // Handle popup toggle actions
+    handlePopToggle = event => {
+        this.setAnchorElement(event);
+        this.togglePopup();
+    };
+
+    // Set anchor element (position where to open the pop)
+    setAnchorElement = event => {
+        this.setState({ anchorElement: event.currentTarget });
+    };
+
     // Set created at date from custom user selection
     handleRepeatFromDate = newRepeatFromDate => {
         this.setState({ createdAt: getDayOnlyTimestamp(newRepeatFromDate) });
@@ -330,7 +335,7 @@ class RepeatTodoButton extends React.Component {
                 >
                     <Paper>
                         <Box p={2}>
-                            <Grid container spacing={3}>
+                            <Grid container>
                                 <Grid item xs={12}>
                                     <Typography variant="h4">
                                         How Often To Repeat It
@@ -378,37 +383,19 @@ class RepeatTodoButton extends React.Component {
                                         }
                                     />
                                 </Grid>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={6}>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    name={"repeatFromDate"}
-                                                    checked={repeatFromDate}
-                                                    onChange={
-                                                        this
-                                                            .handleCheckboxChange
-                                                    }
-                                                />
-                                            }
-                                            label="Start repeating from certain date"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        {repeatFromDate && (
-                                            <DatePicker
-                                                className="datepicker-box"
-                                                minDate={moment().toDate()}
-                                                name={"createdAt"}
-                                                selected={createdAt}
-                                                onChange={
-                                                    this.handleRepeatFromDate
-                                                }
-                                            />
-                                        )}
-                                    </Grid>
+                                <Grid item xs={12}>
+                                    <StartRepeatingFromButton
+                                        createdAt={createdAt}
+                                        repeatFromDate={repeatFromDate}
+                                        handleCheckboxChange={
+                                            this.handleCheckboxChange
+                                        }
+                                        handleRepeatFromDate={
+                                            this.handleRepeatFromDate
+                                        }
+                                    />
                                 </Grid>
-                                <Grid container spacing={3}>
+                                <Grid container>
                                     <Grid item xs={6}>
                                         <Button
                                             variant="contained"
