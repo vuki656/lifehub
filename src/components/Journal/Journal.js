@@ -4,7 +4,7 @@ import firebase from "../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
-import { Grid, Button } from "semantic-ui-react";
+import { Grid, Button } from "@material-ui/core";
 import { Route } from "react-router-dom";
 
 // Component Imports
@@ -114,6 +114,7 @@ class Journal extends React.Component {
         });
     };
 
+    // Map all journal entries as routes so they can be displayed
     generateJournalEntryRoutes = ({ journalEntries }) =>
         journalEntries.map(journalEntry => (
             <Route
@@ -127,26 +128,20 @@ class Journal extends React.Component {
         const { journalEntries } = this.state;
 
         return journalEntries ? (
-            <Grid>
-                <Grid.Row className="pad-bot-0">
-                    <Grid.Column
-                        width={3}
-                        className="journal-entry-list-column"
+            <Grid container>
+                <Grid item xs={2}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => this.createNewJournalEntry(this.state)}
                     >
-                        <Button
-                            className="button-primary width-100-pcnt mar-all-0"
-                            onClick={() =>
-                                this.createNewJournalEntry(this.state)
-                            }
-                        >
-                            Add entry
-                        </Button>
-                        <EntryList journalEntries={journalEntries} />
-                    </Grid.Column>
-                    <Grid.Column width={13}>
-                        {this.generateJournalEntryRoutes(this.state)}
-                    </Grid.Column>
-                </Grid.Row>
+                        Add entry
+                    </Button>
+                    <EntryList journalEntries={journalEntries} />
+                </Grid>
+                <Grid item xs={10}>
+                    {this.generateJournalEntryRoutes(this.state)}
+                </Grid>
             </Grid>
         ) : (
             "loading "
