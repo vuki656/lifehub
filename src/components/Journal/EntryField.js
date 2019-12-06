@@ -1,11 +1,18 @@
 // Object Imports
 import React from "react";
 import firebase from "../../firebase/Auth";
-import DatePicker from "react-datepicker";
 import moment from "moment";
+import DateFnsUtils from "@date-io/date-fns";
 
 // Destructured Imports
-import { TextArea, Form, Button, Input } from "semantic-ui-react";
+import {
+    Typography,
+    TextareaAutosize,
+    Input,
+    Button,
+    Grid
+} from "@material-ui/core";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 class EntryField extends React.Component {
     state = {
@@ -26,7 +33,7 @@ class EntryField extends React.Component {
         };
     }
 
-    // Send edited journal entry title to firebase and rerender
+    // Send edited journal entry title to firebase and re-render
     handleJournalEntryChanges = ({
         journalEntry,
         journalRef,
@@ -53,6 +60,7 @@ class EntryField extends React.Component {
             .catch(error => console.error(error));
     };
 
+    // Handle date change
     handleDateChange = newCreatedAtDate => {
         this.setState({ newJournalEntryCreatedDate: newCreatedAtDate });
     };
@@ -66,36 +74,56 @@ class EntryField extends React.Component {
         const { journalEntry, newJournalEntryCreatedDate } = this.state;
 
         return (
-            <div className="journal-entry-fields-section">
-                <p className="subtitle">Title</p>
-                <Input
-                    className="mar-bot-1-rem"
-                    defaultValue={journalEntry.title}
-                    name={"newJournalEntryTitle"}
-                    onChange={this.handleChange}
-                />
-                <p className="subtitle">Date</p>
-                <DatePicker
-                    className="datepicker-box mar-bot-1-rem"
-                    selected={moment(newJournalEntryCreatedDate).toDate()}
-                    dateFormat="dd/MM/yyyy"
-                    timeCaption="time"
-                    onChange={this.handleDateChange}
-                />
-                <p className="subtitle">Text</p>
-                <Form style={{ minHeight: 200 }}>
-                    <TextArea
-                        className="mar-bot-1-rem border-radius-0"
-                        rows={10}
-                        name={"newJournalEntryText"}
-                        style={{ minHeight: 300 }}
-                        defaultValue={journalEntry.text}
+            <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="flex-start"
+            >
+                <Grid item xs={12}>
+                    <Typography variant="h5">Title</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Input
+                        defaultValue={journalEntry.title}
+                        name={"newJournalEntryTitle"}
+                        type={"text"}
                         onChange={this.handleChange}
                     />
-                </Form>
-                <Button.Group>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="h5">Date</Typography>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <DatePicker
+                            autoOk
+                            label="Date"
+                            clearable
+                            disablePast
+                            value={moment(newJournalEntryCreatedDate).toDate()}
+                            onChange={this.handleDateChange}
+                        />
+                    </MuiPickersUtilsProvider>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="h5">Note</Typography>
+                    <TextareaAutosize
+                        defaultValue={journalEntry.text}
+                        placeholder="Write your journal entry here"
+                        name={"newJournalEntryText"}
+                        onChange={this.handleChange}
+                    />
+                </Grid>
+                <Grid
+                    item
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="center"
+                    xs={12}
+                >
                     <Button
-                        className="button-primary"
+                        variant="contained"
+                        color="primary"
                         onClick={() =>
                             this.handleJournalEntryChanges(this.state)
                         }
@@ -103,13 +131,14 @@ class EntryField extends React.Component {
                         Save Changes
                     </Button>
                     <Button
-                        className="button-secondary"
+                        variant="contained"
+                        color="secondary"
                         onClick={() => this.deleteJournalEntry(this.state)}
                     >
                         Delete Entry
                     </Button>
-                </Button.Group>
-            </div>
+                </Grid>
+            </Grid>
         );
     }
 }

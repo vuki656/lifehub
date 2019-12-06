@@ -2,7 +2,7 @@
 import React from "react";
 
 // Destructured Imports
-import { List } from "semantic-ui-react";
+import { List } from "@material-ui/core";
 
 // Component Imports
 import EntryListItem from "./EntryListItem";
@@ -27,11 +27,7 @@ class EntryList extends React.Component {
     };
 
     render() {
-        return (
-            <List divided relaxed className="mar-top-bot-0">
-                {this.displayJournalEntryList(this.state)}
-            </List>
-        );
+        return <List>{this.displayJournalEntryList(this.state)}</List>;
     }
 }
 

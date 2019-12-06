@@ -1,6 +1,8 @@
+// Object Imports
 import React from "react";
 import DateFnsUtils from "@date-io/date-fns";
 
+// Destructured Imports
 import { Grid, Checkbox, FormControlLabel } from "@material-ui/core";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 

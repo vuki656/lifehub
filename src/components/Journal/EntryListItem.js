@@ -8,8 +8,7 @@ import {
     ListItem,
     ListItemText,
     ListItemSecondaryAction,
-    IconButton,
-    List
+    IconButton
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
@@ -44,26 +43,21 @@ class EntryListItem extends React.Component {
         );
 
         return (
-            <List>
-                <Link
-                    to={`/journal/${journalEntry.key}`}
-                    key={journalEntry.key}
-                >
-                    <ListItem>
-                        <ListItemText
-                            primary={journalEntry.title}
-                            secondary={formatedDate}
-                        />
-                        <ListItemSecondaryAction>
-                            <IconButton
-                                onClick={() => this.deleteEntry(this.state)}
-                            >
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                </Link>
-            </List>
+            <Link to={`/journal/${journalEntry.key}`} key={journalEntry.key}>
+                <ListItem>
+                    <ListItemText
+                        primary={journalEntry.title}
+                        secondary={formatedDate}
+                    />
+                    <ListItemSecondaryAction>
+                        <IconButton
+                            onClick={() => this.deleteEntry(this.state)}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+            </Link>
         );
     }
 }
