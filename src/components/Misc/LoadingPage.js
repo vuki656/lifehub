@@ -2,12 +2,19 @@
 import React from "react";
 
 // Destructured Imports
-import { Loader, Dimmer } from "semantic-ui-react";
+import { CircularProgress, Grid } from "@material-ui/core";
 
 const LoadingPage = () => (
-    <Dimmer active>
-        <Loader size="huge" content={"Loading..."} />
-    </Dimmer>
+    <Grid
+        container
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: "100vh" }}
+    >
+        <Grid item>
+            <CircularProgress />
+        </Grid>
+    </Grid>
 );
 
 export default LoadingPage;
