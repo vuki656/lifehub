@@ -37,6 +37,21 @@ class RepeatOptions extends React.Component {
         };
     }
 
+    // Converts the repeating options to right format
+    // REASON: data formating in firebase
+    // DB fetch is a string, changes made are an array
+    convertToArray = input => {
+        if (Array.isArray(input)) {
+            return input;
+        } else {
+            if (input) {
+                return input.split(",");
+            } else {
+                return [];
+            }
+        }
+    };
+
     render() {
         const {
             selectedWeekDays,
@@ -45,8 +60,8 @@ class RepeatOptions extends React.Component {
             repeatAtEndOfMonth
         } = this.state;
 
-        let weekDays = selectedWeekDays ? selectedWeekDays : [];
-        let monthDays = selectedMonthDays ? selectedMonthDays : [];
+        let weekDays = this.convertToArray(selectedWeekDays);
+        let monthDays = this.convertToArray(selectedMonthDays);
 
         return (
             <Grid
@@ -66,7 +81,7 @@ class RepeatOptions extends React.Component {
                         onChange={this.props.handleDropdownChange}
                         // Works without this, but with this it renders chips as selected values
                         // instead of default text components
-                        renderValue={monthDays => (
+                        renderValue={weekDays => (
                             <Box>
                                 {weekDays.map(weekDay => (
                                     <Chip key={weekDay} label={weekDay} />
@@ -89,7 +104,7 @@ class RepeatOptions extends React.Component {
                 </Grid>
                 <Grid item xs={12}>
                     <Select
-                        name="electedMonthDays"
+                        name="selectedMonthDays"
                         multiple
                         value={monthDays}
                         onChange={this.props.handleDropdownChange}
