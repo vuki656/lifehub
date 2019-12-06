@@ -3,12 +3,14 @@ import React from "react";
 import firebase from "../../firebase/Auth";
 
 // Destructured Imports
-import { Grid } from "semantic-ui-react";
+import { Grid } from "@material-ui/core";
 
 // Component Imports
 import EnterWeightPop from "./EnterWeightPop";
 import WeightTable from "./WeightTable/WeightTable";
 import WeightChart from "./WeightChart";
+
+// Helper Imports
 import { formatMoment } from "../../helpers/Global";
 
 class Weight extends React.Component {
@@ -129,17 +131,22 @@ class Weight extends React.Component {
         const { weightList, firstWeightEntry } = this.state;
 
         return (
-            <Grid columns="equal">
-                <Grid.Row className="width-100-pcnt" style={{ height: 600 }}>
+            <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="center"
+            >
+                <Grid item xs={12} style={{ width: "100%" }}>
                     <WeightChart weightList={weightList} />
-                </Grid.Row>
-                <Grid.Row>
+                </Grid>
+                <Grid item xs={12}>
                     <EnterWeightPop />
                     <WeightTable
                         weightList={weightList}
                         firstWeightEntry={firstWeightEntry}
                     />
-                </Grid.Row>
+                </Grid>
             </Grid>
         );
     }

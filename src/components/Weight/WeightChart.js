@@ -2,6 +2,7 @@
 import React from "react";
 
 // Destructured Imports
+import { Box, Typography } from "@material-ui/core";
 import { ResponsiveLine } from "@nivo/line";
 
 class Chart extends React.Component {
@@ -21,8 +22,8 @@ class Chart extends React.Component {
 
         return (
             data && (
-                <React.Fragment>
-                    <p className="title">Weight Chart</p>
+                <Box style={{ height: 600 }}>
+                    <Typography variant="h5">Weight Chart</Typography>
                     <ResponsiveLine
                         data={[
                             {
@@ -88,7 +89,7 @@ class Chart extends React.Component {
                             }
                         ]}
                     />
-                </React.Fragment>
+                </Box>
             )
         );
     }
