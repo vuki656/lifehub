@@ -3,7 +3,10 @@ import React from "react";
 import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
-import { Table, Icon } from "semantic-ui-react";
+import { TableRow, TableCell } from "@material-ui/core";
+
+// Icon Imports
+import DeleteIcon from "@material-ui/icons/Delete";
 
 class WeightTableRow extends React.Component {
     state = {
@@ -47,6 +50,7 @@ class WeightTableRow extends React.Component {
         }
     };
 
+    // If the weight difference is desireable (set in settings) set the background to gree, else red
     determineDayToStartDifference = ({ weightEntry, firstWeightEntry }) => {
         if (weightEntry.y < firstWeightEntry) {
             return "weight-table-row-green";
@@ -59,31 +63,32 @@ class WeightTableRow extends React.Component {
         const { weightEntry, firstWeightEntry } = this.state;
 
         return (
-            <Table.Row>
-                <Table.Cell>
-                    <Icon
-                        circular
-                        name="delete"
-                        size="small"
+            <TableRow>
+                <TableCell>
+                    <DeleteIcon
                         onClick={() => this.removeWeightEntry(this.state)}
                     />
-                </Table.Cell>
-                <Table.Cell>{weightEntry.x}</Table.Cell>
-                <Table.Cell>{parseFloat(weightEntry.y).toFixed(2)}</Table.Cell>
-                <Table.Cell
+                </TableCell>
+                <TableCell align="right">{weightEntry.x}</TableCell>
+                <TableCell align="right">
+                    {parseFloat(weightEntry.y).toFixed(2)}
+                </TableCell>
+                <TableCell
+                    align="right"
                     className={this.determineDayToDayDifference(this.state)}
                 >
                     {this.calcWeightDif(
                         weightEntry.y,
                         weightEntry.previousWeight
                     )}
-                </Table.Cell>
-                <Table.Cell
+                </TableCell>
+                <TableCell
+                    align="right"
                     className={this.determineDayToStartDifference(this.state)}
                 >
                     {this.calcWeightDif(weightEntry.y, firstWeightEntry)}
-                </Table.Cell>
-            </Table.Row>
+                </TableCell>
+            </TableRow>
         );
     }
 }

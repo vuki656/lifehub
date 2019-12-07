@@ -2,10 +2,19 @@
 import React from "react";
 import moment from "moment";
 import firebase from "../../firebase/Auth";
-import DatePicker from "react-datepicker";
+import DateFnsUtils from "@date-io/date-fns";
 
 // Destructured Imports
-import { Form, Button, Popup } from "semantic-ui-react";
+import {
+    Box,
+    Typography,
+    Popper,
+    Button,
+    Paper,
+    Input,
+    Grid
+} from "@material-ui/core";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 class EnterWeightPop extends React.Component {
     state = {
@@ -17,7 +26,8 @@ class EnterWeightPop extends React.Component {
         weight: "",
         weightDate: moment().valueOf(),
         error: "",
-        isPopOpen: false
+        isPopOpen: false,
+        anchorElement: null // Point from where the popup is opened
     };
 
     // Set the state value from user input
@@ -85,6 +95,7 @@ class EnterWeightPop extends React.Component {
         }
     };
 
+    // Handle weight entry save
     handleWeightEntrySave = () => {
         this.handleSubmit(this.state);
         if (!this.state.error) {
@@ -97,83 +108,122 @@ class EnterWeightPop extends React.Component {
         this.setState({ weight: "" });
     };
 
+    // Toggle popup
     togglePopup = () => {
         this.setState({ isPopOpen: !this.state.isPopOpen });
     };
 
+    // Handle cancel button press
     handleWeightEntryCancel = () => {
         this.setState({ weight: "" });
         this.togglePopup();
     };
 
+    // Handle date picker value setting
     handleDateChange = newCreatedAtDate => {
         this.setState({ weightDate: moment(newCreatedAtDate).valueOf() });
     };
 
+    // Set anchor element (position where to open the pop)
+    setAnchorElement = event => {
+        this.setState({ anchorElement: event.currentTarget });
+    };
+
+    // Handle popup toggle actions
+    handlePopToggle = event => {
+        this.setAnchorElement(event);
+        this.togglePopup();
+    };
+
     render() {
-        const { weight, error, isPopOpen, weightDate } = this.state;
+        const { error, isPopOpen, weightDate, anchorElement } = this.state;
 
         return (
-            <React.Fragment>
-                <p className="title">
-                    Weight Entry Table{" "}
-                    <Popup
-                        basic
-                        open={isPopOpen}
-                        flowing
-                        on="click"
-                        trigger={
-                            <Button
-                                className="button-secondary mar-left-1-rem"
-                                onClick={this.togglePopup}
-                            >
-                                Add Entry
-                            </Button>
+            <Box>
+                <Typography variant="h5">Weight Entry Table </Typography>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handlePopToggle}
+                >
+                    Add Entry
+                </Button>
+                <Popper
+                    open={isPopOpen}
+                    anchorEl={anchorElement}
+                    placement="right-start"
+                    style={{ maxWidth: "350px" }}
+                    modifiers={{
+                        flip: {
+                            enabled: true
+                        },
+                        preventOverflow: {
+                            enabled: true,
+                            boundariesElement: "undefined"
                         }
-                    >
-                        <p className="subtitle">Enter Your Weight</p>
-                        {error !== "" && (
-                            <p className="weight-entry-pop-error">{error}</p>
-                        )}
-                        <p>Date</p>
-                        <DatePicker
-                            className="datepicker-box mar-bot-1-rem"
-                            selected={weightDate}
-                            dateFormat="dd/MM/yyyy"
-                            timeCaption="time"
-                            onChange={this.handleDateChange}
-                            maxDate={moment().toDate()}
-                        />
-                        <p>Weight</p>
-                        <Form>
-                            <Form.Group widths="equal">
-                                <Form.Input
-                                    fluid
-                                    name="weight"
-                                    value={weight}
-                                    placeholder="Weight"
-                                    type="float"
-                                    onChange={this.handleChange}
-                                />
-                            </Form.Group>
-                            <Button.Group>
-                                <Button
-                                    onClick={this.handleWeightEntrySave}
-                                    className="button-primary"
-                                >
-                                    Submit
-                                </Button>
-                                <Button
-                                    onClick={this.handleWeightEntryCancel}
-                                    className="button-secondary"
-                                >
-                                    Cancel
-                                </Button>
-                            </Button.Group>
-                        </Form>
-                    </Popup>
-                </p>
-            </React.Fragment>
+                    }}
+                >
+                    <Paper>
+                        <Box p={2}>
+                            <Grid container>
+                                <Grid xs={12} item>
+                                    <Typography variant="h5">
+                                        Enter Your Weight
+                                    </Typography>
+                                </Grid>
+                                <Grid xs={12} item>
+                                    {error !== "" && (
+                                        <Typography>{error}</Typography>
+                                    )}
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <Typography variant="h5">Date</Typography>
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <MuiPickersUtilsProvider
+                                        utils={DateFnsUtils}
+                                    >
+                                        <DatePicker
+                                            autoOk
+                                            label="Date"
+                                            clearable
+                                            disableFuture
+                                            value={weightDate}
+                                            onChange={this.handleDateChange}
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <Typography variant="h5">Weight</Typography>
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <Input
+                                        name="weight"
+                                        type={"text"}
+                                        onChange={this.handleChange}
+                                    />
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <Button
+                                        onClick={this.handleWeightEntrySave}
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Submit
+                                    </Button>
+                                    <Button
+                                        onClick={this.handleWeightEntryCancel}
+                                        variant="contained"
+                                        color="secondary"
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </Paper>
+                </Popper>
+            </Box>
         );
     }
 }

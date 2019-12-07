@@ -2,7 +2,15 @@
 import React from "react";
 
 // Destructured Imports
-import { Table, Popup, Icon } from "semantic-ui-react";
+import {
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody
+} from "@material-ui/core";
+
+// Icon Imports
 
 // Component Imports
 import WeightTableRow from "./WeightTableRow";
@@ -37,45 +45,17 @@ class WeightTable extends React.Component {
 
         return (
             weightList && (
-                <Table className="weight-table" celled fixed singleLine>
-                    <Table.Header>
-                        <Table.Row className="table-header">
-                            <Table.HeaderCell>Remove</Table.HeaderCell>
-                            <Table.HeaderCell>Date</Table.HeaderCell>
-                            <Table.HeaderCell>Weight (KG)</Table.HeaderCell>
-                            <Table.HeaderCell>
-                                Loss/Gain
-                                <Popup
-                                    basic
-                                    trigger={
-                                        <Icon
-                                            circular
-                                            name="info"
-                                            size="small"
-                                        />
-                                    }
-                                >
-                                    Compared to day before
-                                </Popup>
-                            </Table.HeaderCell>
-                            <Table.HeaderCell>
-                                Total Loss/Gain
-                                <Popup
-                                    basic
-                                    trigger={
-                                        <Icon
-                                            circular
-                                            name="info"
-                                            size="small"
-                                        />
-                                    }
-                                >
-                                    Compared to first weight entry
-                                </Popup>
-                            </Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>{this.renderTableRows(this.state)}</Table.Body>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Options</TableCell>
+                            <TableCell>Date</TableCell>
+                            <TableCell align="right">Weight</TableCell>
+                            <TableCell align="right">Loss/Gain</TableCell>
+                            <TableCell align="right">Total Loss/Gain</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>{this.renderTableRows(this.state)}</TableBody>
                 </Table>
             )
         );
