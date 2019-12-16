@@ -4,11 +4,16 @@ import moment from "moment";
 import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
-import { List, Icon, Label, Grid, Popup } from "semantic-ui-react";
+import { Chip, Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 
 // Component Imports
 import ReminderModal from "./ReminderModal/ReminderModal";
+import ViewReminderButton from "./Buttons/ViewReminderButton";
+
+// Icon Imports
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
 // Helper Imports
 import { getDayOnlyTimestamp } from "../../../helpers/Global";
@@ -184,23 +189,22 @@ class Reminder extends React.Component {
     // Render all active tags from reminder
     renderReminderTags = ({ reminderTagValues }) =>
         reminderTagValues.map(tag => (
-            <Label
+            <Chip
+                size="small"
+                label={tag.text}
                 key={tag.key}
                 style={{ backgroundColor: tag.color }}
-                className="reminder-list-item-tag"
-            >
-                {tag.text}
-            </Label>
+            />
         ));
 
     // Calculates time left from selected day till reminder due date
     calculateTimeLeft = ({ currentDay, reminder }) => {
-        // Calculate difference in millis
+        // Calculate difference in milliseconds
         let timeLeftMilis = moment.duration(
             moment(reminder.endDate).diff(moment(currentDay))
         );
 
-        // Convert millis to days
+        // Convert milliseconds to days
         let timeLeftDays = parseInt(timeLeftMilis.asDays(), 10);
 
         // If reminder is due today, return "Today" else number of days
@@ -222,67 +226,41 @@ class Reminder extends React.Component {
         const { reminder, modalOpen } = this.state;
 
         return (
-            <List.Item className="reminder-list-item">
-                <List.Content>
-                    <Label className="reminder-list-time-left-tag">
-                        {this.calculateTimeLeft(this.state)}
-                    </Label>
-                    <List.Header>
-                        <Grid>
-                            <Grid.Row>
-                                <Grid.Column floated="left" width={10}>
-                                    <p className="reminder-list-item-text">
-                                        {reminder.text}
-                                    </p>
-                                </Grid.Column>
-                                <Grid.Column
-                                    floated="right"
-                                    width={6}
-                                    className="reminder-list-item-icons"
-                                >
-                                    <Icon
-                                        name={"edit"}
-                                        link={true}
-                                        onClick={this.handleModalOpen}
-                                    />
-
-                                    <Popup
-                                        className="border-radius-0"
-                                        basic
-                                        trigger={
-                                            <Icon name={"eye"} link={true} />
-                                        }
-                                        content={
-                                            <div>
-                                                <p className="subtitle">
-                                                    {reminder.text}
-                                                </p>
-                                                <p>{reminder.description}</p>
-                                            </div>
-                                        }
-                                        on={["hover", "click"]}
-                                    />
-
-                                    <Icon
-                                        name={"remove"}
-                                        link={true}
-                                        onClick={() =>
-                                            this.removeReminder(this.state)
-                                        }
-                                    />
-
-                                    <ReminderModal
-                                        reminder={reminder}
-                                        modalOpen={modalOpen}
-                                        closeModal={this.closeModal}
-                                    />
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </List.Header>
-                </List.Content>
-                {this.renderReminderTags(this.state)}
-            </List.Item>
+            <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="flex-start"
+            >
+                <Grid item xs={12}>
+                    {this.calculateTimeLeft(this.state)}
+                </Grid>
+                <Grid item xs={12}>
+                    <Grid item xs={9}>
+                        {reminder.text}
+                    </Grid>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="space-between"
+                        alignItems="center"
+                        item
+                        xs={3}
+                    >
+                        <EditIcon onClick={this.handleModalOpen} />
+                        <DeleteIcon onClick={this.removeReminder} />
+                        <ViewReminderButton reminder={reminder} />
+                    </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                    {this.renderReminderTags(this.state)}
+                </Grid>
+                <ReminderModal
+                    reminder={reminder}
+                    modalOpen={modalOpen}
+                    closeModal={this.closeModal}
+                />
+            </Grid>
         );
     }
 }

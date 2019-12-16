@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/types";
 const initialState = {
     tagList: [],
     reminderTags: {},
-    tagColor: "#2185d0"
+    tagColor: "#2185d0" // Default tag color
 };
 
 const tagsReducer = (state = initialState, action) => {

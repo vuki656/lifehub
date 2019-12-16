@@ -140,7 +140,7 @@ class Weight extends React.Component {
                 <Grid item xs={12} style={{ width: "100%" }}>
                     <WeightChart weightList={weightList} />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={{ width: "100%" }}>
                     <EnterWeightPop />
                     <WeightTable
                         weightList={weightList}

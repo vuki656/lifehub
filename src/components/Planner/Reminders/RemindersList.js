@@ -3,8 +3,11 @@ import React from "react";
 import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
-import { Grid, List, Icon } from "semantic-ui-react";
+import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
+
+// Icon Imports
+import AddIcon from "@material-ui/icons/Add";
 
 // Component Imports
 import ReminderModal from "./ReminderModal/ReminderModal";
@@ -164,34 +167,25 @@ class Reminders extends React.Component {
         const { modalOpen } = this.state;
 
         return (
-            <Grid className="mar-all-0">
-                <Grid.Column className="pad-all-0">
-                    <Grid.Row>
-                        <Grid className="reminder-section">
-                            <Grid.Row className="reminders-title">
-                                <Grid.Column floated="left" width={11}>
-                                    Reminders
-                                </Grid.Column>
-                                <Grid.Column floated="right" width={5}>
-                                    <Icon
-                                        className="add-reminder-icon"
-                                        name="add"
-                                        onClick={this.handleModalOpen}
-                                    />
-                                </Grid.Column>
-                            </Grid.Row>
-                        </Grid>
-                    </Grid.Row>
-                    <Grid.Row className="reminder-list">
-                        <List>{this.renderReminders(this.state)}</List>
-                    </Grid.Row>
-                    <Grid.Row>
-                        <ReminderModal
-                            modalOpen={modalOpen}
-                            closeModal={this.closeModal}
-                        />
-                    </Grid.Row>
-                </Grid.Column>
+            <Grid
+                container
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+            >
+                <Grid item xs={10}>
+                    Reminders
+                </Grid>
+                <Grid item xs={2}>
+                    <AddIcon onClick={this.handleModalOpen} />
+                    <ReminderModal
+                        modalOpen={modalOpen}
+                        closeModal={this.closeModal}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    {this.renderReminders(this.state)}
+                </Grid>
             </Grid>
         );
     }
