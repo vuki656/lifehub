@@ -235,17 +235,22 @@ class Reminder extends React.Component {
                 <Grid item xs={12}>
                     {this.calculateTimeLeft(this.state)}
                 </Grid>
-                <Grid item xs={12}>
-                    <Grid item xs={9}>
+                <Grid
+                    container
+                    direction="row"
+                    justify="space-between"
+                    alignItems="center"
+                >
+                    <Grid item xs={8}>
                         {reminder.text}
                     </Grid>
                     <Grid
                         container
-                        direction="row"
-                        justify="space-between"
-                        alignItems="center"
                         item
-                        xs={3}
+                        direction="row"
+                        justify="flex-end"
+                        alignItems="center"
+                        xs={4}
                     >
                         <EditIcon onClick={this.handleModalOpen} />
                         <DeleteIcon onClick={this.removeReminder} />
