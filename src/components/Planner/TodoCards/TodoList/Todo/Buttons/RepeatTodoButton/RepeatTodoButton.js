@@ -16,11 +16,12 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 
-// Icon Imports
-import LoopIcon from "@material-ui/icons/Loop";
-
 // Component Imports
 import RepeatOptions from "./RepeatOptions";
+import StartRepeatingFromButton from "./StartRepeatingFromButton";
+
+// Icon Imports
+import LoopIcon from "@material-ui/icons/Loop";
 
 // Helper Imports
 import {
@@ -28,9 +29,6 @@ import {
     deleteTodoFromFirebase
 } from "../../../../../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../../../../../helpers/Global";
-
-// Component Imports
-import StartRepeatingFromButton from "./StartRepeatingFromButton";
 
 // Data Imports
 import { daysOfWeekArr } from "../../../../../../../data/StockData";

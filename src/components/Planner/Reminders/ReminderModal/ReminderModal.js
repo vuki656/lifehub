@@ -1,13 +1,21 @@
 // Object Imports
 import React from "react";
 import moment from "moment";
-import DatePicker from "react-datepicker";
 import firebase from "../../../../firebase/Auth";
 import uuidv4 from "uuid/v4";
+import DateFnsUtils from "@date-io/date-fns";
 
 // Destructured Imports
-import { Grid, Modal, Input, Button, Form, TextArea } from "semantic-ui-react";
+import {
+    Typography,
+    Grid,
+    Modal,
+    TextField,
+    Button,
+    Paper
+} from "@material-ui/core";
 import { connect } from "react-redux";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 // Component Imports
 import Tags from "./Tags/Tags";
@@ -310,101 +318,126 @@ class ReminderModal extends React.Component {
         } = this.state;
 
         return (
-            <Modal className="reminder-modal" open={modalOpen}>
-                <Modal.Header className="reminder-modal-title">
-                    Customize Your Reminder
-                </Modal.Header>
-                <Modal.Content className="reminder-modal-content">
-                    <Grid className="mar-all-0">
-                        {error && (
-                            <Grid.Row>
-                                <p className="reminder-modal-error">{error}</p>
-                            </Grid.Row>
-                        )}
-                        <Grid.Row>
-                            <Grid.Column width={11} className="pad-lef-rig-0">
-                                <Grid.Row>
-                                    <p className="subtitle">Reminder Title</p>
-                                    <Input
-                                        className="reminder-title-input"
+            <Modal open={modalOpen}>
+                <Paper>
+                    <Grid
+                        container
+                        direction="row"
+                        justify="space-between"
+                        alignItems="center"
+                    >
+                        <Grid item xs={9}>
+                            <Grid
+                                container
+                                direction="column"
+                                justify="center"
+                                alignItems="flex-start"
+                            >
+                                <Grid item xs={12}>
+                                    <Typography variant="h5">
+                                        Edit Reminder
+                                    </Typography>
+                                </Grid>
+                                {error && (
+                                    <Grid item xs={12}>
+                                        <Typography variant="body1">
+                                            {error}
+                                        </Typography>
+                                    </Grid>
+                                )}
+                                <Grid item xs={12}>
+                                    <Typography variant="h6">Title</Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
                                         name="text"
-                                        onChange={this.handleChange}
+                                        label="Title"
                                         value={text}
-                                        required
-                                        placeholder="Marketing meeting"
+                                        onChange={this.handleChange}
                                     />
-                                </Grid.Row>
-                                <Grid.Row>
-                                    <p className="subtitle">
-                                        Reminder Description
-                                    </p>
-                                    <Form className="reminder-description-input">
-                                        <TextArea
-                                            value={description}
-                                            className="reminder-description-input-box"
-                                            name="description"
-                                            onChange={this.handleChange}
-                                        />
-                                    </Form>
-                                </Grid.Row>
-                                <Grid.Row>
-                                    <p className="subtitle">
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography variant="h6">
+                                        Description
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        value={description}
+                                        name="description"
+                                        label="Description"
+                                        onChange={this.handleChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography variant="h6">
                                         Start reminding me when
-                                    </p>
-                                    <DatePicker
-                                        className="datepicker-box"
-                                        minDate={moment().toDate()}
-                                        selected={this.getStartingDate()}
-                                        dateFormat="dd/MM/yyyy"
-                                        timeCaption="time"
-                                        onChange={this.handleStartDateChange}
-                                    />
-                                </Grid.Row>
-                                <Grid.Row>
-                                    <p className="subtitle mar-top-1-rem">
-                                        Remind untill
-                                    </p>
-                                    <DatePicker
-                                        className="datepicker-box"
-                                        minDate={moment(startDate).toDate()}
-                                        selected={this.getEndingDate()}
-                                        onChange={this.handleEndDateChange}
-                                        showTimeSelect
-                                        timeFormat="HH:mm"
-                                        timeIntervals={15}
-                                        dateFormat="dd/MM/yyyy hh:mm"
-                                        timeCaption="time"
-                                    />
-                                </Grid.Row>
-                            </Grid.Column>
-                            <Grid.Column width={5}>
-                                <Grid.Row className="tag-row">
-                                    <p className="title">Tags</p>
-                                    <p className="subtitle">Set a Tag</p>
-                                    <Tags reminder={reminder} />
-                                </Grid.Row>
-                            </Grid.Column>
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Button.Group>
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <MuiPickersUtilsProvider
+                                        utils={DateFnsUtils}
+                                    >
+                                        <DatePicker
+                                            autoOk
+                                            label="Date"
+                                            clearable
+                                            disablePast
+                                            value={this.getStartingDate()}
+                                            onChange={
+                                                this.handleStartDateChange
+                                            }
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Typography variant="h6">
+                                        Remind me until
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <MuiPickersUtilsProvider
+                                        utils={DateFnsUtils}
+                                    >
+                                        <DatePicker
+                                            autoOk
+                                            label="Date"
+                                            clearable
+                                            minDate={moment(startDate).toDate()}
+                                            disablePast
+                                            value={this.getEndingDate()}
+                                            onChange={this.handleEndDateChange}
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Typography variant="h5">Tags</Typography>
+                            <Tags reminder={reminder} />
+                        </Grid>
+                        <Grid container>
+                            <Grid item xs={6}>
                                 <Button
-                                    primary
+                                    variant="contained"
+                                    color="primary"
                                     onClick={this.handleReminderSave}
-                                    className="button-primary"
                                 >
                                     Save
                                 </Button>
+                            </Grid>
+                            <Grid item xs={6}>
                                 <Button
-                                    secondary
+                                    variant="contained"
+                                    color="secondary"
                                     onClick={this.handleReminderCancel}
-                                    className="button-secondary"
                                 >
                                     Cancel
                                 </Button>
-                            </Button.Group>
-                        </Grid.Row>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                </Modal.Content>
+                </Paper>
             </Modal>
         );
     }
