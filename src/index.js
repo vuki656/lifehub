@@ -12,14 +12,15 @@ import { Provider } from "react-redux";
 import LoadingPage from "./components/Misc/LoadingPage";
 
 // Styles Imports
+import CssBaseline from "@material-ui/core/CssBaseline";
 import "react-datepicker/dist/react-datepicker.css";
-import "semantic-ui-css/semantic.min.css";
 import "./styles/styles.scss";
 
 // Displays the component after redirect finishes
 const renderApp = () => {
     ReactDOM.render(
         <Provider store={store}>
+            <CssBaseline />
             <AppRouter />
         </Provider>,
         document.getElementById("root")
