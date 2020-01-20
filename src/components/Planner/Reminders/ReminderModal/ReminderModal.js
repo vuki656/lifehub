@@ -64,7 +64,6 @@ class ReminderModal extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
-
         this.setExistingReminderState(this.props.reminder);
     }
 

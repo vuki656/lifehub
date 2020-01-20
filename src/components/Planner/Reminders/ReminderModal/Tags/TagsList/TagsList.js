@@ -1,8 +1,9 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../../firebase/Auth";
+import firebase from "../../../../../../firebase/Auth";
 
 // Destructured Imports
+import { Box } from "@material-ui/core";
 import { connect } from "react-redux";
 
 // Component Imports
@@ -12,7 +13,7 @@ import TagListItem from "./TagListItem";
 import {
     fetchTags,
     fetchReminderTags
-} from "../../../../../redux/actions/tagsActions";
+} from "../../../../../../redux/actions/tagsActions";
 
 class TagsList extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -151,7 +152,7 @@ class TagsList extends React.Component {
         ));
 
     render() {
-        return <div className="tags-list">{this.renderTags(this.state)}</div>;
+        return <Box>{this.renderTags(this.state)}</Box>;
     }
 }
 

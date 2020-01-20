@@ -57,7 +57,7 @@ class EditTodoNameButton extends React.Component {
         this.togglePopup();
     };
 
-    // Set anchor element (position where to open the pop)
+    // Set anchor element (where to open the pop)
     setAnchorElement = event => {
         this.setState({ anchorElement: event.currentTarget });
     };

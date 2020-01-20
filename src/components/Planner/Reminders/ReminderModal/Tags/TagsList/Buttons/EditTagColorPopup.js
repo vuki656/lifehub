@@ -1,6 +1,6 @@
 // Component Imports
 import React from "react";
-import firebase from "../../../../../firebase/Auth";
+import firebase from "../../../../../../../firebase/Auth";
 
 // Destructured Imports
 import { SliderPicker } from "react-color";

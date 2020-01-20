@@ -3,17 +3,13 @@ import React from "react";
 
 // Component Imports
 import AddTagSection from "./AddTagSection/AddTagSection";
-import TagsList from "./TagsList";
+import TagsList from "./TagsList/TagsList";
 
-class TagOptions extends React.Component {
-    render() {
-        return (
-            <React.Fragment>
-                <TagsList reminder={this.props.reminder} />
-                <AddTagSection />
-            </React.Fragment>
-        );
-    }
-}
+const Tags = props => (
+    <React.Fragment>
+        <TagsList reminder={props.reminder} />
+        <AddTagSection />
+    </React.Fragment>
+);
 
-export default TagOptions;
+export default Tags;

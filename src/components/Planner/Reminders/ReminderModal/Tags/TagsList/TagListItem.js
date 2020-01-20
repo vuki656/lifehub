@@ -1,17 +1,20 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../../firebase/Auth";
+import firebase from "../../../../../../firebase/Auth";
 
 // Destructured Imports
-import { Icon, Grid, Checkbox } from "semantic-ui-react";
+import { FormControlLabel, Grid, Checkbox } from "@material-ui/core";
 import { connect } from "react-redux";
 
 // Component Imports
-import EditTagNamePopup from "./EditTagNamePopup";
-import EditTagColorPopup from "./EditTagColorPopup";
+import EditTagNamePopup from "./Buttons/EditTagNamePopup";
+import EditTagColorPopup from "./Buttons/EditTagColorPopup";
+
+// Icon Imports
+import DeleteIcon from "@material-ui/icons/Delete";
 
 // Redux Actions Imports
-import { updateTagList } from "../../../../../redux/actions/tagsActions";
+import { updateTagList } from "../../../../../../redux/actions/tagsActions";
 
 class TagListItem extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -134,44 +137,47 @@ class TagListItem extends React.Component {
         const { tag, newTagColor, isSelected, displayColorPicker } = this.state;
 
         return (
-            <Grid.Row>
-                <Grid className="pad-lef-rig-1-rem">
-                    <Grid.Row
-                        className="tag-list-item"
-                        style={{ backgroundColor: newTagColor }}
-                    >
-                        <Grid.Column className="pad-all-0" width={10}>
+            <Grid
+                container
+                direction="row"
+                justify="space-between"
+                alignItems="center"
+            >
+                <Grid item xs={8} style={{ backgroundColor: newTagColor }}>
+                    <FormControlLabel
+                        control={
                             <Checkbox
                                 checked={isSelected}
-                                label={tag.text}
                                 onChange={() =>
                                     this.handleTagCheck(this.state, tag)
                                 }
                             />
-                        </Grid.Column>
-                        <Grid.Column
-                            className="pad-all-0 tag-list-item-icons"
-                            width={6}
-                            floated="right"
-                        >
-                            <EditTagNamePopup tag={tag} />
-                            <EditTagColorPopup
-                                displayColorPicker={displayColorPicker}
-                                newTagColor={newTagColor}
-                                tag={tag}
-                                handleTagColorChange={this.handleTagColorChange}
-                                toggleColorPicker={this.toggleColorPicker}
-                            />
-
-                            <Icon
-                                name={"remove"}
-                                link={true}
-                                onClick={() => this.removeTag(this.state)}
-                            />
-                        </Grid.Column>
-                    </Grid.Row>
+                        }
+                        label={tag.text}
+                    />
                 </Grid>
-            </Grid.Row>
+                <Grid
+                    container
+                    item
+                    direction="row"
+                    justify="flex-end"
+                    alignItems="center"
+                    xs={4}
+                >
+                    <EditTagNamePopup tag={tag} />
+                    <EditTagColorPopup
+                        displayColorPicker={displayColorPicker}
+                        newTagColor={newTagColor}
+                        tag={tag}
+                        handleTagColorChange={this.handleTagColorChange}
+                        toggleColorPicker={this.toggleColorPicker}
+                    />
+                    <DeleteIcon
+                        name={"remove"}
+                        onClick={() => this.removeTag(this.state)}
+                    />
+                </Grid>
+            </Grid>
         );
     }
 }
