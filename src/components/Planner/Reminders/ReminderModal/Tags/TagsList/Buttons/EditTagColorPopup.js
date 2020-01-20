@@ -4,13 +4,19 @@ import firebase from "../../../../../../../firebase/Auth";
 
 // Destructured Imports
 import { SliderPicker } from "react-color";
-import { Popup, Button, Icon } from "semantic-ui-react";
+import { Button, Typography, Popper, Box, Paper } from "@material-ui/core";
+
+// Icon Imports
+import BrushIcon from "@material-ui/icons/Brush";
 
 class EditTagColorPopup extends React.Component {
     state = {
         // Firebase
         currentUser: firebase.auth().currentUser,
         tagsRef: firebase.database().ref("reminder-tags"),
+
+        // Base
+        anchorElement: null, // Point from where the popup is opened
 
         // Props
         displayColorPicker: this.props.displayColorPicker,
@@ -25,6 +31,13 @@ class EditTagColorPopup extends React.Component {
         };
     }
 
+    // Handle popup open
+    handlePopOpen = event => {
+        this.props.toggleColorPicker();
+        event && this.setAnchorElement(event);
+    };
+
+    // Handle change color save
     handleTagColorSave = () => {
         this.saveTagColor(this.state);
         this.props.toggleColorPicker();
@@ -40,42 +53,55 @@ class EditTagColorPopup extends React.Component {
             .catch(err => console.err(err));
     };
 
+    // Set anchor element (position where to open the pop)
+    setAnchorElement = event => {
+        this.setState({ anchorElement: event.currentTarget });
+    };
+
     render() {
-        const { displayColorPicker, newTagColor } = this.state;
+        const { displayColorPicker, newTagColor, anchorElement } = this.state;
 
         return (
-            <Popup
-                basic
-                className="tag-color-picker-popup"
-                trigger={
-                    <Icon
-                        name="paint brush"
-                        onClick={this.props.toggleColorPicker}
-                    />
-                }
-                open={displayColorPicker}
-                on="click"
-            >
-                <p className="subtitle">Pick Tag Color</p>
-                <SliderPicker
-                    color={newTagColor}
-                    onChange={this.props.handleTagColorChange}
-                />
-                <Button.Group className="mar-top-1-rem width-100-pcnt">
-                    <Button
-                        className="button-primary"
-                        onClick={this.handleTagColorSave}
+            <Box>
+                <BrushIcon onClick={this.handlePopOpen} />
+                <Paper>
+                    <Popper
+                        open={displayColorPicker}
+                        anchorEl={anchorElement}
+                        placement="right-start"
+                        style={{ maxWidth: "350px", zIndex: "1301" }}
+                        modifiers={{
+                            flip: {
+                                enabled: true
+                            },
+                            preventOverflow: {
+                                enabled: true,
+                                boundariesElement: "undefined"
+                            }
+                        }}
                     >
-                        Set Color
-                    </Button>
-                    <Button
-                        className="button-secondary"
-                        onClick={this.handlePopClose}
-                    >
-                        Cancel
-                    </Button>
-                </Button.Group>
-            </Popup>
+                        <Typography variant="h5">Change Tag Color</Typography>
+                        <SliderPicker
+                            color={newTagColor}
+                            onChange={this.handleTagColorChange}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleTagColorSave}
+                        >
+                            Set Color
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={this.handlePopClose}
+                        >
+                            Cancel
+                        </Button>
+                    </Popper>
+                </Paper>
+            </Box>
         );
     }
 }
