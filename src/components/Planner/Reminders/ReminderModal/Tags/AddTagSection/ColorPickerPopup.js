@@ -2,9 +2,12 @@
 import React from "react";
 
 // Destructured Imports
-import { Popup, Button, Icon } from "semantic-ui-react";
+import { Button, Typography, Popper, Box, Paper } from "@material-ui/core";
 import { connect } from "react-redux";
 import { SliderPicker } from "react-color";
+
+// Icon Imports
+import BrushIcon from "@material-ui/icons/Brush";
 
 // Redux Actions Imports
 import { setTagColor } from "../../../../../../redux/actions/tagsActions";
@@ -13,16 +16,18 @@ class ColorPickerPopup extends React.Component {
     state = {
         // Base
         displayColorPicker: false,
+        anchorElement: null, // Point from where the popup is opened
 
         // Redux Props
         tagColor: this.props.tagColor
     };
 
     // Opens the color picker
-    toggleColorPicker = () => {
+    toggleColorPicker = event => {
         this.setState({
             displayColorPicker: !this.state.displayColorPicker
         });
+        event && this.setAnchorElement(event);
     };
 
     // Set the hex color from color picker
@@ -42,44 +47,62 @@ class ColorPickerPopup extends React.Component {
         this.setState({ tagColor: this.props.color });
     };
 
+    // Set anchor element (position where to open the pop)
+    setAnchorElement = event => {
+        this.setState({ anchorElement: event.currentTarget });
+    };
+
     render() {
-        const { displayColorPicker, tagColor } = this.state;
+        const { displayColorPicker, tagColor, anchorElement } = this.state;
 
         return (
-            <Popup
-                basic
-                className="tag-color-picker-popup"
-                trigger={
-                    <Button
-                        className="tag-color-picker-button"
-                        onClick={this.toggleColorPicker}
+            <Box>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.toggleColorPicker}
+                    endIcon={<BrushIcon />}
+                >
+                    Choose Color
+                </Button>
+                <Paper>
+                    <Popper
+                        open={displayColorPicker}
+                        anchorEl={anchorElement}
+                        placement="right-start"
+                        style={{ maxWidth: "350px", zIndex: "1301" }}
+                        modifiers={{
+                            flip: {
+                                enabled: true
+                            },
+                            preventOverflow: {
+                                enabled: true,
+                                boundariesElement: "undefined"
+                            }
+                        }}
                     >
-                        Choose Color <Icon name="paint brush" />
-                    </Button>
-                }
-                open={displayColorPicker}
-                on="click"
-            >
-                <p className="subtitle">Pick Tag Color</p>
-                <SliderPicker
-                    color={tagColor}
-                    onChange={this.handleTagColorChange}
-                />
-                <Button.Group className="mar-top-1-rem width-100-pcnt">
-                    <Button
-                        className="button-primary"
-                        onClick={() => this.saveTagColor(tagColor)}
-                    >
-                        Set Color
-                    </Button>
-                    <Button
-                        className="button-secondary"
-                        onClick={this.handleColorPickerClose}
-                    >
-                        Cancel
-                    </Button>
-                </Button.Group>
-            </Popup>
+                        <Typography variant="h5">Pick Tag Color</Typography>
+                        <SliderPicker
+                            color={tagColor}
+                            onChange={this.handleTagColorChange}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => this.saveTagColor(tagColor)}
+                        >
+                            Set Color
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={this.handleColorPickerClose}
+                        >
+                            Cancel
+                        </Button>
+                    </Popper>
+                </Paper>
+            </Box>
         );
     }
 }
