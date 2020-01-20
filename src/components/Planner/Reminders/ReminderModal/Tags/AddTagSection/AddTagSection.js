@@ -4,7 +4,7 @@ import firebase from "../../../../../../firebase/Auth";
 import uuidv4 from "uuid/v4";
 
 // Destructured Imports
-import { Grid, Segment, Input, Button } from "semantic-ui-react";
+import { Button, Box, Grid, TextField, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 
 // Component Imports
@@ -61,40 +61,46 @@ class AddTagSection extends React.Component {
         const { newTagText, displayAddTagSection } = this.state;
 
         return displayAddTagSection ? (
-            <Segment className="add-tag-section">
-                <Grid.Row>
-                    <p className="subtitle">Add a New Tag</p>
-                    <Input
-                        className="add-tag-input"
-                        placeholder="Tag Text"
-                        value={newTagText}
-                        onChange={this.handleTagTextAdd}
-                        onClick={this.onInputClick}
-                    />
-                </Grid.Row>
-                <Grid.Row>
-                    <ColorPickerPopup />
-                </Grid.Row>
-                <Grid.Row>
-                    <Button.Group className="width-100-pcnt">
+            <Box>
+                <Grid
+                    container
+                    direction="column"
+                    justify="center"
+                    alignItems="stretch"
+                >
+                    <Grid item xs={12}>
+                        <Typography variant="h5">Add a New Tag</Typography>
+                        <TextField
+                            label="Tag Name"
+                            value={newTagText}
+                            onChange={this.handleTagTextAdd}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ColorPickerPopup />
+                    </Grid>
+                    <Grid item xs={12}>
                         <Button
                             onClick={this.saveTag}
-                            className="button-primary"
+                            variant="contained"
+                            color="primary"
                         >
                             Save Tag
                         </Button>
                         <Button
                             onClick={this.toggleAddTagSection}
-                            className="button-secondary"
+                            variant="contained"
+                            color="secondary"
                         >
                             Close
                         </Button>
-                    </Button.Group>
-                </Grid.Row>
-            </Segment>
+                    </Grid>
+                </Grid>
+            </Box>
         ) : (
             <Button
-                className="button-secondary mar-top-1-rem"
+                variant="contained"
+                color="primary"
                 onClick={this.toggleAddTagSection}
             >
                 Add Tag

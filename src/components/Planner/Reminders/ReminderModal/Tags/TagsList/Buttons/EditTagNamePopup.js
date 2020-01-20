@@ -76,7 +76,7 @@ class EditTagNamePopup extends React.Component {
 
     render() {
         const { isPopOpen, tag, anchorElement } = this.state;
-        // U CANT CHANGE TAG NAME, FIX IT
+
         return (
             <Box>
                 <EditIcon onClick={this.handlePopToggle} />
