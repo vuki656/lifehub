@@ -1,18 +1,8 @@
 // Object Imports
 import React from "react";
 import firebase from "../../../../firebase/Auth";
-
 // Destructured Imports
-import {
-    Popper,
-    Paper,
-    Box,
-    Typography,
-    TextareaAutosize,
-    Button,
-    Grid
-} from "@material-ui/core";
-
+import { Box, Button, Grid, Paper, Popper, TextareaAutosize, Typography } from "@material-ui/core";
 // Icon Imports
 import NoteOutlinedIcon from "@material-ui/icons/NoteOutlined";
 

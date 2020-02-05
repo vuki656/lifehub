@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="Changed sidebar to expandable drawer">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Domagoj.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/files/iconLogo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Auth/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/DashboardNotes/Buttons/AddDashboardNoteButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/DashboardNotes/Buttons/AddDashboardNoteButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/files/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/textLogo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="C:\Users\Domagoj\WebstormProjects\lifehub\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1XOlLTVcgnv2henhw76bvhSSlEy" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/files" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
+    <property name="ts.external.directory.path" value="C:\Users\Domagoj\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\193.6015.40\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\files" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="" />
+      <created>1580924965116</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1580924965116</updated>
+      <workItem from="1580924966621" duration="17484000" />
+    </task>
+    <task id="LOCAL-00001" summary="Webstorm changes">
+      <created>1580927266405</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1580927266405</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Webstorm changes" />
+    <MESSAGE value="Changed sidebar to expandable drawer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed sidebar to expandable drawer" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="552" y="179" key="#ESLint" timestamp="1580942382789">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="179" key="#ESLint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580942382789" />
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1580945482834">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580945482834" />
+    <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1580944540296">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580944540296" />
+    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1580944540296">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580944540296" />
+    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1580944540296">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580944540296" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1580944540296">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580944540296" />
+    <state x="461" y="163" key="SettingsEditor" timestamp="1580944671486">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580944671486" />
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2" timestamp="1580927269864">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1580944224290">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580944224290" />
+  </component>
+</project>
