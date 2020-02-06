@@ -56,7 +56,6 @@ export default function SideMenu() {
         toggleOpen(!open);
     };
 
-
     // Sign user out
     const handleSignOut = () => {
         firebase
@@ -73,15 +72,7 @@ export default function SideMenu() {
     };
 
     const getIcon = () => {
-        if (open) {
-            return (
-                <ChevronLeftIcon />
-            )
-        } else {
-            return (
-                <MenuIcon />
-            )
-        }
+        return open ? <ChevronLeftIcon /> : <MenuIcon />;
     };
 
     const getLogo = () => {
@@ -93,7 +84,7 @@ export default function SideMenu() {
             <Router>
                 <Drawer
                     variant="permanent"
-                    className={clsx({
+                    className={clsx(classes, {
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open,
                     })}

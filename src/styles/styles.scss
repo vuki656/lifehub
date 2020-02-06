@@ -1,45 +1,5 @@
 // == BASE ==
 @import "./base/defaults";
 @import "./base/base";
-@import "./base/margins";
-@import "./base/paddings";
-@import "./base/fonts";
-@import "./base/buttons";
 
 // == ** COMPONENTS ** ==
-// == SIDE MENU ==
-@import "./components/side-menu";
-
-// == DASHBOARD ==
-@import "./components/dashboard/dashboard";
-// Dashboard Notes
-@import "./components/dashboard/dashboard-notes/add-dashboard-note";
-@import "./components/dashboard/dashboard-notes/dashboard-note-list-item";
-// Todos For Day
-@import "./components/dashboard/todos-for-day/todos-for-day-list-item";
-
-// == PLANNER ==
-@import "./components/planner/days-list";
-@import "./components/planner/task-area";
-// Todos
-@import "./components/planner/todos/todo-card";
-@import "./components/planner/todos/add-todo-card";
-@import "./components/planner/todos/todo-card-item";
-@import "./components/planner/todos/repeat-todo-popup";
-@import "./components/planner/todos/edit-todo-name-popup";
-// Reminders
-@import "./components/planner/reminders/reminders";
-@import "./components/planner/reminders/reminder-modal";
-@import "./components/planner/reminders/tags";
-
-// == JOURNAL ==
-@import "./components/journal/journal";
-@import "./components/journal/journal-entry-list";
-
-// == WEIGHT ==
-@import "./components/weight/weight-table";
-@import "./components/weight/weight-entry-pop";
-@import "./components/weight/weight-table-row";
-
-// == GLOBAL ==
-@import "./components/global/todos-for-day-count";

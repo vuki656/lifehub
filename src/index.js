@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 // Component Imports
 import LoadingPage from "./components/Misc/LoadingPage";
 // Styles Imports
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { StylesProvider } from '@material-ui/core/styles';
 import "react-datepicker/dist/react-datepicker.css";
 import "./styles/styles.scss";
 
@@ -26,14 +26,13 @@ firebase.auth().onAuthStateChanged(user => {
 // Displays the component after redirect finishes
 const renderApp = () => {
     ReactDOM.render(
-        <Provider store={store}>
-            <CssBaseline />
-            <AppRouter />
-        </Provider>,
+        <StylesProvider injectFirst>
+            <Provider store={store}>
+                <AppRouter />
+            </Provider>
+        </StylesProvider>,
         document.getElementById("root")
     );
 };
-
-
 
 ReactDOM.render(<LoadingPage />, document.getElementById("root"));
