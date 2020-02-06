@@ -23,3 +23,11 @@ export const colors = [
     "grey",
     "black"
 ];
+
+export const sidebarMenuItems = [
+    { value: "dashboard", name: "Dashboard" },
+    { value: "planner", name: "Planner" },
+    { value: "journal", name: "Journal" },
+    { value: "weight", name: "Weight" },
+    { value: "settings", name: "settings" }
+];

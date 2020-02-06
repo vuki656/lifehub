@@ -1,0 +1,11 @@
+// Needed for content to not display under sidebar
+.sidebar-menu {
+  display: flex;
+}
+
+.sidebar-menu__drawer--open {
+}
+
+.sidebar-menu__logo {
+  height: 3rem;
+}

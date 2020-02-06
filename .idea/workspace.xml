@@ -3,35 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/SideMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/StockData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/StockData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_base.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/_buttons.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_side-menu.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/base/_defaults.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_defaults.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/_fonts.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/_margins.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/_paddings.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/_side-menu.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/dashboard/_dashboard.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/dashboard/dashboard-notes/_add-dashboard-note.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/dashboard/dashboard-notes/_dashboard-note-list-item.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/dashboard/todos-for-day/_todos-for-day-list-item.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/global/_todos-for-day-count.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/journal/_journal-entry-list.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/journal/_journal.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/_days-list.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/_task-area.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/reminders/_reminder-modal.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/reminders/_reminders.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/reminders/_tags.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/todos/_add-todo-card.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/todos/_edit-todo-name-popup.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/todos/_repeat-todo-popup.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/todos/_todo-card-item.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/planner/todos/_todo-card.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/weight/_weight-entry-pop.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/weight/_weight-table-row.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/weight/_weight-table.scss" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +30,9 @@
     </option>
   </component>
   <component name="ProjectId" id="1XOlLTVcgnv2henhw76bvhSSlEy" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -76,6 +56,9 @@
     <property name="ts.external.directory.path" value="C:\Users\Domagoj\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\193.6015.40\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\SideMenu" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\files" />
     </key>
@@ -108,7 +91,7 @@
       <option name="presentableId" value="Default" />
       <updated>1580924965116</updated>
       <workItem from="1580924966621" duration="17998000" />
-      <workItem from="1580988743243" duration="2941000" />
+      <workItem from="1580988743243" duration="6183000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -124,7 +107,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580945581834</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Removed old unused css">
+      <created>1580996011146</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1580996011147</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -134,7 +124,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Webstorm changes" />
     <MESSAGE value="Changed sidebar to expandable drawer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed sidebar to expandable drawer" />
+    <MESSAGE value="Removed old unused css" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed old unused css" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -142,14 +133,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="179" key="#ESLint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580942382789" />
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1580991318421">
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1580997317455">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580991318421" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1580945578840">
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580997317455" />
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1580999253886">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580945578840" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580999253886" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
     <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1580989238958">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -167,14 +158,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580989238958" />
-    <state x="461" y="163" key="SettingsEditor" timestamp="1580944671486">
+    <state x="461" y="163" key="SettingsEditor" timestamp="1580998143804">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580944671486" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1580945583257">
+    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580998143804" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1580996015298">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580945583257" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580996015298" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1580944224290">
       <screen x="0" y="0" width="1920" height="1040" />

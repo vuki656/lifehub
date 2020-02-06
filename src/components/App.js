@@ -1,11 +1,8 @@
-// Object Imports
+// Other Imports
 import React from "react";
-
-// Destructured Imports
 import { withRouter } from "react-router-dom";
-
 // Component Imports
-import SideMenu from "./SideMenu";
+import SideMenu from "./SideMenu/SideMenu";
 
 const App = () => {
     return (

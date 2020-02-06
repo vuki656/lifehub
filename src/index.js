@@ -1,10 +1,9 @@
-// Object Imports
+// Other Imports
 import React from "react";
 import ReactDOM from "react-dom";
 import firebase from "./firebase/Auth";
 import store from "./redux/store";
 import AppRouter, { history } from "./routers/AppRouter";
-// Destructured Imports
 import { Provider } from "react-redux";
 // Component Imports
 import LoadingPage from "./components/Misc/LoadingPage";
@@ -23,7 +22,7 @@ firebase.auth().onAuthStateChanged(user => {
     renderApp();
 });
 
-// Displays the component after redirect finishes
+// Displays the root component
 const renderApp = () => {
     ReactDOM.render(
         <StylesProvider injectFirst>
@@ -35,4 +34,5 @@ const renderApp = () => {
     );
 };
 
+// Display loading page before anything else is done
 ReactDOM.render(<LoadingPage />, document.getElementById("root"));

@@ -1,13 +1,15 @@
-// Object Imports
+// Other Imports
 import React from "react";
-import firebase from "../firebase/Auth";
+import firebase from "../../firebase/Auth";
 import clsx from 'clsx';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-// Destructured Imports
-import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
+// MUI Component Imports
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
 // Icon Imports
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
@@ -18,35 +20,30 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 // Component Imports
-import PrivateRoutes from "../routers/PrivateRoutes";
+import PrivateRoutes from "../../routers/PrivateRoutes";
 // File Imports
-import { ReactComponent as TextLogo } from "../files/textLogo.svg";
-import { ReactComponent as IconLogo } from "../files/iconLogo.svg";
+import { ReactComponent as TextLogo } from "../../files/textLogo.svg";
+import { ReactComponent as IconLogo } from "../../files/iconLogo.svg";
+
 
 const useStyles = makeStyles(theme => ({
-    container: {
-        display: 'flex',
-    },
-    drawerOpen: {
+    sideMenuOpen: {
         width: 240,
     },
-    drawerClose: {
+    sideMenuClosed: {
         overflowX: 'hidden',
         [theme.breakpoints.up('xs')]: {
             width: theme.spacing(7),
         },
     },
-    logo: {
-        width: "100%",
-        height: "3rem",
-    },
+
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
     }
 }));
 
-export default function SideMenu() {
+const SideMenu = () => {
     const classes = useStyles();
 
     const [open, toggleOpen] = React.useState(false);
@@ -76,35 +73,29 @@ export default function SideMenu() {
     };
 
     const getLogo = () => {
-        return open ? <TextLogo className={classes.logo} /> : <IconLogo className={classes.logo} />
+        return open
+            ? <TextLogo className="sidebar-menu__logo" />
+            : <IconLogo className="sidebar-menu__logo" />
     };
 
     return (
-        <div className={classes.container}>
+        <div className="sidebar-menu">
             <Router>
                 <Drawer
                     variant="permanent"
-                    className={clsx(classes, {
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
+                    className={clsx({
+                        [classes.sideMenuOpen]: open,
+                        [classes.sideMenuClosed]: !open,
                     })}
                     classes={{
                         paper: clsx({
-                            [classes.drawerOpen]: open,
-                            [classes.drawerClose]: !open,
+                            [classes.sideMenuOpen]: open,
+                            [classes.sideMenuClosed]: !open,
                         }),
                     }}
                 >
                     <List>
-                        <Link
-                            to="/dashboard"
-                            name="dashboard"
-                            onClick={handleActiveItem}
-                        >
-                            <ListItem>
-                                {getLogo()}
-                            </ListItem>
-                        </Link>
+                        {getLogo()}
                         <Link
                             to="/dashboard"
                             name="dashboard"
@@ -201,4 +192,6 @@ export default function SideMenu() {
             </Router>
         </div>
     );
-}
+};
+
+export default SideMenu
