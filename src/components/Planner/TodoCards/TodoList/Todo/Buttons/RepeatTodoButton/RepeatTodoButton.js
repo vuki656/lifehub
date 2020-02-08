@@ -2,36 +2,19 @@
 import React from "react";
 import firebase from "../../../../../../../firebase/Auth";
 import moment from "moment";
-
 // Destructured Imports
-import {
-    Grid,
-    Box,
-    Popper,
-    Paper,
-    Checkbox,
-    Button,
-    Typography,
-    FormControlLabel
-} from "@material-ui/core";
+import { Box, Button, Checkbox, FormControlLabel, Grid, Paper, Popper, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
-
 // Component Imports
 import RepeatOptions from "./RepeatOptions";
 import StartRepeatingFromButton from "./StartRepeatingFromButton";
-
 // Icon Imports
 import LoopIcon from "@material-ui/icons/Loop";
-
 // Helper Imports
-import {
-    isDayBeingSavedTo,
-    deleteTodoFromFirebase
-} from "../../../../../../../helpers/Planner/Todo";
+import { deleteTodoFromFirebase, isDayBeingSavedTo } from "../../../../../../../helpers/Planner/Todo";
 import { getDayOnlyTimestamp } from "../../../../../../../helpers/Global";
-
 // Data Imports
-import { daysOfWeekArr } from "../../../../../../../data/StockData";
+import { weekDaysList } from "../../../../../../../data/weekDays"
 
 class RepeatTodoButton extends React.Component {
     constructor(props) {
@@ -92,7 +75,7 @@ class RepeatTodoButton extends React.Component {
             this.saveRepeatingTodo(this.state, selectedWeekDays, createdAt);
         } else {
             if (isRepeatingEveryDay) {
-                this.saveRepeatingTodo(this.state, daysOfWeekArr, createdAt);
+                this.saveRepeatingTodo(this.state, weekDaysList, createdAt);
             } else {
                 this.saveRepeatingTodo(this.state, selectedWeekDays, createdAt);
             }
@@ -265,7 +248,7 @@ class RepeatTodoButton extends React.Component {
         this.setState({
             isRepeatingEveryDay: !this.state.isRepeatingEveryDay,
             selectedMonthDays: [],
-            selectedWeekDays: daysOfWeekArr,
+            selectedWeekDays: weekDaysList,
             repeatAtEndOfMonth: false,
             repeatAtStartOfMonth: false,
             createdAt: this.state.todo.createdAt,

@@ -1,0 +1,13 @@
+// Needed for content to not display under sidebar
+.app {
+  display: flex;
+}
+
+.app--main {
+  flex-grow: 1;
+  padding: var(--space-xs);
+}
+
+.app--sidemenu {
+
+}

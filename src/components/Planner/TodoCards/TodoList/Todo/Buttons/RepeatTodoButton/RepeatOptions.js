@@ -1,23 +1,17 @@
-// Object Imports
+// Other Imports
 import React from "react";
-
-// Destructured Imports
-import {
-    Grid,
-    Typography,
-    Checkbox,
-    FormControlLabel,
-    MenuItem,
-    Select,
-    Box,
-    Chip
-} from "@material-ui/core";
-
+// MUI Component Imports
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Select from "@material-ui/core/Select";
+import Box from "@material-ui/core/Box";
+import Chip from "@material-ui/core/Chip";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 // Data Imports
-import {
-    daysOfMonth,
-    daysOfWeek
-} from "../../../../../../../data/Planner/RepeatingTodoDropdownOptions";
+import { weekDays } from "../../../../../../../data/weekDays"
+import { monthDays } from "../../../../../../../data/monthDays"
 
 class RepeatOptions extends React.Component {
     state = {
@@ -60,8 +54,8 @@ class RepeatOptions extends React.Component {
             repeatAtEndOfMonth
         } = this.state;
 
-        let weekDays = this.convertToArray(selectedWeekDays);
-        let monthDays = this.convertToArray(selectedMonthDays);
+        let weekDaysArr = this.convertToArray(selectedWeekDays);
+        let monthDaysArr = this.convertToArray(selectedMonthDays);
 
         return (
             <Grid
@@ -77,7 +71,7 @@ class RepeatOptions extends React.Component {
                     <Select
                         name="selectedWeekDays"
                         multiple
-                        value={weekDays}
+                        value={weekDaysArr}
                         onChange={this.props.handleDropdownChange}
                         // Works without this, but with this it renders chips as selected values
                         // instead of default text components
@@ -89,7 +83,7 @@ class RepeatOptions extends React.Component {
                             </Box>
                         )}
                     >
-                        {daysOfWeek.map(daysOfWeek => (
+                        {weekDays.map(daysOfWeek => (
                             <MenuItem
                                 key={daysOfWeek.key}
                                 value={daysOfWeek.value}
@@ -106,7 +100,7 @@ class RepeatOptions extends React.Component {
                     <Select
                         name="selectedMonthDays"
                         multiple
-                        value={monthDays}
+                        value={monthDaysArr}
                         onChange={this.props.handleDropdownChange}
                         // Works without this, but with this it renders chips as selected values
                         // instead of default text components
@@ -118,7 +112,7 @@ class RepeatOptions extends React.Component {
                             </Box>
                         )}
                     >
-                        {daysOfMonth.map(monthDay => (
+                        {monthDays.map(monthDay => (
                             <MenuItem key={monthDay.key} value={monthDay.value}>
                                 {monthDay.text}
                             </MenuItem>

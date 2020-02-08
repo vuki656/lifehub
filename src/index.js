@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import firebase from "./firebase/Auth";
 import store from "./redux/store";
-import AppRouter, { history } from "./routers/AppRouter";
+import AppRouter, { history } from "./components/routers/AppRouter";
 import { Provider } from "react-redux";
 // Component Imports
 import LoadingPage from "./components/Misc/LoadingPage";

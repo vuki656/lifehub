@@ -1,15 +1,13 @@
 // Object Imports
 import React from "react";
-
 // Destructured Imports
 import { Route } from "react-router-dom";
-
 // Component Imports
-import Dashboard from "../components/Dashboard/Dashboard";
-import Planner from "../components/Planner/Planner";
-import Journal from "../components/Journal/Journal";
-import Weight from "../components/Weight/Weight";
-import Settings from "../components/Settings/Settings";
+import Dashboard from "../Dashboard/Dashboard";
+import Planner from "../Planner/Planner";
+import Journal from "../Journal/Journal";
+import Weight from "../Weight/Weight";
+import Settings from "../Settings/Settings";
 
 const PrivateRouter = () => (
     <React.Fragment>
