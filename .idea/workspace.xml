@@ -2,30 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/SideMenu/SideMenuBottomActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/SideMenu/SideMenuItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/monthDays.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/sidebarPages.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/weekDays.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/base/_base.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/components/_app.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/animations/_side-menu-animations.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/base/defaults/_colors.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Domagoj.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Domagoj.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatOptions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatTodoButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatTodoButton.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/SideMenu/SideMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/SideMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/Planner/RepeatingTodoDropdownOptions.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/StockData.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/iconLogo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/iconLogo.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/textLogo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/textLogo.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/Global.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/Global.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routers/AppRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/routers/AppRouter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routers/PrivateRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/routers/PrivateRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/_defaults.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_defaults.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/SideMenuItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/SideMenuItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/routers/PrivateRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/routers/PrivateRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/iconLogo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/iconLogo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/textLogo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/images/textLogo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_base.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_defaults.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/defaults/_spacing.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/_app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/components/_side-menu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_side-menu.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/styles.scss" afterDir="false" />
     </list>
@@ -77,8 +66,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\SideMenu" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles\base\defaults" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles\components" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles\components\side-menu" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles\animations" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\files" />
@@ -112,7 +104,7 @@
       <option name="presentableId" value="Default" />
       <updated>1580924965116</updated>
       <workItem from="1580924966621" duration="17998000" />
-      <workItem from="1580988743243" duration="16257000" />
+      <workItem from="1580988743243" duration="30869000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -142,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580999271629</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="- Refactored Sidemenu to only contain sidemenu related components&#10;- Other refactoring and cleanup">
+      <created>1581171166472</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1581171166472</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,7 +153,8 @@
     <MESSAGE value="Changed sidebar to expandable drawer" />
     <MESSAGE value="Removed old unused css" />
     <MESSAGE value="Implementing styling system" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementing styling system" />
+    <MESSAGE value="- Refactored Sidemenu to only contain sidemenu related components&#10;- Other refactoring and cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Refactored Sidemenu to only contain sidemenu related components&#10;- Other refactoring and cleanup" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -162,40 +162,48 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="179" key="#ESLint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580942382789" />
+    <state x="683" y="323" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1581285080178">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="683" y="323" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581285080178" />
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581170250560">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581170250560" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581171137535">
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581171162509">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581171137535" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581171162509" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581171061202">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581286414478">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581171061202" />
-    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581171061202">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581286414478" />
+    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581286414477">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581171061202" />
-    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581171061201">
+    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581286414477" />
+    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581286414477">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581171061201" />
-    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581171061202">
+    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581286414477" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581286414477">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581171061202" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581286414477" />
     <state x="461" y="163" key="SettingsEditor" timestamp="1580998143804">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580998143804" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1580999273007">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581171168802">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580999273007" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581171168802" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1581285774748">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581285774748" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1580944224290">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -9,12 +9,8 @@ const App = () => {
     return (
         <div className="app">
             <Router>
-                <div className="app--sidemenu">
-                    <SideMenu />
-                </div>
-                <div className="app--main">
-                    <PrivateRoutes />
-                </div>
+                <SideMenu />
+                <PrivateRoutes />
             </Router>
         </div>
     )

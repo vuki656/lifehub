@@ -1,7 +1,5 @@
 // Other Imports
 import React from "react";
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 // MUI Component Imports
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -14,27 +12,11 @@ import { ReactComponent as IconLogo } from "../../images/iconLogo.svg";
 // Data Imports
 import { sidebarMenuPages } from "../../data/sidebarPages"
 
-const useStyles = makeStyles(theme => ({
-    sideMenuOpen: {
-        width: 240,
-    },
-    sideMenuClosed: {
-        overflowX: 'hidden',
-        [theme.breakpoints.up('xs')]: {
-            width: theme.spacing(7),
-        },
-    },
-    content: {
-        flexGrow: 1,
-    }
-}));
-
 const SideMenu = () => {
-    const classes = useStyles();
-
     const [open, toggleOpen] = React.useState(false);
     const [activeLink, setActiveLink] = React.useState("dashboard");
 
+    // Open/close sidemenu drawer
     const toggleDrawer = () => {
         toggleOpen(!open);
     };
@@ -44,27 +26,24 @@ const SideMenu = () => {
         setActiveLink(event.currentTarget.name)
     };
 
+    // Get logo based on menu open state
     const getLogo = () => {
         return open
-            ? <TextLogo className="sidebar-menu__logo" />
-            : <IconLogo className="sidebar-menu__logo" />
+            ? <TextLogo />
+            : <IconLogo />
     };
 
     return (
         <Drawer
             variant="permanent"
-            className={clsx({
-                [classes.sideMenuOpen]: open,
-                [classes.sideMenuClosed]: !open,
-            })}
-            classes={{
-                paper: clsx({
-                    [classes.sideMenuOpen]: open,
-                    [classes.sideMenuClosed]: !open,
-                }),
-            }}
+            className={
+                "sidemenu " +
+                (open ? "sidemenu--open" : "sidemenu--closed")
+            }
         >
-            {getLogo()}
+            <div className="sidemenu__logo">
+                {getLogo()}
+            </div>
             <List>
                 {sidebarMenuPages.map((page) => (
                     <SideMenuItem

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px"
-	 y="0px"
-	 viewBox="-240 372.6 130.9 48.4" style="enable-background:new -240 372.6 130.9 48.4;" xml:space="preserve">
+     y="0px"
+     viewBox="-244 373 121.1 48" style="enable-background:new -244 373 121.1 48;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#F12B2C;}
 	.st1{fill:#FEBB01;}
 	.st2{fill:#333333;}
-	.st3{font-family:'Montserrat';}
-	.st4{font-size:24px;}
+	.st3{font-family:'OpenSans-Bold';}
+	.st4{font-size:24.2526px;}
 </style>
-    <polygon class="st0" points="-238.7,411.4 -238.9,384.5 -227.4,373.5 -227.2,400.4 "/>
-    <polygon class="st1" points="-212.8,386.4 -238.7,411.4 -231,421 -212.6,403.2 "/>
-    <text transform="matrix(1 0 0 1 -209.6879 405.4509)" class="st2 st3 st4">LifeHub</text>
+    <polygon class="st0" points="-243.8,411.3 -244,384.2 -232.5,373 -232.3,400.2 "/>
+    <polygon class="st1" points="-217.9,386.1 -243.8,411.3 -236.1,421 -217.7,403.1 "/>
+    <text transform="matrix(0.9896 0 0 1 -214.7876 405.3367)" class="st2 st3 st4">LifeHub</text>
 </svg>

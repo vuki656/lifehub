@@ -10,13 +10,13 @@ import Weight from "../Weight/Weight";
 import Settings from "../Settings/Settings";
 
 const PrivateRouter = () => (
-    <React.Fragment>
+    <div className="app--main">
         <Route path="/dashboard" exact component={Dashboard} />
         <Route path="/planner" component={Planner} />
         <Route path="/journal" component={Journal} />
         <Route path="/weight" component={Weight} />
         <Route path="/settings" component={Settings} />
-    </React.Fragment>
+    </div>
 );
 
 export default PrivateRouter;

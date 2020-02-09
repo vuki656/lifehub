@@ -1,3 +1,59 @@
-.sidebar-menu__logo {
-  height: 3rem;
+// ** VARIABLES **
+$sidemenu__icon--height: 50px;
+
+// ** MIXINS **
+// There is a nested MUI Paper component in MUI Drawer
+@mixin sidemenu__paper {
+  .MuiDrawer-paper {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: inherit;
+  }
+}
+
+// ** CLASSES **
+// -- LOGO --
+.sidemenu__logo {
+  padding: var(--space-xxs);
+  text-align: center;
+  animation: open-sidemenu-animation 0.5s;
+
+  svg {
+    height: $sidemenu__icon--height;
+    vertical-align: middle;
+  }
+}
+
+// -- SIDEMENU --
+.sidemenu {
+  white-space: nowrap;
+
+  // Equalize all button heights
+  .MuiListItem-button {
+    height: $sidemenu__icon--height;
+  }
+}
+
+// Open menu
+.sidemenu--open {
+  @include sidemenu__paper;
+
+  width: 200px;
+  animation: open-sidemenu-animation 0.5s;
+
+  .sidemenu__logo svg {
+   animation: open-sidemenu-logo-animation 0.5s;
+  }
+}
+
+// Closed menu
+.sidemenu--closed {
+  @include sidemenu__paper;
+
+  width: 55px;
+  animation: close-sidemenu-animation 0.5s;
+
+  .sidemenu__logo svg {
+    animation: close-sidemenu-logo-animation 0.5s;
+  }
 }

@@ -1,6 +1,10 @@
 // == ** BASE ** ==
 @import "./base/base";
-@import "./base/defaults";
+@import "./base/defaults/colors";
+@import "./base/defaults/spacing";
+
+// == ** ANIMATIONS ** ==
+@import "./animations/side-menu-animations";
 
 // == ** COMPONENTS ** ==
 @import "./components/app";
