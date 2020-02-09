@@ -14,9 +14,8 @@ $sidemenu__icon--height: 50px;
 // ** CLASSES **
 // -- LOGO --
 .sidemenu__logo {
-  padding: var(--space-xxs);
+  padding: var(--space-sm);
   text-align: center;
-  animation: open-sidemenu-animation 0.5s;
 
   svg {
     height: $sidemenu__icon--height;
@@ -34,7 +33,13 @@ $sidemenu__icon--height: 50px;
   }
 }
 
-// Open menu
+// Item
+.sidemenu__item {
+  text-decoration: none;
+  color: $title-text-grey;
+}
+
+// Opened menu
 .sidemenu--open {
   @include sidemenu__paper;
 

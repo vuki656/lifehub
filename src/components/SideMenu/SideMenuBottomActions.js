@@ -30,13 +30,21 @@ const SideMenuBottomActions = (props) => {
 
     return (
         <>
-            <ListItem button onClick={handleSignOut}>
+            <ListItem
+                button
+                onClick={handleSignOut}
+                className="sidemenu__item"
+            >
                 <ListItemIcon>
                     <ExitToAppIcon />
                 </ListItemIcon>
                 <ListItemText primary="Log Out" />
             </ListItem>
-            <ListItem onClick={toggleDrawer} button>
+            <ListItem
+                button
+                onClick={toggleDrawer}
+                className="sidemenu__item"
+            >
                 <ListItemIcon>
                     {getIcon()}
                 </ListItemIcon>

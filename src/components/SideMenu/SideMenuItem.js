@@ -16,6 +16,7 @@ const SideMenuItem = (props) => {
             to={`/${linkName}`}
             name={linkName}
             onClick={handleActiveItem}
+            className="sidemenu__item"
         >
             <ListItem
                 button
