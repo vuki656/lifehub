@@ -2,7 +2,7 @@
 $sidemenu__icon--height: 50px;
 
 // ** MIXINS **
-// There is a nested MUI Paper component in MUI Drawer
+// There is a nested MUI Paper component in MUI Drawer that needs to be styled
 @mixin sidemenu__paper {
   .MuiDrawer-paper {
     overflow-x: hidden;
@@ -26,6 +26,7 @@ $sidemenu__icon--height: 50px;
 // -- SIDEMENU --
 .sidemenu {
   white-space: nowrap;
+  position: relative;
 
   // Equalize all button heights
   .MuiListItem-button {
@@ -33,10 +34,14 @@ $sidemenu__icon--height: 50px;
   }
 }
 
-// Item
+// Items
 .sidemenu__item {
   text-decoration: none;
   color: $title-text-grey;
+}
+
+.sidemenu__items {
+  height: 100vh;
 }
 
 // Opened menu
@@ -61,4 +66,11 @@ $sidemenu__icon--height: 50px;
   .sidemenu__logo svg {
     animation: close-sidemenu-logo-animation 0.5s;
   }
+}
+
+// -- BOTTOM ACTIONS --
+.sidemenu__bottomactions {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

@@ -44,7 +44,7 @@ const SideMenu = () => {
             <div className="sidemenu__logo">
                 {getLogo()}
             </div>
-            <List>
+            <List className="sidemenu__items">
                 {sidebarMenuPages.map((page) => (
                     <SideMenuItem
                         activeLink={activeLink}
@@ -54,7 +54,10 @@ const SideMenu = () => {
                         key={page.linkName}
                     />
                 ))}
-                <SideMenuBottomActions open={open} toggleDrawer={toggleDrawer} />
+                <SideMenuBottomActions
+                    open={open}
+                    toggleDrawer={toggleDrawer}
+                />
             </List>
         </Drawer>
     );

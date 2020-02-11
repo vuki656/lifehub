@@ -29,7 +29,7 @@ const SideMenuBottomActions = (props) => {
     };
 
     return (
-        <>
+        <div className="sidemenu__bottomactions">
             <ListItem
                 button
                 onClick={handleSignOut}
@@ -49,7 +49,7 @@ const SideMenuBottomActions = (props) => {
                     {getIcon()}
                 </ListItemIcon>
             </ListItem>
-        </>
+        </div>
     );
 };
 
