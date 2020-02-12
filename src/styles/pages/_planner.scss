@@ -2,7 +2,7 @@
 // -- SIDEBAR --
 .planner__sidebar {
   background-color: $white-background;
-  overflow-y: auto;
+  max-height: 100vh;
 }
 
 // -- MONTH DROPDOWN --
@@ -12,8 +12,8 @@
 
 // -- DAYS LIST --
 .planner__sidebar__dayslist {
-  display: table;
-  height: 80vh;
+  height: 97vh;
+  overflow-y: scroll;
   font-family: $default-font;
 }
 
@@ -31,7 +31,6 @@
 
 // Item
 .planner__sidebar__dayslist__item {
-  display: table-row;
   color: $link-color;
   padding: var(--space-xs) var(--space-lg);
   font-size: var(--small-font-size);
@@ -45,7 +44,6 @@
 // Link
 .planner__sidebar__dayslist__item__link {
   text-decoration: none;
-  display: table-row;
 }
 
 // Text
