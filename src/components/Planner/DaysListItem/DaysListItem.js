@@ -3,16 +3,16 @@ import React from "react";
 import firebase from "../../../firebase/Auth";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+// MUI Component Imports
+import Grid from "@material-ui/core/Grid";
 // Component Imports
 import { DaysListItemChip } from "./DaysListItemChip";
 import { DaysListItemCheckbox } from "./DaysListItemCheckbox";
-import { DaysListItemDay } from "./DaysListItemDay";
+import { DaysListItemText } from "./DaysListItemText";
 // Helper Imports
 import { formatMoment } from "../../../helpers/Global";
 // Redux Actions Imports
 import { setCurrentDay } from "../../../redux/actions/plannerActions";
-import Grid from "@material-ui/core/Grid";
-
 
 class DaysListItem extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -96,7 +96,7 @@ class DaysListItem extends React.Component {
                         <DaysListItemChip totalAmount={totalAmount} completedAmount={completedAmount} />
                     </Grid>
                     <Grid xs={9} item className="content--center--vertical">
-                        <DaysListItemDay day={day} />
+                        <DaysListItemText day={day} />
                     </Grid>
                     <Grid xs={1} item className="content--center--vertical">
                         <DaysListItemCheckbox totalAmount={totalAmount} completedAmount={completedAmount} />

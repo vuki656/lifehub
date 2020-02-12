@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
+    <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="- Changed dayslistitem date format&#10;- Renamed DaysListItemDay.js to DaysListItemText.js">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/Planner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/Planner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMainRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMainRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/_specific/sidemenu/_sidemenu-item.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/_specific/sidemenu/_sidemenu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_specific/_sidemenu.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/pages/_planner.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/_planner.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemDay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemText.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoCards.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoCards.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +95,7 @@
       <workItem from="1580924966621" duration="17998000" />
       <workItem from="1580988743243" duration="38663000" />
       <workItem from="1581453762075" duration="16824000" />
+      <workItem from="1581499795081" duration="663000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -188,7 +185,8 @@
     <MESSAGE value="- Aligned SideMenuBottomActions.js to the bottom of the sidemenu" />
     <MESSAGE value="- Refactored DaysList.js&#10;- Added basic dayslist sidebar style" />
     <MESSAGE value="- Fixed page going out of bounds" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Fixed page going out of bounds" />
+    <MESSAGE value="- Changed dayslistitem date format&#10;- Renamed DaysListItemDay.js to DaysListItemText.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Changed dayslistitem date format&#10;- Renamed DaysListItemDay.js to DaysListItemText.js" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -212,35 +210,35 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581170250560" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581470656801">
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581500259741">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581470656801" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500259741" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581454400729">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581500085793">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581454400729" />
-    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581454400729">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500085793" />
+    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581500085793">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581454400729" />
-    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581454400729">
+    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500085793" />
+    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581500085793">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581454400729" />
-    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581454400729">
+    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500085793" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581500085793">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581454400729" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500085793" />
     <state x="748" y="253" key="SettingsEditor" timestamp="1581470609318">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581470609318" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581468612333">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581470693071">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581468612333" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581470693071" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1581285774748">
       <screen x="0" y="0" width="1920" height="1040" />

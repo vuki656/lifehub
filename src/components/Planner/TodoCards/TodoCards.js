@@ -1,13 +1,12 @@
 // Object Imports
 import React from "react";
 import firebase from "../../../firebase/Auth";
-
 // Destructured Imports
 import { Grid } from "@material-ui/core";
-
 // Component Imports
 import TodoCardItem from "./TodoCardItem";
 import AddTodoCardButton from "./Buttons/AddTodoCardButton";
+import { Transition } from "../../Misc/Transition";
 
 class TodoCards extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -20,7 +19,7 @@ class TodoCards extends React.Component {
 
         // Base
         isInPast: false,
-        todoCards: []
+        todoCards: null
     };
 
     componentDidMount() {
@@ -88,7 +87,9 @@ class TodoCards extends React.Component {
         ));
 
     render() {
-        return (
+        const { todoCards } = this.state;
+
+        return todoCards ? (
             <Grid
                 container
                 direction="row"
@@ -101,7 +102,7 @@ class TodoCards extends React.Component {
                     <AddTodoCardButton />
                 </Grid>
             </Grid>
-        );
+        ) : <Transition />;
     }
 }
 
