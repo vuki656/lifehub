@@ -6,7 +6,7 @@ import store from "./redux/store";
 import AppRouter, { history } from "./components/routers/AppRouter";
 import { Provider } from "react-redux";
 // Component Imports
-import LoadingPage from "./components/Misc/LoadingPage";
+import { Transition } from "./components/Misc/Transition";
 // Styles Imports
 import { StylesProvider } from '@material-ui/core/styles';
 import "react-datepicker/dist/react-datepicker.css";
@@ -35,4 +35,4 @@ const renderApp = () => {
 };
 
 // Display loading page before anything else is done
-ReactDOM.render(<LoadingPage />, document.getElementById("root"));
+ReactDOM.render(<Transition />, document.getElementById("root"));

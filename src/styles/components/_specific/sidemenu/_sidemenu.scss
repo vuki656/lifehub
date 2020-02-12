@@ -27,21 +27,12 @@ $sidemenu__icon--height: 50px;
 .sidemenu {
   white-space: nowrap;
   position: relative;
+  box-shadow: 0 5px 32px 0 rgba(0,0,0,0.16);;
 
   // Equalize all button heights
   .MuiListItem-button {
     height: $sidemenu__icon--height;
   }
-}
-
-// Items
-.sidemenu__item {
-  text-decoration: none;
-  color: $title-text-grey;
-}
-
-.sidemenu__items {
-  height: 100vh;
 }
 
 // Opened menu
@@ -52,7 +43,7 @@ $sidemenu__icon--height: 50px;
   animation: open-sidemenu-animation 0.5s;
 
   .sidemenu__logo svg {
-   animation: open-sidemenu-logo-animation 0.5s;
+    animation: open-sidemenu-logo-animation 0.5s;
   }
 }
 

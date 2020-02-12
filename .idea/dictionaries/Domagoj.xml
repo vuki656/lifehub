@@ -2,10 +2,14 @@
   <dictionary name="Domagoj">
     <words>
       <w>bottomactions</w>
+      <w>checkmark</w>
       <w>clsx</w>
+      <w>dayslist</w>
       <w>mixins</w>
       <w>paddings</w>
       <w>sidemenu</w>
+      <w>todos</w>
+      <w>umounts</w>
     </words>
   </dictionary>
 </component>

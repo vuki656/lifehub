@@ -7,8 +7,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 // Icon Imports
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 const SideMenuBottomActions = (props) => {
     const { open, toggleDrawer } = props;
@@ -25,7 +25,7 @@ const SideMenuBottomActions = (props) => {
 
     // Set side-menu open/close icon based on open state
     const getIcon = () => {
-        return open ? <ChevronLeftIcon /> : <MenuIcon />;
+        return open ? <ChevronLeftIcon /> : <ChevronRightIcon />;
     };
 
     return (

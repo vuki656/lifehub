@@ -1,20 +1,16 @@
-// Object Imports
+// Other Imports
 import React from "react";
 import moment from "moment";
 import firebase from "../../firebase/Auth";
-
-// Destructured Imports
-import { Grid } from "@material-ui/core";
-import { Route } from "react-router-dom";
 import { connect } from "react-redux";
-
+// MUI Component Imports
+import Grid from "@material-ui/core/Grid";
 // Component Imports
-import TaskArea from "./TaskArea";
-import DaysSidebar from "./DaysSidebar/DaysSidebar";
-
+import { PlannerSidebar } from "./PlannerSidebar";
+import { PlannerMainRoutes } from "./PlannerMainRoutes";
+import { Transition } from "../Misc/Transition";
 // Helper Imports
 import { formatMoment } from "../../helpers/Global";
-
 // Redux Actions Imports
 import { fetchUserSettings } from "../../redux/actions/plannerActions";
 
@@ -104,11 +100,11 @@ class Planner extends React.Component {
 
         // Redirect user to current days planner page after getting data
         this._isMounted &&
-            this.setState({ monthObjectList, currentMonth }, () => {
-                this.props.history.push(
-                    `/planner/${moment(currentDay).format("DD/MM/YYYY")}`
-                );
-            });
+        this.setState({ monthObjectList, currentMonth }, () => {
+            this.props.history.push(
+                `/planner/${moment(currentDay).format("DD/MM/YYYY")}`
+            );
+        });
     };
 
     // Generate next 12 months from user reg date
@@ -187,15 +183,6 @@ class Planner extends React.Component {
         });
     };
 
-    // Generate routes to switch the task area for selected day
-    generateRoutes = currentMonth =>
-        currentMonth.daysList.map(day => (
-            <Route
-                key={moment(day).format("DD/MM/YYYY")}
-                path={`/planner/${moment(day).format("DD/MM/YYYY")}`}
-                render={() => <TaskArea />}
-            />
-        ));
 
     render() {
         const { monthObjectList, currentMonth, currentDay } = this.state;
@@ -203,18 +190,21 @@ class Planner extends React.Component {
         return currentMonth ? (
             <Grid container>
                 <Grid item xs={2}>
-                    <DaysSidebar
+                    <PlannerSidebar
                         monthObjectList={monthObjectList}
                         currentMonth={currentMonth}
                         selectNewMonth={this.selectNewMonth}
                     />
                 </Grid>
                 <Grid item xs={10}>
-                    {this.generateRoutes(currentMonth, currentDay)}
+                    <PlannerMainRoutes
+                        currentDay={currentDay}
+                        currentMonth={currentMonth}
+                    />
                 </Grid>
             </Grid>
         ) : (
-            "loading"
+            <Transition />
         );
     }
 }

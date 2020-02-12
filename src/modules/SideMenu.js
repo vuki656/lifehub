@@ -4,13 +4,13 @@ import React from "react";
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 // Component Imports
-import SideMenuBottomActions from "./SideMenuBottomActions";
-import SideMenuItem from "./SideMenuItem";
+import SideMenuBottomActions from "../components/SideMenu/SideMenuBottomActions";
+import SideMenuItem from "../components/SideMenu/SideMenuItem";
 // File Imports
-import { ReactComponent as TextLogo } from "../../images/textLogo.svg";
-import { ReactComponent as IconLogo } from "../../images/iconLogo.svg";
+import { ReactComponent as TextLogo } from "../images/textLogo.svg";
+import { ReactComponent as IconLogo } from "../images/iconLogo.svg";
 // Data Imports
-import { sidebarMenuPages } from "../../data/sidebarPages"
+import { sidebarMenuPages } from "../data/sidebarPages"
 
 const SideMenu = () => {
     const [open, toggleOpen] = React.useState(false);

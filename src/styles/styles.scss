@@ -9,4 +9,8 @@
 // == ** COMPONENTS ** ==
 @import "./components/app";
 @import "./components/main";
-@import "components/sidemenu";
+@import "./components/_specific/sidemenu/sidemenu";
+@import "./components/_specific/sidemenu/sidemenu-item";
+
+// == ** PAGES ** ==
+@import "./pages/planner";

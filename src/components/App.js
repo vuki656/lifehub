@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, withRouter } from "react-router-dom";
 // Component Imports
 import PrivateRoutes from "./routers/PrivateRoutes";
-import SideMenu from "./SideMenu/SideMenu";
+import SideMenu from "../modules/SideMenu";
 
 const App = () => {
     return (

@@ -1,10 +1,10 @@
-// Object Imports
+// Other Imports
 import React from "react";
+// MUI Component Imports
+import Grid from "@material-ui/core/Grid";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-// Destructured Imports
-import { CircularProgress, Grid } from "@material-ui/core";
-
-const LoadingPage = () => (
+export const Transition = () => (
     <Grid
         container
         alignItems="center"
@@ -16,5 +16,3 @@ const LoadingPage = () => (
         </Grid>
     </Grid>
 );
-
-export default LoadingPage;
