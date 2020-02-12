@@ -185,7 +185,7 @@ class Planner extends React.Component {
 
 
     render() {
-        const { monthObjectList, currentMonth, currentDay } = this.state;
+        const { monthObjectList, currentMonth } = this.state;
 
         return currentMonth ? (
             <Grid container>
@@ -197,10 +197,7 @@ class Planner extends React.Component {
                     />
                 </Grid>
                 <Grid item xs={10}>
-                    <PlannerMainRoutes
-                        currentDay={currentDay}
-                        currentMonth={currentMonth}
-                    />
+                    <PlannerMainRoutes currentMonth={currentMonth} />
                 </Grid>
             </Grid>
         ) : (

@@ -6,7 +6,7 @@ import moment from "moment";
 import TaskArea from "./PlannerMain";
 
 export const PlannerMainRoutes = (props) => {
-    const { currentMonth, currentDay } = props;
+    const { currentMonth } = props;
 
     // Generate routes to switch the task area for selected day
     const generateRoutes = (currentMonth) =>
@@ -20,7 +20,7 @@ export const PlannerMainRoutes = (props) => {
 
     return (
         <>
-            {generateRoutes(currentMonth, currentDay)}
+            {generateRoutes(currentMonth)}
         </>
     )
 

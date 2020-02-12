@@ -59,6 +59,16 @@ $sidemenu__icon--height: 50px;
   }
 }
 
+// -- SIDEMENU ITEMS --
+.sidemenu__items {
+  height: 100vh;
+}
+
+.sidemenu__item {
+  text-decoration: none;
+  color: $grey;
+}
+
 // -- BOTTOM ACTIONS --
 .sidemenu__bottomactions {
   position: absolute;

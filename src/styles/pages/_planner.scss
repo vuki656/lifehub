@@ -16,10 +16,18 @@
   height: 97vh;
 }
 
+// Checkbox
+.planner__sidebar__dayslist__item__checkbox {
+  svg {
+    height: 100%;
+    width: 100%;
+  }
+}
+
 // Item
 .planner__sidebar__dayslist__item {
-  padding: var(--space-xxs) var(--space-md) 0 var(--space-md);
   display: table-row;
+  padding: 0 var(--space-lg);
 }
 
 // Item hover
@@ -42,8 +50,8 @@
 .planner__sidebar__dayslist__item__chip {
   color: $white;
   background-color: $grey-dark;
-  border-radius: 5px;
-  padding: var(--space-xxs);
+  border-radius: 10rem;
+  padding: var(--space-xs);
   height: 80%;
 
   // Nested component inside MUI Chip
@@ -53,14 +61,6 @@
     justify-content: center;
     height: 100%;
     padding: 0;
-  }
-}
-
-// Checkbox
-.planner__sidebar__dayslist__item__checkbox {
-  svg {
-    height: 100%;
-    width: 100%;
   }
 }
 

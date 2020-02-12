@@ -98,7 +98,7 @@ class DaysListItem extends React.Component {
                     <Grid xs={9} item className="content--center--vertical">
                         <DaysListItemDay day={day} />
                     </Grid>
-                    <Grid xs={1} item>
+                    <Grid xs={1} item className="content--center--vertical">
                         <DaysListItemCheckbox totalAmount={totalAmount} completedAmount={completedAmount} />
                     </Grid>
                 </Grid>

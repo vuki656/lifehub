@@ -2,16 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Domagoj.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Domagoj.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysSidebar/MonthDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMonthDropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerDaysList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerDaysList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerSidebar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_base.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_colors.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/defaults/_colors.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/_main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_main.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/_specific/sidemenu/_sidemenu-item.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_specific/sidemenu/_sidemenu-item.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Planner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/Planner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMainRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMainRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/_specific/sidemenu/_sidemenu-item.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/_specific/sidemenu/_sidemenu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_specific/_sidemenu.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/pages/_planner.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/_planner.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +54,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
     <property name="ts.external.directory.path" value="C:\Users\Domagoj\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\193.6015.40\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -64,11 +62,11 @@
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\files" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles\components\_specific" />
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Planner" />
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Planner\DaysListItem" />
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\modules" />
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\SideMenu" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Misc" />
     </key>
   </component>
   <component name="RunManager">
@@ -100,7 +98,7 @@
       <updated>1580924965116</updated>
       <workItem from="1580924966621" duration="17998000" />
       <workItem from="1580988743243" duration="38663000" />
-      <workItem from="1581453762075" duration="14670000" />
+      <workItem from="1581453762075" duration="16824000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -165,7 +163,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581466782552</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- Fixed page going out of bounds">
+      <created>1581468609478</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1581468609478</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,7 +187,8 @@
     <MESSAGE value="- Removed default link styles for sidemenu links&#10;- Other minor style changes" />
     <MESSAGE value="- Aligned SideMenuBottomActions.js to the bottom of the sidemenu" />
     <MESSAGE value="- Refactored DaysList.js&#10;- Added basic dayslist sidebar style" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Refactored DaysList.js&#10;- Added basic dayslist sidebar style" />
+    <MESSAGE value="- Fixed page going out of bounds" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Fixed page going out of bounds" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -206,10 +212,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581170250560" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581468585974">
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581470656801">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581468585974" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581470656801" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
     <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581454400729">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -227,14 +233,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581454400729" />
-    <state x="748" y="253" key="SettingsEditor" timestamp="1581453909005">
+    <state x="748" y="253" key="SettingsEditor" timestamp="1581470609318">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581453909005" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581466784663">
+    <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581470609318" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581468612333">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581466784663" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581468612333" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1581285774748">
       <screen x="0" y="0" width="1920" height="1040" />
