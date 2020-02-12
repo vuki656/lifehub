@@ -1,7 +1,7 @@
 // Other Imports
 import React from "react";
 // Component Imports
-import MonthDropdown from "./DaysSidebar/MonthDropdown";
+import PlannerMonthDropdown from "./PlannerMonthDropdown";
 import { PlannerDaysList } from "./PlannerDaysList";
 
 export const PlannerSidebar = (props) => {
@@ -9,7 +9,7 @@ export const PlannerSidebar = (props) => {
 
     return (
         <div className="planner__sidebar">
-            <MonthDropdown
+            <PlannerMonthDropdown
                 monthObjectList={monthObjectList}
                 currentMonth={currentMonth}
                 selectNewMonth={selectNewMonth}

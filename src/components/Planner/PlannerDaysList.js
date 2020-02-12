@@ -12,9 +12,9 @@ export const PlannerDaysList = (props) => {
     };
 
     return (
-        <>
+        <div className="planner__sidebar__dayslist">
             {displayDays(currentMonth)}
-        </>
+        </div>
     );
 };
 

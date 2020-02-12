@@ -1,12 +1,11 @@
 // Object Imports
 import React from "react";
 
-import { Select, MenuItem } from "@material-ui/core";
-
+import { MenuItem, Select } from "@material-ui/core";
 // Helper Imports
-import { formatMoment } from "../../../helpers/Global";
+import { formatMoment } from "../../helpers/Global";
 
-class MonthDropdown extends React.Component {
+class PlannerMonthDropdown extends React.Component {
     // Dropdown value is accepted here and sent
     // back to parent(Planner.js) via selectNewMonth function
     handleDropdownChange = event => {
@@ -33,6 +32,7 @@ class MonthDropdown extends React.Component {
             <Select
                 value={formatMoment(currentMonth.month, "M/YY")}
                 onChange={this.handleDropdownChange}
+                className="planner__sidebar__monthdropdown"
             >
                 {this.displayMonths(monthObjectList)}
             </Select>
@@ -40,4 +40,4 @@ class MonthDropdown extends React.Component {
     }
 }
 
-export default MonthDropdown;
+export default PlannerMonthDropdown;
