@@ -6,13 +6,13 @@ import { connect } from "react-redux";
 // MUI Component Imports
 import Grid from "@material-ui/core/Grid";
 // Component Imports
-import { DaysListItemChip } from "./DaysListItemChip";
+import { DaysListItemCount } from "./DaysListItemCount";
 import { DaysListItemCheckbox } from "./DaysListItemCheckbox";
 import { DaysListItemText } from "./DaysListItemText";
 // Helper Imports
 import { formatMoment } from "../../../helpers/Global";
+
 // Redux Actions Imports
-import { setCurrentDay } from "../../../redux/actions/plannerActions";
 
 class DaysListItem extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -93,7 +93,7 @@ class DaysListItem extends React.Component {
                     className="planner__sidebar__dayslist__item"
                 >
                     <Grid xs={2} item className="content--center--vertical">
-                        <DaysListItemChip totalAmount={totalAmount} completedAmount={completedAmount} />
+                        <DaysListItemCount totalAmount={totalAmount} completedAmount={completedAmount} />
                     </Grid>
                     <Grid xs={9} item className="content--center--vertical">
                         <DaysListItemText day={day} />

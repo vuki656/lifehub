@@ -1,23 +1,28 @@
 // ** CLASSES **
 // -- SIDEBAR --
 .planner__sidebar {
-  background-color: $white;
+  background-color: $white-background;
   overflow-y: auto;
 }
 
 // -- MONTH DROPDOWN --
 .planner__sidebar__monthdropdown {
- height: 3vh;
+  height: 3vh;
 }
 
 // -- DAYS LIST --
 .planner__sidebar__dayslist {
   display: table;
-  height: 97vh;
+  height: 80vh;
+  font-family: $default-font;
 }
 
 // Checkbox
 .planner__sidebar__dayslist__item__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   svg {
     height: 100%;
     width: 100%;
@@ -27,12 +32,14 @@
 // Item
 .planner__sidebar__dayslist__item {
   display: table-row;
-  padding: 0 var(--space-lg);
+  color: $link-color;
+  padding: var(--space-xs) var(--space-lg);
+  font-size: var(--small-font-size);
 }
 
 // Item hover
 .planner__sidebar__dayslist__item:hover {
-  background-color: $grey-dark;
+  background-color: $grey-light-background;
 }
 
 // Link
@@ -43,24 +50,18 @@
 
 // Text
 .planner__sidebar__dayslist__item__text {
-  color: $grey;
+
 }
 
 // Chip
-.planner__sidebar__dayslist__item__chip {
+.planner__sidebar__dayslist__item__count {
+  background-color: $grey-dark-background;
   color: $white;
-  background-color: $grey-dark;
-  border-radius: 10rem;
-  padding: var(--space-xs);
-  height: 80%;
-
-  // Nested component inside MUI Chip
-  .MuiChip-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding: 0;
-  }
+  font-weight: var(--font-weight-regular);
+  padding: var(--space-xxs);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
