@@ -11,8 +11,8 @@ import { DaysListItemCheckbox } from "./DaysListItemCheckbox";
 import { DaysListItemText } from "./DaysListItemText";
 // Helper Imports
 import { formatMoment } from "../../../helpers/Global";
-
 // Redux Actions Imports
+import { setCurrentDay } from "../../../redux/actions/plannerActions";
 
 class DaysListItem extends React.Component {
     // Used to prevent setState calls after component umounts
