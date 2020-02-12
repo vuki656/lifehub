@@ -9,9 +9,26 @@ html {
   font-size: 16px;
 }
 
-// Center the content vertically
-.content--center--vertical {
-  display: flex;
-  align-items: center;
+
+
+// ** SCROLLBAR **
+// Width
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+// Background
+::-webkit-scrollbar-track {
+  background: #0000;
+}
+
+// Handle
+::-webkit-scrollbar-thumb {
+  background: #d8d8d8;
+}
+
+// Handle hover
+::-webkit-scrollbar-thumb:hover {
+  background: #d8d8d8;
 }
 

@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/styles/base/_global.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/pages/_planner.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/_planner.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_base.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +98,7 @@
       <workItem from="1580924966621" duration="17998000" />
       <workItem from="1580988743243" duration="38663000" />
       <workItem from="1581453762075" duration="16824000" />
-      <workItem from="1581499795081" duration="5697000" />
+      <workItem from="1581499795081" duration="6634000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -189,7 +191,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581518276092</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="- Made sidebar dayslist overflow scrollable">
+      <created>1581519028256</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1581519028256</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -211,7 +220,8 @@
     <MESSAGE value="- Changed dayslistitem date format&#10;- Renamed DaysListItemDay.js to DaysListItemText.js&#10;- Added transition for todocard area" />
     <MESSAGE value="- Removed chip from day count&#10;- Introduced global font sizes, border radii, font weights" />
     <MESSAGE value="- Added missing import" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added missing import" />
+    <MESSAGE value="- Made sidebar dayslist overflow scrollable" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Made sidebar dayslist overflow scrollable" />
   </component>
   <component name="WindowStateProjectService">
     <state x="839" y="269" key="#Custom_Plugin_Repositories" timestamp="1581514761825">
@@ -238,10 +248,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581170250560" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581518273422">
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581519025541">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581518273422" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581519025541" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
     <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581500085793">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -263,10 +273,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581515029622" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581518277472">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581519109909">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581518277472" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581519109909" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1581285774748">
       <screen x="0" y="0" width="1920" height="1040" />
