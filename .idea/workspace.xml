@@ -2,22 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardItemTopBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/Buttons/DeleteTodoCardButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Buttons/DeleteTodoCardButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/Buttons/EditTodoCardNameButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Buttons/EditTodoCardNameButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/Cards.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/Cards.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/AddTodoInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/DeleteTodoButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Buttons/DeleteTodoButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/EditTodoNameButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dialogs/EditTodoNameButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/PushToTomorrowButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Buttons/PushToTomorrowButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Todo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardTodo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/TodoList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardTodoList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_base.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dayslist.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dayslist.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-topbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-topbar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Journal/EntryField.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Journal/EntryList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Journal/EntryListItem.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Journal/Journal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Weight/EnterWeightPop.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Weight/Weight.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Weight/WeightChart.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Weight/WeightTable/WeightTable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Weight/WeightTable/WeightTableRow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/routers/PrivateRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/routers/PrivateRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/sidebarPages.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/sidebarPages.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +24,11 @@
     <favorites_list name="lifehub" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="with-weight-and-journal" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IgnoredFileRootStore">
@@ -112,7 +113,7 @@
       <workItem from="1581453762075" duration="16824000" />
       <workItem from="1581499795081" duration="24202000" />
       <workItem from="1581623575964" duration="35000" />
-      <workItem from="1581623632224" duration="5069000" />
+      <workItem from="1581623632224" duration="5262000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -240,7 +241,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581624943663</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="- Visual improvements">
+      <created>1581628933475</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1581628933475</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,7 +275,8 @@
     <MESSAGE value="- Reduced in width and styled planner dayslist&#10;- Other style changes and improvements" />
     <MESSAGE value="- Styled planned main area day title" />
     <MESSAGE value="- Added basic styles to todocard" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added basic styles to todocard" />
+    <MESSAGE value="- Visual improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Visual improvements" />
   </component>
   <component name="WindowStateProjectService">
     <state x="839" y="269" key="#Custom_Plugin_Repositories" timestamp="1581514761825">
@@ -294,10 +303,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581522292723" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581624940579">
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581628930826">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581624940579" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581628930826" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
     <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581623667064">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -323,10 +332,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581623609578" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581624946309">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581628935109">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581624946309" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581628935109" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="462" y="101" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1581623008188">
       <screen x="0" y="0" width="1920" height="1040" />
