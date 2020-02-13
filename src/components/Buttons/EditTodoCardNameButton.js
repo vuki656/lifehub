@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../firebase/Auth";
 
 // Destructured Imports
 import {
@@ -20,7 +20,7 @@ class EditTodoCardNamePopup extends React.Component {
         // Firebase
         currentUser: firebase.auth().currentUser,
         todoCardRef: firebase.database().ref("todo-cards"),
-        
+
          // Base
         newTodoCardName: "",
         isPopOpen: false,

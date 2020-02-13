@@ -7,12 +7,12 @@ import { Grid, Checkbox, FormControlLabel } from "@material-ui/core";
 import { connect } from "react-redux";
 
 // Component Imports
-import EditTodoNameButton from "./Buttons/EditTodoNameButton";
-import RepeatTodoButton from "./Buttons/RepeatTodoButton/RepeatTodoButton";
-import PushToTomorrowButton from "./Buttons/PushToTomorrowButton";
-import DeleteTodoButton from "./Buttons/DeleteTodoButton";
+import EditTodoNameButton from "../../Dialogs/EditTodoNameButton";
+import RepeatTodoButton from "./TodoList/Todo/Buttons/RepeatTodoButton/RepeatTodoButton";
+import PushToTomorrowButton from "../../Buttons/PushToTomorrowButton";
+import DeleteTodoButton from "../../Buttons/DeleteTodoButton";
 
-class Todo extends React.Component {
+class CardTodo extends React.Component {
     state = {
         // Firebase
         currentUser: firebase.auth().currentUser,
@@ -98,4 +98,4 @@ const mapStateToProps = state => ({
     currentDay: state.planner.currentDay
 });
 
-export default connect(mapStateToProps, null)(Todo);
+export default connect(mapStateToProps, null)(CardTodo);

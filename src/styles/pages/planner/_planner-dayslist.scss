@@ -3,6 +3,7 @@
   height: 100vh;
   overflow-y: scroll;
   font-family: $default-font;
+  box-shadow: $default-box-shadow;
 }
 
 // Checkbox
@@ -30,8 +31,7 @@
 
 // Count
 .dayslist__item__count {
-  background-color: $grey-dark-background;
-  color: white;
+  color: $link-color;
   font-weight: var(--font-weight-regular);
   padding: var(--space-xxs);
   border-radius: var(--border-radius);

@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../../../firebase/Auth";
+import firebase from "../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
@@ -19,8 +19,8 @@ import { connect } from "react-redux";
 import CreateIcon from "@material-ui/icons/Create";
 
 // Helper Imports
-import { getDayOnlyTimestamp } from "../../../../../../helpers/Global";
-import { isDayBeingSavedTo } from "../../../../../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../helpers/Global";
+import { isDayBeingSavedTo } from "../../helpers/Planner/Todo";
 
 class EditTodoNameButton extends React.Component {
     state = {

@@ -5,7 +5,6 @@ import firebase from "../../../firebase/Auth";
 import { Grid } from "@material-ui/core";
 // Component Imports
 import CardItem from "./CardItem";
-import AddTodoCardButton from "../../Dialogs/AddTodoCardButton";
 import { Transition } from "../../Misc/Transition";
 
 class Cards extends React.Component {
@@ -18,7 +17,6 @@ class Cards extends React.Component {
         todoCardRef: firebase.database().ref("todo-cards"),
 
         // Base
-        isInPast: false,
         todoCards: null
     };
 
@@ -81,7 +79,11 @@ class Cards extends React.Component {
     // Render todo cards on the screen
     renderTodoCards = ({ todoCards }) =>
         todoCards.map(todoCard => (
-            <Grid item xs={4} key={todoCard.key} className="card">
+            <Grid
+                item
+                xs={4}
+                key={todoCard.key}
+                className="card">
                 <CardItem todoCard={todoCard} />
             </Grid>
         ));

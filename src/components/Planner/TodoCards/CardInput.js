@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
@@ -16,9 +16,9 @@ import { connect } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 
 // Helper Imports
-import { getDayOnlyTimestamp } from "../../../../helpers/Global";
+import { getDayOnlyTimestamp } from "../../../helpers/Global";
 
-class AddTodoInput extends React.Component {
+class CardInput extends React.Component {
     state = {
         // Firebase
         currentUser: firebase.auth().currentUser,
@@ -117,4 +117,4 @@ const mapStateToProps = state => ({
     currentDay: state.planner.currentDay
 });
 
-export default connect(mapStateToProps, null)(AddTodoInput);
+export default connect(mapStateToProps, null)(CardInput);

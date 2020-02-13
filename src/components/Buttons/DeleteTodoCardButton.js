@@ -1,13 +1,13 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../firebase/Auth";
 import moment from "moment";
 
 // Icon Imports
 import DeleteIcon from "@material-ui/icons/Delete";
 
 // Helper Imports
-import { getDayOnlyTimestamp } from "../../../../helpers/Global";
+import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 class DeleteTodoCardButton extends React.Component {
     state = {

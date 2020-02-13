@@ -1,6 +1,6 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../../../firebase/Auth";
+import firebase from "../../firebase/Auth";
 import moment from "moment";
 
 // Destructured Imports
@@ -10,8 +10,8 @@ import { connect } from "react-redux";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 // Helper Imports
-import { deleteTodoFromFirebase } from "../../../../../../helpers/Planner/Todo";
-import { getDayOnlyTimestamp } from "../../../../../../helpers/Global";
+import { deleteTodoFromFirebase } from "../../helpers/Planner/Todo";
+import { getDayOnlyTimestamp } from "../../helpers/Global";
 
 class DeleteTodoButton extends React.Component {
     state = {

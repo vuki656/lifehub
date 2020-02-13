@@ -1,15 +1,12 @@
-// Object Imports
+// Other Imports
 import React from "react";
 import firebase from "../../../firebase/Auth";
-
-// Destructured Imports
-import { Grid } from "@material-ui/core";
-
+// MUI Component Imports
+import Grid from "@material-ui/core/Grid";
 // Component Imports
-import TodoList from "./TodoList/TodoList";
-import EditTodoCardNameButton from "./Buttons/EditTodoCardNameButton";
-import AddTodoInput from "./TodoList/AddTodoInput";
-import DeleteTodoCardButton from "./Buttons/DeleteTodoCardButton";
+import TodoList from "./CardTodoList";
+import AddTodoInput from "./CardInput";
+import { CardItemTopBar } from "./CardItemTopBar";
 
 class CardItem extends React.Component {
     // Used to prevent setState calls after component umounts
@@ -39,12 +36,12 @@ class CardItem extends React.Component {
             .child(`${currentUser.uid}/${todoCard.key}`)
             .on("child_changed", changedTodoCard => {
                 this._isMounted &&
-                    this.setState({
-                        todoCard: {
-                            ...todoCard,
-                            name: changedTodoCard.val()
-                        }
-                    });
+                this.setState({
+                    todoCard: {
+                        ...todoCard,
+                        name: changedTodoCard.val()
+                    }
+                });
             });
     };
 
@@ -59,27 +56,7 @@ class CardItem extends React.Component {
                 alignItems="stretch"
             >
                 <Grid item xs={12}>
-                    <Grid
-                        container
-                        direction="row"
-                        justify="space-between"
-                        alignItems="center"
-                    >
-                        <Grid item xs={10}>
-                            {todoCard.name}
-                        </Grid>
-                        <Grid
-                            item
-                            container
-                            direction="row"
-                            justify="flex-end"
-                            alignItems="center"
-                            xs={2}
-                        >
-                            <EditTodoCardNameButton todoCard={todoCard} />
-                            <DeleteTodoCardButton todoCard={todoCard} />
-                        </Grid>
-                    </Grid>
+                    <CardItemTopBar todoCard={todoCard} />
                 </Grid>
                 <Grid item xs={12}>
                     <TodoList todoCard={todoCard} />

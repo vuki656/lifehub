@@ -2,19 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Planner/PlannerTopBar.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main-card.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-topbar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/Domagoj.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/Domagoj.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardItemTopBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMainTitle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/Buttons/AddTodoCardButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dialogs/AddTodoCardButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoCardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoCards.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/Cards.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/Buttons/DeleteTodoCardButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Buttons/DeleteTodoCardButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/Buttons/EditTodoCardNameButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Buttons/EditTodoCardNameButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/Cards.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/Cards.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/AddTodoInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardInput.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/DeleteTodoButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Buttons/DeleteTodoButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/EditTodoNameButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dialogs/EditTodoNameButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/PushToTomorrowButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Buttons/PushToTomorrowButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Todo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardTodo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/TodoList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardTodoList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_base.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dayslist.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dayslist.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-topbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-topbar.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,15 +66,15 @@
     <property name="ts.external.directory.path" value="C:\Users\Domagoj\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\193.6015.40\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Dialogs" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\SideMenu" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles\pages\planner" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles\components\_specific" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Planner" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\files" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Buttons" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Dialogs" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Planner\TodoCards" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Planner\TodoCards\TodoList" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\SideMenu" />
     </key>
   </component>
   <component name="RunManager">
@@ -109,7 +112,7 @@
       <workItem from="1581453762075" duration="16824000" />
       <workItem from="1581499795081" duration="24202000" />
       <workItem from="1581623575964" duration="35000" />
-      <workItem from="1581623632224" duration="1066000" />
+      <workItem from="1581623632224" duration="5069000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -230,7 +233,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581622523440</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="- Added basic styles to todocard">
+      <created>1581624943663</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1581624943663</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,7 +266,8 @@
     <MESSAGE value="- Added global scrollbar style" />
     <MESSAGE value="- Reduced in width and styled planner dayslist&#10;- Other style changes and improvements" />
     <MESSAGE value="- Styled planned main area day title" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Styled planned main area day title" />
+    <MESSAGE value="- Added basic styles to todocard" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added basic styles to todocard" />
   </component>
   <component name="WindowStateProjectService">
     <state x="839" y="269" key="#Custom_Plugin_Repositories" timestamp="1581514761825">
@@ -283,10 +294,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581522292723" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581622520843">
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581624940579">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581622520843" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581624940579" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
     <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581623667064">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -312,10 +323,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581623609578" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581622525003">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581624946309">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581622525003" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581624946309" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="462" y="101" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1581623008188">
       <screen x="0" y="0" width="1920" height="1040" />

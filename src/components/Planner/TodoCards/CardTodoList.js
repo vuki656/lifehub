@@ -1,15 +1,15 @@
 // Object Imports
 import React from "react";
-import firebase from "../../../../firebase/Auth";
+import firebase from "../../../firebase/Auth";
 
 // Destructured Imports
 import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 
 // Component Imports
-import Todo from "./Todo/Todo";
+import Todo from "./CardTodo";
 
-class TodoList extends React.Component {
+class CardTodoList extends React.Component {
     // Used to prevent setState calls after component umounts
     _isMounted = false;
 
@@ -166,4 +166,4 @@ const mapStateToProps = state => ({
     currentDay: state.planner.currentDay
 });
 
-export default connect(mapStateToProps, null)(TodoList);
+export default connect(mapStateToProps, null)(CardTodoList);

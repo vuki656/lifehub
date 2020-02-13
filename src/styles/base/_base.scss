@@ -9,25 +9,9 @@ html {
   font-size: 16px;
 }
 
-// ** SCROLLBAR **
-// Width
+// Remove scrollbar visibility
 ::-webkit-scrollbar {
-  width: 2px;
-  direction: rtl;
+  width: 0;
 }
 
-// Background
-::-webkit-scrollbar-track {
-  background: #0000;
-}
-
-// Handle
-::-webkit-scrollbar-thumb {
-  background: #d8d8d8;
-}
-
-// Handle hover
-::-webkit-scrollbar-thumb:hover {
-  background: #d8d8d8;
-}
 

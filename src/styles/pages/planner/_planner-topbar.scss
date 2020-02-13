@@ -1,7 +1,6 @@
 .planner__main__topbar {
-  background-color: $white-background;
-  padding: var(--space-sm);
-  box-shadow: $default-box-shadow;
+  background-color: $grey-light-background;
+  padding: var(--space-lg) var(--space-lg) 0 var(--space-lg);
 }
 
 .planner__main__topbar__title {
