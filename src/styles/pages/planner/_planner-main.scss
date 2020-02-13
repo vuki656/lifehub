@@ -2,18 +2,6 @@
   flex-grow: 1;
 }
 
-.planner__title {
-  background-color: $white-background;
-  padding: var(--space-sm);
-  box-shadow: $default-box-shadow;
-}
-
-.planner__main__title__text {
-  color: $text-color;
-  font-size: var(--h2-font-size);
-  font-family: $default-font;
-  font-weight: var(--font-weight-bold);
-}
 
 .planner__main__todos {
   padding: var(--space-lg);

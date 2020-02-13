@@ -4,11 +4,11 @@ import firebase from "../../../firebase/Auth";
 // Destructured Imports
 import { Grid } from "@material-ui/core";
 // Component Imports
-import TodoCardItem from "./TodoCardItem";
-import AddTodoCardButton from "./Buttons/AddTodoCardButton";
+import CardItem from "./CardItem";
+import AddTodoCardButton from "../../Dialogs/AddTodoCardButton";
 import { Transition } from "../../Misc/Transition";
 
-class TodoCards extends React.Component {
+class Cards extends React.Component {
     // Used to prevent setState calls after component umounts
     _isMounted = false;
 
@@ -81,8 +81,8 @@ class TodoCards extends React.Component {
     // Render todo cards on the screen
     renderTodoCards = ({ todoCards }) =>
         todoCards.map(todoCard => (
-            <Grid item xs={4} key={todoCard.key}>
-                <TodoCardItem todoCard={todoCard} />
+            <Grid item xs={4} key={todoCard.key} className="card">
+                <CardItem todoCard={todoCard} />
             </Grid>
         ));
 
@@ -95,15 +95,11 @@ class TodoCards extends React.Component {
                 direction="row"
                 justify="flex-start"
                 alignItems="flex-start"
-                spacing={2}
             >
                 {this.renderTodoCards(this.state)}
-                <Grid item xs={4}>
-                    <AddTodoCardButton />
-                </Grid>
             </Grid>
         ) : <Transition />;
     }
 }
 
-export default TodoCards;
+export default Cards;

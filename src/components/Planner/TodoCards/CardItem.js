@@ -11,7 +11,7 @@ import EditTodoCardNameButton from "./Buttons/EditTodoCardNameButton";
 import AddTodoInput from "./TodoList/AddTodoInput";
 import DeleteTodoCardButton from "./Buttons/DeleteTodoCardButton";
 
-class TodoCardItem extends React.Component {
+class CardItem extends React.Component {
     // Used to prevent setState calls after component umounts
     _isMounted = false;
 
@@ -92,4 +92,4 @@ class TodoCardItem extends React.Component {
     }
 }
 
-export default TodoCardItem;
+export default CardItem;
