@@ -2,11 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/_Generic/Dialogs/EditTodoCardDialog.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/_Generic/Inputs/ChangeCardNameInput.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/DashboardNotes/Buttons/AddDashboardNoteButton.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/DashboardNotes/DashboardNotes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/DashboardNotes/DashboardNotesList/DashboardNotesList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/DashboardNotes/DashboardNotesList/DashboardNotesListItem.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerMain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardInput.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardItemTopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardItemTopBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardTodo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardTodo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardTodoList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardTodoList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/Cards.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/Cards.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatOptions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatTodoButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatTodoButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/StartRepeatingFromButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/TodoList/Todo/Buttons/RepeatTodoButton/StartRepeatingFromButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +118,7 @@
       <workItem from="1581623575964" duration="35000" />
       <workItem from="1581623632224" duration="5515000" />
       <workItem from="1581629381946" duration="509000" />
-      <workItem from="1581629909928" duration="482000" />
+      <workItem from="1581629909928" duration="2456000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -257,7 +267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581630192065</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="- Removed dashboard notes">
+      <created>1581630412818</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1581630412818</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,7 +304,8 @@
     <MESSAGE value="- Visual improvements" />
     <MESSAGE value="- Removed weight and journal pages" />
     <MESSAGE value="- Restructured project files" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Restructured project files" />
+    <MESSAGE value="- Removed dashboard notes" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Removed dashboard notes" />
   </component>
   <component name="WindowStateProjectService">
     <state x="839" y="269" key="#Custom_Plugin_Repositories" timestamp="1581514761825">
@@ -314,27 +332,27 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581522292723" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581630188606">
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581635747026">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581630188606" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581635747026" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581629890628">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581635688086">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581629890628" />
-    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581629890628">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581635688086" />
+    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581635688085">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581629890628" />
-    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581629890628">
+    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581635688085" />
+    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581635688084">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581629890628" />
-    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581629890628">
+    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581635688084" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581635688085">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581629890628" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581635688085" />
     <state x="592" y="242" key="RollbackChangesDialog" timestamp="1581594640071">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

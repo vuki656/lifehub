@@ -14,11 +14,7 @@ import "./styles/css/styles.scss";
 
 // If there is user, redirect to dashboard, else, redirect to login
 firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-        history.push("/dashboard");
-    } else {
-        history.push("/login");
-    }
+    user ? history.push("/dashboard") : history.push("/login");
     renderApp();
 });
 

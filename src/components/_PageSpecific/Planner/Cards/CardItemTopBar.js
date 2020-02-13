@@ -1,13 +1,22 @@
 // Other Imports
-import React from "react"
+import React, { useCallback } from "react"
 // MUI Component Imports
 import Grid from "@material-ui/core/Grid";
 // Component Imports
-import EditTodoCardNameButton from "../../../_Generic/Buttons/EditTodoCardNameButton";
-import DeleteTodoCardButton from "../../../_Generic/Buttons/DeleteTodoCardButton";
+import { EditTodoCardDialog } from "../../../_Generic/Dialogs/EditTodoCardDialog";
+// Icon Imports
+import SettingsIcon from '@material-ui/icons/Settings';
 
 export const CardItemTopBar = (props) => {
     const { todoCard } = props;
+
+    const [isDialogOpen, toggleDialog] = React.useState(false);
+
+    const handleDialogToggle = useCallback(
+        () => {
+            toggleDialog(!isDialogOpen);
+        }, [isDialogOpen],
+    );
 
     return (
         <Grid
@@ -27,8 +36,8 @@ export const CardItemTopBar = (props) => {
                 alignItems="center"
                 xs={2}
             >
-                <EditTodoCardNameButton todoCard={todoCard} />
-                <DeleteTodoCardButton todoCard={todoCard} />
+                <SettingsIcon onClick={handleDialogToggle} />
+                <EditTodoCardDialog isDialogOpen={isDialogOpen} handleDialogToggle={handleDialogToggle} />
             </Grid>
         </Grid>
     )

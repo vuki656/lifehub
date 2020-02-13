@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 // MUI Component Imports
 import Grid from "@material-ui/core/Grid";
 // Component Imports
-import Cards from "./TodoCards/Cards";
+import Cards from "./Cards/Cards";
 import RemindersList from "./Reminders/RemindersList";
 import { PlannerTopBar } from "./PlannerTopBar";
 
