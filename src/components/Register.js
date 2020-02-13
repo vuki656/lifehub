@@ -1,12 +1,12 @@
 // Object Imports
 import React from "react";
-import firebase from "../firebase/Auth";
+import firebase from "../helpers/firebase/Auth";
 import moment from "moment";
 // Destructured Imports
 import { Link } from "react-router-dom";
 import { Button, Grid, TextField, Typography } from "@material-ui/core";
 // File Imports
-import { ReactComponent as Logo } from "../images/textLogo.svg";
+import { ReactComponent as Logo } from "../styles/images/textLogo.svg";
 
 class Register extends React.Component {
     state = {

@@ -2,8 +2,8 @@
 import React from "react";
 import { BrowserRouter as Router, withRouter } from "react-router-dom";
 // Component Imports
-import PrivateRoutes from "./routers/PrivateRoutes";
-import SideMenu from "./SideMenu/SideMenu";
+import PrivateRoutes from "./_Generic/Routers/PrivateRoutes";
+import SideMenu from "./_PageSpecific/SideMenu/SideMenu";
 
 const App = () => {
     return (

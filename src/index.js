@@ -1,16 +1,16 @@
 // Other Imports
 import React from "react";
 import ReactDOM from "react-dom";
-import firebase from "./firebase/Auth";
-import store from "./redux/store";
-import AppRouter, { history } from "./components/routers/AppRouter";
+import firebase from "./helpers/firebase/Auth";
+import store from "./helpers/redux/store";
+import AppRouter, { history } from "./components/_Generic/Routers/AppRouter";
 import { Provider } from "react-redux";
 // Component Imports
-import { Transition } from "./components/Misc/Transition";
+import { Transition } from "./components/_Generic/Transitions/Transition";
 // Styles Imports
 import { StylesProvider } from '@material-ui/core/styles';
 import "react-datepicker/dist/react-datepicker.css";
-import "./styles/styles.scss";
+import "./styles/css/styles.scss";
 
 // If there is user, redirect to dashboard, else, redirect to login
 firebase.auth().onAuthStateChanged(user => {

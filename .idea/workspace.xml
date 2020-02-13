@@ -3,17 +3,102 @@
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Journal/EntryField.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Journal/EntryList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Journal/EntryListItem.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Journal/Journal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Weight/EnterWeightPop.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Weight/Weight.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Weight/WeightChart.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Weight/WeightTable/WeightTable.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Weight/WeightTable/WeightTableRow.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/routers/PrivateRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/routers/PrivateRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/sidebarPages.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/sidebarPages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Buttons/DeleteTodoButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_Generic/Buttons/DeleteTodoButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Buttons/DeleteTodoCardButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_Generic/Buttons/DeleteTodoCardButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Buttons/EditTodoCardNameButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_Generic/Buttons/EditTodoCardNameButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Buttons/PushToTomorrowButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_Generic/Buttons/PushToTomorrowButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/DashboardNotes/Buttons/AddDashboardNoteButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/DashboardNotes/Buttons/AddDashboardNoteButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/DashboardNotes/DashboardNotes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/DashboardNotes/DashboardNotes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/DashboardNotes/DashboardNotesList/DashboardNotesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/DashboardNotes/DashboardNotesList/DashboardNotesList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/DashboardNotes/DashboardNotesList/DashboardNotesListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/DashboardNotes/DashboardNotesList/DashboardNotesListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Stats/StatCards/BestDayStreak.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/Stats/StatCards/BestDayStreak.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Stats/StatCards/CurrentDayStreak.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/Stats/StatCards/CurrentDayStreak.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Stats/StatCards/TotalCompletedHabits.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/Stats/StatCards/TotalCompletedHabits.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Stats/StatCards/TotalCompletedTodos.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/Stats/StatCards/TotalCompletedTodos.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Stats/Stats.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/Stats/Stats.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/TodosForDay/TodosForDay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/TodosForDay/TodosForDay.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/TodosForDay/TodosForDayCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/TodosForDay/TodosForDayCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/TodosForDay/TodosForDayCount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Dashboard/TodosForDay/TodosForDayCount.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dialogs/AddTodoCardButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_Generic/Dialogs/AddTodoCardButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dialogs/EditTodoNameButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_Generic/Dialogs/EditTodoNameButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Misc/Transition.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_Generic/Transitions/Transition.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/DaysListItem/DaysListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCheckbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/DaysListItem/DaysListItemCheckbox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/DaysListItem/DaysListItemCount.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemText.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/DaysListItem/DaysListItemText.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Planner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerDaysList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerDaysList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerMain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMainRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerMainRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMonthDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerMonthDropdown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerSidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerTopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerTopBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/Buttons/ViewReminderButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/Buttons/ViewReminderButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/ReminderListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/ReminderListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/ReminderModal/ReminderModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/ReminderModal/ReminderModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/ReminderModal/Tags/AddTagSection/AddTagSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/ReminderModal/Tags/AddTagSection/AddTagSection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/ReminderModal/Tags/AddTagSection/ColorPickerPopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/ReminderModal/Tags/AddTagSection/ColorPickerPopup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/ReminderModal/Tags/Tags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/ReminderModal/Tags/Tags.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/ReminderModal/Tags/TagsList/Buttons/EditTagColorPopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/ReminderModal/Tags/TagsList/Buttons/EditTagColorPopup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/ReminderModal/Tags/TagsList/Buttons/EditTagNamePopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/ReminderModal/Tags/TagsList/Buttons/EditTagNamePopup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/ReminderModal/Tags/TagsList/TagListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/ReminderModal/Tags/TagsList/TagListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/ReminderModal/Tags/TagsList/TagsList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/ReminderModal/Tags/TagsList/TagsList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Reminders/RemindersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Reminders/RemindersList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardInput.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardItemTopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardItemTopBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardTodo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardTodo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/CardTodoList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardTodoList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/Cards.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/Cards.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatOptions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatTodoButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatTodoButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/StartRepeatingFromButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/StartRepeatingFromButton.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Settings/Settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/SideMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/SideMenu/SideMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/SideMenuBottomActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/SideMenu/SideMenuBottomActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideMenu/SideMenuItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/SideMenu/SideMenuItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/routers/AppRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_Generic/Routers/AppRouter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/routers/PrivateRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_Generic/Routers/PrivateRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/firebase/Auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/firebase/Auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/Global.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/functions/Global.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/Planner/Todo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/functions/Todo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/iconLogo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/images/iconLogo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/images/textLogo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/images/textLogo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/actions/plannerActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/redux/actions/plannerActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/actions/tagsActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/redux/actions/tagsActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/actions/types.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/redux/actions/types.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/redux/reducers/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/plannerReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/redux/reducers/plannerReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/tagsReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/redux/reducers/tagsReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/redux/store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/animations/_drawer-animations.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/animations/_drawer-animations.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/animations/_sidemenu-animations.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/animations/_sidemenu-animations.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/_base.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_global.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/_global.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/_mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/_variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_border-radii.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/defaults/_border-radii.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_colors.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/defaults/_colors.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_font-sizes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/defaults/_font-sizes.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_font-weights.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/defaults/_font-weights.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_fonts.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/defaults/_fonts.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_spacing.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/base/defaults/_spacing.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/_app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/components/_app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/_main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/components/_main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/_specific/_sidemenu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/components/_specific/_sidemenu.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dayslist.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/pages/planner/_planner-dayslist.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dropdown.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/pages/planner/_planner-dropdown.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main-card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/pages/planner/_planner-main-card.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/pages/planner/_planner-main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-sidebar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/pages/planner/_planner-sidebar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-topbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/pages/planner/_planner-topbar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/pages/planner/_planner.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/css/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,11 +156,11 @@
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\files" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Buttons" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Dialogs" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Planner\TodoCards" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Planner\TodoCards\TodoList" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\SideMenu" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\helpers" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\helpers\functions" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\_PageSpecific" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\_Generic\Transitions" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\_Generic" />
     </key>
   </component>
   <component name="RunManager">
@@ -113,7 +198,9 @@
       <workItem from="1581453762075" duration="16824000" />
       <workItem from="1581499795081" duration="24202000" />
       <workItem from="1581623575964" duration="35000" />
-      <workItem from="1581623632224" duration="5262000" />
+      <workItem from="1581623632224" duration="5515000" />
+      <workItem from="1581629381946" duration="509000" />
+      <workItem from="1581629909928" duration="162000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -248,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581628933475</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="- Removed weight and journal pages">
+      <created>1581629266734</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1581629266734</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,7 +370,8 @@
     <MESSAGE value="- Styled planned main area day title" />
     <MESSAGE value="- Added basic styles to todocard" />
     <MESSAGE value="- Visual improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Visual improvements" />
+    <MESSAGE value="- Removed weight and journal pages" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Removed weight and journal pages" />
   </component>
   <component name="WindowStateProjectService">
     <state x="839" y="269" key="#Custom_Plugin_Repositories" timestamp="1581514761825">
@@ -303,27 +398,27 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581522292723" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581628930826">
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581630133523">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581628930826" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581630133523" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581623667064">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581629890628">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581623667064" />
-    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581623667063">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581629890628" />
+    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581629890628">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581623667063" />
-    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581623667063">
+    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581629890628" />
+    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581629890628">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581623667063" />
-    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581623667064">
+    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581629890628" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581629890628">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581623667064" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581629890628" />
     <state x="592" y="242" key="RollbackChangesDialog" timestamp="1581594640071">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -332,10 +427,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581623609578" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581628935109">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581629269408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581628935109" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581629269408" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="462" y="101" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1581623008188">
       <screen x="0" y="0" width="1920" height="1040" />

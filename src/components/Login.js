@@ -1,11 +1,11 @@
 // Object Imports
 import React from "react";
-import firebase from "../firebase/Auth";
+import firebase from "../helpers/firebase/Auth";
 // Destructured Imports
 import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 // File Imports
-import { ReactComponent as Logo } from "../images/textLogo.svg";
+import { ReactComponent as Logo } from "../styles/images/textLogo.svg";
 
 class Login extends React.Component {
     state = {
