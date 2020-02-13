@@ -30,7 +30,7 @@ export const DaysListItemCheckbox = (props) => {
     };
 
     return (
-        <div className="planner__sidebar__dayslist__item__checkbox">
+        <div className="dayslist__item__checkbox">
             {getIcon()}
         </div>
     )

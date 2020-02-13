@@ -13,7 +13,7 @@ const PlannerMain = (props) => {
     const { currentDay } = props;
 
     return (
-        <Grid container>
+        <Grid container className="planner__main">
             <Grid xs={12} item>
                 <Typography variant="h4">
                     {moment(currentDay).format("DD/MM/YYYY - dddd")}

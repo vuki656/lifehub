@@ -3,8 +3,6 @@ import React from "react";
 import moment from "moment";
 import firebase from "../../firebase/Auth";
 import { connect } from "react-redux";
-// MUI Component Imports
-import Grid from "@material-ui/core/Grid";
 // Component Imports
 import { PlannerSidebar } from "./PlannerSidebar";
 import { PlannerMainRoutes } from "./PlannerMainRoutes";
@@ -188,18 +186,14 @@ class Planner extends React.Component {
         const { monthObjectList, currentMonth } = this.state;
 
         return currentMonth ? (
-            <Grid container>
-                <Grid item xs={2}>
-                    <PlannerSidebar
-                        monthObjectList={monthObjectList}
-                        currentMonth={currentMonth}
-                        selectNewMonth={this.selectNewMonth}
-                    />
-                </Grid>
-                <Grid item xs={10}>
-                    <PlannerMainRoutes currentMonth={currentMonth} />
-                </Grid>
-            </Grid>
+            <div className="planner">
+                <PlannerSidebar
+                    monthObjectList={monthObjectList}
+                    currentMonth={currentMonth}
+                    selectNewMonth={this.selectNewMonth}
+                />
+                <PlannerMainRoutes currentMonth={currentMonth} />
+            </div>
         ) : (
             <Transition />
         );

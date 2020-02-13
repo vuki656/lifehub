@@ -2,9 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/styles/base/_global.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/animations/_sidemenu-animations.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/base/_mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/base/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dropdown.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-sidebar.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCheckbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCheckbox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCount.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemText.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemText.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/Planner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/Planner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMain.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMainRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMainRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMonthDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMonthDropdown.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/SideMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/SideMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/animations/_side-menu-animations.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/animations/_drawer-animations.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_base.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_colors.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/defaults/_colors.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/_specific/_sidemenu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_specific/_sidemenu.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/_planner.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dayslist.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,15 +74,15 @@
     <property name="ts.external.directory.path" value="C:\Users\Domagoj\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\193.6015.40\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\files" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\SideMenu" />
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles\pages\planner" />
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\styles\components\_specific" />
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Planner" />
       <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\Planner\DaysListItem" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\modules" />
-      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\components\SideMenu" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Domagoj\WebstormProjects\lifehub\src\files" />
     </key>
   </component>
   <component name="RunManager">
@@ -98,7 +118,7 @@
       <workItem from="1580924966621" duration="17998000" />
       <workItem from="1580988743243" duration="38663000" />
       <workItem from="1581453762075" duration="16824000" />
-      <workItem from="1581499795081" duration="6634000" />
+      <workItem from="1581499795081" duration="18862000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -198,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581519028256</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="- Added global scrollbar style">
+      <created>1581519944640</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1581519944640</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,7 +248,8 @@
     <MESSAGE value="- Removed chip from day count&#10;- Introduced global font sizes, border radii, font weights" />
     <MESSAGE value="- Added missing import" />
     <MESSAGE value="- Made sidebar dayslist overflow scrollable" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Made sidebar dayslist overflow scrollable" />
+    <MESSAGE value="- Added global scrollbar style" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added global scrollbar style" />
   </component>
   <component name="WindowStateProjectService">
     <state x="839" y="269" key="#Custom_Plugin_Repositories" timestamp="1581514761825">
@@ -244,14 +272,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="683" y="323" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581453420750" />
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581170250560">
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581522292723">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581170250560" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581519025541">
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581522292723" />
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581618087857">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581519025541" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581618087857" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
     <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581500085793">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -269,22 +297,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500085793" />
+    <state x="592" y="242" key="RollbackChangesDialog" timestamp="1581594640071">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="592" y="242" key="RollbackChangesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581594640071" />
     <state x="748" y="253" key="SettingsEditor" timestamp="1581515029622">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581515029622" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581519109909">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581519948627">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581519109909" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581519948627" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1581285774748">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581285774748" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1580944224290">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1581548551004">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580944224290" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581548551004" />
   </component>
 </project>

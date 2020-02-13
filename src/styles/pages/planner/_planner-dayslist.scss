@@ -1,58 +1,35 @@
-// ** CLASSES **
-// -- SIDEBAR --
-.planner__sidebar {
-  background-color: $white-background;
-  max-height: 100vh;
-}
-
-// -- MONTH DROPDOWN --
-.planner__sidebar__monthdropdown {
-  height: 3vh;
-}
-
 // -- DAYS LIST --
 .planner__sidebar__dayslist {
-  height: 97vh;
+  height: 100vh;
   overflow-y: scroll;
   font-family: $default-font;
 }
 
 // Checkbox
-.planner__sidebar__dayslist__item__checkbox {
+.dayslist__item__checkbox {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  svg {
-    height: 100%;
-    width: 100%;
-  }
 }
 
 // Item
-.planner__sidebar__dayslist__item {
+.dayslist__item {
   color: $link-color;
   padding: var(--space-xs) var(--space-lg);
   font-size: var(--small-font-size);
-}
 
-// Item hover
-.planner__sidebar__dayslist__item:hover {
-  background-color: $grey-light-background;
+  &:hover {
+    background-color: $grey-light-background;
+  }
 }
 
 // Link
-.planner__sidebar__dayslist__item__link {
+.dayslist__item__link {
   text-decoration: none;
 }
 
-// Text
-.planner__sidebar__dayslist__item__text {
-
-}
-
 // Chip
-.planner__sidebar__dayslist__item__count {
+.dayslist__item__count {
   background-color: $grey-dark-background;
   color: $white;
   font-weight: var(--font-weight-regular);
@@ -62,4 +39,3 @@
   align-items: center;
   justify-content: center;
 }
-

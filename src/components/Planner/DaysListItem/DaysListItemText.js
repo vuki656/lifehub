@@ -7,7 +7,7 @@ export const DaysListItemText = (props) => {
     const { day } = props;
 
     return (
-        <p className="planner__sidebar__dayslist__item__text">
+        <p>
             {formatMoment(day, "DD dd")}
         </p>
     )

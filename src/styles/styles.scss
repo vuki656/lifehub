@@ -1,8 +1,10 @@
 // == ** BASE ** ==
 @import "./base/base";
 @import "./base/global";
+@import "./base/mixins";
+@import "./base/variables";
 
-// == ** BASE DEFAULTS **
+// == ** DEFAULTS **
 @import "./base/defaults/colors";
 @import "./base/defaults/spacing";
 @import "./base/defaults/fonts";
@@ -10,7 +12,8 @@
 @import "./base/defaults/border-radii";
 
 // == ** ANIMATIONS ** ==
-@import "./animations/side-menu-animations";
+@import "./animations/drawer-animations";
+@import "./animations/sidemenu-animations";
 
 // == ** COMPONENTS ** ==
 @import "./components/app";
@@ -18,4 +21,9 @@
 @import "./components/_specific/sidemenu";
 
 // == ** PAGES ** ==
-@import "./pages/planner";
+// Planner
+@import "./pages/planner/planner";
+@import "./pages/planner/planner-main";
+@import "./pages/planner/planner-sidebar";
+@import "./pages/planner/planner-dropdown";
+@import "./pages/planner/planner-dayslist";

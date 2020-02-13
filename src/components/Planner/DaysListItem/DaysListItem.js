@@ -83,14 +83,14 @@ class DaysListItem extends React.Component {
                 to={`/planner/${formatMoment(day, "DD/MM/YYYY")}`}
                 key={formatMoment(day, "DD/MM/YYYY")}
                 onClick={() => this.props.setCurrentDay(day)}
-                className="planner__sidebar__dayslist__item__link"
+                className="dayslist__item__link"
             >
                 <Grid
                     container
                     direction="row"
                     justify="space-between"
                     alignItems="stretch"
-                    className="planner__sidebar__dayslist__item"
+                    className="dayslist__item"
                 >
                     <Grid xs={2} item className="content--center--vertical">
                         <DaysListItemCount totalAmount={totalAmount} completedAmount={completedAmount} />

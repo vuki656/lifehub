@@ -19,9 +19,9 @@ export const PlannerMainRoutes = (props) => {
         ));
 
     return (
-        <>
+        <div className="planner__main">
             {generateRoutes(currentMonth)}
-        </>
+        </div>
     )
 
 };
