@@ -1,29 +1,28 @@
 // Other Imports
 import React from "react";
-import moment from "moment";
 import { connect } from "react-redux";
 // MUI Component Imports
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 // Component Imports
 import TodoCards from "./TodoCards/TodoCards";
 import RemindersList from "./Reminders/RemindersList";
+import { PlannerMainTitle } from "./PlannerMainTitle";
 
 const PlannerMain = (props) => {
     const { currentDay } = props;
 
     return (
-        <Grid container className="planner__main">
-            <Grid xs={12} item>
-                <Typography variant="h4">
-                    {moment(currentDay).format("DD/MM/YYYY - dddd")}
-                </Typography>
+        <Grid container>
+            <Grid xs={12} item className="planner__title">
+                <PlannerMainTitle currentDay={currentDay} />
             </Grid>
-            <Grid xs={10} item>
-                <TodoCards />
-            </Grid>
-            <Grid xs={2} item>
-                <RemindersList />
+            <Grid container className="planner__main">
+                <Grid xs={10} item className="planner__main__todos">
+                    <TodoCards />
+                </Grid>
+                <Grid xs={2} item className="planner__main__reminders">
+                    <RemindersList />
+                </Grid>
             </Grid>
         </Grid>
     );

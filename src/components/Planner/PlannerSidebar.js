@@ -9,11 +9,11 @@ export const PlannerSidebar = (props) => {
 
     return (
         <div className="planner__sidebar">
-            <PlannerMonthDropdown
-                monthObjectList={monthObjectList}
-                currentMonth={currentMonth}
-                selectNewMonth={selectNewMonth}
-            />
+            {/*<PlannerMonthDropdown*/}
+            {/*    monthObjectList={monthObjectList}*/}
+            {/*    currentMonth={currentMonth}*/}
+            {/*    selectNewMonth={selectNewMonth}*/}
+            {/*/>*/}
             <PlannerDaysList currentMonth={currentMonth} />
         </div>
     );

@@ -12,7 +12,8 @@ html {
 // ** SCROLLBAR **
 // Width
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 2px;
+  direction: rtl;
 }
 
 // Background

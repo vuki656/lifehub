@@ -2,29 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/styles/animations/_sidemenu-animations.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/base/_mixins.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/base/_variables.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dropdown.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-sidebar.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMainTitle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCheckbox.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCheckbox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCount.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemCount.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemText.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/DaysListItem/DaysListItemText.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/Planner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/Planner.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMainRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMainRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerMonthDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerMonthDropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/SideMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideMenu/SideMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/animations/_side-menu-animations.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/animations/_drawer-animations.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Planner/PlannerSidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Planner/PlannerSidebar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/base/_base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_base.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_colors.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/defaults/_colors.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/components/_specific/_sidemenu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_specific/_sidemenu.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/pages/_planner.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dayslist.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/_variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/base/defaults/_font-sizes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/base/defaults/_font-sizes.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/components/_main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/components/_main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dayslist.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-dayslist.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/pages/planner/_planner-main.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +106,7 @@
       <workItem from="1580924966621" duration="17998000" />
       <workItem from="1580988743243" duration="38663000" />
       <workItem from="1581453762075" duration="16824000" />
-      <workItem from="1581499795081" duration="18862000" />
+      <workItem from="1581499795081" duration="23156000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -225,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581519944640</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="- Reduced in width and styled planner dayslist&#10;- Other style changes and improvements">
+      <created>1581618122126</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1581618122141</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -249,7 +244,8 @@
     <MESSAGE value="- Added missing import" />
     <MESSAGE value="- Made sidebar dayslist overflow scrollable" />
     <MESSAGE value="- Added global scrollbar style" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added global scrollbar style" />
+    <MESSAGE value="- Reduced in width and styled planner dayslist&#10;- Other style changes and improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Reduced in width and styled planner dayslist&#10;- Other style changes and improvements" />
   </component>
   <component name="WindowStateProjectService">
     <state x="839" y="269" key="#Custom_Plugin_Repositories" timestamp="1581514761825">
@@ -276,27 +272,27 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581522292723" />
-    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581618087857">
+    <state x="583" y="110" key="CommitChangelistDialog2" timestamp="1581618119278">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581618087857" />
+    <state x="583" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581618119278" />
     <state x="2503" y="110" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927263443" />
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581500085793">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom" timestamp="1581622461129">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500085793" />
-    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581500085793">
+    <state width="1899" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581622461129" />
+    <state width="1899" height="203" key="GridCell.Tab.0.center" timestamp="1581622461128">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500085793" />
-    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581500085793">
+    <state width="1899" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581622461128" />
+    <state width="1899" height="203" key="GridCell.Tab.0.left" timestamp="1581622461128">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500085793" />
-    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581500085793">
+    <state width="1899" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581622461128" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right" timestamp="1581622461129">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581500085793" />
+    <state width="1899" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581622461129" />
     <state x="592" y="242" key="RollbackChangesDialog" timestamp="1581594640071">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -305,10 +301,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581515029622" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581519948627">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581618161101">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581519948627" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581618161101" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1581285774748">
       <screen x="0" y="0" width="1920" height="1040" />
