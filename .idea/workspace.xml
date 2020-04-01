@@ -2,21 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="648d0d70-c5f8-4f46-b733-611a715980e5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/_Generic/Dialogs/EditTodoCardDialog.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/_Generic/Inputs/ChangeCardNameInput.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerMain.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/PlannerMain.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardItemTopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardItemTopBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardTodo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardTodo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/CardTodoList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/CardTodoList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/Cards.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/Cards.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatOptions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatTodoButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/TodoList/Todo/Buttons/RepeatTodoButton/RepeatTodoButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/TodoCards/TodoList/Todo/Buttons/RepeatTodoButton/StartRepeatingFromButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/_PageSpecific/Planner/Cards/TodoList/Todo/Buttons/RepeatTodoButton/StartRepeatingFromButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +17,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="with-weight-and-journal" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -118,7 +106,10 @@
       <workItem from="1581623575964" duration="35000" />
       <workItem from="1581623632224" duration="5515000" />
       <workItem from="1581629381946" duration="509000" />
-      <workItem from="1581629909928" duration="2456000" />
+      <workItem from="1581629909928" duration="3347000" />
+      <workItem from="1581707513206" duration="5000" />
+      <workItem from="1582839659409" duration="480000" />
+      <workItem from="1585760501447" duration="921000" />
     </task>
     <task id="LOCAL-00001" summary="Webstorm changes">
       <created>1580927266405</created>
@@ -274,7 +265,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581630412818</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="- Added edit todo card dialog skeleton">
+      <created>1581635749759</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1581635749759</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -305,7 +303,8 @@
     <MESSAGE value="- Removed weight and journal pages" />
     <MESSAGE value="- Restructured project files" />
     <MESSAGE value="- Removed dashboard notes" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Removed dashboard notes" />
+    <MESSAGE value="- Added edit todo card dialog skeleton" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added edit todo card dialog skeleton" />
   </component>
   <component name="WindowStateProjectService">
     <state x="839" y="269" key="#Custom_Plugin_Repositories" timestamp="1581514761825">
@@ -357,14 +356,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="592" y="242" key="RollbackChangesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581594640071" />
-    <state x="748" y="253" key="SettingsEditor" timestamp="1581623609578">
+    <state x="748" y="253" key="SettingsEditor" timestamp="1581635784726">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581623609578" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581630193941">
+    <state x="748" y="253" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581635784726" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1581635754385">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581630193941" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581635754385" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1580927269864" />
     <state x="462" y="101" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1581623008188">
       <screen x="0" y="0" width="1920" height="1040" />
