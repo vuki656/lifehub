@@ -5,27 +5,27 @@
         "tslint-config-standard"
     ],
     "rules": {
-        "object-literal-sort-keys": false,
-        "space-before-function-paren": false,
-        "no-var-requires": false,
         "no-console": false,
-        "trailing-comma": [
-            true,
-            {
-                "multiline": "always",
-                "singleline": "never"
-            }
-        ],
+        "no-var-requires": false,
+        "object-literal-sort-keys": false,
         "quotemark": [
             true,
             "single",
             "jsx-double"
         ],
+        "space-before-function-paren": false,
         "ter-indent": [
             true,
             4,
             {
                 "SwitchCase": true
+            }
+        ],
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "always",
+                "singleline": "never"
             }
         ]
     },

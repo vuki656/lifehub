@@ -1,4 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { RegisterPage } from './pages/register'
 
-ReactDOM.render(<p>Hi</p>, document.getElementById('root'))
+ReactDOM.render(<RegisterPage />, document.getElementById('root'))

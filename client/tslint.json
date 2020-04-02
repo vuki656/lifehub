@@ -6,22 +6,33 @@
         "tslint-react"
     ],
     "rules": {
-        "object-literal-sort-keys": false,
+        "interface-name": [
+            true,
+            "never-prefix"
+        ],
+        "interface-over-type-literal": false,
+        "jsx-boolean-value": false,
+        "jsx-no-multiline-js": false,
+        "max-line-length": [
+            true,
+            240
+        ],
+        "no-console": false,
+        "no-namespace": [
+            true,
+            "allow-declarations"
+        ],
         "object-literal-key-quotes": [
             true,
             "as-needed"
         ],
-        "jsx-boolean-value": false,
-        "space-before-function-paren": false,
-        "interface-over-type-literal": false,
-        "jsx-no-multiline-js": false,
-        "trailing-comma": [
+        "object-literal-sort-keys": false,
+        "quotemark": [
             true,
-            {
-                "multiline": "always",
-                "singleline": "never"
-            }
+            "single",
+            "jsx-double"
         ],
+        "space-before-function-paren": false,
         "ter-indent": [
             true,
             4,
@@ -29,22 +40,12 @@
                 "SwitchCase": true
             }
         ],
-        "quotemark": [
+        "trailing-comma": [
             true,
-            "single",
-            "jsx-double"
-        ],
-        "no-namespace": [
-            true,
-            "allow-declarations"
-        ],
-        "interface-name": [
-            true,
-            "never-prefix"
-        ],
-        "max-line-length": [
-            true,
-            240
+            {
+                "multiline": "always",
+                "singleline": "never"
+            }
         ]
     }
 }
