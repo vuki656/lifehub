@@ -1,0 +1,37 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-config-standard"
+    ],
+    "rules": {
+        "object-literal-sort-keys": false,
+        "space-before-function-paren": false,
+        "no-var-requires": false,
+        "no-console": false,
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "always",
+                "singleline": "never"
+            }
+        ],
+        "quotemark": [
+            true,
+            "single",
+            "jsx-double"
+        ],
+        "ter-indent": [
+            true,
+            4,
+            {
+                "SwitchCase": true
+            }
+        ]
+    },
+    "linterOptions": {
+        "exclude": [
+            "node_modules/**/*.ts"
+        ]
+    }
+}

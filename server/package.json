@@ -1,0 +1,23 @@
+{
+   "name": "lifehub",
+   "version": "0.0.1",
+   "dependencies": {
+      "config": "^3.3.1",
+      "dotenv": "^8.2.0",
+      "graphql-yoga": "^1.18.3",
+      "pg": "^7.3.0",
+      "reflect-metadata": "^0.1.10",
+      "tslint-config-standard": "^9.0.0",
+      "typeorm": "0.2.24"
+   },
+   "devDependencies": {
+      "@types/config": "0.0.36",
+      "@types/node": "^8.0.29",
+      "ts-node": "3.3.0",
+      "tslint": "^6.1.0",
+      "typescript": "3.3.3333"
+   },
+   "scripts": {
+      "start": "ts-node src/index.ts"
+   }
+}
