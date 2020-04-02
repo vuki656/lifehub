@@ -7,6 +7,8 @@
     "rules": {
         "object-literal-sort-keys": false,
         "space-before-function-paren": false,
+        "no-var-requires": false,
+        "no-console": false,
         "trailing-comma": [
             true,
             {

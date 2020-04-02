@@ -5,14 +5,10 @@
   "dependencies": {
     "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^4.9.1",
-    "@nivo/line": "^0.59.3",
     "moment": "2.24.0",
-    "node-sass": "^4.13.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-router-dom": "5.0.0",
-    "react-scripts": "^3.4.1",
-    "uuid": "^3.4.0"
+    "react-scripts": "^3.4.1"
   },
   "devDependencies": {
     "@types/node": "^8.0.29",

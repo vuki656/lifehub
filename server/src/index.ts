@@ -1,7 +1,9 @@
+require('dotenv').config()
 import { GraphQLServer } from 'graphql-yoga'
 import 'reflect-metadata'
-import { createConnection, getRepository } from 'typeorm'
+import { getRepository } from 'typeorm'
 import { User } from './entity/User'
+import { createTypeORMConnection } from './typeorm'
 
 const typeDefs = `
   type Query {
@@ -36,10 +38,10 @@ const resolvers = {
 
 const server = new GraphQLServer({ typeDefs, resolvers })
 
-createConnection().then(() => {
-    // tslint:disable-next-line:no-console
-    server.start(() => console.log('Server is running on localhost:4000'))
-}).catch(() => {
-    // tslint:disable-next-line:no-console
-    console.log('Couldn\'t connect to the database.')
+createTypeORMConnection().then(() => {
+    server.start(() => {
+        console.log('Server is running on localhost:4000')
+    })
+}).catch((err) => {
+    console.error(err)
 })

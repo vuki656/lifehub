@@ -38,6 +38,3 @@ firebase-debug.log
 
 # Firebase Files
 .firebase
-
-# Creds
-/ormconfig.json
