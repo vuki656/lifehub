@@ -40,6 +40,7 @@ export const RegisterPage: React.FunctionComponent<{}> = () => {
                             placeholder="Username"
                             autoComplete="username"
                             type="text"
+                            minLength={4}
                             required
                         />
                         <input
@@ -56,6 +57,7 @@ export const RegisterPage: React.FunctionComponent<{}> = () => {
                             autoComplete="new-password"
                             placeholder="Password"
                             type="password"
+                            minLength={7}
                             required
                         />
                         <input
@@ -64,6 +66,7 @@ export const RegisterPage: React.FunctionComponent<{}> = () => {
                             autoComplete="new-password"
                             placeholder="Repeat Password"
                             type="password"
+                            minLength={7}
                             required
                         />
                         <Grid
