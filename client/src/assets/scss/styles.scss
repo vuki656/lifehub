@@ -1,2 +1,14 @@
 // ** VARIABLES **
+@import "variables/colors";
 @import "variables/spacings";
+@import "variables/sizes";
+@import "variables/border-radii";
+@import "variables/box-shadows";
+@import "variables/font-sizes";
+
+// ** BASE **
+@import "base/global";
+
+// ** BLOCKS **
+@import "blocks/register-form";
+

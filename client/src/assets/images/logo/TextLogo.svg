@@ -5,11 +5,12 @@
 <style type="text/css">
 	.st0{fill:#F12B2C;}
 	.st1{fill:#FEBB01;}
-	.st2{fill:#4A4A4A;}
+	.st2{fill:#000000;}
 	.st3{font-family:'Montserrat';}
 	.st4{font-size:24.2526px;}
+	.st5{font-weight:bold}
 </style>
 <polygon class="st0" points="-243.8,411.3 -244,384.2 -232.5,373 -232.3,400.2 "/>
 <polygon class="st1" points="-217.9,386.1 -243.8,411.3 -236.1,421 -217.7,403.1 "/>
-<text transform="matrix(0.9896 0 0 1 -214.7876 405.3369)" class="st2 st3 st4">LifeHub</text>
+<text transform="matrix(0.9896 0 0 1 -214.7876 405.3369)" class="st2 st3 st4 st5">LifeHub</text>
 </svg>

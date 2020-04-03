@@ -8,6 +8,7 @@
     "final-form": "^4.19.1",
     "moment": "2.24.0",
     "node-sass": "^4.13.1",
+    "normalize.css": "^8.0.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-final-form-hooks": "^2.0.2",

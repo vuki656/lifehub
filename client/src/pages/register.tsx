@@ -1,10 +1,9 @@
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
 import React, { useCallback } from 'react'
 import { useField, useForm } from 'react-final-form-hooks'
 
-import { ReactComponent as Logo } from '../assets/images/TextLogo.svg'
+import { ReactComponent as Logo } from '../assets/images/logo/TextLogo.svg'
 
 export const RegisterPage: React.FunctionComponent<{}> = () => {
     const onSubmit = useCallback((formValues) => {
@@ -20,56 +19,65 @@ export const RegisterPage: React.FunctionComponent<{}> = () => {
 
     return (
         <Grid
-            container
             alignItems="center"
             justify="center"
-            style={{ minHeight: '100vh' }}
+            className="register-form"
+            container
         >
-            <Grid xs={4} item>
+            <Grid
+                xs={3}
+                className="register-form__card"
+                item
+            >
                 <Grid xs={12} item>
-                    <Logo className="logo" />
+                    <Logo className="register-form__logo" />
                 </Grid>
                 <Grid xs={12} item>
                     <form onSubmit={handleSubmit}>
-                        <TextField
+                        <input
                             {...username.input}
+                            className="register-form__input-field"
+                            placeholder="Username"
                             autoComplete="username"
                             type="text"
-                            label="Username"
                             required
-                            fullWidth
                         />
-                        <TextField
+                        <input
                             {...email.input}
+                            className="register-form__input-field"
                             autoComplete="email"
                             type="email"
-                            label="Email"
+                            placeholder="Email"
                             required
-                            fullWidth
                         />
-                        <TextField
+                        <input
                             {...password.input}
+                            className="register-form__input-field"
                             autoComplete="new-password"
-                            label="Password"
+                            placeholder="Password"
                             type="password"
                             required
-                            fullWidth
                         />
-                        <TextField
+                        <input
                             {...passwordConfirmation.input}
+                            className="register-form__input-field"
                             autoComplete="new-password"
-                            label="Repeat Password"
+                            placeholder="Repeat Password"
                             type="password"
                             required
-                            fullWidth
                         />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
+                        <Grid
+                            alignItems="center"
+                            justify="center"
+                            container
                         >
-                            Register
-                        </Button>
+                            <Button
+                                className="register-form__button"
+                                type="submit"
+                            >
+                                Register
+                            </Button>
+                        </Grid>
                     </form>
                 </Grid>
             </Grid>
