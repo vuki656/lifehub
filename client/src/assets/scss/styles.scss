@@ -6,7 +6,11 @@
 @import "variables/box-shadows";
 @import "variables/font-sizes";
 
+// ** COMPONENT VARIABLES **
+@import "variables/components/button";
+
 // ** BASE **
+@import "base/resets";
 @import "base/global";
 
 // ** BLOCKS **

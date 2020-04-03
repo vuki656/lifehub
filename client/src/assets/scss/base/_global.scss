@@ -1,7 +1,16 @@
-* {
-  font-family: "Helvetica Neue", Helvetica, Arial, "Roboto", sans-serif;
-}
+.button-main {
+  color: $button-text-color-main;
+  background-color: $button-background-color-main;
+  text-align: center;
+  margin-top: $spacing-lg;
+  font-weight: bold;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-md;
+  box-shadow: $box-shadow-default;
 
-::placeholder {
-  color: $text-color-placeholder;
+  &:hover {
+    background-color: $color-blue-dark;
+  }
 }

@@ -32,19 +32,3 @@
   }
 }
 
-.register-form__button {
-  color: $button-color-main;
-  background-color: $background-color-blue;
-  text-align: center;
-  margin-top: $spacing-lg;
-  font-weight: bold;
-  text-transform: capitalize;
-  letter-spacing: 0.5px;
-  padding: $spacing-xs $spacing-sm;
-  font-size: $font-size-md;
-  box-shadow: $box-shadow-default;
-
-  &:hover {
-    background-color: $color-blue-dark;
-  }
-}

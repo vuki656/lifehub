@@ -75,7 +75,7 @@ export const RegisterPage: React.FunctionComponent<{}> = () => {
                             container
                         >
                             <Button
-                                className="register-form__button"
+                                className="button-main"
                                 type="submit"
                             >
                                 Register
