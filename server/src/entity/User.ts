@@ -1,6 +1,5 @@
+import * as bcrypt from 'bcryptjs'
 import { BaseEntity, BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
-
-const bcrypt = require('bcrypt')
 
 @Entity()
 export class User extends BaseEntity {
