@@ -1,5 +1,5 @@
 require('dotenv').config()
-import { GraphQLServer } from 'graphql-yoga'
+import { ApolloServer } from 'apollo-server'
 import 'reflect-metadata'
 import { getRepository } from 'typeorm'
 import { User } from './entity/User'
@@ -36,11 +36,11 @@ const resolvers = {
     },
 }
 
-const server = new GraphQLServer({ typeDefs, resolvers })
+const server = new ApolloServer({ typeDefs, resolvers })
 
 createTypeORMConnection().then(() => {
-    server.start(() => {
-        console.log('Server is running on localhost:4000')
+    server.listen({ port: 4000 }).then(() => {
+        console.log('Server is running on http://localhost:4000/graphql')
     })
 }).catch((err) => {
     console.error(err)

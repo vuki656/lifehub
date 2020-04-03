@@ -2,9 +2,10 @@
    "name": "lifehub",
    "version": "0.0.1",
    "dependencies": {
+      "apollo-server": "^2.11.0",
       "config": "^3.3.1",
       "dotenv": "^8.2.0",
-      "graphql-yoga": "^1.18.3",
+      "graphql": "^15.0.0",
       "pg": "^7.3.0",
       "reflect-metadata": "^0.1.10",
       "tslint-config-standard": "^9.0.0",
