@@ -12,12 +12,12 @@ const typeDefs = `
 
   type User {
     id: ID!
-    name: String!
     email: String!
+    password: String!
   }
 
    type Mutation {
-    addUser(name: String!, email: String!): User
+    addUser(name: String!, email: String!, password: String!): User
   }
 `
 
@@ -27,10 +27,11 @@ const resolvers = {
     },
     Mutation: {
         // this is the addUser resolver
-        addUser: (_: any, { name, email }: any) => {
+        addUser: (_: any, { id, email, password }: any) => {
             const user = new User()
+            user.id = id
             user.email = email
-            user.name = name
+            user.password = password
             return getRepository(User).save(user)
         },
     },

@@ -3,9 +3,11 @@
    "version": "0.0.1",
    "dependencies": {
       "apollo-server": "^2.11.0",
+      "bcrypt": "^4.0.1",
       "config": "^3.3.1",
       "dotenv": "^8.2.0",
       "graphql": "^15.0.0",
+      "nodemon": "^2.0.2",
       "pg": "^7.3.0",
       "reflect-metadata": "^0.1.10",
       "tslint-config-standard": "^9.0.0",
@@ -19,6 +21,6 @@
       "typescript": "3.3.3333"
    },
    "scripts": {
-      "start": "ts-node src/index.ts"
+      "start": "nodemon src/index.ts"
    }
 }
