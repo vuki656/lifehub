@@ -1,10 +1,10 @@
 import * as bcrypt from 'bcryptjs'
 import { BaseEntity, BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
-import { EmailOptions, IdOptions, UsernameOptions } from './Users.options'
+import { EmailOptions, PasswordOptions, UsernameOptions } from './Users.options'
 
-@Entity()
-export class User extends BaseEntity {
-    @PrimaryGeneratedColumn(IdOptions)
+@Entity('users')
+export class UserEntity extends BaseEntity {
+    @PrimaryGeneratedColumn('uuid')
     id: string
 
     @Column(UsernameOptions)
@@ -13,7 +13,7 @@ export class User extends BaseEntity {
     @Column(EmailOptions)
     email: string
 
-    @Column()
+    @Column(PasswordOptions)
     password: string
 
     @BeforeInsert()
