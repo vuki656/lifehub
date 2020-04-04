@@ -8,10 +8,11 @@ export const userType = gql`
     type User {
         id: ID!
         email: String!
+        username: String!
         password: String!
     }
 
     type Mutation {
-        addUser(name: String!, email: String!, password: String!): User
+        addUser(name: String!, email: String!, username: String!, password: String!): User
     }
 `

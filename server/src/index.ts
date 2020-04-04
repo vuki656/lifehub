@@ -5,4 +5,7 @@ import { createTypeORMConnection } from './typeorm'
 
 createTypeORMConnection()
     .then(() => startGQLServer())
-    .catch((error) => console.error(error))
+    .catch((error) => {
+        console.log('===== FAILED =====')
+        console.error(error)
+    })

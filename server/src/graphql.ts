@@ -8,5 +8,5 @@ export const startGQLServer = () => {
 
     server
         .listen({ port })
-        .then(() => console.log(`Up on ${port}`))
+        .then(() => console.log(`===== UP ON ${port} =====`))
 }

@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm'
-import { User } from '../entities/User'
+import { User } from '../entities/user/User'
 
 export const userResolver = {
     Query: {
@@ -10,9 +10,10 @@ export const userResolver = {
 
     Mutation: {
         // this is the addUser resolver
-        addUser: (_: any, { id, email, password }: any) => {
+        addUser: (_: any, { id, email, password, username }: any) => {
             const user = new User()
             user.id = id
+            user.username = username
             user.email = email
             user.password = password
             return getRepository(User).save(user)
