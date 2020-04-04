@@ -10,27 +10,57 @@ import { CREATE_USER } from '../graphql/mutations/user'
 
 export const RegisterPage: React.FunctionComponent<{}> = () => {
     const [isLoadingActive, setLoading] = React.useState(false)
-
+    const [errorList, addError] = React.useState<string[]>([])
     const [createUserMutation] = useMutation(CREATE_USER)
 
-    // Save user
-    const onSubmit = useCallback(({ username, email, password }) => {
+    // Save user in database
+    const onSubmit = useCallback((formValues) => {
         setLoading(true)
-
         createUserMutation({
             variables: {
-                username,
-                email,
-                password,
+                username: formValues.username,
+                email: formValues.email,
+                password: formValues.password,
             },
         })
         .catch((error) => {
+            isFormValid(error, formValues)
             console.error(error)
         })
         .finally(() => {
             setLoading(false)
         })
     }, [isLoadingActive])
+
+    // Check if given form values are valid, if not, return false
+    // Codes are returned from apollo
+    const isFormValid = React.useCallback((error?, formValues?) => {
+        // Clear error messages before new check
+        addError([])
+
+        // If duplicate username
+        if (error.message.includes('UQ_fe0bb3f6520ee0469504521e710')) {
+            addError(() => errorList.concat('Username already in use. Please pick a different one'))
+        }
+
+        // If duplicate email
+        if (error.message.includes('UQ_97672ac88f789774dd47f7c8be3')) {
+            addError(() => errorList.concat('Email already in use. Please pick a different one'))
+        }
+
+        // If passwords don't match
+        if (formValues.password !== formValues.passwordConfirmation) {
+            addError(() => errorList.concat('Passwords don\'t match'))
+        }
+
+        // TODO handle email + user valid but passwords dont match
+    }, [errorList])
+
+    const renderErrors = () => (
+        errorList.map((error, index) => (
+            <p key={index}>{error}</p>
+        ))
+    )
 
     const { form, handleSubmit } = useForm({ onSubmit })
 
@@ -68,6 +98,9 @@ export const RegisterPage: React.FunctionComponent<{}> = () => {
                                     minLength={4}
                                     required
                                 />
+                                {username.meta.touched && username.meta.error && (
+                                    <span>{username.meta.error}</span>
+                                )}
                                 <input
                                     {...email.input}
                                     className="register-form__input-field"
@@ -107,6 +140,9 @@ export const RegisterPage: React.FunctionComponent<{}> = () => {
                                     </Button>
                                 </Grid>
                             </form>
+                        </Grid>
+                        <Grid xs={12} item>
+                            {renderErrors()}
                         </Grid>
                     </Grid>
                 </Grid>
