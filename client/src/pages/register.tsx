@@ -1,14 +1,35 @@
+import { useMutation } from '@apollo/react-hooks'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import React, { useCallback } from 'react'
 import { useField, useForm } from 'react-final-form-hooks'
 
 import { ReactComponent as Logo } from '../assets/images/logo/TextLogo.svg'
+import { CREATE_USER } from '../graphql/mutations/user'
 
 export const RegisterPage: React.FunctionComponent<{}> = () => {
-    const onSubmit = useCallback((formValues) => {
-        console.log(formValues)
-    }, [])
+    const [isLoading, setLoading] = React.useState(false)
+
+    const [createUserMutation] = useMutation<{}>(CREATE_USER)
+
+    // Save user
+    const onSubmit = useCallback(({ username, email, password }) => {
+        setLoading(true)
+
+        createUserMutation({
+            variables: {
+                username,
+                email,
+                password,
+            },
+        })
+        .catch((error) => {
+            console.error(error)
+        })
+        .finally(() => {
+            setLoading(false)
+        })
+    }, [isLoading])
 
     const { form, handleSubmit } = useForm({ onSubmit })
 

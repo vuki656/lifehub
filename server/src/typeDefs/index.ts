@@ -1,3 +1,3 @@
-import { userType } from './user.typeDef'
+import { userType } from './user.type-def'
 
 export const typeDefs = [userType]

@@ -22,6 +22,7 @@
             true,
             "allow-declarations"
         ],
+        "no-shadowed-variable": false,
         "object-literal-key-quotes": [
             true,
             "as-needed"

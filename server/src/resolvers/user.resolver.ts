@@ -3,13 +3,13 @@ import { UserEntity } from '../entities/user'
 
 export const userResolver = {
     Query: {
-        getUsers: () => {
+        getAllUsers: () => {
             return getRepository(UserEntity).find()
         },
     },
 
     Mutation: {
-        addUser: (parent, input) => {
+        createUser: (parent, input) => {
             const { id, username, email, password } = input
             const user = new UserEntity()
 
