@@ -11,7 +11,6 @@ import { CREATE_USER } from '../../graphql/mutations/user'
 import { UserErrors } from './register.types'
 
 export const Register: React.FunctionComponent<{}> = () => {
-    const [isLoadingActive, setLoading] = React.useState(false)
     const [createUserMutation, { loading }] = useMutation(CREATE_USER)
     const [errors, setErrors] = React.useState<UserErrors>({})
 
@@ -22,16 +21,12 @@ export const Register: React.FunctionComponent<{}> = () => {
                 username: formValues.username,
                 email: formValues.email,
                 password: formValues.password,
+                passwordConfirmation: formValues.passwordConfirmation,
             },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors[0].extensions.exception)
-            console.log(error.graphQLErrors[0].extensions.exception)
         })
-        .finally(() => {
-            setLoading(false)
-        })
-
     }, [createUserMutation])
 
     const { form, handleSubmit } = useForm({ onSubmit })
@@ -43,7 +38,7 @@ export const Register: React.FunctionComponent<{}> = () => {
 
     return (
         loading
-            ? <FullScreenTransition isLoadingActive={isLoadingActive} />
+            ? <FullScreenTransition isLoadingActive={loading} />
             : (
                 <Grid
                     alignItems="center"

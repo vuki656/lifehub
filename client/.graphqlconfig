@@ -1,5 +1,5 @@
 {
-    "name": "Lifehub GQL Schema",
+    "name": "[CLIENT] Lifehub GQL Schema",
     "schemaPath": "schema.graphql",
     "extensions": {
         "endpoints": {

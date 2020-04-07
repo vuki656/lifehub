@@ -14,25 +14,28 @@ export const userResolver = {
 
     Mutation: {
         createUser: async (parent, input) => {
-            console.log(input)
             const { username, email, password, passwordConfirmation } = input
-            const errors: UserErrors = {
-                email: '',
-                username: '',
-                password: '',
-            }
+            const errors: UserErrors = {}
 
             // Check email format
-            if (!email.match(emailRegEx)) errors.email = 'Email must be a valid email address'
+            !email.match(emailRegEx)
+                ? errors.email = 'Email must be a valid email address'
+                : errors.email = ''
 
             // Check if passwords match
-            if (password !== passwordConfirmation) errors.password = 'Passwords must match'
+            password !== passwordConfirmation
+                ? errors.password = 'Passwords must match'
+                : errors.password = ''
 
             // Check if username exists
-            if (await UserEntity.findOne({ username })) errors.username = 'Username already in use'
+            await UserEntity.findOne({ username })
+                ? errors.username = 'Username already in use'
+                : errors.username = ''
 
             // Check if email exists
-            if (await UserEntity.findOne({ email })) errors.email = 'Email already in use'
+            await UserEntity.findOne({ email })
+                ? errors.email = 'Email already in use'
+                : errors.email = ''
 
             // Throw errors if there are any
             if (Object.keys(errors).length > 0) throw new UserInputError('Error', errors)
