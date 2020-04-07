@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import React, { useCallback } from 'react'
 import { useField, useForm } from 'react-final-form-hooks'
+import { useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { FormErrorBox } from '../../components/FormErrorBox'
@@ -12,6 +13,7 @@ import { createUserVariables } from '../../graphql/mutations/user/user.types'
 import { UserErrors } from './register.types'
 
 export const Register: React.FunctionComponent<{}> = () => {
+    const history = useHistory()
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [createUserMutation, { loading }] = useMutation<createUserVariables>(CREATE_USER)
 
@@ -31,6 +33,7 @@ export const Register: React.FunctionComponent<{}> = () => {
 
         // Clear errors on success
         setErrors({})
+        history.push('/dashboard')
     }, [createUserMutation])
 
     const { form, handleSubmit } = useForm({ onSubmit })

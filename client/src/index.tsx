@@ -6,14 +6,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import './assets/scss/styles.scss'
-import { RegisterPage } from './pages/register'
+import { Router } from './components/Router'
 
 const client = new ApolloClient({ uri: 'http://localhost:4000' })
 
 const renderApp = () => (
     <ApolloProvider client={client}>
         <StylesProvider injectFirst>
-            <RegisterPage />
+            <Router />
         </StylesProvider>
     </ApolloProvider>
 )
