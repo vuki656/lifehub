@@ -3,16 +3,17 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import React, { useCallback } from 'react'
 import { useField, useForm } from 'react-final-form-hooks'
-import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 
+import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { FormErrorBox } from '../../components/FormErrorBox'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
-import { CREATE_USER } from '../../graphql/mutations/user'
+import { CREATE_USER } from '../../graphql/mutations/user/user'
+import { createUserVariables } from '../../graphql/mutations/user/user.types'
 import { UserErrors } from './register.types'
 
 export const Register: React.FunctionComponent<{}> = () => {
     const [errors, setErrors] = React.useState<UserErrors>({})
-    const [createUserMutation, { loading }] = useMutation(CREATE_USER)
+    const [createUserMutation, { loading }] = useMutation<createUserVariables>(CREATE_USER)
 
     // Save user in database
     const onSubmit = useCallback((formValues) => {
@@ -28,7 +29,7 @@ export const Register: React.FunctionComponent<{}> = () => {
             setErrors(error.graphQLErrors[0].extensions.exception)
         })
 
-        // Clear errors if successful
+        // Clear errors on success
         setErrors({})
     }, [createUserMutation])
 
