@@ -25,6 +25,6 @@ export const createTypeORMConnection = () => {
         logging,
         ssl,
 
-        entities: [__dirname + '/entity/**/*.ts'],
+        entities: [__dirname + '/entities/**/*.ts'],
     } as ConnectionOptions)
 }
