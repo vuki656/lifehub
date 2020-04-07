@@ -3,12 +3,11 @@
   background-color: $button-background-color-main;
   text-align: center;
   margin-top: $spacing-lg;
-  font-weight: bold;
   text-transform: capitalize;
-  letter-spacing: 0.5px;
   padding: $spacing-xs $spacing-sm;
-  font-size: $font-size-md;
+  font-size: $font-size-text;
   box-shadow: $box-shadow-default;
+  letter-spacing: normal;
 
   &:hover {
     background-color: $color-blue-dark;
