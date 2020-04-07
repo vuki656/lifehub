@@ -18,24 +18,24 @@ export const userResolver = {
             const errors: UserErrors = {}
 
             // Check email format
-            !email.match(emailRegEx)
-                ? errors.email = 'Email must be a valid email address'
-                : errors.email = ''
-
-            // Check if passwords match
-            password !== passwordConfirmation
-                ? errors.password = 'Passwords must match'
-                : errors.password = ''
-
-            // Check if username exists
-            await UserEntity.findOne({ username })
-                ? errors.username = 'Username already in use'
-                : errors.username = ''
+            if (!email.match(emailRegEx)) {
+                errors.email = 'Email must be a valid email address'
+            }
 
             // Check if email exists
-            await UserEntity.findOne({ email })
-                ? errors.email = 'Email already in use'
-                : errors.email = ''
+            if (await UserEntity.findOne({ where: { email } })) {
+                errors.email = 'Email already in use'
+            }
+
+            // Check if passwords match
+            if (password !== passwordConfirmation) {
+                errors.password = 'Passwords must match'
+            }
+
+            // Check if username exists
+            if (await UserEntity.findOne({ where: { username } })) {
+                errors.username = 'Username already in use'
+            }
 
             // Throw errors if there are any
             if (Object.keys(errors).length > 0) throw new UserInputError('Error', errors)

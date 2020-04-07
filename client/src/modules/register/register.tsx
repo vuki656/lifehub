@@ -11,8 +11,8 @@ import { CREATE_USER } from '../../graphql/mutations/user'
 import { UserErrors } from './register.types'
 
 export const Register: React.FunctionComponent<{}> = () => {
-    const [createUserMutation, { loading }] = useMutation(CREATE_USER)
     const [errors, setErrors] = React.useState<UserErrors>({})
+    const [createUserMutation, { loading }] = useMutation(CREATE_USER)
 
     // Save user in database
     const onSubmit = useCallback((formValues) => {
@@ -27,6 +27,9 @@ export const Register: React.FunctionComponent<{}> = () => {
         .catch((error) => {
             setErrors(error.graphQLErrors[0].extensions.exception)
         })
+
+        // Clear errors if successful
+        setErrors({})
     }, [createUserMutation])
 
     const { form, handleSubmit } = useForm({ onSubmit })
