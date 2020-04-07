@@ -1,0 +1,66 @@
+.register-form {
+  background-color: $background-color-light;
+  min-height: 100vh;
+}
+
+.register-form__logo {
+  height: 7em;
+  width: 100%;
+  margin-bottom: $spacing-lg;
+}
+
+.register-form__card {
+  padding: $spacing-lg;
+  background-color: $background-color-white;
+  border-radius: $border-radius-lg;
+  box-shadow: $box-shadow-default;
+}
+
+.register-form__input-field {
+  padding: 0 $spacing-default;
+  height: $size-form-field;
+  box-sizing: border-box;
+  width: 100%;
+  border: thin solid $border-color-input-field;
+  border-radius: $input-field-border-radius;
+  transition: box-shadow 0.6s;
+  color: $text-color-input-field;
+
+  &:focus {
+    outline: none;
+    box-shadow: $box-shadow-focus-large;
+  }
+}
+
+.register-form__field-wrapper {
+  padding: $spacing-xs 0
+}
+
+.register-form__field-title {
+  color: $color-black-light;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  padding-bottom: $spacing-xs;
+  margin: 0;
+}
+
+.register-form__error-wrapper {
+  padding-top: $spacing-xs;
+}
+
+.register-form__error-icon {
+  width: 12px;
+  height: 12px;
+  padding-right: 8px;
+}
+
+.register-form__error-text {
+  color: $error-color;
+  font-size: $font-size-sm;
+}
+
+.register-form__button {
+  width: 100%;
+}
+
+

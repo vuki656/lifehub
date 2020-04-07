@@ -1,0 +1,35 @@
+// ** BASE COLORS **
+$color-black: #000000;
+$color-black-light: #3c4257;
+$color-black-light-extra: #0000001a;
+$color-white: #ffffff;
+$color-smoke: #f6f6f6;
+$color-grey: #bbbbbb;
+$color-grey-light: #d8d8d8;
+$color-blue: #0083ff;
+$color-blue-dark: #006fe4;
+$color-red-light: #cd3d64;
+
+// ** GENERAL COLORS **
+$error-color: $color-red-light;
+
+// ** TEXT COLORS **
+$text-color-title: $color-black;
+$text-color-secondary: $color-grey;
+$text-color-placeholder: $color-grey-light;
+$text-color-input-field: $color-black-light;
+
+// ** BACKGROUND COLORS **
+$background-color-white: $color-white;
+$background-color-light: $color-smoke;
+$background-color-blue: $color-blue;
+
+// ** BORDER COLORS **
+$border-color-input-field: $color-black-light-extra;
+
+// ** BOX SHADOW COLORS **
+$box-shadow-color-default: $color-black-light-extra;
+$box-shadow-color-focus-large: $color-grey-light;
+
+
+
