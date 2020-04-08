@@ -8,12 +8,17 @@ export const userType = gql`
         password: String!
     }
 
+    type UserAuth {
+        token: String!
+    }
+
     type Query {
         getAllUsers: [User]!
     }
 
     type Mutation {
         createUser(email: String!, username: String!, password: String!, passwordConfirmation: String!): User
+        logInUser(email: String!, password: String!): UserAuth!
     }
 
 `

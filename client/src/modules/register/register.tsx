@@ -8,8 +8,8 @@ import { useHistory } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { FormErrorBox } from '../../components/FormErrorBox'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
-import { CREATE_USER } from '../../graphql/mutations/user/user'
-import { createUserVariables } from '../../graphql/mutations/user/user.types'
+import { CREATE_USER } from '../../graphql/user/user'
+import { createUserVariables } from '../../graphql/user/user.types'
 import { UserErrors } from './register.types'
 
 export const Register: React.FunctionComponent<{}> = () => {
@@ -27,13 +27,13 @@ export const Register: React.FunctionComponent<{}> = () => {
                 passwordConfirmation: formValues.passwordConfirmation,
             },
         })
+        .then(() => {
+            setErrors({})
+            history.push('/dashboard')
+        })
         .catch((error) => {
             setErrors(error.graphQLErrors[0].extensions.exception)
         })
-
-        // Clear errors on success
-        setErrors({})
-        history.push('/dashboard')
     }, [createUserMutation, history])
 
     const { form, handleSubmit } = useForm({ onSubmit })

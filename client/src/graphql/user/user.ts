@@ -10,3 +10,11 @@ export const CREATE_USER = gql`
         }
     }
 `
+
+export const LOGIN_USER = gql`
+    mutation logInUser($email: String!, $password: String!) {
+        logInUser(email: $email, password: $password) {
+            token
+        }
+    }
+`

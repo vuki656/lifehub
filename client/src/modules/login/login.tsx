@@ -1,3 +1,4 @@
+import { useMutation } from '@apollo/react-hooks'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import React, { useCallback } from 'react'
@@ -7,16 +8,32 @@ import { useHistory } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { FormErrorBox } from '../../components/FormErrorBox'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
+import { LOGIN_USER } from '../../graphql/user/user'
 import { UserErrors } from '../register'
 
 export const Login: React.FunctionComponent<{}> = () => {
     const history = useHistory()
     const [errors, setErrors] = React.useState<UserErrors>({})
+    const [logInUserQuery, { loading }] = useMutation(LOGIN_USER)
 
-    // Save user in database
+    // Log user in
     const onSubmit = useCallback((formValues) => {
-        console.log('lgin')
-    }, [])
+        logInUserQuery({
+            variables: {
+                email: formValues.email,
+                password: formValues.password,
+            },
+        })
+        .then((response) => {
+            const token = response.data.logInUser.token
+            window.localStorage.setItem('token', token)
+            setErrors({})
+            history.push('/dashboard')
+        })
+        .catch((error) => {
+            setErrors(error.graphQLErrors[0].extensions.exception)
+        })
+    }, [logInUserQuery, history])
 
     const { form, handleSubmit } = useForm({ onSubmit })
 
