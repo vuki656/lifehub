@@ -3,11 +3,11 @@ import { getRepository } from 'typeorm'
 
 import { UserEntity } from '../../../entities/user'
 import { emailRegEx } from '../../../helpers/variables'
-import { UserErrors } from '../user.types'
+import { RegisterErrors } from '../user.types'
 
 export const createUserHandler = async (input) => {
     const { username, email, password, passwordConfirmation } = input
-    const errors: UserErrors = {}
+    const errors: RegisterErrors = {}
 
     // Check email format
     if (!email.match(emailRegEx)) {

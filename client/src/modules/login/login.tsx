@@ -31,7 +31,7 @@ export const Login: React.FunctionComponent<{}> = () => {
             history.push('/dashboard')
         })
         .catch((error) => {
-            setErrors(error.graphQLErrors[0].extensions.exception)
+            setErrors(error.graphQLErrors[0].extensions)
         })
     }, [logInUserQuery, history])
 
