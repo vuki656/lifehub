@@ -15,12 +15,12 @@ export const FormErrorBox: React.FunctionComponent<FormErrorBoxProps> = (props) 
             direction="row"
             justify="flex-start"
             alignItems="flex-start"
-            className="register-form__error-wrapper"
+            className="form__error-wrapper"
         >
             <Grid item>
-                <ErrorTriangle className="register-form__error-icon" />
+                <ErrorTriangle className="form__error-icon" />
             </Grid>
-            <Grid item className="register-form__error-text">
+            <Grid item className="form__error-text">
                 {error}
             </Grid>
         </Grid>

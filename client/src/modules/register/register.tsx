@@ -50,24 +50,25 @@ export const Register: React.FunctionComponent<{}> = () => {
                 <Grid
                     alignItems="center"
                     justify="center"
-                    className="register-form"
+                    className="form"
                     container
                 >
                     <Grid
                         xs={3}
-                        className="register-form__card"
+                        className="form__card"
                         item
                     >
                         <Grid xs={12} item>
-                            <Logo className="register-form__logo" />
+                            <Logo className="form__logo" />
+                            <p className="form__title">Register your account</p>
                         </Grid>
                         <Grid xs={12} item>
                             <form onSubmit={handleSubmit}>
-                                <div className="register-form__field-wrapper">
-                                    <p className="register-form__field-title">Username</p>
+                                <div className="form__field-wrapper">
+                                    <p className="form__field-title">Username</p>
                                     <input
                                         {...username.input}
-                                        className="register-form__input-field"
+                                        className="form__input-field"
                                         autoComplete="username"
                                         type="text"
                                         minLength={4}
@@ -75,22 +76,22 @@ export const Register: React.FunctionComponent<{}> = () => {
                                     />
                                     {errors.username && <FormErrorBox error={errors.username} />}
                                 </div>
-                                <div className="register-form__field-wrapper">
-                                    <p className="register-form__field-title">Email</p>
+                                <div className="form__field-wrapper">
+                                    <p className="form__field-title">Email</p>
                                     <input
                                         {...email.input}
-                                        className="register-form__input-field"
+                                        className="form__input-field"
                                         autoComplete="email"
                                         type="email"
                                         required
                                     />
                                     {errors.email && <FormErrorBox error={errors.email} />}
                                 </div>
-                                <div className="register-form__field-wrapper">
-                                    <p className="register-form__field-title">Password</p>
+                                <div className="form__field-wrapper">
+                                    <p className="form__field-title">Password</p>
                                     <input
                                         {...password.input}
-                                        className="register-form__input-field"
+                                        className="form__input-field"
                                         autoComplete="new-password"
                                         type="password"
                                         minLength={7}
@@ -98,11 +99,11 @@ export const Register: React.FunctionComponent<{}> = () => {
                                     />
                                     {errors.password && <FormErrorBox error={errors.password} />}
                                 </div>
-                                <div className="register-form__field-wrapper">
-                                    <p className="register-form__field-title">Confirm Password </p>
+                                <div className="form__field-wrapper">
+                                    <p className="form__field-title">Confirm Password </p>
                                     <input
                                         {...passwordConfirmation.input}
-                                        className="register-form__input-field"
+                                        className="form__input-field"
                                         autoComplete="new-password"
                                         type="password"
                                         minLength={7}
@@ -115,7 +116,7 @@ export const Register: React.FunctionComponent<{}> = () => {
                                     container
                                 >
                                     <Button
-                                        className="register-form__button button-main"
+                                        className="form__button button-main"
                                         type="submit"
                                     >
                                         Create your account
