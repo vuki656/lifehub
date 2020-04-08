@@ -34,7 +34,7 @@ export const Register: React.FunctionComponent<{}> = () => {
         // Clear errors on success
         setErrors({})
         history.push('/dashboard')
-    }, [createUserMutation])
+    }, [createUserMutation, history])
 
     const { form, handleSubmit } = useForm({ onSubmit })
 
