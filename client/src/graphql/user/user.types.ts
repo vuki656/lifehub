@@ -4,3 +4,20 @@ export type createUserVariables = {
     password: string;
     passwordConfirmation: string;
 }
+
+export type createUserResponse = {
+    createUser: UserAuth,
+}
+
+export type logInUserVariables = {
+    email: string,
+    password: string,
+}
+
+export type logInUserResponse = {
+    logInUser: UserAuth,
+}
+
+export type UserAuth = {
+    token: string,
+}

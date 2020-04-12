@@ -9,12 +9,13 @@ import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { FormErrorBox } from '../../components/FormErrorBox'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
 import { LOGIN_USER } from '../../graphql/user/user'
+import { logInUserResponse, logInUserVariables } from '../../graphql/user/user.types'
 import { UserErrors } from '../register'
 
 export const Login: React.FunctionComponent<{}> = () => {
     const history = useHistory()
     const [errors, setErrors] = React.useState<UserErrors>({})
-    const [logInUserQuery, { loading }] = useMutation(LOGIN_USER)
+    const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
 
     // Log user in
     const onSubmit = useCallback((formValues) => {
@@ -25,13 +26,14 @@ export const Login: React.FunctionComponent<{}> = () => {
             },
         })
         .then((response) => {
-            const token = response.data.logInUser.token
+            const token = response?.data?.logInUser.token ?? ''
             window.localStorage.setItem('token', token)
+
             setErrors({})
             history.push('/dashboard')
         })
         .catch((error) => {
-            setErrors(error.graphQLErrors[0].extensions)
+            setErrors(error.graphQLErrors[0]?.extensions)
         })
     }, [logInUserQuery, history])
 

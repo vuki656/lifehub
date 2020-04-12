@@ -9,13 +9,13 @@ import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { FormErrorBox } from '../../components/FormErrorBox'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
 import { CREATE_USER } from '../../graphql/user/user'
-import { createUserVariables } from '../../graphql/user/user.types'
+import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
 import { UserErrors } from './register.types'
 
 export const Register: React.FunctionComponent<{}> = () => {
     const history = useHistory()
     const [errors, setErrors] = React.useState<UserErrors>({})
-    const [createUserMutation, { loading }] = useMutation<createUserVariables>(CREATE_USER)
+    const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
 
     // Save user in database
     const onSubmit = useCallback((formValues) => {
@@ -27,12 +27,15 @@ export const Register: React.FunctionComponent<{}> = () => {
                 passwordConfirmation: formValues.passwordConfirmation,
             },
         })
-        .then(() => {
+        .then((response) => {
+            const token = response?.data?.createUser.token ?? ''
+            window.localStorage.setItem('token', token)
+
             setErrors({})
             history.push('/dashboard')
         })
         .catch((error) => {
-            setErrors(error.graphQLErrors[0].extensions.exception)
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
     }, [createUserMutation, history])
 

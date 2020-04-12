@@ -1,5 +1,6 @@
 require('dotenv').config()
 import 'reflect-metadata'
+
 import { startGQLServer } from './graphql'
 import { createTypeORMConnection } from './typeorm'
 

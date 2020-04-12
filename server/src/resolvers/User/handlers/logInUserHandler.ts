@@ -4,7 +4,7 @@ import { sign } from 'jsonwebtoken'
 
 import { getRepository } from 'typeorm'
 import { UserEntity } from '../../../entities/user'
-import { emailRegEx } from '../../../helpers/variables'
+import { emailRegEx } from '../../../util/variables'
 import { UserInput } from '../user.types'
 
 export const logInUserHandler = async (input, context) => {
@@ -25,7 +25,7 @@ export const logInUserHandler = async (input, context) => {
         errors.email = 'Wrong email'
     }
 
-    // If password invalid throw error
+    // Check if password valid
     if (!isPasswordValid) {
         errors.password = 'Wrong password'
     }
@@ -35,7 +35,7 @@ export const logInUserHandler = async (input, context) => {
 
     // If password valid and user exists return signed token
     if (isPasswordValid && user) {
-        const token = sign({ email: user.email }, secret)
+        const token = sign({ email: user.email }, secret, { expiresIn: '2 days' })
         return { token }
     }
 }

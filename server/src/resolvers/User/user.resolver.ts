@@ -8,7 +8,7 @@ export const userResolver = {
     },
 
     Mutation: {
-        createUser: (parent, input) => createUserHandler(input),
+        createUser: (parent, input, context) => createUserHandler(input, context),
         logInUser: (parent, input, context) => logInUserHandler(input, context), // Mutation bcz apollo query doesn't support callbacks yet
     },
 }

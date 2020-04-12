@@ -1,4 +1,6 @@
 import { ApolloServer } from 'apollo-server'
+
+import { context } from './context'
 import { resolvers } from './resolvers'
 import { typeDefs } from './typeDefs'
 
@@ -7,9 +9,7 @@ export const startGQLServer = () => {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
-        context: async () => ({
-            secret: process.env.JWT_SECRET,
-        }),
+        context,
     })
 
     server

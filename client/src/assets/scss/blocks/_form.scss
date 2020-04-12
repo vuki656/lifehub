@@ -29,6 +29,7 @@
   border-radius: $input-field-border-radius;
   transition: box-shadow 0.6s;
   color: $text-color-input-field;
+  font-size: $font-size-sm;
 
   &:focus {
     outline: none;
