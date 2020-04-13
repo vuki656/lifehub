@@ -1,10 +1,12 @@
 import { createUserHandler } from './handlers/createUserHandler'
 import { getAllUsersHandler } from './handlers/getAllUsersHandler'
 import { logInUserHandler } from './handlers/logInUserHandler'
+import { verifyUserHandler } from './handlers/verifyUserHandler'
 
 export const userResolver = {
     Query: {
         getAllUsers: () => getAllUsersHandler(),
+        verifyUser: (parent, input) => verifyUserHandler(input),
     },
 
     Mutation: {

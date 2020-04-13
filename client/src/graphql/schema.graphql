@@ -5,6 +5,11 @@ schema {
     mutation: Mutation
 }
 
+type AuthResponse {
+    isUserAuthenticated: Boolean!
+    username: String!
+}
+
 type Mutation {
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     logInUser(email: String!, password: String!): UserAuth!
@@ -12,6 +17,7 @@ type Mutation {
 
 type Query {
     getAllUsers: [User]!
+    verifyUser(token: String): AuthResponse
 }
 
 type User {

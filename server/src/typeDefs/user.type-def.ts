@@ -12,8 +12,14 @@ export const userType = gql`
         token: String!
     }
 
+    type AuthResponse {
+        isUserAuthenticated: Boolean!
+        username: String!
+    }
+
     type Query {
         getAllUsers: [User]!
+        verifyUser(token: String): AuthResponse
     }
 
     type Mutation {

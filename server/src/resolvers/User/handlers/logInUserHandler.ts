@@ -35,7 +35,7 @@ export const logInUserHandler = async (input, context) => {
 
     // If password valid and user exists return signed token
     if (isPasswordValid && user) {
-        const token = sign({ email: user.email }, secret, { expiresIn: '2 days' })
+        const token = sign({ username: user.username }, secret, { expiresIn: '7 days' })
         return { token }
     }
 }

@@ -18,6 +18,19 @@ export type logInUserResponse = {
     logInUser: UserAuth,
 }
 
+export type verifyUserResponse = {
+    verifyUser: AuthResponse,
+}
+
+export type verifyUserVariables = {
+    token: string,
+}
+
 export type UserAuth = {
     token: string,
+}
+
+export type AuthResponse = {
+    isUserAuthenticated: boolean,
+    username: string,
 }

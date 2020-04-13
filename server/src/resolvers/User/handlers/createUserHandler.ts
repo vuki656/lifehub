@@ -42,6 +42,6 @@ export const createUserHandler = async (input, context) => {
     await getRepository(UserEntity).save(user)
 
     // Return signed token
-    const token = sign({ email: user.email }, secret, { expiresIn: '2 days' })
+    const token = sign({ username: user.username }, secret, { expiresIn: '7 days' })
     return { token }
 }
