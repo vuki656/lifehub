@@ -26,5 +26,4 @@ export const userType = gql`
         createUser(email: String!, username: String!, password: String!, passwordConfirmation: String!): UserAuth!
         logInUser(email: String!, password: String!): UserAuth!
     }
-
 `

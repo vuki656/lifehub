@@ -6,7 +6,7 @@ import { useField, useForm } from 'react-final-form-hooks'
 import { useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
-import { FormErrorBox } from '../../components/FormErrorBox'
+import { FormErrorMessage } from '../../components/FormErrorMessage'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
 import { LOGIN_USER } from '../../graphql/user/user'
 import { logInUserResponse, logInUserVariables } from '../../graphql/user/user.types'
@@ -14,6 +14,7 @@ import { UserErrors } from '../register'
 
 export const Login: React.FunctionComponent<{}> = () => {
     const history = useHistory()
+
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
 
@@ -72,7 +73,7 @@ export const Login: React.FunctionComponent<{}> = () => {
                                         type="email"
                                         required
                                     />
-                                    {errors.email && <FormErrorBox error={errors.email} />}
+                                    {errors.email && <FormErrorMessage error={errors.email} />}
                                 </div>
                                 <div className="form__field-wrapper">
                                     <p className="form__field-title">Password</p>
@@ -84,7 +85,7 @@ export const Login: React.FunctionComponent<{}> = () => {
                                         minLength={7}
                                         required
                                     />
-                                    {errors.password && <FormErrorBox error={errors.password} />}
+                                    {errors.password && <FormErrorMessage error={errors.password} />}
                                 </div>
 
                                 <Grid

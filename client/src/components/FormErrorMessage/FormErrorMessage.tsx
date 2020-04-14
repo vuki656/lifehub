@@ -2,9 +2,9 @@ import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import { ReactComponent as ErrorTriangle } from '../../assets/images/ErrorTriangle.svg'
 
-import { FormErrorBoxProps } from './FormErrorBox.types'
+import { FormErrorMessageProps } from './FormErrorMessage.types'
 
-export const FormErrorBox: React.FunctionComponent<FormErrorBoxProps> = (props) => {
+export const FormErrorMessage: React.FunctionComponent<FormErrorMessageProps> = (props) => {
     const {
         error = '',
     } = props

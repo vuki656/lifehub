@@ -4,17 +4,21 @@ import ApolloClient from 'apollo-boost'
 import 'normalize.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 
 import './assets/scss/styles.scss'
 import { Router } from './components/Router'
+import store from './redux/store'
 
 const client = new ApolloClient({ uri: 'http://localhost:4000' })
 
 const renderApp = () => (
     <ApolloProvider client={client}>
-        <StylesProvider injectFirst>
-            <Router />
-        </StylesProvider>
+        <Provider store={store}>
+            <StylesProvider injectFirst>
+                <Router />
+            </StylesProvider>
+        </Provider>
     </ApolloProvider>
 )
 

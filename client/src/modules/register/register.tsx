@@ -6,7 +6,7 @@ import { useField, useForm } from 'react-final-form-hooks'
 import { useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
-import { FormErrorBox } from '../../components/FormErrorBox'
+import { FormErrorMessage } from '../../components/FormErrorMessage'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
 import { CREATE_USER } from '../../graphql/user/user'
 import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
@@ -14,6 +14,7 @@ import { UserErrors } from './register.types'
 
 export const Register: React.FunctionComponent<{}> = () => {
     const history = useHistory()
+
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
 
@@ -77,7 +78,7 @@ export const Register: React.FunctionComponent<{}> = () => {
                                         minLength={4}
                                         required
                                     />
-                                    {errors.username && <FormErrorBox error={errors.username} />}
+                                    {errors.username && <FormErrorMessage error={errors.username} />}
                                 </div>
                                 <div className="form__field-wrapper">
                                     <p className="form__field-title">Email</p>
@@ -88,7 +89,7 @@ export const Register: React.FunctionComponent<{}> = () => {
                                         type="email"
                                         required
                                     />
-                                    {errors.email && <FormErrorBox error={errors.email} />}
+                                    {errors.email && <FormErrorMessage error={errors.email} />}
                                 </div>
                                 <div className="form__field-wrapper">
                                     <p className="form__field-title">Password</p>
@@ -100,7 +101,7 @@ export const Register: React.FunctionComponent<{}> = () => {
                                         minLength={7}
                                         required
                                     />
-                                    {errors.password && <FormErrorBox error={errors.password} />}
+                                    {errors.password && <FormErrorMessage error={errors.password} />}
                                 </div>
                                 <div className="form__field-wrapper">
                                     <p className="form__field-title">Confirm Password </p>
