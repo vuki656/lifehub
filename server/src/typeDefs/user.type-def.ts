@@ -8,12 +8,22 @@ export const userType = gql`
         password: String!
     }
 
+    type UserAuth {
+        token: String!
+    }
+
+    type AuthResponse {
+        isUserAuthenticated: Boolean!
+        username: String!
+    }
+
     type Query {
         getAllUsers: [User]!
+        verifyUser(token: String): AuthResponse
     }
 
     type Mutation {
-        createUser(email: String!, username: String!, password: String!, passwordConfirmation: String!): User
+        createUser(email: String!, username: String!, password: String!, passwordConfirmation: String!): UserAuth!
+        logInUser(email: String!, password: String!): UserAuth!
     }
-
 `
