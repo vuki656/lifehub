@@ -17,7 +17,6 @@
             true,
             240
         ],
-        "no-console": false,
         "no-namespace": [
             true,
             "allow-declarations"

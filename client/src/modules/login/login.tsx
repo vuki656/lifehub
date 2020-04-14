@@ -8,44 +8,40 @@ import { useHistory } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { FormErrorMessage } from '../../components/FormErrorMessage'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
-import { CREATE_USER } from '../../graphql/user/user'
-import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
-import { UserErrors } from './register.types'
+import { LOGIN_USER } from '../../graphql/user/user'
+import { logInUserResponse, logInUserVariables } from '../../graphql/user/user.types'
+import { UserErrors } from '../register'
 
-export const Register: React.FunctionComponent<{}> = () => {
+export const Login: React.FunctionComponent<{}> = () => {
     const history = useHistory()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
-    const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
+    const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
 
-    // Save user in database
+    // Log user in
     const onSubmit = useCallback((formValues) => {
-        createUserMutation({
+        logInUserQuery({
             variables: {
-                username: formValues.username,
                 email: formValues.email,
                 password: formValues.password,
-                passwordConfirmation: formValues.passwordConfirmation,
             },
         })
         .then((response) => {
-            const token = response?.data?.createUser.token ?? ''
+            const token = response?.data?.logInUser.token ?? ''
             window.localStorage.setItem('token', token)
 
             setErrors({})
             history.push('/dashboard')
         })
         .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
+            setErrors(error.graphQLErrors[0]?.extensions)
         })
-    }, [createUserMutation, history])
+    }, [logInUserQuery, history])
 
     const { form, handleSubmit } = useForm({ onSubmit })
 
-    const username = useField('username', form)
     const email = useField('email', form)
     const password = useField('password', form)
-    const passwordConfirmation = useField('passwordConfirmation', form)
 
     return (
         loading
@@ -64,22 +60,10 @@ export const Register: React.FunctionComponent<{}> = () => {
                     >
                         <Grid xs={12} item>
                             <Logo className="form__logo" />
-                            <p className="form__title">Register your account</p>
+                            <p className="form__title">Sign in</p>
                         </Grid>
                         <Grid xs={12} item>
                             <form onSubmit={handleSubmit}>
-                                <div className="form__field-wrapper">
-                                    <p className="form__field-title">Username</p>
-                                    <input
-                                        {...username.input}
-                                        className="form__input-field"
-                                        autoComplete="username"
-                                        type="text"
-                                        minLength={4}
-                                        required
-                                    />
-                                    {errors.username && <FormErrorMessage error={errors.username} />}
-                                </div>
                                 <div className="form__field-wrapper">
                                     <p className="form__field-title">Email</p>
                                     <input
@@ -103,17 +87,7 @@ export const Register: React.FunctionComponent<{}> = () => {
                                     />
                                     {errors.password && <FormErrorMessage error={errors.password} />}
                                 </div>
-                                <div className="form__field-wrapper">
-                                    <p className="form__field-title">Confirm Password </p>
-                                    <input
-                                        {...passwordConfirmation.input}
-                                        className="form__input-field"
-                                        autoComplete="new-password"
-                                        type="password"
-                                        minLength={7}
-                                        required
-                                    />
-                                </div>
+
                                 <Grid
                                     alignItems="center"
                                     justify="center"
@@ -123,7 +97,7 @@ export const Register: React.FunctionComponent<{}> = () => {
                                         className="form__button button-main"
                                         type="submit"
                                     >
-                                        Create your account
+                                        Login
                                     </Button>
                                 </Grid>
                             </form>

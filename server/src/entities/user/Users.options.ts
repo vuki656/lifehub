@@ -12,4 +12,5 @@ export const EmailOptions: any = {
 
 export const PasswordOptions: any = {
     type: 'varchar',
+    length: 255,
 }
