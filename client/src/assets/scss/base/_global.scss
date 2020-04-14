@@ -1,15 +1,19 @@
-.button-main {
-  color: $button-text-color-main;
-  background-color: $button-background-color-main;
-  text-align: center;
-  margin-top: $spacing-lg;
-  text-transform: capitalize;
-  padding: $spacing-xs $spacing-sm;
-  font-size: $font-size-text;
-  box-shadow: $box-shadow-default;
-  letter-spacing: normal;
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", "Ubuntu",
+  sans-serif
+}
 
-  &:hover {
-    background-color: $color-blue-dark;
-  }
+// Set text input placeholder color
+::placeholder {
+  color: $text-color-placeholder;
+}
+
+// Remove scrollbar visibility
+::-webkit-scrollbar {
+  width: 0;
+}
+
+// Needed for content to not display under sidebar
+.app {
+  display: flex;
 }

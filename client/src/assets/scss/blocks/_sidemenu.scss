@@ -1,0 +1,72 @@
+
+
+.planner__sidebar {
+  background-color: white;
+  max-height: 100vh;
+  width: 200px;
+  //box-shadow: $default-box-shadow;
+}
+
+// -- LOGO --
+.sidemenu__logo {
+  padding: $spacing-sm;
+  text-align: center;
+
+  // Logo svg
+  svg {
+    height: 50px;
+    vertical-align: middle;
+    width: 100%;
+  }
+}
+
+// -- SIDEMENU --
+.sidemenu {
+  white-space: nowrap;
+  position: relative;
+  //box-shadow: $default-box-shadow;
+
+  // Equalize all button heights
+  .MuiListItem-button {
+    height: 50px;
+  }
+}
+
+// Opened menu
+.sidemenu--open {
+  @include toggle-drawer("open", 200px);
+
+  .sidemenu__logo svg {
+    animation: open-sidemenu-logo-animation 0.5s;
+  }
+}
+
+// Closed menu
+.sidemenu--closed {
+  @include toggle-drawer("closed", 55px);
+
+  .sidemenu__logo svg {
+    animation: close-sidemenu-logo-animation 0.5s;
+  }
+}
+
+// -- SIDEMENU ITEMS --
+.sidemenu__items-wrapper {
+  height: 100vh;
+}
+
+.sidemenu__item {
+  text-decoration: none;
+  color: black;
+}
+
+// -- BOTTOM ACTIONS --
+.sidemenu__bottom-actions {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+
+
+

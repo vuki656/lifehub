@@ -1,0 +1,22 @@
+// Nested paper inside drawer
+// Has to be styled otherwise sticks out
+@mixin drawer__paper {
+  .MuiDrawer-paper {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: inherit;
+  }
+}
+
+@mixin toggle-drawer($state, $width) {
+  // If not included here, it paper sticks out from drawer
+  @include drawer__paper;
+
+  width: $width;
+
+  @if ($state == "open") {
+    animation: open-drawer-animation 0.5s;
+  } @else if ($state == "closed") {
+    animation: close-drawer-animation 0.5s;
+  }
+}
