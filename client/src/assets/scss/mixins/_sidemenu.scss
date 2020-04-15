@@ -1,0 +1,33 @@
+@mixin toggle-drawer($state, $width) {
+  width: $width;
+
+  @if ($state == "open") {
+    transition: width 0.5s;
+    width: 200px;
+  }
+
+  @if ($state == "closed") {
+    transition: width 0.5s;
+    width: 55px;
+  }
+
+  // If not included here, MUI paper sticks out from drawer
+  .MuiDrawer-paper {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: inherit;
+  }
+}
+
+@mixin toggle-sidemenu-logo($xFrom, $xTo) {
+  animation: toggle-sidemenu-logo 0.5s;
+
+  @keyframes toggle-sidemenu-logo {
+    0% {
+      transform: translateX($xFrom);
+    }
+    100% {
+      transform: translateX($xTo);
+    }
+  }
+}
