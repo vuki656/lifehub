@@ -1,11 +1,9 @@
 .sidemenu {
   white-space: nowrap;
-  position: relative;
-
-  // Equalize all button heights
-  .MuiListItem-button {
-    height: 50px;
-  }
+  box-shadow: $box-shadow-default;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
 .sidemenu__logo {
@@ -19,18 +17,18 @@
   }
 }
 
-.sidemenu__items-wrapper {
-  height: 100vh; // Bottom actions collapse into top without this
-}
-
 .sidemenu__item {
   text-decoration: none;
-}
+  padding: $spacing-xs;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 
-.sidemenu__bottom-actions {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+  &:hover {
+    background: $background-color-grey-light;
+    cursor: pointer;
+  }
 }
 
 .sidemenu--open {
@@ -39,13 +37,18 @@
   .sidemenu__logo svg {
     @include toggle-sidemenu-logo(-200%, 0%)
   }
+
+  .sidemenu__item {
+    justify-content: space-between;
+    padding: $spacing-xs;
+  }
 }
 
 .sidemenu--closed {
   @include toggle-drawer("closed", 55px);
 
   .sidemenu__logo svg {
-    @include toggle-sidemenu-logo(600%, 0%)
+    @include toggle-sidemenu-logo(-200%, 0%)
   }
 }
 

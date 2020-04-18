@@ -1,8 +1,3 @@
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import DoneAllIcon from '@material-ui/icons/DoneAll'
@@ -33,37 +28,29 @@ const SideMenu = () => {
     }, [dispatch, history])
 
     return (
-        <Drawer
-            variant="permanent"
+        <div
             className={'sidemenu ' + (
                 isSidemenuOpen
                     ? 'sidemenu--open'
                     : 'sidemenu--closed'
             )}
         >
-            <div className="sidemenu__logo">
-                {(
-                    isSidemenuOpen
-                        ? <TextLogo />
-                        : <IconLogo />
-                )}
-            </div>
-            <List className="sidemenu__items-wrapper">
+            <div>
+                <div className="sidemenu__logo">
+                    {(
+                        isSidemenuOpen
+                            ? <TextLogo />
+                            : <IconLogo />
+                    )}
+                </div>
                 <Link
                     to="/dashboard"
                     name="dashboard"
                     onClick={setActiveLink}
                     className="sidemenu__item"
                 >
-                    <ListItem
-                        button
-                        selected={activeLink === 'dashboard'}
-                    >
-                        <ListItemIcon>
-                            <DoneAllIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Dashboard" />
-                    </ListItem>
+                    <DoneAllIcon />
+                    {isSidemenuOpen && <p>Dashboard</p>}
                 </Link>
                 <Link
                     to="/settings"
@@ -71,43 +58,27 @@ const SideMenu = () => {
                     onClick={setActiveLink}
                     className="sidemenu__item"
                 >
-                    <ListItem
-                        button
-                        selected={activeLink === 'settings'}
-                    >
-                        <ListItemIcon>
-                            <SettingsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Settings" />
-                    </ListItem>
+                    <SettingsIcon />
+                    {isSidemenuOpen && <p>Settings</p>}
                 </Link>
-                <div className="sidemenu__bottom-actions">
-                    <ListItem
-                        button
-                        onClick={handleLogout}
-                        className="sidemenu__item"
-                    >
-                        <ListItemIcon>
-                            <ExitToAppIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Log Out" />
-                    </ListItem>
-                    <ListItem
-                        button
-                        onClick={toggleSidemenu}
-                        className="sidemenu__item"
-                    >
-                        <ListItemIcon>
-                            {(
-                                isSidemenuOpen
-                                    ? <ChevronLeftIcon />
-                                    : <ChevronRightIcon />
-                            )}
-                        </ListItemIcon>
-                    </ListItem>
+            </div>
+            <div>
+                <div
+                    onClick={handleLogout}
+                    className="sidemenu__item"
+                >
+                    <ExitToAppIcon />
+                    {isSidemenuOpen && <p>Log Out</p>}
                 </div>
-            </List>
-        </Drawer>
+                <div onClick={toggleSidemenu} className="sidemenu__item">
+                    {
+                        isSidemenuOpen
+                            ? <><ChevronLeftIcon /><p>Toggle Menu</p></>
+                            : <ChevronRightIcon />
+                    }
+                </div>
+            </div>
+        </div>
     )
 }
 

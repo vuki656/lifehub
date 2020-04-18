@@ -10,13 +10,6 @@
     transition: width 0.5s;
     width: 55px;
   }
-
-  // If not included here, MUI paper sticks out from drawer
-  .MuiDrawer-paper {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    width: inherit;
-  }
 }
 
 @mixin toggle-sidemenu-logo($xFrom, $xTo) {
