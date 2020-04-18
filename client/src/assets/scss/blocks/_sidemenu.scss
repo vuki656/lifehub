@@ -1,9 +1,9 @@
 .sidemenu {
-  white-space: nowrap;
   box-shadow: $box-shadow-default;
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
+  justify-content: space-between;
+  white-space: nowrap;
 }
 
 .sidemenu__logo {
@@ -18,16 +18,21 @@
 }
 
 .sidemenu__item {
-  text-decoration: none;
-  padding: $spacing-xs;
+  align-items: center;
+  color: $text-color-title;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  padding: $spacing-default;
+  text-decoration: none;
 
   &:hover {
     background: $background-color-grey-light;
     cursor: pointer;
+  }
+
+  p {
+    padding-left: $spacing-sm;
   }
 }
 
@@ -39,8 +44,7 @@
   }
 
   .sidemenu__item {
-    justify-content: space-between;
-    padding: $spacing-xs;
+    justify-content: flex-start;
   }
 }
 

@@ -1,24 +1,24 @@
 .form {
+  align-items: center;
   background-color: $background-color-grey-light;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  min-height: 100vh;
 }
 
 .form__card {
-  height: 100%;
   max-width: 500px;
-  padding: $spacing-lg;
   background-color: $background-color-white;
   border-radius: $border-radius-lg;
   box-shadow: $box-shadow-default;
+  height: 100%;
+  padding: $spacing-lg;
 }
 
 .form__logo {
   height: 7em;
-  width: 100%;
   margin-bottom: $spacing-lg;
+  width: 100%;
 }
 
 .form__title {
@@ -26,21 +26,20 @@
 }
 
 
-
 .form__input-field {
-  padding: 0 $spacing-default;
-  height: $size-form-field;
-  box-sizing: border-box;
-  width: 100%;
   border: thin solid $border-color-input-field;
   border-radius: $input-field-border-radius;
-  transition: box-shadow 0.6s;
+  box-sizing: border-box;
   color: $text-color-input-field;
   font-size: $font-size-sm;
+  height: $size-form-field;
+  padding: 0 $spacing-default;
+  transition: box-shadow 0.6s;
+  width: 100%;
 
   &:focus {
-    outline: none;
     box-shadow: $box-shadow-focus-large;
+    outline: none;
   }
 }
 
@@ -50,10 +49,10 @@
 
 .form__field-title {
   color: $color-black-light;
-  font-weight: $font-weight-medium;
   font-size: $font-size-sm;
-  padding-bottom: $spacing-xs;
+  font-weight: $font-weight-medium;
   margin: 0;
+  padding-bottom: $spacing-xs;
 }
 
 .form__button {
@@ -61,16 +60,16 @@
 }
 
 .form__error-wrapper {
-  padding-top: $spacing-xs;
+  align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  padding-top: $spacing-xs;
 }
 
 .form__error-icon {
-  width: 12px;
   height: 12px;
   padding-right: 8px;
+  width: 12px;
 }
 
 .form__error-text {

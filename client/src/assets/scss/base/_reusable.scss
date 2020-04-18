@@ -1,13 +1,13 @@
 .button-main {
-  color: $button-text-color-main;
   background-color: $button-background-color-main;
-  text-align: center;
-  margin-top: $spacing-lg;
-  text-transform: capitalize;
-  padding: $spacing-xs $spacing-sm;
-  font-size: $font-size-text;
   box-shadow: $box-shadow-default;
+  color: $button-text-color-main;
+  font-size: $font-size-text;
   letter-spacing: normal;
+  margin-top: $spacing-lg;
+  padding: $spacing-xs $spacing-sm;
+  text-align: center;
+  text-transform: capitalize;
 
   &:hover {
     background-color: $color-blue-dark;
