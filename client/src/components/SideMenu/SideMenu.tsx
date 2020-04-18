@@ -25,6 +25,7 @@ const SideMenu = () => {
     const [isSidemenuOpen, toggleSidemenu] = useToggle(false)
     const [activeLink, setActiveLink] = React.useState('dashboard')
 
+    // Clear redux user, remove token from ls and redirect to /login
     const handleLogout = React.useCallback(() => {
         dispatch(setUser(''))
         window.localStorage.removeItem('token')
@@ -34,14 +35,11 @@ const SideMenu = () => {
     return (
         <Drawer
             variant="permanent"
-            className={
-                'sidemenu ' +
-                (
-                    isSidemenuOpen
-                        ? 'sidemenu--open'
-                        : 'sidemenu--closed'
-                )
-            }
+            className={'sidemenu ' + (
+                isSidemenuOpen
+                    ? 'sidemenu--open'
+                    : 'sidemenu--closed'
+            )}
         >
             <div className="sidemenu__logo">
                 {(

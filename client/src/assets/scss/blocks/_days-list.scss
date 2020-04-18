@@ -1,0 +1,16 @@
+.days-list {
+  width: 180px;
+  display: flex;
+  justify-content:space-between;
+  flex-direction: column;
+}
+
+.days-list__days {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.days-list__item {
+  padding: $spacing-xs
+}

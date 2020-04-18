@@ -1,8 +1,13 @@
 import React from 'react'
 
+import { DaysList } from './DaysList/DaysList'
+
 export const Dashboard: React.FunctionComponent<{}> = () => {
 
     return (
-        <p>Dashbard</p>
+        <>
+            <DaysList />
+            <p>Content</p>
+        </>
     )
 }
