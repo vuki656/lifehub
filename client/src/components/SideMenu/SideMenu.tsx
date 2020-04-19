@@ -6,7 +6,7 @@ import SettingsIcon from '@material-ui/icons/Settings'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useToggle } from 'react-use'
 
 import { ReactComponent as IconLogo } from '../../assets/images/logo/IconLogo.svg'
@@ -18,7 +18,6 @@ const SideMenu = () => {
     const dispatch = useDispatch()
 
     const [isSidemenuOpen, toggleSidemenu] = useToggle(false)
-    const [activeLink, setActiveLink] = React.useState('dashboard')
 
     // Clear redux user, remove token from ls and redirect to /login
     const handleLogout = React.useCallback(() => {
@@ -28,54 +27,52 @@ const SideMenu = () => {
     }, [dispatch, history])
 
     return (
-        <div
-            className={'sidemenu ' + (
-                isSidemenuOpen
-                    ? 'sidemenu--open'
-                    : 'sidemenu--closed'
-            )}
-        >
+        <div className={'sidemenu ' + (isSidemenuOpen ? 'sidemenu--open' : 'sidemenu--closed')}>
             <div>
                 <div className="sidemenu__logo">
-                    {(
-                        isSidemenuOpen
-                            ? <TextLogo />
-                            : <IconLogo />
-                    )}
+                    {isSidemenuOpen ? <TextLogo /> : <IconLogo />}
                 </div>
-                <Link
+                <NavLink
                     to="/dashboard"
                     name="dashboard"
-                    onClick={setActiveLink}
                     className="sidemenu__item"
+                    activeClassName="sidemenu__item--selected"
+                    title="Dashboard"
                 >
                     <DoneAllIcon />
-                    {isSidemenuOpen && <p>Dashboard</p>}
-                </Link>
-                <Link
+                    <p>Dashboard</p>
+                </NavLink>
+                <NavLink
                     to="/settings"
                     name="settings"
-                    onClick={setActiveLink}
                     className="sidemenu__item"
+                    activeClassName="sidemenu__item--selected"
+                    title="Dashboard"
                 >
                     <SettingsIcon />
-                    {isSidemenuOpen && <p>Settings</p>}
-                </Link>
+                    <p>Settings</p>
+                </NavLink>
             </div>
             <div>
                 <div
                     onClick={handleLogout}
                     className="sidemenu__item"
+                    title="Log Out"
                 >
                     <ExitToAppIcon />
-                    {isSidemenuOpen && <p>Log Out</p>}
+                    <p>Log Out</p>
                 </div>
-                <div onClick={toggleSidemenu} className="sidemenu__item">
+                <div
+                    onClick={toggleSidemenu}
+                    className="sidemenu__item"
+                    title="Toggle Menu"
+                >
                     {
                         isSidemenuOpen
-                            ? <><ChevronLeftIcon /><p>Toggle Menu</p></>
+                            ? <ChevronLeftIcon />
                             : <ChevronRightIcon />
                     }
+                    <p>Toggle Menu</p>
                 </div>
             </div>
         </div>

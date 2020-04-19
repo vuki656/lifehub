@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
   white-space: nowrap;
 }
 
@@ -19,11 +20,12 @@
 
 .sidemenu__item {
   align-items: center;
+  background: white;
   color: $text-color-title;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  padding: $spacing-default;
+  justify-content: flex-start;
+  padding: $spacing-xs $spacing-default;
   text-decoration: none;
 
   &:hover {
@@ -32,8 +34,12 @@
   }
 
   p {
-    padding-left: $spacing-sm;
+    padding-left: $spacing-default;
   }
+}
+
+.sidemenu__item--selected {
+  background: $background-color-grey-light;
 }
 
 .sidemenu--open {
@@ -45,6 +51,7 @@
 
   .sidemenu__item {
     justify-content: flex-start;
+    padding: $spacing-xs $spacing-default;
   }
 }
 
@@ -53,6 +60,20 @@
 
   .sidemenu__logo svg {
     @include toggle-sidemenu-logo(-200%, 0%)
+  }
+
+  // Make text start disappearing
+  p {
+    animation: make-text-visible 0.3s;
+
+    @keyframes make-text-visible {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
   }
 }
 
