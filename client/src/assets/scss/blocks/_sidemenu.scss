@@ -5,6 +5,7 @@
   justify-content: space-between;
   overflow: hidden;
   white-space: nowrap;
+  z-index: 300;
 }
 
 .sidemenu__logo {
@@ -21,7 +22,7 @@
 .sidemenu__item {
   align-items: center;
   background: white;
-  color: $text-color-title;
+  color: $text-color-primary;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

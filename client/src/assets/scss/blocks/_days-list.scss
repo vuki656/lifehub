@@ -1,16 +1,19 @@
 .days-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 180px;
-}
-
-.days-list__days {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  max-height: 100vh;
 }
 
 .days-list__item {
-  padding: $spacing-xs
+  color: $text-color-secondary;
+  //padding: $spacing-xxs $spacing-lg;
+  text-decoration: none;
+
+  &:hover {
+    background: $background-color-grey-light;
+    color: $text-color-primary;
+  }
+}
+
+.days-list__item--active {
+  background: $background-color-grey-light;
+  color: $text-color-primary;
 }
