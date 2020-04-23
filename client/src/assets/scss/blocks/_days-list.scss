@@ -1,10 +1,51 @@
 .days-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   max-height: 100vh;
+  max-width: 150px;
+  width: 150px;
+}
+
+.days-list__button {
+  @include flex-center-center;
+  color: $text-color-secondary;
+  height: 60px;
+  text-decoration: none;
+
+  &:hover {
+    background: $background-color-grey-light;
+    color: $text-color-primary;
+  }
+
+  // Button Icon
+  & svg {
+    height: 16px;
+    width: 16px;
+  }
+
+  // Button Text
+  & p {
+    @include flex-center-center;
+    height: 100%;
+    padding: $spacing-xxs;
+  }
+}
+
+.days-list-days {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .days-list__item {
+  align-items: center;
   color: $text-color-secondary;
-  //padding: $spacing-xxs $spacing-lg;
+  display: flex;
+  flex-grow: 1;
+  justify-content: start;
+  padding: 0 $spacing-md;
   text-decoration: none;
 
   &:hover {

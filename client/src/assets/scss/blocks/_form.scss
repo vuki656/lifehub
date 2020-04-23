@@ -1,8 +1,6 @@
 .form {
-  align-items: center;
   background-color: $background-color-grey-light;
-  display: flex;
-  justify-content: center;
+  @include flex-center-center;
   min-height: 100vh;
 }
 
@@ -25,7 +23,6 @@
 .form__title {
   color: $text-color-primary;
 }
-
 
 .form__input-field {
   border: thin solid $border-color-input-field;
@@ -79,15 +76,14 @@
 }
 
 .form__bottom-info {
+  border-top: 1px solid $border-color-input-field;
   margin-top: $spacing-default;
   padding-top: $spacing-md;
-  border-top: 1px solid $border-color-input-field;
   text-align: center;
 
   & a {
-    text-decoration: none;
     color: $text-color-primary;
     font-weight: $font-weight-bold;
+    text-decoration: none;
   }
-
 }

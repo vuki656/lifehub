@@ -1,3 +1,5 @@
+import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined'
+import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined'
 import moment from 'moment'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
@@ -21,20 +23,24 @@ export const DaysList: React.FunctionComponent<{}> = () => {
                 to="/dashboard/overdue"
                 name="overdue"
                 title="overdue"
-                className="days-list__item"
+                className="days-list__button"
                 activeClassName="days-list__item--active"
             >
-                <p>OVERDUE</p>
+                <ArrowBackOutlinedIcon />
+                <p>Overdue</p>
             </NavLink>
-            {renderDays()}
+            <div className="days-list-days">
+                {renderDays()}
+            </div>
             <NavLink
                 to="/dashboard/upcoming"
                 name="upcoming"
                 title="upcoming"
-                className="days-list__item"
+                className="days-list__button"
                 activeClassName="days-list__item--active"
             >
-                <p>UPCOMING</p>
+                <p>Upcoming</p>
+                <ArrowForwardOutlinedIcon />
             </NavLink>
         </div>
     )
