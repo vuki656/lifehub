@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/react-hooks'
 import Button from '@material-ui/core/Button'
 import React, { useCallback } from 'react'
 import { useField, useForm } from 'react-final-form-hooks'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { FormErrorMessage } from '../../components/FormErrorMessage'
@@ -81,6 +81,11 @@ export const Login: React.FunctionComponent<{}> = () => {
                                 Login
                             </Button>
                         </form>
+                        <div className="form__bottom-info">
+                            <p>Don't have an account?
+                                <Link to="/"> Register</Link>
+                            </p>
+                        </div>
                     </div>
                 </div>
             )

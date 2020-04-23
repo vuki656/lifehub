@@ -6,6 +6,7 @@ import { DaysListItemProps } from './DaysListItem.types'
 export const DaysListItem: React.FunctionComponent<DaysListItemProps> = (props) => {
     const { day } = props
 
+    // TODO Check old project style for days list and how it acomplished 100% height
     return (
         <NavLink
             to={`/dashboard/${day.format('DoddddMMYYYY')}`}

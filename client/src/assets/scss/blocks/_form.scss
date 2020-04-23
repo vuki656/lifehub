@@ -7,11 +7,12 @@
 }
 
 .form__card {
-  max-width: 500px;
   background-color: $background-color-white;
   border-radius: $border-radius-lg;
   box-shadow: $box-shadow-default;
+  flex-basis: 20%;
   height: 100%;
+  min-width: 300px;
   padding: $spacing-lg;
 }
 
@@ -75,4 +76,18 @@
 .form__error-text {
   color: $error-color;
   font-size: $font-size-sm;
+}
+
+.form__bottom-info {
+  margin-top: $spacing-default;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border-color-input-field;
+  text-align: center;
+
+  & a {
+    text-decoration: none;
+    color: $text-color-primary;
+    font-weight: $font-weight-bold;
+  }
+
 }
