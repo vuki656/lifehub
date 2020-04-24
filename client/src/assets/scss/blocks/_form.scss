@@ -1,13 +1,13 @@
 .form {
   @include flex-i-center-c-center;
-  background-color: $background-color-grey-light;
+  background-color: $bcg-co-grey-lt;
   min-height: 100vh;
 }
 
 .form__card {
-  background-color: $background-color-white;
-  border-radius: $border-radius-lg;
-  box-shadow: $box-shadow-default;
+  background-color: $bcg-co-white;
+  border-radius: $bor-ra-lg;
+  box-shadow: $box-sh-def;
   flex-basis: 20%;
   height: 100%;
   min-width: 300px;
@@ -21,23 +21,23 @@
 }
 
 .form__title {
-  color: $text-color-secondary;
+  color: $text-color-secondary-025;
   padding: $spacing-sm 0;
 }
 
 .form__input-field {
-  border: thin solid $border-color-input-field;
-  border-radius: $input-field-border-radius;
+  border: thin solid $bor-co-input-field;
+  border-radius: $input-field-bor-ra;
   box-sizing: border-box;
   color: $text-color-input-field;
-  font-size: $font-size-sm;
+  font-size: $fn-sz-sm;
   height: $size-form-field;
   padding: 0 $spacing-default;
   transition: box-shadow 0.6s;
   width: 100%;
 
   &:focus {
-    box-shadow: $box-shadow-focus-large;
+    box-shadow: $box-sh-foc-lg;
     outline: none;
   }
 }
@@ -47,15 +47,30 @@
 }
 
 .form__field-title {
-  color: $text-color-primary;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
+  color: $text-color-primary-base;
+  font-size: $fn-sz-sm;
+  font-weight: $fn-weight-medium;
   margin: 0;
   padding-bottom: $spacing-xs;
 }
 
-.form__button {
+.form__button--wide {
+  margin-top: $spacing-lg;
   width: 100%;
+}
+
+.form__button {
+  margin-top: $spacing-xs;
+}
+
+.form__button-group--right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  :nth-child(2) {
+    margin-left: $spacing-md;
+  }
 }
 
 .form__error-wrapper {
@@ -73,7 +88,7 @@
 
 .form__error-text {
   color: $error-color;
-  font-size: $font-size-sm;
+  font-size: $fn-sz-sm;
 }
 
 

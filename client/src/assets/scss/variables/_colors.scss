@@ -1,11 +1,13 @@
 // ** BASE COLORS **
 $color-black: #000000;
+$color-black-transparent: #00000080;
 $color-black-light: #323232;
-$color-black-light-extra: #0000001a;
+$color-black-lightest: #0000001a;
 $color-white: #ffffff;
 $color-smoke: #f6f6f6;
 $color-grey: #bbbbbb;
 $color-grey-light: #d8d8d8;
+$color-grey-lightest: #f1f1f1;
 $color-blue: #0083ff;
 $color-blue-dark: #006fe4;
 $color-red-light: #cd3d64;
@@ -14,25 +16,26 @@ $color-red-light: #cd3d64;
 $error-color: $color-red-light;
 
 // ** TEXT COLORS **
-$text-color-primary: $color-black-light;
-$text-color-secondary: lighten($text-color-primary, 25%);
-$text-color-tertiary: lighten($text-color-primary, 50%);
-$text-color-quaternary: lighten($text-color-primary, 75%);
+$text-color-primary-base: $color-black-light;
+$text-color-secondary-025: lighten($text-color-primary-base, 25%);
+$text-color-tertiary: lighten($text-color-primary-base, 50%);
+$text-color-quaternary: lighten($text-color-primary-base, 75%);
 
 $text-color-placeholder: $color-grey-light;
 $text-color-input-field: $color-black-light;
 
 // ** BACKGROUND COLORS **
-$background-color-white: $color-white;
-$background-color-grey-light: $color-smoke;
-$background-color-blue: $color-blue;
+$bcg-co-white: $color-white;
+$bcg-co-grey-lt: $color-smoke;
+$bcg-co-blue: $color-blue;
+$bcg-co-black-trn: $color-black-transparent;
 
 // ** BORDER COLORS **
-$border-color-input-field: $color-black-light-extra;
+$bor-co-input-field: $color-black-lightest;
 
 // ** BOX SHADOW COLORS **
-$box-shadow-color-default: $color-black-light-extra;
-$box-shadow-color-focus-large: $color-grey-light;
+$box-sh-co-de: $color-black-lightest;
+$box-sh-co-fcs-lg: $color-grey-light;
 
 
 

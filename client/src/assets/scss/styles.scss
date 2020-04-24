@@ -26,7 +26,12 @@
 @import "blocks/full-screen-transition";
 @import "blocks/side-menu";
 @import "blocks/days-sidebar";
+@import "blocks/dashboard";
+@import "blocks/reminders";
+@import "blocks/todo-area";
 
 // ** REUSABLE BLOCKS **
 @import "blocks/reusable/bottom-info";
 @import "blocks/reusable/buttons";
+@import "blocks/reusable/texts";
+@import "blocks/reusable/dialog";

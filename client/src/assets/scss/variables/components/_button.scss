@@ -1,5 +1,11 @@
 // ** TEXT COLORS **
-$button-text-color-main: $color-white;
+$btn-tx-co-prim: $color-white;
+$btn-tx-co-prim-hov: $color-blue-dark;
+$btn-tx-co-seco: $text-color-primary-base;
+$btn-tx-co-seco-hov: $color-black-lightest;
 
 // ** BACKGROUND COLORS **
-$button-background-color-main: $background-color-blue;
+$btn-bc-co-prim: $bcg-co-blue;
+$btn-bc-co-prim-hov: $color-blue-dark;
+$btn-bc-co-seco: $color-white;
+$btn-bc-co-seco-hov: $color-black-lightest;

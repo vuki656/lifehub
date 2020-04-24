@@ -4,16 +4,25 @@ import moment from 'moment'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { DaysListItem } from './DaysListItem'
-
-export const DaysList: React.FC<{}> = () => {
+export const DaysSidebar: React.FC<{}> = () => {
 
     // Render 20 days from today
     const renderDays = React.useCallback(() => (
         [...new Array(20)].map((value, index) => {
 
             const nextDay = moment().add(index, 'days')
-            return <DaysListItem day={nextDay} key={nextDay.format('DoddddMMYYYY')} />
+            return (
+                <NavLink
+                    to={`/dashboard/${nextDay.format('DoddddMMYYYY')}`}
+                    name={`/dashboard/${nextDay.format('DoddddMMYYYY')}`}
+                    title={nextDay.format('Do dddd MM YYYY')}
+                    className="days-sidebar__item"
+                    activeClassName="days-sidebar__item--active"
+                    key={nextDay.format('DoddddMMYYYY')}
+                >
+                    <p>{nextDay.format('DD dd')}</p>
+                </NavLink>
+            )
         })
     ), [])
 

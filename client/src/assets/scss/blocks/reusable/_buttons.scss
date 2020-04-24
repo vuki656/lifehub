@@ -1,19 +1,31 @@
-.button-main {
-  background-color: $button-background-color-main;
-  border-radius: $border-radius-default;
-  box-shadow: $box-shadow-default;
+.button {
+  border-radius: $bor-ra-de;
   box-sizing: border-box;
-  color: $button-text-color-main;
-  font-size: $font-size-text;
-  font-weight: $font-weight-medium;
+  font-size: $fn-sz-text;
+  font-weight: $fn-weight-medium;
   letter-spacing: normal;
-  margin-top: $spacing-lg;
   padding: $spacing-xs $spacing-sm;
   text-align: center;
   text-transform: capitalize;
+}
+
+.button--primary {
+  background-color: $btn-bc-co-prim;
+  color: $btn-tx-co-prim;
 
   &:hover {
-    background-color: $color-blue-dark;
+    background-color: $btn-bc-co-prim-hov;
+    cursor: pointer;
+  }
+}
+
+.button--secondary {
+  background-color: $btn-bc-co-seco;
+  border: 1px solid $btn-tx-co-seco;
+  color: $btn-tx-co-seco;
+
+  &:hover {
+    background-color: $btn-bc-co-seco-hov;
     cursor: pointer;
   }
 }
