@@ -26,8 +26,8 @@ export const DaysList: React.FunctionComponent<{}> = () => {
                 className="days-sidebar__button"
                 activeClassName="days-sidebar__item--active"
             >
-                <ArrowBackOutlinedIcon />
-                <p>Overdue</p>
+                <ArrowBackOutlinedIcon className="days-sidebar__icon" />
+                <p className="days-sidebar__text">Overdue</p>
             </NavLink>
             <div className="days-sidebar__days">
                 {renderDays()}
@@ -39,8 +39,8 @@ export const DaysList: React.FunctionComponent<{}> = () => {
                 className="days-sidebar__button"
                 activeClassName="days-sidebar__item--active"
             >
-                <p>Upcoming</p>
-                <ArrowForwardOutlinedIcon />
+                <p className="days-sidebar__text">Upcoming</p>
+                <ArrowForwardOutlinedIcon className="days-sidebar__icon" />
             </NavLink>
         </div>
     )

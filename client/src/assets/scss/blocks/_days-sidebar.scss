@@ -8,7 +8,6 @@
   width: 150px;
 }
 
-// TODO: rename
 .days-sidebar__button {
   @include flex-i-center-c-center;
   color: $text-color-secondary;
@@ -18,19 +17,17 @@
   &:hover {
     @include menu-item--active;
   }
+}
 
-  // Button Icon
-  & svg {
-    height: 16px;
-    width: 16px;
-  }
+.days-sidebar__text {
+  @include flex-i-center-c-center;
+  height: 100%;
+  padding: $spacing-xxs;
+}
 
-  // Button Text
-  & p {
-    @include flex-i-center-c-center;
-    height: 100%;
-    padding: $spacing-xxs;
-  }
+.days-sidebar__icon {
+  height: 16px;
+  width: 16px;
 }
 
 .days-sidebar__days {

@@ -19,7 +19,7 @@ const SideMenu = () => {
 
     const [isSidemenuOpen, toggleSidemenu] = useToggle(false)
 
-    // Logout - clear redux user, remove token from ls and redirect to /login
+    // Logout - clear redux user, remove token from LS and redirect to /login
     const handleLogout = React.useCallback(() => {
         dispatch(setUser(''))
         window.localStorage.removeItem('token')
@@ -30,7 +30,9 @@ const SideMenu = () => {
         <div className={'side-menu ' + (isSidemenuOpen ? 'side-menu--open' : 'side-menu--closed')}>
             <div>
                 <div className="side-menu__logo">
-                    {isSidemenuOpen ? <TextLogo /> : <IconLogo />}
+                    {isSidemenuOpen
+                        ? <TextLogo className="side-menu__svg" />
+                        : <IconLogo className="side-menu__svg" />}
                 </div>
                 <NavLink
                     to="/dashboard"
@@ -40,7 +42,7 @@ const SideMenu = () => {
                     title="Dashboard"
                 >
                     <DoneAllIcon />
-                    <p>Dashboard</p>
+                    <p className="side-menu__text">Dashboard</p>
                 </NavLink>
                 <NavLink
                     to="/settings"
@@ -50,7 +52,7 @@ const SideMenu = () => {
                     title="Dashboard"
                 >
                     <SettingsIcon />
-                    <p>Settings</p>
+                    <p className="side-menu__text">Settings</p>
                 </NavLink>
             </div>
             <div>
@@ -60,19 +62,15 @@ const SideMenu = () => {
                     title="Log Out"
                 >
                     <ExitToAppIcon />
-                    <p>Log Out</p>
+                    <p className="side-menu__text">Log Out</p>
                 </div>
                 <div
                     onClick={toggleSidemenu}
                     className="side-menu__item"
                     title="Toggle Menu"
                 >
-                    {
-                        isSidemenuOpen
-                            ? <ChevronLeftIcon />
-                            : <ChevronRightIcon />
-                    }
-                    <p>Toggle Menu</p>
+                    {isSidemenuOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    <p className="side-menu__text">Toggle Menu</p>
                 </div>
             </div>
         </div>

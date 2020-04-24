@@ -12,12 +12,12 @@
 .side-menu__logo {
   padding: $spacing-sm;
   text-align: center;
+}
 
-  svg {
-    height: 50px;
-    vertical-align: middle;
-    width: 100%;
-  }
+.side-menu__svg {
+  height: 50px;
+  vertical-align: middle;
+  width: 100%;
 }
 
 .side-menu__item {
@@ -33,10 +33,10 @@
   &:hover {
     @include menu-item--active;
   }
+}
 
-  p {
-    padding-left: $spacing-default;
-  }
+.side-menu__text {
+  padding-left: $spacing-default;
 }
 
 .side-menu__item--selected {
