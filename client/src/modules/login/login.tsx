@@ -81,9 +81,9 @@ export const Login: React.FunctionComponent<{}> = () => {
                                 Login
                             </Button>
                         </form>
-                        <div className="form__bottom-info">
-                            <p>Don't have an account?
-                                <Link to="/"> Register</Link>
+                        <div className="bottom-info">
+                            <p className="bottom-info__text">Don't have an account?
+                                <Link to="/" className="bottom-info__link"> Register</Link>
                             </p>
                         </div>
                     </div>

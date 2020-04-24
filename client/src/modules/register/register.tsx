@@ -109,9 +109,9 @@ export const Register: React.FunctionComponent<{}> = () => {
                                 Create your account
                             </Button>
                         </form>
-                        <div className="form__bottom-info">
-                            <p>Already have an account?
-                                <Link to="/login"> Login</Link>
+                        <div className="bottom-info">
+                            <p className="bottom-info__text">Already have an account?
+                                <Link to="/login" className="bottom-info__link"> Login</Link>
                             </p>
                         </div>
                     </div>

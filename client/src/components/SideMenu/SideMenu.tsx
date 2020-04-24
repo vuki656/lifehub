@@ -19,7 +19,7 @@ const SideMenu = () => {
 
     const [isSidemenuOpen, toggleSidemenu] = useToggle(false)
 
-    // Clear redux user, remove token from ls and redirect to /login
+    // Logout - clear redux user, remove token from ls and redirect to /login
     const handleLogout = React.useCallback(() => {
         dispatch(setUser(''))
         window.localStorage.removeItem('token')
@@ -27,16 +27,16 @@ const SideMenu = () => {
     }, [dispatch, history])
 
     return (
-        <div className={'sidemenu ' + (isSidemenuOpen ? 'sidemenu--open' : 'sidemenu--closed')}>
+        <div className={'side-menu ' + (isSidemenuOpen ? 'side-menu--open' : 'side-menu--closed')}>
             <div>
-                <div className="sidemenu__logo">
+                <div className="side-menu__logo">
                     {isSidemenuOpen ? <TextLogo /> : <IconLogo />}
                 </div>
                 <NavLink
                     to="/dashboard"
                     name="dashboard"
-                    className="sidemenu__item"
-                    activeClassName="sidemenu__item--selected"
+                    className="side-menu__item"
+                    activeClassName="side-menu__item--selected"
                     title="Dashboard"
                 >
                     <DoneAllIcon />
@@ -45,8 +45,8 @@ const SideMenu = () => {
                 <NavLink
                     to="/settings"
                     name="settings"
-                    className="sidemenu__item"
-                    activeClassName="sidemenu__item--selected"
+                    className="side-menu__item"
+                    activeClassName="side-menu__item--selected"
                     title="Dashboard"
                 >
                     <SettingsIcon />
@@ -56,7 +56,7 @@ const SideMenu = () => {
             <div>
                 <div
                     onClick={handleLogout}
-                    className="sidemenu__item"
+                    className="side-menu__item"
                     title="Log Out"
                 >
                     <ExitToAppIcon />
@@ -64,7 +64,7 @@ const SideMenu = () => {
                 </div>
                 <div
                     onClick={toggleSidemenu}
-                    className="sidemenu__item"
+                    className="side-menu__item"
                     title="Toggle Menu"
                 >
                     {

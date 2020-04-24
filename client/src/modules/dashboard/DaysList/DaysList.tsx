@@ -8,7 +8,7 @@ import { DaysListItem } from './DaysListItem'
 
 export const DaysList: React.FunctionComponent<{}> = () => {
 
-    // Render 30 days from today
+    // Render 20 days from today
     const renderDays = React.useCallback(() => (
         [...new Array(20)].map((value, index) => {
 
@@ -18,26 +18,26 @@ export const DaysList: React.FunctionComponent<{}> = () => {
     ), [])
 
     return (
-        <div className="days-list">
+        <div className="days-sidebar">
             <NavLink
                 to="/dashboard/overdue"
                 name="overdue"
                 title="overdue"
-                className="days-list__button"
-                activeClassName="days-list__item--active"
+                className="days-sidebar__button"
+                activeClassName="days-sidebar__item--active"
             >
                 <ArrowBackOutlinedIcon />
                 <p>Overdue</p>
             </NavLink>
-            <div className="days-list-days">
+            <div className="days-sidebar__days">
                 {renderDays()}
             </div>
             <NavLink
                 to="/dashboard/upcoming"
                 name="upcoming"
                 title="upcoming"
-                className="days-list__button"
-                activeClassName="days-list__item--active"
+                className="days-sidebar__button"
+                activeClassName="days-sidebar__item--active"
             >
                 <p>Upcoming</p>
                 <ArrowForwardOutlinedIcon />

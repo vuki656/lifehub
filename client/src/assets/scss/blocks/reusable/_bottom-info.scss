@@ -1,0 +1,16 @@
+.bottom-info {
+  border-top: 1px solid $border-color-input-field;
+  margin-top: $spacing-default;
+  padding-top: $spacing-md;
+  text-align: center;
+}
+
+.bottom-info__text {
+  color: $text-color-secondary;
+}
+
+.bottom-info__link {
+  color: $text-color-primary;
+  font-weight: $font-weight-bold;
+  text-decoration: none;
+}

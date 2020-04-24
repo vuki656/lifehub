@@ -1,6 +1,6 @@
 .form {
+  @include flex-i-center-c-center;
   background-color: $background-color-grey-light;
-  @include flex-center-center;
   min-height: 100vh;
 }
 
@@ -15,13 +15,14 @@
 }
 
 .form__logo {
-  height: 7em;
+  height: 6em;
   margin-bottom: $spacing-lg;
   width: 100%;
 }
 
 .form__title {
   color: $text-color-primary;
+  padding: $spacing-sm 0;
 }
 
 .form__input-field {
@@ -75,15 +76,4 @@
   font-size: $font-size-sm;
 }
 
-.form__bottom-info {
-  border-top: 1px solid $border-color-input-field;
-  margin-top: $spacing-default;
-  padding-top: $spacing-md;
-  text-align: center;
 
-  & a {
-    color: $text-color-primary;
-    font-weight: $font-weight-bold;
-    text-decoration: none;
-  }
-}

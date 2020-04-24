@@ -1,21 +1,22 @@
-.days-list {
+.days-sidebar {
+  background: $background-color-white;
+  box-shadow: $box-shadow-default;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   max-height: 100vh;
   max-width: 150px;
   width: 150px;
 }
 
-.days-list__button {
-  @include flex-center-center;
+// TODO: rename
+.days-sidebar__button {
+  @include flex-i-center-c-center;
   color: $text-color-secondary;
-  height: 60px;
+  height: 50px;
   text-decoration: none;
 
   &:hover {
-    background: $background-color-grey-light;
-    color: $text-color-primary;
+    @include menu-item--active;
   }
 
   // Button Icon
@@ -26,20 +27,20 @@
 
   // Button Text
   & p {
-    @include flex-center-center;
+    @include flex-i-center-c-center;
     height: 100%;
     padding: $spacing-xxs;
   }
 }
 
-.days-list-days {
+.days-sidebar__days {
   align-items: stretch;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.days-list__item {
+.days-sidebar__item {
   align-items: center;
   color: $text-color-secondary;
   display: flex;
@@ -49,12 +50,10 @@
   text-decoration: none;
 
   &:hover {
-    background: $background-color-grey-light;
-    color: $text-color-primary;
+    @include menu-item--active;
   }
 }
 
-.days-list__item--active {
-  background: $background-color-grey-light;
-  color: $text-color-primary;
+.days-sidebar__item--active {
+  @include menu-item--active;
 }

@@ -1,4 +1,5 @@
-.sidemenu {
+.side-menu {
+  background: $background-color-white;
   box-shadow: $box-shadow-default;
   display: flex;
   flex-direction: column;
@@ -8,7 +9,7 @@
   z-index: 300;
 }
 
-.sidemenu__logo {
+.side-menu__logo {
   padding: $spacing-sm;
   text-align: center;
 
@@ -19,10 +20,10 @@
   }
 }
 
-.sidemenu__item {
+.side-menu__item {
   align-items: center;
   background: white;
-  color: $text-color-primary;
+  color: $text-color-secondary;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -30,8 +31,7 @@
   text-decoration: none;
 
   &:hover {
-    background: $background-color-grey-light;
-    cursor: pointer;
+    @include menu-item--active;
   }
 
   p {
@@ -39,27 +39,27 @@
   }
 }
 
-.sidemenu__item--selected {
-  background: $background-color-grey-light;
+.side-menu__item--selected {
+  @include menu-item--active;
 }
 
-.sidemenu--open {
+.side-menu--open {
   @include toggle-drawer("open", 200px);
 
-  .sidemenu__logo svg {
+  .side-menu__logo svg {
     @include toggle-sidemenu-logo(-200%, 0%)
   }
 
-  .sidemenu__item {
+  .side-menu__item {
     justify-content: flex-start;
     padding: $spacing-xs $spacing-default;
   }
 }
 
-.sidemenu--closed {
+.side-menu--closed {
   @include toggle-drawer("closed", 55px);
 
-  .sidemenu__logo svg {
+  .side-menu__logo svg {
     @include toggle-sidemenu-logo(-200%, 0%)
   }
 

@@ -7,19 +7,25 @@
 @import "variables/font-sizes";
 @import "variables/font-weights";
 
-// ** COMPONENT VARIABLES **
-@import "variables/components/button";
+// ** REUSABLE VARIABLES **
+@import "variables/reusable/button";
 
 // ** BASE **
 @import "base/global";
 @import "base/reusable";
 
 // ** MIXINS **
-@import "mixins/global/flex-alignments";
-@import "mixins/sidemenu";
+@import "mixins/side-menu";
+
+// ** REUSABLE MIXINS **
+@import "mixins/reusable/flex-alignments";
+@import "mixins/reusable/active-elements";
 
 // ** BLOCKS **
 @import "blocks/form";
 @import "blocks/full-screen-transition";
-@import "blocks/sidemenu";
-@import "blocks/days-list";
+@import "blocks/side-menu";
+@import "blocks/days-sidebar";
+
+// ** REUSABLE BLOCKS **
+@import "blocks/reusable/bottom-info";
