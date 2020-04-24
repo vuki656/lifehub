@@ -1,9 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
 import React, { useCallback } from 'react'
 import { useField, useForm } from 'react-final-form-hooks'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { FormErrorMessage } from '../../components/FormErrorMessage'
@@ -12,7 +10,7 @@ import { CREATE_USER } from '../../graphql/user/user'
 import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
 import { UserErrors } from './register.types'
 
-export const Register: React.FunctionComponent<{}> = () => {
+export const Register: React.FC<{}> = () => {
     const history = useHistory()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
@@ -28,16 +26,16 @@ export const Register: React.FunctionComponent<{}> = () => {
                 passwordConfirmation: formValues.passwordConfirmation,
             },
         })
-        .then((response) => {
-            const token = response?.data?.createUser.token ?? ''
-            window.localStorage.setItem('token', token)
+            .then((response) => {
+                const token = response?.data?.createUser.token ?? ''
+                window.localStorage.setItem('token', token)
 
-            setErrors({})
-            history.push('/dashboard')
-        })
-        .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
+                setErrors({})
+                history.push('/dashboard')
+            })
+            .catch((error) => {
+                setErrors(error.graphQLErrors?.[0].extensions.exception)
+            })
     }, [createUserMutation, history])
 
     const { form, handleSubmit } = useForm({ onSubmit })
@@ -51,85 +49,69 @@ export const Register: React.FunctionComponent<{}> = () => {
         loading
             ? <FullScreenTransition isLoadingActive={loading} />
             : (
-                <Grid
-                    alignItems="center"
-                    justify="center"
-                    className="form"
-                    container
-                >
-                    <Grid
-                        xs={3}
-                        className="form__card"
-                        item
-                    >
-                        <Grid xs={12} item>
-                            <Logo className="form__logo" />
-                            <p className="form__title">Register your account</p>
-                        </Grid>
-                        <Grid xs={12} item>
-                            <form onSubmit={handleSubmit}>
-                                <div className="form__field-wrapper">
-                                    <p className="form__field-title">Username</p>
-                                    <input
-                                        {...username.input}
-                                        className="form__input-field"
-                                        autoComplete="username"
-                                        type="text"
-                                        minLength={4}
-                                        required
-                                    />
-                                    {errors.username && <FormErrorMessage error={errors.username} />}
-                                </div>
-                                <div className="form__field-wrapper">
-                                    <p className="form__field-title">Email</p>
-                                    <input
-                                        {...email.input}
-                                        className="form__input-field"
-                                        autoComplete="email"
-                                        type="email"
-                                        required
-                                    />
-                                    {errors.email && <FormErrorMessage error={errors.email} />}
-                                </div>
-                                <div className="form__field-wrapper">
-                                    <p className="form__field-title">Password</p>
-                                    <input
-                                        {...password.input}
-                                        className="form__input-field"
-                                        autoComplete="new-password"
-                                        type="password"
-                                        minLength={7}
-                                        required
-                                    />
-                                    {errors.password && <FormErrorMessage error={errors.password} />}
-                                </div>
-                                <div className="form__field-wrapper">
-                                    <p className="form__field-title">Confirm Password </p>
-                                    <input
-                                        {...passwordConfirmation.input}
-                                        className="form__input-field"
-                                        autoComplete="new-password"
-                                        type="password"
-                                        minLength={7}
-                                        required
-                                    />
-                                </div>
-                                <Grid
-                                    alignItems="center"
-                                    justify="center"
-                                    container
-                                >
-                                    <Button
-                                        className="form__button button-main"
-                                        type="submit"
-                                    >
-                                        Create your account
-                                    </Button>
-                                </Grid>
-                            </form>
-                        </Grid>
-                    </Grid>
-                </Grid>
+                <div className="form">
+                    <div className="form__card">
+                        <Logo className="form__logo" />
+                        <p className="form__title">Register your account</p>
+
+                        <form onSubmit={handleSubmit}>
+                            <div className="form__field-wrapper">
+                                <p className="form__field-title">Username</p>
+                                <input
+                                    {...username.input}
+                                    className="form__input-field"
+                                    autoComplete="username"
+                                    type="text"
+                                    minLength={4}
+                                    required
+                                />
+                                {errors.username && <FormErrorMessage error={errors.username} />}
+                            </div>
+                            <div className="form__field-wrapper">
+                                <p className="form__field-title">Email</p>
+                                <input
+                                    {...email.input}
+                                    className="form__input-field"
+                                    autoComplete="email"
+                                    type="email"
+                                    required
+                                />
+                                {errors.email && <FormErrorMessage error={errors.email} />}
+                            </div>
+                            <div className="form__field-wrapper">
+                                <p className="form__field-title">Password</p>
+                                <input
+                                    {...password.input}
+                                    className="form__input-field"
+                                    autoComplete="new-password"
+                                    type="password"
+                                    minLength={7}
+                                    required
+                                />
+                                {errors.password && <FormErrorMessage error={errors.password} />}
+                            </div>
+                            <div className="form__field-wrapper">
+                                <p className="form__field-title">Confirm Password </p>
+                                <input
+                                    {...passwordConfirmation.input}
+                                    className="form__input-field"
+                                    autoComplete="new-password"
+                                    type="password"
+                                    minLength={7}
+                                    required
+                                />
+                            </div>
+                            <button className="form__button button-main" type="submit">
+                                Create your account
+                            </button>
+                        </form>
+                        <div className="bottom-info">
+                            <p className="bottom-info__text">Already have an account?
+                                <Link to="/login" className="bottom-info__link"> Login</Link>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             )
     )
 }

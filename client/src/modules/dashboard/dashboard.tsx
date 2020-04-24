@@ -1,8 +1,12 @@
 import React from 'react'
 
-export const Dashboard: React.FunctionComponent<{}> = () => {
+import { DaysList } from './DaysList/DaysList'
 
+export const Dashboard: React.FC<{}> = () => {
     return (
-        <p>Dashbard</p>
+        <>
+            <DaysList />
+            <p>Content</p>
+        </>
     )
 }

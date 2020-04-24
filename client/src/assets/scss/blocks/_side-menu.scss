@@ -1,0 +1,80 @@
+.side-menu {
+  background: $background-color-white;
+  box-shadow: $box-shadow-default;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 300;
+}
+
+.side-menu__logo {
+  padding: $spacing-sm;
+  text-align: center;
+}
+
+.side-menu__svg {
+  height: 50px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.side-menu__item {
+  align-items: center;
+  background: white;
+  color: $text-color-secondary;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: $spacing-xs $spacing-default;
+  text-decoration: none;
+
+  &:hover {
+    @include menu-item--active;
+  }
+}
+
+.side-menu__text {
+  padding-left: $spacing-default;
+}
+
+.side-menu__item--selected {
+  @include menu-item--active;
+}
+
+.side-menu--open {
+  @include toggle-drawer("open", 200px);
+
+  .side-menu__logo svg {
+    @include toggle-sidemenu-logo(-200%, 0%)
+  }
+
+  .side-menu__item {
+    justify-content: flex-start;
+    padding: $spacing-xs $spacing-default;
+  }
+}
+
+.side-menu--closed {
+  @include toggle-drawer("closed", 55px);
+
+  .side-menu__logo svg {
+    @include toggle-sidemenu-logo(-200%, 0%)
+  }
+
+  // Make text start disappearing
+  p {
+    animation: make-text-visible 0.3s;
+
+    @keyframes make-text-visible {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  }
+}
+

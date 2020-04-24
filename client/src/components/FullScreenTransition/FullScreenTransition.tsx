@@ -1,10 +1,10 @@
-import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import Lottie from 'react-lottie'
+
 import animationData from '../../assets/images/lottie/loading-circle.json'
 import { FullScreenTransitionProps } from './FullScreenTransition.types'
 
-export const FullScreenTransition: React.FunctionComponent<FullScreenTransitionProps> = (props) => {
+export const FullScreenTransition: React.FC<FullScreenTransitionProps> = (props) => {
     const { isLoadingActive } = props
 
     const defaultOptions = {
@@ -17,18 +17,13 @@ export const FullScreenTransition: React.FunctionComponent<FullScreenTransitionP
     }
 
     return (
-        <Grid
-            className="full-screen-transition"
-            alignItems="center"
-            justify="center"
-            container
-        >
+        <div className="full-screen-transition">
             <Lottie
                 options={defaultOptions}
                 height={100}
                 width={100}
                 isStopped={!isLoadingActive}
             />
-        </Grid>
+        </div>
     )
 }

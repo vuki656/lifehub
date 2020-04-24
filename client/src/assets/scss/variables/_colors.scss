@@ -1,6 +1,6 @@
 // ** BASE COLORS **
 $color-black: #000000;
-$color-black-light: #1a1f36;
+$color-black-light: #323232;
 $color-black-light-extra: #0000001a;
 $color-white: #ffffff;
 $color-smoke: #f6f6f6;
@@ -14,14 +14,17 @@ $color-red-light: #cd3d64;
 $error-color: $color-red-light;
 
 // ** TEXT COLORS **
-$text-color-title: $color-black-light;
-$text-color-secondary: $color-grey;
+$text-color-primary: $color-black-light;
+$text-color-secondary: lighten($text-color-primary, 25%);
+$text-color-tertiary: lighten($text-color-primary, 50%);
+$text-color-quaternary: lighten($text-color-primary, 75%);
+
 $text-color-placeholder: $color-grey-light;
 $text-color-input-field: $color-black-light;
 
 // ** BACKGROUND COLORS **
 $background-color-white: $color-white;
-$background-color-light: $color-smoke;
+$background-color-grey-light: $color-smoke;
 $background-color-blue: $color-blue;
 
 // ** BORDER COLORS **

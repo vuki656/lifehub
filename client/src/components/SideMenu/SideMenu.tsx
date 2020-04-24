@@ -1,8 +1,3 @@
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import DoneAllIcon from '@material-ui/icons/DoneAll'
@@ -11,20 +6,20 @@ import SettingsIcon from '@material-ui/icons/Settings'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useToggle } from 'react-use'
 
 import { ReactComponent as IconLogo } from '../../assets/images/logo/IconLogo.svg'
 import { ReactComponent as TextLogo } from '../../assets/images/logo/TextLogo.svg'
 import { setUser } from '../../redux/actions/userActions'
 
-const SideMenu = () => {
+export const SideMenu: React.FC<{}> = () => {
     const history = useHistory()
     const dispatch = useDispatch()
 
     const [isSidemenuOpen, toggleSidemenu] = useToggle(false)
-    const [activeLink, setActiveLink] = React.useState('dashboard')
 
+    // Logout - clear redux user, remove token from LS and redirect to /login
     const handleLogout = React.useCallback(() => {
         dispatch(setUser(''))
         window.localStorage.removeItem('token')
@@ -32,84 +27,53 @@ const SideMenu = () => {
     }, [dispatch, history])
 
     return (
-        <Drawer
-            variant="permanent"
-            className={
-                'sidemenu ' +
-                (
-                    isSidemenuOpen
-                        ? 'sidemenu--open'
-                        : 'sidemenu--closed'
-                )
-            }
-        >
-            <div className="sidemenu__logo">
-                {(
-                    isSidemenuOpen
-                        ? <TextLogo />
-                        : <IconLogo />
-                )}
-            </div>
-            <List className="sidemenu__items-wrapper">
-                <Link
+        <div className={'side-menu ' + (isSidemenuOpen ? 'side-menu--open' : 'side-menu--closed')}>
+            <div>
+                <div className="side-menu__logo">
+                    {isSidemenuOpen
+                        ? <TextLogo className="side-menu__svg" />
+                        : <IconLogo className="side-menu__svg" />}
+                </div>
+                <NavLink
                     to="/dashboard"
                     name="dashboard"
-                    onClick={setActiveLink}
-                    className="sidemenu__item"
+                    className="side-menu__item"
+                    activeClassName="side-menu__item--selected"
+                    title="Dashboard"
                 >
-                    <ListItem
-                        button
-                        selected={activeLink === 'dashboard'}
-                    >
-                        <ListItemIcon>
-                            <DoneAllIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Dashboard" />
-                    </ListItem>
-                </Link>
-                <Link
+                    <DoneAllIcon />
+                    <p className="side-menu__text">Dashboard</p>
+                </NavLink>
+                <NavLink
                     to="/settings"
                     name="settings"
-                    onClick={setActiveLink}
-                    className="sidemenu__item"
+                    className="side-menu__item"
+                    activeClassName="side-menu__item--selected"
+                    title="Dashboard"
                 >
-                    <ListItem
-                        button
-                        selected={activeLink === 'settings'}
-                    >
-                        <ListItemIcon>
-                            <SettingsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Settings" />
-                    </ListItem>
-                </Link>
-                <div className="sidemenu__bottom-actions">
-                    <ListItem
-                        button
-                        onClick={handleLogout}
-                        className="sidemenu__item"
-                    >
-                        <ListItemIcon>
-                            <ExitToAppIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Log Out" />
-                    </ListItem>
-                    <ListItem
-                        button
-                        onClick={toggleSidemenu}
-                        className="sidemenu__item"
-                    >
-                        <ListItemIcon>
-                            {(
-                                isSidemenuOpen
-                                    ? <ChevronLeftIcon />
-                                    : <ChevronRightIcon />
-                            )}
-                        </ListItemIcon>
-                    </ListItem>
+                    <SettingsIcon />
+                    <p className="side-menu__text">Settings</p>
+                </NavLink>
+            </div>
+            <div>
+                <div
+                    onClick={handleLogout}
+                    className="side-menu__item"
+                    title="Log Out"
+                >
+                    <ExitToAppIcon />
+                    <p className="side-menu__text">Log Out</p>
                 </div>
-            </List>
-        </Drawer>
+                <div
+                    onClick={toggleSidemenu}
+                    className="side-menu__item"
+                    title="Toggle Menu"
+                >
+                    {isSidemenuOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    <p className="side-menu__text">Toggle Menu</p>
+                </div>
+            </div>
+        </div>
     )
 }
 
