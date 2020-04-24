@@ -101,9 +101,9 @@ export const Register: React.FunctionComponent<{}> = () => {
                                     required
                                 />
                             </div>
-                            <a className="form__button button-main" type="submit">
+                            <button className="form__button button-main" type="submit">
                                 Create your account
-                            </a>
+                            </button>
                         </form>
                         <div className="bottom-info">
                             <p className="bottom-info__text">Already have an account?

@@ -73,9 +73,9 @@ export const Login: React.FunctionComponent<{}> = () => {
                                 />
                                 {errors.password && <FormErrorMessage error={errors.password} />}
                             </div>
-                            <a className="form__button button-main" type="submit">
+                            <button className="form__button button-main" type="submit">
                                 Login
-                            </a>
+                            </button>
                         </form>
                         <div className="bottom-info">
                             <p className="bottom-info__text">Don't have an account?
