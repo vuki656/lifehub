@@ -4,7 +4,7 @@ import Lottie from 'react-lottie'
 import animationData from '../../assets/images/lottie/loading-circle.json'
 import { FullScreenTransitionProps } from './FullScreenTransition.types'
 
-export const FullScreenTransition: React.FunctionComponent<FullScreenTransitionProps> = (props) => {
+export const FullScreenTransition: React.FC<FullScreenTransitionProps> = (props) => {
     const { isLoadingActive } = props
 
     const defaultOptions = {

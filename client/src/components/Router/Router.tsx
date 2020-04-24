@@ -7,7 +7,7 @@ import { RegisterPage } from '../../pages/register'
 import { SettingsPage } from '../../pages/settings'
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 
-export const Router = () => (
+export const Router: React.FC<{}> = () => (
     <BrowserRouter>
         <Switch>
             <Route path="/" component={RegisterPage} exact />

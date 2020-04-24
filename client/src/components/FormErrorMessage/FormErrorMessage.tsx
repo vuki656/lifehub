@@ -3,7 +3,7 @@ import React from 'react'
 import { ReactComponent as ErrorTriangle } from '../../assets/images/ErrorTriangle.svg'
 import { FormErrorMessageProps } from './FormErrorMessage.types'
 
-export const FormErrorMessage: React.FunctionComponent<FormErrorMessageProps> = (props) => {
+export const FormErrorMessage: React.FC<FormErrorMessageProps> = (props) => {
     const {
         error = '',
     } = props

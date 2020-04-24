@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom'
 
 import { DaysListItem } from './DaysListItem'
 
-export const DaysList: React.FunctionComponent<{}> = () => {
+export const DaysList: React.FC<{}> = () => {
 
     // Render 20 days from today
     const renderDays = React.useCallback(() => (

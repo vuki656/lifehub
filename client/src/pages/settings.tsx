@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const SettingsPage: React.FunctionComponent<{}> = () => {
+export const SettingsPage: React.FC<{}> = () => {
     return (
         <p>Settings</p>
     )

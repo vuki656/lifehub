@@ -13,7 +13,7 @@ import { ReactComponent as IconLogo } from '../../assets/images/logo/IconLogo.sv
 import { ReactComponent as TextLogo } from '../../assets/images/logo/TextLogo.svg'
 import { setUser } from '../../redux/actions/userActions'
 
-const SideMenu = () => {
+export const SideMenu: React.FC<{}> = () => {
     const history = useHistory()
     const dispatch = useDispatch()
 

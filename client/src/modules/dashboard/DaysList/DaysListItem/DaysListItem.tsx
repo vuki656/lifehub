@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 import { DaysListItemProps } from './DaysListItem.types'
 
-export const DaysListItem: React.FunctionComponent<DaysListItemProps> = (props) => {
+export const DaysListItem: React.FC<DaysListItemProps> = (props) => {
     const { day } = props
 
     return (

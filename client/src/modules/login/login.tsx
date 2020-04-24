@@ -10,7 +10,7 @@ import { LOGIN_USER } from '../../graphql/user/user'
 import { logInUserResponse, logInUserVariables } from '../../graphql/user/user.types'
 import { UserErrors } from '../register'
 
-export const Login: React.FunctionComponent<{}> = () => {
+export const Login: React.FC<{}> = () => {
     const history = useHistory()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
