@@ -12,7 +12,6 @@
 
 // ** BASE **
 @import "base/global";
-@import "base/reusable";
 
 // ** MIXINS **
 @import "mixins/side-menu";
@@ -29,3 +28,4 @@
 
 // ** REUSABLE BLOCKS **
 @import "blocks/reusable/bottom-info";
+@import "blocks/reusable/buttons";

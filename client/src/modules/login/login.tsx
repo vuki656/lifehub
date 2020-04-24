@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/react-hooks'
-import Button from '@material-ui/core/Button'
 import React, { useCallback } from 'react'
 import { useField, useForm } from 'react-final-form-hooks'
 import { Link, useHistory } from 'react-router-dom'
@@ -74,12 +73,9 @@ export const Login: React.FunctionComponent<{}> = () => {
                                 />
                                 {errors.password && <FormErrorMessage error={errors.password} />}
                             </div>
-                            <Button
-                                className="form__button button-main"
-                                type="submit"
-                            >
+                            <a className="form__button button-main" type="submit">
                                 Login
-                            </Button>
+                            </a>
                         </form>
                         <div className="bottom-info">
                             <p className="bottom-info__text">Don't have an account?

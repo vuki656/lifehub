@@ -1,8 +1,11 @@
 .button-main {
   background-color: $button-background-color-main;
+  border-radius: $border-radius-default;
   box-shadow: $box-shadow-default;
+  box-sizing: border-box;
   color: $button-text-color-main;
   font-size: $font-size-text;
+  font-weight: $font-weight-medium;
   letter-spacing: normal;
   margin-top: $spacing-lg;
   padding: $spacing-xs $spacing-sm;
@@ -11,5 +14,6 @@
 
   &:hover {
     background-color: $color-blue-dark;
+    cursor: pointer;
   }
 }
