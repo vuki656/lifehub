@@ -21,3 +21,8 @@ input, button {
   border: none;
   cursor: pointer;
 }
+
+// Remove active border color
+*:focus {
+  outline: none;
+}

@@ -1,5 +1,5 @@
 @mixin menu-item--active {
-  background: $bcg-co-grey-lt;
-  color: $text-color-primary-base;
+  background: $background-color-grey-light;
+  color: $text-color-primary;
   cursor: pointer;
 }

@@ -1,19 +1,21 @@
 .dialog {
   @include flex-i-center-c-center;
-  background-color: $bcg-co-black-trn;
+  background-color: $background-color-black-transparent;
   bottom: 0;
   left: 0;
   padding: $spacing-md;
   position: absolute;
   right: 0;
   top: 0;
-  transition: visibility 150ms ease-in-out, opacity 150ms ease-in-out, background-color 150ms ease-in-out;
+  transition-duration: 150ms, 150ms, 150ms;
+  transition-property: visibility, opacity, background-color;
+  transition-timing-function: ease-in-out;
   z-index: 1500;
 }
 
 .dialog__content {
-  background: $bcg-co-white;
-  border-radius: $bor-ra-de;
+  background: $background-color-white;
+  border-radius: $border-radius-def;
   padding: $spacing-md;
 }
 

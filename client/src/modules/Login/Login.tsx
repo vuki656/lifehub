@@ -73,7 +73,7 @@ export const Login: React.FC<{}> = () => {
                                 />
                                 {errors.password && <FormErrorMessage error={errors.password} />}
                             </div>
-                            <button className="form__button--wide button--primary" type="submit">
+                            <button className="form__button--wide button button--primary" type="submit">
                                 Login
                             </button>
                         </form>

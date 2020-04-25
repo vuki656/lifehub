@@ -101,7 +101,7 @@ export const Register: React.FC<{}> = () => {
                                     {...passwordConfirmation.input}
                                 />
                             </div>
-                            <button className="form__button--wide button--primary" type="submit">
+                            <button className="form__button--wide button button--primary" type="submit">
                                 Create your account
                             </button>
                         </form>

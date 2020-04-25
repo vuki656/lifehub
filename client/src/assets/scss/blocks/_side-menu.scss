@@ -1,6 +1,6 @@
 .side-menu {
-  background: $bcg-co-white;
-  box-shadow: $box-sh-def;
+  background-color: $background-color-white;
+  box-shadow: $box-shadow-default;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -25,11 +25,11 @@
 .side-menu__item {
   align-items: center;
   background: white;
-  color: $text-color-secondary-025;
+  color: $text-color-primary-light;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding: $spacing-xs $spacing-default;
+  padding: $spacing-xs $spacing-def;
   text-decoration: none;
 
   &:hover {
@@ -38,7 +38,7 @@
 }
 
 .side-menu__text {
-  padding-left: $spacing-default;
+  padding-left: $spacing-def;
 }
 
 .side-menu__item--selected {
@@ -46,7 +46,7 @@
 }
 
 .side-menu--open {
-  @include toggle-drawer("open", 200px);
+  @include toggle-side-menu("open", 200px);
 
   .side-menu__logo svg {
     @include toggle-sidemenu-logo(-200%, 0%)
@@ -54,29 +54,15 @@
 
   .side-menu__item {
     justify-content: flex-start;
-    padding: $spacing-xs $spacing-default;
+    padding: $spacing-xs $spacing-def;
   }
 }
 
 .side-menu--closed {
-  @include toggle-drawer("closed", 55px);
+  @include toggle-side-menu("closed", 55px);
 
   .side-menu__logo svg {
     @include toggle-sidemenu-logo(-200%, 0%)
-  }
-
-  // Make text start disappearing
-  p {
-    animation: make-text-visible 0.3s;
-
-    @keyframes make-text-visible {
-      0% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
-    }
   }
 }
 

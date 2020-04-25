@@ -1,8 +1,8 @@
 .button {
-  border-radius: $bor-ra-de;
+  border-radius: $border-radius-def;
   box-sizing: border-box;
-  font-size: $fn-sz-text;
-  font-weight: $fn-weight-medium;
+  font-size: $font-size-text;
+  font-weight: $font-weight-medium;
   letter-spacing: normal;
   padding: $spacing-xs $spacing-sm;
   text-align: center;
@@ -10,22 +10,22 @@
 }
 
 .button--primary {
-  background-color: $btn-bc-co-prim;
-  color: $btn-tx-co-prim;
+  background-color: $button-background-color-primary;
+  color: $button-text-color-primary;
 
   &:hover {
-    background-color: $btn-bc-co-prim-hov;
+    background-color: $button-background-color-primary-hover;
     cursor: pointer;
   }
 }
 
 .button--secondary {
-  background-color: $btn-bc-co-seco;
-  border: 1px solid $btn-tx-co-seco;
-  color: $btn-tx-co-seco;
+  background-color: $button-background-color-secondary;
+  border: 1px solid $border-color-input-field;
+  color: $button-text-color-secondary;
 
   &:hover {
-    background-color: $btn-bc-co-seco-hov;
+    background-color: $button-background-color-secondary-hover;
     cursor: pointer;
   }
 }

@@ -1,6 +1,6 @@
 .days-sidebar {
-  background: $bcg-co-white;
-  box-shadow: $box-sh-def;
+  background: $background-color-white;
+  box-shadow: $box-shadow-default;
   display: flex;
   flex-direction: column;
   max-height: 100vh;
@@ -11,7 +11,7 @@
 
 .days-sidebar__button {
   @include flex-i-center-c-center;
-  color: $text-color-secondary-025;
+  color: $text-color-primary-light;
   height: 50px;
   text-decoration: none;
 
@@ -39,7 +39,7 @@
 
 .days-sidebar__item {
   align-items: center;
-  color: $text-color-secondary-025;
+  color: $text-color-primary-light;
   display: flex;
   flex-grow: 1;
   justify-content: flex-start;

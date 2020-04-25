@@ -1,11 +1,10 @@
 // ** TEXT COLORS **
-$btn-tx-co-prim: $color-white;
-$btn-tx-co-prim-hov: $color-blue-dark;
-$btn-tx-co-seco: $text-color-primary-base;
-$btn-tx-co-seco-hov: $color-black-lightest;
+$button-text-color-primary: $color-white;
+$button-text-color-primary-hover: $color-blue-dark;
+$button-text-color-secondary: $text-color-primary;
 
 // ** BACKGROUND COLORS **
-$btn-bc-co-prim: $bcg-co-blue;
-$btn-bc-co-prim-hov: $color-blue-dark;
-$btn-bc-co-seco: $color-white;
-$btn-bc-co-seco-hov: $color-black-lightest;
+$button-background-color-primary: $background-color-blue;
+$button-background-color-primary-hover: $color-blue-dark;
+$button-background-color-secondary: $color-white;
+$button-background-color-secondary-hover: $color-black-lightest;
