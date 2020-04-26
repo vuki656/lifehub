@@ -1,24 +1,48 @@
+import { useMutation } from '@apollo/react-hooks'
 import React, { useCallback } from 'react'
 import { useField, useForm } from 'react-final-form-hooks'
+import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
+import { FormErrorMessage } from '../../../components/FormErrorMessage'
+
+import { CREATE_REMINDER } from '../../../graphql/reminder/reminder'
+import { createReminderResponse, createReminderVariables } from '../../../graphql/reminder/reminder.types'
+import { ReminderErrors } from './Reminder.types'
 
 export const Reminders: React.FC<{}> = () => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
+    const username = useSelector((state) => state.user.username)
+    const [errors, setErrors] = React.useState<ReminderErrors>({})
+    const [createUserMutation] = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
 
-    // Log user in
-    const onSubmit = useCallback(() => {
-        // console.log('saved reminder')
-        // console.log(formValues)
-    }, [])
+    // Save reminder
+    const onSubmit = useCallback((formValues) => {
+        createUserMutation({
+            variables: {
+                username,
+                title: formValues.title,
+                description: formValues.description,
+            },
+        })
+        .then(() => {
+            toggleDialog()
+            form.reset()
+        })
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [createUserMutation, username, toggleDialog])
 
     const { form, handleSubmit } = useForm({ onSubmit })
 
     const title = useField('title', form)
     const description = useField('description', form)
 
+    // Cancel reminder creation, clear form, close dialog
     const handleCancelSubmit = useCallback(() => {
-        form.reset()
         toggleDialog()
+        setErrors({})
+        form.reset()
     }, [form, toggleDialog])
 
     return (
@@ -43,10 +67,10 @@ export const Reminders: React.FC<{}> = () => {
                             <input
                                 className="form__input-field"
                                 type="text"
-                                required
                                 {...description.input}
                             />
                         </div>
+                        {errors.error && <FormErrorMessage error={errors.error} />}
                         <div className="form__button-group--right">
                             <button
                                 onClick={handleCancelSubmit}
@@ -56,7 +80,6 @@ export const Reminders: React.FC<{}> = () => {
                                 Cancel
                             </button>
                             <button
-                                onClick={toggleDialog}
                                 type="submit"
                                 className="form__button button button--primary"
                             >

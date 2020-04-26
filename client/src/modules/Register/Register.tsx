@@ -26,16 +26,16 @@ export const Register: React.FC<{}> = () => {
                 passwordConfirmation: formValues.passwordConfirmation,
             },
         })
-            .then((response) => {
-                const token = response?.data?.createUser.token ?? ''
-                window.localStorage.setItem('token', token)
+        .then((response) => {
+            const token = response?.data?.createUser.token ?? ''
+            window.localStorage.setItem('token', token)
 
-                setErrors({})
-                history.push('/dashboard')
-            })
-            .catch((error) => {
-                setErrors(error.graphQLErrors?.[0].extensions.exception)
-            })
+            setErrors({})
+            history.push('/dashboard')
+        })
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
     }, [createUserMutation, history])
 
     const { form, handleSubmit } = useForm({ onSubmit })

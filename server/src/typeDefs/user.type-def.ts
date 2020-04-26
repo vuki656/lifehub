@@ -1,5 +1,6 @@
 import { gql } from 'apollo-server'
 
+// TODO REMOVE FETCHING ALL USERS
 export const userType = gql`
     type User {
         id: ID!
@@ -17,12 +18,12 @@ export const userType = gql`
         username: String!
     }
 
-    type Query {
+    extend type Query {
         getAllUsers: [User]!
         verifyUser(token: String): AuthResponse
     }
 
-    type Mutation {
+    extend type Mutation {
         createUser(email: String!, username: String!, password: String!, passwordConfirmation: String!): UserAuth!
         logInUser(email: String!, password: String!): UserAuth!
     }

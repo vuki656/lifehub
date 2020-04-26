@@ -24,16 +24,16 @@ export const Login: React.FC<{}> = () => {
                 password: formValues.password,
             },
         })
-            .then((response) => {
-                const token = response?.data?.logInUser.token ?? ''
-                window.localStorage.setItem('token', token)
+        .then((response) => {
+            const token = response?.data?.logInUser.token ?? ''
+            window.localStorage.setItem('token', token)
 
-                setErrors({})
-                history.push('/dashboard')
-            })
-            .catch((error) => {
-                setErrors(error.graphQLErrors[0]?.extensions)
-            })
+            setErrors({})
+            history.push('/dashboard')
+        })
+        .catch((error) => {
+            setErrors(error.graphQLErrors[0]?.extensions)
+        })
     }, [logInUserQuery, history])
 
     const { form, handleSubmit } = useForm({ onSubmit })

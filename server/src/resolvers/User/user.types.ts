@@ -1,5 +1,7 @@
-export interface RegisterErrors extends UserInput {
+export type RegisterErrors = {
     username?: string,
+    password?: string,
+    email?: string,
 }
 
 export type UserInput = {

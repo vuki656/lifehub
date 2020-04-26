@@ -11,13 +11,23 @@ type AuthResponse {
 }
 
 type Mutation {
+    _empty: String
+    createReminder(description: String, title: String!, username: String!): Reminder!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     logInUser(email: String!, password: String!): UserAuth!
 }
 
 type Query {
+    _empty: String
+    getAllReminders: [Reminder]!
     getAllUsers: [User]!
     verifyUser(token: String): AuthResponse
+}
+
+type Reminder {
+    description: String
+    title: String!
+    username: String!
 }
 
 type User {
