@@ -8,3 +8,11 @@ export const DescriptionOptions: any = {
     type: 'varchar',
     nullable: true,
 }
+
+export const StartOptions: any = {
+    type: 'timestamptz',
+}
+
+export const EndOptions: any = {
+    type: 'timestamptz',
+}

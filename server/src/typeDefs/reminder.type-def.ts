@@ -5,6 +5,8 @@ export const reminderType = gql`
         username: String!,
         title: String!
         description: String
+        start: String!
+        end: String!
     }
 
     extend type Query {
@@ -12,6 +14,6 @@ export const reminderType = gql`
     }
 
     extend type Mutation {
-        createReminder( title: String!, description: String, username: String!,): Reminder!
+        createReminder( title: String!, description: String, username: String!, start: String!, end: String!): Reminder!
     }
 `

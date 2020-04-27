@@ -12,7 +12,7 @@ type AuthResponse {
 
 type Mutation {
     _empty: String
-    createReminder(description: String, title: String!, username: String!): Reminder!
+    createReminder(description: String, end: String!, start: String!, title: String!, username: String!): Reminder!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     logInUser(email: String!, password: String!): UserAuth!
 }
@@ -26,6 +26,8 @@ type Query {
 
 type Reminder {
     description: String
+    end: String!
+    start: String!
     title: String!
     username: String!
 }

@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
+import moment from 'moment'
 import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useField, useForm } from 'react-final-form-hooks'
@@ -14,34 +15,38 @@ import { ReminderDialogProps } from './ReminderDialog.types'
 export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog } = props
 
-    const [createUserMutation, { loading }] = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
+    const [createReminderMutation, { loading }] = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
     const [errors, setErrors] = React.useState<ReminderErrors>({})
     const username = useSelector((state) => state.user.username)
 
+    const [startDate, setStartDate] = useState<Date>()
+    const [endDate, setEndDate] = useState<Date>()
+
     // Save reminder
     const onSubmit = useCallback((formValues) => {
-        createUserMutation({
+        createReminderMutation({
             variables: {
                 username,
                 title: formValues.title,
                 description: formValues.description,
+                start: moment(startDate).format()!,
+                end: moment(endDate).format()!,
             },
         })
         .then(() => {
             toggleDialog()
             form.reset()
+            setErrors({})
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createUserMutation, username, toggleDialog])
+    }, [createReminderMutation, username, toggleDialog, endDate, startDate])
 
     const { form, handleSubmit } = useForm({ onSubmit })
 
     const title = useField('title', form)
     const description = useField('description', form)
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(new Date())
 
     // Cancel reminder creation, clear form, close dialog
     const handleCancelSubmit = useCallback(() => {
@@ -51,7 +56,6 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     }, [form, toggleDialog])
 
     return (
-
         <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
             <div className="dialog__content">
                 <form onSubmit={handleSubmit}>
@@ -79,6 +83,8 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             className="form__input-field"
                             selected={startDate}
                             onChange={(date) => setStartDate(date)}
+                            minDate={new Date()}
+                            required
                         />
                     </div>
                     <div className="form__field-wrapper">
@@ -87,6 +93,8 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             className="form__input-field"
                             selected={endDate}
                             onChange={(date) => setEndDate(date)}
+                            minDate={startDate}
+                            required
                         />
                     </div>
                     {errors.error && <FormErrorMessage error={errors.error} />}

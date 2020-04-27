@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { UserEntity } from '../user'
 
-import { DescriptionOptions, TitleOptions } from './Reminder.options'
+import { UserEntity } from '../user'
+import { DescriptionOptions, EndOptions, StartOptions, TitleOptions } from './Reminder.options'
 
 @Entity('reminders')
 export class ReminderEntity extends BaseEntity {
@@ -13,6 +13,12 @@ export class ReminderEntity extends BaseEntity {
 
     @Column(DescriptionOptions)
     description: string
+
+    @Column(StartOptions)
+    start: Date
+
+    @Column(EndOptions)
+    end: Date
 
     @ManyToOne(() => UserEntity, user => user.reminders, { cascade: true })
     user: UserEntity

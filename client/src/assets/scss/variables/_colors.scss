@@ -6,7 +6,7 @@ $color-black-lightest: #0000001a;
 $color-white: #ffffff;
 $color-smoke: #f6f6f6;
 $color-grey: #bbbbbb;
-$color-grey-light: #d8d8d8;
+$color-grey-light: #ccc;
 $color-grey-lightest: #f1f1f1;
 $color-blue: #0083ff;
 $color-blue-dark: #006fe4;
@@ -21,6 +21,7 @@ $text-color-primary-light: lighten($text-color-primary, 25%);
 $text-color-primary-lighter: lighten($text-color-primary, 50%);
 $text-color-primary-lightest: lighten($text-color-primary, 75%);
 
+$text-color-disabled: $color-grey-light;
 $text-color-placeholder: $color-grey-light;
 $text-color-input-field: $color-black-light;
 

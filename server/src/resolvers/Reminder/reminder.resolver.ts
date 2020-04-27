@@ -9,7 +9,6 @@ export const reminderResolver = {
             (parent, input, context) => isAuthenticated(context),
             () => getAllRemindersHandler(),
         )),
-
     },
     Mutation: {
         createReminder: (combineResolvers(
