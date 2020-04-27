@@ -1,6 +1,5 @@
 import { gql } from 'apollo-server'
 
-// TODO REMOVE FETCHING ALL USERS
 export const userType = gql`
     type User {
         id: ID!

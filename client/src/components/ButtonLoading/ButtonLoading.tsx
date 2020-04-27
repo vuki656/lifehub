@@ -1,10 +1,10 @@
 import React from 'react'
 import Lottie from 'react-lottie'
 
-import animationData from '../../assets/images/lottie/loading-circle-blue.json'
-import { FullScreenTransitionProps } from './FullScreenTransition.types'
+import animationData from '../../assets/images/lottie/loading-circle-white.json'
+import { ButtonLoadingProps } from './ButtonLoading.types'
 
-export const FullScreenTransition: React.FC<FullScreenTransitionProps> = (props) => {
+export const ButtonLoading: React.FC<ButtonLoadingProps> = (props) => {
     const { isLoadingActive } = props
 
     const defaultOptions = {
@@ -17,11 +17,11 @@ export const FullScreenTransition: React.FC<FullScreenTransitionProps> = (props)
     }
 
     return (
-        <div className="full-screen-transition">
+        <div className="button-transition">
             <Lottie
+                height={18}
+                width={18}
                 options={defaultOptions}
-                height={100}
-                width={100}
                 isStopped={!isLoadingActive}
             />
         </div>

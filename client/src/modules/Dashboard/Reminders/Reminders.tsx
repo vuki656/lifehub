@@ -3,8 +3,9 @@ import React, { useCallback } from 'react'
 import { useField, useForm } from 'react-final-form-hooks'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-import { FormErrorMessage } from '../../../components/FormErrorMessage'
+import { ButtonLoading } from '../../../components/ButtonLoading'
 
+import { FormErrorMessage } from '../../../components/FormErrorMessage'
 import { CREATE_REMINDER } from '../../../graphql/reminder/reminder'
 import { createReminderResponse, createReminderVariables } from '../../../graphql/reminder/reminder.types'
 import { ReminderErrors } from './Reminder.types'
@@ -13,7 +14,7 @@ export const Reminders: React.FC<{}> = () => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
     const username = useSelector((state) => state.user.username)
     const [errors, setErrors] = React.useState<ReminderErrors>({})
-    const [createUserMutation] = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
+    const [createUserMutation, { loading }] = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
 
     // Save reminder
     const onSubmit = useCallback((formValues) => {
@@ -83,7 +84,7 @@ export const Reminders: React.FC<{}> = () => {
                                 type="submit"
                                 className="form__button button button--primary"
                             >
-                                Save
+                                {loading ? <ButtonLoading isLoadingActive={loading} /> : 'Save'}
                             </button>
                         </div>
                     </form>

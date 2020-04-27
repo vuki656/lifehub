@@ -14,7 +14,7 @@ export const Login: React.FC<{}> = () => {
     const history = useHistory()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
-    const [logInUserQuery, { loading = true }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
+    const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
 
     // Log user in
     const onSubmit = useCallback((formValues) => {

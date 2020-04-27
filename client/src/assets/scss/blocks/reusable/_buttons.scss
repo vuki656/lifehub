@@ -3,7 +3,9 @@
   box-sizing: border-box;
   font-size: $font-size-text;
   font-weight: $font-weight-medium;
+  height: $default-button-height;
   letter-spacing: normal;
+  min-width: $default-button-width;
   padding: $spacing-xs $spacing-sm;
   text-align: center;
   text-transform: capitalize;
