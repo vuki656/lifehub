@@ -21,7 +21,6 @@ type Mutation {
 
 type Query {
     _empty: String
-    getAllUsers: [User]!
     getRemindersByDate(selectedDate: String!, username: String!): [Reminder]!
     verifyUser(token: String): AuthResponse
 }

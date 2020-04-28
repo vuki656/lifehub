@@ -18,7 +18,6 @@ export const userType = gql`
     }
 
     extend type Query {
-        getAllUsers: [User]!
         verifyUser(token: String): AuthResponse
     }
 
