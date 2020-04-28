@@ -31,3 +31,13 @@
     cursor: pointer;
   }
 }
+
+.button--delete {
+  background-color: $button-background-color-delete;
+  color: $button-text-color-delete;
+
+  &:hover {
+    background-color: $button-background-color-delete-hover;
+    cursor: pointer;
+  }
+}

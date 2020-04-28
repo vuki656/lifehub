@@ -29,6 +29,7 @@ $text-color-input-field: $color-black-light;
 // ** BACKGROUND COLORS **
 $background-color-white: $color-white;
 $background-color-grey: $color-grey;
+$background-color-red-darker: darken($color-red-light, 5%);
 $background-color-red: $color-red-light;
 $background-color-grey-light: $color-smoke;
 $background-color-blue: $color-blue;

@@ -19,7 +19,9 @@
 
 .reminder-card__description {
   color: $text-color-primary-light;
-  padding-bottom: $spacing-xs;
+  margin-bottom: $spacing-sm;
+  max-height: 271px;
+  overflow: hidden;
 }
 
 .reminder-card__date-wrapper {

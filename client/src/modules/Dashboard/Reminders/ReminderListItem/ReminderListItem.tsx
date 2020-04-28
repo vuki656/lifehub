@@ -10,9 +10,11 @@ import { ReminderListItemProps } from './ReminderListItem.types'
 
 export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
     const { reminder } = props
+
     const [isDialogOpen, toggleDialog] = useToggle(false)
     const selectedDate = useSelector((state) => state.user.selectedDate)
 
+    // Calculate difference between selected date and reminder due date
     const getDateDifference = useCallback((reminder) => {
         const start = moment(selectedDate)
         const end = moment.unix(reminder.endDate / 1000).local()
@@ -21,6 +23,7 @@ export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
         return result === 0 ? 'Today' : `${result} Days`
     }, [selectedDate])
 
+    // Disable onClick if dialog open so its not closed on click anywhere in dialog
     const handleCardClick = useCallback(() => {
         !isDialogOpen && toggleDialog()
     }, [isDialogOpen, toggleDialog])

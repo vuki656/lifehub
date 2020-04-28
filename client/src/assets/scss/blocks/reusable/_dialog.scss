@@ -17,7 +17,9 @@
 .dialog__content {
   background: $background-color-white;
   border-radius: $border-radius-def;
+  max-width: 300px;
   padding: $spacing-md;
+  width: 300px;
 }
 
 .dialog--open {

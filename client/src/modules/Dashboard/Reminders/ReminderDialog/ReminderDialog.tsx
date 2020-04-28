@@ -4,12 +4,14 @@ import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 
-import { ButtonLoading } from '../../../../components/ButtonLoading'
+import { ButtonLoadingIcon } from '../../../../components/ButtonLoadingIcon'
 import { FormErrorMessage } from '../../../../components/FormErrorMessage'
-import { CREATE_REMINDER, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
+import { CREATE_REMINDER, DELETE_REMINDER, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
 import {
     createReminderResponse,
     createReminderVariables,
+    deleteReminderResponse,
+    deleteReminderVariables,
     updateReminderResponse,
     updateReminderVariables,
 } from '../../../../graphql/reminder/reminder.types'
@@ -20,16 +22,16 @@ import { ReminderDialogProps } from './ReminderDialog.types'
 export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, reminder } = props
 
-    const [createReminderMutation, { loading: createLoading }]
-        = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
-    const [updateReminderMutation, { loading: updateLoading }]
-        = useMutation<updateReminderResponse, updateReminderVariables>(UPDATE_REMINDER)
     const username = useSelector((state) => state.user.username)
+    const [createReminderMutation, { loading: createLoading }] = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
+    const [updateReminderMutation, { loading: updateLoading }] = useMutation<updateReminderResponse, updateReminderVariables>(UPDATE_REMINDER)
+    const [deleteReminderMutation, { loading: deleteLoading }] = useMutation<deleteReminderResponse, deleteReminderVariables>(DELETE_REMINDER)
 
     // Form
     const [errors, setErrors] = React.useState<ReminderErrors>({})
     const [startDate, setStartDate] = useState<Date | undefined>(reminder ? new Date(reminder.startDate / 1) : undefined) // No idea why 1 is needed, crashes with it
     const [endDate, setEndDate] = useState<Date | undefined>(reminder ? new Date(reminder.endDate / 1) : undefined)
+
     const [{ title, description }, setFormValue, clearForm] = useFormFields({
         title: reminder ? reminder.title : '',
         description: reminder?.description ? reminder.description : '',
@@ -43,7 +45,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     }, [clearForm])
 
     // Cancel reminder creation, clear form, close dialog
-    const handleCancelSubmit = useCallback(() => {
+    const handleDialogToggle = useCallback(() => {
         toggleDialog()
         setErrors({})
         resetForm()
@@ -60,11 +62,11 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 endDate: moment.utc(endDate).format()!,
             },
         })
-        .then(() => handleCancelSubmit())
+        .then(() => handleDialogToggle())
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createReminderMutation, username, endDate, startDate, title, description, handleCancelSubmit])
+    }, [createReminderMutation, username, endDate, startDate, title, description, handleDialogToggle])
 
     // Update reminder
     const updateReminder = useCallback(() => {
@@ -78,11 +80,11 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 endDate: moment.utc(endDate).format()!,
             },
         })
-        .then(() => handleCancelSubmit())
+        .then(() => handleDialogToggle())
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [updateReminderMutation, username, endDate, startDate, title, description, handleCancelSubmit, reminder])
+    }, [updateReminderMutation, username, endDate, startDate, title, description, handleDialogToggle, reminder])
 
     // If reminder exists update, else create
     const handleSubmit = useCallback((event) => {
@@ -90,56 +92,83 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         reminder ? updateReminder() : saveReminder()
     }, [reminder, saveReminder, updateReminder])
 
+    // Delete reminder
+    const handleReminderDelete = useCallback(() => {
+        deleteReminderMutation({
+            variables: {
+                id: reminder?.id!,
+            },
+        })
+        .then(() => {
+            handleDialogToggle()
+        })
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [deleteReminderMutation, handleDialogToggle, reminder])
+
     return (
         <form autoComplete="off" onSubmit={handleSubmit}>
             <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
                 <div className="dialog__content">
-                    <p className="title">Create a Reminder</p>
-                    <div className="form__field-wrapper">
-                        <p className="form__field-title">Title</p>
-                        <input
-                            className="form__input-field"
-                            type="text"
-                            required
-                            name="title"
-                            value={title}
-                            onChange={setFormValue}
-                        />
-                    </div>
-                    <div className="form__field-wrapper">
-                        <p className="form__field-title">Description</p>
-                        <textarea
-                            className="form__input-field form__input-area"
-                            name="description"
-                            rows={8}
-                            value={description}
-                            onChange={setFormValue}
-                        />
-                    </div>
-                    <div className="form__field-wrapper">
-                        <p className="form__field-title">Start</p>
-                        <DatePicker
-                            className="form__input-field"
-                            selected={startDate}
-                            onChange={(date) => setStartDate(date)}
-                            minDate={new Date()}
-                            required
-                        />
-                    </div>
-                    <div className="form__field-wrapper">
-                        <p className="form__field-title">End</p>
-                        <DatePicker
-                            className="form__input-field"
-                            selected={endDate}
-                            onChange={(date) => setEndDate(date)}
-                            minDate={startDate}
-                            required
-                        />
+                    <p className="title">{reminder ? 'Update' : 'Create'} Reminder</p>
+                    <div className="form_input-wrapper">
+                        <div className="form__field-wrapper">
+                            <p className="form__field-title">Title</p>
+                            <input
+                                className="form__input-field"
+                                type="text"
+                                required
+                                name="title"
+                                value={title}
+                                onChange={setFormValue}
+                            />
+                        </div>
+                        <div className="form__field-wrapper">
+                            <p className="form__field-title">Description</p>
+                            <textarea
+                                className="form__input-field form__input-area"
+                                name="description"
+                                rows={8}
+                                value={description}
+                                onChange={setFormValue}
+                                maxLength={1900}
+                            />
+                        </div>
+                        <div className="form__field-wrapper">
+                            <p className="form__field-title">Start</p>
+                            <DatePicker
+                                className="form__input-field"
+                                selected={startDate}
+                                onChange={(date) => setStartDate(date)}
+                                minDate={new Date()}
+                                required
+                            />
+                        </div>
+                        <div className="form__field-wrapper">
+                            <p className="form__field-title">End</p>
+                            <DatePicker
+                                className="form__input-field"
+                                selected={endDate}
+                                onChange={(date) => setEndDate(date)}
+                                minDate={startDate}
+                                required
+                            />
+                        </div>
                     </div>
                     {errors.error && <FormErrorMessage error={errors.error} />}
                     <div className="form__button-group--right">
+                        {reminder && (
+                            <button
+                                onClick={handleReminderDelete}
+                                className="form__button button button--delete"
+                                type="button"
+                            >
+                                {deleteLoading ? <ButtonLoadingIcon /> : 'Delete'}
+                            </button>
+                        )}
                         <button
-                            onClick={handleCancelSubmit}
+                            onClick={handleDialogToggle}
                             className="form__button button button--secondary"
                             type="button"
                         >
@@ -149,7 +178,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             type="submit"
                             className="form__button button button--primary"
                         >
-                            {createLoading || updateLoading ? <ButtonLoading /> : 'Save'}
+                            {createLoading || updateLoading ? <ButtonLoadingIcon /> : 'Save'}
                         </button>
                     </div>
                 </div>

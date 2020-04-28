@@ -74,7 +74,7 @@
   flex-direction: row;
   justify-content: flex-end;
 
-  :nth-child(2) {
+  :not(:first-child) {
     margin-left: $spacing-md;
   }
 }
@@ -95,4 +95,8 @@
 .form__error-text {
   color: $color-error;
   font-size: $font-size-sm;
+}
+
+.form_input-wrapper {
+  padding: $spacing-sm 0;
 }

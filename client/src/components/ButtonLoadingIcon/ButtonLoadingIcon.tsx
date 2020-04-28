@@ -3,7 +3,7 @@ import Lottie from 'react-lottie'
 
 import animationData from '../../assets/images/lottie/loading-circle-white.json'
 
-export const ButtonLoading: React.FC<{}> = () => {
+export const ButtonLoadingIcon: React.FC<{}> = () => {
     const defaultOptions = {
         loop: true,
         autoplay: true,

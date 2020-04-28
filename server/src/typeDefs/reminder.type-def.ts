@@ -9,6 +9,10 @@ export const reminderType = gql`
         endDate: String!,
     }
 
+    type ReminderDeleteResponse {
+        id: String!,
+    }
+
     extend type Query {
         getRemindersByDate(username: String!, selectedDate: String!): [Reminder]!
     }
@@ -16,5 +20,6 @@ export const reminderType = gql`
     extend type Mutation {
         createReminder(title: String!, description: String, username: String!, startDate: String!, endDate: String!): Reminder!
         updateReminder(title: String!, description: String, startDate: String!, endDate: String!, id: String!): Reminder!
+        deleteReminder(id: String!): ReminderDeleteResponse!
     }
 `
