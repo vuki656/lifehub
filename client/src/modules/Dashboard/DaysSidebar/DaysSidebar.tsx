@@ -13,23 +13,23 @@ export const DaysSidebar: React.FC<{}> = () => {
     // Render 20 days from today
     const renderDays = React.useCallback(() => (
         [...new Array(20)].map((value, index) => {
+            const day = moment().add(index, 'days')
 
-            const nextDay = moment().add(index, 'days')
             return (
                 <NavLink
-                    to={`/dashboard/${nextDay.format('DoddddMMYYYY')}`}
-                    name={`/dashboard/${nextDay.format('DoddddMMYYYY')}`}
-                    title={nextDay.format('Do dddd MM YYYY')}
+                    to={`/dashboard/${day.format('DoddddMMYYYY')}`}
+                    name={`/dashboard/${day.format('DoddddMMYYYY')}`}
+                    title={day.format('Do dddd MM YYYY')}
                     className="days-sidebar__item"
                     activeClassName="days-sidebar__item--active"
-                    key={nextDay.format('DoddddMMYYYY')}
-                    onClick={() => dispatch(setSelectedDate(nextDay))}
+                    key={day.format('DoddddMMYYYY')}
+                    onClick={() => dispatch(setSelectedDate(moment(day).startOf('day')))}
                 >
-                    <p>{nextDay.format('DD dd')}</p>
+                    <p>{day.format('DD dd')}</p>
                 </NavLink>
             )
         })
-    ), [])
+    ), [dispatch])
 
     return (
         <div className="days-sidebar">

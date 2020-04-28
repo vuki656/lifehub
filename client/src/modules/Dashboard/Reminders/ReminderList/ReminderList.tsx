@@ -20,9 +20,8 @@ export const ReminderList: React.FC<{}> = () => {
                 <div key={reminder.title}>
                     <p>{reminder.title}</p>
                     <p>{reminder.description}</p>
-                    {console.log(reminder.startDate)}
-                    <p>{moment.unix(reminder.startDate).format('DD/MM/YYYY')}</p>
-                    <p>{moment.unix(reminder.endDate).format('DD/MM/YYYY')}</p>
+                    <p>{moment.unix(reminder.startDate / 1000).local().format('DD/MM/YYYY')}</p>
+                    <p>{moment.unix(reminder.endDate / 1000).local().format('DD/MM/YYYY')}</p>
                 </div>
             ))}
         </div>

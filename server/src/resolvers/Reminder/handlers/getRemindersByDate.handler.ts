@@ -1,4 +1,5 @@
-import { getRepository, LessThan, MoreThan } from 'typeorm'
+import moment from 'moment'
+import { getRepository, LessThanOrEqual, MoreThanOrEqual } from 'typeorm'
 
 import { ReminderEntity } from '../../../entities/reminder'
 import { UserEntity } from '../../../entities/user'
@@ -13,8 +14,8 @@ export const getRemindersByDateHandler = async (input) => {
     return getRepository(ReminderEntity).find({
         where: {
             userId: user?.id,
-            endDate: MoreThan(selectedDate),
-            startDate: LessThan(selectedDate),
+            endDate: MoreThanOrEqual(moment.utc(selectedDate)),
+            startDate: LessThanOrEqual(moment.utc(selectedDate)),
         },
     })
 }
