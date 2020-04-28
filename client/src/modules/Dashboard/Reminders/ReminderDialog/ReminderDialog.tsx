@@ -29,8 +29,8 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 username,
                 title: formValues.title,
                 description: formValues.description,
-                start: moment(startDate).format()!,
-                end: moment(endDate).format()!,
+                startDate: moment.utc(startDate).format()!,
+                endDate: moment.utc(endDate).format()!,
             },
         })
         .then(() => {
@@ -39,7 +39,8 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
             setErrors({})
         })
         .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
+            console.log(error)
+            // setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
     }, [createReminderMutation, username, toggleDialog, endDate, startDate])
 

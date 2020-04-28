@@ -2,6 +2,7 @@ import React from 'react'
 import { useToggle } from 'react-use'
 
 import { ReminderDialog } from './ReminderDialog'
+import { ReminderList } from './ReminderList'
 
 export const Reminders: React.FC<{}> = () => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
@@ -11,6 +12,7 @@ export const Reminders: React.FC<{}> = () => {
             <p className="title">Reminders</p>
             <button onClick={toggleDialog}>Create Reminder</button>
             <ReminderDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />
+            <ReminderList />
         </div>
     )
 }

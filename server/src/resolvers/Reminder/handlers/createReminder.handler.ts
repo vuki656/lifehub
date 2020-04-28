@@ -5,7 +5,7 @@ import { ReminderEntity } from '../../../entities/reminder'
 import { UserEntity } from '../../../entities/user'
 
 export const createReminderHandler = async (input) => {
-    const { username, title, description, start, end } = input
+    const { username, title, description, startDate, endDate } = input
 
     // Get user
     const user = await getRepository(UserEntity).findOne({ where: { username } })
@@ -14,8 +14,8 @@ export const createReminderHandler = async (input) => {
     const reminder = new ReminderEntity()
     reminder.title = title
     reminder.description = description
-    reminder.start = start
-    reminder.end = end
+    reminder.startDate = startDate
+    reminder.endDate = endDate
 
     // Try to assign the user
     if (user) {
@@ -31,5 +31,5 @@ export const createReminderHandler = async (input) => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
 
-    return { title, description, username, start, end }
+    return { title, description, username, startDate, endDate }
 }

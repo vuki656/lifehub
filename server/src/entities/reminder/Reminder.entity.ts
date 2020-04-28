@@ -15,10 +15,10 @@ export class ReminderEntity extends BaseEntity {
     description: string
 
     @Column(StartOptions)
-    start: Date
+    startDate: Date
 
     @Column(EndOptions)
-    end: Date
+    endDate: Date
 
     @ManyToOne(() => UserEntity, user => user.reminders, { cascade: true })
     user: UserEntity

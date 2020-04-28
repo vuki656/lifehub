@@ -1,19 +1,24 @@
 import { combineResolvers } from 'graphql-resolvers'
+
 import { isAuthenticated } from '../../util/authorization'
 import { createReminderHandler } from './handlers/createReminder.handler'
-import { getAllRemindersHandler } from './handlers/getAllReminders.handler'
+import { getRemindersByDateHandler } from './handlers/getRemindersByDate.handler'
 
 export const reminderResolver = {
     Query: {
-        getAllReminders: (combineResolvers(
-            (parent, input, context) => isAuthenticated(context),
-            () => getAllRemindersHandler(),
-        )),
+        getRemindersByDate: (
+            combineResolvers(
+                (parent, input, context) => isAuthenticated(context),
+                (parent, input) => getRemindersByDateHandler(input),
+            )
+        ),
     },
     Mutation: {
-        createReminder: (combineResolvers(
-            (parent, input, context) => isAuthenticated(context),
-            (parent, input) => createReminderHandler(input),
-        )),
+        createReminder: (
+            combineResolvers(
+                (parent, input, context) => isAuthenticated(context),
+                (parent, input) => createReminderHandler(input),
+            )
+        ),
     },
 }

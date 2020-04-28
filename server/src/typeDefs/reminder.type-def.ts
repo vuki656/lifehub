@@ -2,18 +2,17 @@ import { gql } from 'apollo-server'
 
 export const reminderType = gql`
     type Reminder {
-        username: String!,
-        title: String!
-        description: String
-        start: String!
-        end: String!
+        title: String!,
+        description: String,
+        startDate: String!,
+        endDate: String!,
     }
 
     extend type Query {
-        getAllReminders: [Reminder]!
+        getRemindersByDate(username: String!, selectedDate: String!): [Reminder]!
     }
 
     extend type Mutation {
-        createReminder( title: String!, description: String, username: String!, start: String!, end: String!): Reminder!
+        createReminder(title: String!, description: String, username: String!, startDate: String!, endDate: String!): Reminder!
     }
 `
