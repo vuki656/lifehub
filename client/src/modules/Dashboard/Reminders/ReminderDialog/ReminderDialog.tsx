@@ -48,7 +48,6 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
         setErrors({})
-        resetForm()
     }, [toggleDialog, resetForm])
 
     // Save reminder
