@@ -37,10 +37,6 @@
   width: 17px;
 }
 
-.reminder-card__tag--start {
-  padding-right: $spacing-def;
-}
-
-.reminder-card__tag--end {
-
+.reminder-card__tag--last {
+  padding-left: $spacing-def;
 }
