@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 
 import { ButtonLoadingIcon } from '../../../../components/ButtonLoadingIcon'
-import { FormErrorMessage } from '../../../../components/FormErrorMessage'
+import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { CREATE_REMINDER, DELETE_REMINDER, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
 import {
     createReminderResponse,
@@ -155,7 +155,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             />
                         </div>
                     </div>
-                    {errors.error && <FormErrorMessage error={errors.error} />}
+                    {errors.error && <ErrorMessage error={errors.error} />}
                     <div className="form__button-group--right">
                         {reminder && (
                             <button

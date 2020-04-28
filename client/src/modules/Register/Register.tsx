@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
-import { FormErrorMessage } from '../../components/FormErrorMessage'
+import { ErrorMessage } from '../../components/ErrorMessage'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
 import { CREATE_USER } from '../../graphql/user/user'
 import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
@@ -63,7 +63,7 @@ export const Register: React.FC<{}> = () => {
                                     value={username}
                                     onChange={setFormValue}
                                 />
-                                {errors.username && <FormErrorMessage error={errors.username} />}
+                                {errors.username && <ErrorMessage error={errors.username} />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Email</p>
@@ -76,7 +76,7 @@ export const Register: React.FC<{}> = () => {
                                     value={email}
                                     onChange={setFormValue}
                                 />
-                                {errors.email && <FormErrorMessage error={errors.email} />}
+                                {errors.email && <ErrorMessage error={errors.email} />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Password</p>
@@ -90,7 +90,7 @@ export const Register: React.FC<{}> = () => {
                                     value={password}
                                     onChange={setFormValue}
                                 />
-                                {errors.password && <FormErrorMessage error={errors.password} />}
+                                {errors.password && <ErrorMessage error={errors.password} />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Confirm Password </p>

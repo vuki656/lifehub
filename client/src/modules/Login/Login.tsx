@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
-import { FormErrorMessage } from '../../components/FormErrorMessage'
+import { ErrorMessage } from '../../components/ErrorMessage'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
 import { LOGIN_USER } from '../../graphql/user/user'
 import { logInUserResponse, logInUserVariables } from '../../graphql/user/user.types'
@@ -63,7 +63,7 @@ export const Login: React.FC<{}> = () => {
                                     value={email}
                                     onChange={setFormValue}
                                 />
-                                {errors.email && <FormErrorMessage error={errors.email} />}
+                                {errors.email && <ErrorMessage error={errors.email} />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Password</p>
@@ -77,7 +77,7 @@ export const Login: React.FC<{}> = () => {
                                     value={password}
                                     onChange={setFormValue}
                                 />
-                                {errors.password && <FormErrorMessage error={errors.password} />}
+                                {errors.password && <ErrorMessage error={errors.password} />}
                             </div>
                             <button className="form__button--wide button button--primary" type="submit">
                                 Login
