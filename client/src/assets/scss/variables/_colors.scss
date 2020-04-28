@@ -21,12 +21,15 @@ $text-color-primary-light: lighten($text-color-primary, 25%);
 $text-color-primary-lighter: lighten($text-color-primary, 50%);
 $text-color-primary-lightest: lighten($text-color-primary, 75%);
 
+$text-color-white: $color-white;
 $text-color-disabled: $color-grey-light;
 $text-color-placeholder: $color-grey-light;
 $text-color-input-field: $color-black-light;
 
 // ** BACKGROUND COLORS **
 $background-color-white: $color-white;
+$background-color-grey: $color-grey;
+$background-color-red: $color-red-light;
 $background-color-grey-light: $color-smoke;
 $background-color-blue: $color-blue;
 $background-color-black-transparent: $color-black-transparent;

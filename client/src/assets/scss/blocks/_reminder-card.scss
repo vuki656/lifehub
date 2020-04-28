@@ -1,0 +1,46 @@
+.reminder-card {
+  border: 1px solid $border-color-default;
+  border-radius: $border-radius-def;
+  margin-top: $spacing-def;
+  padding: $spacing-def;
+}
+
+.reminder-card__title {
+  font-weight: $font-weight-bold;
+  padding-bottom: $spacing-xs;
+}
+
+.reminder-card__description {
+  color: $text-color-primary-light;
+  padding-bottom: $spacing-xs;
+}
+
+.reminder-card__date-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.reminder-card__tag {
+  align-items: center;
+  color: $text-color-primary-lighter;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.reminder-card__text {
+  font-size: $font-size-text-sm;
+}
+
+.reminder-card__icon {
+  height: 17px;
+  padding-right: $spacing-xxs;
+  width: 17px;
+}
+
+.reminder-card__tag--start {
+  padding-right: $spacing-def;
+}
+
+.reminder-card__tag--end {
+
+}
