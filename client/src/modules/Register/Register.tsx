@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
 import React, { useCallback } from 'react'
-import { useField, useForm } from 'react-final-form-hooks'
 import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
@@ -8,6 +7,7 @@ import { FormErrorMessage } from '../../components/FormErrorMessage'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
 import { CREATE_USER } from '../../graphql/user/user'
 import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
+import { useFormFields } from '../../util/hooks/useFormFields.hook'
 import { UserErrors } from './Register.types'
 
 export const Register: React.FC<{}> = () => {
@@ -15,46 +15,42 @@ export const Register: React.FC<{}> = () => {
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
+    const [{ username, email, password, passwordConfirmation }, setFormValue, clearForm] = useFormFields({
+        username: '',
+        email: '',
+        password: '',
+        passwordConfirmation: '',
+    })
 
     // Save user in database
-    const onSubmit = useCallback((formValues) => {
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault()
+
         createUserMutation({
-            variables: {
-                username: formValues.username,
-                email: formValues.email,
-                password: formValues.password,
-                passwordConfirmation: formValues.passwordConfirmation,
-            },
+            variables: { username, email, password, passwordConfirmation },
         })
         .then((response) => {
             const token = response?.data?.createUser.token ?? ''
             window.localStorage.setItem('token', token)
 
             setErrors({})
+            clearForm()
             history.push('/dashboard')
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createUserMutation, history])
-
-    const { form, handleSubmit } = useForm({ onSubmit })
-
-    const username = useField('username', form)
-    const email = useField('email', form)
-    const password = useField('password', form)
-    const passwordConfirmation = useField('passwordConfirmation', form)
+    }, [createUserMutation, history, clearForm, username, email, password, passwordConfirmation])
 
     return (
         loading
             ? <FullScreenTransition isLoadingActive={loading} />
             : (
-                <div className="form">
-                    <div className="form__card">
-                        <Logo className="form__logo" />
-                        <p className="form__title">Register your account</p>
-
-                        <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
+                    <div className="form">
+                        <div className="form__card">
+                            <Logo className="form__logo" />
+                            <p className="form__title">Register your account</p>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Username</p>
                                 <input
@@ -63,7 +59,9 @@ export const Register: React.FC<{}> = () => {
                                     type="text"
                                     minLength={4}
                                     required
-                                    {...username.input}
+                                    name="username"
+                                    value={username}
+                                    onChange={setFormValue}
                                 />
                                 {errors.username && <FormErrorMessage error={errors.username} />}
                             </div>
@@ -74,7 +72,9 @@ export const Register: React.FC<{}> = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    {...email.input}
+                                    name="email"
+                                    value={email}
+                                    onChange={setFormValue}
                                 />
                                 {errors.email && <FormErrorMessage error={errors.email} />}
                             </div>
@@ -86,7 +86,9 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    {...password.input}
+                                    name="password"
+                                    value={password}
+                                    onChange={setFormValue}
                                 />
                                 {errors.password && <FormErrorMessage error={errors.password} />}
                             </div>
@@ -98,20 +100,22 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    {...passwordConfirmation.input}
+                                    name="passwordConfirmation"
+                                    value={passwordConfirmation}
+                                    onChange={setFormValue}
                                 />
                             </div>
                             <button className="form__button--wide button button--primary" type="submit">
                                 Create your account
                             </button>
-                        </form>
-                        <div className="bottom-info">
-                            <p className="bottom-info__text">Already have an account?
-                                <Link to="/login" className="bottom-info__link"> Login</Link>
-                            </p>
+                            <div className="bottom-info">
+                                <p className="bottom-info__text">Already have an account?
+                                    <Link to="/login" className="bottom-info__link"> Login</Link>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             )
     )
 }

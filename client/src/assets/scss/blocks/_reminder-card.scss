@@ -3,6 +3,13 @@
   border-radius: $border-radius-def;
   margin-top: $spacing-def;
   padding: $spacing-def;
+  transition: box-shadow 150ms ease-in-out;
+  word-wrap: break-word;
+
+  &:hover {
+    box-shadow: $box-shadow-default;
+    cursor: pointer;
+  }
 }
 
 .reminder-card__title {

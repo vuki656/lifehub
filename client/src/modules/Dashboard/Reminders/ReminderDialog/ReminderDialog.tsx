@@ -2,64 +2,98 @@ import { useMutation } from '@apollo/react-hooks'
 import moment from 'moment'
 import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
-import { useField, useForm } from 'react-final-form-hooks'
 import { useSelector } from 'react-redux'
 
 import { ButtonLoading } from '../../../../components/ButtonLoading'
 import { FormErrorMessage } from '../../../../components/FormErrorMessage'
-import { CREATE_REMINDER } from '../../../../graphql/reminder/reminder'
-import { createReminderResponse, createReminderVariables } from '../../../../graphql/reminder/reminder.types'
+import { CREATE_REMINDER, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
+import {
+    createReminderResponse,
+    createReminderVariables,
+    updateReminderResponse,
+    updateReminderVariables,
+} from '../../../../graphql/reminder/reminder.types'
+import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { ReminderErrors } from '../Reminder.types'
 import { ReminderDialogProps } from './ReminderDialog.types'
 
 export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
-    const { isDialogOpen, toggleDialog } = props
+    const { isDialogOpen, toggleDialog, reminder } = props
 
-    const [createReminderMutation, { loading }] = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
-    const [errors, setErrors] = React.useState<ReminderErrors>({})
+    const [createReminderMutation, { loading: createLoading }]
+        = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
+    const [updateReminderMutation, { loading: updateLoading }]
+        = useMutation<updateReminderResponse, updateReminderVariables>(UPDATE_REMINDER)
     const username = useSelector((state) => state.user.username)
 
-    const [startDate, setStartDate] = useState<Date>()
-    const [endDate, setEndDate] = useState<Date>()
+    // Form
+    const [errors, setErrors] = React.useState<ReminderErrors>({})
+    const [startDate, setStartDate] = useState<Date | undefined>(reminder ? new Date(reminder.startDate / 1) : undefined) // No idea why 1 is needed, crashes with it
+    const [endDate, setEndDate] = useState<Date | undefined>(reminder ? new Date(reminder.endDate / 1) : undefined)
+    const [{ title, description }, setFormValue, clearForm] = useFormFields({
+        title: reminder ? reminder.title : '',
+        description: reminder?.description ? reminder.description : '',
+    })
 
-    // Save reminder
-    const onSubmit = useCallback((formValues) => {
-        createReminderMutation({
-            variables: {
-                username,
-                title: formValues.title,
-                description: formValues.description,
-                startDate: moment.utc(startDate).format()!,
-                endDate: moment.utc(endDate).format()!,
-            },
-        })
-        .then(() => {
-            toggleDialog()
-            form.reset()
-            setErrors({})
-        })
-        .catch((error) => {
-            console.log(error)
-            // setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
-    }, [createReminderMutation, username, toggleDialog, endDate, startDate])
-
-    const { form, handleSubmit } = useForm({ onSubmit })
-
-    const title = useField('title', form)
-    const description = useField('description', form)
+    // Clear input fields and date selectors
+    const resetForm = useCallback(() => {
+        clearForm()
+        setStartDate(undefined)
+        setEndDate(undefined)
+    }, [clearForm])
 
     // Cancel reminder creation, clear form, close dialog
     const handleCancelSubmit = useCallback(() => {
         toggleDialog()
         setErrors({})
-        form.reset()
-    }, [form, toggleDialog])
+        resetForm()
+    }, [toggleDialog, resetForm])
+
+    // Save reminder
+    const saveReminder = useCallback(() => {
+        createReminderMutation({
+            variables: {
+                username,
+                title,
+                description,
+                startDate: moment.utc(startDate).format()!,
+                endDate: moment.utc(endDate).format()!,
+            },
+        })
+        .then(() => handleCancelSubmit())
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [createReminderMutation, username, endDate, startDate, title, description, handleCancelSubmit])
+
+    // Update reminder
+    const updateReminder = useCallback(() => {
+        updateReminderMutation({
+            variables: {
+                id: reminder?.id!,
+                username,
+                title,
+                description,
+                startDate: moment.utc(startDate).format()!,
+                endDate: moment.utc(endDate).format()!,
+            },
+        })
+        .then(() => handleCancelSubmit())
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [updateReminderMutation, username, endDate, startDate, title, description, handleCancelSubmit, reminder])
+
+    // If reminder exists update, else create
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault()
+        reminder ? updateReminder() : saveReminder()
+    }, [reminder, saveReminder, updateReminder])
 
     return (
-        <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
-            <div className="dialog__content">
-                <form onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
+            <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
+                <div className="dialog__content">
                     <p className="title">Create a Reminder</p>
                     <div className="form__field-wrapper">
                         <p className="form__field-title">Title</p>
@@ -67,15 +101,19 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             className="form__input-field"
                             type="text"
                             required
-                            {...title.input}
+                            name="title"
+                            value={title}
+                            onChange={setFormValue}
                         />
                     </div>
                     <div className="form__field-wrapper">
                         <p className="form__field-title">Description</p>
-                        <input
-                            className="form__input-field"
-                            type="text"
-                            {...description.input}
+                        <textarea
+                            className="form__input-field form__input-area"
+                            name="description"
+                            rows={8}
+                            value={description}
+                            onChange={setFormValue}
                         />
                     </div>
                     <div className="form__field-wrapper">
@@ -111,11 +149,12 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             type="submit"
                             className="form__button button button--primary"
                         >
-                            {loading ? <ButtonLoading isLoadingActive={loading} /> : 'Save'}
+                            {createLoading || updateLoading ? <ButtonLoading /> : 'Save'}
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     )
+
 }

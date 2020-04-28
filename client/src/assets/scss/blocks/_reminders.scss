@@ -1,6 +1,7 @@
 .reminders {
   background: $background-color-white;
   min-width: 300px;
+  overflow-y: scroll;
   padding: $spacing-lg;
   width: 300px;
 }

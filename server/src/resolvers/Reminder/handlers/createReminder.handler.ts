@@ -24,12 +24,18 @@ export const createReminderHandler = async (input) => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     }
 
+    // Generated reminder id
+    let id
+
     // Try to save reminder
     await getRepository(ReminderEntity)
     .save(reminder)
+    .then((_reminder) => {
+        id = _reminder.id
+    })
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
 
-    return { title, description, username, startDate, endDate }
+    return { id, title, description, username, startDate, endDate }
 }

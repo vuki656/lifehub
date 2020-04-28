@@ -2,11 +2,8 @@ import React from 'react'
 import Lottie from 'react-lottie'
 
 import animationData from '../../assets/images/lottie/loading-circle-white.json'
-import { ButtonLoadingProps } from './ButtonLoading.types'
 
-export const ButtonLoading: React.FC<ButtonLoadingProps> = (props) => {
-    const { isLoadingActive } = props
-
+export const ButtonLoading: React.FC<{}> = () => {
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -22,7 +19,7 @@ export const ButtonLoading: React.FC<ButtonLoadingProps> = (props) => {
                 height={18}
                 width={18}
                 options={defaultOptions}
-                isStopped={!isLoadingActive}
+                isStopped={true}
             />
         </div>
     )

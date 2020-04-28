@@ -3,6 +3,7 @@ import { combineResolvers } from 'graphql-resolvers'
 import { isAuthenticated } from '../../util/authorization'
 import { createReminderHandler } from './handlers/createReminder.handler'
 import { getRemindersByDateHandler } from './handlers/getRemindersByDate.handler'
+import { updateReminderHandler } from './handlers/updateReminder.handler'
 
 export const reminderResolver = {
     Query: {
@@ -18,6 +19,12 @@ export const reminderResolver = {
             combineResolvers(
                 (parent, input, context) => isAuthenticated(context),
                 (parent, input) => createReminderHandler(input),
+            )
+        ),
+        updateReminder: (
+            combineResolvers(
+                (parent, input, context) => isAuthenticated(context),
+                (parent, input) => updateReminderHandler(input),
             )
         ),
     },

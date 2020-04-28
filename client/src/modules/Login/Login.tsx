@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
 import React, { useCallback } from 'react'
-import { useField, useForm } from 'react-final-form-hooks'
 import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
@@ -8,6 +7,7 @@ import { FormErrorMessage } from '../../components/FormErrorMessage'
 import { FullScreenTransition } from '../../components/FullScreenTransition'
 import { LOGIN_USER } from '../../graphql/user/user'
 import { logInUserResponse, logInUserVariables } from '../../graphql/user/user.types'
+import { useFormFields } from '../../util/hooks/useFormFields.hook'
 import { UserErrors } from '../Register'
 
 export const Login: React.FC<{}> = () => {
@@ -15,13 +15,19 @@ export const Login: React.FC<{}> = () => {
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
+    const [{ email, password }, setFormValue, clearForm] = useFormFields({
+        email: '',
+        password: '',
+    })
 
     // Log user in
-    const onSubmit = useCallback((formValues) => {
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault()
+
         logInUserQuery({
             variables: {
-                email: formValues.email,
-                password: formValues.password,
+                email,
+                password,
             },
         })
         .then((response) => {
@@ -29,27 +35,23 @@ export const Login: React.FC<{}> = () => {
             window.localStorage.setItem('token', token)
 
             setErrors({})
+            clearForm()
             history.push('/dashboard')
         })
         .catch((error) => {
             setErrors(error.graphQLErrors[0]?.extensions)
         })
-    }, [logInUserQuery, history])
-
-    const { form, handleSubmit } = useForm({ onSubmit })
-
-    const email = useField('email', form)
-    const password = useField('password', form)
+    }, [logInUserQuery, history, clearForm, email, password])
 
     return (
         loading
             ? <FullScreenTransition isLoadingActive={loading} />
             : (
-                <div className="form">
-                    <div className="form__card">
-                        <Logo className="form__logo" />
-                        <p className="form__title">Sign in</p>
-                        <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
+                    <div className="form">
+                        <div className="form__card">
+                            <Logo className="form__logo" />
+                            <p className="form__title">Sign in</p>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Email</p>
                                 <input
@@ -57,7 +59,9 @@ export const Login: React.FC<{}> = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    {...email.input}
+                                    name="email"
+                                    value={email}
+                                    onChange={setFormValue}
                                 />
                                 {errors.email && <FormErrorMessage error={errors.email} />}
                             </div>
@@ -65,25 +69,27 @@ export const Login: React.FC<{}> = () => {
                                 <p className="form__field-title">Password</p>
                                 <input
                                     className="form__input-field"
-                                    autoComplete="new-password"
+                                    autoComplete="password"
                                     type="password"
                                     minLength={7}
                                     required
-                                    {...password.input}
+                                    name="password"
+                                    value={password}
+                                    onChange={setFormValue}
                                 />
                                 {errors.password && <FormErrorMessage error={errors.password} />}
                             </div>
                             <button className="form__button--wide button button--primary" type="submit">
                                 Login
                             </button>
-                        </form>
-                        <div className="bottom-info">
-                            <p className="bottom-info__text">Don't have an account?
-                                <Link to="/" className="bottom-info__link"> Register</Link>
-                            </p>
+                            <div className="bottom-info">
+                                <p className="bottom-info__text">Don't have an account?
+                                    <Link to="/" className="bottom-info__link"> Register</Link>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             )
     )
 }

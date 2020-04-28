@@ -42,6 +42,12 @@
   }
 }
 
+.form__input-area {
+  height: 100px;
+  padding: $spacing-def;
+  resize: none;
+}
+
 .form__field-wrapper {
   padding: $spacing-xs 0
 }
