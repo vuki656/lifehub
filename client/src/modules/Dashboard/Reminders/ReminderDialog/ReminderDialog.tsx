@@ -116,7 +116,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                         {reminder && (
                             <button
                                 onClick={handleReminderDelete}
-                                className="button button--secondary"
+                                className="button button--secondary button-delete"
                                 type="button"
                             >
                                 {deleteLoading ? <ButtonLoadingIcon /> : 'Delete'}
