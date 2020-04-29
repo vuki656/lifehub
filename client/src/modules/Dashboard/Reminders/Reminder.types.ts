@@ -2,8 +2,8 @@ export type ReminderType = {
     id?: string,
     title: string,
     description?: string,
-    startDate: number,
-    endDate: number,
+    startDate: Date,
+    endDate: Date,
 }
 
 export type ReminderErrors = {

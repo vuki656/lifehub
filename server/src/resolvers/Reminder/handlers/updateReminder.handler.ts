@@ -1,4 +1,5 @@
 import { UserInputError } from 'apollo-server'
+import moment from 'moment'
 import { getRepository } from 'typeorm'
 
 import { ReminderEntity } from '../../../entities/reminder'
@@ -13,8 +14,8 @@ export const updateReminderHandler = async (input) => {
     if (reminderToUpdate) {
         reminderToUpdate.title = title
         reminderToUpdate.description = description
-        reminderToUpdate.startDate = startDate
-        reminderToUpdate.endDate = endDate
+        reminderToUpdate.startDate = moment(startDate).toDate()
+        reminderToUpdate.endDate = moment(endDate).toDate()
     } else {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     }
@@ -32,5 +33,5 @@ export const updateReminderHandler = async (input) => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
 
-    return { ...updatedReminder }
+    return { id, title, description, startDate, endDate }
 }

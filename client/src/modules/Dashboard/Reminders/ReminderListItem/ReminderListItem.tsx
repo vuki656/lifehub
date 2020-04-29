@@ -5,7 +5,6 @@ import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
-import { ReminderDialog } from '../ReminderDialog'
 import { ReminderListItemProps } from './ReminderListItem.types'
 
 export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
@@ -15,10 +14,8 @@ export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
     const selectedDate = useSelector((state) => state.user.selectedDate)
 
     // Calculate difference between selected date and reminder due date
-    const getDateDifference = useCallback((reminder) => {
-        const start = moment(selectedDate)
-        const end = moment.unix(reminder.endDate / 1000).local()
-        const dayDifference = end.diff(start, 'days')
+    const getDateDifference = useCallback(({ endDate }) => {
+        const dayDifference = moment(endDate).diff(selectedDate, 'days')
 
         // Return correct day, days, today string
         switch (dayDifference) {
@@ -48,7 +45,7 @@ export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
                 <span className="reminder-card__tag">
                     <InsertInvitationRoundedIcon className="reminder-card__icon" />
                     <span className="reminder-card__text">
-                        {moment.unix(reminder.endDate / 1000).local().format('Do MMM')}
+                        {moment(reminder.endDate).format('Do MMM')}
                     </span>
                 </span>
                 <span className="reminder-card__tag reminder-card__tag--last">
@@ -58,11 +55,11 @@ export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
                     </span>
                 </span>
             </p>
-            <ReminderDialog
-                toggleDialog={toggleDialog}
-                isDialogOpen={isDialogOpen}
-                reminder={reminder}
-            />
+            {/*<ReminderDialog*/}
+            {/*    toggleDialog={toggleDialog}*/}
+            {/*    isDialogOpen={isDialogOpen}*/}
+            {/*    reminder={reminder}*/}
+            {/*/>*/}
         </div>
     )
 }

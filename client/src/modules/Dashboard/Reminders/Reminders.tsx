@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/react-hooks'
 import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined'
-import moment from 'moment'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
@@ -19,9 +18,11 @@ export const Reminders: React.FC<{}> = () => {
     const { error, data } = useQuery<getRemindersByDateResponse, getRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
         variables: {
             username,
-            selectedDate: moment.utc(selectedDate).format(),
+            selectedDate,
         },
     })
+
+    console.log(data)
 
     return (
         <div className="reminders">
@@ -29,10 +30,9 @@ export const Reminders: React.FC<{}> = () => {
                 <p className="title">Reminders</p>
                 <AddBoxOutlinedIcon className="reminders__icon" onClick={toggleDialog} />
             </div>
-            <div>
-                {data?.getRemindersByDate.map((reminder) => (
-                    <ReminderListItem reminder={reminder} key={reminder.id} />
-                ))}
+            <div>{data?.getRemindersByDate.map((reminder) => (
+                <ReminderListItem reminder={reminder} key={reminder.id} />
+            ))}
                 {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}
             </div>
             <ReminderDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />

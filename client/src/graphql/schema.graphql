@@ -16,7 +16,7 @@ type Mutation {
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
-    updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
+    updateReminder(description: String, endDate: Float!, id: String!, startDate: Float!, title: String!): Reminder!
 }
 
 type Query {
@@ -27,9 +27,9 @@ type Query {
 
 type Reminder {
     description: String
-    endDate: String!
+    endDate: Float!
     id: String!
-    startDate: String!
+    startDate: Float!
     title: String!
 }
 

@@ -1,12 +1,14 @@
 import { gql } from 'apollo-server'
 
 export const reminderType = gql`
+    scalar GraphQLDateTime
+
     type Reminder {
         id: String!
         title: String!,
         description: String,
-        startDate: String!,
-        endDate: String!,
+        startDate: GraphQLDateTime!,
+        endDate: GraphQLDateTime!,
     }
 
     type ReminderDeleteResponse {
@@ -19,7 +21,7 @@ export const reminderType = gql`
 
     extend type Mutation {
         createReminder(title: String!, description: String, username: String!, startDate: String!, endDate: String!): Reminder!
-        updateReminder(title: String!, description: String, startDate: String!, endDate: String!, id: String!): Reminder!
+        updateReminder(title: String!, description: String, startDate: Float!, endDate: Float!, id: String!): Reminder!
         deleteReminder(id: String!): ReminderDeleteResponse!
     }
 `

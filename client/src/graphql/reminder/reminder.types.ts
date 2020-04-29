@@ -5,8 +5,8 @@ export type createReminderVariables = {
     username: string,
     title: string,
     description: string,
-    startDate: string,
-    endDate: string,
+    startDate: Date,
+    endDate: Date,
 }
 
 export type updateReminderVariables = {
@@ -14,8 +14,8 @@ export type updateReminderVariables = {
     username: string,
     title: string,
     description: string,
-    startDate: string,
-    endDate: string,
+    startDate: number,
+    endDate: number,
 }
 
 export type deleteReminderVariables = {
@@ -29,11 +29,7 @@ export type getRemindersByDateVariables = {
 
 // ** RESPONSES **
 export type createReminderResponse = {
-    username: string,
-    title: string,
-    description: string,
-    startDate: Date,
-    Date: Date,
+    createReminder: ReminderType,
 }
 
 export type updateReminderResponse = {
