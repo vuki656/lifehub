@@ -18,9 +18,17 @@ export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
     const getDateDifference = useCallback((reminder) => {
         const start = moment(selectedDate)
         const end = moment.unix(reminder.endDate / 1000).local()
-        const result = end.diff(start, 'days')
+        const dayDifference = end.diff(start, 'days')
 
-        return result === 0 ? 'Today' : `${result} Days`
+        // Return correct day, days, today string
+        switch (dayDifference) {
+            case 0:
+                return `Today`
+            case 1:
+                return `${dayDifference} Day`
+            default:
+                return `${dayDifference} Days`
+        }
     }, [selectedDate])
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog

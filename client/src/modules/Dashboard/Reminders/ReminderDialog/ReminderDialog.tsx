@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
+import _ from 'lodash'
 import moment from 'moment'
 import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
@@ -7,7 +8,12 @@ import { useSelector } from 'react-redux'
 import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
-import { CREATE_REMINDER, DELETE_REMINDER, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
+import {
+    CREATE_REMINDER,
+    DELETE_REMINDER,
+    GET_REMINDERS_BY_DATE,
+    UPDATE_REMINDER,
+} from '../../../../graphql/reminder/reminder'
 import {
     createReminderResponse,
     createReminderVariables,
@@ -23,7 +29,7 @@ import { ReminderDialogProps } from './ReminderDialog.types'
 export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, reminder } = props
 
-    const username = useSelector((state) => state.user.username)
+    const { username, selectedDate } = useSelector((state) => state.user)
     const [createReminderMutation, { loading: createLoading }] = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
     const [updateReminderMutation, { loading: updateLoading }] = useMutation<updateReminderResponse, updateReminderVariables>(UPDATE_REMINDER)
     const [deleteReminderMutation, { loading: deleteLoading }] = useMutation<deleteReminderResponse, deleteReminderVariables>(DELETE_REMINDER)
@@ -53,15 +59,6 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 startDate: moment.utc(startDate).format()!,
                 endDate: moment.utc(endDate).format()!,
             },
-            // TODO READ QUERY ACCEPTS VARIABLES
-            // update(cache) {
-            //     const localCache: any = cache.readQuery({ query: PRODUCTS })
-            //     const updateProductsList = localCache.products.filter((_product) => _product.id !== id)
-            //     cache.writeQuery({
-            //         query: PRODUCTS,
-            //         data: { products: updateProductsList },
-            //     })
-            // },
         })
         .then(() => handleDialogToggle())
         .catch((error) => {
@@ -94,19 +91,37 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     }, [reminder, saveReminder, updateReminder])
 
     // Delete reminder
-    const handleReminderDelete = useCallback(() => {
+    const deleteReminder = useCallback(() => {
         deleteReminderMutation({
             variables: {
                 id: reminder?.id!,
             },
-        })
-        .then(() => {
-            handleDialogToggle()
+            update(cache) {
+                handleDialogToggle()
+                const localCache: any = cache.readQuery({
+                    query: GET_REMINDERS_BY_DATE,
+                    variables: {
+                        username,
+                        selectedDate,
+                    },
+                })
+                const updatedList = _.filter(localCache.getRemindersByDate, (_reminder) => (
+                    _reminder.id !== reminder?.id),
+                )
+                cache.writeQuery({
+                    query: GET_REMINDERS_BY_DATE,
+                    data: { getRemindersByDate: updatedList },
+                    variables: {
+                        username,
+                        selectedDate,
+                    },
+                })
+            },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [deleteReminderMutation, handleDialogToggle, reminder])
+    }, [deleteReminderMutation, handleDialogToggle, reminder, selectedDate, username])
 
     return (
         <form autoComplete="off" onSubmit={handleSubmit}>
@@ -116,7 +131,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                         <p className="title">{reminder ? '✏️ Update' : '📦 Create'} Reminder</p>
                         {reminder && (
                             <button
-                                onClick={handleReminderDelete}
+                                onClick={deleteReminder}
                                 className="button button--secondary button-delete"
                                 type="button"
                             >
