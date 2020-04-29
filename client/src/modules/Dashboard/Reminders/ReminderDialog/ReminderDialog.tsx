@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
-import moment from 'moment'
+import _ from 'lodash'
 import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
@@ -7,7 +7,12 @@ import { useSelector } from 'react-redux'
 import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
-import { CREATE_REMINDER, DELETE_REMINDER, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
+import {
+    CREATE_REMINDER,
+    DELETE_REMINDER,
+    GET_REMINDERS_BY_DATE,
+    UPDATE_REMINDER,
+} from '../../../../graphql/reminder/reminder'
 import {
     createReminderResponse,
     createReminderVariables,
@@ -30,8 +35,8 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
 
     // Form
     const [errors, setErrors] = React.useState<ReminderErrors>({})
-    const [startDate, setStartDate] = useState<Date>()
-    const [endDate, setEndDate] = useState<Date>()
+    const [startDate, setStartDate] = useState<Date | undefined>(reminder ? new Date(reminder.startDate) : undefined)
+    const [endDate, setEndDate] = useState<Date | undefined>(reminder ? new Date(reminder.endDate) : undefined)
     const [{ title, description }, setFormValue] = useFormFields({
         title: reminder ? reminder.title : '',
         description: reminder?.description ? reminder.description : '',
@@ -53,25 +58,25 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 startDate: startDate!,
                 endDate: endDate!,
             },
-            // update(cache, response) {
-            //     handleDialogToggle()
-            //     const { getRemindersByDate }: any = cache.readQuery({
-            //         query: GET_REMINDERS_BY_DATE,
-            //         variables: {
-            //             username,
-            //             selectedDate,
-            //         },
-            //     })
-            //     const updatedList = _.concat(getRemindersByDate, { ...response.data?.createReminder })
-            //     cache.writeQuery({
-            //         query: GET_REMINDERS_BY_DATE,
-            //         data: { getRemindersByDate: updatedList },
-            //         variables: {
-            //             username,
-            //             selectedDate,
-            //         },
-            //     })
-            // },
+            update(cache, response) {
+                handleDialogToggle()
+                const { getRemindersByDate }: any = cache.readQuery({
+                    query: GET_REMINDERS_BY_DATE,
+                    variables: {
+                        username,
+                        selectedDate,
+                    },
+                })
+                const updatedList = _.concat(getRemindersByDate, { ...response.data?.createReminder })
+                cache.writeQuery({
+                    query: GET_REMINDERS_BY_DATE,
+                    data: { getRemindersByDate: updatedList },
+                    variables: {
+                        username,
+                        selectedDate,
+                    },
+                })
+            },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
@@ -86,8 +91,8 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 username,
                 title,
                 description,
-                startDate: moment(startDate).valueOf(),
-                endDate: moment(endDate).valueOf(),
+                startDate: startDate!,
+                endDate: endDate!,
             },
         })
         .then(() => handleDialogToggle())
@@ -108,28 +113,27 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
             variables: {
                 id: reminder?.id!,
             },
-            // update(cache, response) {
-            //     handleDialogToggle()
-            //     const { getRemindersByDate }: any = cache.readQuery({
-            //         query: GET_REMINDERS_BY_DATE,
-            //         variables: {
-            //             username,
-            //             selectedDate,
-            //         },
-            //     })
-            //     console.log(response.data)
-            //     const updatedList = _.filter(getRemindersByDate, ({ id }) =>
-            //         id !== response.data?.id,
-            //     )
-            //     cache.writeQuery({
-            //         query: GET_REMINDERS_BY_DATE,
-            //         data: { getRemindersByDate: updatedList },
-            //         variables: {
-            //             username,
-            //             selectedDate,
-            //         },
-            //     })
-            // },
+            update(cache, response) {
+                handleDialogToggle()
+                const { getRemindersByDate }: any = cache.readQuery({
+                    query: GET_REMINDERS_BY_DATE,
+                    variables: {
+                        username,
+                        selectedDate,
+                    },
+                })
+                const updatedList = _.filter(getRemindersByDate, ({ id }) =>
+                    id !== response?.data?.deleteReminder.id,
+                )
+                cache.writeQuery({
+                    query: GET_REMINDERS_BY_DATE,
+                    data: { getRemindersByDate: updatedList },
+                    variables: {
+                        username,
+                        selectedDate,
+                    },
+                })
+            },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)

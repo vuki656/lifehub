@@ -5,6 +5,7 @@ import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
+import { ReminderDialog } from '../ReminderDialog'
 import { ReminderListItemProps } from './ReminderListItem.types'
 
 export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
@@ -17,7 +18,7 @@ export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
     const getDateDifference = useCallback(({ endDate }) => {
         const dayDifference = moment(endDate).diff(selectedDate, 'days')
 
-        // Return correct day, days, today string
+        // Return correct day, days or today string
         switch (dayDifference) {
             case 0:
                 return `Today`
@@ -55,11 +56,11 @@ export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
                     </span>
                 </span>
             </p>
-            {/*<ReminderDialog*/}
-            {/*    toggleDialog={toggleDialog}*/}
-            {/*    isDialogOpen={isDialogOpen}*/}
-            {/*    reminder={reminder}*/}
-            {/*/>*/}
+            <ReminderDialog
+                toggleDialog={toggleDialog}
+                isDialogOpen={isDialogOpen}
+                reminder={reminder}
+            />
         </div>
     )
 }

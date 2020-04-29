@@ -22,8 +22,6 @@ export const Reminders: React.FC<{}> = () => {
         },
     })
 
-    console.log(data)
-
     return (
         <div className="reminders">
             <div className="reminders__header">
