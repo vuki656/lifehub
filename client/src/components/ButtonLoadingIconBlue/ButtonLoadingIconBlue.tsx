@@ -1,9 +1,9 @@
 import React from 'react'
 import Lottie from 'react-lottie'
 
-import animationData from '../../assets/images/lottie/loading-circle-white.json'
+import animationData from '../../assets/images/lottie/loading-circle-blue.json'
 
-export const ButtonLoadingIcon: React.FC<{}> = () => {
+export const ButtonLoadingIconBlue: React.FC<{}> = () => {
     const defaultOptions = {
         loop: true,
         autoplay: true,

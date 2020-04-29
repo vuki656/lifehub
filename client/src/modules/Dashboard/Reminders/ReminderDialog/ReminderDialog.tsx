@@ -4,7 +4,8 @@ import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 
-import { ButtonLoadingIcon } from '../../../../components/ButtonLoadingIcon'
+import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
+import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { CREATE_REMINDER, DELETE_REMINDER, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
 import {
@@ -119,7 +120,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                                 className="button button--secondary button-delete"
                                 type="button"
                             >
-                                {deleteLoading ? <ButtonLoadingIcon /> : 'Delete'}
+                                {deleteLoading ? <ButtonLoadingIconBlue /> : 'Delete'}
                             </button>
                         )}
                     </div>
@@ -180,7 +181,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             type="submit"
                             className="form__button button button--primary"
                         >
-                            {createLoading || updateLoading ? <ButtonLoadingIcon /> : 'Save'}
+                            {createLoading || updateLoading ? <ButtonLoadingIconWhite /> : 'Save'}
                         </button>
                     </div>
                 </div>

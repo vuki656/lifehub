@@ -24,6 +24,15 @@
   }
 }
 
+.react-datepicker__day--keyboard-selected {
+  background-color: $button-background-color-primary !important;
+  color: $text-color-white !important;
+}
+
+.react-datepicker__day--keyboard-selected:hover {
+  background-color: $button-background-color-primary-hover !important;
+}
+
 .react-datepicker__navigation--previous {
   border-right-color: $color-blue;
   left: 12px;
