@@ -21,6 +21,7 @@ import {
     updateReminderResponse,
     updateReminderVariables,
 } from '../../../../graphql/reminder/reminder.types'
+import { sortRemindersByDate } from '../../../../util/helpers/sortRemindersByDate'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { ReminderErrors } from '../Reminder.types'
 import { ReminderDialogProps } from './ReminderDialog.types'
@@ -70,7 +71,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 const updatedList = _.concat(getRemindersByDate, { ...response.data?.createReminder })
                 cache.writeQuery({
                     query: GET_REMINDERS_BY_DATE,
-                    data: { getRemindersByDate: updatedList },
+                    data: { getRemindersByDate: sortRemindersByDate(updatedList) },
                     variables: {
                         username,
                         selectedDate,
@@ -113,7 +114,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
             variables: {
                 id: reminder?.id!,
             },
-            update(cache, response) {
+            update(cache, { data }) {
                 handleDialogToggle()
                 const { getRemindersByDate }: any = cache.readQuery({
                     query: GET_REMINDERS_BY_DATE,
@@ -122,12 +123,12 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                         selectedDate,
                     },
                 })
-                const updatedList = _.filter(getRemindersByDate, ({ id }) =>
-                    id !== response?.data?.deleteReminder.id,
-                )
+                const updatedList = _.filter(getRemindersByDate, ({ id }) => (
+                    id !== data?.deleteReminder.id
+                ))
                 cache.writeQuery({
                     query: GET_REMINDERS_BY_DATE,
-                    data: { getRemindersByDate: updatedList },
+                    data: { getRemindersByDate: sortRemindersByDate(updatedList) },
                     variables: {
                         username,
                         selectedDate,

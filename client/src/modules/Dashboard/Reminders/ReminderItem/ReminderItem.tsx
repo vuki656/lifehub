@@ -8,7 +8,7 @@ import { useToggle } from 'react-use'
 import { ReminderDialog } from '../ReminderDialog'
 import { ReminderListItemProps } from './ReminderListItem.types'
 
-export const ReminderListItem: React.FC<ReminderListItemProps> = (props) => {
+export const ReminderItem: React.FC<ReminderListItemProps> = (props) => {
     const { reminder } = props
 
     const [isDialogOpen, toggleDialog] = useToggle(false)
