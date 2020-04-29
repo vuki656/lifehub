@@ -1,3 +1,4 @@
+import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined'
 import React from 'react'
 import { useToggle } from 'react-use'
 
@@ -9,8 +10,10 @@ export const Reminders: React.FC<{}> = () => {
 
     return (
         <div className="reminders">
-            <p className="title">Reminders</p>
-            <button onClick={toggleDialog}>Create Reminder</button>
+            <div className="reminders__header">
+                <p className="title">Reminders</p>
+                <AddBoxOutlinedIcon className="reminders__icon" onClick={toggleDialog} />
+            </div>
             <ReminderDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />
             <ReminderList />
         </div>

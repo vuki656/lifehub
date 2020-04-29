@@ -14,12 +14,18 @@
   z-index: 1500;
 }
 
+.dialog__header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .dialog__content {
   background: $background-color-white;
   border-radius: $border-radius-def;
-  max-width: 300px;
+  max-width: 500px;
   padding: $spacing-md;
-  width: 300px;
+  width: 500px;
 }
 
 .dialog--open {

@@ -5,3 +5,21 @@
   padding: $spacing-lg;
   width: 300px;
 }
+
+.reminders__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.reminders__icon {
+  fill: $icon-button-color-primary;
+  height: 25px;
+  transition: fill 300ms ease-in-out;
+  width: 25px;
+
+  &:hover {
+    cursor: pointer;
+    fill: $icon-button-color-primary-hover;
+  }
+}

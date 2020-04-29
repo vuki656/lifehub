@@ -31,24 +31,16 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const [errors, setErrors] = React.useState<ReminderErrors>({})
     const [startDate, setStartDate] = useState<Date | undefined>(reminder ? new Date(reminder.startDate / 1) : undefined) // No idea why 1 is needed, crashes with it
     const [endDate, setEndDate] = useState<Date | undefined>(reminder ? new Date(reminder.endDate / 1) : undefined)
-
-    const [{ title, description }, setFormValue, clearForm] = useFormFields({
+    const [{ title, description }, setFormValue] = useFormFields({
         title: reminder ? reminder.title : '',
         description: reminder?.description ? reminder.description : '',
     })
-
-    // Clear input fields and date selectors
-    const resetForm = useCallback(() => {
-        clearForm()
-        setStartDate(undefined)
-        setEndDate(undefined)
-    }, [clearForm])
 
     // Cancel reminder creation, clear form, close dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
         setErrors({})
-    }, [toggleDialog, resetForm])
+    }, [toggleDialog])
 
     // Save reminder
     const saveReminder = useCallback(() => {
@@ -60,6 +52,15 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 startDate: moment.utc(startDate).format()!,
                 endDate: moment.utc(endDate).format()!,
             },
+            // TODO READ QUERY ACCEPTS VARIABLES
+            // update(cache) {
+            //     const localCache: any = cache.readQuery({ query: PRODUCTS })
+            //     const updateProductsList = localCache.products.filter((_product) => _product.id !== id)
+            //     cache.writeQuery({
+            //         query: PRODUCTS,
+            //         data: { products: updateProductsList },
+            //     })
+            // },
         })
         .then(() => handleDialogToggle())
         .catch((error) => {
@@ -110,7 +111,18 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         <form autoComplete="off" onSubmit={handleSubmit}>
             <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
                 <div className="dialog__content">
-                    <p className="title">{reminder ? 'Update' : 'Create'} Reminder</p>
+                    <div className="dialog__header-wrapper">
+                        <p className="title">{reminder ? '✏️ Update' : '📦 Create'} Reminder</p>
+                        {reminder && (
+                            <button
+                                onClick={handleReminderDelete}
+                                className="button button--secondary"
+                                type="button"
+                            >
+                                {deleteLoading ? <ButtonLoadingIcon /> : 'Delete'}
+                            </button>
+                        )}
+                    </div>
                     <div className="form_input-wrapper">
                         <div className="form__field-wrapper">
                             <p className="form__field-title">Title</p>
@@ -157,15 +169,6 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                     </div>
                     {errors.error && <ErrorMessage error={errors.error} />}
                     <div className="form__button-group--right">
-                        {reminder && (
-                            <button
-                                onClick={handleReminderDelete}
-                                className="form__button button button--delete"
-                                type="button"
-                            >
-                                {deleteLoading ? <ButtonLoadingIcon /> : 'Delete'}
-                            </button>
-                        )}
                         <button
                             onClick={handleDialogToggle}
                             className="form__button button button--secondary"

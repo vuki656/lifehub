@@ -5,6 +5,7 @@ $color-black-light: #323232;
 $color-black-lightest: #0000001a;
 $color-white: #ffffff;
 $color-smoke: #f6f6f6;
+$color-smoke-light: #d8d8d8;
 $color-grey: #bbbbbb;
 $color-grey-light: #ccc;
 $color-grey-lightest: #f1f1f1;
@@ -31,7 +32,8 @@ $background-color-white: $color-white;
 $background-color-grey: $color-grey;
 $background-color-red-darker: darken($color-red-light, 5%);
 $background-color-red: $color-red-light;
-$background-color-grey-light: $color-smoke;
+$background-color-grey-light: $color-smoke-light;
+$background-color-grey-lighter: $color-smoke;
 $background-color-blue: $color-blue;
 $background-color-black-transparent: $color-black-transparent;
 
