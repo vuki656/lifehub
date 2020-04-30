@@ -19,6 +19,10 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 selectedDate: action.payload.selectedDate,
             }
+        case actionTypes.LOG_OUT_USER:
+            return {
+                ...initialState,
+            }
         default:
             return state
     }

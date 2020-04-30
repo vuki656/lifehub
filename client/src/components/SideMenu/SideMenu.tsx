@@ -12,7 +12,7 @@ import { useToggle } from 'react-use'
 
 import { ReactComponent as IconLogo } from '../../assets/images/logo/IconLogo.svg'
 import { ReactComponent as TextLogo } from '../../assets/images/logo/TextLogo.svg'
-import { setUser } from '../../redux/actions/userActions'
+import { logUserOut } from '../../redux/actions/userActions'
 
 export const SideMenu: React.FC<{}> = () => {
     const history = useHistory()
@@ -22,7 +22,7 @@ export const SideMenu: React.FC<{}> = () => {
 
     // Logout - clear redux user, remove token from LS and redirect to /login
     const handleLogout = React.useCallback(() => {
-        dispatch(setUser(''))
+        dispatch(logUserOut())
         window.localStorage.removeItem('token')
         history.push('/login')
     }, [dispatch, history])

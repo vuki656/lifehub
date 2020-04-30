@@ -28,7 +28,11 @@ export const Reminders: React.FC<{}> = () => {
     // Sort reminders by date starting at latest then render
     const renderReminderItems = () => {
         if (data?.getRemindersByDate.length === 0) {
-            return <p className="info-message">No reminders 📅</p>
+            return (
+                <p className="info-message">
+                    No reminders <span role="img" aria-label="calendar">📅</span>
+                </p>
+            )
         }
 
         const sortedReminders = data && sortRemindersByDate(data?.getRemindersByDate)
@@ -51,10 +55,10 @@ export const Reminders: React.FC<{}> = () => {
             {loading
                 ? (renderLoaders(4, <ReminderCardLoader />))
                 : (
-                    <div>
+                    <>
                         {renderReminderItems()}
                         {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}
-                    </div>
+                    </>
                 )}
             <ReminderDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />
         </div>

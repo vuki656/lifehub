@@ -1,6 +1,14 @@
+import { GraphQLDateTime } from 'graphql-iso-date'
+
 import { reminderResolver } from './Reminder/reminder.resolver'
+import { taskResolver } from './Task/task.resolver'
 import { userResolver } from './User/user.resolver'
 
-const { GraphQLDateTime } = require('graphql-iso-date')
+export const resolvers = [
+    userResolver,
+    reminderResolver,
+    taskResolver,
 
-export const resolvers = [{ GraphQLDateTime }, userResolver, reminderResolver]
+    // Custom scalars
+    { GraphQLDateTime },
+]

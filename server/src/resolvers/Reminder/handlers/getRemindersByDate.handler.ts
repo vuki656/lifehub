@@ -16,6 +16,9 @@ export const getRemindersByDateHandler = async (input) => {
         condition: { selectedDate },
     }
 
+    // Throw error if no user
+    if (!user) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+
     // Return empty set on overdue select by using a date in the past
     if (selectedDate === 'overdue') {
         query = {
