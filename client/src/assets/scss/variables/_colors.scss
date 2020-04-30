@@ -40,10 +40,15 @@ $background-color-black-transparent: $color-black-transparent;
 // ** BORDER COLORS **
 $border-color-input-field: $color-black-lightest;
 $border-color-default: $color-black-lightest;
+$border-color-loader-block: lighten($color-grey-light, 14%);
 
 // ** BOX SHADOW COLORS **
 $box-shadow-color-default: $color-black-lightest;
 $box-shadow-color-focused-large: $color-grey-light;
+
+// ** LOADER BLOCK BACKGROUND COLORS **
+$background-color-loader-block: lighten($color-grey-light, 14%);
+
 
 
 

@@ -7,39 +7,46 @@ import { useToggle } from 'react-use'
 import { ErrorMessage } from '../../../components/ErrorMessage'
 import { GET_REMINDERS_BY_DATE } from '../../../graphql/reminder/reminder'
 import { getRemindersByDateResponse, getRemindersByDateVariables } from '../../../graphql/reminder/reminder.types'
+import { renderLoaders } from '../../../util/helpers/renderLoaders'
 import { sortRemindersByDate } from '../../../util/helpers/sortRemindersByDate'
-import { ReminderType } from './Reminder.types'
+import { ReminderCard } from './ReminderCard'
+import { ReminderCardLoader } from './ReminderCardLoader'
 import { ReminderDialog } from './ReminderDialog'
-import { ReminderItem } from './ReminderItem'
 
 export const Reminders: React.FC<{}> = () => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
     const { username, selectedDate } = useSelector((state) => state.user)
 
     // Fetch reminders for selected date
-    const { error, data, loading } = useQuery<getRemindersByDateResponse, getRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
+    const { error, data } = useQuery<getRemindersByDateResponse, getRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
         variables: {
             username,
             selectedDate,
         },
     })
 
+    const loading = true // todo remove
+
     // Sort reminders by date starting at latest then render
     const renderReminderItems = () => {
-        const sortedReminders: ReminderType[] = sortRemindersByDate(data?.getRemindersByDate)
+        // todo remove data &&
+        const sortedReminders = data && sortRemindersByDate(data?.getRemindersByDate)
 
         return sortedReminders?.map((reminder) => (
-            <ReminderItem reminder={reminder} key={reminder.id} />
+            <ReminderCard reminder={reminder} key={reminder.id} />
         ))
     }
 
+    // TODO: See about new reminder word add to button
     return (
         <div className="reminders">
             <div className="reminders__header">
                 <p className="title">Reminders</p>
                 <AddBoxOutlinedIcon className="reminders__icon" onClick={toggleDialog} />
             </div>
-            {!loading && (
+            {loading ? (
+                renderLoaders(3, <ReminderCardLoader />)
+            ) : (
                 <div>
                     {renderReminderItems()}
                     {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}

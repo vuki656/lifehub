@@ -33,6 +33,9 @@
 @import "blocks/react-datepicker";
 @import "blocks/reminder-card";
 
+// ** BLOCKS - LOADERS **
+@import "blocks/loaders/reminder-card-loader";
+
 // ** REUSABLE BLOCKS **
 @import "blocks/reusable/bottom-info";
 @import "blocks/reusable/buttons";
