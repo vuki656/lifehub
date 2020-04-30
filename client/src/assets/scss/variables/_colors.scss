@@ -8,6 +8,7 @@ $color-smoke: #f6f6f6;
 $color-smoke-light: #d8d8d8;
 $color-grey: #bbbbbb;
 $color-grey-light: #ccc;
+$color-grey-lighter: #e8e8e8;
 $color-grey-lightest: #f1f1f1;
 $color-blue: #0083ff;
 $color-blue-dark: #006fe4;
@@ -48,7 +49,7 @@ $box-shadow-color-focused-large: $color-grey-light;
 
 // ** LOADER BLOCK BACKGROUND COLORS **
 $background-color-loader-block: lighten($color-grey-light, 14%);
-
+$background-color-loader-block-shine: $color-grey-lighter;
 
 
 

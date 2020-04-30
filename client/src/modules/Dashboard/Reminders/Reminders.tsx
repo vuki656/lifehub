@@ -18,18 +18,15 @@ export const Reminders: React.FC<{}> = () => {
     const { username, selectedDate } = useSelector((state) => state.user)
 
     // Fetch reminders for selected date
-    const { error, data } = useQuery<getRemindersByDateResponse, getRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
+    const { error, data, loading } = useQuery<getRemindersByDateResponse, getRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
         variables: {
             username,
             selectedDate,
         },
     })
 
-    const loading = true // todo remove
-
     // Sort reminders by date starting at latest then render
     const renderReminderItems = () => {
-        // todo remove data &&
         const sortedReminders = data && sortRemindersByDate(data?.getRemindersByDate)
 
         return sortedReminders?.map((reminder) => (

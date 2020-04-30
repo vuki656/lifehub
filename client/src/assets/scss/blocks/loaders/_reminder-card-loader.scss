@@ -5,39 +5,15 @@
   padding: $spacing-def;
 }
 
-$base-color: #ddd;
-$shine-color: #e8e8e8;
-$animation-duration: 1.6s;
-$avatar-offset: 52 + 16;
-
-@keyframes shine-lines {
-  0% {
-    background-position: -100px
-  }
-  40%, 100% {
-    background-position: 300px
-  }
-}
-
-@mixin background-gradient {
-  background-image: linear-gradient(90deg, $base-color 0px, $shine-color 40px, $base-color 80px);
-  background-size: 600px
-}
-
 .reminder-card__title--loading {
-  animation: shine-lines $animation-duration infinite linear;
-  background: $background-color-loader-block;
+  @include loader-block-shine;
   border-radius: $border-radius-loader-block;
   height: $loader-title-text-height;
-
-
-  @include background-gradient;
   margin-bottom: $spacing-xs;
 }
 
-
 .reminder-card__description-line--loading {
-  background-color: $background-color-loader-block;
+  @include loader-block-shine;
   border-radius: $border-radius-loader-block;
   height: $loader-description-text-height;
   margin-bottom: $spacing-xxs;
@@ -54,7 +30,7 @@ $avatar-offset: 52 + 16;
 }
 
 .reminder-card__tag--loading {
-  background-color: $background-color-loader-block;
+  @include loader-block-shine;
   border-radius: $border-radius-loader-block;
   height: $loader-tag-height;
   width: $loader-tag-width;
