@@ -12,14 +12,29 @@
   justify-content: space-between;
 }
 
-.reminders__icon {
-  fill: $icon-button-color-primary;
-  height: 25px;
-  transition: fill 150ms ease-in-out;
-  width: 25px;
+.reminders__header-text {
+  align-items: center;
+  display: flex;
+}
+
+.reminders__button {
+  border-color: $border-color-default !important;
+  border-radius: $border-radius-def;
+  color: $text-color-black !important;
+  font-size: $font-size-md;
+  padding: $spacing-xxs $spacing-xs;
+  transition: background-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
 
   &:hover {
+    background-color: $background-color-grey-lighter !important;
+    box-shadow: $box-shadow-default;
     cursor: pointer;
-    fill: $icon-button-color-primary-hover;
   }
+}
+
+.reminders__icon {
+  fill: $icon-button-color-primary-dark;
+  height: 24px;
+  padding-left: $spacing-xs;
+  width: 24px;
 }

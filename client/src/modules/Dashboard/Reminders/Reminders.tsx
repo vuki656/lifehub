@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/react-hooks'
-import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined'
+import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
@@ -34,15 +34,18 @@ export const Reminders: React.FC<{}> = () => {
         ))
     }
 
-    // TODO: See about new reminder word add to button
     return (
         <div className="reminders">
             <div className="reminders__header">
                 <p className="title">Reminders</p>
-                <AddBoxOutlinedIcon className="reminders__icon" onClick={toggleDialog} />
+                <div className="reminders__button button--secondary">
+                    <p className="reminders__header-text" onClick={toggleDialog}>
+                        Add <AddRoundedIcon className="reminders__icon" />
+                    </p>
+                </div>
             </div>
             {loading ? (
-                renderLoaders(3, <ReminderCardLoader />)
+                renderLoaders(4, <ReminderCardLoader />)
             ) : (
                 <div>
                     {renderReminderItems()}
