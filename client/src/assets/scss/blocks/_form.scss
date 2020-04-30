@@ -83,7 +83,7 @@
   align-items: center;
   display: flex;
   flex-direction: row;
-  padding: $spacing-xxs 0;
+  padding: $spacing-xs $spacing-xxs;
 }
 
 .form__error-icon {

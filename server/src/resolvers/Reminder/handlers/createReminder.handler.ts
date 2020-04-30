@@ -19,7 +19,7 @@ export const createReminderHandler = async (input) => {
 
     // Try to assign the user
     if (user) {
-        reminder.user = user
+        reminder.userId = user
     } else {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     }

@@ -39,6 +39,7 @@ export const DaysSidebar: React.FC<{}> = () => {
                 title="overdue"
                 className="days-sidebar__button"
                 activeClassName="days-sidebar__item--active"
+                onClick={() => dispatch(setSelectedDate('overdue'))}
             >
                 <ArrowBackOutlinedIcon className="days-sidebar__icon" />
                 <p className="days-sidebar__text">Overdue</p>
@@ -52,6 +53,7 @@ export const DaysSidebar: React.FC<{}> = () => {
                 title="upcoming"
                 className="days-sidebar__button"
                 activeClassName="days-sidebar__item--active"
+                onClick={() => dispatch(setSelectedDate('upcoming'))}
             >
                 <p className="days-sidebar__text">Upcoming</p>
                 <ArrowForwardOutlinedIcon className="days-sidebar__icon" />

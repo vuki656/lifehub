@@ -4,7 +4,7 @@ export const ReminderCardLoader: React.FC<{}> = () => {
     return (
         <div className="reminder-card--loading">
             <div className="reminder-card__title--loading" />
-            {[...new Array(4)].map((value, index) => (
+            {[...new Array(3)].map((value, index) => (
                 <div
                     className="reminder-card__description-line--loading"
                     key={index}

@@ -49,12 +49,14 @@ export const ReminderCard: React.FC<ReminderListItemProps> = (props) => {
                         {moment(reminder.endDate).format('Do MMM')}
                     </span>
                 </span>
-                <span className="reminder-card__tag reminder-card__tag--last">
-                    <AlarmOnRoundedIcon className="reminder-card__icon" />
-                    <span className="reminder-card__text">
-                        {getDateDifference(reminder)}
+                {selectedDate === 'upcoming' ? '' : (
+                    <span className="reminder-card__tag reminder-card__tag--last">
+                        <AlarmOnRoundedIcon className="reminder-card__icon" />
+                        <span className="reminder-card__text">
+                            {getDateDifference(reminder)}
+                        </span>
                     </span>
-                </span>
+                )}
             </p>
             <ReminderDialog
                 toggleDialog={toggleDialog}

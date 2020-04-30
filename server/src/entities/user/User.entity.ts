@@ -3,7 +3,7 @@ import { BaseEntity, BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedCo
 import { ReminderEntity } from '../reminder'
 import { EmailOptions, PasswordOptions, UsernameOptions } from './Users.options'
 
-@Entity('users')
+@Entity('user')
 export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
@@ -17,7 +17,7 @@ export class UserEntity extends BaseEntity {
     @Column(PasswordOptions)
     password: string
 
-    @OneToMany(() => ReminderEntity, photo => photo.user)
+    @OneToMany(() => ReminderEntity, reminder => reminder.userId)
     reminders: ReminderEntity[]
 
     @BeforeInsert()
