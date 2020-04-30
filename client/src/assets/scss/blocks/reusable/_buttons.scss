@@ -1,19 +1,40 @@
-.button-main {
-  background-color: $button-background-color-main;
-  border-radius: $border-radius-default;
-  box-shadow: $box-shadow-default;
+.button {
+  border-radius: $border-radius-def;
   box-sizing: border-box;
-  color: $button-text-color-main;
   font-size: $font-size-text;
   font-weight: $font-weight-medium;
+  height: $default-button-height;
   letter-spacing: normal;
-  margin-top: $spacing-lg;
+  min-width: $default-button-width;
   padding: $spacing-xs $spacing-sm;
   text-align: center;
   text-transform: capitalize;
+}
+
+.button--primary {
+  background-color: $button-background-color-primary;
+  color: $button-text-color-primary;
 
   &:hover {
-    background-color: $color-blue-dark;
+    background-color: $button-background-color-primary-hover;
     cursor: pointer;
+  }
+}
+
+.button--secondary {
+  background-color: $button-background-color-secondary;
+  border: 1px solid $border-color-input-field;
+  color: $button-text-color-secondary;
+
+  &:hover {
+    background-color: $button-background-color-secondary-hover;
+    cursor: pointer;
+  }
+}
+
+.button--delete {
+
+  & svg {
+    fill: red;
   }
 }

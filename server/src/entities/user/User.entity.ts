@@ -1,8 +1,9 @@
 import * as bcrypt from 'bcryptjs'
-import { BaseEntity, BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { ReminderEntity } from '../reminder'
 import { EmailOptions, PasswordOptions, UsernameOptions } from './Users.options'
 
-@Entity('users')
+@Entity('user')
 export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
@@ -16,8 +17,11 @@ export class UserEntity extends BaseEntity {
     @Column(PasswordOptions)
     password: string
 
+    @OneToMany(() => ReminderEntity, reminder => reminder.userId)
+    reminders: ReminderEntity[]
+
     @BeforeInsert()
-    async hashPasswordBeforeInsert() {
+    async hashPassword() {
         this.password = await bcrypt.hash(this.password, 10)
     }
 

@@ -1,6 +1,6 @@
 .form {
   @include flex-i-center-c-center;
-  background-color: $background-color-grey-light;
+  background-color: $background-color-grey-lighter;
   min-height: 100vh;
 }
 
@@ -21,25 +21,31 @@
 }
 
 .form__title {
-  color: $text-color-secondary;
+  color: $text-color-primary-light;
   padding: $spacing-sm 0;
 }
 
 .form__input-field {
   border: thin solid $border-color-input-field;
-  border-radius: $input-field-border-radius;
+  border-radius: $border-radius-input-field;
   box-sizing: border-box;
   color: $text-color-input-field;
   font-size: $font-size-sm;
-  height: $size-form-field;
-  padding: 0 $spacing-default;
+  height: $size-height-form-field;
+  padding: 0 $spacing-def;
   transition: box-shadow 0.6s;
   width: 100%;
 
   &:focus {
-    box-shadow: $box-shadow-focus-large;
+    box-shadow: $box-shadow-default-focused;
     outline: none;
   }
+}
+
+.form__input-area {
+  height: 100px;
+  padding: $spacing-def;
+  resize: none;
 }
 
 .form__field-wrapper {
@@ -49,20 +55,35 @@
 .form__field-title {
   color: $text-color-primary;
   font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-bold;
   margin: 0;
   padding-bottom: $spacing-xs;
 }
 
-.form__button {
+.form__button--wide {
+  margin-top: $spacing-lg;
   width: 100%;
+}
+
+.form__button {
+  margin-top: $spacing-xs;
+}
+
+.form__button-group--right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  :not(:first-child) {
+    margin-left: $spacing-md;
+  }
 }
 
 .form__error-wrapper {
   align-items: center;
   display: flex;
   flex-direction: row;
-  padding-top: $spacing-xs;
+  padding: $spacing-xs $spacing-xxs;
 }
 
 .form__error-icon {
@@ -72,8 +93,10 @@
 }
 
 .form__error-text {
-  color: $error-color;
+  color: $color-error;
   font-size: $font-size-sm;
 }
 
-
+.form_input-wrapper {
+  padding: $spacing-sm 0;
+}

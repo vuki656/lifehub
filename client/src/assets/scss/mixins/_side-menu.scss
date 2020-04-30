@@ -1,13 +1,14 @@
-@mixin toggle-drawer($state, $width) {
+@mixin toggle-side-menu($state, $width) {
   width: $width;
 
   @if ($state == "open") {
-    transition: width 0.3s;
+    transition: width 300ms, min-width 0.3s;
+    min-width: 200px;
     width: 200px;
   }
 
   @if ($state == "closed") {
-    transition: width 0.3s;
+    transition: width 300ms;
     width: 55px;
   }
 }

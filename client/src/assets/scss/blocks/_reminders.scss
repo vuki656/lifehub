@@ -1,0 +1,40 @@
+.reminders {
+  background: $background-color-white;
+  min-width: 300px;
+  overflow-y: scroll;
+  padding: $spacing-lg;
+  width: 300px;
+}
+
+.reminders__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.reminders__header-text {
+  align-items: center;
+  display: flex;
+}
+
+.reminders__button {
+  border-color: $border-color-default !important;
+  border-radius: $border-radius-def;
+  color: $text-color-black !important;
+  font-size: $font-size-md;
+  padding: $spacing-xxs $spacing-xs;
+  transition: background-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+
+  &:hover {
+    background-color: $background-color-grey-lighter !important;
+    box-shadow: $box-shadow-default;
+    cursor: pointer;
+  }
+}
+
+.reminders__icon {
+  fill: $icon-button-color-primary-dark;
+  height: 24px;
+  padding-left: $spacing-xs;
+  width: 24px;
+}

@@ -1,38 +1,56 @@
 // ** BASE COLORS **
 $color-black: #000000;
+$color-black-transparent: #00000080;
 $color-black-light: #323232;
-$color-black-light-extra: #0000001a;
+$color-black-lightest: #0000001a;
 $color-white: #ffffff;
 $color-smoke: #f6f6f6;
+$color-smoke-light: #d8d8d8;
 $color-grey: #bbbbbb;
-$color-grey-light: #d8d8d8;
+$color-grey-light: #ccc;
+$color-grey-lighter: #e8e8e8;
+$color-grey-lightest: #f1f1f1;
 $color-blue: #0083ff;
 $color-blue-dark: #006fe4;
 $color-red-light: #cd3d64;
 
 // ** GENERAL COLORS **
-$error-color: $color-red-light;
+$color-error: $color-red-light;
 
 // ** TEXT COLORS **
 $text-color-primary: $color-black-light;
-$text-color-secondary: lighten($text-color-primary, 25%);
-$text-color-tertiary: lighten($text-color-primary, 50%);
-$text-color-quaternary: lighten($text-color-primary, 75%);
+$text-color-primary-light: lighten($text-color-primary, 25%);
+$text-color-primary-lighter: lighten($text-color-primary, 50%);
+$text-color-primary-lightest: lighten($text-color-primary, 75%);
 
+$text-color-white: $color-white;
+$text-color-black: $color-black;
+$text-color-disabled: $color-grey-light;
 $text-color-placeholder: $color-grey-light;
 $text-color-input-field: $color-black-light;
 
 // ** BACKGROUND COLORS **
 $background-color-white: $color-white;
-$background-color-grey-light: $color-smoke;
+$background-color-grey: $color-grey;
+$background-color-red-darker: darken($color-red-light, 5%);
+$background-color-red: $color-red-light;
+$background-color-grey-light: $color-smoke-light;
+$background-color-grey-lighter: $color-smoke;
 $background-color-blue: $color-blue;
+$background-color-black-transparent: $color-black-transparent;
 
 // ** BORDER COLORS **
-$border-color-input-field: $color-black-light-extra;
+$border-color-input-field: $color-black-lightest;
+$border-color-default: $color-black-lightest;
+$border-color-loader-block: lighten($color-grey-light, 14%);
 
 // ** BOX SHADOW COLORS **
-$box-shadow-color-default: $color-black-light-extra;
-$box-shadow-color-focus-large: $color-grey-light;
+$box-shadow-color-default: $color-black-lightest;
+$box-shadow-color-focused-large: $color-grey-light;
+
+// ** LOADER BLOCK BACKGROUND COLORS **
+$background-color-loader-block: lighten($color-grey-light, 14%);
+$background-color-loader-block-shine: $color-grey-lighter;
 
 
 

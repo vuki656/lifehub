@@ -1,7 +1,7 @@
 import React from 'react'
 import Lottie from 'react-lottie'
 
-import animationData from '../../assets/images/lottie/loading-circle.json'
+import animationData from '../../assets/images/lottie/loading-circle-blue.json'
 import { FullScreenTransitionProps } from './FullScreenTransition.types'
 
 export const FullScreenTransition: React.FC<FullScreenTransitionProps> = (props) => {

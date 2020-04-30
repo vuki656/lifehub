@@ -17,12 +17,11 @@ export const userType = gql`
         username: String!
     }
 
-    type Query {
-        getAllUsers: [User]!
+    extend type Query {
         verifyUser(token: String): AuthResponse
     }
 
-    type Mutation {
+    extend type Mutation {
         createUser(email: String!, username: String!, password: String!, passwordConfirmation: String!): UserAuth!
         logInUser(email: String!, password: String!): UserAuth!
     }
