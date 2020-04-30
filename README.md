@@ -1,3 +1,9 @@
 ## Lifehub
-Front End: React⚛️
-Back End: TypeORM, GQL and Apollo
+### Frontend 
+- React ⚛️
+- Redux 📦
+- Apollo ✨
+### Backend
+- TypeORM 🛡️
+- GraphQL 🌐
+

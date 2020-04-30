@@ -1,0 +1,27 @@
+@mixin toggle-side-menu($state, $width) {
+  width: $width;
+
+  @if ($state == "open") {
+    transition: width 300ms, min-width 0.3s;
+    min-width: 200px;
+    width: 200px;
+  }
+
+  @if ($state == "closed") {
+    transition: width 300ms;
+    width: 55px;
+  }
+}
+
+@mixin toggle-sidemenu-logo($xFrom, $xTo) {
+  animation: toggle-sidemenu-logo 0.25s;
+
+  @keyframes toggle-sidemenu-logo {
+    0% {
+      transform: translateX($xFrom);
+    }
+    100% {
+      transform: translateX($xTo);
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { VERIFY_USER } from '../../graphql/user/user'
 import { verifyUserResponse, verifyUserVariables } from '../../graphql/user/user.types'
 import { setUser } from '../../redux/actions/userActions'
 import { FullScreenTransition } from '../FullScreenTransition'
+import SideMenu from '../SideMenu/SideMenu'
 import { ProtectedRouteProps } from './ProtectedRoute.types'
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
@@ -29,10 +30,17 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
     const checkIfAuth = React.useCallback(() => {
         if (error) {
             dispatch(setUser(''))
+            window.localStorage.removeItem('token')
             return <Redirect to="/login" />
         } else {
             dispatch(setUser(data?.verifyUser?.username))
-            return <Route path={path} component={component} exact={exact} />
+
+            return (
+                <div className="app">
+                    <SideMenu />
+                    <Route path={path} component={component} exact={exact} />
+                </div>
+            )
         }
     }, [path, component, exact, error, dispatch, data])
 

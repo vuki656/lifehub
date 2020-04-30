@@ -7,13 +7,39 @@
 @import "variables/font-sizes";
 @import "variables/font-weights";
 
-// ** COMPONENT VARIABLES **
+// ** REUSABLE VARIABLES **
 @import "variables/components/button";
 
 // ** BASE **
-@import "base/resets";
-@import "base/global";
+@import "base/reset";
+
+// ** MIXINS **
+@import "mixins/side-menu";
+@import "mixins/display-block";
+
+// ** REUSABLE MIXINS **
+@import "mixins/reusable/flex-alignments";
+@import "mixins/reusable/active-elements";
 
 // ** BLOCKS **
+@import "blocks/app";
 @import "blocks/form";
 @import "blocks/full-screen-transition";
+@import "blocks/button-transition";
+@import "blocks/side-menu";
+@import "blocks/days-sidebar";
+@import "blocks/dashboard";
+@import "blocks/reminders";
+@import "blocks/todo-area";
+@import "blocks/react-datepicker";
+@import "blocks/reminder-card";
+
+// ** BLOCKS - LOADERS **
+@import "blocks/loaders/reminder-card-loader";
+
+// ** REUSABLE BLOCKS **
+@import "blocks/reusable/general-classes";
+@import "blocks/reusable/bottom-info";
+@import "blocks/reusable/buttons";
+@import "blocks/reusable/texts";
+@import "blocks/reusable/dialog";

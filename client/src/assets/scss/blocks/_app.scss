@@ -1,0 +1,7 @@
+// Needed for content to not display under sidebar
+.app {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  max-height: 100vh;
+}

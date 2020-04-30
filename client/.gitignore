@@ -38,3 +38,4 @@ firebase-debug.log
 # Firebase Files
 .firebase
 /src/react-app-env.d.ts
+/src/graphql/.graphqlconfig

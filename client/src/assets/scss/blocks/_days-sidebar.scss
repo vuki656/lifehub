@@ -1,0 +1,55 @@
+.days-sidebar {
+  background: $background-color-white;
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+  max-width: 150px;
+  min-width: 150px;
+  width: 150px;
+}
+
+.days-sidebar__button {
+  @include flex-i-center-c-center;
+  color: $text-color-primary-light;
+  height: 50px;
+  text-decoration: none;
+
+  &:hover {
+    @include menu-item--active;
+  }
+}
+
+.days-sidebar__text {
+  @include flex-i-center-c-center;
+  padding: $spacing-xxs;
+}
+
+.days-sidebar__icon {
+  height: 16px;
+  width: 16px;
+}
+
+.days-sidebar__days {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.days-sidebar__item {
+  align-items: center;
+  color: $text-color-primary-light;
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-start;
+  padding: 0 $spacing-md;
+  text-decoration: none;
+
+  &:hover {
+    @include menu-item--active;
+  }
+}
+
+.days-sidebar__item--active {
+  @include menu-item--active;
+}

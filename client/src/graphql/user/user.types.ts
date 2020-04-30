@@ -1,17 +1,27 @@
-export type createUserVariables = {
-    username: string;
-    email: string;
-    password: string;
-    passwordConfirmation: string;
+export type UserAuth = {
+    token: string,
 }
 
-export type createUserResponse = {
-    createUser: UserAuth,
+// ** VARIABLES **
+export type createUserVariables = {
+    username: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string,
 }
 
 export type logInUserVariables = {
     email: string,
     password: string,
+}
+
+export type verifyUserVariables = {
+    token: string,
+}
+
+// ** RESPONSES **
+export type createUserResponse = {
+    createUser: UserAuth,
 }
 
 export type logInUserResponse = {
@@ -20,14 +30,6 @@ export type logInUserResponse = {
 
 export type verifyUserResponse = {
     verifyUser: AuthResponse,
-}
-
-export type verifyUserVariables = {
-    token: string,
-}
-
-export type UserAuth = {
-    token: string,
 }
 
 export type AuthResponse = {

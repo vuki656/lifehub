@@ -1,9 +1,15 @@
 import React from 'react'
 
-import { Dashboard } from '../modules/dashboard'
+import { DaysSidebar } from '../modules/Dashboard/DaysSidebar'
+import { Reminders } from '../modules/Dashboard/Reminders'
+import { TodoArea } from '../modules/Dashboard/TodoArea'
 
-export const DashboardPage: React.FunctionComponent<{}> = () => {
+export const DashboardPage: React.FC<{}> = () => {
     return (
-        <Dashboard />
+        <div className="dashboard">
+            <DaysSidebar />
+            <TodoArea />
+            <Reminders />
+        </div>
     )
 }

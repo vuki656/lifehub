@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { Register } from '../modules/register'
+import { Register } from '../modules/Register'
 
-export const RegisterPage: React.FunctionComponent<{}> = () => {
+export const RegisterPage: React.FC<{}> = () => {
     return (
         <Register />
     )
