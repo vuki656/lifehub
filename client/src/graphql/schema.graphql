@@ -17,6 +17,7 @@ type Mutation {
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!
+    deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
     updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
     updateTaskCard(id: String!, name: String): TaskCard!
@@ -49,6 +50,10 @@ type Task {
 type TaskCard {
     id: String
     name: String
+}
+
+type TaskCardDeleteResponse {
+    id: String!
 }
 
 type User {

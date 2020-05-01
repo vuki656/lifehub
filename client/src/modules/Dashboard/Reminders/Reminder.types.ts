@@ -5,7 +5,3 @@ export type ReminderType = {
     startDate: Date,
     endDate: Date,
 }
-
-export type ReminderErrors = {
-    error?: string,
-}

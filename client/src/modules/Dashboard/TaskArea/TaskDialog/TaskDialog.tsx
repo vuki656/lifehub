@@ -7,7 +7,6 @@ import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { CREATE_TASK } from '../../../../graphql/task/task'
 import { createTaskResponse, createTaskVariables } from '../../../../graphql/task/task.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
-import { ReminderErrors } from '../../Reminders/Reminder.types'
 import { TaskDialogProps } from './TaskDialog.types'
 
 export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
@@ -16,7 +15,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
 
     const { username } = useSelector((state) => state.user)
-    const [errors, setErrors] = React.useState<ReminderErrors>({})
+    const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [formValues, setFormValue] = useFormFields({
         title: task ? task.title : '',
     })

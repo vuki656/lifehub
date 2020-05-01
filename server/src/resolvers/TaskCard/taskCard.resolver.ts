@@ -2,6 +2,7 @@ import { combineResolvers } from 'graphql-resolvers'
 
 import { isAuthenticated } from '../../util/authorization'
 import { createTaskCardHandler } from './handlers/createTaskCard.handler'
+import { deleteTaskCardHandler } from './handlers/deleteTaskCard.handler'
 import { getAllTaskCardsHandler } from './handlers/getAllTaskCards.handler'
 import { updateTaskCardHandler } from './handlers/updateTaskCard.handler'
 
@@ -20,6 +21,10 @@ export const taskCardResolver = {
         updateTaskCard: combineResolvers(
             (parent, input, context) => isAuthenticated(context),
             (parent, input) => updateTaskCardHandler(input),
+        ),
+        deleteTaskCard: combineResolvers(
+            (parent, input, context) => isAuthenticated(context),
+            (parent, input) => deleteTaskCardHandler(input),
         ),
     },
 }

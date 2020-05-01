@@ -6,6 +6,10 @@ export const taskCardType = gql`
         name: String,
     }
 
+    type TaskCardDeleteResponse {
+        id: String!,
+    }
+
     extend type Query {
         getAllTaskCards(username: String!): [TaskCard]!
     }
@@ -13,5 +17,6 @@ export const taskCardType = gql`
     extend type Mutation {
         createTaskCard(name: String!, username: String!): TaskCard!
         updateTaskCard(name: String, id: String!): TaskCard!
+        deleteTaskCard(id: String!): TaskCardDeleteResponse!
     }
 `

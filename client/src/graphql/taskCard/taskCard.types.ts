@@ -3,6 +3,10 @@ export type TaskCardType = {
     name: string,
 }
 
+export type DeleteTaskCardResponse = {
+    id: string,
+}
+
 // ** VARIABLES **
 export type createTaskCardVariables = {
     username: string,
@@ -18,6 +22,10 @@ export type updateTaskCardVariables = {
     name: string,
 }
 
+export type deleteTaskCardVariables = {
+    id: string,
+}
+
 // ** RESPONSES **
 export type createTaskCardResponse = {
     createTaskCard: TaskCardType,
@@ -29,4 +37,8 @@ export type getAllTaskCardsResponse = {
 
 export type updateTaskCardResponse = {
     updateTaskCard: TaskCardType,
+}
+
+export type deleteTaskCardResponse = {
+    deleteTaskCard: DeleteTaskCardResponse,
 }

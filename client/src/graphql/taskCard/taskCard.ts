@@ -18,6 +18,14 @@ export const UPDATE_TASK_CARD = gql`
     }
 `
 
+export const DELETE_TASK_CARD = gql`
+    mutation deleteTaskCard($id: String!) {
+        deleteTaskCard(id: $id) {
+            id
+        }
+    }
+`
+
 export const GET_ALL_TASK_CARDS = gql`
     query getAllTaskCards($username: String!) {
         getAllTaskCards(username: $username) {

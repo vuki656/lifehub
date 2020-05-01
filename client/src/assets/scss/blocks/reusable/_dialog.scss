@@ -20,6 +20,10 @@
   width: 100%;
 }
 
+.dialog__text {
+  padding: $spacing-md 0;
+}
+
 .dialog__content {
   background: $background-color-white;
   border-radius: $border-radius-def;

@@ -7,23 +7,10 @@ import { useSelector } from 'react-redux'
 import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
-import {
-    CREATE_REMINDER,
-    DELETE_REMINDER,
-    GET_REMINDERS_BY_DATE,
-    UPDATE_REMINDER,
-} from '../../../../graphql/reminder/reminder'
-import {
-    createReminderResponse,
-    createReminderVariables,
-    deleteReminderResponse,
-    deleteReminderVariables,
-    updateReminderResponse,
-    updateReminderVariables,
-} from '../../../../graphql/reminder/reminder.types'
+import { CREATE_REMINDER, DELETE_REMINDER, GET_REMINDERS_BY_DATE, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
+import { createReminderResponse, createReminderVariables, deleteReminderResponse, deleteReminderVariables, updateReminderResponse, updateReminderVariables } from '../../../../graphql/reminder/reminder.types'
 import { sortRemindersByDate } from '../../../../util/helpers/sortRemindersByDate'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
-import { ReminderErrors } from '../Reminder.types'
 import { ReminderDialogProps } from './ReminderDialog.types'
 
 export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
@@ -35,7 +22,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const [deleteReminderMutation, { loading: deleteLoading }] = useMutation<deleteReminderResponse, deleteReminderVariables>(DELETE_REMINDER)
 
     // Form
-    const [errors, setErrors] = React.useState<ReminderErrors>({})
+    const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [startDate, setStartDate] = useState<Date | undefined>(reminder ? new Date(reminder.startDate) : undefined)
     const [endDate, setEndDate] = useState<Date | undefined>(reminder ? new Date(reminder.endDate) : undefined)
     const [{ title, description }, setFormValue] = useFormFields({

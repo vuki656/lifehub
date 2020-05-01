@@ -8,7 +8,6 @@ import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { CREATE_TASK_CARD, GET_ALL_TASK_CARDS, UPDATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
 import { createTaskCardResponse, createTaskCardVariables, updateTaskCardResponse, updateTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
-import { ReminderErrors } from '../../Reminders/Reminder.types'
 import { TaskCardDialogProps } from './TaskCardDialog.types'
 
 export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
@@ -18,10 +17,9 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
     const [updateTaskCardMutation, { loading: updateLoading }] = useMutation<updateTaskCardResponse, updateTaskCardVariables>(UPDATE_TASK_CARD)
 
     const { username } = useSelector((state) => state.user)
-    const [errors, setErrors] = React.useState<ReminderErrors>({})
+    const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [formValues, setFormValue] = useFormFields({
         name: taskCard ? taskCard.name : '',
-        name1: '',
     })
 
     // Cancel task creation, clear form, close dialog
@@ -56,6 +54,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         })
     }, [createTaskCardMutation, username, formValues.name, handleDialogToggle])
 
+    // Update task card
     const updateTaskCard = useCallback(() => {
         updateTaskCardMutation({
             variables: {
@@ -81,15 +80,6 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                 <div className="dialog__content">
                     <div className="dialog__header-wrapper">
                         <p className="title">{taskCard ? '✏️ Update' : '📦 Create'} Task Card</p>
-                        {/*{task && (*/}
-                        {/*    <button*/}
-                        {/*        onClick={deleteTask}*/}
-                        {/*        className="button button--secondary button-delete"*/}
-                        {/*        type="button"*/}
-                        {/*    >*/}
-                        {/*        {deleteLoading ? <ButtonLoadingIconBlue /> : 'Delete'}*/}
-                        {/*    </button>*/}
-                        {/*)}*/}
                     </div>
                     <div className="form_input-wrapper">
                         <div className="form__field-wrapper">
