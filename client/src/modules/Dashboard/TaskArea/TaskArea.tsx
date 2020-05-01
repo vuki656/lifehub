@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
 import { TaskCards } from './TaskCards'
+import { TaskDialog } from './TaskDialog'
 
 export const TaskArea: React.FC<{}> = () => {
     const { username, selectedDate } = useSelector((state) => state.user)
@@ -21,7 +22,7 @@ export const TaskArea: React.FC<{}> = () => {
                 </div>
             </div>
             <TaskCards />
-            {/*<TaskDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />*/}
+            <TaskDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />
         </div>
     )
 }
