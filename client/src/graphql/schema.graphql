@@ -19,6 +19,7 @@ type Mutation {
     deleteReminder(id: String!): ReminderDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
     updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
+    updateTaskCard(id: String!, name: String): TaskCard!
 }
 
 type Query {

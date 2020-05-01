@@ -26,7 +26,7 @@ export const Reminders: React.FC<{}> = () => {
     })
 
     // Sort reminders by date ascending then render
-    const renderReminderItems = () => {
+    const renderReminderCards = () => {
         if (data?.getRemindersByDate.length === 0) {
             return (
                 <p className="info-message">
@@ -56,7 +56,7 @@ export const Reminders: React.FC<{}> = () => {
                 ? (renderLoaders(4, <ReminderCardLoader />))
                 : (
                     <>
-                        {renderReminderItems()}
+                        {renderReminderCards()}
                         {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}
                     </>
                 )}

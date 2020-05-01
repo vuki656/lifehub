@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux'
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 
 import { ErrorMessage } from '../../../../components/ErrorMessage'
-import { CREATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
-import { createTaskCardResponse, createTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
+import { CREATE_TASK_CARD, UPDATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
+import { createTaskCardResponse, createTaskCardVariables, updateTaskCardResponse, updateTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { ReminderErrors } from '../../Reminders/Reminder.types'
 import { TaskCardDialogProps } from './TaskCardDialog.types'
@@ -14,11 +14,13 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, taskCard } = props
 
     const [createTaskCardMutation, { loading: createLoading }] = useMutation<createTaskCardResponse, createTaskCardVariables>(CREATE_TASK_CARD)
+    const [updateTaskCardMutation, { loading: updateLoading }] = useMutation<updateTaskCardResponse, updateTaskCardVariables>(UPDATE_TASK_CARD)
 
     const { username } = useSelector((state) => state.user)
     const [errors, setErrors] = React.useState<ReminderErrors>({})
     const [formValues, setFormValue] = useFormFields({
         name: taskCard ? taskCard.name : '',
+        name1: '',
     })
 
     // Cancel task creation, clear form, close dialog
@@ -40,12 +42,24 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         })
     }, [createTaskCardMutation, username, formValues.name])
 
+    const updateTaskCard = useCallback(() => {
+        updateTaskCardMutation({
+            variables: {
+                id: taskCard?.id!,
+                name: formValues.name,
+            },
+        })
+        .then(() => handleDialogToggle())
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [formValues, handleDialogToggle, taskCard, updateTaskCardMutation])
+
     // If task exists update, else create
     const handleSubmit = useCallback((event) => {
         event.preventDefault()
-        createTaskCard()
-        // task ? updateReminder() : createReminder()
-    }, [createTaskCard])
+        taskCard ? updateTaskCard() : createTaskCard()
+    }, [createTaskCard, updateTaskCard, taskCard])
 
     return (
         <form autoComplete="off" onSubmit={handleSubmit}>

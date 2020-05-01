@@ -6,11 +6,49 @@
   flex-basis: 45%;
   margin-bottom: $spacing-xl;
   padding: $spacing-def;
-  transition: box-shadow 150ms ease-in-out;
+  transition-duration: 150ms;
+  transition-property: box-shadow;
+  transition-timing-function: ease-in-out;
   word-wrap: break-word;
+
+  &:hover {
+    .task-card__icon {
+      opacity: 1;
+    }
+  }
+}
+
+.task-card__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: $spacing-sm;
 }
 
 .task-card__name {
+  align-items: center;
+  display: flex;
   font-weight: $font-weight-bold;
-  padding-bottom: $spacing-xs;
+  padding: $spacing-xs;
+}
+
+.task-card__icon {
+  background-color: $background-color-white;
+  border-radius: 50%;
+  cursor: pointer;
+  fill: $icon-button-color-primary-dark;
+  height: 20px;
+  opacity: 0;
+  padding: $spacing-xxs;
+  transition-duration: 150ms, 150ms, 100ms;
+  transition-property: background, box-shadow, opacity;
+  transition-timing-function: ease-in-out;
+  width: 20px;
+
+  &:hover {
+    background-color: $background-color-grey-light;
+    border-radius: 50%;
+    box-shadow: $box-shadow-default;
+    padding: $spacing-xxs;
+  }
 }

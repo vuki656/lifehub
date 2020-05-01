@@ -6,7 +6,7 @@ import { ReminderEntity } from '../../../entities/reminder'
 export const updateReminderHandler = async (input) => {
     const { id, title, description, startDate, endDate } = input
 
-    // Create reminder
+    // Get reminder
     const reminderToUpdate = await ReminderEntity.findOne(id)
 
     // Try to update the found reminder

@@ -13,6 +13,11 @@ export type getAllTaskCardsVariables = {
     username: string,
 }
 
+export type updateTaskCardVariables = {
+    id: string,
+    name: string,
+}
+
 // ** RESPONSES **
 export type createTaskCardResponse = {
     createTaskCard: TaskCardType,
@@ -20,4 +25,8 @@ export type createTaskCardResponse = {
 
 export type getAllTaskCardsResponse = {
     getAllTaskCards: TaskCardType[],
+}
+
+export type updateTaskCardResponse = {
+    updateTaskCard: TaskCardType,
 }

@@ -11,6 +11,7 @@ export const taskCardType = gql`
     }
 
     extend type Mutation {
-        createTaskCard(username: String!, name: String!): TaskCard!
+        createTaskCard(name: String!, username: String!): TaskCard!
+        updateTaskCard(name: String, id: String!): TaskCard!
     }
 `
