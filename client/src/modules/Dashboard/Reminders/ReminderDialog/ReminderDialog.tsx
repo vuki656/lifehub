@@ -50,7 +50,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         toggleDialog()
         clearDialog()
         setErrors({})
-    }, [toggleDialog, clearDialog, setStartDate, setEndDate])
+    }, [toggleDialog, clearDialog])
 
     // Save reminder
     const createReminder = useCallback(() => {

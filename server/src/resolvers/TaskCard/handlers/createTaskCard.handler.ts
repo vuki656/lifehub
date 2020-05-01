@@ -7,8 +7,11 @@ import { UserEntity } from '../../../entities/user'
 export const createTaskCardHandler = async (input) => {
     const { username, name } = input
 
-    // Get user
     const user = await getRepository(UserEntity).findOne({ where: { username } })
+    const existingTaskCard = await getRepository(TaskCardEntity).findOne({ where: { name } })
+
+    // Throw error if name not unique
+    if (existingTaskCard) throw new UserInputError('Error', { error: 'Name already exists.' })
 
     // Throw error if no user
     if (!user) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })

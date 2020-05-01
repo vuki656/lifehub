@@ -1,9 +1,10 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm'
 
 import { UserEntity } from '../user'
 import { TitleOptions } from './TaskCard.options'
 
 @Entity('taskCard')
+@Unique(['name'])
 export class TaskCardEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string

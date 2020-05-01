@@ -1,4 +1,4 @@
 export const TitleOptions: any = {
-    length: 30,
+    length: 150,
     type: 'varchar',
 }

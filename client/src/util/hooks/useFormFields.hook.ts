@@ -10,7 +10,7 @@ export function useFormFields(initialValues) {
 
     // Set all values in object to empty string
     const clearForm = () => {
-        const result = _.mapValues(fields, field => _.isNil(field) ? '' : field)
+        const result = _.mapValues(fields, () => '')
         setValues(result)
     }
 

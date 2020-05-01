@@ -22,10 +22,9 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         name: taskCard ? taskCard.name : '',
     })
 
-    // Cancel task creation, clear form, close dialog
+    // Clear errors and toggle dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
-        clearDialog()
         setErrors({})
     }, [toggleDialog, clearDialog])
 
@@ -104,10 +103,11 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                                 name="name"
                                 value={formValues.name}
                                 onChange={setFormValue}
+                                maxLength={150}
                             />
                         </div>
+                        {errors.error && <ErrorMessage error={errors.error} />}
                     </div>
-                    {errors.error && <ErrorMessage error={errors.error} />}
                     <div className="form__button-group--right">
                         <button
                             onClick={handleDialogToggle}
