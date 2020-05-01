@@ -59,9 +59,8 @@ export const Register: React.FC<{}> = () => {
                                     type="text"
                                     minLength={4}
                                     required
-                                    name="username"
                                     value={username}
-                                    onChange={setFormValue}
+                                    onChange={({ target }) => setFormValue(target.value, 'username')}
                                 />
                                 {errors.username && <ErrorMessage error={errors.username} />}
                             </div>
@@ -72,9 +71,8 @@ export const Register: React.FC<{}> = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    name="email"
                                     value={email}
-                                    onChange={setFormValue}
+                                    onChange={({ target }) => setFormValue(target.value, 'email')}
                                 />
                                 {errors.email && <ErrorMessage error={errors.email} />}
                             </div>
@@ -86,9 +84,8 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    name="password"
                                     value={password}
-                                    onChange={setFormValue}
+                                    onChange={({ target }) => setFormValue(target.value, 'password')}
                                 />
                                 {errors.password && <ErrorMessage error={errors.password} />}
                             </div>
@@ -100,9 +97,8 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    name="passwordConfirmation"
                                     value={passwordConfirmation}
-                                    onChange={setFormValue}
+                                    onChange={({ target }) => setFormValue(target.value, 'passwordConfirmation')}
                                 />
                             </div>
                             <button className="form__button--wide button button--primary" type="submit">

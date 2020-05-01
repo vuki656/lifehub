@@ -59,9 +59,8 @@ export const Login: React.FC<{}> = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    name="email"
                                     value={email}
-                                    onChange={setFormValue}
+                                    onChange={({ target }) => setFormValue(target.value, 'email')}
                                 />
                                 {errors.email && <ErrorMessage error={errors.email} />}
                             </div>
@@ -73,9 +72,8 @@ export const Login: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    name="password"
                                     value={password}
-                                    onChange={setFormValue}
+                                    onChange={({ target }) => setFormValue(target.value, 'password')}
                                 />
                                 {errors.password && <ErrorMessage error={errors.password} />}
                             </div>

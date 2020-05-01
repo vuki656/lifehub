@@ -41,9 +41,9 @@
 }
 
 .reminder-card__icon {
-  height: 17px;
+  height: 17px !important;
   padding-right: $spacing-xxs;
-  width: 17px;
+  width: 17px !important;
 }
 
 .reminder-card__tag--last {
