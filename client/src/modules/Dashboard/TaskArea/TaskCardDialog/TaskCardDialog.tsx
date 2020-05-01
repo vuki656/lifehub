@@ -1,10 +1,11 @@
 import { useMutation } from '@apollo/react-hooks'
+import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 
+import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
-import { CREATE_TASK_CARD, UPDATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
+import { CREATE_TASK_CARD, GET_ALL_TASK_CARDS, UPDATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
 import { createTaskCardResponse, createTaskCardVariables, updateTaskCardResponse, updateTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { ReminderErrors } from '../../Reminders/Reminder.types'
@@ -36,11 +37,24 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                 username,
                 name: formValues.name,
             },
+            update(cache, response) {
+                handleDialogToggle()
+                const { getAllTaskCards }: any = cache.readQuery({
+                    query: GET_ALL_TASK_CARDS,
+                    variables: { username },
+                })
+                const updatedList = _.concat(getAllTaskCards, { ...response.data?.createTaskCard })
+                cache.writeQuery({
+                    query: GET_ALL_TASK_CARDS,
+                    data: { getAllTaskCards: updatedList },
+                    variables: { username },
+                })
+            },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createTaskCardMutation, username, formValues.name])
+    }, [createTaskCardMutation, username, formValues.name, handleDialogToggle])
 
     const updateTaskCard = useCallback(() => {
         updateTaskCardMutation({
@@ -103,8 +117,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                             type="submit"
                             className="form__button button button--primary"
                         >
-                            {/*{createLoading || updateLoading ? <ButtonLoadingIconWhite /> : 'Save'}*/}
-                            {createLoading ? <ButtonLoadingIconWhite /> : 'Save'}
+                            {createLoading || updateLoading ? <ButtonLoadingIconWhite /> : 'Save'}
                         </button>
                     </div>
                 </div>
