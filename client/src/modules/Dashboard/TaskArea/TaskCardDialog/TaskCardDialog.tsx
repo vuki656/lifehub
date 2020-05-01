@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
@@ -22,11 +22,15 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         name: taskCard ? taskCard.name : '',
     })
 
+    useEffect(() => {
+        if (!taskCard) clearDialog()
+    }, [taskCard, clearDialog])
+
     // Clear errors and toggle dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
         setErrors({})
-    }, [toggleDialog, clearDialog])
+    }, [toggleDialog])
 
     // Save task
     const createTaskCard = useCallback(() => {

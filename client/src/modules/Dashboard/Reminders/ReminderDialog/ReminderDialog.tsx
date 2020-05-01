@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
 import moment from 'moment'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 
@@ -31,6 +31,14 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         description: reminder?.description ? reminder.description : '',
     })
 
+    useEffect(() => {
+        if (!reminder) {
+            clearDialog()
+            setStartDate(undefined)
+            setEndDate(undefined)
+        }
+    }, [reminder, formValues, clearDialog])
+
     // Remove reminder from cache if the updated date range doesnt't contain selected date
     // Cache should contain only reminders for selected day
     const removeFromTodayIfOutOfRange = useCallback((reminder, cachedReminders) => {
@@ -48,9 +56,8 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     // Cancel reminder creation, clear form, close dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
-        clearDialog()
         setErrors({})
-    }, [toggleDialog, clearDialog])
+    }, [toggleDialog])
 
     // Save reminder
     const createReminder = useCallback(() => {
