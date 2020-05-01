@@ -31,14 +31,26 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         description: reminder?.description ? reminder.description : '',
     })
 
+    // Remove reminder from cache if the updated date range doesnt't contain selected date
+    // Cache should contain only reminders for selected day
+    const removeFromTodayIfOutOfRange = useCallback((reminder, cachedReminders) => {
+        const { startDate, endDate } = reminder
+
+        if (!moment(selectedDate).isBetween(startDate, endDate)) {
+            return _.filter(cachedReminders, ({ id }) => (
+                id !== reminder.id
+            ))
+        }
+
+        return cachedReminders
+    }, [selectedDate])
+
     // Cancel reminder creation, clear form, close dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
         clearDialog()
-        setStartDate(undefined)
-        setEndDate(undefined)
         setErrors({})
-    }, [toggleDialog])
+    }, [toggleDialog, clearDialog, setStartDate, setEndDate])
 
     // Save reminder
     const createReminder = useCallback(() => {
@@ -78,7 +90,16 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createReminderMutation, username, endDate, startDate, formValues.title, formValues.description, handleDialogToggle, selectedDate])
+    }, [
+        createReminderMutation,
+        username,
+        endDate,
+        startDate,
+        formValues.title,
+        formValues.description,
+        handleDialogToggle,
+        selectedDate,
+    ])
 
     // Update reminder
     const updateReminder = useCallback(() => {
@@ -91,12 +112,41 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 startDate: startDate!,
                 endDate: endDate!,
             },
+            update(cache, { data }) {
+                handleDialogToggle()
+                const { getRemindersByDate }: any = cache.readQuery({
+                    query: GET_REMINDERS_BY_DATE,
+                    variables: {
+                        username,
+                        selectedDate,
+                    },
+                })
+                const updatedList = removeFromTodayIfOutOfRange(data?.updateReminder, getRemindersByDate)
+                cache.writeQuery({
+                    query: GET_REMINDERS_BY_DATE,
+                    data: { getRemindersByDate: sortRemindersByDate(updatedList) },
+                    variables: {
+                        username,
+                        selectedDate,
+                    },
+                })
+            },
         })
-        .then(() => handleDialogToggle())
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [updateReminderMutation, username, endDate, startDate, formValues.title, formValues.description, handleDialogToggle, reminder])
+    }, [
+        removeFromTodayIfOutOfRange,
+        updateReminderMutation,
+        formValues.description,
+        handleDialogToggle,
+        formValues.title,
+        selectedDate,
+        startDate,
+        reminder,
+        username,
+        endDate,
+    ])
 
     // If reminder exists update, else create
     const handleSubmit = useCallback((event) => {

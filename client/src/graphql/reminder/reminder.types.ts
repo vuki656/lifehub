@@ -4,6 +4,15 @@ export type DeleteReminderResponse = {
     id: string,
 }
 
+export type UpdateReminderResponse = {
+    id: string,
+    username: string,
+    title: string,
+    description: string,
+    startDate: Date,
+    endDate: Date,
+}
+
 // ** VARIABLES **
 export type createReminderVariables = {
     username: string,
@@ -37,12 +46,7 @@ export type createReminderResponse = {
 }
 
 export type updateReminderResponse = {
-    id: string,
-    username: string,
-    title: string,
-    description: string,
-    startDate: Date,
-    Date: Date,
+    updateReminder: UpdateReminderResponse,
 }
 
 export type deleteReminderResponse = {

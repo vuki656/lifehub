@@ -27,7 +27,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         toggleDialog()
         clearDialog()
         setErrors({})
-    }, [toggleDialog])
+    }, [toggleDialog, clearDialog])
 
     // Save task
     const createTaskCard = useCallback(() => {
