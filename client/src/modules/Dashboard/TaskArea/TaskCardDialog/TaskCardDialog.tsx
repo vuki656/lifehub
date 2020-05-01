@@ -18,13 +18,14 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
 
     const { username } = useSelector((state) => state.user)
     const [errors, setErrors] = React.useState<{ error?: string }>({})
-    const [formValues, setFormValue] = useFormFields({
+    const [formValues, setFormValue, clearDialog] = useFormFields({
         name: taskCard ? taskCard.name : '',
     })
 
     // Cancel task creation, clear form, close dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
+        clearDialog()
         setErrors({})
     }, [toggleDialog])
 
@@ -79,7 +80,19 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
             <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
                 <div className="dialog__content">
                     <div className="dialog__header-wrapper">
-                        <p className="title">{taskCard ? '✏️ Update' : '📦 Create'} Task Card</p>
+                        {taskCard
+                            ? (
+                                <p className="title">
+                                    <span role="img" aria-label="pencil">✏️ </span>
+                                    Update Task Card
+                                </p>
+                            ) : (
+                                <p className="title">
+                                    <span role="img" aria-label="box">📦 </span>
+                                    Create Task Card
+                                </p>
+                            )
+                        }
                     </div>
                     <div className="form_input-wrapper">
                         <div className="form__field-wrapper">

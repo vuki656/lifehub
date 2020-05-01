@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
+import moment from 'moment'
 import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
@@ -25,7 +26,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [startDate, setStartDate] = useState<Date | undefined>(reminder ? new Date(reminder.startDate) : undefined)
     const [endDate, setEndDate] = useState<Date | undefined>(reminder ? new Date(reminder.endDate) : undefined)
-    const [{ title, description }, setFormValue] = useFormFields({
+    const [formValues, setFormValue, clearDialog] = useFormFields({
         title: reminder ? reminder.title : '',
         description: reminder?.description ? reminder.description : '',
     })
@@ -33,6 +34,9 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     // Cancel reminder creation, clear form, close dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
+        clearDialog()
+        setStartDate(undefined)
+        setEndDate(undefined)
         setErrors({})
     }, [toggleDialog])
 
@@ -41,35 +45,40 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         createReminderMutation({
             variables: {
                 username,
-                title,
-                description,
+                title: formValues.title,
+                description: formValues.description,
                 startDate: startDate!,
                 endDate: endDate!,
             },
-            update(cache, response) {
+            update(cache, { data }) {
                 handleDialogToggle()
-                const { getRemindersByDate }: any = cache.readQuery({
-                    query: GET_REMINDERS_BY_DATE,
-                    variables: {
-                        username,
-                        selectedDate,
-                    },
-                })
-                const updatedList = _.concat(getRemindersByDate, { ...response.data?.createReminder })
-                cache.writeQuery({
-                    query: GET_REMINDERS_BY_DATE,
-                    data: { getRemindersByDate: sortRemindersByDate(updatedList) },
-                    variables: {
-                        username,
-                        selectedDate,
-                    },
-                })
+                if (moment(selectedDate).isBetween(
+                    data?.createReminder.startDate,
+                    data?.createReminder.endDate)
+                ) {
+                    const { getRemindersByDate }: any = cache.readQuery({
+                        query: GET_REMINDERS_BY_DATE,
+                        variables: {
+                            username,
+                            selectedDate,
+                        },
+                    })
+                    const updatedList = _.concat(getRemindersByDate, { ...data?.createReminder })
+                    cache.writeQuery({
+                        query: GET_REMINDERS_BY_DATE,
+                        data: { getRemindersByDate: sortRemindersByDate(updatedList) },
+                        variables: {
+                            username,
+                            selectedDate,
+                        },
+                    })
+                }
             },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createReminderMutation, username, endDate, startDate, title, description, handleDialogToggle, selectedDate])
+    }, [createReminderMutation, username, endDate, startDate, formValues.title, formValues.description, handleDialogToggle, selectedDate])
 
     // Update reminder
     const updateReminder = useCallback(() => {
@@ -77,8 +86,8 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
             variables: {
                 id: reminder?.id!,
                 username,
-                title,
-                description,
+                title: formValues.title,
+                description: formValues.description,
                 startDate: startDate!,
                 endDate: endDate!,
             },
@@ -87,7 +96,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [updateReminderMutation, username, endDate, startDate, title, description, handleDialogToggle, reminder])
+    }, [updateReminderMutation, username, endDate, startDate, formValues.title, formValues.description, handleDialogToggle, reminder])
 
     // If reminder exists update, else create
     const handleSubmit = useCallback((event) => {
@@ -133,7 +142,19 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
             <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
                 <div className="dialog__content">
                     <div className="dialog__header-wrapper">
-                        <p className="title">{reminder ? '✏️ Update' : '📦 Create'} Reminder</p>
+                        {reminder
+                            ? (
+                                <p className="title">
+                                    <span role="img" aria-label="pencil">✏️ </span>
+                                    Update Reminder
+                                </p>
+                            ) : (
+                                <p className="title">
+                                    <span role="img" aria-label="box">📦 </span>
+                                    Create Reminder
+                                </p>
+                            )
+                        }
                         {reminder && (
                             <button
                                 onClick={deleteReminder}
@@ -152,7 +173,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                                 type="text"
                                 required
                                 name="title"
-                                value={title}
+                                value={formValues.title}
                                 onChange={setFormValue}
                             />
                         </div>
@@ -162,7 +183,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                                 className="form__input-field form__input-area"
                                 name="description"
                                 rows={8}
-                                value={description}
+                                value={formValues.description}
                                 onChange={setFormValue}
                                 maxLength={1900}
                             />

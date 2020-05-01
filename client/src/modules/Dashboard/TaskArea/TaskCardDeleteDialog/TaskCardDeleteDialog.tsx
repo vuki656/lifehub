@@ -53,7 +53,10 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
         <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
             <div className="dialog__content">
                 <div className="dialog__header-wrapper">
-                    <p className="title">🗑️ Delete Task Card</p>
+                    <p className="title">
+                        <span role="img" aria-label="trash">🗑</span>️
+                        Delete Task Card
+                    </p>
                 </div>
                 <div className="dialog__text">
                     <p>Are you sure you want to delete <strong>{taskCard?.name}</strong>?</p>
