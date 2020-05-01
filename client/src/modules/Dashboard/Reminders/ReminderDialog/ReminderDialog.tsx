@@ -165,6 +165,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 id: reminder?.id!,
             },
             update(cache, { data }) {
+                handleDialogToggle() // Has to be here to prevent call to unmounted (deleted) component
                 const { getRemindersByDate }: any = cache.readQuery({
                     query: GET_REMINDERS_BY_DATE,
                     variables: {
@@ -185,7 +186,6 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 })
             },
         })
-        .then(() => handleDialogToggle())
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
