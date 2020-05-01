@@ -25,7 +25,7 @@ export const Reminders: React.FC<{}> = () => {
         },
     })
 
-    // Sort reminders by date starting at latest then render
+    // Sort reminders by date ascending then render
     const renderReminderItems = () => {
         if (data?.getRemindersByDate.length === 0) {
             return (

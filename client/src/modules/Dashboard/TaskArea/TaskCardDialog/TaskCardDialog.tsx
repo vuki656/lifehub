@@ -4,24 +4,22 @@ import { useSelector } from 'react-redux'
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 
 import { ErrorMessage } from '../../../../components/ErrorMessage'
-import { CREATE_TASK } from '../../../../graphql/task/task'
-import { createTaskResponse, createTaskVariables } from '../../../../graphql/task/task.types'
+import { CREATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
+import { createTaskCardResponse, createTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { ReminderErrors } from '../../Reminders/Reminder.types'
-import { TaskDialogProps } from './TaskDialog.types'
+import { TaskCardDialogProps } from './TaskCardDialog.types'
 
-export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
-    const { isDialogOpen, toggleDialog, task } = props
+export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
+    const { isDialogOpen, toggleDialog, taskCard } = props
 
-    const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
+    const [createTaskCardMutation, { loading: createLoading }] = useMutation<createTaskCardResponse, createTaskCardVariables>(CREATE_TASK_CARD)
 
     const { username } = useSelector((state) => state.user)
     const [errors, setErrors] = React.useState<ReminderErrors>({})
     const [formValues, setFormValue] = useFormFields({
-        title: task ? task.title : '',
+        name: taskCard ? taskCard.name : '',
     })
-
-    // todo Add status and date to todo
 
     // Cancel task creation, clear form, close dialog
     const handleDialogToggle = useCallback(() => {
@@ -30,57 +28,31 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     }, [toggleDialog])
 
     // Save task
-    const createTask = useCallback(() => {
-        createTaskMutation({
+    const createTaskCard = useCallback(() => {
+        createTaskCardMutation({
             variables: {
                 username,
-                title: formValues.title,
+                name: formValues.name,
             },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createTaskMutation, username, formValues.title, handleDialogToggle])
-    //
-    // // Update task
-    // const updateReminder = useCallback(() => {
-    //     updateReminderMutation({
-    //         variables: {
-    //             id: task?.id!,
-    //             title,
-    //         },
-    //     })
-    //     .then(() => handleDialogToggle())
-    //     .catch((error) => {
-    //         setErrors(error.graphQLErrors?.[0].extensions.exception)
-    //     })
-    // }, [updateTaskMutation, title, handleDialogToggle, task])
+    }, [createTaskCardMutation, username, formValues.name])
 
     // If task exists update, else create
     const handleSubmit = useCallback((event) => {
         event.preventDefault()
-        createTask()
+        createTaskCard()
         // task ? updateReminder() : createReminder()
-    }, [task, createTask])
-    //
-    // // Delete task
-    // const deleteReminder = useCallback(() => {
-    //     deleteReminderMutation({
-    //         variables: {
-    //             id: task?.id!,
-    //         },
-    //     })
-    //     .catch((error) => {
-    //         setErrors(error.graphQLErrors?.[0].extensions.exception)
-    //     })
-    // }, [deleteTaskMutation, handleDialogToggle, task])
+    }, [createTaskCard])
 
     return (
         <form autoComplete="off" onSubmit={handleSubmit}>
             <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
                 <div className="dialog__content">
                     <div className="dialog__header-wrapper">
-                        <p className="title">{task ? '✏️ Update' : '📦 Create'} Task</p>
+                        <p className="title">{taskCard ? '✏️ Update' : '📦 Create'} Task Card</p>
                         {/*{task && (*/}
                         {/*    <button*/}
                         {/*        onClick={deleteTask}*/}
@@ -93,13 +65,13 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                     </div>
                     <div className="form_input-wrapper">
                         <div className="form__field-wrapper">
-                            <p className="form__field-title">Title</p>
+                            <p className="form__field-title">Name</p>
                             <input
                                 className="form__input-field"
                                 type="text"
                                 required
-                                name="title"
-                                value={formValues.title}
+                                name="name"
+                                value={formValues.name}
                                 onChange={setFormValue}
                             />
                         </div>

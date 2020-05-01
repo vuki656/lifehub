@@ -4,25 +4,34 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
+import { TaskCardDialog } from './TaskCardDialog'
 import { TaskCards } from './TaskCards'
-import { TaskDialog } from './TaskDialog'
 
 export const TaskArea: React.FC<{}> = () => {
-    const { username, selectedDate } = useSelector((state) => state.user)
+    const { selectedDate } = useSelector((state) => state.user)
     const [isDialogOpen, toggleDialog] = useToggle(false)
+
+    // If overdue/upcoming display them, else display date
+    const getDateTitle = () => {
+        if (selectedDate === 'overdue' || selectedDate === 'upcoming') {
+            return selectedDate
+        }
+
+        return moment(selectedDate).format('MMM Do YYYY - dddd')
+    }
 
     return (
         <div className="task-area">
             <div className="task-area__header">
-                <p className="title">{moment(selectedDate).format('MMM Do YYYY - dddd')}</p>
+                <p className="title">{getDateTitle()}</p>
                 <div className="task-area__button button--primary">
                     <p className="task-area__header-text" onClick={toggleDialog}>
-                        New Task <AddRoundedIcon className="task-area__icon" />
+                        New Task Card<AddRoundedIcon className="task-area__icon" />
                     </p>
                 </div>
             </div>
             <TaskCards />
-            <TaskDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />
+            <TaskCardDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />
         </div>
     )
 }

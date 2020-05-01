@@ -1,0 +1,16 @@
+.task-card {
+  background-color: $background-color-white;
+  border: 1px solid $border-color-default;
+  border-radius: $border-radius-def;
+  box-shadow: $box-shadow-default;
+  flex-basis: 45%;
+  margin-bottom: $spacing-xl;
+  padding: $spacing-def;
+  transition: box-shadow 150ms ease-in-out;
+  word-wrap: break-word;
+}
+
+.task-card__name {
+  font-weight: $font-weight-bold;
+  padding-bottom: $spacing-xs;
+}

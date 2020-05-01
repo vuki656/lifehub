@@ -14,6 +14,7 @@ type Mutation {
     _empty: String
     createReminder(description: String, endDate: String!, startDate: String!, title: String!, username: String!): Reminder!
     createTask(title: String!, username: String!): Task!
+    createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
@@ -22,6 +23,7 @@ type Mutation {
 
 type Query {
     _empty: String
+    getAllTaskCards(username: String!): [TaskCard]!
     getRemindersByDate(selectedDate: String!, username: String!): [Reminder]!
     verifyUser(token: String): AuthResponse
 }
@@ -41,6 +43,11 @@ type ReminderDeleteResponse {
 type Task {
     id: String
     title: String
+}
+
+type TaskCard {
+    id: String
+    name: String
 }
 
 type User {
