@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { UserEntity } from '../user'
 
-import { TitleOptions } from './Task.options'
+import { TaskCardEntity } from '../taskCard'
+import { DateOptions, TitleOptions } from './Task.options'
 
 @Entity('task')
 export class TaskEntity extends BaseEntity {
@@ -11,7 +11,13 @@ export class TaskEntity extends BaseEntity {
     @Column(TitleOptions)
     title: string
 
-    @ManyToOne(() => UserEntity, user => user.tasks, { cascade: true })
-    @JoinColumn({ name: 'userId' })
-    userId: UserEntity
+    @Column(DateOptions)
+    date: Date
+
+    @Column()
+    checked: boolean
+
+    @ManyToOne(() => TaskCardEntity, taskCard => taskCard.tasks, { cascade: true })
+    @JoinColumn({ name: 'taskCardId' })
+    taskCardId: TaskCardEntity
 }

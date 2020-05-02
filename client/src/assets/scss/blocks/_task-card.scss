@@ -52,3 +52,14 @@
     padding: $spacing-xxs;
   }
 }
+
+.task-card__input {
+  opacity: 0;
+  transition-duration: 150ms;
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+}

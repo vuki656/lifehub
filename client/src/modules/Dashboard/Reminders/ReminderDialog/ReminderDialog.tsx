@@ -219,7 +219,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             </button>
                         )}
                     </div>
-                    <div className="form_input-wrapper">
+                    <div className="form__input-wrapper">
                         <div className="form__field-wrapper">
                             <p className="form__field-title">Title</p>
                             <input

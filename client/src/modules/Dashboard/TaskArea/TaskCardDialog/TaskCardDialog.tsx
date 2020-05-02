@@ -29,7 +29,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         setErrors({})
     }, [toggleDialog, resetForm])
 
-    // Save task
+    // Save task card
     const createTaskCard = useCallback(() => {
         createTaskCardMutation({
             variables: {
@@ -97,7 +97,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                             )
                         }
                     </div>
-                    <div className="form_input-wrapper">
+                    <div className="form__input-wrapper">
                         <div className="form__field-wrapper">
                             <p className="form__field-title">Name</p>
                             <input

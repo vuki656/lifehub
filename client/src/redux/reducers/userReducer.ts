@@ -4,7 +4,7 @@ import * as actionTypes from '../actions/types'
 
 const initialState = {
     username: '',
-    selectedDate: moment.utc().format(),
+    selectedDate: moment().startOf('day'),
 }
 
 const userReducer = (state = initialState, action) => {

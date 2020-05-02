@@ -5,7 +5,6 @@ import { ReminderEntity } from '../../../entities/reminder'
 export const deleteReminderHandler = async (input) => {
     const { id } = input
 
-    // TODO: see what getRepo returns by default
     // Try to delete reminder
     await getRepository(ReminderEntity)
     .delete(id)

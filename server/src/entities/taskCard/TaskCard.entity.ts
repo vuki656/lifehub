@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm'
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm'
+import { TaskEntity } from '../task'
 
 import { UserEntity } from '../user'
 import { TitleOptions } from './TaskCard.options'
@@ -12,7 +13,10 @@ export class TaskCardEntity extends BaseEntity {
     @Column(TitleOptions)
     name: string
 
-    @ManyToOne(() => UserEntity, user => user.tasks, { cascade: true })
+    @OneToMany(() => TaskEntity, task => task.taskCardId)
+    tasks: TaskEntity[]
+
+    @ManyToOne(() => UserEntity, user => user.taskCards, { cascade: true })
     @JoinColumn({ name: 'userId' })
     userId: UserEntity
 }

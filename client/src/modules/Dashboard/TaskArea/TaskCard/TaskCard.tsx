@@ -1,9 +1,15 @@
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-import { TaskCardDeleteDialog } from '../TaskCardDeleteDialog'
 
+import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
+import { createTaskResponse, createTaskVariables, getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables } from '../../../../graphql/task/task.types'
+import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
+import { TaskCardDeleteDialog } from '../TaskCardDeleteDialog'
 import { TaskCardDialog } from '../TaskCardDialog'
 import { TaskCardProps } from './TaskCard.types'
 
@@ -12,6 +18,43 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
 
     const [isEditDialogOpen, toggleEditDialog] = useToggle(false)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
+    const { username, selectedDate } = useSelector((state) => state.user)
+
+    const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
+    const { error, data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
+        variables: {
+            taskCardId: taskCard.id,
+            selectedDate,
+        },
+    })
+
+    const [errors, setErrors] = React.useState<{ error?: string }>({})
+    const [formValues, setFormValue, clearForm] = useFormFields({
+        title: '',
+    })
+
+    // Save task
+    const createTask = useCallback(() => {
+        createTaskMutation({
+            variables: {
+                username,
+                title: formValues.title,
+                checked: false,
+                date: selectedDate,
+                taskCardId: taskCard.id,
+            },
+        })
+        .then(() => clearForm())
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [username, clearForm, createTaskMutation, selectedDate, taskCard.id, formValues.title])
+
+    // Handle form submit
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault()
+        createTask()
+    }, [createTask])
 
     return (
         <div className="task-card">
@@ -21,6 +64,22 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                     <DeleteOutlineRoundedIcon className="task-card__icon" onClick={toggleDeleteDialog} />
                     <EditRoundedIcon className="task-card__icon" onClick={toggleEditDialog} />
                 </div>
+            </div>
+            <div className="task-card__body">
+                {data && data.getTasksByDateAndTaskCard.map(task => (<p key={task.id}>{task.title}</p>))}
+            </div>
+            <div className="task-card__input">
+                <form onSubmit={handleSubmit}>
+                    <input
+                        className="form__input-field"
+                        type="text"
+                        required
+                        value={formValues.title}
+                        onChange={({ target }) => setFormValue(target.value, 'title')}
+                        maxLength={150}
+                    />
+                    {errors.error && <ErrorMessage error={errors.error} />}
+                </form>
             </div>
             <TaskCardDialog
                 isDialogOpen={isEditDialogOpen}
