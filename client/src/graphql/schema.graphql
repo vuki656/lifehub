@@ -10,16 +10,22 @@ type AuthResponse {
     username: String!
 }
 
+type DeleteTaskResponse {
+    id: String!
+}
+
 type Mutation {
     _empty: String
     createReminder(description: String, endDate: String!, startDate: String!, title: String!, username: String!): Reminder!
-    createTask(checked: Boolean!, date: String!, taskCardId: String!, title: String!, username: String!): Task!
+    createTask(checked: Boolean!, date: String!, note: String, taskCardId: String!, title: String!, username: String!): Task!
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!
+    deleteTask(id: String!): DeleteTaskResponse!
     deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
     updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
+    updateTask(date: String, id: String!, note: String, title: String): Task!
     updateTaskCard(id: String!, name: String): TaskCard!
 }
 
@@ -47,6 +53,7 @@ type Task {
     checked: Boolean!
     date: DateTime!
     id: String!
+    note: String
     taskCardId: String
     title: String!
 }

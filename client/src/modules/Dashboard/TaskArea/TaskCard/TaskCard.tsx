@@ -32,6 +32,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [formValues, setFormValue, clearForm] = useFormFields({
         title: '',
+        note: '',
     })
 
     // Save task
@@ -40,6 +41,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             variables: {
                 username,
                 title: formValues.title,
+                note: formValues.note,
                 checked: false,
                 date: selectedDate,
                 taskCardId: taskCard.id,
@@ -49,7 +51,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [username, clearForm, createTaskMutation, selectedDate, taskCard.id, formValues.title])
+    }, [username, clearForm, createTaskMutation, selectedDate, taskCard.id, formValues.title, formValues.note])
 
     // Handle form submit
     const handleSubmit = useCallback((event) => {
@@ -68,7 +70,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             </div>
             <div className="task-card__body">
                 {data && data.getTasksByDateAndTaskCard.map(task => (
-                    <Task task={task} key={task.id} />
+                    <Task task={task} taskCard={taskCard} key={task.id} />
                 ))}
             </div>
             <div className={'task-card__input' + (formValues.title ? 'task-card__input--visible' : '')}>

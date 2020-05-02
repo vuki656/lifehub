@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import { TaskCardEntity } from '../taskCard'
-import { DateOptions, TitleOptions } from './Task.options'
+import { DateOptions, NoteOptions, TitleOptions } from './Task.options'
 
 @Entity('task')
 export class TaskEntity extends BaseEntity {
@@ -10,6 +10,9 @@ export class TaskEntity extends BaseEntity {
 
     @Column(TitleOptions)
     title: string
+
+    @Column(NoteOptions)
+    note: string
 
     @Column(DateOptions)
     date: Date

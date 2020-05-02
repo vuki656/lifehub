@@ -4,7 +4,7 @@ import { TaskEntity } from '../../../entities/task'
 import { TaskCardEntity } from '../../../entities/taskCard'
 
 export const createTaskHandler = async (input) => {
-    const { title, checked, date, taskCardId } = input
+    const { title, note, checked, date, taskCardId } = input
 
     // Get task card
     const foundTaskCard = await getRepository(TaskCardEntity).findOne({ where: { id: taskCardId } })
@@ -15,6 +15,7 @@ export const createTaskHandler = async (input) => {
     // Save task
     const task = new TaskEntity()
     task.title = title
+    task.note = note
     task.checked = checked
     task.date = date
     task.taskCardId = foundTaskCard

@@ -60,7 +60,10 @@ export const Reminders: React.FC<{}> = () => {
                         {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}
                     </>
                 )}
-            <ReminderDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />
+            <ReminderDialog
+                isDialogOpen={isDialogOpen}
+                toggleDialog={toggleDialog}
+            />
         </div>
     )
 }

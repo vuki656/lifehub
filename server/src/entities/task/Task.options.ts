@@ -3,6 +3,12 @@ export const TitleOptions: any = {
     type: 'varchar',
 }
 
+export const NoteOptions: any = {
+    length: 2000,
+    type: 'varchar',
+    nullable: true,
+}
+
 export const DateOptions: any = {
     type: 'timestamptz',
 }
