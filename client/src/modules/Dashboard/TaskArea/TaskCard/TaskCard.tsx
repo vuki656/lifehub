@@ -5,8 +5,8 @@ import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 
+import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
 import { createTaskResponse, createTaskVariables, getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables } from '../../../../graphql/task/task.types'
@@ -94,7 +94,8 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                     <Task task={task} taskCard={taskCard} key={task.id} />
                 ))}
             </div>
-            <div className={'task-card__input' + (formValues.titlee ? 'task-card__input--visible' : '')}>
+            {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}
+            <div className="task-card__input">
                 <form onSubmit={handleSubmit}>
                     {createLoading ? <ButtonLoadingIconBlue size={35} /> : (
                         <input

@@ -43,10 +43,7 @@ export type createTaskResponse = {
 }
 
 export type updateTaskResponse = {
-    id: string,
-    title: string,
-    note: string,
-    date: Date,
+    updateTask: TaskType,
 }
 
 export type deleteTaskResponse = {

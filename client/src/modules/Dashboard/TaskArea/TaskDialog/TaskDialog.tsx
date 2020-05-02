@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
+import moment from 'moment'
 import React, { useCallback } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
@@ -8,7 +9,7 @@ import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconB
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { DELETE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
-import { deleteTaskResponse, deleteTaskVariables, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
+import { deleteTaskResponse, deleteTaskVariables, TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { TaskDialogProps } from './TaskDialog.types'
 
@@ -34,7 +35,17 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         setErrors({})
     }, [toggleDialog, resetForm])
 
-    // TODO handle date change
+    // Remove task from selected date view if task date doesn't match it
+    const removeTaskIfNotInSelectedDate = useCallback((task: TaskType, cachedTaskList: TaskType[]) => {
+        if (!moment(selectedDate).isSame(task.date)) {
+            return _.filter(cachedTaskList, ({ id }) => (
+                id !== task.id
+            ))
+        }
+
+        return cachedTaskList
+    }, [selectedDate])
+
     // Save task card
     const updateTask = useCallback(() => {
         updateTaskMutation({
@@ -44,12 +55,41 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 note: formValues.note,
                 date: formValues.date,
             },
+            update(cache, { data }) {
+                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    variables: {
+                        taskCardId,
+                        selectedDate,
+                    },
+                })
+                const updatedList = removeTaskIfNotInSelectedDate(data?.updateTask!, getTasksByDateAndTaskCard)
+                cache.writeQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    data: { getTasksByDateAndTaskCard: updatedList },
+                    variables: {
+                        taskCardId,
+                        selectedDate,
+                    },
+                })
+            },
         })
         .then(() => toggleDialog())
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [updateTaskMutation, task.id, formValues.title, formValues.note, formValues.date, toggleDialog])
+    }, [
+        updateTaskMutation,
+        task.id,
+        formValues.title,
+        formValues.note,
+        formValues.date,
+        toggleDialog,
+        selectedDate,
+        handleDialogToggle,
+        removeTaskIfNotInSelectedDate,
+        taskCardId,
+    ])
 
     // Delete task
     const deleteTask = useCallback(() => {
