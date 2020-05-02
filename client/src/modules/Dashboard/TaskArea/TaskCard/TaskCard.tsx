@@ -9,6 +9,7 @@ import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
 import { createTaskResponse, createTaskVariables, getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables } from '../../../../graphql/task/task.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
+import { Task } from '../Task'
 import { TaskCardDeleteDialog } from '../TaskCardDeleteDialog'
 import { TaskCardDialog } from '../TaskCardDialog'
 import { TaskCardProps } from './TaskCard.types'
@@ -66,15 +67,18 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                 </div>
             </div>
             <div className="task-card__body">
-                {data && data.getTasksByDateAndTaskCard.map(task => (<p key={task.id}>{task.title}</p>))}
+                {data && data.getTasksByDateAndTaskCard.map(task => (
+                    <Task task={task} key={task.id} />
+                ))}
             </div>
-            <div className="task-card__input">
+            <div className={'task-card__input' + (formValues.title ? 'task-card__input--visible' : '')}>
                 <form onSubmit={handleSubmit}>
                     <input
-                        className="form__input-field"
+                        className="form__input-field task-card__input-field"
                         type="text"
                         required
                         value={formValues.title}
+                        placeholder="Click to quickly add a task"
                         onChange={({ target }) => setFormValue(target.value, 'title')}
                         maxLength={150}
                     />

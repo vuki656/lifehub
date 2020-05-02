@@ -1,0 +1,33 @@
+.task {
+  align-items: center;
+  border: 1px solid $border-color-input-field;
+  border-radius: $border-radius-def;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: $spacing-sm;
+  padding: $spacing-sm;
+  text-overflow: ellipsis;
+
+  &:hover {
+    border-color: $border-color-default;
+  }
+}
+
+.task__title {
+  max-height: 19px;
+  overflow: hidden;
+  padding-left: $spacing-def;
+  text-overflow: ellipsis;
+  width: 90%;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.task__title--disabled {
+  color: $text-color-primary-lighter;
+  text-decoration: line-through;
+}
+

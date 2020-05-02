@@ -1,6 +1,5 @@
 .task-card {
   background-color: $background-color-white;
-  border: 1px solid $border-color-default;
   border-radius: $border-radius-def;
   box-shadow: $box-shadow-default;
   flex-basis: 45%;
@@ -9,7 +8,6 @@
   transition-duration: 150ms;
   transition-property: box-shadow;
   transition-timing-function: ease-in-out;
-  word-wrap: break-word;
 
   &:hover {
     .task-card__icon {
@@ -29,7 +27,7 @@
   align-items: center;
   display: flex;
   font-weight: $font-weight-bold;
-  padding: $spacing-xs;
+  padding: $spacing-xs 0;
 }
 
 .task-card__icon {
@@ -54,12 +52,12 @@
 }
 
 .task-card__input {
-  opacity: 0;
   transition-duration: 150ms;
   transition-property: opacity;
   transition-timing-function: ease-in-out;
-
-  &:hover {
-    opacity: 1;
-  }
 }
+
+.task-card__input--visible {
+  opacity: 1 !important;
+}
+
