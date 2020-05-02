@@ -24,6 +24,7 @@ type Mutation {
     deleteTask(id: String!): DeleteTaskResponse!
     deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
+    toggleTask(checked: Boolean!, id: String!): Task!
     updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
     updateTask(date: String, id: String!, note: String, title: String): Task!
     updateTaskCard(id: String!, name: String): TaskCard!

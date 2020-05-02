@@ -32,6 +32,11 @@ export type deleteTaskVariables = {
     id: string,
 }
 
+export type toggleTaskVariables = {
+    id: string,
+    checked: boolean,
+}
+
 export type getTasksByDateAndTaskCardVariables = {
     taskCardId: string,
     selectedDate: Date,
@@ -48,6 +53,10 @@ export type updateTaskResponse = {
 
 export type deleteTaskResponse = {
     deleteTask: DeleteTaskResponse,
+}
+
+export type toggleTaskResponse = {
+    toggleTask: TaskType,
 }
 
 export type getTasksByDateAndTaskCardResponse = {

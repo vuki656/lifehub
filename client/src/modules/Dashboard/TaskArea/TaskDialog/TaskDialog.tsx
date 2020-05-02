@@ -86,7 +86,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         formValues.date,
         toggleDialog,
         selectedDate,
-        handleDialogToggle,
         removeTaskIfNotInSelectedDate,
         taskCardId,
     ])

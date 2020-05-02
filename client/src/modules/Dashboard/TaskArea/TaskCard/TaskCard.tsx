@@ -24,7 +24,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const { username, selectedDate } = useSelector((state) => state.user)
 
     const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
-    const { error, data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
+    const { error, data } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
         variables: {
             taskCardId: taskCard.id,
             selectedDate,

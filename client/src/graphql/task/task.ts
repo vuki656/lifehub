@@ -32,6 +32,19 @@ export const DELETE_TASK = gql`
     }
 `
 
+export const TOGGLE_TASK = gql`
+    mutation toggleTask($id: String!, $checked: Boolean!) {
+        toggleTask(id: $id, checked: $checked) {
+            id
+            title
+            note
+            date
+            checked
+            taskCardId
+        }
+    }
+`
+
 export const GET_TASKS_BY_DATE_AND_TASK_CARD = gql`
     query getTasksByDateAndTaskCard($taskCardId: String!, $selectedDate: String!) {
         getTasksByDateAndTaskCard(taskCardId: $taskCardId, selectedDate: $selectedDate) {

@@ -4,6 +4,7 @@ import { isAuthenticated } from '../../util/authorization'
 import { createTaskHandler } from './handlers/createTask.handler'
 import { deleteTaskHandler } from './handlers/deleteTask.handler'
 import { getTasksByDateAndTaskCardHandler } from './handlers/getTasksByDateAndTaskCard.handler'
+import { toggleTaskHandler } from './handlers/toggleTask.handler'
 import { updateTaskHandler } from './handlers/updateTask.handler'
 
 export const taskResolver = {
@@ -25,6 +26,10 @@ export const taskResolver = {
         deleteTask: combineResolvers(
             (parent, input, context) => isAuthenticated(context),
             (parent, input) => deleteTaskHandler(input),
+        ),
+        toggleTask: combineResolvers(
+            (parent, input, context) => isAuthenticated(context),
+            (parent, input) => toggleTaskHandler(input),
         ),
     },
 }
