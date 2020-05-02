@@ -1,9 +1,11 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
+import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
+import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
@@ -29,6 +31,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         },
     })
 
+    // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [formValues, setFormValue, clearForm] = useFormFields({
         title: '',
@@ -45,6 +48,24 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                 checked: false,
                 date: selectedDate,
                 taskCardId: taskCard.id,
+            },
+            update(cache, response) {
+                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    variables: {
+                        taskCardId: taskCard.id,
+                        selectedDate,
+                    },
+                })
+                const updatedList = _.concat(getTasksByDateAndTaskCard, { ...response.data?.createTask })
+                cache.writeQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    data: { getTasksByDateAndTaskCard: updatedList },
+                    variables: {
+                        taskCardId: taskCard.id,
+                        selectedDate,
+                    },
+                })
             },
         })
         .then(() => clearForm())
@@ -73,17 +94,19 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                     <Task task={task} taskCard={taskCard} key={task.id} />
                 ))}
             </div>
-            <div className={'task-card__input' + (formValues.title ? 'task-card__input--visible' : '')}>
+            <div className={'task-card__input' + (formValues.titlee ? 'task-card__input--visible' : '')}>
                 <form onSubmit={handleSubmit}>
-                    <input
-                        className="form__input-field task-card__input-field"
-                        type="text"
-                        required
-                        value={formValues.title}
-                        placeholder="Click to quickly add a task"
-                        onChange={({ target }) => setFormValue(target.value, 'title')}
-                        maxLength={150}
-                    />
+                    {createLoading ? <ButtonLoadingIconBlue size={35} /> : (
+                        <input
+                            className="form__input-field task-card__input-field"
+                            type="text"
+                            required
+                            value={formValues.title}
+                            placeholder="Click to quickly add a task"
+                            onChange={({ target }) => setFormValue(target.value, 'title')}
+                            maxLength={150}
+                        />
+                    )}
                     {errors.error && <ErrorMessage error={errors.error} />}
                 </form>
             </div>

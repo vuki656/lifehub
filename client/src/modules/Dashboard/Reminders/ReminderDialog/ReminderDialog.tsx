@@ -215,7 +215,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                                 className="button button--secondary button-delete"
                                 type="button"
                             >
-                                {deleteLoading ? <ButtonLoadingIconBlue /> : 'Delete'}
+                                {deleteLoading ? <ButtonLoadingIconBlue size={18}/> : 'Delete'}
                             </button>
                         )}
                     </div>

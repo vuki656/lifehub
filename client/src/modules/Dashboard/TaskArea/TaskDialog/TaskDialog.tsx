@@ -15,12 +15,13 @@ import { TaskDialogProps } from './TaskDialog.types'
 export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, task, taskCardId } = props
 
+    const { selectedDate } = useSelector((state) => state.user)
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
     const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
 
-    const { selectedDate } = useSelector((state) => state.user)
+    // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})
-    const [formValues, setFormValue, resetForm] = useFormFields({
+    const [formValues, setFormValue, __, resetForm] = useFormFields({
         title: task.title,
         note: task.note ? task.note : '',
         date: new Date(task.date),
@@ -103,7 +104,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                             className="button button--secondary button-delete"
                             type="button"
                         >
-                            {deleteLoading ? <ButtonLoadingIconBlue /> : 'Delete'}
+                            {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Delete'}
                         </button>
                     </div>
                     <div className="form__input-wrapper">
@@ -152,7 +153,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                             type="submit"
                             className="form__button button button--primary"
                         >
-                            {updateLoading || deleteLoading ? <ButtonLoadingIconWhite /> : 'Save'}
+                            {updateLoading ? <ButtonLoadingIconWhite /> : 'Save'}
                         </button>
                     </div>
                 </div>

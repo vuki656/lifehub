@@ -75,7 +75,7 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
                         className="button button--primary button-delete"
                         type="button"
                     >
-                        {deleteLoading ? <ButtonLoadingIconBlue /> : 'Yes'}
+                        {deleteLoading ? <ButtonLoadingIconBlue size={18}/> : 'Yes'}
                     </button>
                 </div>
             </div>
