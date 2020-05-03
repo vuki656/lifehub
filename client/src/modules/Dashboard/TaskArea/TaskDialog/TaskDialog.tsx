@@ -56,6 +56,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 date: formValues.date,
             },
             update(cache, { data }) {
+                toggleDialog()
                 const { getTasksByDateAndTaskCard }: any = cache.readQuery({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
@@ -74,7 +75,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 })
             },
         })
-        .then(() => toggleDialog())
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
@@ -175,7 +175,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                             className="form__input-field"
                             selected={formValues.date}
                             onChange={(date) => setFormValue(date, 'date')}
-                            // minDate={new Date()}
+                            minDate={new Date()}
                             required
                         />
                     </div>
