@@ -3,7 +3,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import DoneAllIcon from '@material-ui/icons/DoneAll'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import SettingsIcon from '@material-ui/icons/Settings'
-import moment from 'moment'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
@@ -36,7 +35,7 @@ export const SideMenu: React.FC<{}> = () => {
                         : <IconLogo className="side-menu__svg" />}
                 </div>
                 <NavLink
-                    to={`/dashboard/${moment().format('DoddddMMYYYY')}`}
+                    to="/dashboard"
                     name="dashboard"
                     className="side-menu__item"
                     activeClassName="side-menu__item--selected"

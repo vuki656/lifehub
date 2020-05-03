@@ -23,9 +23,7 @@ export const Register: React.FC<{}> = () => {
     })
 
     // Save user in database
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-
+    const createUser = useCallback(() => {
         createUserMutation({
             variables: {
                 username: formValues.username,
@@ -46,13 +44,19 @@ export const Register: React.FC<{}> = () => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
     }, [
+        clearForm,
         createUserMutation,
-        history, clearForm,
-        formValues.username,
         formValues.email,
+        formValues.username,
         formValues.password,
         formValues.passwordConfirmation,
+        history,
     ])
+
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault()
+        createUser()
+    }, [createUser])
 
     return (
         loading
