@@ -37,7 +37,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     if (fetchError) setErrors(fetchError.graphQLErrors?.[0].extensions.exception)
 
     // Form
-    const [formValues, setFormValue, clearForm] = useFormFields({
+    const { formValues, setFormValue, clearForm } = useFormFields({
         title: '',
         note: '',
     })

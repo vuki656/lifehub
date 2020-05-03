@@ -18,7 +18,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
 
     const { username } = useSelector((state) => state.user)
     const [errors, setErrors] = React.useState<{ error?: string }>({})
-    const [formValues, setFormValue, clearForm, resetForm] = useFormFields({
+    const { formValues, setFormValue, clearForm, resetForm } = useFormFields({
         name: taskCard ? taskCard.name : '',
     })
 

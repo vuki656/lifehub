@@ -3,8 +3,8 @@ import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined'
 import moment from 'moment'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-
 import { NavLink } from 'react-router-dom'
+
 import { setSelectedDate } from '../../../redux/actions/userActions'
 
 export const DaysSidebar: React.FC<{}> = () => {

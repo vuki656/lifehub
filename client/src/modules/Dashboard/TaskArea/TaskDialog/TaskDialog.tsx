@@ -22,7 +22,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})
-    const [formValues, setFormValue, __, resetForm] = useFormFields({
+    const { formValues, setFormValue, resetForm } = useFormFields({
         title: task.title,
         note: task.note ? task.note : '',
         date: new Date(task.date),
