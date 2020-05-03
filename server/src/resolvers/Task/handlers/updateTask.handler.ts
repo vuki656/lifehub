@@ -8,14 +8,12 @@ export const updateTaskHandler = async (input) => {
 
     const taskToUpdate = await TaskEntity.findOne(id)
 
-    // Try to update the task
-    if (taskToUpdate) {
-        taskToUpdate.title = title
-        taskToUpdate.note = note
-        taskToUpdate.date = date
-    } else {
-        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-    }
+    // Throw error if no task
+    if (!taskToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+
+    taskToUpdate.title = title
+    taskToUpdate.note = note
+    taskToUpdate.date = date
 
     // Try to save updated task
     return getRepository(TaskEntity)

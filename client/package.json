@@ -25,7 +25,8 @@
         "react-use": "^14.1.1",
         "redux": "^4.0.5",
         "redux-devtools-extension": "^2.13.8",
-        "redux-thunk": "^2.3.0"
+        "redux-thunk": "^2.3.0",
+        "rrule": "^2.6.4"
     },
     "devDependencies": {
         "@types/node": "^8.0.29",
