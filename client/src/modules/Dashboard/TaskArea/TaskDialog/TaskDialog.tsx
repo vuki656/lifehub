@@ -175,7 +175,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                             className="form__input-field"
                             selected={formValues.date}
                             onChange={(date) => setFormValue(date, 'date')}
-                            minDate={new Date()}
+                            // minDate={new Date()}
                             required
                         />
                     </div>

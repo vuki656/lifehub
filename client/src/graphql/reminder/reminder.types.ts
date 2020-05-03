@@ -37,7 +37,7 @@ export type deleteReminderVariables = {
 
 export type getRemindersByDateVariables = {
     username: string,
-    selectedDate: string,
+    selectedDate: string | Date,
 }
 
 // ** RESPONSES **

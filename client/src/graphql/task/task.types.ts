@@ -39,7 +39,7 @@ export type toggleTaskVariables = {
 
 export type getTasksByDateAndTaskCardVariables = {
     taskCardId: string,
-    selectedDate: Date,
+    selectedDate: string | Date,
 }
 
 // ** RESPONSES **

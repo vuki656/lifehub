@@ -26,14 +26,14 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const { username, selectedDate } = useSelector((state) => state.user)
 
     const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
-    const { error, data, loading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
+    const { error, data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
         variables: {
             taskCardId: taskCard.id,
             selectedDate,
         },
     })
 
-    // Form
+    // Form // TODO handle errors
     const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [formValues, setFormValue, clearForm] = useFormFields({
         title: '',
@@ -82,9 +82,10 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         createTask()
     }, [createTask])
 
+    // TODO handle 2 errors
     return (
         <>
-            {loading
+            {fetchLoading
                 ? (renderLoaders(1, <TaskCardLoader />))
                 : (
                     <div className="task-card">
@@ -114,9 +115,9 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                                         maxLength={150}
                                     />
                                 )}
-                                {errors.error && <ErrorMessage error={errors.error} />}
                             </form>
                         </div>
+                        {/*{errors.error && <ErrorMessage error={errors.error} />}*/}
                         <TaskCardDialog
                             isDialogOpen={isEditDialogOpen}
                             toggleDialog={toggleEditDialog}
