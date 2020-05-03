@@ -15,7 +15,7 @@ export const Login: React.FC<{}> = () => {
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
-    const [{ email, password }, setFormValue, clearForm] = useFormFields({
+    const { formValues, setFormValue, clearForm } = useFormFields({
         email: '',
         password: '',
     })
@@ -26,8 +26,8 @@ export const Login: React.FC<{}> = () => {
 
         logInUserQuery({
             variables: {
-                email,
-                password,
+                email: formValues.email,
+                password: formValues.password,
             },
         })
         .then((response) => {
@@ -41,7 +41,7 @@ export const Login: React.FC<{}> = () => {
         .catch((error) => {
             setErrors(error.graphQLErrors[0]?.extensions)
         })
-    }, [logInUserQuery, history, clearForm, email, password])
+    }, [logInUserQuery, history, clearForm, formValues.email, formValues.password])
 
     return (
         loading
@@ -59,7 +59,7 @@ export const Login: React.FC<{}> = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    value={email}
+                                    value={formValues.email}
                                     onChange={({ target }) => setFormValue(target.value, 'email')}
                                 />
                                 {errors.email && <ErrorMessage error={errors.email} />}
@@ -72,7 +72,7 @@ export const Login: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    value={password}
+                                    value={formValues.password}
                                     onChange={({ target }) => setFormValue(target.value, 'password')}
                                 />
                                 {errors.password && <ErrorMessage error={errors.password} />}

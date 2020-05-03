@@ -24,7 +24,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
 
     // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})
-    const [formValues, setFormValue, clearForm, resetForm] = useFormFields({
+    const { formValues, setFormValue, clearForm, resetForm } = useFormFields({
         title: reminder ? reminder.title : '',
         description: reminder?.description ? reminder.description : '',
         startDate: reminder ? new Date(reminder.startDate) : undefined,
@@ -215,7 +215,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                                 className="button button--secondary button-delete"
                                 type="button"
                             >
-                                {deleteLoading ? <ButtonLoadingIconBlue size={18}/> : 'Delete'}
+                                {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Delete'}
                             </button>
                         )}
                     </div>

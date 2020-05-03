@@ -15,7 +15,7 @@ export const Register: React.FC<{}> = () => {
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
-    const [{ username, email, password, passwordConfirmation }, setFormValue, clearForm] = useFormFields({
+    const { formValues, setFormValue, clearForm } = useFormFields({
         username: '',
         email: '',
         password: '',
@@ -27,7 +27,12 @@ export const Register: React.FC<{}> = () => {
         event.preventDefault()
 
         createUserMutation({
-            variables: { username, email, password, passwordConfirmation },
+            variables: {
+                username: formValues.username,
+                email: formValues.email,
+                password: formValues.pasword,
+                passwordConfirmation: formValues.passwordConfirmation,
+            },
         })
         .then((response) => {
             const token = response?.data?.createUser.token ?? ''
@@ -40,7 +45,14 @@ export const Register: React.FC<{}> = () => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createUserMutation, history, clearForm, username, email, password, passwordConfirmation])
+    }, [
+        createUserMutation,
+        history, clearForm,
+        formValues.username,
+        formValues.email,
+        formValues.password,
+        formValues.passwordConfirmation,
+    ])
 
     return (
         loading
@@ -59,7 +71,7 @@ export const Register: React.FC<{}> = () => {
                                     type="text"
                                     minLength={4}
                                     required
-                                    value={username}
+                                    value={formValues.username}
                                     onChange={({ target }) => setFormValue(target.value, 'username')}
                                 />
                                 {errors.username && <ErrorMessage error={errors.username} />}
@@ -71,7 +83,7 @@ export const Register: React.FC<{}> = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    value={email}
+                                    value={formValues.email}
                                     onChange={({ target }) => setFormValue(target.value, 'email')}
                                 />
                                 {errors.email && <ErrorMessage error={errors.email} />}
@@ -84,7 +96,7 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    value={password}
+                                    value={formValues.password}
                                     onChange={({ target }) => setFormValue(target.value, 'password')}
                                 />
                                 {errors.password && <ErrorMessage error={errors.password} />}
@@ -97,7 +109,7 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    value={passwordConfirmation}
+                                    value={formValues.passwordConfirmation}
                                     onChange={({ target }) => setFormValue(target.value, 'passwordConfirmation')}
                                 />
                             </div>
