@@ -23,18 +23,20 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
 
     const [isEditDialogOpen, toggleEditDialog] = useToggle(false)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
+    const [errors, setErrors] = React.useState<{ error?: string }>()
     const { username, selectedDate } = useSelector((state) => state.user)
 
     const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
-    const { error, data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
+    const { error: fetchError, data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
         variables: {
             taskCardId: taskCard.id,
             selectedDate,
         },
     })
 
-    // Form // TODO handle errors
-    const [errors, setErrors] = React.useState<{ error?: string }>({})
+    if (fetchError) setErrors(fetchError.graphQLErrors?.[0].extensions.exception)
+
+    // Form
     const [formValues, setFormValue, clearForm] = useFormFields({
         title: '',
         note: '',
@@ -82,7 +84,6 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         createTask()
     }, [createTask])
 
-    // TODO handle 2 errors
     return (
         <>
             {fetchLoading
@@ -101,7 +102,6 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                                 <Task task={task} taskCard={taskCard} key={task.id} />
                             ))}
                         </div>
-                        {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}
                         <div className="task-card__input">
                             <form onSubmit={handleSubmit}>
                                 {createLoading ? <ButtonLoadingIconBlue size={35} /> : (
@@ -117,7 +117,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                                 )}
                             </form>
                         </div>
-                        {/*{errors.error && <ErrorMessage error={errors.error} />}*/}
+                        {errors?.error && <ErrorMessage error={errors.error} />}
                         <TaskCardDialog
                             isDialogOpen={isEditDialogOpen}
                             toggleDialog={toggleEditDialog}
