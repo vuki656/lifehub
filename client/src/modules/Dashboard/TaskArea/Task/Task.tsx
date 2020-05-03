@@ -28,9 +28,6 @@ export const Task: React.FC<TaskProps> = (props) => {
                 checked: !task.checked,
             },
         })
-        .catch((error) => {
-            console.log(error)
-        })
     }, [task.checked, task.id, toggleTaskMutation])
 
     const handleTaskCheck = useCallback(() => {
