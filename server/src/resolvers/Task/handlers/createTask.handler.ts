@@ -1,10 +1,11 @@
 import { UserInputError } from 'apollo-server'
 import { getRepository } from 'typeorm'
+
 import { TaskEntity } from '../../../entities/task'
 import { TaskCardEntity } from '../../../entities/taskCard'
 
 export const createTaskHandler = async (input) => {
-    const { title, note, checked, date, taskCardId } = input
+    const { title, note, checked, date, taskCardId, rrule, isRepeating } = input
 
     // Get task card
     const foundTaskCard = await getRepository(TaskCardEntity).findOne({ where: { id: taskCardId } })
@@ -19,6 +20,8 @@ export const createTaskHandler = async (input) => {
     task.checked = checked
     task.date = date
     task.taskCardId = foundTaskCard
+    task.rrule = rrule
+    task.isRepeating = isRepeating
 
     const createdTask = await getRepository(TaskEntity)
     .save(task)
@@ -32,5 +35,7 @@ export const createTaskHandler = async (input) => {
         checked: createdTask.checked,
         date: createdTask.date,
         taskCardId: createdTask.taskCardId.id,
+        rrule: createdTask.rrule,
+        isRepeating: createdTask.isRepeating,
     }
 }

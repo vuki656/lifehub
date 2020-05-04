@@ -6,6 +6,8 @@ export const taskType = gql`
         title: String!,
         note: String,
         checked: Boolean!,
+        rrule: String,
+        isRepeating: Boolean!
         date: GraphQLDateTime!,
         taskCardId: String,
     }
@@ -19,9 +21,8 @@ export const taskType = gql`
     }
 
     extend type Mutation {
-        createTask(title: String!, note: String, checked: Boolean!, date: String!, taskCardId: String!, username: String!): Task!
-        updateTask(title: String, note: String, date: String, id: String!): Task!
+        createTask(title: String!, note: String, checked: Boolean!, date: String!, rrule: String, isRepeating: Boolean!, taskCardId: String!, username: String!): Task!
+        updateTask(title: String, note: String, checked: Boolean, date: String, rrule: String, isRepeating: Boolean id: String!): Task!
         deleteTask(id: String!): DeleteTaskResponse!
-        toggleTask(id: String!, checked: Boolean!): Task!
     }
 `

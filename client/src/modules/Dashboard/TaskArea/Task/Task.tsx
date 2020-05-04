@@ -1,10 +1,10 @@
 import { useMutation } from '@apollo/react-hooks'
 import React, { useCallback } from 'react'
 import { useToggle } from 'react-use'
-import { TOGGLE_TASK } from '../../../../graphql/task/task'
-import { toggleTaskResponse, toggleTaskVariables } from '../../../../graphql/task/task.types'
-import { TaskDialog } from '../TaskDialog'
 
+import { UPDATE_TASK } from '../../../../graphql/task/task'
+import { updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
+import { TaskDialog } from '../TaskDialog'
 import { TaskProps } from './Task.types'
 
 export const Task: React.FC<TaskProps> = (props) => {
@@ -13,7 +13,7 @@ export const Task: React.FC<TaskProps> = (props) => {
     const [isTaskChecked, toggleTaskChecked] = useToggle(task.checked)
     const [isDialogOpen, toggleDialog] = useToggle(false)
 
-    const [toggleTaskMutation] = useMutation<toggleTaskResponse, toggleTaskVariables>(TOGGLE_TASK)
+    const [updateTaskMutation] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog
     const handleTaskClick = useCallback(() => {
@@ -22,13 +22,13 @@ export const Task: React.FC<TaskProps> = (props) => {
 
     // Check task in database
     const updateTaskCheck = useCallback(() => {
-        toggleTaskMutation({
+        updateTaskMutation({
             variables: {
                 id: task.id,
                 checked: !task.checked,
             },
         })
-    }, [task.checked, task.id, toggleTaskMutation])
+    }, [task.checked, task.id, updateTaskMutation])
 
     const handleTaskCheck = useCallback(() => {
         updateTaskCheck()

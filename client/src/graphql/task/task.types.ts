@@ -4,6 +4,8 @@ export type TaskType = {
     note: string,
     checked: boolean,
     date: Date,
+    rrule?: string,
+    isRepeating: boolean,
     taskCardId?: string,
 }
 
@@ -18,23 +20,23 @@ export type createTaskVariables = {
     note: string,
     checked: boolean,
     date: Date,
+    isRepeating: boolean,
+    rrule?: string,
     taskCardId: string,
 }
 
 export type updateTaskVariables = {
     id: string,
-    title: string,
-    note: string,
-    date: Date,
+    title?: string,
+    note?: string,
+    date?: Date,
+    checked?: boolean,
+    rrule?: string,
+    isRepeating?: boolean,
 }
 
 export type deleteTaskVariables = {
     id: string,
-}
-
-export type toggleTaskVariables = {
-    id: string,
-    checked: boolean,
 }
 
 export type getTasksByDateAndTaskCardVariables = {
@@ -53,10 +55,6 @@ export type updateTaskResponse = {
 
 export type deleteTaskResponse = {
     deleteTask: DeleteTaskResponse,
-}
-
-export type toggleTaskResponse = {
-    toggleTask: TaskType,
 }
 
 export type getTasksByDateAndTaskCardResponse = {

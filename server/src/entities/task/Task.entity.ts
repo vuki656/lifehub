@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import { TaskCardEntity } from '../taskCard'
-import { DateOptions, NoteOptions, TitleOptions } from './Task.options'
+import { DateOptions, NoteOptions, RRuleOptions, TitleOptions } from './Task.options'
 
 @Entity('task')
 export class TaskEntity extends BaseEntity {
@@ -19,6 +19,12 @@ export class TaskEntity extends BaseEntity {
 
     @Column()
     checked: boolean
+
+    @Column(RRuleOptions)
+    rrule: string
+
+    @Column()
+    isRepeating: boolean
 
     @ManyToOne(() => TaskCardEntity, taskCard => taskCard.tasks, { cascade: true })
     @JoinColumn({ name: 'taskCardId' })

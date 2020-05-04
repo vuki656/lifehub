@@ -12,3 +12,7 @@ export const NoteOptions: any = {
 export const DateOptions: any = {
     type: 'timestamptz',
 }
+
+export const RRuleOptions: any = {
+    nullable: true,
+}

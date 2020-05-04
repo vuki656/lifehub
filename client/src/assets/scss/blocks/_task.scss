@@ -31,3 +31,10 @@
   text-decoration: line-through;
 }
 
+// Dialog fragment
+.repeating-task__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+

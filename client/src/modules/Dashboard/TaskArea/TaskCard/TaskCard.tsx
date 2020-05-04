@@ -51,6 +51,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                 note: formValues.note,
                 checked: false,
                 date: selectedDate,
+                isRepeating: false,
                 taskCardId: taskCard.id,
             },
             update(cache, response) {
