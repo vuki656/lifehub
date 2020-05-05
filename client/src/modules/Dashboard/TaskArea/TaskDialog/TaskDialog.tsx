@@ -5,7 +5,7 @@ import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-import { RRule, Weekday } from 'rrule'
+import { Frequency, RRule, Weekday } from 'rrule'
 
 import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
@@ -59,18 +59,30 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     // Parse rrule to string
     const getRrule = useCallback(() => {
+        let _frequency: Frequency = RRule.DAILY
+
+        switch (frequency) {
+            case 'daily':
+                _frequency = RRule.DAILY
+                break
+            case 'weekly':
+                _frequency = RRule.WEEKLY
+                break
+            case 'monthly':
+                _frequency = RRule.MONTHLY
+                break
+        }
 
         const rule = new RRule({
-            freq: RRule.WEEKLY,
-            interval: interval,
+            freq: _frequency,
+            interval,
             byweekday: [...selectedWeekDays],
         })
 
         console.log(rule.toString())
-        // return rrule.toString()
 
-        return '123'
-    }, [selectedWeekDays, interval])
+        return rule.toString()
+    }, [selectedWeekDays, interval, frequency])
 
     getRrule()
 
@@ -240,12 +252,12 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                     onChange={({ target }) => setInterval(parseInt(target.value, 10))}
                                 />
                                 <select onChange={({ target }) => setFrequency(target.value)}>
-                                    <option value="day">{interval !== 1 ? 'Days' : 'Day'}</option>
-                                    <option value="week">{interval !== 1 ? 'Weeks' : 'Week'}</option>
-                                    <option value="month">{interval !== 1 ? 'Months' : 'Month'}</option>
+                                    <option value="daily">{interval !== 1 ? 'Days' : 'Day'}</option>
+                                    <option value="weekly">{interval !== 1 ? 'Weeks' : 'Week'}</option>
+                                    <option value="monthly">{interval !== 1 ? 'Months' : 'Month'}</option>
                                 </select>
                                 <div className="form__field-wrapper">
-                                    {frequency === 'week' && (
+                                    {frequency === 'weekly' && (
                                         <div>
                                             {rruleWeekDaysArr.map((day, index) => (
                                                 <DayCheckbox
