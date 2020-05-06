@@ -5,12 +5,12 @@ import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-import { Frequency, RRule, Weekday } from 'rrule'
+import { RRule } from 'rrule'
 
 import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
-import { DayCheckbox } from '../../../../components/DayCheckbox'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { WeekDayButton } from '../../../../components/WeekDayButton'
 import { DELETE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
 import { deleteTaskResponse, deleteTaskVariables, TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
 import { rruleWeekDaysArr } from '../../../../util/helpers/variables'
@@ -18,14 +18,14 @@ import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { TaskDialogProps } from './TaskDialog.types'
 
 export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
-    const { isDialogOpen, toggleDialog, task, taskCardId } = props
+    const { isDialogOpen, toggleDialog, task, taskCardId, taskRrule } = props
 
     const { selectedDate } = useSelector((state) => state.user)
     const [isRepeating, toggleIsRepeating] = useToggle(false)
-    const [frequency, setFrequency] = useState<string>('days')
+    const [frequency, setFrequency] = useState<string>('2')
     const [interval, setInterval] = useState<number>(1)
-    const [selectedWeekDays, setSelectedWeekDays] = useState<Weekday[]>([])
     const [doesEnd, setDoesEnd] = useToggle(false)
+    const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([])
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
     const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
@@ -37,6 +37,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         note: task.note ? task.note : '',
         date: new Date(task.date),
         isRepeating: task.isRepeating,
+        endDate: task.endDate ? task.endDate : null,
     })
 
     // Clear errors and toggle dialog
@@ -59,32 +60,16 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     // Parse rrule to string
     const getRrule = useCallback(() => {
-        let _frequency: Frequency = RRule.DAILY
-
-        switch (frequency) {
-            case 'daily':
-                _frequency = RRule.DAILY
-                break
-            case 'weekly':
-                _frequency = RRule.WEEKLY
-                break
-            case 'monthly':
-                _frequency = RRule.MONTHLY
-                break
-        }
-
         const rule = new RRule({
-            freq: _frequency,
+            freq: frequency,
             interval,
             byweekday: [...selectedWeekDays],
+            dtstart: formValues.date,
+            until: formValues.endDate,
         })
 
-        console.log(rule.toString())
-
         return rule.toString()
-    }, [selectedWeekDays, interval, frequency])
-
-    getRrule()
+    }, [selectedWeekDays, interval, frequency, formValues.date, formValues.endDate])
 
     // Save task card
     const updateTask = useCallback(() => {
@@ -243,43 +228,50 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                     </div>
                     {isRepeating && (
                         <div className="form__field-wrapper">
-                            <div className="form__field-wrapper repeating-task__header">
-                                <p className="form__field-title">Every</p>
+                            <p className="form__field-title">Every</p>
+                            <div className="repeating-task__header">
                                 <input
+                                    className="form__input-field repeating-task__interval"
                                     type="number"
                                     min={1}
                                     value={interval}
                                     onChange={({ target }) => setInterval(parseInt(target.value, 10))}
                                 />
-                                <select onChange={({ target }) => setFrequency(target.value)}>
-                                    <option value="daily">{interval !== 1 ? 'Days' : 'Day'}</option>
-                                    <option value="weekly">{interval !== 1 ? 'Weeks' : 'Week'}</option>
-                                    <option value="monthly">{interval !== 1 ? 'Months' : 'Month'}</option>
+                                {/* RRule parses frequency = month = 1, week = 2, day = 1, same with week days*/}
+                                <select
+                                    onChange={({ target }) => setFrequency(target.value)}
+                                    defaultValue={frequency}
+                                    className="form__input-field repeating-task__frequency"
+                                >
+                                    <option value={'3'}>{interval !== 1 ? 'Days' : 'Day'}</option>
+                                    <option value={'2'}>{interval !== 1 ? 'Weeks' : 'Week'}</option>
+                                    <option value={'1'}>{interval !== 1 ? 'Months' : 'Month'}</option>
                                 </select>
-                                <div className="form__field-wrapper">
-                                    {frequency === 'weekly' && (
-                                        <div>
-                                            {rruleWeekDaysArr.map((day, index) => (
-                                                <DayCheckbox
-                                                    weekDay={day}
-                                                    setSelectedWeekDays={setSelectedWeekDays}
-                                                    selectedWeekDays={selectedWeekDays}
-                                                    key={index}
-                                                />
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
                             </div>
+                            {frequency === '2' && (
+                                <div className="form__field-wrapper">
+                                    <p className="form__field-title">On</p>
+                                    <div className="repeating-task__weekdays">
+                                        {rruleWeekDaysArr.map((day, index) => (
+                                            <WeekDayButton
+                                                weekDay={day}
+                                                setSelectedWeekDays={setSelectedWeekDays}
+                                                selectedWeekDays={selectedWeekDays}
+                                                key={index}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                             <div className="form__field-wrapper">
                                 <input
                                     type="checkbox"
                                     checked={doesEnd}
-                                    className="task__checkbox"
+                                    className="task-dialog__checkbox"
                                     onChange={setDoesEnd}
                                 />
                                 <label
-                                    htmlFor="task__checkbox"
+                                    htmlFor="task-dialog__checkbox"
                                     className="task__title"
                                 >
                                     Does End

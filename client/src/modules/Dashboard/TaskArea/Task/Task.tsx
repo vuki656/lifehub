@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useToggle } from 'react-use'
+import { RRule, rrulestr } from 'rrule'
 
 import { UPDATE_TASK } from '../../../../graphql/task/task'
 import { updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
@@ -12,8 +13,13 @@ export const Task: React.FC<TaskProps> = (props) => {
 
     const [isTaskChecked, toggleTaskChecked] = useToggle(task.checked)
     const [isDialogOpen, toggleDialog] = useToggle(false)
+    const [rruleObj, setRruleObj] = useState<RRule>()
 
     const [updateTaskMutation] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
+
+    useEffect(() => {
+        setRruleObj(rrulestr(task.rrule))
+    }, [task.rrule])
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog
     const handleTaskClick = useCallback(() => {
@@ -30,6 +36,7 @@ export const Task: React.FC<TaskProps> = (props) => {
         })
     }, [task.checked, task.id, updateTaskMutation])
 
+    // Update db value and toggle checkbox
     const handleTaskCheck = useCallback(() => {
         updateTaskCheck()
         toggleTaskChecked()
@@ -55,6 +62,7 @@ export const Task: React.FC<TaskProps> = (props) => {
                 toggleDialog={toggleDialog}
                 task={task}
                 taskCardId={taskCard.id}
+                taskRrule={rruleObj}
             />
         </div>
     )

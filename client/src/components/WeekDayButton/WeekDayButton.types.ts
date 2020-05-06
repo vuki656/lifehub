@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react'
 import { Weekday } from 'rrule'
-import { rRuleWeekDayType } from '../../util/helpers/variables'
+import { RruleWeekDayType } from '../../util/helpers/variables'
 
 export type DayCheckboxProps = {
-    weekDay: rRuleWeekDayType,
+    weekDay: RruleWeekDayType,
     setSelectedWeekDays: Dispatch<SetStateAction<Weekday[]>>,
-    selectedWeekDays: Weekday[],
+    selectedWeekDays: number[],
 }

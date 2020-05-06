@@ -38,3 +38,43 @@
   justify-content: space-between;
 }
 
+.repeating-task__weekdays {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.repeating-task__weekday {
+  background-color: $button-background-color-secondary;
+  border: 1px solid $border-color-input-field;
+  border-radius: $border-radius-input-field;
+  color: $text-color-primary;
+  padding: $spacing-xs;
+  transition-duration: 100ms;
+  transition-property: color, background-color;
+  transition-timing-function: ease-in-out;
+
+  &:hover {
+    background-color: $button-background-color-secondary-hover;
+    color: $text-color-primary;
+    cursor: pointer;
+  }
+}
+
+.repeating-task__weekday--selected {
+  background-color: $button-background-color-primary;
+  color: $text-color-white;
+
+  &:hover {
+    background-color: $button-background-color-primary-hover;
+    color: $text-color-white;
+  }
+}
+
+.repeating-task__interval {
+  width: 40% !important;
+}
+
+.repeating-task__frequency {
+  width: 40% !important;
+}
