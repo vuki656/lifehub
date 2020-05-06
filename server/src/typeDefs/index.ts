@@ -1,8 +1,8 @@
-import { reminderType } from './reminder.type-def'
-import { rootType } from './root.type-def'
-import { taskType } from './task.type-def'
-import { taskCardType } from './taskCard.type-def'
-import { userType } from './user.type-def'
+import { reminderType } from './reminder.typeDef'
+import { rootType } from './root.typeDef'
+import { taskType } from './task.typeDef'
+import { taskCardType } from './taskCard.typeDef'
+import { userType } from './user.typeDef'
 
 export const typeDefs = [
     rootType,

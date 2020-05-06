@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { RepeatingTaskInstanceEntity } from '../repeatingTaskInstance'
 
 import { TaskCardEntity } from '../taskCard'
 import { DateOptions, EndDateOptions, NoteOptions, RRuleOptions, TitleOptions } from './Task.options'
@@ -32,4 +33,7 @@ export class TaskEntity extends BaseEntity {
     @ManyToOne(() => TaskCardEntity, taskCard => taskCard.tasks, { cascade: true })
     @JoinColumn({ name: 'taskCardId' })
     taskCardId: TaskCardEntity
+
+    @OneToMany(() => RepeatingTaskInstanceEntity, repeatingTaskInstance => repeatingTaskInstance.task)
+    repeatingTaskInstances: RepeatingTaskInstanceEntity[]
 }
