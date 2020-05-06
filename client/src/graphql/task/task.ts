@@ -47,6 +47,7 @@ export const GET_TASKS_BY_DATE_AND_TASK_CARD = gql`
             date
             rrule
             isRepeating
+            endDate
         }
     }
 `

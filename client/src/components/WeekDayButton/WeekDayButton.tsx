@@ -8,19 +8,18 @@ import { DayCheckboxProps } from './WeekDayButton.types'
 export const WeekDayButton: React.FC<DayCheckboxProps> = (props) => {
     const { weekDay, setSelectedWeekDays, selectedWeekDays } = props
 
-    const [isSelected, toggleIsSelected] = useToggle(selectedWeekDays.includes(weekDay))
+    const [isSelected, toggleIsSelected] = useToggle(selectedWeekDays.includes(weekDay.dayRruleNumber))
 
     // If week day exists in array, remove (uncheck), else add (check)
     const handleWeekDayCheck = useCallback(() => {
         toggleIsSelected()
 
-        if (selectedWeekDays.includes(weekDay.rrule)) {
-            setSelectedWeekDays(_.filter(selectedWeekDays, (_weekDay) => _weekDay !== weekDay.rrule))
+        if (selectedWeekDays.includes(weekDay.dayRruleNumber)) {
+            setSelectedWeekDays(_.filter(selectedWeekDays, (_weekDay) => _weekDay !== weekDay.dayRruleNumber))
         } else {
-            setSelectedWeekDays([...selectedWeekDays, weekDay.rrule])
+            setSelectedWeekDays([...selectedWeekDays, weekDay.dayRruleNumber])
         }
-
-    }, [selectedWeekDays, toggleIsSelected, weekDay.rrule, setSelectedWeekDays])
+    }, [selectedWeekDays, toggleIsSelected, weekDay.dayRruleNumber, setSelectedWeekDays])
 
     return (
         <div

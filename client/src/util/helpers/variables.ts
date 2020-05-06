@@ -1,37 +1,35 @@
-import { RRule, Weekday } from 'rrule'
-
 export type RruleWeekDayType = {
     dayString: string,
-    rrule: Weekday,
+    dayRruleNumber: number,
 }
 
 export const rruleWeekDaysArr: RruleWeekDayType[] = [
     {
         dayString: 'mo',
-        rrule: RRule.MO,
+        dayRruleNumber: 0,
     },
     {
         dayString: 'tu',
-        rrule: RRule.TU,
+        dayRruleNumber: 1,
     },
     {
         dayString: 'we',
-        rrule: RRule.WE,
+        dayRruleNumber: 2,
     },
     {
         dayString: 'th',
-        rrule: RRule.TH,
+        dayRruleNumber: 3,
     },
     {
         dayString: 'fr',
-        rrule: RRule.FR,
+        dayRruleNumber: 4,
     },
     {
         dayString: 'sa',
-        rrule: RRule.SA,
+        dayRruleNumber: 5,
     },
     {
         dayString: 'su',
-        rrule: RRule.SU,
+        dayRruleNumber: 6,
     },
 ]

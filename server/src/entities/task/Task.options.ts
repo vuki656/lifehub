@@ -13,6 +13,11 @@ export const DateOptions: any = {
     type: 'timestamptz',
 }
 
+export const EndDateOptions: any = {
+    type: 'timestamptz',
+    nullable: true,
+}
+
 export const RRuleOptions: any = {
     nullable: true,
 }

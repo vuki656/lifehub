@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
 import moment from 'moment'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
@@ -20,12 +20,14 @@ import { TaskDialogProps } from './TaskDialog.types'
 export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, task, taskCardId, taskRrule } = props
 
+    console.log(task)
+
     const { selectedDate } = useSelector((state) => state.user)
-    const [isRepeating, toggleIsRepeating] = useToggle(false)
-    const [frequency, setFrequency] = useState<string>('2')
-    const [interval, setInterval] = useState<number>(1)
-    const [doesEnd, setDoesEnd] = useToggle(false)
+    const [isRepeating, toggleIsRepeating] = useToggle(task.isRepeating)
+    const [doesEnd, setDoesEnd] = useToggle(!!task.endDate)
     const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([])
+    const [frequency, setFrequency] = useState<number>(1)
+    const [interval, setInterval] = useState<number>(1)
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
     const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
@@ -39,6 +41,15 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         isRepeating: task.isRepeating,
         endDate: task.endDate ? task.endDate : null,
     })
+
+    useEffect(() => {
+        if (taskRrule) {
+            setSelectedWeekDays(taskRrule.options.byweekday)
+            setInterval(taskRrule.options.interval)
+            setFrequency(taskRrule.options.freq)
+        }
+
+    }, [taskRrule])
 
     // Clear errors and toggle dialog
     const handleDialogToggle = useCallback(() => {
@@ -79,6 +90,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 title: formValues.title,
                 note: formValues.note,
                 date: formValues.date,
+                endDate: formValues.endDate,
                 rrule: getRrule(),
                 isRepeating,
             },
@@ -240,19 +252,19 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 {/* RRule parses frequency = month = 1, week = 2, day = 1, same with week days*/}
                                 <select
                                     onChange={({ target }) => setFrequency(target.value)}
-                                    defaultValue={frequency}
+                                    value={frequency}
                                     className="form__input-field repeating-task__frequency"
                                 >
-                                    <option value={'3'}>{interval !== 1 ? 'Days' : 'Day'}</option>
-                                    <option value={'2'}>{interval !== 1 ? 'Weeks' : 'Week'}</option>
-                                    <option value={'1'}>{interval !== 1 ? 'Months' : 'Month'}</option>
+                                    <option value={3}>{interval !== 1 ? 'Days' : 'Day'}</option>
+                                    <option value={2}>{interval !== 1 ? 'Weeks' : 'Week'}</option>
+                                    <option value={1}>{interval !== 1 ? 'Months' : 'Month'}</option>
                                 </select>
                             </div>
-                            {frequency === '2' && (
+                            {frequency === 2 && (
                                 <div className="form__field-wrapper">
                                     <p className="form__field-title">On</p>
                                     <div className="repeating-task__weekdays">
-                                        {rruleWeekDaysArr.map((day, index) => (
+                                        {selectedWeekDays && rruleWeekDaysArr.map((day, index) => (
                                             <WeekDayButton
                                                 weekDay={day}
                                                 setSelectedWeekDays={setSelectedWeekDays}

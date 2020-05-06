@@ -52,6 +52,7 @@ type ReminderDeleteResponse {
 type Task {
     checked: Boolean!
     date: DateTime!
+    endDate: DateTime
     id: String!
     isRepeating: Boolean!
     note: String

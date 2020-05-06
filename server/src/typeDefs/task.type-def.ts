@@ -8,6 +8,7 @@ export const taskType = gql`
         checked: Boolean!,
         rrule: String,
         isRepeating: Boolean!
+        endDate: GraphQLDateTime,
         date: GraphQLDateTime!,
         taskCardId: String,
     }

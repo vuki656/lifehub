@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import { TaskCardEntity } from '../taskCard'
-import { DateOptions, NoteOptions, RRuleOptions, TitleOptions } from './Task.options'
+import { DateOptions, EndDateOptions, NoteOptions, RRuleOptions, TitleOptions } from './Task.options'
 
 @Entity('task')
 export class TaskEntity extends BaseEntity {
@@ -16,6 +16,9 @@ export class TaskEntity extends BaseEntity {
 
     @Column(DateOptions)
     date: Date
+
+    @Column(EndDateOptions)
+    endDate: Date
 
     @Column()
     checked: boolean

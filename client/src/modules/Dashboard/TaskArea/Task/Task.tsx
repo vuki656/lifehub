@@ -18,7 +18,7 @@ export const Task: React.FC<TaskProps> = (props) => {
     const [updateTaskMutation] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
 
     useEffect(() => {
-        setRruleObj(rrulestr(task.rrule))
+        if (task.rrule) setRruleObj(rrulestr(task.rrule))
     }, [task.rrule])
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog
