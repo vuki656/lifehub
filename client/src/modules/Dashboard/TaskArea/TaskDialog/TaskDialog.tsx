@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
 import moment from 'moment'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
@@ -20,14 +20,12 @@ import { TaskDialogProps } from './TaskDialog.types'
 export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, task, taskCardId, taskRrule } = props
 
-    console.log(task)
-
     const { selectedDate } = useSelector((state) => state.user)
     const [isRepeating, toggleIsRepeating] = useToggle(task.isRepeating)
     const [doesEnd, setDoesEnd] = useToggle(!!task.endDate)
-    const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([])
-    const [frequency, setFrequency] = useState<number>(1)
-    const [interval, setInterval] = useState<number>(1)
+    const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(taskRrule.options ? taskRrule.options.byweekday : [])
+    const [frequency, setFrequency] = useState<number>(taskRrule.options ? taskRrule.options.freq : 1)
+    const [interval, setInterval] = useState<number>(taskRrule.options ? taskRrule.options.interval : 1)
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
     const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
@@ -39,17 +37,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         note: task.note ? task.note : '',
         date: new Date(task.date),
         isRepeating: task.isRepeating,
-        endDate: task.endDate ? task.endDate : null,
+        endDate: task.endDate ? new Date(task.endDate) : null,
     })
-
-    useEffect(() => {
-        if (taskRrule) {
-            setSelectedWeekDays(taskRrule.options.byweekday)
-            setInterval(taskRrule.options.interval)
-            setFrequency(taskRrule.options.freq)
-        }
-
-    }, [taskRrule])
 
     // Clear errors and toggle dialog
     const handleDialogToggle = useCallback(() => {
@@ -123,6 +112,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         formValues.title,
         formValues.note,
         formValues.date,
+        formValues.endDate,
         toggleDialog,
         selectedDate,
         removeTaskIfNotInSelectedDate,

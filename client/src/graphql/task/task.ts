@@ -9,6 +9,7 @@ export const CREATE_TASK = gql`
             checked
             date
             rrule
+            endDate
             isRepeating
             taskCardId
         }
@@ -16,13 +17,15 @@ export const CREATE_TASK = gql`
 `
 
 export const UPDATE_TASK = gql`
-    mutation updateTask($id: String!, $title: String, $note: String, $date: String, $rrule: String, $isRepeating: Boolean! ) {
-        updateTask(id: $id, title: $title, note: $note, date: $date, rrule: $rrule, isRepeating: $isRepeating, ) {
+    mutation updateTask($id: String!, $checked: Boolean, $title: String, $note: String, $date: String, $endDate: String, $rrule: String, $isRepeating: Boolean) {
+        updateTask(id: $id, title: $title, checked: $checked, note: $note, date: $date, endDate: $endDate, rrule: $rrule, isRepeating: $isRepeating) {
             id
             title
             note
+            checked
             date
             rrule
+            endDate
             isRepeating
             taskCardId
         }

@@ -18,7 +18,7 @@ export const Task: React.FC<TaskProps> = (props) => {
     const [updateTaskMutation] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
 
     useEffect(() => {
-        if (task.rrule) setRruleObj(rrulestr(task.rrule))
+        task.rrule ? setRruleObj(rrulestr(task.rrule)) : setRruleObj({})
     }, [task.rrule])
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog
@@ -57,13 +57,15 @@ export const Task: React.FC<TaskProps> = (props) => {
             >
                 {task.title}
             </label>
-            <TaskDialog
-                isDialogOpen={isDialogOpen}
-                toggleDialog={toggleDialog}
-                task={task}
-                taskCardId={taskCard.id}
-                taskRrule={rruleObj}
-            />
+            {rruleObj && (
+                <TaskDialog
+                    isDialogOpen={isDialogOpen}
+                    toggleDialog={toggleDialog}
+                    task={task}
+                    taskCardId={taskCard.id}
+                    taskRrule={rruleObj}
+                />
+            )}
         </div>
     )
 }

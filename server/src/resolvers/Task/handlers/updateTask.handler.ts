@@ -4,7 +4,7 @@ import { getRepository } from 'typeorm'
 import { TaskEntity } from '../../../entities/task'
 
 export const updateTaskHandler = async (input) => {
-    const { id, title, note, date, checked, rrule, isRepeating } = input
+    const { id, title, note, date, endDate, checked, rrule, isRepeating } = input
 
     const taskToUpdate = await TaskEntity.findOne(id)
 
@@ -17,6 +17,7 @@ export const updateTaskHandler = async (input) => {
     taskToUpdate.date = date || taskToUpdate.date
     taskToUpdate.rrule = rrule || taskToUpdate.rrule
     taskToUpdate.isRepeating = isRepeating || taskToUpdate.isRepeating
+    taskToUpdate.endDate = endDate || taskToUpdate.endDate
 
     // Try to save updated task
     return getRepository(TaskEntity)

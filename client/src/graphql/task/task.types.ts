@@ -4,7 +4,7 @@ export type TaskType = {
     note: string,
     checked: boolean,
     date: Date,
-    endDate: Date,
+    endDate?: Date,
     rrule?: string,
     isRepeating: boolean,
     taskCardId?: string,
@@ -22,7 +22,6 @@ export type createTaskVariables = {
     checked: boolean,
     date: Date,
     isRepeating: boolean,
-    rrule?: string,
     taskCardId: string,
 }
 
