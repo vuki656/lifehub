@@ -241,7 +241,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 />
                                 {/* RRule parses frequency = month = 1, week = 2, day = 1, same with week days*/}
                                 <select
-                                    onChange={({ target }) => setFrequency(target.value)}
+                                    onChange={({ target }) => setFrequency(parseInt(target.value, 10))}
                                     value={frequency}
                                     className="form__input-field repeating-task__frequency"
                                 >
@@ -254,7 +254,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 <div className="form__field-wrapper">
                                     <p className="form__field-title">On</p>
                                     <div className="repeating-task__weekdays">
-                                        {selectedWeekDays && rruleWeekDaysArr.map((day, index) => (
+                                        {rruleWeekDaysArr.map((day, index) => (
                                             <WeekDayButton
                                                 weekDay={day}
                                                 setSelectedWeekDays={setSelectedWeekDays}
