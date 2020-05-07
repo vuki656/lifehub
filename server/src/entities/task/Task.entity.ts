@@ -2,7 +2,17 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGe
 import { RepeatingTaskInstanceEntity } from '../repeatingTaskInstance'
 
 import { TaskCardEntity } from '../taskCard'
-import { CheckedOptions, DateOptions, EndDateOptions, IsHabitOptions, IsRepeatingOptions, NoteOptions, RRuleOptions, TitleOptions } from './Task.options'
+import {
+    CheckedOptions,
+    DateOptions,
+    EndDateOptions,
+    IsHabitOptions,
+    IsRepeatingOptions,
+    LastInstanceOptions,
+    NoteOptions,
+    RRuleOptions,
+    TitleOptions,
+} from './Task.options'
 
 @Entity('task')
 export class TaskEntity extends BaseEntity {
@@ -33,10 +43,13 @@ export class TaskEntity extends BaseEntity {
     @Column(IsHabitOptions)
     isHabit: boolean
 
+    @Column(LastInstanceOptions)
+    lastRepeatingInstance: Date // If task repeating, it holds its last instance, used for calculating next instances
+
     @ManyToOne(() => TaskCardEntity, taskCard => taskCard.tasks, { cascade: true })
     @JoinColumn({ name: 'taskCardId' })
     taskCardId: TaskCardEntity
 
-    @OneToMany(() => RepeatingTaskInstanceEntity, repeatingTaskInstance => repeatingTaskInstance.task)
+    @OneToMany(() => RepeatingTaskInstanceEntity, repeatingTaskInstance => repeatingTaskInstance.taskId)
     repeatingTaskInstances: RepeatingTaskInstanceEntity[]
 }

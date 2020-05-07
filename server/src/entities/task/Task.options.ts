@@ -33,3 +33,7 @@ export const IsRepeatingOptions: any = {
 export const IsHabitOptions: any = {
     default: false,
 }
+
+export const LastInstanceOptions: any = {
+    nullable: true,
+}
