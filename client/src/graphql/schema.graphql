@@ -17,7 +17,7 @@ type DeleteTaskResponse {
 type Mutation {
     _empty: String
     createReminder(description: String, endDate: String!, startDate: String!, title: String!, username: String!): Reminder!
-    createTask(checked: Boolean!, date: String!, isRepeating: Boolean!, note: String, rrule: String, taskCardId: String!, title: String!, username: String!): Task!
+    createTask(date: String!, taskCardId: String!, title: String!, username: String!): Task!
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!

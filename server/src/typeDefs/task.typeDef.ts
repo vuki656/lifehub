@@ -22,7 +22,7 @@ export const taskType = gql`
     }
 
     extend type Mutation {
-        createTask(title: String!, note: String, checked: Boolean!, date: String!, rrule: String, isRepeating: Boolean!, taskCardId: String!, username: String!): Task!
+        createTask(title: String!, date: String!, taskCardId: String!, username: String!): Task!
         updateTask(title: String, note: String, checked: Boolean, date: String, endDate: String, rrule: String, isRepeating: Boolean id: String!): Task!
         deleteTask(id: String!): DeleteTaskResponse!
     }

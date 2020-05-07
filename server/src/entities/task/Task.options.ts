@@ -9,6 +9,10 @@ export const NoteOptions: any = {
     nullable: true,
 }
 
+export const CheckedOptions: any = {
+    default: false,
+}
+
 export const DateOptions: any = {
     type: 'timestamptz',
 }
@@ -20,4 +24,12 @@ export const EndDateOptions: any = {
 
 export const RRuleOptions: any = {
     nullable: true,
+}
+
+export const IsRepeatingOptions: any = {
+    default: false,
+}
+
+export const IsHabitOptions: any = {
+    default: false,
 }

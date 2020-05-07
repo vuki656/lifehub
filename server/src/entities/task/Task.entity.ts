@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGe
 import { RepeatingTaskInstanceEntity } from '../repeatingTaskInstance'
 
 import { TaskCardEntity } from '../taskCard'
-import { DateOptions, EndDateOptions, NoteOptions, RRuleOptions, TitleOptions } from './Task.options'
+import { CheckedOptions, DateOptions, EndDateOptions, IsHabitOptions, IsRepeatingOptions, NoteOptions, RRuleOptions, TitleOptions } from './Task.options'
 
 @Entity('task')
 export class TaskEntity extends BaseEntity {
@@ -21,14 +21,17 @@ export class TaskEntity extends BaseEntity {
     @Column(EndDateOptions)
     endDate: Date
 
-    @Column()
+    @Column(CheckedOptions)
     checked: boolean
 
     @Column(RRuleOptions)
     rrule: string
 
-    @Column()
+    @Column(IsRepeatingOptions)
     isRepeating: boolean
+
+    @Column(IsHabitOptions)
+    isHabit: boolean
 
     @ManyToOne(() => TaskCardEntity, taskCard => taskCard.tasks, { cascade: true })
     @JoinColumn({ name: 'taskCardId' })

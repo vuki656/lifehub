@@ -8,10 +8,6 @@
   margin-bottom: $spacing-sm;
   padding: $spacing-sm;
   text-overflow: ellipsis;
-
-  &:hover {
-    border-color: $border-color-default;
-  }
 }
 
 .task__title {

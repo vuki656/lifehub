@@ -18,10 +18,7 @@ export type DeleteTaskResponse = {
 export type createTaskVariables = {
     username: string,
     title: string,
-    note: string,
-    checked: boolean,
     date: Date,
-    isRepeating: boolean,
     taskCardId: string,
 }
 

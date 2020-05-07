@@ -39,7 +39,6 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     // Form
     const { formValues, setFormValue, clearForm } = useFormFields({
         title: '',
-        note: '',
     })
 
     // Save task
@@ -48,10 +47,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             variables: {
                 username,
                 title: formValues.title,
-                note: formValues.note,
-                checked: false,
                 date: selectedDate,
-                isRepeating: false,
                 taskCardId: taskCard.id,
             },
             update(cache, response) {
@@ -77,7 +73,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [username, clearForm, createTaskMutation, selectedDate, taskCard.id, formValues.title, formValues.note])
+    }, [username, clearForm, createTaskMutation, selectedDate, taskCard.id, formValues.title])
 
     // Handle form submit
     const handleSubmit = useCallback((event) => {

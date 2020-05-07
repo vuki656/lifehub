@@ -150,6 +150,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             },
         })
         .catch((error) => {
+            console.log(error)
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
     }, [deleteTaskMutation, task, selectedDate, handleDialogToggle, taskCardId])

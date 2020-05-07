@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost'
 
 export const CREATE_TASK = gql`
-    mutation createTask($title: String!, $note: String!, $checked: Boolean!, $date: String!, $rrule: String, $isRepeating: Boolean!, $taskCardId: String!, $username: String!) {
-        createTask(title: $title, note: $note, checked: $checked, date: $date, rrule: $rrule, isRepeating: $isRepeating, taskCardId: $taskCardId, username: $username) {
+    mutation createTask($title: String!, $date: String!, $taskCardId: String!, $username: String!) {
+        createTask(title: $title, date: $date, taskCardId: $taskCardId, username: $username) {
             id
             title
             note
