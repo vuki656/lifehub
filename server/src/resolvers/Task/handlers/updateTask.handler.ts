@@ -22,6 +22,7 @@ export const updateTaskHandler = async (input) => {
     taskToUpdate.isRepeating = isRepeating || taskToUpdate.isRepeating
     taskToUpdate.endDate = endDate || taskToUpdate.endDate
 
+    // TODO: save last generated instance and check against that weather to make more or not
     // Generate task instances if its repeating
     if (taskToUpdate.isRepeating) generateRepeatingTaskInstances(taskToUpdate)
 

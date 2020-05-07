@@ -23,9 +23,9 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { selectedDate } = useSelector((state) => state.user)
     const [isRepeating, toggleIsRepeating] = useToggle(task.isRepeating)
     const [doesEnd, setDoesEnd] = useToggle(!!task.endDate)
-    const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(taskRrule.options ? taskRrule.options.byweekday : [])
-    const [frequency, setFrequency] = useState<number>(taskRrule.options ? taskRrule.options.freq : 1)
-    const [interval, setInterval] = useState<number>(taskRrule.options ? taskRrule.options.interval : 1)
+    const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(taskRrule.options.byweekday ? taskRrule.options.byweekday : [])
+    const [frequency, setFrequency] = useState<number>(taskRrule.options.freq ? taskRrule.options.freq : 1)
+    const [interval, setInterval] = useState<number>(taskRrule.options.interval ? taskRrule.options.interval : 1)
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
     const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
@@ -150,7 +150,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             },
         })
         .catch((error) => {
-            console.log(error)
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
     }, [deleteTaskMutation, task, selectedDate, handleDialogToggle, taskCardId])

@@ -18,7 +18,7 @@ export const Task: React.FC<TaskProps> = (props) => {
     const [updateTaskMutation] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
 
     useEffect(() => {
-        task.rrule ? setRruleObj(rrulestr(task.rrule)) : setRruleObj({})
+        task.rrule ? setRruleObj(rrulestr(task.rrule)) : setRruleObj(new RRule())
     }, [task.rrule])
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog
@@ -33,6 +33,9 @@ export const Task: React.FC<TaskProps> = (props) => {
                 id: task.id,
                 checked: !task.checked,
             },
+        })
+        .catch(() => {
+            // TODO handle this
         })
     }, [task.checked, task.id, updateTaskMutation])
 
