@@ -22,6 +22,10 @@
   }
 }
 
+.task__error div {
+  padding: 0 !important;
+}
+
 .task__title--disabled {
   color: $text-color-primary-lighter;
   text-decoration: line-through;

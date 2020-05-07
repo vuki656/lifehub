@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/react-hooks'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useToggle } from 'react-use'
 import { RRule, rrulestr } from 'rrule'
+import { ErrorMessage } from '../../../../components/ErrorMessage'
 
 import { UPDATE_TASK } from '../../../../graphql/task/task'
 import { updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
@@ -11,6 +12,7 @@ import { TaskProps } from './Task.types'
 export const Task: React.FC<TaskProps> = (props) => {
     const { task, taskCard } = props
 
+    const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [isTaskChecked, toggleTaskChecked] = useToggle(task.checked)
     const [isDialogOpen, toggleDialog] = useToggle(false)
     const [rruleObj, setRruleObj] = useState<RRule>()
@@ -34,8 +36,8 @@ export const Task: React.FC<TaskProps> = (props) => {
                 checked: !task.checked,
             },
         })
-        .catch(() => {
-            // TODO handle this
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
     }, [task.checked, task.id, updateTaskMutation])
 
@@ -60,6 +62,11 @@ export const Task: React.FC<TaskProps> = (props) => {
             >
                 {task.title}
             </label>
+            {errors.error && (
+                <div className="task__error">
+                    <ErrorMessage error={errors.error} />
+                </div>
+            )}
             {rruleObj && (
                 <TaskDialog
                     isDialogOpen={isDialogOpen}
