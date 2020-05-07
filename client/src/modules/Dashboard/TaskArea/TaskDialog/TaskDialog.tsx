@@ -211,7 +211,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         />
                     </div>
                     <div
-                        className="form__field-wrapper"
+                        className="form__field-wrapper dialog__checkbox"
                         onClick={toggleIsRepeating}
                     >
                         <input
@@ -265,7 +265,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                     </div>
                                 </div>
                             )}
-                            <div className="form__field-wrapper">
+                            <div className="form__field-wrapper dialog__checkbox">
                                 <input
                                     type="checkbox"
                                     checked={doesEnd}

@@ -24,7 +24,7 @@ export const updateTaskHandler = async (input) => {
     taskToUpdate.isRepeating = isRepeating || taskToUpdate.isRepeating
     taskToUpdate.endDate = endDate || taskToUpdate.endDate
 
-    // Generate task instances if its repeating
+    // Generate task instances if its repeating and get last instance
     if (taskToUpdate.isRepeating) {
         await generateRepeatingTaskInstances(taskToUpdate)
         .then((response) => {
@@ -68,8 +68,10 @@ const generateRepeatingTaskInstances = async ({ rrule, endDate, date: startDate,
     // Make a repeating task instance entity for each date in the date range
     taskDateInstances.forEach((taskDateInstance) => {
         const taskInstance = new RepeatingTaskInstanceEntity()
+
         taskInstance.date = taskDateInstance
         taskInstance.taskId = parentTask!
+
         taskInstanceEntities.push(taskInstance)
     })
 
