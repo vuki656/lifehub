@@ -22,7 +22,7 @@ export const Task: React.FC<TaskProps> = (props) => {
 
     const { selectedDate } = useSelector((state) => state.user)
     const [errors, setErrors] = React.useState<{ error?: string }>({})
-    const [isTaskChecked, toggleTaskChecked] = useToggle(task.checked)
+    const [isTaskChecked, toggleTaskChecked] = useToggle(task.repeatingTaskInstances[0] ? task.repeatingTaskInstances[0].isChecked : task.checked)
     const [isDialogOpen, toggleDialog] = useToggle(false)
     const [rruleObj, setRruleObj] = useState<RRule>()
 
