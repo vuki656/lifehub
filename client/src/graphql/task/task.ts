@@ -12,6 +12,11 @@ export const CREATE_TASK = gql`
             endDate
             isRepeating
             taskCardId
+            repeatingTaskInstances {
+                id
+                date
+                isChecked
+            }
         }
     }
 `
