@@ -31,6 +31,12 @@
   text-decoration: line-through;
 }
 
+.task__icon {
+  height: 18px !important;
+  width: 18px !important;
+}
+
+
 // Dialog fragment
 .repeating-task__header {
   display: flex;

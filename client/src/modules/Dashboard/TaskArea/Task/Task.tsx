@@ -1,9 +1,10 @@
 import { useMutation } from '@apollo/react-hooks'
+import LoopIcon from '@material-ui/icons/Loop'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useToggle } from 'react-use'
 import { RRule, rrulestr } from 'rrule'
-import { ErrorMessage } from '../../../../components/ErrorMessage'
 
+import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { UPDATE_TASK } from '../../../../graphql/task/task'
 import { updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
 import { TaskDialog } from '../TaskDialog'
@@ -66,6 +67,9 @@ export const Task: React.FC<TaskProps> = (props) => {
                 <div className="task__error">
                     <ErrorMessage error={errors.error} />
                 </div>
+            )}
+            {task.isRepeating && (
+                <LoopIcon className="task__icon" />
             )}
             {rruleObj && (
                 <TaskDialog

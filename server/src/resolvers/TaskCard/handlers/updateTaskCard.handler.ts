@@ -14,7 +14,7 @@ export const updateTaskCardHandler = async (input) => {
 
     // Try to update the found task card
     if (taskCardToUpdate) {
-        taskCardToUpdate.name = name
+        Object.assign(taskCardToUpdate, input)
     } else {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     }

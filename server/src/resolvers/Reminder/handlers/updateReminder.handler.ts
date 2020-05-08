@@ -4,17 +4,15 @@ import { getRepository } from 'typeorm'
 import { ReminderEntity } from '../../../entities/reminder'
 
 export const updateReminderHandler = async (input) => {
-    const { id, title, description, startDate, endDate } = input
+    const { id } = input
 
     // Get reminder
     const reminderToUpdate = await ReminderEntity.findOne(id)
+    if (!reminderToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
     // Try to update the found reminder
     if (reminderToUpdate) {
-        reminderToUpdate.title = title
-        reminderToUpdate.description = description
-        reminderToUpdate.startDate = startDate
-        reminderToUpdate.endDate = endDate
+        Object.assign(reminderToUpdate, input)
     } else {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     }
