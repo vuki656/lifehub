@@ -38,7 +38,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         })
     }
 
-    const data = await getRepository(TaskEntity)
+    return getRepository(TaskEntity)
     .createQueryBuilder('task')
     .leftJoinAndSelect(
         'task.repeatingTaskInstances', 'repeatingTaskInstance',
@@ -53,8 +53,4 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
-
-    console.log(data)
-
-    return data
 }

@@ -1,3 +1,5 @@
+import { RepeatingTaskInstanceType } from '../repeatingTaskInstance/repeatingTaskInstance.types'
+
 export type TaskType = {
     id: string,
     title: string,
@@ -8,6 +10,7 @@ export type TaskType = {
     rrule?: string,
     isRepeating: boolean,
     taskCardId?: string,
+    repeatingTaskInstances: [RepeatingTaskInstanceType],
 }
 
 export type DeleteTaskResponse = {

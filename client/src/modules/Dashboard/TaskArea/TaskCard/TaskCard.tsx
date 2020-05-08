@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
 import _ from 'lodash'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
@@ -39,8 +39,9 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         },
     })
 
-    console.log(data)
-    // if (fetchError && !fetchLoading) setErrors(fetchError.graphQLErrors?.[0].extensions.exception)
+    useEffect(() => {
+        if (fetchError && !fetchLoading) setErrors(fetchError.graphQLErrors?.[0].extensions.exception)
+    }, [fetchError, fetchLoading])
 
     // Form
     const { formValues, setFormValue, clearForm } = useFormFields({

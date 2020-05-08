@@ -1,10 +1,17 @@
 import { useMutation } from '@apollo/react-hooks'
 import LoopIcon from '@material-ui/icons/Loop'
+import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 import { RRule, rrulestr } from 'rrule'
 
 import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { UPDATE_REPEATING_TASK_INSTANCE } from '../../../../graphql/repeatingTaskInstance/repeatingTaskInstance'
+import {
+    updateRepeatingTaskInstanceResponse,
+    updateRepeatingTaskInstanceVariables,
+} from '../../../../graphql/repeatingTaskInstance/repeatingTaskInstance.types'
 import { UPDATE_TASK } from '../../../../graphql/task/task'
 import { updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
 import { TaskDialog } from '../TaskDialog'
@@ -13,12 +20,14 @@ import { TaskProps } from './Task.types'
 export const Task: React.FC<TaskProps> = (props) => {
     const { task, taskCard } = props
 
+    const { selectedDate } = useSelector((state) => state.user)
     const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [isTaskChecked, toggleTaskChecked] = useToggle(task.checked)
     const [isDialogOpen, toggleDialog] = useToggle(false)
     const [rruleObj, setRruleObj] = useState<RRule>()
 
     const [updateTaskMutation] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
+    const [updateRepeatingTaskInstanceMutation] = useMutation<updateRepeatingTaskInstanceResponse, updateRepeatingTaskInstanceVariables>(UPDATE_REPEATING_TASK_INSTANCE)
 
     useEffect(() => {
         task.rrule ? setRruleObj(rrulestr(task.rrule)) : setRruleObj(new RRule())
@@ -29,8 +38,8 @@ export const Task: React.FC<TaskProps> = (props) => {
         !isDialogOpen && toggleDialog()
     }, [isDialogOpen, toggleDialog])
 
-    // Check task in database
-    const updateTaskCheck = useCallback(() => {
+    // Check root task instance in database
+    const updateRootTaskInstanceCheck = useCallback(() => {
         updateTaskMutation({
             variables: {
                 id: task.id,
@@ -42,11 +51,30 @@ export const Task: React.FC<TaskProps> = (props) => {
         })
     }, [task.checked, task.id, updateTaskMutation])
 
-    // Update db value and toggle checkbox
+    // Update repeating task instance check status in database
+    const updateRepeatingTaskInstanceCheck = useCallback(() => {
+        updateRepeatingTaskInstanceMutation({
+            variables: {
+                id: task.repeatingTaskInstances[0].id,
+                date: task.repeatingTaskInstances[0].date,
+                isChecked: !task.repeatingTaskInstances[0].isChecked,
+            },
+        })
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [task.repeatingTaskInstances, updateRepeatingTaskInstanceMutation])
+
+    // Update repeating task instance if selected day date isn't root task date
     const handleTaskCheck = useCallback(() => {
-        updateTaskCheck()
+        if (!moment(selectedDate).isSame(task.date)) {
+            updateRepeatingTaskInstanceCheck()
+        } else {
+            updateRootTaskInstanceCheck()
+        }
+
         toggleTaskChecked()
-    }, [toggleTaskChecked, updateTaskCheck])
+    }, [toggleTaskChecked, updateRootTaskInstanceCheck, selectedDate, task.date, updateRepeatingTaskInstanceCheck])
 
     return (
         <div className="task" onClick={handleTaskClick}>
