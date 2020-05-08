@@ -10,12 +10,7 @@ export const updateReminderHandler = async (input) => {
     const reminderToUpdate = await ReminderEntity.findOne(id)
     if (!reminderToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
-    // Try to update the found reminder
-    if (reminderToUpdate) {
-        Object.assign(reminderToUpdate, input)
-    } else {
-        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-    }
+    Object.assign(reminderToUpdate, input)
 
     // Try to save updated reminder
     return getRepository(ReminderEntity)

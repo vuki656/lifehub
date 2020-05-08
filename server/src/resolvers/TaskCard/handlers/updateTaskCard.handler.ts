@@ -7,17 +7,10 @@ export const updateTaskCardHandler = async (input) => {
 
     // Get task card
     const taskCardToUpdate = await TaskCardEntity.findOne(id)
-    const existingTaskCard = await getRepository(TaskCardEntity).findOne({ where: { name } })
+    const taskCardWithSameName = await getRepository(TaskCardEntity).findOne({ where: { name } })
+    if (taskCardWithSameName || !taskCardToUpdate) throw new UserInputError('Error', { error: 'Name already exists.' })
 
-    // Throw error if name not unique
-    if (existingTaskCard) throw new UserInputError('Error', { error: 'Name already exists.' })
-
-    // Try to update the found task card
-    if (taskCardToUpdate) {
-        Object.assign(taskCardToUpdate, input)
-    } else {
-        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-    }
+    Object.assign(taskCardToUpdate, input)
 
     // Try to save updated task card
     return getRepository(TaskCardEntity)
