@@ -11,6 +11,13 @@ export const taskType = gql`
         endDate: GraphQLDateTime,
         date: GraphQLDateTime!,
         taskCardId: String,
+        repeatingTaskInstances: [RepeatingTaskInstance]
+    }
+
+    type RepeatingTaskInstance {
+        id: String!,
+        date: GraphQLDateTime!,
+        isChecked: Boolean!,
     }
 
     type DeleteTaskResponse {

@@ -61,8 +61,8 @@ const generateRepeatingTaskInstances = async ({ rrule, endDate, date: startDate,
     taskDateInstances.forEach((taskDateInstance) => {
         const taskInstance = new RepeatingTaskInstanceEntity()
 
-        taskInstance.date = taskDateInstance
         taskInstance.taskId = parentTask!
+        taskInstance.date = taskDateInstance
 
         taskInstanceEntities.push(taskInstance)
     })

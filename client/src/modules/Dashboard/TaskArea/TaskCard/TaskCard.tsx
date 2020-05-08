@@ -9,7 +9,12 @@ import { useToggle } from 'react-use'
 import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
-import { createTaskResponse, createTaskVariables, getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables } from '../../../../graphql/task/task.types'
+import {
+    createTaskResponse,
+    createTaskVariables,
+    getTasksByDateAndTaskCardResponse,
+    getTasksByDateAndTaskCardVariables,
+} from '../../../../graphql/task/task.types'
 import { renderLoaders } from '../../../../util/helpers/renderLoaders'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { Task } from '../Task'
@@ -34,7 +39,8 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         },
     })
 
-    if (fetchError) setErrors(fetchError.graphQLErrors?.[0].extensions.exception)
+    console.log(data)
+    // if (fetchError && !fetchLoading) setErrors(fetchError.graphQLErrors?.[0].extensions.exception)
 
     // Form
     const { formValues, setFormValue, clearForm } = useFormFields({

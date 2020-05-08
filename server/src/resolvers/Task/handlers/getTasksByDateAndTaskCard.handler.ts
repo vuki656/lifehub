@@ -1,6 +1,7 @@
 import { UserInputError } from 'apollo-server'
 import moment from 'moment'
-import { getRepository } from 'typeorm'
+import { Brackets, getRepository } from 'typeorm'
+
 import { TaskEntity } from '../../../entities/task'
 import { TaskCardEntity } from '../../../entities/taskCard'
 
@@ -12,7 +13,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     }
 
-    // Get all tasks older than today that are not done
+    // Get all tasks older than today that are not done // TODO: refactor to support repeating
     if (selectedDate === 'overdue') {
         return getRepository(TaskEntity)
         .createQueryBuilder('task')
@@ -25,7 +26,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         })
     }
 
-    // Get all tasks whose date is after 20 days
+    // Get all tasks whose date is after 20 days // TODO: refactor to support repeating
     if (selectedDate === 'upcoming') {
         return getRepository(TaskEntity)
         .createQueryBuilder('task')
@@ -37,13 +38,23 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         })
     }
 
-    // Return all tasks for selected task card and selected date
-    return getRepository(TaskEntity)
+    const data = await getRepository(TaskEntity)
     .createQueryBuilder('task')
+    .leftJoinAndSelect(
+        'task.repeatingTaskInstances', 'repeatingTaskInstance',
+        'repeatingTaskInstance.date = :selectedDate', { selectedDate },
+    )
     .where(`task.taskCardId = :taskCardId`, { taskCardId })
-    .andWhere(`task.date = :selectedDate`, { selectedDate })
+    .andWhere(new Brackets(queryBuilder => {
+        queryBuilder.where(`task.date = :selectedDate`, { selectedDate })
+        .orWhere(`repeatingTaskInstance.date = :selectedDate`, { selectedDate })
+    }))
     .getMany()
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
+
+    console.log(data)
+
+    return data
 }

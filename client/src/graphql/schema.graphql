@@ -49,6 +49,12 @@ type ReminderDeleteResponse {
     id: String!
 }
 
+type RepeatingTaskInstance {
+    date: DateTime!
+    id: String!
+    isChecked: Boolean!
+}
+
 type Task {
     checked: Boolean!
     date: DateTime!
@@ -56,6 +62,7 @@ type Task {
     id: String!
     isRepeating: Boolean!
     note: String
+    repeatingTaskInstances: [RepeatingTaskInstance]
     rrule: String
     taskCardId: String
     title: String!

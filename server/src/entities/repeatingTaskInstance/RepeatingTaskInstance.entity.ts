@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-import { DateOptions, TaskEntity } from '../task'
-import { IsCheckedOptions } from './RepeatingTaskInstance.options'
+import { TaskEntity } from '../task'
+import { DateOptions, IsCheckedOptions } from './RepeatingTaskInstance.options'
 
 @Entity('repeatingTaskInstance')
 export class RepeatingTaskInstanceEntity extends BaseEntity {
