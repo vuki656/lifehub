@@ -44,7 +44,7 @@ export class TaskEntity extends BaseEntity {
     isHabit: boolean
 
     @Column(NextRepeatingInstanceOptions)
-    nextRepeatingInstance: Date // If task repeating, it holds its next instance
+    nextRepeatingInstance: Date | null// If task repeating, it holds its next instance
 
     @ManyToOne(() => TaskCardEntity, taskCard => taskCard.tasks, { cascade: true })
     @JoinColumn({ name: 'taskCardId' })

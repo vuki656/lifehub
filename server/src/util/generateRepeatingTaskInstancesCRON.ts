@@ -21,12 +21,12 @@ export const generateRepeatingTaskInstancesCRON = () => {
             const nextRepeatingTaskInstances: RepeatingTaskInstanceEntity[] = []
             const tasksToBeUpdated: TaskEntity[] = []
 
-            // Create repeatingTaskInstance for each repeating task and set nextRepeatingIntsance for each task
+            // Create repeatingTaskInstance for each repeating task and set nextRepeatingInstance for each task
             for (const repeatingTaskRoot of repeatingTasks) {
                 const rruleObj = rrulestr(repeatingTaskRoot.rrule)
                 const nextRepeatingTaskInstance = moment(repeatingTaskRoot.nextRepeatingInstance)
 
-                if (nextRepeatingTaskInstance.isBefore(moment().add(21, 'days'))) {
+                if (nextRepeatingTaskInstance && nextRepeatingTaskInstance.isBefore(moment().add(21, 'days'))) {
                     const taskInstance = new RepeatingTaskInstanceEntity()
 
                     taskInstance.taskId = repeatingTaskRoot!

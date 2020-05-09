@@ -17,7 +17,7 @@ export const updateTaskHandler = async (input) => {
 
     // Generate task instances if its repeating and get last instance
     if (taskToUpdate.isRepeating) {
-        await generateRepeatingTaskInstances(taskToUpdate)
+        await generateNextRepeatingInstance(taskToUpdate)
         .then((nextRepeatingInstance) => {
             taskToUpdate.nextRepeatingInstance = nextRepeatingInstance
         })
@@ -31,11 +31,18 @@ export const updateTaskHandler = async (input) => {
     })
 }
 
-const generateRepeatingTaskInstances = async ({ rrule, endDate, date: startDate, id, nextRepeatingInstance }) => {
+const generateNextRepeatingInstance = async (taskToUpdate) => {
+    const { rrule, endDate, date: startDate, id, nextRepeatingInstance } = taskToUpdate
     const rruleObj = rrulestr(rrule)
     const parentTask = await getRepository(TaskEntity).findOne(id)
     let _startDate
     let _endDate
+
+    // If end date inside 21 day range, no need to generate more
+    // So nextRepeatingInstance can be set to null
+    if (moment(endDate).isBefore(moment().add(21, 'days'))) {
+        return null
+    }
 
     // If next repeating instance exists, use it as start date from
     // which to generate future repeating instance on task update
@@ -48,12 +55,14 @@ const generateRepeatingTaskInstances = async ({ rrule, endDate, date: startDate,
 
     // If end date exists, use it if its not over 20 days
     // Else use default 20 days range
+    // REASON: No need for instances newer than 20 days
     if (endDate && moment(endDate).isBefore(moment().add(20, 'days'))) {
         _endDate = moment(endDate).toDate()
     } else {
         _endDate = moment().add(21, 'days').toDate()
     }
 
+    // Generate dates for repeating task instances
     const taskDateInstances = rruleObj.between(_startDate, _endDate)
     const taskInstanceEntities: RepeatingTaskInstanceEntity[] = []
 
