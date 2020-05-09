@@ -1,14 +1,17 @@
 import { UserInputError } from 'apollo-server'
 import { CronJob } from 'cron'
 import moment from 'moment'
-import { getRepository } from 'typeorm'
+import { rrulestr } from 'rrule'
+import { getConnection, getRepository } from 'typeorm'
+
 import { RepeatingTaskInstanceEntity } from '../entities/repeatingTaskInstance'
 import { TaskEntity } from '../entities/task'
 
 export const generateRepeatingTaskInstancesCRON = () => {
-    const job = new CronJob('30 * * * * *', async () => {
-            console.log('fired')
-
+    const job = new CronJob(
+        '00 00 00 * * *',
+        async () => {
+            // Get all repeating root tasks
             const repeatingTasks =
                 await getRepository(TaskEntity)
                 .createQueryBuilder('task')
@@ -18,7 +21,9 @@ export const generateRepeatingTaskInstancesCRON = () => {
             const nextRepeatingTaskInstances: RepeatingTaskInstanceEntity[] = []
             const tasksToBeUpdated: TaskEntity[] = []
 
+            // Create repeatingTaskInstance for each repeating task and set nextRepeatingIntsance for each task
             for (const repeatingTaskRoot of repeatingTasks) {
+                const rruleObj = rrulestr(repeatingTaskRoot.rrule)
                 const nextRepeatingTaskInstance = moment(repeatingTaskRoot.nextRepeatingInstance)
 
                 if (nextRepeatingTaskInstance.isBefore(moment().add(21, 'days'))) {
@@ -28,21 +33,19 @@ export const generateRepeatingTaskInstancesCRON = () => {
                     taskInstance.date = nextRepeatingTaskInstance.toDate()
 
                     nextRepeatingTaskInstances.push(taskInstance)
-
-                    // YOU NEED TO UPDATE EACH TASK NEXT REPEATING INSTANCE DATE AFTER GENERATION FINISHES
-                    // PROBLEMS WHERE WITH ASYNC AWAIT IN THAT IT WASNT WAITING EVERY TIME AND DATE WASNT UPDATED => INFINITE TASKS
-                    // YOU CAN PROBABLY USE THE CODE BELOW
-
-                    // tasksToBeUpdated.push({
-                    //     ...repeatingTaskRoot,
-                    //     nextRepeatingInstance: nextRepeatingTaskInstance
-                    // })
+                    tasksToBeUpdated.push(
+                        Object.assign(
+                            repeatingTaskRoot,
+                            { nextRepeatingInstance: rruleObj.after(nextRepeatingTaskInstance.toDate()) },
+                        ),
+                    )
                 }
             }
 
-            // Save next repeating task instances
-            await getRepository(RepeatingTaskInstanceEntity)
-            .save(nextRepeatingTaskInstances)
+            await getConnection().transaction(async transactionalEntityManager => {
+                await transactionalEntityManager.save(tasksToBeUpdated)
+                await transactionalEntityManager.save(nextRepeatingTaskInstances)
+            })
             .catch(() => {
                 throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
             })

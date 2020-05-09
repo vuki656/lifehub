@@ -39,16 +39,15 @@ const generateRepeatingTaskInstances = async ({ rrule, endDate, date: startDate,
 
     // If next repeating instance exists, use it as start date from
     // which to generate future repeating instance on task update
-    // REASON: To not make duplicate repeating instances if starting from
-    // startDate again
+    // REASON: To not make duplicate repeating instances if starting from startDate again
     if (nextRepeatingInstance) {
         _startDate = moment(nextRepeatingInstance).toDate()
     } else {
         _startDate = moment(startDate).toDate()
     }
 
-    // If end date is before 20 days from today, use it, else use today + 25 days
-    // REASON: Frontend day span is 20 days, 1 for extra leeway, no need for more
+    // If end date exists, use it if its not over 20 days
+    // Else use default 20 days range
     if (endDate && moment(endDate).isBefore(moment().add(20, 'days'))) {
         _endDate = moment(endDate).toDate()
     } else {
