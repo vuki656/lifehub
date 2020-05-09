@@ -1,5 +1,10 @@
 import { UserInputError } from 'apollo-server'
-import { getRepository } from 'typeorm'
+import _ from 'lodash'
+import moment from 'moment'
+import { rrulestr } from 'rrule'
+import { getConnection, getRepository } from 'typeorm'
+
+import { RepeatingTaskInstanceEntity } from '../../../entities/repeatingTaskInstance'
 import { TaskEntity } from '../../../entities/task'
 
 export const updateTaskHandler = async (input) => {
@@ -11,12 +16,12 @@ export const updateTaskHandler = async (input) => {
     Object.assign(taskToUpdate, input)
 
     // Generate task instances if its repeating and get next instance
-    // if (taskToUpdate.isRepeating) {
-    //     await generateNextRepeatingInstance(taskToUpdate)
-    //     .then((nextRepeatingInstance) => {
-    //         taskToUpdate.nextRepeatingInstance = nextRepeatingInstance
-    //     })
-    // }
+    if (taskToUpdate.isRepeating) {
+        await generateNextRepeatingInstances(taskToUpdate)
+        .then((nextRepeatingInstance) => {
+            taskToUpdate.nextRepeatingInstance = nextRepeatingInstance
+        })
+    }
 
     // Try to save updated task
     return getRepository(TaskEntity)
@@ -25,76 +30,116 @@ export const updateTaskHandler = async (input) => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
 }
-//
-// const generateNextRepeatingInstance = async (task: TaskEntity) => {
-//     const { rrule, endDate, date: startDate, id, nextRepeatingInstance } = task
-//     const rruleObj = rrulestr(rrule)
-//     const parentTask = await getRepository(TaskEntity).findOne(id)
-//     let _startDate
-//     let _endDate
-//     let taskDateInstances
-//
-//     if (!await checkIfTasksMade(task)) {
-//
-//         // If next repeating instance exists, use it as start date from
-//         // which to generate future repeating instance on task update
-//         // REASON: To not make duplicate repeating instances if starting from startDate again
-//         if (nextRepeatingInstance) {
-//             _startDate = moment(nextRepeatingInstance).toDate()
-//         } else {
-//             _startDate = moment(startDate).toDate()
-//         }
-//
-//         // If end date exists, use it if its not over 20 days
-//         // Else use default 20 days range
-//         // REASON: No need for instances newer than 20 days
-//         if (endDate && moment(endDate).isBefore(moment().add(20, 'days'))) {
-//             _endDate = moment(endDate).toDate()
-//         } else {
-//             _endDate = moment().add(21, 'days').toDate()
-//         }
-//
-//         // Generate dates for repeating task instances including end date if applies
-//         taskDateInstances = rruleObj.between(_startDate, _endDate, true)
-//         const taskInstanceEntities: RepeatingTaskInstanceEntity[] = []
-//
-//         // Make a repeating task instance entity for each date in the date range
-//         taskDateInstances.forEach((taskDateInstance) => {
-//             const taskInstance = new RepeatingTaskInstanceEntity()
-//
-//             taskInstance.taskId = parentTask!
-//             taskInstance.date = taskDateInstance
-//
-//             taskInstanceEntities.push(taskInstance)
-//         })
-//
-//         // Save repeating task instances
-//         await getRepository(RepeatingTaskInstanceEntity)
-//         .save(taskInstanceEntities)
-//         .catch(() => {
-//             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-//         })
-//     }
-//
-//     // If end date inside 21 day range, no need to generate more
-//     // So nextRepeatingInstance can be set to null
-//     if (moment(endDate).isBefore(moment().add(21, 'days'))) {
-//         return null
-//     }
-//
-//     // Return next repeating instance of task
-//     return rruleObj.after(_.last(taskDateInstances))
-// }
-//
-// // If end date is equal to the last repeating instance => all of them are created
-// // dont need more, return false
-// const checkIfTasksMade = (task: TaskEntity) => {
-//     const { id, endDate } = task
-//
-//     return getConnection()
-//     .getRepository(RepeatingTaskInstanceEntity)
-//     .createQueryBuilder('repeatingTaskInstance')
-//     .where('repeatingTaskInstance.taskId = :taskId', { taskId: id })
-//     .andWhere('repeatingTaskInstance.date = :endDate', { endDate })
-//     .getOne()
-// }
+
+const generateNextRepeatingInstances = async (task: TaskEntity) => {
+    const { endDate, rrule, date, id } = task
+
+    const rruleObj = rrulestr(rrule)
+    let repeatingTaskDateInstances: Date[] = []
+    let nextRepeatingInstance: Date | null = null
+    const toBeCreatedRepeatingTaskInstances: RepeatingTaskInstanceEntity[] = []
+    const lastRepeatingInstanceDate: Date | undefined = await getLastRepeatingInstanceDate(task)
+
+    // If end date before max day span, general all, set next repeating instance to null
+    if (moment(endDate).isBefore(moment().add(20, 'days'))) {
+        repeatingTaskDateInstances = rruleObj.all()
+        nextRepeatingInstance = null
+    }
+
+    // If end date after max day span, generate until end of max day span, set next repeating instance to following one
+    if (moment(endDate).isAfter(moment().add(20, 'days'))) {
+        repeatingTaskDateInstances = rruleObj.between(
+            moment(date).toDate(),
+            moment().add(20, 'days').toDate(),
+            true,
+        )
+        nextRepeatingInstance = rruleObj.after(moment().add(20, 'days').toDate())
+    }
+
+    // If no end date, generate until end of max day span, set the next repeating instance to the following one
+    if (!endDate) {
+        repeatingTaskDateInstances = rruleObj.between(
+            moment(date).toDate(),
+            moment().add(20, 'days').toDate(),
+            true,
+        )
+        nextRepeatingInstance = rruleObj.after(moment().add(20, 'days').toDate())
+    }
+
+    // If new end date is after the old one
+    if (moment(endDate).isAfter(lastRepeatingInstanceDate)) {
+        repeatingTaskDateInstances = rruleObj.between(
+            moment(lastRepeatingInstanceDate).add(1, 'day').toDate(), // +1 day from existing instance
+            moment().add(20, 'days').toDate(),
+            true,
+        )
+        nextRepeatingInstance = rruleObj.after(moment().add(20, 'days').toDate())
+    }
+
+    // If new end date is before the old one, delete all instances after the new one
+    if (moment(endDate).isBefore(lastRepeatingInstanceDate)) {
+        await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(RepeatingTaskInstanceEntity)
+        .where('taskId = :taskId', { taskId: id })
+        .andWhere('date > :newEndDate', { newEndDate: endDate })
+        .execute()
+    }
+
+    // If last repeating instance from list already exists, we don't need to create more
+    if (await checkIfRepeatingInstancesExist(task, repeatingTaskDateInstances)) {
+        return null
+    }
+
+    // If something to update
+    if (repeatingTaskDateInstances) {
+
+        // Create repeating task instances from date list
+        repeatingTaskDateInstances.forEach((repeatingTaskDateInstance) => {
+            const repeatingTaskInstance = new RepeatingTaskInstanceEntity()
+
+            repeatingTaskInstance.taskId = task
+            repeatingTaskInstance.date = repeatingTaskDateInstance
+
+            toBeCreatedRepeatingTaskInstances.push(repeatingTaskInstance)
+        })
+
+        // Save repeating date instances
+        await getRepository(RepeatingTaskInstanceEntity)
+        .save(toBeCreatedRepeatingTaskInstances)
+        .catch(() => {
+            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+        })
+    }
+
+    return nextRepeatingInstance
+}
+
+const checkIfRepeatingInstancesExist = (task: TaskEntity, repeatingTaskDateInstances: Date[]) => {
+    const { id } = task
+
+    const instanceDateToCheck = _.last(repeatingTaskDateInstances)
+
+    return getConnection()
+    .getRepository(RepeatingTaskInstanceEntity)
+    .createQueryBuilder('repeatingTaskInstance')
+    .where('repeatingTaskInstance.taskId = :taskId', { taskId: id })
+    .andWhere('repeatingTaskInstance.date = :dateToCheck', { dateToCheck: instanceDateToCheck })
+    .getOne()
+}
+
+const getLastRepeatingInstanceDate = async (task: TaskEntity) => {
+    const { id } = task
+
+    const instance =
+        await getConnection()
+        .getRepository(RepeatingTaskInstanceEntity)
+        .createQueryBuilder('repeatingTaskInstance')
+        .where('repeatingTaskInstance.taskId = :taskId', { taskId: id })
+        .andWhere('repeatingTaskInstance.date > :dateToCheck', { dateToCheck: moment().startOf('day').utc().toDate() })
+        .orderBy('date', 'DESC')
+        .getOne()
+
+    return instance?.date
+}
