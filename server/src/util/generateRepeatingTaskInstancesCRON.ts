@@ -11,36 +11,35 @@ export const generateRepeatingTaskInstancesCRON = () => {
     const job = new CronJob(
         '00 00 00 * * *',
         async () => {
-            // Get all repeating root tasks
+            // Get all repeating root tasks where next repeating instance isn't null
             const repeatingTasks =
                 await getRepository(TaskEntity)
                 .createQueryBuilder('task')
                 .where(`task.isRepeating = :isRepeating`, { isRepeating: true })
+                .andWhere('task.nextRepeatingInstance is not null')
                 .getMany()
 
             const nextRepeatingTaskInstances: RepeatingTaskInstanceEntity[] = []
             const tasksToBeUpdated: TaskEntity[] = []
 
-            // Create repeatingTaskInstance for each repeating task and set nextRepeatingInstance for each task
+            // Create repeatingTaskInstance for each repeating task and update nextRepeatingInstance in that task
             for (const repeatingTaskRoot of repeatingTasks) {
-                if (repeatingTaskRoot.nextRepeatingInstance) {
-                    const rruleObj = rrulestr(repeatingTaskRoot.rrule)
-                    const nextRepeatingTaskInstance = moment(repeatingTaskRoot.nextRepeatingInstance)
+                const rruleObj = rrulestr(repeatingTaskRoot.rrule)
+                const nextRepeatingTaskInstanceMoment = moment(repeatingTaskRoot.nextRepeatingInstance!)
 
-                    if (nextRepeatingTaskInstance.isBefore(moment().add(21, 'days'))) {
-                        const taskInstance = new RepeatingTaskInstanceEntity()
+                if (nextRepeatingTaskInstanceMoment.isBefore(moment().add(21, 'days'))) {
+                    const taskInstance = new RepeatingTaskInstanceEntity()
 
-                        taskInstance.taskId = repeatingTaskRoot!
-                        taskInstance.date = nextRepeatingTaskInstance.toDate()
+                    taskInstance.taskId = repeatingTaskRoot!
+                    taskInstance.date = nextRepeatingTaskInstanceMoment.toDate()
 
-                        nextRepeatingTaskInstances.push(taskInstance)
-                        tasksToBeUpdated.push(
-                            Object.assign(
-                                repeatingTaskRoot,
-                                { nextRepeatingInstance: rruleObj.after(nextRepeatingTaskInstance.toDate()) },
-                            ),
-                        )
-                    }
+                    nextRepeatingTaskInstances.push(taskInstance)
+                    tasksToBeUpdated.push(
+                        Object.assign(
+                            repeatingTaskRoot,
+                            { nextRepeatingInstance: rruleObj.after(nextRepeatingTaskInstanceMoment.toDate()) },
+                        ),
+                    )
                 }
             }
 
