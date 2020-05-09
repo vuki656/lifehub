@@ -13,7 +13,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     }
 
-    // Get all tasks older than today that are not done // TODO: refactor to support repeating
+    // Get all tasks older than today that are not done
     if (selectedDate === 'overdue') {
         return getRepository(TaskEntity)
         .createQueryBuilder('task')
@@ -26,7 +26,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         })
     }
 
-    // Get all tasks whose date is after 20 days // TODO: refactor to support repeating
+    // Get all tasks whose date is after 20 days
     if (selectedDate === 'upcoming') {
         return getRepository(TaskEntity)
         .createQueryBuilder('task')
@@ -38,6 +38,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         })
     }
 
+    // Get tasks or its repeating instance
     return getRepository(TaskEntity)
     .createQueryBuilder('task')
     .leftJoinAndSelect(

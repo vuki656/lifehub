@@ -8,7 +8,7 @@ import {
     EndDateOptions,
     IsHabitOptions,
     IsRepeatingOptions,
-    LastInstanceOptions,
+    NextRepeatingInstanceOptions,
     NoteOptions,
     RRuleOptions,
     TitleOptions,
@@ -43,8 +43,8 @@ export class TaskEntity extends BaseEntity {
     @Column(IsHabitOptions)
     isHabit: boolean
 
-    @Column(LastInstanceOptions)
-    lastRepeatingInstance: Date // If task repeating, it holds its last instance, used for calculating next instances
+    @Column(NextRepeatingInstanceOptions)
+    nextRepeatingInstance: Date // If task repeating, it holds its next instance
 
     @ManyToOne(() => TaskCardEntity, taskCard => taskCard.tasks, { cascade: true })
     @JoinColumn({ name: 'taskCardId' })

@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/react-hooks'
 import LoopIcon from '@material-ui/icons/Loop'
+import _ from 'lodash'
 import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -22,7 +23,7 @@ export const Task: React.FC<TaskProps> = (props) => {
 
     const { selectedDate } = useSelector((state) => state.user)
     const [errors, setErrors] = React.useState<{ error?: string }>({})
-    const [isTaskChecked, toggleTaskChecked] = useToggle(task.repeatingTaskInstances[0] ? task.repeatingTaskInstances[0].isChecked : task.checked)
+    const [isTaskChecked, toggleTaskChecked] = useToggle(_.isEmpty(task.repeatingTaskInstances) ? task.checked : task.repeatingTaskInstances[0].isChecked)
     const [isDialogOpen, toggleDialog] = useToggle(false)
     const [rruleObj, setRruleObj] = useState<RRule>()
 
@@ -65,7 +66,7 @@ export const Task: React.FC<TaskProps> = (props) => {
         })
     }, [task.repeatingTaskInstances, updateRepeatingTaskInstanceMutation])
 
-    // Update repeating task instance if selected day date isn't root task date
+    // Update repeating task instance if selected day date isn't root task date => not root task
     const handleTaskCheck = useCallback(() => {
         if (!moment(selectedDate).isSame(task.date)) {
             updateRepeatingTaskInstanceCheck()

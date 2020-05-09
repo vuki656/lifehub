@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
 import _ from 'lodash'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
@@ -31,6 +31,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const [errors, setErrors] = React.useState<{ error?: string }>()
     const { username, selectedDate } = useSelector((state) => state.user)
 
+    // TODO: handle fetch error
     const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
     const { error: fetchError, data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
         variables: {
@@ -38,10 +39,6 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             selectedDate,
         },
     })
-
-    useEffect(() => {
-        if (fetchError && !fetchLoading) setErrors(fetchError.graphQLErrors?.[0].extensions.exception)
-    }, [fetchError, fetchLoading])
 
     // Form
     const { formValues, setFormValue, clearForm } = useFormFields({

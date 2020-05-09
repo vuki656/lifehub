@@ -34,6 +34,7 @@ export const IsHabitOptions: any = {
     default: false,
 }
 
-export const LastInstanceOptions: any = {
+export const NextRepeatingInstanceOptions: any = {
+    type: 'timestamptz',
     nullable: true,
 }

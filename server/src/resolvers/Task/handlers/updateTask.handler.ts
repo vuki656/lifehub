@@ -5,7 +5,6 @@ import { rrulestr } from 'rrule'
 import { getRepository } from 'typeorm'
 
 import { RepeatingTaskInstanceEntity } from '../../../entities/repeatingTaskInstance'
-
 import { TaskEntity } from '../../../entities/task'
 
 export const updateTaskHandler = async (input) => {
@@ -19,8 +18,8 @@ export const updateTaskHandler = async (input) => {
     // Generate task instances if its repeating and get last instance
     if (taskToUpdate.isRepeating) {
         await generateRepeatingTaskInstances(taskToUpdate)
-        .then((response) => {
-            taskToUpdate.lastRepeatingInstance = response
+        .then((nextRepeatingInstance) => {
+            taskToUpdate.nextRepeatingInstance = nextRepeatingInstance
         })
     }
 
@@ -32,26 +31,28 @@ export const updateTaskHandler = async (input) => {
     })
 }
 
-const generateRepeatingTaskInstances = async ({ rrule, endDate, date: startDate, id, lastRepeatingInstance }) => {
+const generateRepeatingTaskInstances = async ({ rrule, endDate, date: startDate, id, nextRepeatingInstance }) => {
     const rruleObj = rrulestr(rrule)
     const parentTask = await getRepository(TaskEntity).findOne(id)
     let _startDate
     let _endDate
 
-    // If last repeating instance is after task start date, use it
-    // REASON: To not make duplicate repeating instances
-    if (moment(startDate).isBefore(lastRepeatingInstance)) {
-        _startDate = moment(lastRepeatingInstance).toDate()
+    // If next repeating instance exists, use it as start date from
+    // which to generate future repeating instance on task update
+    // REASON: To not make duplicate repeating instances if starting from
+    // startDate again
+    if (nextRepeatingInstance) {
+        _startDate = moment(nextRepeatingInstance).toDate()
     } else {
         _startDate = moment(startDate).toDate()
     }
 
     // If end date is before 20 days from today, use it, else use today + 25 days
-    // REASON: Frontend day span is 20 days, 5 for extra leeway, no need for more
+    // REASON: Frontend day span is 20 days, 1 for extra leeway, no need for more
     if (endDate && moment(endDate).isBefore(moment().add(20, 'days'))) {
         _endDate = moment(endDate).toDate()
     } else {
-        _endDate = moment().add(25, 'days').toDate()
+        _endDate = moment().add(21, 'days').toDate()
     }
 
     const taskDateInstances = rruleObj.between(_startDate, _endDate)
@@ -74,6 +75,6 @@ const generateRepeatingTaskInstances = async ({ rrule, endDate, date: startDate,
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
 
-    // Return last task day instance
-    return _.last(taskDateInstances)
+    // Return next repeating instance of task
+    return rruleObj.after(_.last(taskDateInstances))
 }
