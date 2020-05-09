@@ -38,12 +38,6 @@ const generateNextRepeatingInstance = async (taskToUpdate) => {
     let _startDate
     let _endDate
 
-    // If end date inside 21 day range, no need to generate more
-    // So nextRepeatingInstance can be set to null
-    if (moment(endDate).isBefore(moment().add(21, 'days'))) {
-        return null
-    }
-
     // If next repeating instance exists, use it as start date from
     // which to generate future repeating instance on task update
     // REASON: To not make duplicate repeating instances if starting from startDate again
@@ -82,6 +76,12 @@ const generateNextRepeatingInstance = async (taskToUpdate) => {
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
+
+    // If end date inside 21 day range, no need to generate more
+    // So nextRepeatingInstance can be set to null
+    if (moment(endDate).isBefore(moment().add(21, 'days'))) {
+        return null
+    }
 
     // Return next repeating instance of task
     return rruleObj.after(_.last(taskDateInstances))
