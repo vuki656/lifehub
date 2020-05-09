@@ -15,7 +15,7 @@ export const updateTaskHandler = async (input) => {
 
     Object.assign(taskToUpdate, input)
 
-    // Generate task instances if its repeating and get last instance
+    // Generate task instances if its repeating and get next instance
     if (taskToUpdate.isRepeating) {
         await generateNextRepeatingInstance(taskToUpdate)
         .then((nextRepeatingInstance) => {
@@ -38,6 +38,12 @@ const generateNextRepeatingInstance = async (taskToUpdate) => {
     let _startDate
     let _endDate
 
+    // WHAT YOU CAN TRY IS GETTING THE REPEATIN
+    // INSTANCE EQUVALENT TO END DATE AND IF EXISTS DONT CREATE NEW ONES
+    // if(shouldGenerateMoreInstances(endDate)) {
+    //
+    // }
+
     // If next repeating instance exists, use it as start date from
     // which to generate future repeating instance on task update
     // REASON: To not make duplicate repeating instances if starting from startDate again
@@ -56,8 +62,8 @@ const generateNextRepeatingInstance = async (taskToUpdate) => {
         _endDate = moment().add(21, 'days').toDate()
     }
 
-    // Generate dates for repeating task instances
-    const taskDateInstances = rruleObj.between(_startDate, _endDate)
+    // Generate dates for repeating task instances including end date if applies
+    const taskDateInstances = rruleObj.between(_startDate, _endDate, true)
     const taskInstanceEntities: RepeatingTaskInstanceEntity[] = []
 
     // Make a repeating task instance entity for each date in the date range
