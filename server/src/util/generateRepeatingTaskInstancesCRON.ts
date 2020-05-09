@@ -23,22 +23,24 @@ export const generateRepeatingTaskInstancesCRON = () => {
 
             // Create repeatingTaskInstance for each repeating task and set nextRepeatingInstance for each task
             for (const repeatingTaskRoot of repeatingTasks) {
-                const rruleObj = rrulestr(repeatingTaskRoot.rrule)
-                const nextRepeatingTaskInstance = moment(repeatingTaskRoot.nextRepeatingInstance)
+                if (repeatingTaskRoot.nextRepeatingInstance) {
+                    const rruleObj = rrulestr(repeatingTaskRoot.rrule)
+                    const nextRepeatingTaskInstance = moment(repeatingTaskRoot.nextRepeatingInstance)
 
-                if (nextRepeatingTaskInstance && nextRepeatingTaskInstance.isBefore(moment().add(21, 'days'))) {
-                    const taskInstance = new RepeatingTaskInstanceEntity()
+                    if (nextRepeatingTaskInstance.isBefore(moment().add(21, 'days'))) {
+                        const taskInstance = new RepeatingTaskInstanceEntity()
 
-                    taskInstance.taskId = repeatingTaskRoot!
-                    taskInstance.date = nextRepeatingTaskInstance.toDate()
+                        taskInstance.taskId = repeatingTaskRoot!
+                        taskInstance.date = nextRepeatingTaskInstance.toDate()
 
-                    nextRepeatingTaskInstances.push(taskInstance)
-                    tasksToBeUpdated.push(
-                        Object.assign(
-                            repeatingTaskRoot,
-                            { nextRepeatingInstance: rruleObj.after(nextRepeatingTaskInstance.toDate()) },
-                        ),
-                    )
+                        nextRepeatingTaskInstances.push(taskInstance)
+                        tasksToBeUpdated.push(
+                            Object.assign(
+                                repeatingTaskRoot,
+                                { nextRepeatingInstance: rruleObj.after(nextRepeatingTaskInstance.toDate()) },
+                            ),
+                        )
+                    }
                 }
             }
 
