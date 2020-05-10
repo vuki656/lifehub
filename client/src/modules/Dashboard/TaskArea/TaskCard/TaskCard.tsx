@@ -54,7 +54,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                 date: selectedDate,
                 taskCardId: taskCard.id,
             },
-            update(cache, response) {
+            update(cache, { data }) {
                 const { getTasksByDateAndTaskCard }: any = cache.readQuery({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
@@ -62,7 +62,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                         selectedDate,
                     },
                 })
-                const updatedList = _.concat(getTasksByDateAndTaskCard, { ...response.data?.createTask })
+                const updatedList = _.concat(getTasksByDateAndTaskCard, { ...data?.createTask })
                 cache.writeQuery({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: { getTasksByDateAndTaskCard: updatedList },

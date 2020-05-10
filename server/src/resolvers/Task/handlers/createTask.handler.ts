@@ -29,6 +29,7 @@ export const createTaskHandler = async (input) => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
 
+    // TODO: figure out why is this not just return from save funct
     return {
         id: createdTask.id,
         title: createdTask.title,

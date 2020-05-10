@@ -33,6 +33,11 @@ export const UPDATE_TASK = gql`
             endDate
             isRepeating
             taskCardId
+            repeatingTaskInstances {
+                id
+                date
+                isChecked
+            }
         }
     }
 `
@@ -56,6 +61,7 @@ export const GET_TASKS_BY_DATE_AND_TASK_CARD = gql`
             rrule
             isRepeating
             endDate
+            taskCardId
             repeatingTaskInstances {
                 id
                 isChecked

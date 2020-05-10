@@ -38,3 +38,7 @@ export const NextRepeatingInstanceOptions: any = {
     type: 'timestamptz',
     nullable: true,
 }
+
+export const TaskCardIdOptions: any = {
+    type: 'varchar',
+}

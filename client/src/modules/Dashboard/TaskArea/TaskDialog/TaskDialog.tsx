@@ -115,10 +115,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         formValues.endDate,
         toggleDialog,
         selectedDate,
-        removeTaskIfNotInSelectedDate,
         taskCardId,
         getRrule,
         isRepeating,
+        removeTaskIfNotInSelectedDate,
     ])
 
     // Delete task
@@ -207,6 +207,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                             selected={formValues.date}
                             onChange={(date) => setFormValue(date, 'date')}
                             minDate={new Date()}
+                            maxDate={formValues.endDate}
                             required
                         />
                     </div>
@@ -265,7 +266,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                     </div>
                                 </div>
                             )}
-                            <div className="form__field-wrapper dialog__checkbox">
+                            <div
+                                className="form__field-wrapper dialog__checkbox"
+                                onClick={setDoesEnd}
+                            >
                                 <input
                                     type="checkbox"
                                     checked={doesEnd}

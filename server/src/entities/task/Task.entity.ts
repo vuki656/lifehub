@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { RepeatingTaskInstanceEntity } from '../repeatingTaskInstance'
 
+import { RepeatingTaskInstanceEntity } from '../repeatingTaskInstance'
 import { TaskCardEntity } from '../taskCard'
 import {
     CheckedOptions,
@@ -11,6 +11,7 @@ import {
     NextRepeatingInstanceOptions,
     NoteOptions,
     RRuleOptions,
+    TaskCardIdOptions,
     TitleOptions,
 } from './Task.options'
 
@@ -44,8 +45,9 @@ export class TaskEntity extends BaseEntity {
     isHabit: boolean
 
     @Column(NextRepeatingInstanceOptions)
-    nextRepeatingInstance: Date | null// If task repeating, it holds its next instance
+    nextRepeatingInstance: Date | null // If task repeating, it holds its next instance
 
+    @Column(TaskCardIdOptions)
     @ManyToOne(() => TaskCardEntity, taskCard => taskCard.tasks, { cascade: true })
     @JoinColumn({ name: 'taskCardId' })
     taskCardId: TaskCardEntity
