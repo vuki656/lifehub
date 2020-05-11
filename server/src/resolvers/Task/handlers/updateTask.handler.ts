@@ -55,42 +55,43 @@ export const updateTaskHandler = async (input) => {
 }
 
 const updateRepeatingInstances = async (task: TaskEntity) => {
-    const { endDate, rrule, date: startDate, id } = task
+    const { endDate, rrule, date: startDate, id: taskId } = task
 
     const firstRepeatingInstanceDate: Date | undefined = await getEdgeRepeatingInstanceDate(task, 'ASC')
     const lastRepeatingInstanceDate: Date | undefined = await getEdgeRepeatingInstanceDate(task, 'DESC')
     const rruleObj = rrulestr(rrule)
+    const maxDateRangeEndDate = moment().add(20, 'days')
 
     let nextRepeatingInstance: Date | null = null
     let repeatingTaskDateInstances: Date[] = []
     const toBeCreatedRepeatingTaskInstances: RepeatingTaskInstanceEntity[] = []
 
     // If end date before max day span, generate all, set next repeating instance to null
-    if (moment(endDate).isBefore(moment().add(20, 'days'))) {
+    if (moment(endDate).isBefore(maxDateRangeEndDate)) {
         repeatingTaskDateInstances = rruleObj.all()
         nextRepeatingInstance = null
     }
 
     // If end date after max day span, generate until end of max day span, set next repeating instance to following one
-    if (moment(endDate).isAfter(moment().add(20, 'days'))) {
-        repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), moment().add(20, 'days').toDate(), true)
-        nextRepeatingInstance = rruleObj.after(moment().add(20, 'days').toDate())
+    if (moment(endDate).isAfter(maxDateRangeEndDate)) {
+        repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), maxDateRangeEndDate.toDate(), true)
+        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
     }
 
     // If no end date, generate until end of max day span, set the next repeating instance to the following one
     if (!endDate) {
-        repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), moment().add(20, 'days').toDate(), true)
-        nextRepeatingInstance = rruleObj.after(moment().add(20, 'days').toDate())
+        repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), maxDateRangeEndDate.toDate(), true)
+        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
     }
 
     // If new end date is after the old one
     if (moment(endDate).isAfter(lastRepeatingInstanceDate)) {
         repeatingTaskDateInstances = rruleObj.between(
             moment(lastRepeatingInstanceDate).add(1, 'day').toDate(), // +1 day from last existing instance
-            moment().add(20, 'days').toDate(),
+            maxDateRangeEndDate.toDate(),
             true,
         )
-        nextRepeatingInstance = rruleObj.after(moment().add(20, 'days').toDate())
+        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
     }
 
     // If new end date is before the old one, delete all instances after the new one
@@ -99,7 +100,7 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
         .createQueryBuilder()
         .delete()
         .from(RepeatingTaskInstanceEntity)
-        .where('taskId = :taskId', { taskId: id })
+        .where('taskId = :taskId', { taskId })
         .andWhere('date > :newEndDate', { newEndDate: endDate })
         .execute()
 
@@ -111,23 +112,20 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
         repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), moment(firstRepeatingInstanceDate).toDate())
     }
 
-    // the problem is that the first one is always going to be the root, so first repeating instance
-    // is going to be 1 day after
-
-    // If start date is after the original (after the first repeating instance)
+    // If start date is after the original (after the first repeating instance) delete all before
     if (moment(startDate).isAfter(firstRepeatingInstanceDate)) {
-        console.log(firstRepeatingInstanceDate)
-        console.log(startDate)
-
         await getConnection()
         .createQueryBuilder()
         .delete()
         .from(RepeatingTaskInstanceEntity)
-        .where('taskId = :taskId', { taskId: id })
+        .where('taskId = :taskId', { taskId })
         .andWhere('date < :newStartDate', { newStartDate: startDate })
         .execute()
     }
 
+    await removeAllInstancesNotMatchingFilter(rruleObj, taskId, startDate, endDate, maxDateRangeEndDate)
+
+    // TODO something with this was wrong
     // If last repeating instance from list already exists, no need to create more
     if (await checkIfRepeatingInstancesExist(task, repeatingTaskDateInstances)) {
         return null
@@ -184,4 +182,21 @@ const getEdgeRepeatingInstanceDate = async (task: TaskEntity, instanceToGet: 'AS
         .getOne()
 
     return instance?.date
+}
+
+// Get all dates that match rrule from start to finish and delete others
+const removeAllInstancesNotMatchingFilter = async (rruleObj, taskId, startDate, endDate, maxDateRangeEndDate) => {
+    const selectedDates = rruleObj.between(
+        moment(startDate).toDate(),
+        moment(endDate || maxDateRangeEndDate).toDate(),
+        true,
+    )
+
+    await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(RepeatingTaskInstanceEntity)
+    .where('taskId = :taskId', { taskId })
+    .andWhere('date NOT IN (:...selectedDates)', { selectedDates })
+    .execute()
 }
