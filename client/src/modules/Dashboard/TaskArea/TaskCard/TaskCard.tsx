@@ -33,7 +33,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
 
     // TODO: handle fetch error
     const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
-    const { error: fetchError, data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
+    const { data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
         variables: {
             taskCardId: taskCard.id,
             selectedDate,

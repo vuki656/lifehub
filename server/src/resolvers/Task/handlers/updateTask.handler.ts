@@ -8,7 +8,7 @@ import { RepeatingTaskInstanceEntity } from '../../../entities/repeatingTaskInst
 import { TaskEntity } from '../../../entities/task'
 
 export const updateTaskHandler = async (input) => {
-    const { id } = input
+    const { id, selectedDate } = input
 
     const taskToUpdate = await TaskEntity.findOne(id)
     if (!taskToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
@@ -24,12 +24,34 @@ export const updateTaskHandler = async (input) => {
     }
 
     // Try to save updated task
-    return getRepository(TaskEntity)
+    const updatedTask = await getRepository(TaskEntity)
     .save(taskToUpdate)
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
 
+    return updatedTask
+
+    // // TODO: THIS KINDA WORKS
+    // const returnData = await getRepository(TaskEntity)
+    // .createQueryBuilder('task')
+    // .leftJoinAndSelect(
+    //     'task.repeatingTaskInstances', 'repeatingTaskInstance',
+    //     'repeatingTaskInstance.date = :selectedDate', { selectedDate },
+    // )
+    // .where(`task.taskCardId = :taskCardId`, { taskCardId: updatedTask.taskCardId })
+    // .andWhere(new Brackets(queryBuilder => {
+    //     queryBuilder.where(`task.date = :selectedDate`, { selectedDate })
+    //     .orWhere(`repeatingTaskInstance.date = :selectedDate`, { selectedDate })
+    // }))
+    // .getOne()
+    // .catch(() => {
+    //     throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+    // })
+    //
+    // console.log(returnData)
+    //
+    // return returnData
 }
 
 const updateRepeatingInstances = async (task: TaskEntity) => {
@@ -84,10 +106,26 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
         nextRepeatingInstance = null
     }
 
-    // THIS WORKS BUT SOMETHING IS WRONG WITH THE CACHE ON THE FRONT END
-    // If start date is before the original (meaning before the first repeating instance)
+    // If start date is before the original (before the first repeating instance)
     if (moment(startDate).isBefore(firstRepeatingInstanceDate)) {
         repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), moment(firstRepeatingInstanceDate).toDate())
+    }
+
+    // the problem is that the first one is always going to be the root, so first repeating instance
+    // is going to be 1 day after
+
+    // If start date is after the original (after the first repeating instance)
+    if (moment(startDate).isAfter(firstRepeatingInstanceDate)) {
+        console.log(firstRepeatingInstanceDate)
+        console.log(startDate)
+
+        await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(RepeatingTaskInstanceEntity)
+        .where('taskId = :taskId', { taskId: id })
+        .andWhere('date < :newStartDate', { newStartDate: startDate })
+        .execute()
     }
 
     // If last repeating instance from list already exists, no need to create more
