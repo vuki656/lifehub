@@ -24,7 +24,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const [isRepeating, toggleIsRepeating] = useToggle(task.isRepeating)
     const [doesEnd, setDoesEnd] = useToggle(!!task.endDate)
     const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(taskRrule.options.byweekday ? taskRrule.options.byweekday : [])
-    const [frequency, setFrequency] = useState<number>(taskRrule.options.freq ? taskRrule.options.freq : 1)
+    const [frequency, setFrequency] = useState<number>(taskRrule.options.freq ? taskRrule.options.freq : 2) // 2 is week in select
     const [interval, setInterval] = useState<number>(taskRrule.options.interval ? taskRrule.options.interval : 1)
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
@@ -40,11 +40,20 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         endDate: task.endDate ? new Date(task.endDate) : null,
     })
 
-    // Clear errors and toggle dialog
+    // Clear errors, reset form and toggle dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
-        resetForm()
         setErrors({})
+        resetForm()
+
+        // If its not delayed, then you can see reset happening
+        setTimeout(() => {
+            toggleIsRepeating(task.isRepeating)
+            setInterval(taskRrule.options.interval ? taskRrule.options.interval : 1)
+            setDoesEnd(!!task.endDate)
+            setSelectedWeekDays(taskRrule.options.byweekday ? taskRrule.options.byweekday : [])
+            setFrequency(taskRrule.options.freq ? taskRrule.options.freq : 2)
+        }, 300)
     }, [toggleDialog, resetForm])
 
     const getRrule = useCallback(() => {
@@ -263,9 +272,9 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                     value={frequency}
                                     className="form__input-field repeating-task__frequency"
                                 >
-                                    <option value={3}>{interval !== 1 ? 'Days' : 'Day'}</option>
-                                    <option value={2}>{interval !== 1 ? 'Weeks' : 'Week'}</option>
                                     <option value={1}>{interval !== 1 ? 'Months' : 'Month'}</option>
+                                    <option value={2}>{interval !== 1 ? 'Weeks' : 'Week'}</option>
+                                    <option value={3}>{interval !== 1 ? 'Days' : 'Day'}</option>
                                 </select>
                             </div>
                             {frequency === 2 && (
