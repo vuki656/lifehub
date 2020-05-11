@@ -58,7 +58,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     }, [selectedWeekDays, interval, frequency, formValues.date, formValues.endDate])
 
     // Remove task from selected date view if task date or repeating instances doesn't match selected date
-    const removeTaskIfNotInSelectedDate = useCallback((task: TaskType, cachedTaskList: TaskType[]) => {
+    const removeTaskIfNotInDateRange = useCallback((task: TaskType, cachedTaskList: TaskType[]) => {
         let isInRepeatingDateRange = false
 
         // Get rrule date span
@@ -75,7 +75,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             }
         })
 
-        // If selected date not in recurring dates or root task date, remove it from selected date cache so not in view
+        // If selected date not in recurring dates and root task date, remove it from selected date cache so not in view
         if (
             !moment(selectedDate).isSame(task.date) &&
             !isInRepeatingDateRange
@@ -109,7 +109,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         selectedDate,
                     },
                 })
-                const updatedList = removeTaskIfNotInSelectedDate(data?.updateTask!, getTasksByDateAndTaskCard)
+                const updatedList = removeTaskIfNotInDateRange(data?.updateTask!, getTasksByDateAndTaskCard)
                 cache.writeQuery({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: { getTasksByDateAndTaskCard: updatedList },
@@ -135,7 +135,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         taskCardId,
         getRrule,
         isRepeating,
-        removeTaskIfNotInSelectedDate,
+        removeTaskIfNotInDateRange,
     ])
 
     // Delete task
@@ -291,6 +291,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                     type="checkbox"
                                     checked={doesEnd}
                                     className="task-dialog__checkbox"
+                                    onClick={(event) => event.stopPropagation()}
                                     onChange={setDoesEnd}
                                 />
                                 <label
