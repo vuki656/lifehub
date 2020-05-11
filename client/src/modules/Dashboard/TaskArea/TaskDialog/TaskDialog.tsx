@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
+import moment from 'moment'
 import React, { useCallback, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
@@ -46,33 +47,37 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         setErrors({})
     }, [toggleDialog, resetForm])
 
-    // IMPLEMENT EDGE CASES FIRST THEN WORRY ABOUT THE CACHE
-    // Remove task from selected date view if task date doesn't match it
-    const removeTaskIfNotInSelectedDate = useCallback((task: TaskType, cachedTaskList: TaskType[]) => {
-        // you need to get a new list from rrule and task date and check if any of those match selected date,
-        // if yes leave it, if no, remove it from cache
-
-        // if (!moment(selectedDate).isSame(task.date)) {
-        //     return _.filter(cachedTaskList, ({ id }) => (
-        //         id !== task.id
-        //     ))
-        // }
-
-        return cachedTaskList
-    }, [selectedDate])
-
-    // Parse rrule to string
+    // Parse rrule to string, can get string or object
     const getRrule = useCallback(() => {
-        const rule = new RRule({
+        return new RRule({
             freq: frequency,
             interval,
             byweekday: [...selectedWeekDays],
             dtstart: formValues.date,
             until: formValues.endDate,
         })
-
-        return rule.toString()
     }, [selectedWeekDays, interval, frequency, formValues.date, formValues.endDate])
+
+    // Remove task from selected date view if task date doesn't match it
+    const removeTaskIfNotInSelectedDate = useCallback((task: TaskType, cachedTaskList: TaskType[]) => {
+        const recurringSelectedDays: Date[] = getRrule().between(
+            moment(formValues.startDate).toDate(),
+            moment(formValues.endDate).toDate(),
+            true,
+        )
+
+        // If selected date not in recurring dates or root task date, remove it from selected date cache so not in view
+        if (
+            !moment(selectedDate).isSame(task.date) &&
+            !_.includes(recurringSelectedDays, selectedDate)
+        ) {
+            return _.filter(cachedTaskList, ({ id }) => (
+                id !== task.id
+            ))
+        }
+
+        return cachedTaskList
+    }, [selectedDate, formValues.startDate, formValues.endDate, getRrule])
 
     // Save task card
     const updateTask = useCallback(() => {
@@ -83,29 +88,29 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 note: formValues.note,
                 date: formValues.date,
                 endDate: formValues.endDate,
-                rrule: getRrule(),
+                rrule: getRrule().toString(),
                 isRepeating,
                 selectedDate,
             },
-            // update(cache, { data }) {
-            //     toggleDialog()
-            //     const { getTasksByDateAndTaskCard }: any = cache.readQuery({
-            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-            //         variables: {
-            //             taskCardId,
-            //             selectedDate,
-            //         },
-            //     })
-            //     const updatedList = removeTaskIfNotInSelectedDate(data?.updateTask!, getTasksByDateAndTaskCard)
-            //     cache.writeQuery({
-            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-            //         data: { getTasksByDateAndTaskCard: updatedList },
-            //         variables: {
-            //             taskCardId,
-            //             selectedDate,
-            //         },
-            //     })
-            // },
+            update(cache, { data }) {
+                toggleDialog()
+                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    variables: {
+                        taskCardId,
+                        selectedDate,
+                    },
+                })
+                const updatedList = removeTaskIfNotInSelectedDate(data?.updateTask!, getTasksByDateAndTaskCard)
+                cache.writeQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    data: { getTasksByDateAndTaskCard: updatedList },
+                    variables: {
+                        taskCardId,
+                        selectedDate,
+                    },
+                })
+            },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
