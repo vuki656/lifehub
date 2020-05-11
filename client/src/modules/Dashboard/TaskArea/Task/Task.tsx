@@ -45,7 +45,6 @@ export const Task: React.FC<TaskProps> = (props) => {
             variables: {
                 id: task.id,
                 checked: !task.checked,
-                selectedDate,
             },
         })
         .catch((error) => {

@@ -34,7 +34,6 @@ export type updateTaskVariables = {
     checked?: boolean,
     rrule?: string,
     isRepeating?: boolean,
-    selectedDate: Date,
 }
 
 export type deleteTaskVariables = {

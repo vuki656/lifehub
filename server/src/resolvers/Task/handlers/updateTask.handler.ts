@@ -8,7 +8,7 @@ import { RepeatingTaskInstanceEntity } from '../../../entities/repeatingTaskInst
 import { TaskEntity } from '../../../entities/task'
 
 export const updateTaskHandler = async (input) => {
-    const { id, selectedDate } = input
+    const { id } = input
 
     const taskToUpdate = await TaskEntity.findOne(id)
     if (!taskToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
@@ -24,34 +24,11 @@ export const updateTaskHandler = async (input) => {
     }
 
     // Try to save updated task
-    const updatedTask = await getRepository(TaskEntity)
+    return getRepository(TaskEntity)
     .save(taskToUpdate)
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
-
-    return updatedTask
-
-    // // TODO: THIS KINDA WORKS
-    // const returnData = await getRepository(TaskEntity)
-    // .createQueryBuilder('task')
-    // .leftJoinAndSelect(
-    //     'task.repeatingTaskInstances', 'repeatingTaskInstance',
-    //     'repeatingTaskInstance.date = :selectedDate', { selectedDate },
-    // )
-    // .where(`task.taskCardId = :taskCardId`, { taskCardId: updatedTask.taskCardId })
-    // .andWhere(new Brackets(queryBuilder => {
-    //     queryBuilder.where(`task.date = :selectedDate`, { selectedDate })
-    //     .orWhere(`repeatingTaskInstance.date = :selectedDate`, { selectedDate })
-    // }))
-    // .getOne()
-    // .catch(() => {
-    //     throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-    // })
-    //
-    // console.log(returnData)
-    //
-    // return returnData
 }
 
 const updateRepeatingInstances = async (task: TaskEntity) => {
@@ -125,7 +102,6 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
 
     await removeAllInstancesNotMatchingFilter(rruleObj, taskId, startDate, endDate, maxDateRangeEndDate)
 
-    // TODO something with this was wrong
     // If last repeating instance from list already exists, no need to create more
     if (await checkIfRepeatingInstancesExist(task, repeatingTaskDateInstances)) {
         return null

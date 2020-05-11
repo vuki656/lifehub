@@ -47,7 +47,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         setErrors({})
     }, [toggleDialog, resetForm])
 
-    // Parse rrule to string, can get string or object
     const getRrule = useCallback(() => {
         return new RRule({
             freq: frequency,
@@ -58,18 +57,28 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         })
     }, [selectedWeekDays, interval, frequency, formValues.date, formValues.endDate])
 
-    // Remove task from selected date view if task date doesn't match it
+    // Remove task from selected date view if task date or repeating instances doesn't match selected date
     const removeTaskIfNotInSelectedDate = useCallback((task: TaskType, cachedTaskList: TaskType[]) => {
+        let isInRepeatingDateRange = false
+
+        // Get rrule date span
         const recurringSelectedDays: Date[] = getRrule().between(
             moment(formValues.startDate).toDate(),
             moment(formValues.endDate).toDate(),
             true,
         )
 
+        // Check if selected date in rrule date span
+        recurringSelectedDays.forEach((recurringSelectedDay) => {
+            if (moment(selectedDate).isSame(recurringSelectedDay)) {
+                isInRepeatingDateRange = true
+            }
+        })
+
         // If selected date not in recurring dates or root task date, remove it from selected date cache so not in view
         if (
             !moment(selectedDate).isSame(task.date) &&
-            !_.includes(recurringSelectedDays, selectedDate)
+            !isInRepeatingDateRange
         ) {
             return _.filter(cachedTaskList, ({ id }) => (
                 id !== task.id
@@ -90,7 +99,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 endDate: formValues.endDate,
                 rrule: getRrule().toString(),
                 isRepeating,
-                selectedDate,
             },
             update(cache, { data }) {
                 toggleDialog()
