@@ -14,7 +14,7 @@ export class RepeatingTaskInstanceEntity extends BaseEntity {
     @Column(IsCheckedOptions)
     isChecked: boolean
 
-    @ManyToOne(() => TaskEntity, task => task.repeatingTaskInstances, { cascade: true })
+    @ManyToOne(() => TaskEntity, task => task.repeatingTaskInstances, { cascade: true, onDelete: 'CASCADE' })
     @JoinColumn({ name: 'taskId' })
     taskId: TaskEntity
 }

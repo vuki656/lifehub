@@ -80,24 +80,33 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
         .where('taskId = :taskId', { taskId })
         .andWhere('date > :newEndDate', { newEndDate: endDate })
         .execute()
+        .catch(() => {
+            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+        })
 
         nextRepeatingInstance = null
     }
 
-    // If start date is before the original (before the first repeating instance), create difference
-    if (moment(startDate).isBefore(firstRepeatingInstanceDate)) {
-        repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), moment(firstRepeatingInstanceDate).toDate())
-    }
+    if (firstRepeatingInstanceDate) {
 
-    // If start date is after the original (after the first repeating instance) delete all before
-    if (moment(startDate).isAfter(firstRepeatingInstanceDate)) {
-        await getConnection()
-        .createQueryBuilder()
-        .delete()
-        .from(RepeatingTaskInstanceEntity)
-        .where('taskId = :taskId', { taskId })
-        .andWhere('date < :newStartDate', { newStartDate: startDate })
-        .execute()
+        // If start date is before the original (before the first repeating instance), create difference
+        if (moment(startDate).isBefore(firstRepeatingInstanceDate)) {
+            repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), moment(firstRepeatingInstanceDate).toDate())
+        }
+
+        // If start date is after the original (after the first repeating instance) delete all before
+        if (moment(startDate).isAfter(firstRepeatingInstanceDate)) {
+            await getConnection()
+            .createQueryBuilder()
+            .delete()
+            .from(RepeatingTaskInstanceEntity)
+            .where('taskId = :taskId', { taskId })
+            .andWhere('date < :newStartDate', { newStartDate: startDate })
+            .execute()
+            .catch(() => {
+                throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+            })
+        }
     }
 
     await removeAllInstancesNotMatchingFilter(rruleObj, taskId, startDate, endDate, maxDateRangeEndDate)
@@ -142,6 +151,9 @@ const checkIfRepeatingInstancesExist = (task: TaskEntity, repeatingTaskDateInsta
     .where('repeatingTaskInstance.taskId = :taskId', { taskId: id })
     .andWhere('repeatingTaskInstance.date = :dateToCheck', { dateToCheck: instanceDateToCheck })
     .getOne()
+    .catch(() => {
+        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+    })
 }
 
 // First or last
@@ -156,6 +168,9 @@ const getEdgeRepeatingInstanceDate = async (task: TaskEntity, instanceToGet: 'AS
         .andWhere('repeatingTaskInstance.date > :dateToCheck', { dateToCheck: moment().startOf('day').utc().toDate() })
         .orderBy('date', instanceToGet) // If 'DESC' get last one, if 'ASC' get first one
         .getOne()
+        .catch(() => {
+            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+        })
 
     return instance?.date
 }
@@ -175,4 +190,7 @@ const removeAllInstancesNotMatchingFilter = async (rruleObj, taskId, startDate, 
     .where('taskId = :taskId', { taskId })
     .andWhere('date NOT IN (:...selectedDates)', { selectedDates })
     .execute()
+    .catch(() => {
+        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+    })
 }

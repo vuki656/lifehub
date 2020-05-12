@@ -1,4 +1,5 @@
-import RRule from 'rrule'
+import RRule, { RRuleSet } from 'rrule'
+
 import { TaskType } from '../../../../graphql/task/task.types'
 
 export type TaskDialogProps = {
@@ -6,5 +7,5 @@ export type TaskDialogProps = {
     toggleDialog: () => void,
     task: TaskType,
     taskCardId: string,
-    taskRrule: RRule,
+    taskRrule: RRuleSet | RRule,
 }

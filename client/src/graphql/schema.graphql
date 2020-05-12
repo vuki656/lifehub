@@ -21,6 +21,7 @@ type Mutation {
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!
+    deleteRepeatingTaskInstance(repeatingTaskInstanceId: String!, rruleStrWithUpdatedExclusions: String!, taskId: String!): RepeatingTaskInstance!
     deleteTask(id: String!): DeleteTaskResponse!
     deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!

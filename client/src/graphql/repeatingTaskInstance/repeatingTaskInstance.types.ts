@@ -11,7 +11,17 @@ export type updateRepeatingTaskInstanceVariables = {
     date: Date,
 }
 
+export type deleteRepeatingTaskInstanceVariables = {
+    repeatingTaskInstanceId: string,
+    taskId: string,
+    rruleStrWithUpdatedExclusions: string,
+}
+
 // ** RESPONSES **
 export type updateRepeatingTaskInstanceResponse = {
     updateRepeatingTaskInstance: RepeatingTaskInstanceType,
+}
+
+export type deleteRepeatingTaskInstanceResponse = {
+    deleteRepeatingTaskInstanceResponse: RepeatingTaskInstanceType,
 }

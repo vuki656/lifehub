@@ -9,3 +9,13 @@ export const UPDATE_REPEATING_TASK_INSTANCE = gql`
         }
     }
 `
+
+export const DELETE_REPEATING_TASK_INSTANCE = gql`
+    mutation deleteRepeatingTaskInstance($repeatingTaskInstanceId: String!, $taskId: String!, $rruleStrWithUpdatedExclusions: String!) {
+        deleteRepeatingTaskInstance(repeatingTaskInstanceId: $repeatingTaskInstanceId, taskId: $taskId, rruleStrWithUpdatedExclusions: $rruleStrWithUpdatedExclusions) {
+            id
+            isChecked
+            date
+        }
+    }
+`

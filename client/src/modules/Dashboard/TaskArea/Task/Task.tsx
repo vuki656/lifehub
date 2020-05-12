@@ -5,7 +5,7 @@ import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-import { RRule, rrulestr } from 'rrule'
+import { RRule, RRuleSet, rrulestr } from 'rrule'
 
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { UPDATE_REPEATING_TASK_INSTANCE } from '../../../../graphql/repeatingTaskInstance/repeatingTaskInstance'
@@ -25,13 +25,19 @@ export const Task: React.FC<TaskProps> = (props) => {
     const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [isTaskChecked, toggleTaskChecked] = useToggle(_.isEmpty(task.repeatingTaskInstances) ? task.checked : task.repeatingTaskInstances[0].isChecked)
     const [isDialogOpen, toggleDialog] = useToggle(false)
-    const [rruleObj, setRruleObj] = useState<RRule>()
+    const [rruleObj, setRruleObj] = useState<RRuleSet | RRule>()
 
     const [updateTaskMutation] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
     const [updateRepeatingTaskInstanceMutation] = useMutation<updateRepeatingTaskInstanceResponse, updateRepeatingTaskInstanceVariables>(UPDATE_REPEATING_TASK_INSTANCE)
 
     useEffect(() => {
-        task.rrule ? setRruleObj(rrulestr(task.rrule)) : setRruleObj(new RRule())
+
+        if (task.rrule) {
+            const rruleSetObj: RRuleSet | RRule = rrulestr(task.rrule, { forceset: true })
+            setRruleObj(rruleSetObj)
+        } else {
+            setRruleObj(new RRule())
+        }
     }, [task.rrule])
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog

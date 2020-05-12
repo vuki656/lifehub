@@ -67,6 +67,16 @@
   padding: $spacing-md 0;
 }
 
+.dialog__radio {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.dialog__radio-text {
+  padding-left: $spacing-xs;
+}
+
 .dialog--open {
   bottom: 0;
   left: 0;

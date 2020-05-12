@@ -14,12 +14,6 @@ export const taskType = gql`
         repeatingTaskInstances: [RepeatingTaskInstance]
     }
 
-    type RepeatingTaskInstance {
-        id: String!,
-        date: GraphQLDateTime!,
-        isChecked: Boolean!,
-    }
-
     type DeleteTaskResponse {
         id: String!
     }
