@@ -34,6 +34,8 @@ export const updateTaskHandler = async (input) => {
 const updateRepeatingInstances = async (task: TaskEntity) => {
     const { endDate, rrule, date: startDate, id: taskId } = task
 
+    if (!endDate) return new Date()
+
     const firstRepeatingInstanceDate: Date | undefined = await getEdgeRepeatingInstanceDate(task, 'ASC')
     const lastRepeatingInstanceDate: Date | undefined = await getEdgeRepeatingInstanceDate(task, 'DESC')
     const rruleObj = rrulestr(rrule)
@@ -157,7 +159,7 @@ const checkIfRepeatingInstancesExist = (task: TaskEntity, repeatingTaskDateInsta
 }
 
 // First or last
-const getEdgeRepeatingInstanceDate = async (task: TaskEntity, instanceToGet: 'ASC' | 'DESC') => {
+export const getEdgeRepeatingInstanceDate = async (task: TaskEntity, instanceToGet: 'ASC' | 'DESC') => {
     const { id } = task
 
     const instance =

@@ -17,6 +17,10 @@ export type deleteRepeatingTaskInstanceVariables = {
     rruleStrWithUpdatedExclusions: string,
 }
 
+export type deleteFirstRepeatingInstanceVariables = {
+    taskId: string,
+}
+
 // ** RESPONSES **
 export type updateRepeatingTaskInstanceResponse = {
     updateRepeatingTaskInstance: RepeatingTaskInstanceType,
@@ -24,4 +28,8 @@ export type updateRepeatingTaskInstanceResponse = {
 
 export type deleteRepeatingTaskInstanceResponse = {
     deleteRepeatingTaskInstanceResponse: RepeatingTaskInstanceType,
+}
+
+export type deleteFirstRepeatingInstanceResponse = {
+    deleteFirstRepeatingInstanceResponse: RepeatingTaskInstanceType,
 }

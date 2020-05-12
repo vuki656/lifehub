@@ -10,5 +10,6 @@ export const repeatingTaskInstanceType = gql`
     extend type Mutation {
         updateRepeatingTaskInstance(isChecked: Boolean!, date: String!, id: String!): RepeatingTaskInstance!
         deleteRepeatingTaskInstance(repeatingTaskInstanceId: String!, taskId: String!, rruleStrWithUpdatedExclusions: String!): RepeatingTaskInstance!,
+        deleteFirstRepeatingTaskInstance(taskId: String!): RepeatingTaskInstance!
     }
 `

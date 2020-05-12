@@ -47,7 +47,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     })
 
     useEffect(() => {
-        // Set exclusion if exists, 'in' check has to exists bcs typescript
+        // Set exclusion dates if exists, 'in' check has to exists bcs typescript
         if ('_exdate' in taskRrule && taskRrule._exdate) {
             setExcludedDates(taskRrule._exdate)
         }
@@ -381,6 +381,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                                 <div className="form__field-wrapper">
                                                     <p className="form__field-title">End Date</p>
                                                     <DatePicker
+                                                        required={doesEnd}
                                                         className="form__input-field"
                                                         selected={formValues.endDate}
                                                         onChange={(date) => setFormValue(date, 'endDate')}
@@ -417,7 +418,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 toggleDeleteDialog={toggleDeleteDialog}
                 task={task}
                 deleteTaskAndAllInstances={deleteTask}
-                taskRrule={getRrule()}
+                getRrule={getRrule}
             />
         </>
     )

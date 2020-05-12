@@ -7,5 +7,5 @@ export type TaskDeleteDialogProps = {
     toggleDeleteDialog: () => void,
     deleteTaskAndAllInstances: () => void,
     task: TaskType,
-    taskRrule: RRule | RRuleSet,
+    getRrule: () => RRule | RRuleSet,
 }

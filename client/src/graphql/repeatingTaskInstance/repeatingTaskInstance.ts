@@ -19,3 +19,13 @@ export const DELETE_REPEATING_TASK_INSTANCE = gql`
         }
     }
 `
+
+export const DELETE_FIRST_REPEATING_INSTANCE = gql`
+    mutation deleteFirstRepeatingInstance($taskId: String!) {
+        deleteFirstRepeatingTaskInstance(taskId: $taskId) {
+            id
+            isChecked
+            date
+        }
+    }
+`
