@@ -5,9 +5,6 @@
   flex-basis: 45%;
   margin-bottom: $spacing-xl;
   padding: $spacing-def;
-  transition-duration: 150ms;
-  transition-property: box-shadow;
-  transition-timing-function: ease-in-out;
 
   &:hover {
     .task-card__icon {
@@ -38,9 +35,11 @@
   height: 20px;
   opacity: 0;
   padding: $spacing-xxs;
-  transition-duration: 150ms, 150ms, 100ms;
-  transition-property: background, box-shadow, opacity;
-  transition-timing-function: ease-in-out;
+  transition-duration: 150ms, 150ms, 100ms !important;
+
+  // Icon has default transition that needs override
+  transition-property: background, box-shadow, opacity !important;
+  transition-timing-function: ease-in-out !important;
   width: 20px;
 
   &:hover {

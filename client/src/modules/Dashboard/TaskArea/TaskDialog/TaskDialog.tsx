@@ -54,7 +54,17 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             setSelectedWeekDays(taskRrule.options.byweekday ? taskRrule.options.byweekday : [])
             setFrequency(taskRrule.options.freq ? taskRrule.options.freq : 2)
         }, 300)
-    }, [toggleDialog, resetForm])
+    }, [
+        toggleDialog,
+        resetForm,
+        setDoesEnd,
+        task.isRepeating,
+        task.endDate,
+        taskRrule.options.byweekday,
+        toggleIsRepeating,
+        taskRrule.options.interval,
+        taskRrule.options.freq,
+    ])
 
     const getRrule = useCallback(() => {
         return new RRule({
@@ -197,7 +207,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         </p>
                         <button
                             onClick={deleteTask}
-                            className="button button--secondary button-delete"
+                            className="button button--secondary"
                             type="button"
                         >
                             {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Delete'}

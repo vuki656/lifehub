@@ -94,8 +94,14 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                         <div className="task-card__header">
                             <p className="task-card__name">{taskCard.name}</p>
                             <div>
-                                <DeleteOutlineRoundedIcon className="task-card__icon" onClick={toggleDeleteDialog} />
-                                <EditRoundedIcon className="task-card__icon" onClick={toggleEditDialog} />
+                                <DeleteOutlineRoundedIcon
+                                    className="task-card__icon"
+                                    onClick={toggleDeleteDialog}
+                                />
+                                <EditRoundedIcon
+                                    className="task-card__icon"
+                                    onClick={toggleEditDialog}
+                                />
                             </div>
                         </div>
                         <div className="task-card__body">
