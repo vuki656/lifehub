@@ -17,7 +17,43 @@
 .dialog__header-wrapper {
   display: flex;
   justify-content: space-between;
+  padding-bottom: $spacing-def;
   width: 100%;
+}
+
+.dialog__navigation {
+  display: flex;
+  justify-content: flex-start;
+  padding-bottom: $spacing-xs;
+  width: 100%;
+
+  :not(:first-child) {
+    margin-left: $spacing-sm;
+  }
+}
+
+.dialog__navigation-button {
+  @include flex-i-center-c-center;
+  box-shadow: none;
+  font-size: $font-size-xs;
+  height: 30px;
+  transition: box-shadow 200ms ease-in-out;
+}
+
+.dialog__navigation-button--selected {
+  box-shadow: $box-shadow-default;
+  font-weight: bold;
+  outline: none;
+}
+
+.dialog__button-text {
+  margin: 0 !important;
+  padding-left: $spacing-xxs;
+}
+
+.dialog__button-icon {
+  height: 14px !important;
+  width: 14px !important;
 }
 
 .dialog__text {
@@ -50,5 +86,6 @@
 .dialog__checkbox {
   align-items: center;
   display: flex;
+  font-size: $font-size-sm;
 }
 

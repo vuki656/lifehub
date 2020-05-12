@@ -1,4 +1,6 @@
 import { useMutation } from '@apollo/react-hooks'
+import LoopIcon from '@material-ui/icons/Loop'
+import NotesIcon from '@material-ui/icons/Notes'
 import _ from 'lodash'
 import moment from 'moment'
 import React, { useCallback, useState } from 'react'
@@ -21,6 +23,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, task, taskCardId, taskRrule } = props
 
     const { selectedDate } = useSelector((state) => state.user)
+    const [selectedTab, setSelectedTab] = useState('details')
     const [isRepeating, toggleIsRepeating] = useToggle(task.isRepeating)
     const [doesEnd, setDoesEnd] = useToggle(!!task.endDate)
     const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(taskRrule.options.byweekday ? taskRrule.options.byweekday : [])
@@ -213,123 +216,155 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                             {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Delete'}
                         </button>
                     </div>
-                    <div className="form__input-wrapper">
-                        <div className="form__field-wrapper">
-                            <p className="form__field-title">Title</p>
-                            <input
-                                className="form__input-field"
-                                type="text"
-                                required
-                                value={formValues.title}
-                                onChange={({ target }) => setFormValue(target.value, 'title')}
-                                maxLength={150}
-                            />
-                        </div>
-                    </div>
-                    <div className="form__field-wrapper">
-                        <p className="form__field-title">Note</p>
-                        <textarea
-                            className="form__input-field form__input-area"
-                            rows={8}
-                            value={formValues.note}
-                            onChange={({ target }) => setFormValue(target.value, 'note')}
-                            maxLength={2000}
-                        />
-                    </div>
-                    <div className="form__field-wrapper">
-                        <p className="form__field-title">Date</p>
-                        <DatePicker
-                            className="form__input-field"
-                            selected={formValues.date}
-                            onChange={(date) => setFormValue(date, 'date')}
-                            minDate={new Date()}
-                            maxDate={formValues.endDate}
-                            required
-                        />
-                    </div>
-                    <div
-                        className="form__field-wrapper dialog__checkbox"
-                        onClick={toggleIsRepeating}
-                    >
-                        <input
-                            type="checkbox"
-                            checked={isRepeating}
-                            className="task__checkbox"
-                            onClick={(event) => event.stopPropagation()}
-                            onChange={toggleIsRepeating}
-                        />
-                        <label
-                            htmlFor="task__checkbox"
-                            className="task__title"
+                    <div className="dialog__navigation">
+                        <button
+                            className={
+                                'button button--secondary dialog__navigation-button '
+                                + (selectedTab === 'details' && 'dialog__navigation-button--selected')
+                            }
+                            type="button"
+                            onClick={() => setSelectedTab('details')}
                         >
-                            Repeat Task
-                        </label>
+                            <NotesIcon className="dialog__button-icon" />
+                            <p className="dialog__button-text">Details</p>
+                        </button>
+                        <button
+                            className={
+                                'button button--secondary dialog__navigation-button '
+                                + (selectedTab === 'repeat' && 'dialog__navigation-button--selected')
+                            }
+                            type="button"
+                            onClick={() => setSelectedTab('repeat')}
+                        >
+                            <LoopIcon className="dialog__button-icon" />
+                            <p className="dialog__button-text">Repeat</p>
+                        </button>
                     </div>
-                    {isRepeating && (
-                        <div className="form__field-wrapper">
-                            <p className="form__field-title">Every</p>
-                            <div className="repeating-task__header">
+                    {selectedTab === 'details' && (
+                        <div>
+                            <div className="form__field-wrapper">
+                                <p className="form__field-title">Title</p>
                                 <input
-                                    className="form__input-field repeating-task__interval"
-                                    type="number"
-                                    min={1}
-                                    value={interval}
-                                    onChange={({ target }) => setInterval(parseInt(target.value, 10))}
+                                    className="form__input-field"
+                                    type="text"
+                                    required
+                                    value={formValues.title}
+                                    onChange={({ target }) => setFormValue(target.value, 'title')}
+                                    maxLength={150}
                                 />
-                                {/* RRule parses frequency = month = 1, week = 2, day = 1, same with week days*/}
-                                <select
-                                    onChange={({ target }) => setFrequency(parseInt(target.value, 10))}
-                                    value={frequency}
-                                    className="form__input-field repeating-task__frequency"
-                                >
-                                    <option value={1}>{interval !== 1 ? 'Months' : 'Month'}</option>
-                                    <option value={2}>{interval !== 1 ? 'Weeks' : 'Week'}</option>
-                                    <option value={3}>{interval !== 1 ? 'Days' : 'Day'}</option>
-                                </select>
-                            </div>
-                            {frequency === 2 && (
-                                <div className="form__field-wrapper">
-                                    <p className="form__field-title">On</p>
-                                    <div className="repeating-task__weekdays">
-                                        {rruleWeekDaysArr.map((day, index) => (
-                                            <WeekDayButton
-                                                weekDay={day}
-                                                setSelectedWeekDays={setSelectedWeekDays}
-                                                selectedWeekDays={selectedWeekDays}
-                                                key={index}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                            <div
-                                className="form__field-wrapper dialog__checkbox"
-                                onClick={setDoesEnd}
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={doesEnd}
-                                    className="task-dialog__checkbox"
-                                    onClick={(event) => event.stopPropagation()}
-                                    onChange={setDoesEnd}
-                                />
-                                <label
-                                    htmlFor="task-dialog__checkbox"
-                                    className="task__title"
-                                >
-                                    Does End
-                                </label>
                             </div>
                             <div className="form__field-wrapper">
+                                <p className="form__field-title">Note</p>
+                                <textarea
+                                    className="form__input-field form__input-area"
+                                    rows={8}
+                                    value={formValues.note}
+                                    onChange={({ target }) => setFormValue(target.value, 'note')}
+                                    maxLength={2000}
+                                />
+                            </div>
+                            <div className="form__field-wrapper">
+                                <p className="form__field-title">Date</p>
+                                <DatePicker
+                                    className="form__input-field"
+                                    selected={formValues.date}
+                                    onChange={(date) => setFormValue(date, 'date')}
+                                    minDate={new Date()}
+                                    maxDate={formValues.endDate}
+                                    required
+                                />
+                            </div>
+                        </div>
+                    )}
+                    {selectedTab === 'repeat' && (
+                        <div>
+                            <div className="form__field-wrapper">
+                                <div
+                                    className="dialog__checkbox"
+                                    onClick={toggleIsRepeating}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        checked={isRepeating}
+                                        className="task__checkbox"
+                                        onClick={(event) => event.stopPropagation()}
+                                        onChange={toggleIsRepeating}
+                                    />
+                                    <label
+                                        htmlFor="task__checkbox"
+                                        className="task__title"
+                                    >
+                                        Repeat Task
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="form__field-wrapper">
+                                <p className="form__field-title">Every</p>
+                                <div className="repeating-task__header">
+                                    <input
+                                        className="form__input-field repeating-task__interval"
+                                        type="number"
+                                        min={1}
+                                        value={interval}
+                                        onChange={({ target }) => setInterval(parseInt(target.value, 10))}
+                                    />
+                                    {/* RRule parses frequency = month = 1, week = 2, day = 1, same with week days*/}
+                                    <select
+                                        onChange={({ target }) => setFrequency(parseInt(target.value, 10))}
+                                        value={frequency}
+                                        className="form__input-field repeating-task__frequency"
+                                    >
+                                        <option value={1}>{interval !== 1 ? 'Months' : 'Month'}</option>
+                                        <option value={2}>{interval !== 1 ? 'Weeks' : 'Week'}</option>
+                                        <option value={3}>{interval !== 1 ? 'Days' : 'Day'}</option>
+                                    </select>
+                                </div>
+                                {frequency === 2 && (// 2 = weekly so display week days
+                                    <div className="form__field-wrapper">
+                                        <p className="form__field-title">On</p>
+                                        <div className="repeating-task__weekdays">
+                                            {rruleWeekDaysArr.map((day, index) => (
+                                                <WeekDayButton
+                                                    weekDay={day}
+                                                    setSelectedWeekDays={setSelectedWeekDays}
+                                                    selectedWeekDays={selectedWeekDays}
+                                                    key={index}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="form__field-wrapper">
+                                    <div
+                                        className="form__field-wrapper dialog__checkbox"
+                                        onClick={setDoesEnd}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={doesEnd}
+                                            className="task-dialog__checkbox"
+                                            onClick={(event) => event.stopPropagation()}
+                                            onChange={setDoesEnd}
+                                        />
+                                        <label
+                                            htmlFor="task-dialog__checkbox"
+                                            className="task__title"
+                                        >
+                                            Does End
+                                        </label>
+                                    </div>
+                                </div>
                                 {doesEnd && (
                                     <div className="form__field-wrapper">
-                                        <p className="form__field-title">End Date</p>
-                                        <DatePicker
-                                            className="form__input-field"
-                                            selected={formValues.endDate}
-                                            onChange={(date) => setFormValue(date, 'endDate')}
-                                            minDate={formValues.date}
-                                        />
+                                        <div className="form__field-wrapper">
+                                            <p className="form__field-title">End Date</p>
+                                            <DatePicker
+                                                className="form__input-field"
+                                                selected={formValues.endDate}
+                                                onChange={(date) => setFormValue(date, 'endDate')}
+                                                minDate={formValues.date}
+                                            />
+                                        </div>
                                     </div>
                                 )}
                             </div>

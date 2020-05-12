@@ -61,7 +61,7 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
         nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
     }
 
-    // If new end date is after the old one
+    // If new end date is after the old one, delete old instances
     if (moment(endDate).isAfter(lastRepeatingInstanceDate)) {
         repeatingTaskDateInstances = rruleObj.between(
             moment(lastRepeatingInstanceDate).add(1, 'day').toDate(), // +1 day from last existing instance
@@ -84,7 +84,7 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
         nextRepeatingInstance = null
     }
 
-    // If start date is before the original (before the first repeating instance)
+    // If start date is before the original (before the first repeating instance), create difference
     if (moment(startDate).isBefore(firstRepeatingInstanceDate)) {
         repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), moment(firstRepeatingInstanceDate).toDate())
     }
