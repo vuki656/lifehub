@@ -48,9 +48,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     useEffect(() => {
         // Set exclusion dates if exists, 'in' check has to exists bcs typescript
-        if ('_exdate' in taskRrule && taskRrule._exdate) {
-            setExcludedDates(taskRrule._exdate)
-        }
+        if ('_exdate' in taskRrule && taskRrule._exdate) setExcludedDates(taskRrule._exdate)
     }, [taskRrule])
 
     // Clear errors, reset form and toggle dialog

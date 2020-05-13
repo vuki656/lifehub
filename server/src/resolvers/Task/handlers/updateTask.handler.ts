@@ -1,4 +1,5 @@
 import { UserInputError } from 'apollo-server'
+import { isValid } from 'date-fns'
 import _ from 'lodash'
 import moment from 'moment'
 import { rrulestr } from 'rrule'
@@ -34,8 +35,6 @@ export const updateTaskHandler = async (input) => {
 const updateRepeatingInstances = async (task: TaskEntity) => {
     const { endDate, rrule, date: startDate, id: taskId } = task
 
-    if (!endDate) return new Date()
-
     const firstRepeatingInstanceDate: Date | undefined = await getEdgeRepeatingInstanceDate(task, 'ASC')
     const lastRepeatingInstanceDate: Date | undefined = await getEdgeRepeatingInstanceDate(task, 'DESC')
     const rruleObj = rrulestr(rrule)
@@ -47,30 +46,45 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
 
     // If end date before max day span, generate all, set next repeating instance to null
     if (moment(endDate).isBefore(maxDateRangeEndDate)) {
-        repeatingTaskDateInstances = rruleObj.all()
+        repeatingTaskDateInstances = rruleObj.between(
+            moment(startDate).add(1, 'day').toDate(), // Skip day after start date because start date === root task
+            maxDateRangeEndDate.toDate(),
+            true,
+        )
         nextRepeatingInstance = null
+        console.log('1')
+        console.log(repeatingTaskDateInstances)
     }
 
     // If end date after max day span, generate until end of max day span, set next repeating instance to following one
     if (moment(endDate).isAfter(maxDateRangeEndDate)) {
         repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), maxDateRangeEndDate.toDate(), true)
         nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
+        console.log('2')
+        console.log(repeatingTaskDateInstances)
     }
 
+    // TODO: this is running for some reason
     // If no end date, generate until end of max day span, set the next repeating instance to the following one
-    if (!endDate) {
+    console.log(endDate)
+    console.log(!isValid(endDate))
+    if (!isValid(endDate)) {
         repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), maxDateRangeEndDate.toDate(), true)
         nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
+        console.log('3')
+        console.log(repeatingTaskDateInstances)
     }
 
     // If new end date is after the old one, delete old instances
-    if (moment(endDate).isAfter(lastRepeatingInstanceDate)) {
+    if (lastRepeatingInstanceDate && moment(endDate).isAfter(lastRepeatingInstanceDate)) {
         repeatingTaskDateInstances = rruleObj.between(
             moment(lastRepeatingInstanceDate).add(1, 'day').toDate(), // +1 day from last existing instance
             maxDateRangeEndDate.toDate(),
             true,
         )
         nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
+        console.log('4')
+        console.log(repeatingTaskDateInstances)
     }
 
     // If new end date is before the old one, delete all instances after the new one
@@ -89,11 +103,14 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
         nextRepeatingInstance = null
     }
 
-    if (firstRepeatingInstanceDate) {
+    if (isValid(firstRepeatingInstanceDate)) {
+        console.log('in')
 
         // If start date is before the original (before the first repeating instance), create difference
         if (moment(startDate).isBefore(firstRepeatingInstanceDate)) {
             repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), moment(firstRepeatingInstanceDate).toDate())
+            console.log('5')
+            console.log(repeatingTaskDateInstances)
         }
 
         // If start date is after the original (after the first repeating instance) delete all before

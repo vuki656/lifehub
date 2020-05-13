@@ -31,9 +31,8 @@ export const Task: React.FC<TaskProps> = (props) => {
     const [updateRepeatingTaskInstanceMutation] = useMutation<updateRepeatingTaskInstanceResponse, updateRepeatingTaskInstanceVariables>(UPDATE_REPEATING_TASK_INSTANCE)
 
     useEffect(() => {
-
         if (task.rrule) {
-            const rruleSetObj: RRuleSet | RRule = rrulestr(task.rrule, { forceset: true })
+            const rruleSetObj: RRuleSet | RRule = rrulestr(task.rrule)
             setRruleObj(rruleSetObj)
         } else {
             setRruleObj(new RRule())

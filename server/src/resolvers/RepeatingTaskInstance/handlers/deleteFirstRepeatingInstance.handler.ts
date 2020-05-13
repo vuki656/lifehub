@@ -14,12 +14,15 @@ export const deleteFirstRepeatingTaskInstanceHandler = async (input) => {
     .limit(1)
     .getOne()
 
+    console.log(firstRepeatingInstance)
+
     // Delete first repeating instance
     await getConnection()
-    .getRepository(RepeatingTaskInstanceEntity)
-    .createQueryBuilder('repeatingTaskInstance')
+    .createQueryBuilder()
     .delete()
-    .whereInIds(firstRepeatingInstance?.id)
+    .from(RepeatingTaskInstanceEntity)
+    .where('id = :id', { id: firstRepeatingInstance?.id })
+    .execute()
 
     return firstRepeatingInstance
 }

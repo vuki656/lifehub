@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
+import _ from 'lodash'
 import moment from 'moment'
 import React, { useCallback, useState } from 'react'
 import { RRule, RRuleSet } from 'rrule'
@@ -17,7 +18,13 @@ import { updateTaskResponse, updateTaskVariables } from '../../../../graphql/tas
 import { TaskDeleteDialogProps } from './TaskDeleteDialog.types'
 
 export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
-    const { isDeleteDialogOpen, toggleDeleteDialog, deleteTaskAndAllInstances, task, getRrule } = props
+    const {
+        isDeleteDialogOpen,
+        toggleDeleteDialog,
+        deleteTaskAndAllInstances,
+        task,
+        getRrule,
+    } = props
 
     const [selectedOption, setSelectedOption] = useState('this')
     const [errors, setErrors] = React.useState<{ error?: string }>({})
@@ -29,13 +36,13 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
     const [deleteRepeatingTaskInstanceMutation, { loading: deleteLoading }]
         = useMutation<deleteRepeatingTaskInstanceResponse, deleteRepeatingTaskInstanceVariables>(DELETE_REPEATING_TASK_INSTANCE)
 
-    const handleSingleRepeatingInstanceDelete = useCallback(() => {
+    const handleSingleRepeatingInstanceDelete = useCallback(async () => {
         const localTaskRrule = getRrule()
 
-        // Set deleted task date as excluded to rrule so its not created anymore, check mandatory bcz typescript
+        // Set deleted task date as excluded in rrule so its not created anymore, check mandatory bcz typescript
         if (localTaskRrule instanceof RRuleSet) localTaskRrule.exdate(moment(task.repeatingTaskInstances[0].date).toDate())
 
-        deleteRepeatingTaskInstanceMutation({
+        await deleteRepeatingTaskInstanceMutation({
             variables: {
                 repeatingTaskInstanceId: task.repeatingTaskInstances[0].id,
                 taskId: task.id,
@@ -52,53 +59,60 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
 
     // Change root task date to date of next repeating instance, delete that instance
     const handleRootTaskDelete = useCallback(async () => {
-        const localTaskRrule = getRrule()
-        console.log(localTaskRrule)
+        const rruleSet: RRuleSet | RRule = getRrule()
 
-        const nextRepeatingInstance = localTaskRrule.after(moment(task.date).toDate())
+        if ('_rrule' in rruleSet) {
+            const nextRepeatingInstance = rruleSet._rrule[0].after(moment(task.date).toDate())
 
-        // Clone the old rrule and add new start date to it
-        const updatedRruleSet = new RRuleSet()
-        updatedRruleSet.rrule(new RRule({
-            freq: localTaskRrule.options.freq,
-            interval: localTaskRrule.options.interval,
-            byweekday: localTaskRrule.options.byweekday,
-            until: localTaskRrule.options.until,
-            dtstart: moment(nextRepeatingInstance).toDate(),
-        }))
+            // Clone the old rrule and add new start date to it
+            const updatedRruleSet = new RRuleSet()
+            updatedRruleSet.rrule(new RRule({
+                freq: rruleSet._rrule[0].options.freq,
+                interval: rruleSet._rrule[0].options.interval,
+                byweekday: rruleSet._rrule[0].options.byweekday,
+                until: rruleSet._rrule[0].options.until,
+                dtstart: moment(nextRepeatingInstance).toDate(),
+            }))
 
-        console.log(task)
-        console.log(updatedRruleSet.toString())
-        console.log(nextRepeatingInstance)
-        // await updateTaskMutation({
-        //     variables: {
-        //         id: task.id,
-        //         date: nextRepeatingInstance,
-        //         rrule: updatedRruleSet.toString(),
-        //         endDate: task.endDate,
-        //     },
-        // })
-        // .catch((error) => {
-        //     setErrors(error.graphQLErrors?.[0].extensions.exception)
-        // })
+            // Set deleted task date as excluded in rrule so its not created anymore, and add existing ones check mandatory bcz typescript
+            updatedRruleSet.exdate(moment(task.date).toDate())
+            rruleSet.exdates().forEach((excludedDate) =>
+                updatedRruleSet.exdate(excludedDate),
+            )
 
-        // deleteFirstRepeatingInstanceMutation({
-        //     variables: {
-        //         taskId: task.id,
-        //     },
-        // })
-        // .catch((error) => {
-        //     setErrors(error.graphQLErrors?.[0].extensions.exception)
-        // })
-    }, [task.date, task.id, deleteFirstRepeatingInstanceMutation, updateTaskMutation, getRrule])
+            // ROOT DELETION FOR THE FIRST TIME WORKS, SECOND TIME DOESENT
+            // ALL REPATING INSTANCES EXCEPT ONE GET DELTED??
+
+            await deleteFirstRepeatingInstanceMutation({
+                variables: {
+                    taskId: task.id,
+                },
+            })
+            .catch((error) => {
+                setErrors(error.graphQLErrors?.[0].extensions.exception)
+            })
+
+            await updateTaskMutation({
+                variables: {
+                    id: task.id,
+                    date: nextRepeatingInstance,
+                    rrule: updatedRruleSet.toString(),
+                    endDate: task.endDate,
+                },
+            })
+            .catch((error) => {
+                setErrors(error.graphQLErrors?.[0].extensions.exception)
+            })
+        }
+    }, [task.date, getRrule, deleteFirstRepeatingInstanceMutation, updateTaskMutation, task])
 
     // If task doesn't have a repeating instance, it is root task
     // Delete root and set next repeating instance as root
-    const handleDeleteSingleInstance = useCallback(() => {
-        !task.repeatingTaskInstances
-            ? handleRootTaskDelete()
-            : handleSingleRepeatingInstanceDelete()
-    }, [handleSingleRepeatingInstanceDelete, task.repeatingTaskInstances, handleRootTaskDelete])
+    const handleDeleteSingleInstance = useCallback(async () => {
+        _.isEmpty(task.repeatingTaskInstances)
+            ? await handleRootTaskDelete()
+            : await handleSingleRepeatingInstanceDelete()
+    }, [handleSingleRepeatingInstanceDelete, handleRootTaskDelete, task])
 
     const handleSubmit = useCallback(() => {
         toggleDeleteDialog()
