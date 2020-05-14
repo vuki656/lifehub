@@ -14,8 +14,6 @@ export const deleteFirstRepeatingTaskInstanceHandler = async (input) => {
     .limit(1)
     .getOne()
 
-    console.log(firstRepeatingInstance)
-
     // Delete first repeating instance
     await getConnection()
     .createQueryBuilder()

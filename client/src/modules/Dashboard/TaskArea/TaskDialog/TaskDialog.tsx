@@ -246,20 +246,21 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 <NotesIcon className="dialog__button-icon" />
                                 <p className="dialog__button-text">Details</p>
                             </button>
-                            <button
-                                className={
-                                    'button button--secondary dialog__navigation-button '
-                                    + (selectedTab === 'repeat' && 'dialog__navigation-button--selected')
-                                }
-                                type="button"
-                                onClick={() => setSelectedTab('repeat')}
-                            >
-                                <LoopIcon className="dialog__button-icon" />
-                                <p className="dialog__button-text">Repeat</p>
-                            </button>
+                            {isRepeating && (
+                                <button
+                                    className={
+                                        'button button--secondary dialog__navigation-button '
+                                        + (selectedTab === 'repeat' && 'dialog__navigation-button--selected')
+                                    }
+                                    type="button"
+                                    onClick={() => setSelectedTab('repeat')}
+                                >
+                                    <LoopIcon className="dialog__button-icon" />
+                                    <p className="dialog__button-text">Repeat</p>
+                                </button>
+                            )}
                         </div>
                         <div className="dialog__main-wrapper">
-
                             {selectedTab === 'details' && (
                                 <div>
                                     <div className="form__field-wrapper">
@@ -294,10 +295,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                             required
                                         />
                                     </div>
-                                </div>
-                            )}
-                            {selectedTab === 'repeat' && (
-                                <div>
                                     <div className="form__field-wrapper">
                                         <div
                                             className="dialog__checkbox"
@@ -318,6 +315,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                             </label>
                                         </div>
                                     </div>
+                                </div>
+                            )}
+                            {selectedTab === 'repeat' && (
+                                <div>
                                     <div className="form__field-wrapper">
                                         <p className="form__field-title">Every</p>
                                         <div className="repeating-task__header">

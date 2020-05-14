@@ -1,8 +1,8 @@
 import { UserInputError } from 'apollo-server'
-import { isValid } from 'date-fns'
+import { addDays, isBefore, isEqual, parseISO } from 'date-fns'
 import _ from 'lodash'
 import moment from 'moment'
-import { rrulestr } from 'rrule'
+import { RRule, rrulestr } from 'rrule'
 import { getConnection, getRepository } from 'typeorm'
 
 import { RepeatingTaskInstanceEntity } from '../../../entities/repeatingTaskInstance'
@@ -32,17 +32,23 @@ export const updateTaskHandler = async (input) => {
     })
 }
 
-const updateRepeatingInstances = async (task: TaskEntity) => {
+const updateRepeatingInstances = async (task) => {
     const { endDate, rrule, date: startDate, id: taskId } = task
 
-    const firstRepeatingInstanceDate: Date | undefined = await getEdgeRepeatingInstanceDate(task, 'ASC')
+    const firstRepeatingInstanceDate = await getEdgeRepeatingInstanceDate(task, 'ASC')
     const lastRepeatingInstanceDate: Date | undefined = await getEdgeRepeatingInstanceDate(task, 'DESC')
     const rruleObj = rrulestr(rrule)
     const maxDateRangeEndDate = moment().add(20, 'days')
-
+    const toBeCreatedRepeatingTaskInstances: RepeatingTaskInstanceEntity[] = []
     let nextRepeatingInstance: Date | null = null
     let repeatingTaskDateInstances: Date[] = []
-    const toBeCreatedRepeatingTaskInstances: RepeatingTaskInstanceEntity[] = []
+    let updatedStartDate = startDate
+
+    // FIRST REPEATING INSTNACE ISNT GOING TO EXIST IF INSTANCES ARE JUST BEING CREATED
+    if (!isEqual(startDate, firstRepeatingInstanceDate)) {
+        // SET THE STRT DATE TO FIRST REPEATING INSTANCE
+        updatedStartDate = updateRoot()
+    }
 
     // If end date before max day span, generate all, set next repeating instance to null
     if (moment(endDate).isBefore(maxDateRangeEndDate)) {
@@ -64,11 +70,8 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
         console.log(repeatingTaskDateInstances)
     }
 
-    // TODO: this is running for some reason
     // If no end date, generate until end of max day span, set the next repeating instance to the following one
-    console.log(endDate)
-    console.log(!isValid(endDate))
-    if (!isValid(endDate)) {
+    if (!endDate) {
         repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), maxDateRangeEndDate.toDate(), true)
         nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
         console.log('3')
@@ -103,11 +106,28 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
         nextRepeatingInstance = null
     }
 
-    if (isValid(firstRepeatingInstanceDate)) {
-        console.log('in')
+    // If first repeating instance exists, then we can do checks
+    // If gap between first instance and start date
+    // If gap start date after first instance
+    if (firstRepeatingInstanceDate) {
 
-        // If start date is before the original (before the first repeating instance), create difference
-        if (moment(startDate).isBefore(firstRepeatingInstanceDate)) {
+        // Start date should always be 1 instance (or 1 day if repeating every day) before first repeating instance
+        // If its more than 1, then we need to add more
+        // PROBABY THIS SHOULD ONLY BE CASE IF REPEATING EVERY DAY
+        const adjustedStartDate: Date = addDays(parseISO(startDate), 1)
+
+        // comparison should take into account the start date and first repating instance
+        // how to make the regular root + children not be taken into account
+
+        // IF ROOT DOESNET MATCH REPEATING, IT STILL REPLACES THE FIRST INSTANCE
+        // ROOT SHOULD BE READJUSTED TO FIRST REPEATING INSTANCE IF AT FIRST IT DOESNET MATCH THE PARAMS
+
+        console.log(startDate)
+        console.log(adjustedStartDate)
+        console.log(firstRepeatingInstanceDate)
+
+        // If start date is before the first repeating instance, create difference
+        if (isBefore(adjustedStartDate, firstRepeatingInstanceDate)) {
             repeatingTaskDateInstances = rruleObj.between(moment(startDate).toDate(), moment(firstRepeatingInstanceDate).toDate())
             console.log('5')
             console.log(repeatingTaskDateInstances)
@@ -130,6 +150,7 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
 
     await removeAllInstancesNotMatchingFilter(rruleObj, taskId, startDate, endDate, maxDateRangeEndDate)
 
+    // TODO: check cases for this
     // If last repeating instance from list already exists, no need to create more
     if (await checkIfRepeatingInstancesExist(task, repeatingTaskDateInstances)) {
         return null
@@ -159,6 +180,7 @@ const updateRepeatingInstances = async (task: TaskEntity) => {
     return nextRepeatingInstance
 }
 
+// TODO: write doc
 const checkIfRepeatingInstancesExist = (task: TaskEntity, repeatingTaskDateInstances: Date[]) => {
     const { id } = task
 
@@ -176,6 +198,7 @@ const checkIfRepeatingInstancesExist = (task: TaskEntity, repeatingTaskDateInsta
 }
 
 // First or last
+// If 'DESC' get last one, if 'ASC' get first one
 export const getEdgeRepeatingInstanceDate = async (task: TaskEntity, instanceToGet: 'ASC' | 'DESC') => {
     const { id } = task
 
@@ -185,7 +208,7 @@ export const getEdgeRepeatingInstanceDate = async (task: TaskEntity, instanceToG
         .createQueryBuilder('repeatingTaskInstance')
         .where('repeatingTaskInstance.taskId = :taskId', { taskId: id })
         .andWhere('repeatingTaskInstance.date > :dateToCheck', { dateToCheck: moment().startOf('day').utc().toDate() })
-        .orderBy('date', instanceToGet) // If 'DESC' get last one, if 'ASC' get first one
+        .orderBy('date', instanceToGet)
         .getOne()
         .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
@@ -194,7 +217,7 @@ export const getEdgeRepeatingInstanceDate = async (task: TaskEntity, instanceToG
     return instance?.date
 }
 
-// Get all dates that match rrule from start to finish and delete others
+// Delete all instances from database that dont match the filter
 const removeAllInstancesNotMatchingFilter = async (rruleObj, taskId, startDate, endDate, maxDateRangeEndDate) => {
     const selectedDates = rruleObj.between(
         moment(startDate).toDate(),
@@ -212,4 +235,11 @@ const removeAllInstancesNotMatchingFilter = async (rruleObj, taskId, startDate, 
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
+}
+
+// If root task doesn't match the repeating params, set it as first repeating instance
+const updateRoot = (startDate, rruleObj: RRule, firstRepeatingInstnace) => {
+
+    const firstRepeatingInstance = rruleObj.after(startDate)
+
 }
