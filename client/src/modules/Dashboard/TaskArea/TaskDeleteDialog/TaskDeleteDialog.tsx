@@ -74,14 +74,12 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                 dtstart: moment(nextRepeatingInstance).toDate(),
             }))
 
-            // Set deleted task date as excluded in rrule so its not created anymore, and add existing ones check mandatory bcz typescript
+            // Set deleted task date as excluded in rrule so its not created anymore, and add existing ones
+            // Check mandatory bcz typescript
             updatedRruleSet.exdate(moment(task.date).toDate())
             rruleSet.exdates().forEach((excludedDate) =>
                 updatedRruleSet.exdate(excludedDate),
             )
-
-            // ROOT DELETION FOR THE FIRST TIME WORKS, SECOND TIME DOESENT
-            // ALL REPATING INSTANCES EXCEPT ONE GET DELTED??
 
             await deleteFirstRepeatingInstanceMutation({
                 variables: {
