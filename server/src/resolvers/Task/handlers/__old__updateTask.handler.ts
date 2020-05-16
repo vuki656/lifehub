@@ -8,7 +8,7 @@ import { getConnection, getRepository } from 'typeorm'
 import { RepeatingTaskInstanceEntity } from '../../../entities/repeatingTaskInstance'
 import { TaskEntity } from '../../../entities/task'
 
-export const updateTaskHandler = async (input) => {
+export const __old__updateTaskHandler = async (input) => {
     const { id } = input
 
     const taskToUpdate = await TaskEntity.findOne(id)

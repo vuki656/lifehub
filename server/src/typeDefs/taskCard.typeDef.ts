@@ -2,8 +2,8 @@ import { gql } from 'apollo-server'
 
 export const taskCardType = gql`
     type TaskCard {
-        id: String,
-        name: String,
+        id: String!,
+        name: String!,
     }
 
     type TaskCardDeleteResponse {

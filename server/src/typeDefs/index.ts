@@ -1,8 +1,8 @@
 import { reminderType } from './reminder.typeDef'
-import { repeatingTaskInstanceType } from './repeatingTaskInstance.typeDef'
 import { rootType } from './root.typeDef'
 import { taskType } from './task.typeDef'
 import { taskCardType } from './taskCard.typeDef'
+import { taskMetaDataType } from './taskMetaData.typeDef'
 import { userType } from './user.typeDef'
 
 export const typeDefs = [
@@ -11,5 +11,5 @@ export const typeDefs = [
     reminderType,
     taskType,
     taskCardType,
-    repeatingTaskInstanceType,
+    taskMetaDataType,
 ]

@@ -3,40 +3,31 @@ import { getRepository } from 'typeorm'
 
 import { TaskEntity } from '../../../entities/task'
 import { TaskCardEntity } from '../../../entities/taskCard'
+import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 
 export const createTaskHandler = async (input) => {
-    const { title, note, checked, date, taskCardId, rrule, isRepeating } = input
+    const { title, taskCardId, taskMetaData } = input.input
 
-    // Get task card
-    const foundTaskCard = await getRepository(TaskCardEntity).findOne({ where: { id: taskCardId } })
-
-    // Throw error if no task card
+    // Verify task card existence
+    const foundTaskCard: TaskCardEntity | undefined = await getRepository(TaskCardEntity).findOne({ where: { id: taskCardId } })
     if (!foundTaskCard) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
-    // Save task
-    const task = new TaskEntity()
-    task.title = title
-    task.note = note
-    task.checked = checked
-    task.date = date
-    task.taskCardId = foundTaskCard
-    task.rrule = rrule
-    task.isRepeating = isRepeating
+    // Create task meta data entity
+    const taskMetaDataEntity = new TaskMetaDataEntity()
+    taskMetaDataEntity.date = taskMetaData.date
 
+    // Create task entity
+    const taskEntity = new TaskEntity()
+    taskEntity.title = title
+    taskEntity.taskCard = foundTaskCard
+    taskEntity.taskMetaData = taskMetaDataEntity
+
+    // Save task entity
     const createdTask = await getRepository(TaskEntity)
-    .save(task)
+    .save(taskEntity)
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
 
-    // TODO: figure out why is this not just return from save funct
-    return {
-        id: createdTask.id,
-        title: createdTask.title,
-        checked: createdTask.checked,
-        date: createdTask.date,
-        taskCardId: createdTask.taskCardId.id,
-        rrule: createdTask.rrule,
-        isRepeating: createdTask.isRepeating,
-    }
+    return { task: createdTask }
 }

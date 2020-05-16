@@ -1,10 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
-import _ from 'lodash'
-import moment from 'moment'
-import React, { useCallback, useState } from 'react'
-import { RRule, RRuleSet } from 'rrule'
-
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
+import React, { useState } from 'react'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { DELETE_FIRST_REPEATING_INSTANCE, DELETE_REPEATING_TASK_INSTANCE } from '../../../../graphql/repeatingTaskInstance/repeatingTaskInstance'
 import {
@@ -13,8 +8,6 @@ import {
     deleteRepeatingTaskInstanceResponse,
     deleteRepeatingTaskInstanceVariables,
 } from '../../../../graphql/repeatingTaskInstance/repeatingTaskInstance.types'
-import { UPDATE_TASK } from '../../../../graphql/task/task'
-import { updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
 import { TaskDeleteDialogProps } from './TaskDeleteDialog.types'
 
 export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
@@ -30,95 +23,95 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
     const [errors, setErrors] = React.useState<{ error?: string }>({})
 
     // TODO: rename loading var
-    const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
+    // const [updateTaskMutation, { loading: updateLoading }] = useMutation(UPDATE_TASK)
     const [deleteFirstRepeatingInstanceMutation, { loading: deleteLoading2 }]
         = useMutation<deleteFirstRepeatingInstanceResponse, deleteFirstRepeatingInstanceVariables>(DELETE_FIRST_REPEATING_INSTANCE)
     const [deleteRepeatingTaskInstanceMutation, { loading: deleteLoading }]
         = useMutation<deleteRepeatingTaskInstanceResponse, deleteRepeatingTaskInstanceVariables>(DELETE_REPEATING_TASK_INSTANCE)
 
-    const handleSingleRepeatingInstanceDelete = useCallback(async () => {
-        const localTaskRrule = getRrule()
-
-        // Set deleted task date as excluded in rrule so its not created anymore, check mandatory bcz typescript
-        if (localTaskRrule instanceof RRuleSet) localTaskRrule.exdate(moment(task.repeatingTaskInstances[0].date).toDate())
-
-        await deleteRepeatingTaskInstanceMutation({
-            variables: {
-                repeatingTaskInstanceId: task.repeatingTaskInstances[0].id,
-                taskId: task.id,
-                rruleStrWithUpdatedExclusions: localTaskRrule.toString(),
-            },
-        }) // TODO: update cache
-        .then(() => {
-            toggleDeleteDialog()
-        })
-        .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
-    }, [task.repeatingTaskInstances, task.id, getRrule, deleteRepeatingTaskInstanceMutation, toggleDeleteDialog])
-
-    // Change root task date to date of next repeating instance, delete that instance
-    const handleRootTaskDelete = useCallback(async () => {
-        const rruleSet: RRuleSet | RRule = getRrule()
-
-        if ('_rrule' in rruleSet) {
-            const nextRepeatingInstance = rruleSet._rrule[0].after(moment(task.date).toDate())
-
-            // Clone the old rrule and add new start date to it
-            const updatedRruleSet = new RRuleSet()
-            updatedRruleSet.rrule(new RRule({
-                freq: rruleSet._rrule[0].options.freq,
-                interval: rruleSet._rrule[0].options.interval,
-                byweekday: rruleSet._rrule[0].options.byweekday,
-                until: rruleSet._rrule[0].options.until,
-                dtstart: moment(nextRepeatingInstance).toDate(),
-            }))
-
-            // Set deleted task date as excluded in rrule so its not created anymore, and add existing ones
-            // Check mandatory bcz typescript
-            updatedRruleSet.exdate(moment(task.date).toDate())
-            rruleSet.exdates().forEach((excludedDate) =>
-                updatedRruleSet.exdate(excludedDate),
-            )
-
-            await deleteFirstRepeatingInstanceMutation({
-                variables: {
-                    taskId: task.id,
-                },
-            })
-            .catch((error) => {
-                setErrors(error.graphQLErrors?.[0].extensions.exception)
-            })
-
-            await updateTaskMutation({
-                variables: {
-                    id: task.id,
-                    date: nextRepeatingInstance,
-                    rrule: updatedRruleSet.toString(),
-                    endDate: task.endDate,
-                },
-            })
-            .catch((error) => {
-                setErrors(error.graphQLErrors?.[0].extensions.exception)
-            })
-        }
-    }, [task.date, getRrule, deleteFirstRepeatingInstanceMutation, updateTaskMutation, task])
-
-    // If task doesn't have a repeating instance, it is root task
-    // Delete root and set next repeating instance as root
-    const handleDeleteSingleInstance = useCallback(async () => {
-        _.isEmpty(task.repeatingTaskInstances)
-            ? await handleRootTaskDelete()
-            : await handleSingleRepeatingInstanceDelete()
-    }, [handleSingleRepeatingInstanceDelete, handleRootTaskDelete, task])
-
-    const handleSubmit = useCallback(() => {
-        toggleDeleteDialog()
-
-        selectedOption === 'this'
-            ? handleDeleteSingleInstance()
-            : deleteTaskAndAllInstances()
-    }, [selectedOption, handleDeleteSingleInstance, deleteTaskAndAllInstances, toggleDeleteDialog])
+    // const handleSingleRepeatingInstanceDelete = useCallback(async () => {
+    //     const localTaskRrule = getRrule()
+    //
+    //     // Set deleted task date as excluded in rrule so its not created anymore, check mandatory bcz typescript
+    //     if (localTaskRrule instanceof RRuleSet) localTaskRrule.exdate(moment(task.repeatingTaskInstances[0].date).toDate())
+    //
+    //     await deleteRepeatingTaskInstanceMutation({
+    //         variables: {
+    //             repeatingTaskInstanceId: task.repeatingTaskInstances[0].id,
+    //             taskId: task.id,
+    //             rruleStrWithUpdatedExclusions: localTaskRrule.toString(),
+    //         },
+    //     }) // TODO: update cache
+    //     .then(() => {
+    //         toggleDeleteDialog()
+    //     })
+    //     .catch((error) => {
+    //         setErrors(error.graphQLErrors?.[0].extensions.exception)
+    //     })
+    // }, [task.repeatingTaskInstances, task.id, getRrule, deleteRepeatingTaskInstanceMutation, toggleDeleteDialog])
+    //
+    // // Change root task date to date of next repeating instance, delete that instance
+    // const handleRootTaskDelete = useCallback(async () => {
+    //     const rruleSet: RRuleSet | RRule = getRrule()
+    //
+    //     if ('_rrule' in rruleSet) {
+    //         const nextRepeatingInstance = rruleSet._rrule[0].after(moment(task.date).toDate())
+    //
+    //         // Clone the old rrule and add new start date to it
+    //         const updatedRruleSet = new RRuleSet()
+    //         updatedRruleSet.rrule(new RRule({
+    //             freq: rruleSet._rrule[0].options.freq,
+    //             interval: rruleSet._rrule[0].options.interval,
+    //             byweekday: rruleSet._rrule[0].options.byweekday,
+    //             until: rruleSet._rrule[0].options.until,
+    //             dtstart: moment(nextRepeatingInstance).toDate(),
+    //         }))
+    //
+    //         // Set deleted task date as excluded in rrule so its not created anymore, and add existing ones
+    //         // Check mandatory bcz typescript
+    //         updatedRruleSet.exdate(moment(task.date).toDate())
+    //         rruleSet.exdates().forEach((excludedDate) =>
+    //             updatedRruleSet.exdate(excludedDate),
+    //         )
+    //
+    //         await deleteFirstRepeatingInstanceMutation({
+    //             variables: {
+    //                 taskId: task.id,
+    //             },
+    //         })
+    //         .catch((error) => {
+    //             setErrors(error.graphQLErrors?.[0].extensions.exception)
+    //         })
+    //
+    //         await updateTaskMutation({
+    //             variables: {
+    //                 id: task.id,
+    //                 date: nextRepeatingInstance,
+    //                 rrule: updatedRruleSet.toString(),
+    //                 endDate: task.endDate,
+    //             },
+    //         })
+    //         .catch((error) => {
+    //             setErrors(error.graphQLErrors?.[0].extensions.exception)
+    //         })
+    //     }
+    // }, [task.date, getRrule, deleteFirstRepeatingInstanceMutation, updateTaskMutation, task])
+    //
+    // // If task doesn't have a repeating instance, it is root task
+    // // Delete root and set next repeating instance as root
+    // const handleDeleteSingleInstance = useCallback(async () => {
+    //     _.isEmpty(task.repeatingTaskInstances)
+    //         ? await handleRootTaskDelete()
+    //         : await handleSingleRepeatingInstanceDelete()
+    // }, [handleSingleRepeatingInstanceDelete, handleRootTaskDelete, task])
+    //
+    // const handleSubmit = useCallback(() => {
+    //     toggleDeleteDialog()
+    //
+    //     selectedOption === 'this'
+    //         ? handleDeleteSingleInstance()
+    //         : deleteTaskAndAllInstances()
+    // }, [selectedOption, handleDeleteSingleInstance, deleteTaskAndAllInstances, toggleDeleteDialog])
 
     return (
         <div className={'dialog ' + (isDeleteDialogOpen ? 'dialog--open' : 'dialog--closed')}>
@@ -175,11 +168,11 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                         Cancel
                     </button>
                     <button
-                        onClick={handleSubmit}
+                        // onClick={handleSubmit}
                         className="button button--primary button-delete"
                         type="button"
                     >
-                        {deleteLoading || updateLoading ? <ButtonLoadingIconBlue size={18} /> : 'Ok'}
+                        {/*{deleteLoading || updateLoading ? <ButtonLoadingIconBlue size={18} /> : 'Ok'}*/}
                     </button>
                 </div>
             </div>

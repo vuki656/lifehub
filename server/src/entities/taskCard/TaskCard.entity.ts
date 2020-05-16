@@ -13,7 +13,7 @@ export class TaskCardEntity extends BaseEntity {
     @Column(TitleOptions)
     name: string
 
-    @OneToMany(() => TaskEntity, task => task.taskCardId)
+    @OneToMany(() => TaskEntity, task => task.taskCard)
     tasks: TaskEntity[]
 
     @ManyToOne(() => UserEntity, user => user.taskCards, { cascade: true })

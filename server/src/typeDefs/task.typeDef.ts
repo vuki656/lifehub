@@ -5,26 +5,24 @@ export const taskType = gql`
         id: String!,
         title: String!,
         note: String,
-        checked: Boolean!,
-        rrule: String,
-        isRepeating: Boolean!
-        endDate: GraphQLDateTime,
-        date: GraphQLDateTime!,
+        checked: Boolean,
         taskCardId: String,
-        repeatingTaskInstances: [RepeatingTaskInstance]
+        taskMetaData: TaskMetaData!
     }
 
-    type DeleteTaskResponse {
-        id: String!
+    input TaskInput {
+        title: String!,
+        note: String,
+        checked: Boolean,
+        taskCardId: String,
+        taskMetaData: TaskMetaDataInput!
     }
 
-    extend type Query {
-        getTasksByDateAndTaskCard(taskCardId: String!, selectedDate: String!): [Task]!
+    type CreateTaskPayload {
+        task: Task!
     }
 
     extend type Mutation {
-        createTask(title: String!, date: String!, taskCardId: String!, username: String!): Task!
-        updateTask(title: String, note: String, checked: Boolean, date: String, endDate: String, rrule: String, isRepeating: Boolean id: String!): Task!
-        deleteTask(id: String!): DeleteTaskResponse!
+        createTask(input: TaskInput): CreateTaskPayload!
     }
 `

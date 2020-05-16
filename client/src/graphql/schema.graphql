@@ -10,25 +10,20 @@ type AuthResponse {
     username: String!
 }
 
-type DeleteTaskResponse {
-    id: String!
+type CreateTaskPayload {
+    task: Task!
 }
 
 type Mutation {
     _empty: String
     createReminder(description: String, endDate: String!, startDate: String!, title: String!, username: String!): Reminder!
-    createTask(date: String!, taskCardId: String!, title: String!, username: String!): Task!
+    createTask(input: TaskInput): CreateTaskPayload!
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
-    deleteFirstRepeatingTaskInstance(taskId: String!): RepeatingTaskInstance!
     deleteReminder(id: String!): ReminderDeleteResponse!
-    deleteRepeatingTaskInstance(repeatingTaskInstanceId: String!, rruleStrWithUpdatedExclusions: String!, taskId: String!): RepeatingTaskInstance!
-    deleteTask(id: String!): DeleteTaskResponse!
     deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
     updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
-    updateRepeatingTaskInstance(date: String!, id: String!, isChecked: Boolean!): RepeatingTaskInstance!
-    updateTask(checked: Boolean, date: String, endDate: String, id: String!, isRepeating: Boolean, note: String, rrule: String, title: String): Task!
     updateTaskCard(id: String!, name: String): TaskCard!
 }
 
@@ -36,7 +31,6 @@ type Query {
     _empty: String
     getAllTaskCards(username: String!): [TaskCard]!
     getRemindersByDate(selectedDate: String!, username: String!): [Reminder]!
-    getTasksByDateAndTaskCard(selectedDate: String!, taskCardId: String!): [Task]!
     verifyUser(token: String): AuthResponse
 }
 
@@ -52,32 +46,32 @@ type ReminderDeleteResponse {
     id: String!
 }
 
-type RepeatingTaskInstance {
-    date: DateTime!
-    id: String!
-    isChecked: Boolean!
-}
-
 type Task {
-    checked: Boolean!
-    date: DateTime!
-    endDate: DateTime
+    checked: Boolean
     id: String!
-    isRepeating: Boolean!
     note: String
-    repeatingTaskInstances: [RepeatingTaskInstance]
-    rrule: String
     taskCardId: String
+    taskMetaData: TaskMetaData!
     title: String!
 }
 
 type TaskCard {
-    id: String
-    name: String
+    id: String!
+    name: String!
 }
 
 type TaskCardDeleteResponse {
     id: String!
+}
+
+type TaskMetaData {
+    date: DateTime!
+    endDate: DateTime
+    id: String!
+    isHabbit: Boolean
+    isRepeating: Boolean
+    nextRepeatingInstance: DateTime
+    rrule: String
 }
 
 type User {
@@ -94,6 +88,23 @@ type UserAuth {
 enum CacheControlScope {
     PRIVATE
     PUBLIC
+}
+
+input TaskInput {
+    checked: Boolean
+    note: String
+    taskCardId: String
+    taskMetaData: TaskMetaDataInput!
+    title: String!
+}
+
+input TaskMetaDataInput {
+    date: DateTime!
+    endDate: DateTime
+    isHabbit: Boolean
+    isRepeating: Boolean
+    nextRepeatingInstance: DateTime
+    rrule: String
 }
 
 

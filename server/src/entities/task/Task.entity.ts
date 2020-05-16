@@ -18,11 +18,12 @@ export class TaskEntity extends BaseEntity {
     @Column(CheckedOptions)
     checked: boolean
 
-    @ManyToOne(() => TaskMetaDataEntity, taskMetaData => taskMetaData.tasks)
-    metaData: TaskMetaDataEntity
+    @ManyToOne(() => TaskMetaDataEntity, taskMetaData => taskMetaData.tasks, { cascade: true })
+    @JoinColumn({ name: 'taskMetaData' })
+    taskMetaData: TaskMetaDataEntity
 
     @Column(TaskCardIdOptions)
     @ManyToOne(() => TaskCardEntity, taskCard => taskCard.tasks, { cascade: true })
-    @JoinColumn({ name: 'taskCardId' })
-    taskCardId: TaskCardEntity
+    @JoinColumn({ name: 'taskCard' })
+    taskCard: TaskCardEntity
 }

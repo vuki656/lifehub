@@ -7,7 +7,7 @@ import { getConnection, getRepository } from 'typeorm'
 import { RepeatingTaskInstanceEntity } from '../entities/repeatingTaskInstance'
 import { TaskEntity } from '../entities/task'
 
-export const generateRepeatingTaskInstancesCRON = () => {
+export const __old__generateRepeatingTaskInstancesCRON = () => {
     const job = new CronJob(
         '00 00 00 * * *',
         async () => {
