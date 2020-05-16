@@ -1,5 +1,4 @@
 import { UserInputError } from 'apollo-server'
-import { isBefore } from 'date-fns'
 import dayjs from 'dayjs'
 import _ from 'lodash'
 import moment from 'moment'
@@ -110,8 +109,8 @@ const updateRepeatingInstances = async (task) => {
         // IT DOESENT UPDATE START DATE AKA TASK ROOT DATE IF SWITCHED FROM DAILY TO WEEKLY
 
         // If start date is before the first repeating instance, create difference
-        if (isBefore(updatedStartDate, firstRepeatingInstanceDate)) {
-            repeatingTaskDateInstances = rruleObj.between(dayjs(updatedStartDate).toDate(), dayjs(firstRepeatingInstanceDate).toDate())
+        if (dayjs(updatedStartDate).isBefore(firstRepeatingInstanceDate)) {
+            repeatingTaskDateInstances = rruleObj.between(dayjs(updatedStartDate).toDate(), dayjs(firstRepeatingInstanceDate).toDate(), true)
             console.log('5')
             console.log(repeatingTaskDateInstances)
         }
@@ -158,9 +157,6 @@ const updateRepeatingInstances = async (task) => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
     }
-
-    console.log('new')
-    console.log(updatedStartDate)
 
     return {
         nextRepeatingInstance,
@@ -229,19 +225,13 @@ const removeAllInstancesNotMatchingFilter = async (rruleObj, taskId, startDate, 
 const updateRoot = (task, rruleObj: RRule) => {
     const { date: startDate } = task
 
-    // WHAT ARE THE IMPLICATONS OF TRUE
     const firstRepeatingInstanceDate = rruleObj.after(dayjs(startDate).toDate(), true)
-
     let updatedStartDate = startDate
-
-    console.log('start date', startDate)
-    console.log('first rep instance', firstRepeatingInstanceDate)
 
     if (
         !dayjs(dayjs(startDate))
         .isSame(dayjs(firstRepeatingInstanceDate).toDate())
     ) {
-        console.log('yes')
         updatedStartDate = firstRepeatingInstanceDate
     }
 

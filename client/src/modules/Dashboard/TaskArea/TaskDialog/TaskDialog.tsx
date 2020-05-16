@@ -377,16 +377,14 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                         </div>
                                         {doesEnd && (
                                             <div className="form__field-wrapper">
-                                                <div className="form__field-wrapper">
-                                                    <p className="form__field-title">End Date</p>
-                                                    <DatePicker
-                                                        required={doesEnd}
-                                                        className="form__input-field"
-                                                        selected={formValues.endDate}
-                                                        onChange={(date) => setFormValue(date, 'endDate')}
-                                                        minDate={formValues.date}
-                                                    />
-                                                </div>
+                                                <p className="form__field-title">End Date</p>
+                                                <DatePicker
+                                                    required={doesEnd}
+                                                    className="form__input-field"
+                                                    selected={formValues.endDate}
+                                                    onChange={(date) => setFormValue(date, 'endDate')}
+                                                    minDate={formValues.date}
+                                                />
                                             </div>
                                         )}
                                     </div>
