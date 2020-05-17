@@ -9,5 +9,9 @@ export type TaskMetaDataType = {
 
 // ** VARIABLES **
 export type TaskMetaDataVariables = {
-    date: Date,
+    startDate: Date,
+    endDate: Date,
+    rrule: string,
+    isRepeating: boolean,
+    isHabit: boolean,
 }

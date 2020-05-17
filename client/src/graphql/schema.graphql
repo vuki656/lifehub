@@ -21,7 +21,7 @@ type GetTasksByDateAndTaskCardPayload {
 type Mutation {
     _empty: String
     createReminder(description: String, endDate: String!, startDate: String!, title: String!, username: String!): Reminder!
-    createTask(input: TaskInput!): CreateTaskPayload!
+    createTask(input: CreateTaskInput!): CreateTaskPayload!
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!
@@ -29,6 +29,7 @@ type Mutation {
     logInUser(email: String!, password: String!): UserAuth!
     toggleTaskCompleted(input: ToggleTaskCompletedInput!): ToggleTaskCompletedPayload!
     updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
+    updateTask(input: UpdateTaskInput!): UpdateTaskPayload!
     updateTaskCard(id: String!, name: String): TaskCard!
 }
 
@@ -74,7 +75,7 @@ type TaskCardDeleteResponse {
 type TaskMetaData {
     endDate: DateTime
     id: String!
-    isHabbit: Boolean
+    isHabit: Boolean
     isRepeating: Boolean
     nextRepeatingInstance: DateTime
     rrule: String
@@ -82,6 +83,10 @@ type TaskMetaData {
 }
 
 type ToggleTaskCompletedPayload {
+    task: Task!
+}
+
+type UpdateTaskPayload {
     task: Task!
 }
 
@@ -101,23 +106,21 @@ enum CacheControlScope {
     PUBLIC
 }
 
-input GetTasksByDateAndTaskCardInput {
-    selectedDate: DateTime!
-    taskCardId: String!
-}
-
-input TaskInput {
+input CreateTaskInput {
     date: DateTime!
-    isCompleted: Boolean
-    note: String
     taskCardId: String
     taskMetaData: TaskMetaDataInput
     title: String!
 }
 
+input GetTasksByDateAndTaskCardInput {
+    selectedDate: DateTime!
+    taskCardId: String!
+}
+
 input TaskMetaDataInput {
     endDate: DateTime
-    isHabbit: Boolean
+    isHabit: Boolean
     isRepeating: Boolean
     nextRepeatingInstance: DateTime
     rrule: String
@@ -126,6 +129,16 @@ input TaskMetaDataInput {
 
 input ToggleTaskCompletedInput {
     id: ID!
+}
+
+input UpdateTaskInput {
+    date: DateTime!
+    id: ID!
+    isCompleted: Boolean
+    isHabit: Boolean
+    note: String
+    taskMetaData: TaskMetaDataInput!
+    title: String!
 }
 
 

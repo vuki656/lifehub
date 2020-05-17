@@ -6,6 +6,6 @@ export type TaskDialogProps = {
     isDialogOpen: boolean,
     toggleDialog: () => void,
     task: TaskType,
+    taskRRuleObj: RRuleSet | RRule,
     taskCardId: string,
-    taskRrule: RRuleSet | RRule,
 }

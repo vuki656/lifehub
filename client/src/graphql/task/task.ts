@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost'
 
 export const CREATE_TASK = gql`
-    mutation createTask($input: TaskInput!) {
+    mutation createTask($input: CreateTaskInput!) {
         createTask(input: $input) {
             task {
                 id
@@ -16,7 +16,7 @@ export const CREATE_TASK = gql`
                     endDate
                     rrule
                     isRepeating
-                    isHabbit
+                    isHabit
                     nextRepeatingInstance
                 }
             }
@@ -40,7 +40,7 @@ export const GET_TASKS_BY_DATE_AND_TASK_CARD = gql`
                     endDate
                     rrule
                     isRepeating
-                    isHabbit
+                    isHabit
                     nextRepeatingInstance
                 }
             }
@@ -64,7 +64,31 @@ export const TOGGLE_TASK_COMPLETED = gql`
                     endDate
                     rrule
                     isRepeating
-                    isHabbit
+                    isHabit
+                    nextRepeatingInstance
+                }
+            }
+        }
+    }
+`
+
+export const UPDATE_TASK = gql`
+    mutation updateTask($input: UpdateTaskInput!) {
+        updateTask(input: $input) {
+            task {
+                id
+                title
+                note
+                date
+                isCompleted
+                taskCardId
+                taskMetaData {
+                    id
+                    startDate
+                    endDate
+                    rrule
+                    isRepeating
+                    isHabit
                     nextRepeatingInstance
                 }
             }

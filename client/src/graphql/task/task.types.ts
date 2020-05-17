@@ -1,4 +1,4 @@
-import { TaskMetaDataType } from '../taskMetaData/taskMetaData.types'
+import { TaskMetaDataType, TaskMetaDataVariables } from '../taskMetaData/taskMetaData.types'
 
 export type TaskType = {
     id: string,
@@ -32,6 +32,16 @@ export type toggleTaskCompletedVariables = {
     },
 }
 
+export type updateTaskVariables = {
+    input: {
+        id: string,
+        title: string,
+        note: string,
+        date: Date,
+        taskMetaData: TaskMetaDataVariables,
+    },
+}
+
 // ** RESPONSES **
 export type createTaskResponse = {
     createTask: TaskType,
@@ -45,6 +55,12 @@ export type getTasksByDateAndTaskCardResponse = {
 
 export type toggleTaskCompletedResponse = {
     toggleTaskCompleted: {
+        task: TaskType,
+    },
+}
+
+export type updateTaskResponse = {
+    updateTask: {
         task: TaskType,
     },
 }

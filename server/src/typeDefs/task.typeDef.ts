@@ -11,11 +11,9 @@ export const taskType = gql`
         taskMetaData: TaskMetaData!
     }
 
-    input TaskInput {
+    input CreateTaskInput {
         title: String!,
         date: GraphQLDateTime!,
-        note: String,
-        isCompleted: Boolean,
         taskCardId: String,
         taskMetaData: TaskMetaDataInput
     }
@@ -27,6 +25,16 @@ export const taskType = gql`
 
     input ToggleTaskCompletedInput {
         id: ID!
+    }
+
+    input UpdateTaskInput {
+        id: ID!,
+        title: String!,
+        note: String,
+        date: GraphQLDateTime!,
+        isCompleted: Boolean,
+        isHabit: Boolean,
+        taskMetaData: TaskMetaDataInput!,
     }
 
     type CreateTaskPayload {
@@ -41,12 +49,17 @@ export const taskType = gql`
         task: Task!
     }
 
+    type UpdateTaskPayload {
+        task: Task!
+    }
+
     extend type Query {
         getTasksByDateAndTaskCard(input: GetTasksByDateAndTaskCardInput!): GetTasksByDateAndTaskCardPayload!
     }
 
     extend type Mutation {
-        createTask(input: TaskInput!): CreateTaskPayload!
+        createTask(input: CreateTaskInput!): CreateTaskPayload!
+        updateTask(input: UpdateTaskInput!): UpdateTaskPayload!
         toggleTaskCompleted(input: ToggleTaskCompletedInput!): ToggleTaskCompletedPayload!
     }
 `

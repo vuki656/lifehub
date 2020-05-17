@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/react-hooks'
 import LoopIcon from '@material-ui/icons/Loop'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useToggle } from 'react-use'
+import RRule, { RRuleSet, rrulestr } from 'rrule'
 
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { TOGGLE_TASK_COMPLETED } from '../../../../graphql/task/task'
@@ -15,8 +16,23 @@ export const Task: React.FC<TaskProps> = (props) => {
     const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [isTaskCompleted, toggleTaskCompletedCheckbox] = useToggle(task.isCompleted)
     const [isDialogOpen, toggleDialog] = useToggle(false)
+    const [taskRRuleObj, setTaskRRuleObj] = useState<RRule | RRuleSet>()
 
     const [toggleTaskCompletedMutation] = useMutation<toggleTaskCompletedResponse, toggleTaskCompletedVariables>(TOGGLE_TASK_COMPLETED)
+
+    // Set task rrule to empty obj if it has no rrule
+    const setRruleObj = useCallback(() => {
+        if (task.taskMetaData.rrule) {
+            const rruleObj = rrulestr(task.taskMetaData.rrule)
+            setTaskRRuleObj(rruleObj)
+        } else {
+            setTaskRRuleObj(new RRule())
+        }
+    }, [task.taskMetaData.rrule])
+
+    useEffect(() => {
+        setRruleObj()
+    }, [setRruleObj])
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog
     const handleTaskClick = useCallback(() => {
@@ -66,12 +82,15 @@ export const Task: React.FC<TaskProps> = (props) => {
             {task.taskMetaData.isRepeating && (
                 <LoopIcon className="task__icon" />
             )}
-            <TaskDialog
-                isDialogOpen={isDialogOpen}
-                toggleDialog={toggleDialog}
-                task={task}
-                taskCardId={taskCard.id}
-            />
+            {taskRRuleObj && (
+                <TaskDialog
+                    isDialogOpen={isDialogOpen}
+                    toggleDialog={toggleDialog}
+                    task={task}
+                    taskRRuleObj={taskRRuleObj}
+                    taskCardId={taskCard.id}
+                />
+            )}
         </div>
     )
 }

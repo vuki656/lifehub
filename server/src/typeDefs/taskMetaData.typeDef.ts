@@ -7,7 +7,7 @@ export const taskMetaDataType = gql`
         endDate: GraphQLDateTime,
         rrule: String,
         isRepeating: Boolean,
-        isHabbit: Boolean,
+        isHabit: Boolean,
         nextRepeatingInstance: GraphQLDateTime,
     }
 
@@ -16,7 +16,7 @@ export const taskMetaDataType = gql`
         endDate: GraphQLDateTime,
         rrule: String,
         isRepeating: Boolean,
-        isHabbit: Boolean,
+        isHabit: Boolean,
         nextRepeatingInstance: GraphQLDateTime,
     }
 `
