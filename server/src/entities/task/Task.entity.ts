@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColu
 
 import { TaskCardEntity } from '../taskCard'
 import { TaskMetaDataEntity } from '../taskMetaData'
-import { CheckedOptions, NoteOptions, TaskCardIdOptions, TitleOptions } from './Task.options'
+import { DateOptions, IsCompletedOptions, NoteOptions, TaskCardIdOptions, TitleOptions } from './Task.options'
 
 @Entity('task')
 export class TaskEntity extends BaseEntity {
@@ -15,8 +15,11 @@ export class TaskEntity extends BaseEntity {
     @Column(NoteOptions)
     note: string
 
-    @Column(CheckedOptions)
-    checked: boolean
+    @Column(DateOptions)
+    date: Date
+
+    @Column(IsCompletedOptions)
+    isCompleted: boolean
 
     @ManyToOne(() => TaskMetaDataEntity, taskMetaData => taskMetaData.tasks, { cascade: true })
     @JoinColumn({ name: 'taskMetaData' })

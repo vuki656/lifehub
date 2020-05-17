@@ -1,15 +1,15 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 import { TaskEntity } from '../task'
-import { DateOptions, EndDateOptions, IsHabitOptions, IsRepeatingOptions, NextRepeatingInstanceOptions, RRuleOptions } from './TaskMetaData.options'
+import { EndDateOptions, IsHabitOptions, IsRepeatingOptions, NextRepeatingInstanceOptions, RRuleOptions, StartDateOptions } from './TaskMetaData.options'
 
 @Entity('taskMetaData')
 export class TaskMetaDataEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column(DateOptions)
-    date: Date
+    @Column(StartDateOptions)
+    startDate: Date
 
     @Column(EndDateOptions)
     endDate: Date

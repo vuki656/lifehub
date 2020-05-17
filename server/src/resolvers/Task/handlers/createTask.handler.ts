@@ -6,7 +6,7 @@ import { TaskCardEntity } from '../../../entities/taskCard'
 import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 
 export const createTaskHandler = async (input) => {
-    const { title, taskCardId, taskMetaData } = input.input
+    const { title, taskCardId, date } = input.input
 
     // Verify task card existence
     const foundTaskCard: TaskCardEntity | undefined = await getRepository(TaskCardEntity).findOne({ where: { id: taskCardId } })
@@ -14,12 +14,12 @@ export const createTaskHandler = async (input) => {
 
     // Create task meta data entity
     const taskMetaDataEntity = new TaskMetaDataEntity()
-    taskMetaDataEntity.date = taskMetaData.date
 
     // Create task entity
     const taskEntity = new TaskEntity()
     taskEntity.title = title
     taskEntity.taskCard = foundTaskCard
+    taskEntity.date = date
     taskEntity.taskMetaData = taskMetaDataEntity
 
     // Save task entity

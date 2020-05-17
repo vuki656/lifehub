@@ -2,12 +2,24 @@ import { combineResolvers } from 'graphql-resolvers'
 
 import { isAuthenticated } from '../../util/authorization'
 import { createTaskHandler } from './handlers/createTask.handler'
+import { getTasksByDateAndTaskCardHandler } from './handlers/getTasksByDateAndTaskCard.handler'
+import { toggleTaskCompletedHandler } from './handlers/toggleTaskCompleted.handler'
 
 export const taskResolver = {
+    Query: {
+        getTasksByDateAndTaskCard: combineResolvers(
+            (parent, input, context) => isAuthenticated(context),
+            (parent, input) => getTasksByDateAndTaskCardHandler(input),
+        ),
+    },
     Mutation: {
         createTask: combineResolvers(
             (parent, input, context) => isAuthenticated(context),
             (parent, input) => createTaskHandler(input),
+        ),
+        toggleTaskCompleted: combineResolvers(
+            (parent, input, context) => isAuthenticated(context),
+            (parent, input) => toggleTaskCompletedHandler(input),
         ),
     },
 }

@@ -1,12 +1,12 @@
 import { UserInputError } from 'apollo-server'
 import moment from 'moment'
-import { Brackets, getRepository } from 'typeorm'
+import { getRepository } from 'typeorm'
 
 import { TaskEntity } from '../../../entities/task'
 import { TaskCardEntity } from '../../../entities/taskCard'
 
 export const getTasksByDateAndTaskCardHandler = async (input) => {
-    const { selectedDate, taskCardId } = input
+    const { selectedDate, taskCardId } = input.input
 
     // Check if card exists
     if (!await getRepository(TaskCardEntity).findOne({ where: { id: taskCardId } })) {
@@ -38,20 +38,15 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         })
     }
 
-    // Get tasks or its repeating instance
-    return getRepository(TaskEntity)
+    const foundTasks = await getRepository(TaskEntity)
     .createQueryBuilder('task')
-    .leftJoinAndSelect(
-        'task.repeatingTaskInstances', 'repeatingTaskInstance',
-        'repeatingTaskInstance.date = :selectedDate', { selectedDate },
-    )
-    .where(`task.taskCardId = :taskCardId`, { taskCardId })
-    .andWhere(new Brackets(queryBuilder => {
-        queryBuilder.where(`task.date = :selectedDate`, { selectedDate })
-        .orWhere(`repeatingTaskInstance.date = :selectedDate`, { selectedDate })
-    }))
+    .leftJoinAndSelect('task.taskMetaData', 'taskMetaData')
+    .where('task.date = :taskDate', { taskDate: selectedDate })
+    .andWhere('task.taskCard = :taskCardId', { taskCardId })
     .getMany()
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
+
+    return { tasks: foundTasks }
 }

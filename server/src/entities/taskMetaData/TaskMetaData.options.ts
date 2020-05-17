@@ -1,6 +1,7 @@
 
-export const DateOptions: any = {
+export const StartDateOptions: any = {
     type: 'timestamptz',
+    nullable: true,
 }
 
 export const EndDateOptions: any = {

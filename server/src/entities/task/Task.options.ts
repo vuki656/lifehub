@@ -9,7 +9,11 @@ export const NoteOptions: any = {
     nullable: true,
 }
 
-export const CheckedOptions: any = {
+export const DateOptions: any = {
+    type: 'timestamptz',
+}
+
+export const IsCompletedOptions: any = {
     default: false,
 }
 

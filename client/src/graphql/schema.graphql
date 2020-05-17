@@ -14,15 +14,20 @@ type CreateTaskPayload {
     task: Task!
 }
 
+type GetTasksByDateAndTaskCardPayload {
+    tasks: [Task]!
+}
+
 type Mutation {
     _empty: String
     createReminder(description: String, endDate: String!, startDate: String!, title: String!, username: String!): Reminder!
-    createTask(input: TaskInput): CreateTaskPayload!
+    createTask(input: TaskInput!): CreateTaskPayload!
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!
     deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
+    toggleTaskCompleted(input: ToggleTaskCompletedInput!): ToggleTaskCompletedPayload!
     updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
     updateTaskCard(id: String!, name: String): TaskCard!
 }
@@ -31,6 +36,7 @@ type Query {
     _empty: String
     getAllTaskCards(username: String!): [TaskCard]!
     getRemindersByDate(selectedDate: String!, username: String!): [Reminder]!
+    getTasksByDateAndTaskCard(input: GetTasksByDateAndTaskCardInput!): GetTasksByDateAndTaskCardPayload!
     verifyUser(token: String): AuthResponse
 }
 
@@ -47,8 +53,9 @@ type ReminderDeleteResponse {
 }
 
 type Task {
-    checked: Boolean
-    id: String!
+    date: DateTime!
+    id: ID!
+    isCompleted: Boolean
     note: String
     taskCardId: String
     taskMetaData: TaskMetaData!
@@ -65,13 +72,17 @@ type TaskCardDeleteResponse {
 }
 
 type TaskMetaData {
-    date: DateTime!
     endDate: DateTime
     id: String!
     isHabbit: Boolean
     isRepeating: Boolean
     nextRepeatingInstance: DateTime
     rrule: String
+    startDate: DateTime
+}
+
+type ToggleTaskCompletedPayload {
+    task: Task!
 }
 
 type User {
@@ -90,21 +101,31 @@ enum CacheControlScope {
     PUBLIC
 }
 
+input GetTasksByDateAndTaskCardInput {
+    selectedDate: DateTime!
+    taskCardId: String!
+}
+
 input TaskInput {
-    checked: Boolean
+    date: DateTime!
+    isCompleted: Boolean
     note: String
     taskCardId: String
-    taskMetaData: TaskMetaDataInput!
+    taskMetaData: TaskMetaDataInput
     title: String!
 }
 
 input TaskMetaDataInput {
-    date: DateTime!
     endDate: DateTime
     isHabbit: Boolean
     isRepeating: Boolean
     nextRepeatingInstance: DateTime
     rrule: String
+    startDate: DateTime
+}
+
+input ToggleTaskCompletedInput {
+    id: ID!
 }
 
 

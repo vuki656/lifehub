@@ -2,27 +2,51 @@ import { gql } from 'apollo-server'
 
 export const taskType = gql`
     type Task {
-        id: String!,
+        id: ID!,
         title: String!,
         note: String,
-        checked: Boolean,
+        date: GraphQLDateTime!,
+        isCompleted: Boolean,
         taskCardId: String,
         taskMetaData: TaskMetaData!
     }
 
     input TaskInput {
         title: String!,
+        date: GraphQLDateTime!,
         note: String,
-        checked: Boolean,
+        isCompleted: Boolean,
         taskCardId: String,
-        taskMetaData: TaskMetaDataInput!
+        taskMetaData: TaskMetaDataInput
+    }
+
+    input GetTasksByDateAndTaskCardInput {
+        selectedDate: GraphQLDateTime!,
+        taskCardId: String!,
+    }
+
+    input ToggleTaskCompletedInput {
+        id: ID!
     }
 
     type CreateTaskPayload {
         task: Task!
     }
 
+    type GetTasksByDateAndTaskCardPayload {
+        tasks: [Task]!
+    }
+
+    type ToggleTaskCompletedPayload {
+        task: Task!
+    }
+
+    extend type Query {
+        getTasksByDateAndTaskCard(input: GetTasksByDateAndTaskCardInput!): GetTasksByDateAndTaskCardPayload!
+    }
+
     extend type Mutation {
-        createTask(input: TaskInput): CreateTaskPayload!
+        createTask(input: TaskInput!): CreateTaskPayload!
+        toggleTaskCompleted(input: ToggleTaskCompletedInput!): ToggleTaskCompletedPayload!
     }
 `

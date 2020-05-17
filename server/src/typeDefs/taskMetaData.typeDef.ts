@@ -3,7 +3,7 @@ import { gql } from 'apollo-server'
 export const taskMetaDataType = gql`
     type TaskMetaData {
         id: String!,
-        date: GraphQLDateTime!,
+        startDate: GraphQLDateTime,
         endDate: GraphQLDateTime,
         rrule: String,
         isRepeating: Boolean,
@@ -12,7 +12,7 @@ export const taskMetaDataType = gql`
     }
 
     input TaskMetaDataInput {
-        date: GraphQLDateTime!,
+        startDate: GraphQLDateTime,
         endDate: GraphQLDateTime,
         rrule: String,
         isRepeating: Boolean,
