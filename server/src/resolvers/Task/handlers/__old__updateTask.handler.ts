@@ -106,8 +106,6 @@ const updateRepeatingInstances = async (task) => {
     // If gap start date after first instance
     if (firstRepeatingInstanceDate) {
 
-        // IT DOESENT UPDATE START DATE AKA TASK ROOT DATE IF SWITCHED FROM DAILY TO WEEKLY
-
         // If start date is before the first repeating instance, create difference
         if (dayjs(updatedStartDate).isBefore(firstRepeatingInstanceDate)) {
             repeatingTaskDateInstances = rruleObj.between(dayjs(updatedStartDate).toDate(), dayjs(firstRepeatingInstanceDate).toDate(), true)
