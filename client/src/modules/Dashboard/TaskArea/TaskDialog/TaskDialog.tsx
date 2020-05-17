@@ -21,7 +21,8 @@ import { TaskDialogProps } from './TaskDialog.types'
 export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, task, taskCardId, taskRRuleObj } = props
     const { options } = taskRRuleObj
-    const { id, title, note, date, taskMetaData } = task
+    const { id, date, taskMetaData } = task
+    const { title, note } = taskMetaData
 
     const { selectedDate } = useSelector((state) => state.user)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
@@ -136,10 +137,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             variables: {
                 input: {
                     id,
-                    title: formValues.title,
-                    note: formValues.note,
                     date: formValues.date,
                     taskMetaData: {
+                        title: formValues.title,
+                        note: formValues.note,
                         startDate,
                         endDate: formValues.endDate,
                         rrule: getRrule().toString(),

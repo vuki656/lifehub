@@ -72,7 +72,7 @@ export const Task: React.FC<TaskProps> = (props) => {
                 htmlFor="task__checkbox"
                 className={'task__title ' + (isTaskCompleted ? 'task__title--disabled' : '')}
             >
-                {task.title}
+                {task.taskMetaData.title}
             </label>
             {errors.error && (
                 <div className="task__error">

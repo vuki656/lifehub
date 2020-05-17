@@ -2,18 +2,12 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColu
 
 import { TaskCardEntity } from '../taskCard'
 import { TaskMetaDataEntity } from '../taskMetaData'
-import { DateOptions, IsCompletedOptions, NoteOptions, TaskCardIdOptions, TitleOptions } from './Task.options'
+import { DateOptions, IsCompletedOptions, TaskCardIdOptions } from './Task.options'
 
 @Entity('task')
 export class TaskEntity extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string
-
-    @Column(TitleOptions)
-    title: string
-
-    @Column(NoteOptions)
-    note: string
 
     @Column(DateOptions)
     date: Date

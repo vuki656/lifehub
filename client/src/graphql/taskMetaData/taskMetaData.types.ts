@@ -1,4 +1,7 @@
 export type TaskMetaDataType = {
+    id: string,
+    title: string,
+    note: string,
     startDate: Date,
     endDate: Date,
     rrule: string,
@@ -9,6 +12,8 @@ export type TaskMetaDataType = {
 
 // ** VARIABLES **
 export type TaskMetaDataVariables = {
+    title: string,
+    note: string,
     startDate: Date,
     endDate: Date,
     rrule: string,

@@ -51,9 +51,11 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         createTaskMutation({
             variables: {
                 input: {
-                    title: formValues.title,
                     taskCardId: taskCard.id,
                     date: selectedDate,
+                    taskMetaData: {
+                        title: formValues.title,
+                    },
                 },
             },
         })

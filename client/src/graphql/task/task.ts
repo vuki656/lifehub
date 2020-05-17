@@ -5,12 +5,12 @@ export const CREATE_TASK = gql`
         createTask(input: $input) {
             task {
                 id
-                title
-                note
                 date
                 isCompleted
                 taskCardId
                 taskMetaData {
+                    title
+                    note
                     id
                     startDate
                     endDate
@@ -29,13 +29,13 @@ export const GET_TASKS_BY_DATE_AND_TASK_CARD = gql`
         getTasksByDateAndTaskCard(input: $input) {
             tasks {
                 id
-                title
-                note
                 date
                 isCompleted
                 taskCardId
                 taskMetaData {
                     id
+                    title
+                    note
                     startDate
                     endDate
                     rrule
@@ -53,13 +53,13 @@ export const TOGGLE_TASK_COMPLETED = gql`
         toggleTaskCompleted(input: $input)  {
             task {
                 id
-                title
-                note
                 date
                 isCompleted
                 taskCardId
                 taskMetaData {
                     id
+                    title
+                    note
                     startDate
                     endDate
                     rrule
@@ -77,13 +77,13 @@ export const UPDATE_TASK = gql`
         updateTask(input: $input) {
             task {
                 id
-                title
-                note
                 date
                 isCompleted
                 taskCardId
                 taskMetaData {
                     id
+                    title
+                    note
                     startDate
                     endDate
                     rrule

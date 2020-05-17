@@ -3,8 +3,6 @@ import { gql } from 'apollo-server'
 export const taskType = gql`
     type Task {
         id: ID!,
-        title: String!,
-        note: String,
         date: GraphQLDateTime!,
         isCompleted: Boolean,
         taskCardId: String,
@@ -12,7 +10,6 @@ export const taskType = gql`
     }
 
     input CreateTaskInput {
-        title: String!,
         date: GraphQLDateTime!,
         taskCardId: String,
         taskMetaData: TaskMetaDataInput
@@ -29,11 +26,8 @@ export const taskType = gql`
 
     input UpdateTaskInput {
         id: ID!,
-        title: String!,
-        note: String,
         date: GraphQLDateTime!,
         isCompleted: Boolean,
-        isHabit: Boolean,
         taskMetaData: TaskMetaDataInput!,
     }
 

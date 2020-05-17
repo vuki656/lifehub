@@ -57,10 +57,8 @@ type Task {
     date: DateTime!
     id: ID!
     isCompleted: Boolean
-    note: String
     taskCardId: String
     taskMetaData: TaskMetaData!
-    title: String!
 }
 
 type TaskCard {
@@ -78,8 +76,10 @@ type TaskMetaData {
     isHabit: Boolean
     isRepeating: Boolean
     nextRepeatingInstance: DateTime
+    note: String
     rrule: String
     startDate: DateTime
+    title: String!
 }
 
 type ToggleTaskCompletedPayload {
@@ -110,7 +110,6 @@ input CreateTaskInput {
     date: DateTime!
     taskCardId: String
     taskMetaData: TaskMetaDataInput
-    title: String!
 }
 
 input GetTasksByDateAndTaskCardInput {
@@ -123,8 +122,10 @@ input TaskMetaDataInput {
     isHabit: Boolean
     isRepeating: Boolean
     nextRepeatingInstance: DateTime
+    note: String
     rrule: String
     startDate: DateTime
+    title: String!
 }
 
 input ToggleTaskCompletedInput {
@@ -135,10 +136,7 @@ input UpdateTaskInput {
     date: DateTime!
     id: ID!
     isCompleted: Boolean
-    isHabit: Boolean
-    note: String
     taskMetaData: TaskMetaDataInput!
-    title: String!
 }
 
 
