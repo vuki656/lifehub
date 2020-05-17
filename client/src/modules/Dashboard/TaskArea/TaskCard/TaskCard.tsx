@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
+import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
@@ -16,7 +17,7 @@ import {
 } from '../../../../graphql/task/task.types'
 import { renderLoaders } from '../../../../util/helpers/renderLoaders'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
-import { Task } from '../Task/Task'
+import { Task } from '../Task'
 import { TaskCardDeleteDialog } from '../TaskCardDeleteDialog'
 import { TaskCardDialog } from '../TaskCardDialog'
 import { TaskCardLoader } from '../TaskCardLoader'
@@ -58,12 +59,38 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                     },
                 },
             },
+            update(cache, response) {
+                const readCacheData: any = cache.readQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    variables: {
+                        input: {
+                            taskCardId: taskCard.id,
+                            selectedDate,
+                        },
+                    },
+                })
+                cache.writeQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    data: {
+                        getTasksByDateAndTaskCard: {
+                            __typename: response.data?.createTask.__typename ,
+                            tasks: _.concat(readCacheData.getTasksByDateAndTaskCard.tasks, { ...response.data?.createTask.task }),
+                        },
+                    },
+                    variables: {
+                        input: {
+                            taskCardId: taskCard.id,
+                            selectedDate,
+                        },
+                    },
+                })
+            },
         })
         .then(() => clearForm())
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [username, clearForm, createTaskMutation, selectedDate, taskCard.id, formValues.title])
+    }, [clearForm, createTaskMutation, selectedDate, taskCard.id, formValues.title])
 
     // Handle form submit
     const handleSubmit = useCallback((event) => {

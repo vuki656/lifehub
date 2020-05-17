@@ -42,7 +42,10 @@ export type updateTaskVariables = {
 
 // ** RESPONSES **
 export type createTaskResponse = {
-    createTask: TaskType,
+    createTask: {
+        task: TaskType,
+        __typename: string,
+    },
 }
 
 export type getTasksByDateAndTaskCardResponse = {
