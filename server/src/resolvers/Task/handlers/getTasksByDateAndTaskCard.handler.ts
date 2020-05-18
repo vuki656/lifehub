@@ -1,5 +1,5 @@
 import { UserInputError } from 'apollo-server'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { getRepository } from 'typeorm'
 
 import { TaskEntity } from '../../../entities/task'
@@ -18,7 +18,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         return getRepository(TaskEntity)
         .createQueryBuilder('task')
         .where(`task.taskCardId = :taskCardId`, { taskCardId })
-        .andWhere(`task.date < :selectedDate`, { selectedDate: moment().utc() })
+        .andWhere(`task.date < :selectedDate`, { selectedDate: dayjs.utc().toDate() })
         .andWhere(`task.checked = :checked`, { checked: false })
         .getMany()
         .catch(() => {
@@ -31,7 +31,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         return getRepository(TaskEntity)
         .createQueryBuilder('task')
         .where(`task.taskCardId = :taskCardId`, { taskCardId })
-        .andWhere(`task.date > :selectedDate`, { selectedDate: moment().add(20, 'days').utc() })
+        .andWhere(`task.date > :selectedDate`, { selectedDate: dayjs.utc().add(20, 'day') })
         .getMany()
         .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })

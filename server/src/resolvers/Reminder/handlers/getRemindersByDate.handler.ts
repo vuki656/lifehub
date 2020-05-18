@@ -1,11 +1,13 @@
 import { UserInputError } from 'apollo-server'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import { getRepository } from 'typeorm'
 
 import { ReminderEntity } from '../../../entities/reminder'
 import { UserEntity } from '../../../entities/user'
 import { ReminderQueryType } from '../reminder.types'
 
+dayjs.extend(utc)
 export const getRemindersByDateHandler = async (input) => {
     const { username, selectedDate } = input
 
@@ -23,7 +25,7 @@ export const getRemindersByDateHandler = async (input) => {
     if (selectedDate === 'overdue') {
         query = {
             query: `:today = reminder.endDate`,
-            condition: { today: moment().subtract(20000, 'days').utc() },
+            condition: { today: dayjs.utc(dayjs().subtract(200000, 'day')) },
         }
     }
 
@@ -31,7 +33,7 @@ export const getRemindersByDateHandler = async (input) => {
     if (selectedDate === 'upcoming') {
         query = {
             query: `:lastDayInList < reminder.endDate`,
-            condition: { lastDayInList: moment().add(20, 'days').utc() },
+            condition: { today: dayjs.utc(dayjs().add(200000, 'day')) },
         }
     }
 
