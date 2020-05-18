@@ -21,8 +21,8 @@ import { TaskDialogProps } from './TaskDialog.types'
 export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, task, taskCardId, taskRRuleObj } = props
     const { options } = taskRRuleObj
-    const { id, date, taskMetaData } = task
-    const { title, note } = taskMetaData
+    const { id: taskId, date, taskMetaData } = task
+    const { title, note, id: taskMetaDataId } = taskMetaData
 
     const { selectedDate } = useSelector((state) => state.user)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
@@ -136,9 +136,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         updateTaskMutation({
             variables: {
                 input: {
-                    id,
+                    id: taskId,
                     date: formValues.date,
                     taskMetaData: {
+                        id: taskMetaDataId,
                         title: formValues.title,
                         note: formValues.note,
                         startDate,
@@ -178,7 +179,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         formValues.note,
         formValues.date,
         formValues.endDate,
-        id,
+        taskId,
+        taskMetaDataId,
         startDate,
         selectedDate,
         taskCardId,

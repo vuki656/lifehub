@@ -72,7 +72,7 @@ type TaskCardDeleteResponse {
 
 type TaskMetaData {
     endDate: DateTime
-    id: String!
+    id: ID!
     isHabit: Boolean
     isRepeating: Boolean
     nextRepeatingInstance: DateTime
@@ -119,6 +119,7 @@ input GetTasksByDateAndTaskCardInput {
 
 input TaskMetaDataInput {
     endDate: DateTime
+    id: ID
     isHabit: Boolean
     isRepeating: Boolean
     nextRepeatingInstance: DateTime

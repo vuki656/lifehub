@@ -12,6 +12,7 @@ export type TaskMetaDataType = {
 
 // ** VARIABLES **
 export type TaskMetaDataVariables = {
+    id: string,
     title: string,
     note: string,
     startDate: Date,

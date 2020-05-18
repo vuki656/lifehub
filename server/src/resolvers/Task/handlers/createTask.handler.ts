@@ -15,6 +15,7 @@ export const createTaskHandler = async (input) => {
     // Create task meta data entity
     const taskMetaDataEntity = new TaskMetaDataEntity()
     taskMetaDataEntity.title = taskMetaData.title
+    taskMetaDataEntity.startDate = taskMetaData.startDate
 
     // Create task entity
     const taskEntity = new TaskEntity()

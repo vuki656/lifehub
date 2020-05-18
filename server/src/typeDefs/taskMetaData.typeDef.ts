@@ -2,7 +2,7 @@ import { gql } from 'apollo-server'
 
 export const taskMetaDataType = gql`
     type TaskMetaData {
-        id: String!,
+        id: ID!,
         title: String!,
         note: String,
         startDate: GraphQLDateTime,
@@ -14,6 +14,7 @@ export const taskMetaDataType = gql`
     }
 
     input TaskMetaDataInput {
+        id: ID,
         title: String!,
         note: String,
         startDate: GraphQLDateTime,
