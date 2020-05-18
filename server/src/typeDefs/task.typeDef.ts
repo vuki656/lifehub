@@ -28,6 +28,7 @@ export const taskType = gql`
         id: ID!,
         date: GraphQLDateTime!,
         isCompleted: Boolean,
+        taskCard: String,
         taskMetaData: TaskMetaDataInput!,
     }
 

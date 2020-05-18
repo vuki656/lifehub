@@ -36,6 +36,7 @@ export type updateTaskVariables = {
     input: {
         id: string,
         date: Date,
+        taskCard: string,
         taskMetaData: TaskMetaDataVariables,
     },
 }
