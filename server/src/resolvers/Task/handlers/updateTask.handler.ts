@@ -14,8 +14,6 @@ dayjs.extend(utc)
 export const updateTaskHandler = async (input) => {
     const { id, title, note, date, taskCardId, taskMetaData } = input.input
 
-    console.log(input.input)
-
     // Verify existence and get task to update
     // const taskToUpdate: TaskEntity | undefined = await getConnection().getRepository(TaskEntity).findOne(id)
     // if (!taskToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
@@ -34,7 +32,18 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     const firstRepeatingInstanceDate: Date | undefined = await getEdgeTaskInstance(updatedTask, 'ASC')
     const lastRepeatingInstanceDate: Date | undefined = await getEdgeTaskInstance(updatedTask, 'DESC')
     const maxDateRangeEndDate: Dayjs = dayjs().add(20, 'day')
-    const rruleObj: RRule = rrulestr(rrule)
+    const rruleObj = rrulestr(rrule)
+
+    // SAME DATE IS NOT DISPLAYED THE SAME ON CLIENT AND SERVER
+    // CLIENT DISPLAYS LOCAL TIME
+    // SERVER DISPLAYS UTC, RRULE PARSES THE DATES IN UTC AND THE WEEKDAYS ARE WRONG
+    // THEY SHOULD BE 1 DAY BEHIND AT 22 SO ITS PARSED CORRECTLY TO LOCAL TIMEZONE, BUT ARE INSTEAD THAT DAY AT 22 SO MON TUE AT 22, WHICH
+    // RETURNS THE NEXT DAY IN LOCAL TIME
+
+    rruleObj.all((date) => {
+        console.log(date)
+        return true
+    })
 
     let nextRepeatingInstance: Date | null = null
     let taskInstanceToCreateDates: Date[] = []
@@ -121,6 +130,7 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     }
 
     taskInstanceToCreateDates = await removeExisting(taskInstanceToCreateDates, updatedTask)
+    await deleteAllInstancesNotMatchingFilter(rruleObj, taskMetaData, maxDateRangeEndDate)
 
     const taskEntitiesToCreate: TaskEntity[] = []
 
@@ -186,7 +196,7 @@ const removeExisting = async (taskInstanceToCreateDates: Date[], updatedTask) =>
         .findOne(updatedTask.taskMetaData.id)
     if (!existingTaskMetaData) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
-    // If rrule exists, existing instances exist and we can check for duplicates in taskInstanceToCreateDates
+    // If rrule exists, existing instances exist and we can check for duplicate instances in taskInstanceToCreateDates
     if (existingTaskMetaData.rrule) {
         const rruleObj = rrulestr(existingTaskMetaData.rrule)
         const existingTaskInstances = rruleObj.all()
@@ -200,4 +210,27 @@ const removeExisting = async (taskInstanceToCreateDates: Date[], updatedTask) =>
     }
 
     return taskInstanceToCreateDates
+}
+
+// Delete all instances from database that dont match the rrule filter
+const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData: TaskMetaDataEntity, maxDateRangeEndDate: Dayjs) => {
+    const { startDate, endDate, id: taskMetaDataId } = taskMetaData
+
+    // Dates that match rrule filter
+    const matchingDates = rruleObj.between(
+        dayjs(startDate).toDate(),
+        dayjs(endDate || maxDateRangeEndDate).toDate(),
+        true,
+    )
+
+    await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(TaskEntity)
+    .where('taskMetaData = :taskMetaDataId', { taskMetaDataId })
+    .andWhere('date NOT IN (:...matchingDates)', { matchingDates })
+    .execute()
+    .catch(() => {
+        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+    })
 }

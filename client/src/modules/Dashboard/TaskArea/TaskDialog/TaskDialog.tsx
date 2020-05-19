@@ -7,7 +7,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-import { RRule, RRuleSet } from 'rrule'
+import { RRule, RRuleSet, rrulestr } from 'rrule'
 
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
@@ -34,7 +34,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const [doesEnd, setDoesEnd] = useToggle(!!taskMetaData.endDate)
     const [excludedDates, setExcludedDates] = useState<Date[]>([])
     const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(options.byweekday ? options.byweekday : [])
-    const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 3) // 2 is week in select
+    const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 2) // 2 is week in select
     const [interval, setInterval] = useState<number>(options.interval ? options.interval : 1)
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
@@ -84,11 +84,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const getRrule = useCallback(() => {
         const rruleSet = new RRuleSet()
 
-        console.log(formValues.startDate)
-
         rruleSet.rrule(new RRule({
             freq: frequency,
             interval,
+            tzid: Intl.DateTimeFormat().resolvedOptions().timeZone,
             byweekday: [...selectedWeekDays],
             dtstart: formValues.startDate,
             until: formValues.endDate,
@@ -98,6 +97,12 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         excludedDates.forEach((excludedDate) => {
             rruleSet.exdate(excludedDate)
         })
+
+        const stringValue = rruleSet.toString()
+        // console.log("-> stringValue", stringValue);
+        const backToObj = rrulestr(stringValue)
+        console.log("-> backToObj", backToObj);
+        // console.log(backToObj.all())
 
         return rruleSet
     }, [selectedWeekDays, interval, frequency, formValues.startDate, formValues.endDate, excludedDates])
