@@ -1,10 +1,13 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 
 import * as actionTypes from '../actions/types'
 
+dayjs.extend(utc)
+
 const initialState = {
     username: '',
-    selectedDate: moment().startOf('day'),
+    selectedDate: dayjs.utc().startOf('day').toDate(),
 }
 
 const userReducer = (state = initialState, action) => {

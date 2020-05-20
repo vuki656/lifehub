@@ -16,6 +16,7 @@ import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
 import { UPDATE_TASK } from '../../../../graphql/task/task'
 import { TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
+import { toUTC } from '../../../../util/helpers/convertToUtcDayStart'
 import { rruleWeekDaysArr } from '../../../../util/helpers/variables'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { TaskDialogProps } from './TaskDialog.types'
@@ -31,13 +32,11 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { selectedDate } = useSelector((state) => state.user)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
     const [selectedTab, setSelectedTab] = useState('details')
-    // const [isRepeating, toggleIsRepeating] = useToggle(taskMetaData.isRepeating)
-    const [isRepeating, toggleIsRepeating] = useToggle(true)
+    const [isRepeating, toggleIsRepeating] = useToggle(taskMetaData.isRepeating)
     const [isHabit, toggleIsHabit] = useToggle(taskMetaData.isHabit)
 
     // RRule
-    // const [doesEnd, setDoesEnd] = useToggle(!!taskMetaData.endDate)
-    const [doesEnd, setDoesEnd] = useToggle(true)
+    const [doesEnd, setDoesEnd] = useToggle(!!taskMetaData.endDate)
     const [excludedDates, setExcludedDates] = useState<Date[]>([])
     const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(options.byweekday ? options.byweekday : [])
     const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 2) // 2 is week in select
@@ -53,7 +52,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         date: new Date(date),
         isRepeating: taskMetaData.isRepeating,
         startDate: taskMetaData.startDate ? new Date(taskMetaData.startDate) : new Date(selectedDate),
-        endDate: taskMetaData.endDate ? new Date(taskMetaData.endDate) : null,
+        endDate: taskMetaData.endDate ? new Date(taskMetaData.endDate) : toUTC(new Date()),
     })
 
     useEffect(() => {
@@ -90,42 +89,18 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const getRrule = useCallback(() => {
         const rruleSet = new RRuleSet()
 
-        // console.log(moment(formValues.startDate).utc().toDate())
-        // console.log(moment(formValues.startDate).toDate())
-        // console.log(new Date(formValues.startDate).toUTCString())
-        // console.log(dayjs(new Date(formValues.startDate).toUTCString()).toDate())
-
         rruleSet.rrule(new RRule({
             freq: frequency,
             interval,
-            // tzid: Intl.DateTimeFormat('UTC').resolvedOptions().timeZone,
             byweekday: [...selectedWeekDays],
-            // dtstart: formValues.startDate,
-            // until: formValues.endDate,
-            dtstart: new Date(dayjs.utc(formValues.startDate).startOf('day').unix() * 1000),
-            until: new Date(dayjs.utc(formValues.endDate).startOf('day').unix() * 1000),
+            dtstart: toUTC(formValues.startDate),
+            until: toUTC(formValues.endDate),
         }))
 
         // Apply existing excluded dates
         excludedDates.forEach((excludedDate) => {
             rruleSet.exdate(excludedDate)
         })
-
-        console.log(new Date(Date.UTC(2020, 4, 18, 0, 0)))
-        console.log(new Date(dayjs(formValues.startDate).startOf('day').unix() * 1000))
-        console.log(dayjs(dayjs.utc(formValues.startDate).startOf('day').unix() * 1000).format('DD/MM/YYYY'))
-        // console.log(new Date(formValues.startDate))
-        // console.log()
-
-        // const stringValue = rruleSet.toString()
-        // console.log('-> stringValue', stringValue)
-        // const backToObj = rrulestr(stringValue)
-        // console.log('-> backToObj', backToObj)
-        // console.log(backToObj.all())
-
-        // CORRECT WITH NO START DATE, OR START DATE WITH NO TIMEZONE
-        // const backToObj2 = rrulestr('DTSTART:20190304T230000Z RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU;UNTIL=20200604T220000Z')
-        // console.log(backToObj2.all())
 
         return rruleSet
     }, [selectedWeekDays, interval, frequency, formValues.startDate, formValues.endDate, excludedDates])
@@ -163,18 +138,24 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     // Update task
     const updateTask = useCallback(() => {
+        console.log('NORMAL S===> ', formValues.startDate)
+        console.log('NORMAL E===> ', formValues.endDate)
+        console.log('UTC S===> ', toUTC(formValues.startDate))
+        console.log('UTC E ===> ', toUTC(formValues.endDate))
+        console.log(getRrule().toString())
+
         updateTaskMutation({
             variables: {
                 input: {
                     id: taskId,
-                    date: new Date(dayjs.utc(formValues.date).startOf('day').unix() * 1000),
+                    date: toUTC(formValues.date),
                     taskCard: taskCardId,
                     taskMetaData: {
                         id: taskMetaDataId,
                         title: formValues.title,
                         note: formValues.note,
-                        startDate: new Date(dayjs.utc(formValues.startDate).startOf('day').unix() * 1000),
-                        endDate: new Date(dayjs.utc(formValues.endDate).startOf('day').unix() * 1000),
+                        startDate: toUTC(formValues.startDate),
+                        endDate: toUTC(formValues.endDate),
                         rrule: getRrule().toString(),
                         isRepeating,
                         isHabit,

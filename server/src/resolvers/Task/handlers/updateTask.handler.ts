@@ -1,5 +1,5 @@
 import { UserInputError } from 'apollo-server'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import _ from 'lodash'
 import { RRule, rrulestr } from 'rrule'
@@ -31,8 +31,11 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
 
     const firstRepeatingInstanceDate: Date | undefined = await getEdgeTaskInstance(updatedTask, 'ASC')
     const lastRepeatingInstanceDate: Date | undefined = await getEdgeTaskInstance(updatedTask, 'DESC')
-    const maxDateRangeEndDate: Dayjs = dayjs().add(20, 'day')
+    const maxDateRangeEndDate: Date = dayjs.utc(dayjs().add(20, 'day')).startOf('day').toDate()
     const rruleObj = rrulestr(rrule)
+
+    console.log('-> firstRepeatingInstanceDate', firstRepeatingInstanceDate)
+    console.log('-> lastRepeatingInstanceDate', lastRepeatingInstanceDate)
 
     let nextRepeatingInstance: Date | null = null
     let taskInstanceToCreateDates: Date[] = []
@@ -41,7 +44,7 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     if (dayjs(startDate).isBefore(maxDateRangeEndDate)) {
         taskInstanceToCreateDates = rruleObj.between(
             dayjs(startDate).toDate(),
-            maxDateRangeEndDate.toDate(),
+            maxDateRangeEndDate,
         )
         nextRepeatingInstance = null
         console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
@@ -52,9 +55,10 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     if (dayjs(endDate).isAfter(maxDateRangeEndDate)) {
         taskInstanceToCreateDates = rruleObj.between(
             dayjs(startDate).toDate(),
-            maxDateRangeEndDate.toDate(),
+            maxDateRangeEndDate,
+            true,
         )
-        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
+        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate)
         console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
         console.log('2')
     }
@@ -63,9 +67,10 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     if (!endDate) {
         taskInstanceToCreateDates = rruleObj.between(
             dayjs(startDate).toDate(),
-            maxDateRangeEndDate.toDate(),
+            maxDateRangeEndDate,
+            true,
         )
-        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
+        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate)
         console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
         console.log('3')
     }
@@ -74,9 +79,9 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     if (lastRepeatingInstanceDate && dayjs(endDate).isAfter(lastRepeatingInstanceDate)) {
         taskInstanceToCreateDates = rruleObj.between(
             dayjs(lastRepeatingInstanceDate).toDate(),
-            maxDateRangeEndDate.toDate(), // If rrule has no end date or rrule end date > max, max wins, else rrule end date wins
+            maxDateRangeEndDate, // If rrule has no end date or rrule end date > max, max wins, else rrule end date wins
         )
-        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate.toDate())
+        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate)
         console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
         console.log('4')
     }
@@ -101,6 +106,7 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     // If first repeating instance exists, then we can do checks
     // If gap between first instance and start date
     // If gap start date after first instance
+    // TODO: is this optional ?
     if (firstRepeatingInstanceDate) {
 
         // If start date is before the first repeating instance, create difference
@@ -219,15 +225,14 @@ const removeExisting = async (taskInstanceToCreateDates: Date[], updatedTask) =>
 }
 
 // Delete all instances from database that dont match the rrule filter
-const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData: TaskMetaDataEntity, maxDateRangeEndDate: Dayjs) => {
+const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData: TaskMetaDataEntity, maxDateRangeEndDate: Date) => {
     const { startDate, endDate, id: taskMetaDataId } = taskMetaData
-
-    console.log(taskMetaData)
 
     // Dates that match rrule filter
     const matchingDates = rruleObj.between(
         dayjs(startDate).toDate(),
-        dayjs(endDate).toDate(),
+        dayjs(endDate || maxDateRangeEndDate).toDate(),
+        true,
     )
 
     console.log('-> matchingDates', matchingDates)
@@ -245,5 +250,4 @@ const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
     }
-
 }
