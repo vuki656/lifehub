@@ -16,7 +16,7 @@ export type TaskMetaDataVariables = {
     title: string,
     note: string,
     startDate: Date,
-    endDate: Date,
+    endDate: Date | null,
     rrule: string,
     isRepeating: boolean,
     isHabit: boolean,

@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import React from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
@@ -9,7 +9,7 @@ import { SettingsPage } from '../../pages/settings'
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 
 export const Router: React.FC<{}> = () => {
-    const today = `/dashboard/${moment().format('DoddddMMYYYY')}`
+    const today = `/dashboard/${dayjs().format('DoddddMMYYYY')}`
 
     return (
         <BrowserRouter>

@@ -21,6 +21,7 @@ import { sortRemindersByDate } from '../../../../util/helpers/sortRemindersByDat
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { ReminderDialogProps } from './ReminderDialog.types'
 
+// TODO: moment
 export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, reminder } = props
 

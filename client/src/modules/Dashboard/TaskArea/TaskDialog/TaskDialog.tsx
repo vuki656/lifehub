@@ -32,14 +32,16 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { selectedDate } = useSelector((state) => state.user)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
     const [selectedTab, setSelectedTab] = useState('details')
-    const [isRepeating, toggleIsRepeating] = useToggle(taskMetaData.isRepeating)
+    const [isRepeating, toggleIsRepeating] = useToggle(true)
+    // const [isRepeating, toggleIsRepeating] = useToggle(taskMetaData.isRepeating)
     const [isHabit, toggleIsHabit] = useToggle(taskMetaData.isHabit)
 
     // RRule
     const [doesEnd, setDoesEnd] = useToggle(!!taskMetaData.endDate)
     const [excludedDates, setExcludedDates] = useState<Date[]>([])
     const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(options.byweekday ? options.byweekday : [])
-    const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 2) // 2 is week in select
+    const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 3) // 2 is week in select
+    // const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 2) // 2 is week in select
     const [interval, setInterval] = useState<number>(options.interval ? options.interval : 1)
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
@@ -52,7 +54,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         date: new Date(date),
         isRepeating: taskMetaData.isRepeating,
         startDate: taskMetaData.startDate ? new Date(taskMetaData.startDate) : new Date(selectedDate),
-        endDate: taskMetaData.endDate ? new Date(taskMetaData.endDate) : toUTC(new Date()),
+        endDate: taskMetaData.endDate ? new Date(taskMetaData.endDate) : new Date(),
     })
 
     useEffect(() => {
@@ -94,7 +96,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             interval,
             byweekday: [...selectedWeekDays],
             dtstart: toUTC(formValues.startDate),
-            until: toUTC(formValues.endDate),
+            until: doesEnd ? toUTC(formValues.endDate) : null,
         }))
 
         // Apply existing excluded dates
@@ -138,11 +140,11 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     // Update task
     const updateTask = useCallback(() => {
-        console.log('NORMAL S===> ', formValues.startDate)
-        console.log('NORMAL E===> ', formValues.endDate)
-        console.log('UTC S===> ', toUTC(formValues.startDate))
-        console.log('UTC E ===> ', toUTC(formValues.endDate))
-        console.log(getRrule().toString())
+        // console.log('NORMAL S===> ', formValues.startDate)
+        // console.log('NORMAL E===> ', formValues.endDate)
+        // console.log('UTC S===> ', toUTC(formValues.startDate))
+        // console.log('UTC E ===> ', toUTC(formValues.endDate))
+        // console.log(getRrule().toString())
 
         updateTaskMutation({
             variables: {
@@ -155,7 +157,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         title: formValues.title,
                         note: formValues.note,
                         startDate: toUTC(formValues.startDate),
-                        endDate: toUTC(formValues.endDate),
+                        endDate: doesEnd ? toUTC(formValues.endDate) : null,
                         rrule: getRrule().toString(),
                         isRepeating,
                         isHabit,
@@ -437,7 +439,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                                     className="form__input-field"
                                                     selected={formValues.endDate}
                                                     onChange={(date) => setFormValue(date, 'endDate')}
-                                                    minDate={formValues.date}
+                                                    minDate={formValues.startDate}
                                                 />
                                             </div>
                                         )}
