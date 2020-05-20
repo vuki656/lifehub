@@ -133,8 +133,10 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
         console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
     }
 
-    taskInstanceToCreateDates = await removeExisting(taskInstanceToCreateDates, updatedTask)
+    taskInstanceToCreateDates = await removeExisting(taskInstanceToCreateDates, updatedTask, maxDateRangeEndDate)
     await deleteAllInstancesNotMatchingFilter(rruleObj, taskMetaData, maxDateRangeEndDate)
+
+    console.log("-> taskInstanceToCreateDates", taskInstanceToCreateDates);
 
     const taskEntitiesToCreate: TaskEntity[] = []
 
@@ -182,7 +184,7 @@ export const getEdgeTaskInstance = async (task: TaskEntity, instanceToGet: 'ASC'
         .getRepository(TaskEntity)
         .createQueryBuilder('task')
         .where('task.taskMetaData = :taskMetaDataId', { taskMetaDataId: taskMetaData.id })
-        .andWhere('task.date > :today', { today: dayjs.utc(dayjs().startOf('day').toDate()) })
+        .andWhere('task.date >= :today', { today: dayjs.utc().startOf('day').toDate() })
         .orderBy('date', instanceToGet)
         .getOne()
         .catch((err) => {
@@ -194,29 +196,27 @@ export const getEdgeTaskInstance = async (task: TaskEntity, instanceToGet: 'ASC'
 }
 
 // Get existing task instances and remove all existing from taskInstanceToCreateDates
-const removeExisting = async (taskInstanceToCreateDates: Date[], updatedTask) => {
+const removeExisting = async (taskInstanceToCreateDates: Date[], updatedTask: TaskEntity, maxDateRangeEndDate: Date) => {
 
-    //TODO: shouldnt all filters be set to true and this should clear existing ones??
-
-    // Get and verify existing task meta data
-    const existingTaskMetaData: TaskMetaDataEntity | undefined =
-        await getConnection()
-        .getRepository(TaskMetaDataEntity)
-        .findOne(updatedTask.taskMetaData.id)
-    if (!existingTaskMetaData) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-
-    // If rrule exists, existing instances exist and we can check for duplicate instances in taskInstanceToCreateDates
-    if (existingTaskMetaData.rrule) {
-        const rruleObj = rrulestr(existingTaskMetaData.rrule)
-        const existingTaskInstances = rruleObj.all()
-
-        // Remove all taskInstanceToCreateDates that already exist
-        existingTaskInstances.forEach((existingTaskInstance) => {
-            _.remove(taskInstanceToCreateDates, (taskInstanceToCreateDate) => {
-                return dayjs(taskInstanceToCreateDate).isSame(existingTaskInstance)
-            })
+    // Get existing task dates
+    const existingTasks = await
+        getRepository(TaskEntity)
+        .createQueryBuilder('task')
+        .select(['task.date'])
+        .where(`task.taskMetaData = :taskMetaDataId`, { taskMetaDataId: updatedTask.taskMetaData.id })
+        .andWhere('task.date >= :startDate', { startDate: updatedTask.taskMetaData.startDate })
+        .andWhere('task.date <= :endDate', { endDate: updatedTask.taskMetaData.endDate || maxDateRangeEndDate })
+        .getMany()
+        .catch(() => {
+            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
-    }
+
+    // Remove all taskInstanceToCreateDates that already exist
+    existingTasks.forEach((existingTaskInstance) => {
+        _.remove(taskInstanceToCreateDates, (taskInstanceToCreateDate) => {
+            return dayjs(taskInstanceToCreateDate).isSame(existingTaskInstance.date)
+        })
+    })
 
     return taskInstanceToCreateDates
 }
@@ -229,6 +229,7 @@ const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData
     const datesMatchingFilter = rruleObj.between(
         dayjs(startDate).toDate(),
         dayjs(endDate || maxDateRangeEndDate).toDate(),
+        true,
     )
 
     if (!_.isEmpty(datesMatchingFilter)) {

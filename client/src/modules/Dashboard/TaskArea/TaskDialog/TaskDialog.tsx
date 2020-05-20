@@ -54,7 +54,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         date: new Date(date),
         isRepeating: taskMetaData.isRepeating,
         startDate: taskMetaData.startDate ? new Date(taskMetaData.startDate) : new Date(selectedDate),
-        endDate: taskMetaData.endDate ? new Date(taskMetaData.endDate) : new Date(),
+        endDate: taskMetaData.endDate ? new Date(taskMetaData.endDate) : new Date(selectedDate),
     })
 
     useEffect(() => {
@@ -140,11 +140,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     // Update task
     const updateTask = useCallback(() => {
-        // console.log('NORMAL S===> ', formValues.startDate)
-        // console.log('NORMAL E===> ', formValues.endDate)
-        // console.log('UTC S===> ', toUTC(formValues.startDate))
-        // console.log('UTC E ===> ', toUTC(formValues.endDate))
-        // console.log(getRrule().toString())
+        console.log(formValues)
+        console.log(doesEnd)
 
         updateTaskMutation({
             variables: {

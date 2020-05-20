@@ -16,12 +16,10 @@ export const DaysSidebar: React.FC<{}> = () => {
         [...new Array(20)].map((value, index) => {
             const day = dayjs().add(index, 'day')
 
-
-            // TODO: fix selected day
             return (
                 <NavLink
-                    to={`/dashboard/${day.format('DoddddMMYYYY')}`}
-                    name={`/dashboard/${day.format('DoddddMMYYYY')}`}
+                    to={`/dashboard/${day.format('DddddMMYYYY')}`}
+                    name={`/dashboard/${day.format('DddddMMYYYY')}`}
                     title={day.format('Do dddd MM YYYY')}
                     className="days-sidebar__item"
                     activeClassName="days-sidebar__item--active"
