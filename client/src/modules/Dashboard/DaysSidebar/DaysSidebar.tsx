@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
 import { setSelectedDate } from '../../../redux/actions/userActions'
-import { toUTC } from '../../../util/helpers/convertToUtcDayStart'
 
 export const DaysSidebar: React.FC<{}> = () => {
     const dispatch = useDispatch()
@@ -14,17 +13,17 @@ export const DaysSidebar: React.FC<{}> = () => {
     // Render 20 days from today
     const renderDays = React.useCallback(() => (
         [...new Array(20)].map((value, index) => {
-            const day = dayjs().add(index, 'day')
+            const day = dayjs().add(index, 'day').startOf('day')
 
             return (
                 <NavLink
-                    to={`/dashboard/${day.format('DddddMMYYYY')}`}
-                    name={`/dashboard/${day.format('DddddMMYYYY')}`}
+                    to={`/dashboard/${day.valueOf()}`}
+                    name={`/dashboard/${day.valueOf()}`}
                     title={day.format('Do dddd MM YYYY')}
                     className="days-sidebar__item"
                     activeClassName="days-sidebar__item--active"
                     key={day.format('DoddddMMYYYY')}
-                    onClick={() => dispatch(setSelectedDate(toUTC(day)))}
+                    onClick={() => dispatch(setSelectedDate(day.toDate()))}
                 >
                     <p>{day.format('DD dd')}</p>
                 </NavLink>

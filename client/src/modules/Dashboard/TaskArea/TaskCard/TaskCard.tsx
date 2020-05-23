@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
+import dayjs from 'dayjs'
 import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
@@ -29,7 +30,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const [isEditDialogOpen, toggleEditDialog] = useToggle(false)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
     const [errors, setErrors] = React.useState<{ error?: string }>()
-    const { username, selectedDate } = useSelector((state) => state.user)
+    const { selectedDate } = useSelector((state) => state.user)
 
     // TODO: handle fetch error
     const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
@@ -53,7 +54,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             variables: {
                 input: {
                     taskCardId: taskCard.id,
-                    date: selectedDate,
+                    date: dayjs(selectedDate).format('YYYY-MM-DD'),
                     taskMetaData: {
                         title: formValues.title,
                     },

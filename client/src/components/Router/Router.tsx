@@ -9,7 +9,7 @@ import { SettingsPage } from '../../pages/settings'
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 
 export const Router: React.FC<{}> = () => {
-    const today = `/dashboard/${dayjs().format('DoddddMMYYYY')}`
+    const today = `/dashboard/${dayjs().startOf('day').valueOf()}`
 
     return (
         <BrowserRouter>
