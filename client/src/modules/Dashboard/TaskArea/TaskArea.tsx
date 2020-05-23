@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/react-hooks'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
@@ -31,7 +31,7 @@ export const TaskArea: React.FC<{}> = () => {
             return selectedDate
         }
 
-        return moment(selectedDate).format('MMM Do YYYY - dddd')
+        return dayjs(selectedDate).format('MMM D YYYY - dddd')
     }
 
     return (

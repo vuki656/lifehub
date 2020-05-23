@@ -1,6 +1,6 @@
 
 export const DateOptions: any = {
-    type: 'timestamptz',
+    type: 'date',
 }
 
 export const IsCompletedOptions: any = {

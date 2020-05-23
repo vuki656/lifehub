@@ -10,12 +10,12 @@ export const NoteOptions: any = {
 }
 
 export const StartDateOptions: any = {
-    type: 'timestamptz',
+    type: 'date',
     nullable: true,
 }
 
 export const EndDateOptions: any = {
-    type: 'timestamptz',
+    type: 'date',
     nullable: true,
 }
 
@@ -32,6 +32,6 @@ export const IsHabitOptions: any = {
 }
 
 export const NextRepeatingInstanceOptions: any = {
-    type: 'timestamptz',
+    type: 'date',
     nullable: true,
 }

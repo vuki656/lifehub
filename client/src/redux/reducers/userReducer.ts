@@ -7,7 +7,7 @@ dayjs.extend(utc)
 
 const initialState = {
     username: '',
-    selectedDate: dayjs.utc().startOf('day').toDate(),
+    selectedDate: dayjs().startOf('day').toDate(),
 }
 
 const userReducer = (state = initialState, action) => {

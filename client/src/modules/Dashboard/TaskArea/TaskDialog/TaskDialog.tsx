@@ -16,7 +16,6 @@ import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
 import { UPDATE_TASK } from '../../../../graphql/task/task'
 import { TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
-import { toUTC } from '../../../../util/helpers/convertToUtcDayStart'
 import { rruleWeekDaysArr } from '../../../../util/helpers/variables'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { TaskDialogProps } from './TaskDialog.types'
@@ -95,8 +94,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             freq: frequency,
             interval,
             byweekday: [...selectedWeekDays],
-            dtstart: toUTC(formValues.startDate),
-            until: doesEnd ? toUTC(formValues.endDate) : null,
+            dtstart: formValues.startDate,
+            until: doesEnd ? formValues.endDate : null,
         }))
 
         // Apply existing excluded dates
@@ -107,7 +106,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         return rruleSet
     }, [selectedWeekDays, interval, frequency, formValues.startDate, formValues.endDate, excludedDates])
 
-    // Remove task from selected date view if task date or repeating instances doesn't match selected date
+    // Remove task from selected date view (cache) if task date or repeating instances doesn't match selected date
     const removeTaskIfNotInDateRange = useCallback((task: TaskType, cachedTaskList: TaskType[]) => {
         let isInRepeatingDateRange = false
 
@@ -147,14 +146,14 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             variables: {
                 input: {
                     id: taskId,
-                    date: toUTC(formValues.date),
+                    date: formValues.date,
                     taskCard: taskCardId,
                     taskMetaData: {
                         id: taskMetaDataId,
                         title: formValues.title,
                         note: formValues.note,
-                        startDate: toUTC(formValues.startDate),
-                        endDate: doesEnd ? toUTC(formValues.endDate) : null,
+                        startDate: formValues.startDate,
+                        endDate: doesEnd ? formValues.endDate : null,
                         rrule: getRrule().toString(),
                         isRepeating,
                         isHabit,

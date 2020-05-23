@@ -40,6 +40,9 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     let nextRepeatingInstance: Date | null = null
     let taskInstanceToCreateDates: Date[] = []
 
+    console.log('utc start: ', dayjs.utc().startOf('day').toDate())
+    console.log('normal start: ')
+
     // If end date before max day span, generate all, set next repeating instance to null
     if (dayjs(startDate).isBefore(maxDateRangeEndDate)) {
         taskInstanceToCreateDates = rruleObj.between(
@@ -136,7 +139,7 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     taskInstanceToCreateDates = await removeExisting(taskInstanceToCreateDates, updatedTask, maxDateRangeEndDate)
     await deleteAllInstancesNotMatchingFilter(rruleObj, taskMetaData, maxDateRangeEndDate)
 
-    console.log("-> taskInstanceToCreateDates", taskInstanceToCreateDates);
+    console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
 
     const taskEntitiesToCreate: TaskEntity[] = []
 
@@ -184,7 +187,7 @@ export const getEdgeTaskInstance = async (task: TaskEntity, instanceToGet: 'ASC'
         .getRepository(TaskEntity)
         .createQueryBuilder('task')
         .where('task.taskMetaData = :taskMetaDataId', { taskMetaDataId: taskMetaData.id })
-        .andWhere('task.date >= :today', { today: dayjs.utc().startOf('day').toDate() })
+        .andWhere('task.date >= :today', { today: dayjs().startOf('day').toDate() })
         .orderBy('date', instanceToGet)
         .getOne()
         .catch((err) => {
@@ -214,7 +217,7 @@ const removeExisting = async (taskInstanceToCreateDates: Date[], updatedTask: Ta
     // Remove all taskInstanceToCreateDates that already exist
     existingTasks.forEach((existingTaskInstance) => {
         _.remove(taskInstanceToCreateDates, (taskInstanceToCreateDate) => {
-            return dayjs(taskInstanceToCreateDate).isSame(existingTaskInstance.date)
+            return dayjs(taskInstanceToCreateDate).isSame(existingTaskInstance.date, 'date')
         })
     })
 
