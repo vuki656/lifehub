@@ -10,14 +10,16 @@ import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 import { RRule, RRuleSet } from 'rrule'
 
+import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
-import { GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
-import { TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
+import { DELETE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
+import { deleteTaskResponse, deleteTaskVariables, TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
 import { toCompatibleDate } from '../../../../util/helpers/convertToCompatibleDate'
 import { rruleWeekDaysArr } from '../../../../util/helpers/variables'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
+import { TaskDeleteDialog } from '../TaskDeleteDialog'
 import { TaskDialogProps } from './TaskDialog.types'
 
 dayjs.extend(utc)
@@ -42,6 +44,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const [interval, setInterval] = useState<number>(options.interval ? options.interval : 1)
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
+    const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
 
     // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})
@@ -219,37 +222,50 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     ])
 
     // Delete task
-    // const deleteTask = useCallback(() => {
-    //     deleteTaskMutation({
-    //         variables: {
-    //             id: task?.id!,
-    //         },
-    //         update(cache, { data }) {
-    //             handleDialogToggle() // Has to be here to prevent call to unmounted (deleted) component
-    //             const { getTasksByDateAndTaskCard }: any = cache.readQuery({
-    //                 query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-    //                 variables: {
-    //                     taskCardId,
-    //                     selectedDate,
-    //                 },
-    //             })
-    //             const updatedList = _.filter(getTasksByDateAndTaskCard, ({ id }) => (
-    //                 id !== data?.deleteTask.id
-    //             ))
-    //             cache.writeQuery({
-    //                 query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-    //                 data: { getTasksByDateAndTaskCard: updatedList },
-    //                 variables: {
-    //                     taskCardId,
-    //                     selectedDate,
-    //                 },
-    //             })
-    //         },
-    //     })
-    //     .catch((error) => {
-    //         setErrors(error.graphQLErrors?.[0].extensions.exception)
-    //     })
-    // }, [deleteTaskMutation, task, selectedDate, handleDialogToggle, taskCardId])
+    const deleteTask = useCallback(() => {
+        deleteTaskMutation({
+            variables: {
+                input: {
+                    taskId: task.id!,
+                    taskMetaDataId: task.taskMetaData.id,
+                },
+            },
+            update(cache, response) {
+                handleDialogToggle() // Has to be here to prevent call to unmounted (deleted) component
+                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    variables: {
+                        input: {
+                            taskCardId,
+                            selectedDate,
+                        },
+                    },
+                })
+                const updatedList = _.filter(getTasksByDateAndTaskCard.tasks, ({ id }) => (
+                    id !== response.data?.deleteTask.taskId
+                ))
+                cache.writeQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    data: {
+                        getTasksByDateAndTaskCard: {
+                            tasks: updatedList,
+                            __typename: response.data?.deleteTask.__typename,
+                        },
+                    },
+                    variables: {
+                        input: {
+                            taskCardId,
+                            selectedDate,
+                        },
+                    },
+                })
+            },
+        })
+        .catch((error) => {
+            console.log(error)
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [deleteTaskMutation, task, selectedDate, handleDialogToggle, taskCardId])
 
     // If reminder exists update, else create
     const handleSubmit = useCallback((event) => {
@@ -267,13 +283,13 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 <span role="img" aria-label="pencil">✏️ </span>
                                 Update Task
                             </p>
-                            {/*<button*/}
-                            {/*    onClick={task.taskMetaData.isRepeating ? toggleDeleteDialog : deleteTask}*/}
-                            {/*    className="button button--secondary"*/}
-                            {/*    type="button"*/}
-                            {/*>*/}
-                            {/*    {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Delete'}*/}
-                            {/*</button>*/}
+                            <button
+                                onClick={task.taskMetaData.isRepeating ? toggleDeleteDialog : deleteTask}
+                                className="button button--secondary"
+                                type="button"
+                            >
+                                {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Delete'}
+                            </button>
                         </div>
                         <div className="dialog__navigation">
                             <button
@@ -481,13 +497,13 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                     </div>
                 </div>
             </form>
-            {/*<TaskDeleteDialog*/}
-            {/*    isDeleteDialogOpen={isDeleteDialogOpen}*/}
-            {/*    toggleDeleteDialog={toggleDeleteDialog}*/}
-            {/*    task={task}*/}
-            {/*    deleteTaskAndAllInstances={deleteTask}*/}
-            {/*    getRrule={getRrule}*/}
-            {/*/>*/}
+            <TaskDeleteDialog
+                isDeleteDialogOpen={isDeleteDialogOpen}
+                toggleDeleteDialog={toggleDeleteDialog}
+                task={task}
+                deleteTaskAndAllInstances={deleteTask}
+                getRrule={getRrule}
+            />
         </>
     )
 }

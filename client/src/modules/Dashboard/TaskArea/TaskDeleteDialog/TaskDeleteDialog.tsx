@@ -1,13 +1,6 @@
-import { useMutation } from '@apollo/react-hooks'
 import React, { useState } from 'react'
+
 import { ErrorMessage } from '../../../../components/ErrorMessage'
-import { DELETE_FIRST_REPEATING_INSTANCE, DELETE_REPEATING_TASK_INSTANCE } from '../../../../graphql/repeatingTaskInstance/repeatingTaskInstance'
-import {
-    deleteFirstRepeatingInstanceResponse,
-    deleteFirstRepeatingInstanceVariables,
-    deleteRepeatingTaskInstanceResponse,
-    deleteRepeatingTaskInstanceVariables,
-} from '../../../../graphql/repeatingTaskInstance/repeatingTaskInstance.types'
 import { TaskDeleteDialogProps } from './TaskDeleteDialog.types'
 
 export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
@@ -22,12 +15,6 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
     const [selectedOption, setSelectedOption] = useState('this')
     const [errors, setErrors] = React.useState<{ error?: string }>({})
 
-    // TODO: rename loading var
-    // const [updateTaskMutation, { loading: updateLoading }] = useMutation(UPDATE_TASK)
-    const [deleteFirstRepeatingInstanceMutation, { loading: deleteLoading2 }]
-        = useMutation<deleteFirstRepeatingInstanceResponse, deleteFirstRepeatingInstanceVariables>(DELETE_FIRST_REPEATING_INSTANCE)
-    const [deleteRepeatingTaskInstanceMutation, { loading: deleteLoading }]
-        = useMutation<deleteRepeatingTaskInstanceResponse, deleteRepeatingTaskInstanceVariables>(DELETE_REPEATING_TASK_INSTANCE)
 
     // const handleSingleRepeatingInstanceDelete = useCallback(async () => {
     //     const localTaskRrule = getRrule()

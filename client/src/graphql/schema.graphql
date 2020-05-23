@@ -14,6 +14,10 @@ type CreateTaskPayload {
     task: Task!
 }
 
+type DeleteTaskPayload {
+    taskId: ID!
+}
+
 type GetTasksByDateAndTaskCardPayload {
     tasks: [Task]!
 }
@@ -25,6 +29,7 @@ type Mutation {
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!
+    deleteTask(input: DeleteTaskInput!): DeleteTaskPayload!
     deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
     toggleTaskCompleted(input: ToggleTaskCompletedInput!): ToggleTaskCompletedPayload!
@@ -110,6 +115,11 @@ input CreateTaskInput {
     date: Date!
     taskCardId: String
     taskMetaData: TaskMetaDataInput
+}
+
+input DeleteTaskInput {
+    taskId: ID!
+    taskMetaDataId: ID!
 }
 
 input GetTasksByDateAndTaskCardInput {

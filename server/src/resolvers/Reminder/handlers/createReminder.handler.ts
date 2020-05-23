@@ -13,7 +13,6 @@ export const createReminderHandler = async (input) => {
     // Throw error if no user
     if (!user) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
-
     // Create reminder
     const reminder = new ReminderEntity()
     reminder.title = title

@@ -41,6 +41,13 @@ export type updateTaskVariables = {
     },
 }
 
+export type deleteTaskVariables = {
+    input: {
+        taskId: string,
+        taskMetaDataId: string,
+    },
+}
+
 // ** RESPONSES **
 export type createTaskResponse = {
     createTask: {
@@ -64,6 +71,13 @@ export type toggleTaskCompletedResponse = {
 export type updateTaskResponse = {
     updateTask: {
         task: TaskType,
+        __typename: string,
+    },
+}
+
+export type deleteTaskResponse = {
+    deleteTask: {
+        taskId: string,
         __typename: string,
     },
 }

@@ -8,6 +8,7 @@ import { UserEntity } from '../../../entities/user'
 import { ReminderQueryType } from '../reminder.types'
 
 dayjs.extend(utc)
+
 export const getRemindersByDateHandler = async (input) => {
     const { username, selectedDate } = input
 
