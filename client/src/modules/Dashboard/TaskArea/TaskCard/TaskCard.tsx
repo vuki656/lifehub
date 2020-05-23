@@ -74,7 +74,10 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                     data: {
                         getTasksByDateAndTaskCard: {
                             __typename: response.data?.createTask.__typename,
-                            tasks: _.concat(readCacheData.getTasksByDateAndTaskCard.tasks, { ...response.data?.createTask.task }),
+                            tasks: _.concat(
+                                readCacheData.getTasksByDateAndTaskCard.tasks,
+                                { ...response.data?.createTask.task },
+                            ),
                         },
                     },
                     variables: {
@@ -118,7 +121,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                             </div>
                         </div>
                         <div className="task-card__body">
-                            {data && data.getTasksByDateAndTaskCard.tasks.map(task => (
+                            {data?.getTasksByDateAndTaskCard.tasks.map(task => (
                                 <Task task={task} taskCard={taskCard} key={task.id} />
                             ))}
                         </div>

@@ -64,5 +64,6 @@ export type toggleTaskCompletedResponse = {
 export type updateTaskResponse = {
     updateTask: {
         task: TaskType,
+        __typename: string,
     },
 }

@@ -12,17 +12,30 @@ import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 dayjs.extend(utc)
 
 export const updateTaskHandler = async (input) => {
-    const { id, title, note, date, taskCardId, taskMetaData } = input.input
+    const { id, date, taskCardId, taskMetaData } = input.input
 
-    // Verify existence and get task to update
-    // const taskToUpdate: TaskEntity | undefined = await getConnection().getRepository(TaskEntity).findOne(id)
-    // if (!taskToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+    console.log(taskMetaData)
+
+    // Verify existence
+    const taskToUpdate: TaskEntity | undefined = await getConnection().getRepository(TaskEntity).findOne(id)
+    if (!taskToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
     // Generate task instances if its repeating
     if (taskMetaData.isRepeating) await createRepeatingInstances(taskCardId, input.input)
 
-    // THIS PROB WONT WORK BCZ INPUT PARAMS
-    // Object.assign(taskToUpdate, input)
+    taskToUpdate.date = date
+    taskToUpdate.taskMetaData = taskMetaData
+
+    // Try to save updated task
+    const updatedTask = await getRepository(TaskEntity)
+    .save(taskToUpdate)
+    .catch(() => {
+        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+    })
+
+    console.log(updatedTask)
+
+    return { task: updatedTask }
 }
 
 const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEntity) => {

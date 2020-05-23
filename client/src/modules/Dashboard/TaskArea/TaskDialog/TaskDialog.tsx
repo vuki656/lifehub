@@ -4,7 +4,6 @@ import NotesIcon from '@material-ui/icons/Notes'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import _ from 'lodash'
-import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
@@ -14,8 +13,9 @@ import { RRule, RRuleSet } from 'rrule'
 import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
-import { UPDATE_TASK } from '../../../../graphql/task/task'
+import { GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
 import { TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
+import { toCompatibleDate } from '../../../../util/helpers/convertToCompatibleDate'
 import { rruleWeekDaysArr } from '../../../../util/helpers/variables'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { TaskDialogProps } from './TaskDialog.types'
@@ -31,16 +31,14 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const { selectedDate } = useSelector((state) => state.user)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
     const [selectedTab, setSelectedTab] = useState('details')
-    const [isRepeating, toggleIsRepeating] = useToggle(true)
-    // const [isRepeating, toggleIsRepeating] = useToggle(taskMetaData.isRepeating)
+    const [isRepeating, toggleIsRepeating] = useToggle(taskMetaData.isRepeating)
     const [isHabit, toggleIsHabit] = useToggle(taskMetaData.isHabit)
 
     // RRule
     const [doesEnd, setDoesEnd] = useToggle(!!taskMetaData.endDate)
     const [excludedDates, setExcludedDates] = useState<Date[]>([])
     const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(options.byweekday ? options.byweekday : [])
-    const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 3) // 2 is week in select
-    // const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 2) // 2 is week in select
+    const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 2) // 2 is week in select
     const [interval, setInterval] = useState<number>(options.interval ? options.interval : 1)
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
@@ -87,9 +85,11 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         options.freq,
     ])
 
+    // Return a rruleset object with set needed props
     const getRrule = useCallback(() => {
         const rruleSet = new RRuleSet()
 
+        // Set rruleset props
         rruleSet.rrule(new RRule({
             freq: frequency,
             interval,
@@ -104,34 +104,43 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         })
 
         return rruleSet
-    }, [selectedWeekDays, interval, frequency, formValues.startDate, formValues.endDate, excludedDates])
+    }, [
+        selectedWeekDays,
+        interval,
+        frequency,
+        formValues.startDate,
+        formValues.endDate,
+        excludedDates,
+        doesEnd,
+    ])
 
-    // Remove task from selected date view (cache) if task date or repeating instances doesn't match selected date
+    // Remove task from selected date view (cache) if task date doesn't match selected date
     const removeTaskIfNotInDateRange = useCallback((task: TaskType, cachedTaskList: TaskType[]) => {
         let isInRepeatingDateRange = false
 
-        // Get rrule date span
-        const recurringSelectedDays: Date[] = getRrule().between(
-            moment(formValues.startDate).toDate(),
-            moment(formValues.endDate).toDate(),
-            true,
-        )
+        if (isRepeating) {
 
-        // Check if selected date in rrule date span
-        recurringSelectedDays.forEach((recurringSelectedDay) => {
-            if (moment(selectedDate).isSame(recurringSelectedDay)) {
-                isInRepeatingDateRange = true
-            }
-        })
+            // Get rrule date span
+            const recurringSelectedDays: Date[] = getRrule().between(
+                dayjs(formValues.startDate).toDate(),
+                dayjs(formValues.endDate).toDate(),
+                true,
+            )
 
-        // If selected date not in recurring dates and root task date, remove it from selected date cache so not in view
+            // Check if selected date matches any of the rrule date span dates
+            recurringSelectedDays.forEach((recurringSelectedDay) => {
+                if (dayjs(selectedDate).isSame(recurringSelectedDay, 'date')) {
+                    isInRepeatingDateRange = true
+                }
+            })
+        }
+
+        // If no matching dates found, remove from cache
         if (
-            !moment(selectedDate).isSame(task.date) &&
+            !dayjs(selectedDate).isSame(task.date, 'date') &&
             !isInRepeatingDateRange
         ) {
-            return _.filter(cachedTaskList, ({ id }) => (
-                id !== task.id
-            ))
+            return _.filter(cachedTaskList, ({ id }) => id !== task.id)
         }
 
         return cachedTaskList
@@ -139,46 +148,52 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     // Update task
     const updateTask = useCallback(() => {
-        console.log(formValues)
-        console.log(doesEnd)
-
         updateTaskMutation({
             variables: {
                 input: {
                     id: taskId,
-                    date: formValues.date,
+                    date: toCompatibleDate(formValues.date),
                     taskCard: taskCardId,
                     taskMetaData: {
                         id: taskMetaDataId,
                         title: formValues.title,
                         note: formValues.note,
-                        startDate: formValues.startDate,
-                        endDate: doesEnd ? formValues.endDate : null,
-                        rrule: getRrule().toString(),
+                        startDate: doesEnd ? toCompatibleDate(formValues.startDate) : null,
+                        endDate: doesEnd ? toCompatibleDate(formValues.endDate) : null,
+                        rrule: isRepeating ? getRrule().toString() : null,
                         isRepeating,
                         isHabit,
                     },
                 },
             },
-            // update(cache, { data }) {
-            //     toggleDialog()
-            //     const { getTasksByDateAndTaskCard }: any = cache.readQuery({
-            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-            //         variables: {
-            //             taskCardId,
-            //             selectedDate,
-            //         },
-            //     })
-            //     const updatedList = removeTaskIfNotInDateRange(data?.updateTask!, getTasksByDateAndTaskCard)
-            //     cache.writeQuery({
-            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-            //         data: { getTasksByDateAndTaskCard: updatedList },
-            //         variables: {
-            //             taskCardId,
-            //             selectedDate,
-            //         },
-            //     })
-            // },
+            update(cache, response) {
+                toggleDialog()
+                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    variables: {
+                        input: {
+                            taskCardId,
+                            selectedDate,
+                        },
+                    },
+                })
+                const updatedList = removeTaskIfNotInDateRange(response.data?.updateTask.task!, getTasksByDateAndTaskCard.tasks)
+                cache.writeQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    data: {
+                        getTasksByDateAndTaskCard: {
+                            tasks: updatedList,
+                            __typename: response.data?.updateTask.__typename,
+                        },
+                    },
+                    variables: {
+                        input: {
+                            taskCardId,
+                            selectedDate,
+                        },
+                    },
+                })
+            },
         })
         .catch((error) => {
             console.log(error)
@@ -197,6 +212,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         isRepeating,
         isHabit,
         updateTaskMutation,
+        removeTaskIfNotInDateRange,
+        selectedDate,
+        toggleDialog,
+        doesEnd,
     ])
 
     // Delete task
@@ -313,7 +332,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                             selected={formValues.date}
                                             onChange={(date) => setFormValue(date, 'date')}
                                             minDate={new Date()}
-                                            maxDate={formValues.endDate}
+                                            maxDate={isRepeating ? formValues.endDate : null}
                                             required
                                         />
                                     </div>
