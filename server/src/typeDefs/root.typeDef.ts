@@ -5,7 +5,7 @@ import { gql } from 'apollo-server'
 // _empty: String is needed because types can't be empty
 // Also holds custom scalars
 export const rootType = gql`
-    scalar GraphQLDateTime
+    scalar GraphQLDate
 
     type Query { _empty: String }
     type Mutation { _empty: String }

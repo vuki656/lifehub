@@ -2,7 +2,7 @@ import { TaskMetaDataType, TaskMetaDataVariables } from '../taskMetaData/taskMet
 
 export type TaskType = {
     id: string,
-    date: Date,
+    date: string,
     isCompleted: boolean,
     taskCardId: string,
     taskMetaData: TaskMetaDataType,
@@ -12,7 +12,7 @@ export type TaskType = {
 export type createTaskVariables = {
     input: {
         taskCardId: string,
-        date: Date,
+        date: string,
         taskMetaData: {
             title: string,
         },
@@ -21,7 +21,7 @@ export type createTaskVariables = {
 
 export type getTasksByDateAndTaskCardVariables = {
     input: {
-        selectedDate: Date,
+        selectedDate: string,
         taskCardId: string,
     },
 }
@@ -35,7 +35,7 @@ export type toggleTaskCompletedVariables = {
 export type updateTaskVariables = {
     input: {
         id: string,
-        date: Date,
+        date: string,
         taskCard: string,
         taskMetaData: TaskMetaDataVariables,
     },

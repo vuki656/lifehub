@@ -43,9 +43,9 @@ type Query {
 
 type Reminder {
     description: String
-    endDate: String!
+    endDate: Date!
     id: String!
-    startDate: String!
+    startDate: Date!
     title: String!
 }
 
@@ -54,7 +54,7 @@ type ReminderDeleteResponse {
 }
 
 type Task {
-    date: String!
+    date: Date!
     id: ID!
     isCompleted: Boolean
     taskCardId: String
@@ -71,14 +71,14 @@ type TaskCardDeleteResponse {
 }
 
 type TaskMetaData {
-    endDate: String
+    endDate: Date
     id: ID!
     isHabit: Boolean
     isRepeating: Boolean
-    nextRepeatingInstance: String
+    nextRepeatingInstance: Date
     note: String
     rrule: String
-    startDate: String
+    startDate: Date
     title: String!
 }
 
@@ -107,25 +107,25 @@ enum CacheControlScope {
 }
 
 input CreateTaskInput {
-    date: String!
+    date: Date!
     taskCardId: String
     taskMetaData: TaskMetaDataInput
 }
 
 input GetTasksByDateAndTaskCardInput {
-    selectedDate: String!
+    selectedDate: Date!
     taskCardId: String!
 }
 
 input TaskMetaDataInput {
-    endDate: String
+    endDate: Date
     id: ID
     isHabit: Boolean
     isRepeating: Boolean
-    nextRepeatingInstance: String
+    nextRepeatingInstance: Date
     note: String
     rrule: String
-    startDate: String
+    startDate: Date
     title: String!
 }
 
@@ -134,13 +134,16 @@ input ToggleTaskCompletedInput {
 }
 
 input UpdateTaskInput {
-    date: String!
+    date: Date!
     id: ID!
     isCompleted: Boolean
     taskCard: String
     taskMetaData: TaskMetaDataInput!
 }
 
+
+"A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
+scalar Date
 
 "The `Upload` scalar type represents a file upload."
 scalar Upload

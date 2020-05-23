@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
-import dayjs from 'dayjs'
 import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
@@ -54,7 +53,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             variables: {
                 input: {
                     taskCardId: taskCard.id,
-                    date: dayjs(selectedDate).format('YYYY-MM-DD'),
+                    date: selectedDate,
                     taskMetaData: {
                         title: formValues.title,
                     },
@@ -74,7 +73,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: {
                         getTasksByDateAndTaskCard: {
-                            __typename: response.data?.createTask.__typename ,
+                            __typename: response.data?.createTask.__typename,
                             tasks: _.concat(readCacheData.getTasksByDateAndTaskCard.tasks, { ...response.data?.createTask.task }),
                         },
                     },

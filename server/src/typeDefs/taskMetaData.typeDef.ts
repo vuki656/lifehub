@@ -5,23 +5,23 @@ export const taskMetaDataType = gql`
         id: ID!,
         title: String!,
         note: String,
-        startDate: GraphQLDateTime,
-        endDate: GraphQLDateTime,
+        startDate: GraphQLDate,
+        endDate: GraphQLDate,
         rrule: String,
         isRepeating: Boolean,
         isHabit: Boolean,
-        nextRepeatingInstance: GraphQLDateTime,
+        nextRepeatingInstance: GraphQLDate,
     }
 
     input TaskMetaDataInput {
         id: ID,
         title: String!,
         note: String,
-        startDate: GraphQLDateTime,
-        endDate: GraphQLDateTime,
+        startDate: GraphQLDate,
+        endDate: GraphQLDate,
         rrule: String,
         isRepeating: Boolean,
         isHabit: Boolean,
-        nextRepeatingInstance: GraphQLDateTime,
+        nextRepeatingInstance: GraphQLDate,
     }
 `

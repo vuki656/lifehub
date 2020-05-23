@@ -23,7 +23,7 @@ export const DaysSidebar: React.FC<{}> = () => {
                     className="days-sidebar__item"
                     activeClassName="days-sidebar__item--active"
                     key={day.format('DoddddMMYYYY')}
-                    onClick={() => dispatch(setSelectedDate(day.toDate()))}
+                    onClick={() => dispatch(setSelectedDate(day.format('YYYY-MM-DD')))}
                 >
                     <p>{day.format('DD dd')}</p>
                 </NavLink>
