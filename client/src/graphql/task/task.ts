@@ -103,3 +103,11 @@ export const DELETE_TASK = gql`
         }
     }
 `
+
+export const DELETE_SINGLE_TASK_INSTANCE = gql`
+    mutation deleteSingleTaskInstance($input: DeleteSingleTaskInstanceInput!) {
+        deleteSingleTaskInstance(input: $input) {
+            taskId
+        }
+    }
+`

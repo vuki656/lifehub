@@ -147,7 +147,13 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         }
 
         return cachedTaskList
-    }, [selectedDate, formValues.startDate, formValues.endDate, getRrule])
+    }, [
+        selectedDate,
+        formValues.startDate,
+        formValues.endDate,
+        getRrule,
+        isRepeating,
+    ])
 
     // Update task
     const updateTask = useCallback(() => {
@@ -241,8 +247,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         },
                     },
                 })
-                const updatedList = _.filter(getTasksByDateAndTaskCard.tasks, ({ id }) => (
-                    id !== response.data?.deleteTask.taskId
+                const updatedList = _.filter(getTasksByDateAndTaskCard.tasks, (cachedTask) => (
+                    cachedTask.id !== response.data?.deleteTask.taskId
                 ))
                 cache.writeQuery({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
@@ -284,7 +290,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 Update Task
                             </p>
                             <button
-                                onClick={task.taskMetaData.isRepeating ? toggleDeleteDialog : deleteTask}
+                                onClick={isRepeating ? toggleDeleteDialog : deleteTask}
                                 className="button button--secondary"
                                 type="button"
                             >
@@ -500,6 +506,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             <TaskDeleteDialog
                 isDeleteDialogOpen={isDeleteDialogOpen}
                 toggleDeleteDialog={toggleDeleteDialog}
+                taskCardId={taskCardId}
                 task={task}
                 deleteTaskAndAllInstances={deleteTask}
                 getRrule={getRrule}

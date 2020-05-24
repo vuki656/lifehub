@@ -2,6 +2,7 @@ import { combineResolvers } from 'graphql-resolvers'
 
 import { isAuthenticated } from '../../util/authorization'
 import { createTaskHandler } from './handlers/createTask.handler'
+import { deleteSingleTaskInstanceHandler } from './handlers/deleteSingleTaskInstance.handler'
 import { deleteTaskHandler } from './handlers/deleteTask.handler'
 import { getTasksByDateAndTaskCardHandler } from './handlers/getTasksByDateAndTaskCard.handler'
 import { toggleTaskCompletedHandler } from './handlers/toggleTaskCompleted.handler'
@@ -30,6 +31,10 @@ export const taskResolver = {
         deleteTask: combineResolvers(
             (parent, input, context) => isAuthenticated(context),
             (parent, input) => deleteTaskHandler(input),
+        ),
+        deleteSingleTaskInstance: combineResolvers(
+            (parent, input, context) => isAuthenticated(context),
+            (parent, input) => deleteSingleTaskInstanceHandler(input),
         ),
     },
 }

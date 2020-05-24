@@ -4,7 +4,6 @@ export type TaskType = {
     id: string,
     date: string,
     isCompleted: boolean,
-    taskCardId: string,
     taskMetaData: TaskMetaDataType,
 }
 
@@ -48,6 +47,14 @@ export type deleteTaskVariables = {
     },
 }
 
+export type deleteSingleTaskInstanceVariables = {
+    input: {
+        taskId: string,
+        taskMetaDataId: string,
+        rruleStr: string,
+    },
+}
+
 // ** RESPONSES **
 export type createTaskResponse = {
     createTask: {
@@ -77,6 +84,13 @@ export type updateTaskResponse = {
 
 export type deleteTaskResponse = {
     deleteTask: {
+        taskId: string,
+        __typename: string,
+    },
+}
+
+export type deleteSingleTaskInstanceResponse = {
+    deleteSingleTaskInstance: {
         taskId: string,
         __typename: string,
     },

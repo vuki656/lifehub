@@ -14,6 +14,10 @@ type CreateTaskPayload {
     task: Task!
 }
 
+type DeleteSingleTaskInstancePayload {
+    taskId: ID!
+}
+
 type DeleteTaskPayload {
     taskId: ID!
 }
@@ -29,6 +33,7 @@ type Mutation {
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
     deleteReminder(id: String!): ReminderDeleteResponse!
+    deleteSingleTaskInstance(input: DeleteSingleTaskInstanceInput!): DeleteSingleTaskInstancePayload!
     deleteTask(input: DeleteTaskInput!): DeleteTaskPayload!
     deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
@@ -115,6 +120,12 @@ input CreateTaskInput {
     date: Date!
     taskCardId: String
     taskMetaData: TaskMetaDataInput
+}
+
+input DeleteSingleTaskInstanceInput {
+    rruleStr: String!
+    taskId: ID!
+    taskMetaDataId: ID!
 }
 
 input DeleteTaskInput {

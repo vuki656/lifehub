@@ -48,5 +48,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
 
+    console.log(foundTasks)
+
     return { tasks: foundTasks }
 }
