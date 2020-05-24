@@ -37,10 +37,14 @@ export const taskType = gql`
         taskMetaDataId: ID!,
     }
 
-    input DeleteSingleTaskInstanceInput{
+    input DeleteSingleTaskInstanceInput {
         taskId: ID!,
         taskMetaDataId: ID!,
         rruleStr: String!,
+    }
+
+    input DeleteAllTasksAndMetaDataInput {
+        taskMetaDataId: ID!,
     }
 
     type CreateTaskPayload {
@@ -67,6 +71,10 @@ export const taskType = gql`
         taskId: ID!,
     }
 
+    type DeleteAllTasksAndMetaDataPayload {
+        taskMetaDataId: ID!,
+    }
+
     extend type Query {
         getTasksByDateAndTaskCard(input: GetTasksByDateAndTaskCardInput!): GetTasksByDateAndTaskCardPayload!
     }
@@ -77,5 +85,6 @@ export const taskType = gql`
         toggleTaskCompleted(input: ToggleTaskCompletedInput!): ToggleTaskCompletedPayload!
         deleteTask(input: DeleteTaskInput!): DeleteTaskPayload!
         deleteSingleTaskInstance(input: DeleteSingleTaskInstanceInput!): DeleteSingleTaskInstancePayload!
+        deleteAllTasksAndMetaData(input: DeleteAllTasksAndMetaDataInput!): DeleteAllTasksAndMetaDataPayload!
     }
 `

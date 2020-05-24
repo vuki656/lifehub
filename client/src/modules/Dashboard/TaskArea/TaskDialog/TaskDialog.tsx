@@ -508,7 +508,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 toggleDeleteDialog={toggleDeleteDialog}
                 taskCardId={taskCardId}
                 task={task}
-                deleteTaskAndAllInstances={deleteTask}
                 getRrule={getRrule}
             />
         </>

@@ -7,28 +7,32 @@ import { RRule, RRuleSet } from 'rrule'
 
 import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
-import { DELETE_SINGLE_TASK_INSTANCE, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
-import { deleteSingleTaskInstanceResponse, deleteSingleTaskInstanceVariables } from '../../../../graphql/task/task.types'
+import { DELETE_ALL_TASKS_AND_META_DATA, DELETE_SINGLE_TASK_INSTANCE, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
+import {
+    deleteAllTasksAndMetaDataResponse,
+    deleteAllTasksAndMetaDataVariables,
+    deleteSingleTaskInstanceResponse,
+    deleteSingleTaskInstanceVariables,
+} from '../../../../graphql/task/task.types'
 import { TaskDeleteDialogProps } from './TaskDeleteDialog.types'
 
 export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
     const {
         isDeleteDialogOpen,
         toggleDeleteDialog,
-        deleteTaskAndAllInstances,
         task,
         taskCardId,
         getRrule,
     } = props
 
-    console.log(task)
-
     const { selectedDate } = useSelector((state) => state.user)
     const [selectedOption, setSelectedOption] = useState('this')
     const [errors, setErrors] = React.useState<{ error?: string }>({})
 
-    const [deleteSingleTaskInstanceMutation, { loading: deleteLoading }] = useMutation<deleteSingleTaskInstanceResponse, deleteSingleTaskInstanceVariables>(DELETE_SINGLE_TASK_INSTANCE)
+    const [deleteSingleTaskInstanceMutation, { loading: deleteSingleLoading }] = useMutation<deleteSingleTaskInstanceResponse, deleteSingleTaskInstanceVariables>(DELETE_SINGLE_TASK_INSTANCE)
+    const [deleteAllTasksAndMetaDataMutation, { loading: deleteAllLoading }] = useMutation<deleteAllTasksAndMetaDataResponse, deleteAllTasksAndMetaDataVariables>(DELETE_ALL_TASKS_AND_META_DATA)
 
+    // Delete single task instance and add it as excluded in metadata rrule
     const handleDeleteSingleTaskInstance = useCallback(() => {
         const rruleSet: RRuleSet | RRule = getRrule()
 
@@ -90,14 +94,63 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
             },
         })
         .catch((error) => {
-            console.log(error)
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [deleteSingleTaskInstanceMutation, getRrule, task.id, task.date, task.taskMetaData.id])
+    }, [
+        deleteSingleTaskInstanceMutation,
+        getRrule,
+        selectedDate,
+        taskCardId,
+        task.id,
+        task.date,
+        task.taskMetaData.id,
+    ])
 
+    // Delete all tasks and their corresponding meta data
     const deleteAllTasksAndMetaData = useCallback(() => {
-
-    }, [])
+        deleteAllTasksAndMetaDataMutation({
+            variables: {
+                input: {
+                    taskMetaDataId: task.taskMetaData.id,
+                },
+            },
+            update(cache, response) {
+                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    variables: {
+                        input: {
+                            taskCardId,
+                            selectedDate,
+                        },
+                    },
+                })
+                cache.writeQuery({
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+                    data: {
+                        getTasksByDateAndTaskCard: {
+                            tasks: _.remove(getTasksByDateAndTaskCard, task),
+                            __typename: response.data?.deleteAllTasksAndMetaData.__typename,
+                        },
+                    },
+                    variables: {
+                        input: {
+                            taskCardId,
+                            selectedDate,
+                        },
+                    },
+                })
+            },
+        })
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [
+        deleteAllTasksAndMetaDataMutation,
+        task.taskMetaData.id,
+        selectedDate,
+        task,
+        taskCardId,
+    ])
 
     const handleSubmit = useCallback(() => {
         toggleDeleteDialog()
@@ -171,7 +224,7 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                         className="button button--primary button-delete"
                         type="button"
                     >
-                        {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Ok'}
+                        {deleteSingleLoading || deleteAllLoading ? <ButtonLoadingIconBlue size={18} /> : 'Ok'}
                     </button>
                 </div>
             </div>

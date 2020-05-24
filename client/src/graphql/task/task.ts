@@ -111,3 +111,11 @@ export const DELETE_SINGLE_TASK_INSTANCE = gql`
         }
     }
 `
+
+export const DELETE_ALL_TASKS_AND_META_DATA = gql`
+    mutation deleteAllTasksAndMetaData($input: DeleteAllTasksAndMetaDataInput!) {
+        deleteAllTasksAndMetaData(input: $input) {
+            taskMetaDataId
+        }
+    }
+`

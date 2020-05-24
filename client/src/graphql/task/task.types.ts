@@ -55,6 +55,12 @@ export type deleteSingleTaskInstanceVariables = {
     },
 }
 
+export type deleteAllTasksAndMetaDataVariables = {
+    input: {
+        taskMetaDataId: string,
+    },
+}
+
 // ** RESPONSES **
 export type createTaskResponse = {
     createTask: {
@@ -92,6 +98,13 @@ export type deleteTaskResponse = {
 export type deleteSingleTaskInstanceResponse = {
     deleteSingleTaskInstance: {
         taskId: string,
+        __typename: string,
+    },
+}
+
+export type deleteAllTasksAndMetaDataResponse = {
+    deleteAllTasksAndMetaData: {
+        taskMetaDataId: string,
         __typename: string,
     },
 }

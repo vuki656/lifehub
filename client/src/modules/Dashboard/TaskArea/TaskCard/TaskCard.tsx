@@ -101,8 +101,6 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
         createTask()
     }, [createTask])
 
-    console.log(data)
-
     return (
         <>
             {fetchLoading
