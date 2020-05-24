@@ -1,4 +1,4 @@
-import { ReminderType } from '../../modules/Dashboard/Reminders/Reminder.types'
+import { ReminderType } from '../../graphql/reminder/reminder.types'
 
 // Take a list of reminders and return sorted list
 export const sortRemindersByDate = (arrayToSort: ReminderType[]) => {

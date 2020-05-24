@@ -1,12 +1,15 @@
 import AlarmOnRoundedIcon from '@material-ui/icons/AlarmOnRounded'
 import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
 import dayjs from 'dayjs'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
 import { ReminderDialog } from '../ReminderDialog'
 import { ReminderListItemProps } from './ReminderCard.types'
+
+dayjs.extend(advancedFormat)
 
 export const ReminderCard: React.FC<ReminderListItemProps> = (props) => {
     const { reminder } = props

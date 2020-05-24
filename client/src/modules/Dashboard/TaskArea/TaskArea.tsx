@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/react-hooks'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import dayjs from 'dayjs'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
@@ -12,6 +13,8 @@ import { renderLoaders } from '../../../util/helpers/renderLoaders'
 import { TaskCard } from './TaskCard'
 import { TaskCardDialog } from './TaskCardDialog'
 import { TaskCardLoader } from './TaskCardLoader'
+
+dayjs.extend(advancedFormat)
 
 export const TaskArea: React.FC<{}> = () => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
@@ -31,7 +34,7 @@ export const TaskArea: React.FC<{}> = () => {
             return selectedDate
         }
 
-        return dayjs(selectedDate).format('MMM D YYYY - dddd')
+        return dayjs(selectedDate).format('MMM Do YYYY - dddd')
     }
 
     return (

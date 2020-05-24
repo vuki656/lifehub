@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
+import dayjs from 'dayjs'
+import isBetween from 'dayjs/plugin/isBetween'
 import _ from 'lodash'
-import moment from 'moment'
 import React, { useCallback } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
@@ -17,11 +18,13 @@ import {
     updateReminderResponse,
     updateReminderVariables,
 } from '../../../../graphql/reminder/reminder.types'
+import { toCompatibleDate } from '../../../../util/helpers/convertToCompatibleDate'
 import { sortRemindersByDate } from '../../../../util/helpers/sortRemindersByDate'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { ReminderDialogProps } from './ReminderDialog.types'
 
-// TODO: moment
+dayjs.extend(isBetween)
+
 export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const { isDialogOpen, toggleDialog, reminder } = props
 
@@ -35,7 +38,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const { formValues, setFormValue, clearForm, resetForm } = useFormFields({
         title: reminder ? reminder.title : '',
         description: reminder?.description ? reminder.description : '',
-        startDate: reminder ? new Date(reminder.startDate) : undefined,
+        startDate: reminder ? new Date(reminder.startDate) : new Date(selectedDate),
         endDate: reminder ? new Date(reminder.endDate) : undefined,
     })
 
@@ -51,14 +54,14 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const removeFromTodayIfOutOfRange = useCallback((reminder, cachedReminders) => {
         const { startDate, endDate } = reminder
 
-        if (!moment(selectedDate).isBetween(startDate, endDate)) {
-            return _.filter(cachedReminders, ({ id }) => (
-                id !== reminder.id
-            ))
+        if (!dayjs(selectedDate).isBetween(startDate, endDate)) {
+            return _.filter(cachedReminders, ({ id }) => id !== reminder.id)
         }
 
         return cachedReminders
-    }, [selectedDate])
+    }, [
+        selectedDate,
+    ])
 
     // Save reminder
     const createReminder = useCallback(() => {
@@ -67,13 +70,18 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 username,
                 title: formValues.title,
                 description: formValues.description,
-                startDate: formValues.startDate,
-                endDate: formValues.endDate,
+                startDate: toCompatibleDate(formValues.startDate),
+                endDate: toCompatibleDate(formValues.endDate),
             },
-            update(cache, { data }) {
-                if (moment(selectedDate).isBetween(
-                    data?.createReminder.startDate,
-                    data?.createReminder.endDate)
+            update(cache, response) {
+                // If selected day view in between reminder date range, display it
+                if (
+                    dayjs(selectedDate).isBetween(
+                        response.data?.createReminder.startDate!,
+                        response.data?.createReminder.endDate!,
+                        'date',
+                        '[]', // Indicates inclusion of edge (start/end)
+                    )
                 ) {
                     const { getRemindersByDate }: any = cache.readQuery({
                         query: GET_REMINDERS_BY_DATE,
@@ -82,7 +90,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             selectedDate,
                         },
                     })
-                    const updatedList = _.concat(getRemindersByDate, { ...data?.createReminder })
+                    const updatedList = _.concat(getRemindersByDate, { ...response.data?.createReminder })
                     cache.writeQuery({
                         query: GET_REMINDERS_BY_DATE,
                         data: { getRemindersByDate: sortRemindersByDate(updatedList) },
@@ -121,8 +129,8 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 username,
                 title: formValues.title,
                 description: formValues.description,
-                startDate: formValues.startDate,
-                endDate: formValues.endDate,
+                startDate: toCompatibleDate(formValues.startDate),
+                endDate: toCompatibleDate(formValues.endDate),
             },
             update(cache, { data }) {
                 const { getRemindersByDate }: any = cache.readQuery({
@@ -164,7 +172,11 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     const handleSubmit = useCallback((event) => {
         event.preventDefault()
         reminder ? updateReminder() : createReminder()
-    }, [reminder, createReminder, updateReminder])
+    }, [
+        reminder,
+        createReminder,
+        updateReminder,
+    ])
 
     // Delete reminder
     const deleteReminder = useCallback(() => {
@@ -197,7 +209,13 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [deleteReminderMutation, reminder, selectedDate, username, handleDialogToggle])
+    }, [
+        deleteReminderMutation,
+        reminder,
+        selectedDate,
+        username,
+        handleDialogToggle,
+    ])
 
     return (
         <form autoComplete="off" onSubmit={handleSubmit}>

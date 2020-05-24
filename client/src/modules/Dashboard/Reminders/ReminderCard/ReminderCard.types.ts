@@ -1,4 +1,4 @@
-import { ReminderType } from '../Reminder.types'
+import { ReminderType } from '../../../../graphql/reminder/reminder.types'
 
 export type ReminderListItemProps = {
     reminder: ReminderType,

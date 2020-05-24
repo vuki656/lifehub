@@ -29,8 +29,14 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
     const [selectedOption, setSelectedOption] = useState('this')
     const [errors, setErrors] = React.useState<{ error?: string }>({})
 
-    const [deleteSingleTaskInstanceMutation, { loading: deleteSingleLoading }] = useMutation<deleteSingleTaskInstanceResponse, deleteSingleTaskInstanceVariables>(DELETE_SINGLE_TASK_INSTANCE)
-    const [deleteAllTasksAndMetaDataMutation, { loading: deleteAllLoading }] = useMutation<deleteAllTasksAndMetaDataResponse, deleteAllTasksAndMetaDataVariables>(DELETE_ALL_TASKS_AND_META_DATA)
+    const [
+        deleteSingleTaskInstanceMutation,
+        { loading: deleteSingleLoading },
+    ] = useMutation<deleteSingleTaskInstanceResponse, deleteSingleTaskInstanceVariables>(DELETE_SINGLE_TASK_INSTANCE)
+    const [
+        deleteAllTasksAndMetaDataMutation,
+        { loading: deleteAllLoading },
+    ] = useMutation<deleteAllTasksAndMetaDataResponse, deleteAllTasksAndMetaDataVariables>(DELETE_ALL_TASKS_AND_META_DATA)
 
     // Delete single task instance and add it as excluded in metadata rrule
     const handleDeleteSingleTaskInstance = useCallback(() => {
@@ -146,7 +152,6 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
         })
     }, [
         deleteAllTasksAndMetaDataMutation,
-        task.taskMetaData.id,
         selectedDate,
         task,
         taskCardId,
@@ -163,7 +168,12 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                 deleteAllTasksAndMetaData()
                 break
         }
-    }, [selectedOption, deleteAllTasksAndMetaData, toggleDeleteDialog, handleDeleteSingleTaskInstance])
+    }, [
+        selectedOption,
+        deleteAllTasksAndMetaData,
+        toggleDeleteDialog,
+        handleDeleteSingleTaskInstance,
+    ])
 
     return (
         <div className={'dialog ' + (isDeleteDialogOpen ? 'dialog--open' : 'dialog--closed')}>
