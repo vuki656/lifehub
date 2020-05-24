@@ -32,6 +32,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     const { selectedDate } = useSelector((state) => state.user)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
+    const [isRepeatingAlertDialogOpen, toggleRepeatingAlertDialog] = useToggle(false)
     const [selectedTab, setSelectedTab] = useState('details')
     const [isRepeating, toggleIsRepeating] = useToggle(taskMetaData.isRepeating)
     const [isHabit, toggleIsHabit] = useToggle(taskMetaData.isHabit)
@@ -40,7 +41,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const [doesEnd, setDoesEnd] = useToggle(!!taskMetaData.endDate)
     const [excludedDates, setExcludedDates] = useState<Date[]>([])
     const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>(options.byweekday ? options.byweekday : [])
-    const [frequency, setFrequency] = useState<number>(options.freq ? options.freq : 2) // 2 is week in select
+    const [frequency, setFrequency] = useState<number>(options.freq === 0 ? 2 : options.freq) // 2 is week in select (check rrule source code)
     const [interval, setInterval] = useState<number>(options.interval ? options.interval : 1)
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
@@ -95,7 +96,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         rruleSet.rrule(new RRule({
             freq: frequency,
             interval,
-            byweekday: [...selectedWeekDays],
+            byweekday: frequency === 2 ? [...selectedWeekDays] : null, // 2 means weekly, if weekly, include selected weekdays
             dtstart: formValues.startDate,
             until: doesEnd ? formValues.endDate : null,
         }))
@@ -107,11 +108,11 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
         return rruleSet
     }, [
+        formValues.endDate,
+        formValues.startDate,
         selectedWeekDays,
         interval,
         frequency,
-        formValues.startDate,
-        formValues.endDate,
         excludedDates,
         doesEnd,
     ])
@@ -138,10 +139,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         }
 
         // If no matching dates found, remove from cache
-        if (
-            !dayjs(selectedDate).isSame(task.date, 'date') &&
-            !isInRepeatingDateRange
-        ) {
+        if (!isInRepeatingDateRange) {
             return _.filter(cachedTaskList, ({ id }) => id !== task.id)
         }
 
@@ -166,7 +164,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         id: taskMetaDataId,
                         title: formValues.title,
                         note: formValues.note,
-                        startDate: doesEnd ? toCompatibleDate(formValues.startDate) : null,
+                        startDate: toCompatibleDate(formValues.startDate),
                         endDate: doesEnd ? toCompatibleDate(formValues.endDate) : null,
                         rrule: isRepeating ? getRrule().toString() : null,
                         isRepeating,
@@ -286,7 +284,18 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         deleteLoading,
     ])
 
+    // Toggle is repeating and reset form if repeating status being set back to false
     const handleIsRepeatingToggle = useCallback(() => {
+
+        // If its true, it means its being set from true to false
+        // Repeating data and habit data exists, so warn user about that being deleted
+        // If set back to false
+        if (task.taskMetaData.isRepeating) {
+            toggleRepeatingAlertDialog()
+
+            // TODO: remove all tasks and task meta data related to repeating
+            // If they want it to stop just change end date.
+        }
 
         // If its true, it means its being set from true to false, so reset form
         if (isRepeating) {
@@ -294,7 +303,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             setSelectedWeekDays([])
             setFrequency(2)
             setInterval(1)
-            toggleIsHabit()
+            toggleIsHabit(false)
             setFormValue(new Date(selectedDate), 'startDate')
             setFormValue(new Date(selectedDate), 'endDate')
         }
@@ -309,7 +318,21 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         isRepeating,
         toggleIsRepeating,
         selectedDate,
-        toggleIsHabit
+        toggleIsHabit,
+        toggleRepeatingAlertDialog,
+        task.taskMetaData.isRepeating,
+    ])
+
+    const handleFreq = useCallback((num) => {
+        console.log(frequency)
+        console.log(num)
+
+        setFrequency(parseInt(num, 10))
+
+        console.log(frequency)
+    }, [
+        setFrequency,
+        frequency,
     ])
 
     return (
@@ -361,7 +384,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                     <button
                                         className={
                                             'button button--secondary dialog__navigation-button '
-                                            + (selectedTab === 'repeat' && 'dialog__navigation-button--selected')
+                                            + (selectedTab === 'habit' && 'dialog__navigation-button--selected')
                                         }
                                         type="button"
                                         onClick={() => setSelectedTab('habit')}
@@ -441,15 +464,15 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                                 value={interval}
                                                 onChange={({ target }) => setInterval(parseInt(target.value, 10))}
                                             />
-                                            {/* RRule parses frequency = month = 1, week = 2, day = 1, same with week days*/}
+                                            {/* RRule parses frequency = month = 1, week = 2, day = 3, same with week days*/}
                                             <select
-                                                onChange={({ target }) => setFrequency(parseInt(target.value, 10))}
+                                                onChange={({ target }) => handleFreq(target.value)}
                                                 value={frequency}
                                                 className="form__input-field repeating-task__frequency"
                                             >
-                                                <option value={1}>{interval !== 1 ? 'Months' : 'Month'}</option>
-                                                <option value={2}>{interval !== 1 ? 'Weeks' : 'Week'}</option>
                                                 <option value={3}>{interval !== 1 ? 'Days' : 'Day'}</option>
+                                                <option value={2}>{interval !== 1 ? 'Weeks' : 'Week'}</option>
+                                                <option value={1}>{interval !== 1 ? 'Months' : 'Month'}</option>
                                             </select>
                                         </div>
                                         {frequency === 2 && (// 2 = weekly so display week days
@@ -562,6 +585,41 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                     </div>
                 </div>
             </form>
+            {isRepeatingAlertDialogOpen && (
+                <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
+                    <div className="dialog__content">
+                        <div className="dialog__header-wrapper">
+                            <p className="title">
+                                <span role="img" aria-label="trash">📋</span>️
+                                Turn off repeating and habit tracking
+                            </p>
+                        </div>
+                        <div className="dialog__text">
+                            <p>
+                                If you set repeating back to false, you will lose all your habit statistics related to this task.
+                                If you wish to just stop repeating this task you can set the end date to today and it will not repeat any more.
+                            </p>
+                        </div>
+                        {errors.error && <Message message={errors.error} type="error" />}
+                        <div className="form__button-group--right">
+                            <button
+                                // onClick={toggleDialog} //TODO
+                                className="button button--secondary button-delete"
+                                type="button"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                // onClick={deleteTaskCard} //TODO
+                                className="button button--primary button-delete"
+                                type="button"
+                            >
+                                Yes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             <TaskDeleteDialog
                 isDeleteDialogOpen={isDeleteDialogOpen}
                 toggleDeleteDialog={toggleDeleteDialog}

@@ -26,14 +26,15 @@ export const updateTaskHandler = async (input) => {
     taskToUpdate.date = date
     taskToUpdate.taskMetaData = taskMetaData
 
+    // TODO: IT IS MADE AGAIN HERE
+    // even if the task is delted, i should still update metadata
+
     // Try to save updated task
     const updatedTask = await getRepository(TaskEntity)
     .save(taskToUpdate)
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
-
-    console.log(updatedTask)
 
     return { task: updatedTask }
 }
@@ -52,9 +53,6 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
 
     let nextRepeatingInstance: Date | null = null
     let taskInstanceToCreateDates: Date[] = []
-
-    console.log('utc start: ', dayjs.utc().startOf('day').toDate())
-    console.log('normal start: ')
 
     // If end date before max day span, generate all, set next repeating instance to null
     if (dayjs(startDate).isBefore(maxDateRangeEndDate)) {
@@ -242,7 +240,7 @@ const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData
     const { startDate, endDate, id: taskMetaDataId } = taskMetaData
 
     // Dates that match rrule filter
-    const datesMatchingFilter = rruleObj.between(
+    const datesMatchingFilter: Date[] = rruleObj.between(
         dayjs(startDate).toDate(),
         dayjs(endDate || maxDateRangeEndDate).toDate(),
         true,
@@ -256,6 +254,9 @@ const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData
         .where('taskMetaData = :taskMetaDataId', { taskMetaDataId })
         .andWhere('date NOT IN (:...datesMatchingFilter)', { datesMatchingFilter })
         .execute()
+        .then((res) => {
+            console.log(res)
+        })
         .catch((err) => {
             console.log(err)
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
