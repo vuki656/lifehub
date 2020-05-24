@@ -10,8 +10,8 @@ import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 import { RRule, RRuleSet } from 'rrule'
-import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
 import { DELETE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
@@ -52,7 +52,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         title,
         note: note ? note : '',
         date: new Date(date),
-        isRepeating: taskMetaData.isRepeating,
         startDate: taskMetaData.startDate ? new Date(taskMetaData.startDate) : new Date(selectedDate),
         endDate: taskMetaData.endDate ? new Date(taskMetaData.endDate) : new Date(selectedDate),
     })
@@ -287,6 +286,32 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         deleteLoading,
     ])
 
+    const handleIsRepeatingToggle = useCallback(() => {
+
+        // If its true, it means its being set from true to false, so reset form
+        if (isRepeating) {
+            setDoesEnd(false)
+            setSelectedWeekDays([])
+            setFrequency(2)
+            setInterval(1)
+            toggleIsHabit()
+            setFormValue(new Date(selectedDate), 'startDate')
+            setFormValue(new Date(selectedDate), 'endDate')
+        }
+
+        toggleIsRepeating()
+    }, [
+        setDoesEnd,
+        setSelectedWeekDays,
+        setFrequency,
+        setInterval,
+        setFormValue,
+        isRepeating,
+        toggleIsRepeating,
+        selectedDate,
+        toggleIsHabit
+    ])
+
     return (
         <>
             <form autoComplete="off" onSubmit={handleSubmit}>
@@ -385,14 +410,14 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                     <div className="form__field-wrapper">
                                         <div
                                             className="dialog__checkbox"
-                                            onClick={toggleIsRepeating}
+                                            onClick={handleIsRepeatingToggle}
                                         >
                                             <input
                                                 type="checkbox"
                                                 checked={isRepeating}
                                                 className="task__checkbox"
                                                 onClick={(event) => event.stopPropagation()}
-                                                onChange={toggleIsRepeating}
+                                                onChange={handleIsRepeatingToggle}
                                             />
                                             <label
                                                 htmlFor="task__checkbox"
@@ -494,7 +519,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                         onClick={toggleIsHabit}
                                     >
                                         <input
-                                            disabled={!isRepeating}
                                             type="checkbox"
                                             checked={isHabit}
                                             className="task__checkbox"
