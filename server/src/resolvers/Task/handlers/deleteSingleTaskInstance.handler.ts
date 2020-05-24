@@ -7,6 +7,9 @@ import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 export const deleteSingleTaskInstanceHandler = async (input) => {
     const { taskId, taskMetaDataId, rruleStr } = input.input
 
+    const taskCount: number = await getConnection().getRepository(TaskEntity).count()
+    console.log('-> taskCount', taskCount)
+
     // Verify task existence
     const taskToDelete: TaskEntity | undefined =
         await getConnection()
@@ -30,11 +33,20 @@ export const deleteSingleTaskInstanceHandler = async (input) => {
             TaskEntity,
             { id: taskId },
         )
-        await transactionalEntityManager.update(
-            TaskMetaDataEntity,
-            { id: taskMetaDataId },
-            { rrule: rruleStr },
-        )
+
+        // If last task instance being deleted, delete its meta data as well
+        if (taskCount === 1) {
+            await transactionalEntityManager.delete(
+                TaskMetaDataEntity,
+                { id: taskMetaDataId },
+            )
+        } else {
+            await transactionalEntityManager.update(
+                TaskMetaDataEntity,
+                { id: taskMetaDataId },
+                { rrule: rruleStr },
+            )
+        }
     })
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })

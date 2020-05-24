@@ -74,7 +74,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 endDate: toCompatibleDate(formValues.endDate),
             },
             update(cache, response) {
-                // If selected day view in between reminder date range, display it
+                // If selected day in between reminder date range, display it in view
                 if (
                     dayjs(selectedDate).isBetween(
                         response.data?.createReminder.startDate!,
@@ -133,6 +133,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 endDate: toCompatibleDate(formValues.endDate),
             },
             update(cache, { data }) {
+                toggleDialog()
                 const { getRemindersByDate }: any = cache.readQuery({
                     query: GET_REMINDERS_BY_DATE,
                     variables: {
@@ -151,7 +152,6 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 })
             },
         })
-        .then(() => toggleDialog())
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })

@@ -271,13 +271,21 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             console.log(error)
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [deleteTaskMutation, task, selectedDate, handleDialogToggle, taskCardId])
+    }, [
+        deleteTaskMutation,
+        task,
+        selectedDate,
+        handleDialogToggle,
+        taskCardId,
+    ])
 
     // If reminder exists update, else create
     const handleSubmit = useCallback((event) => {
         event.preventDefault()
-        updateTask()
-    }, [updateTask])
+        if (!updateLoading || !deleteLoading) updateTask()
+    }, [
+        updateTask,
+    ])
 
     return (
         <>

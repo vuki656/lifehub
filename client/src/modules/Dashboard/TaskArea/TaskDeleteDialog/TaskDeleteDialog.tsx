@@ -160,13 +160,15 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
     const handleSubmit = useCallback(() => {
         toggleDeleteDialog()
 
-        switch (selectedOption) {
-            case 'this':
-                handleDeleteSingleTaskInstance()
-                break
-            case 'all':
-                deleteAllTasksAndMetaData()
-                break
+        if (!deleteSingleLoading || !deleteAllLoading) {
+            switch (selectedOption) {
+                case 'this':
+                    handleDeleteSingleTaskInstance()
+                    break
+                case 'all':
+                    deleteAllTasksAndMetaData()
+                    break
+            }
         }
     }, [
         selectedOption,

@@ -10,6 +10,7 @@ import { createUserResponse, createUserVariables } from '../../graphql/user/user
 import { useFormFields } from '../../util/hooks/useFormFields.hook'
 import { UserErrors } from './Register.types'
 
+// TODO fix
 export const Register: React.FC<{}> = () => {
     const history = useHistory()
 
@@ -28,7 +29,7 @@ export const Register: React.FC<{}> = () => {
             variables: {
                 username: formValues.username,
                 email: formValues.email,
-                password: formValues.pasword,
+                password: formValues.password,
                 passwordConfirmation: formValues.passwordConfirmation,
             },
         })
