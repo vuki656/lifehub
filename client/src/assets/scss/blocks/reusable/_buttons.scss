@@ -14,7 +14,6 @@
 .button--primary {
   background-color: $button-background-color-primary;
   color: $button-text-color-primary;
-  transition: background-color 150ms ease-in-out;
 
   &:hover {
     background-color: $button-background-color-primary-hover;
@@ -26,10 +25,16 @@
   background-color: $button-background-color-secondary;
   border: 1px solid $border-color-input-field;
   color: $button-text-color-secondary;
-  transition: background-color 150ms ease-in-out;
 
   &:hover {
     background-color: $button-background-color-secondary-hover;
     cursor: pointer;
+  }
+}
+
+.button--delete {
+
+  & svg {
+    fill: red;
   }
 }

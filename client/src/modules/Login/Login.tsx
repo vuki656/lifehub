@@ -15,7 +15,7 @@ export const Login: React.FC<{}> = () => {
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
-    const { formValues, setFormValue, clearForm } = useFormFields({
+    const [{ email, password }, setFormValue, clearForm] = useFormFields({
         email: '',
         password: '',
     })
@@ -26,8 +26,8 @@ export const Login: React.FC<{}> = () => {
 
         logInUserQuery({
             variables: {
-                email: formValues.email,
-                password: formValues.password,
+                email,
+                password,
             },
         })
         .then((response) => {
@@ -41,7 +41,7 @@ export const Login: React.FC<{}> = () => {
         .catch((error) => {
             setErrors(error.graphQLErrors[0]?.extensions)
         })
-    }, [logInUserQuery, history, clearForm, formValues.email, formValues.password])
+    }, [logInUserQuery, history, clearForm, email, password])
 
     return (
         loading
@@ -59,8 +59,9 @@ export const Login: React.FC<{}> = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    value={formValues.email}
-                                    onChange={({ target }) => setFormValue(target.value, 'email')}
+                                    name="email"
+                                    value={email}
+                                    onChange={setFormValue}
                                 />
                                 {errors.email && <ErrorMessage error={errors.email} />}
                             </div>
@@ -72,8 +73,9 @@ export const Login: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    value={formValues.password}
-                                    onChange={({ target }) => setFormValue(target.value, 'password')}
+                                    name="password"
+                                    value={password}
+                                    onChange={setFormValue}
                                 />
                                 {errors.password && <ErrorMessage error={errors.password} />}
                             </div>

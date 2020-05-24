@@ -1,4 +1,4 @@
-import { ReminderType } from '../../../../graphql/reminder/reminder.types'
+import { ReminderType } from '../Reminder.types'
 
 export type ReminderDialogProps = {
     toggleDialog: () => void,

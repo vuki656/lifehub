@@ -1,13 +1,10 @@
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
+import moment from 'moment'
 
 import * as actionTypes from '../actions/types'
 
-dayjs.extend(utc)
-
 const initialState = {
     username: '',
-    selectedDate: dayjs().format('YYYY-MM-DD'),
+    selectedDate: moment.utc().format(),
 }
 
 const userReducer = (state = initialState, action) => {
@@ -21,10 +18,6 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 selectedDate: action.payload.selectedDate,
-            }
-        case actionTypes.LOG_OUT_USER:
-            return {
-                ...initialState,
             }
         default:
             return state

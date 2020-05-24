@@ -10,9 +10,9 @@ export const DescriptionOptions: any = {
 }
 
 export const StartOptions: any = {
-    type: 'date',
+    type: 'timestamptz',
 }
 
 export const EndOptions: any = {
-    type: 'date',
+    type: 'timestamptz',
 }

@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/react-hooks'
+import { StylesProvider } from '@material-ui/core/styles'
 import 'normalize.css'
 import React from 'react'
 
@@ -13,7 +14,9 @@ import { client } from './util/apollo'
 const renderApp = () => (
     <ApolloProvider client={client}>
         <Provider store={store}>
-            <Router />
+            <StylesProvider injectFirst>
+                <Router />
+            </StylesProvider>
         </Provider>
     </ApolloProvider>
 )

@@ -1,15 +1,12 @@
 import AlarmOnRoundedIcon from '@material-ui/icons/AlarmOnRounded'
 import InsertInvitationRoundedIcon from '@material-ui/icons/InsertInvitationRounded'
-import dayjs from 'dayjs'
-import advancedFormat from 'dayjs/plugin/advancedFormat'
+import moment from 'moment'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
 import { ReminderDialog } from '../ReminderDialog'
 import { ReminderListItemProps } from './ReminderCard.types'
-
-dayjs.extend(advancedFormat)
 
 export const ReminderCard: React.FC<ReminderListItemProps> = (props) => {
     const { reminder } = props
@@ -19,7 +16,7 @@ export const ReminderCard: React.FC<ReminderListItemProps> = (props) => {
 
     // Calculate difference between selected date and reminder due date
     const getDateDifference = useCallback(({ endDate }) => {
-        const dayDifference = dayjs(endDate).diff(selectedDate, 'day')
+        const dayDifference = moment(endDate).diff(selectedDate, 'days')
 
         // Return correct day, days or today string
         switch (dayDifference) {
@@ -49,7 +46,7 @@ export const ReminderCard: React.FC<ReminderListItemProps> = (props) => {
                 <span className="reminder-card__tag">
                     <InsertInvitationRoundedIcon className="reminder-card__icon" />
                     <span className="reminder-card__text">
-                        {dayjs(reminder.endDate).format('Do MMM')}
+                        {moment(reminder.endDate).format('Do MMM')}
                     </span>
                 </span>
                 {selectedDate === 'upcoming' ? '' : (

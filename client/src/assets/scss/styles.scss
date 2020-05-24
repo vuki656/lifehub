@@ -30,19 +30,12 @@
 @import "blocks/days-sidebar";
 @import "blocks/dashboard";
 @import "blocks/reminders";
-@import "blocks/task-area";
+@import "blocks/todo-area";
 @import "blocks/react-datepicker";
 @import "blocks/reminder-card";
-@import "blocks/task-area";
-@import "blocks/task-cards";
-@import "blocks/task-card";
-@import "blocks/task";
-@import "blocks/checkbox";
-@import "blocks/radio";
 
 // ** BLOCKS - LOADERS **
 @import "blocks/loaders/reminder-card-loader";
-@import "blocks/loaders/task-card-loader";
 
 // ** REUSABLE BLOCKS **
 @import "blocks/reusable/general-classes";

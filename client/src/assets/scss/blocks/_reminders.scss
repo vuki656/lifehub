@@ -28,12 +28,13 @@
   &:hover {
     background-color: $background-color-grey-lighter !important;
     box-shadow: $box-shadow-default;
+    cursor: pointer;
   }
 }
 
 .reminders__icon {
   fill: $icon-button-color-primary-dark;
   height: 24px;
-  padding-left: $spacing-xxs;
+  padding-left: $spacing-xs;
   width: 24px;
 }

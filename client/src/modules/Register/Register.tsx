@@ -10,13 +10,12 @@ import { createUserResponse, createUserVariables } from '../../graphql/user/user
 import { useFormFields } from '../../util/hooks/useFormFields.hook'
 import { UserErrors } from './Register.types'
 
-// TODO fix
 export const Register: React.FC<{}> = () => {
     const history = useHistory()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
-    const { formValues, setFormValue, clearForm } = useFormFields({
+    const [{ username, email, password, passwordConfirmation }, setFormValue, clearForm] = useFormFields({
         username: '',
         email: '',
         password: '',
@@ -24,14 +23,11 @@ export const Register: React.FC<{}> = () => {
     })
 
     // Save user in database
-    const createUser = useCallback(() => {
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault()
+
         createUserMutation({
-            variables: {
-                username: formValues.username,
-                email: formValues.email,
-                password: formValues.password,
-                passwordConfirmation: formValues.passwordConfirmation,
-            },
+            variables: { username, email, password, passwordConfirmation },
         })
         .then((response) => {
             const token = response?.data?.createUser.token ?? ''
@@ -44,20 +40,7 @@ export const Register: React.FC<{}> = () => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [
-        clearForm,
-        createUserMutation,
-        formValues.email,
-        formValues.username,
-        formValues.password,
-        formValues.passwordConfirmation,
-        history,
-    ])
-
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-        createUser()
-    }, [createUser])
+    }, [createUserMutation, history, clearForm, username, email, password, passwordConfirmation])
 
     return (
         loading
@@ -76,8 +59,9 @@ export const Register: React.FC<{}> = () => {
                                     type="text"
                                     minLength={4}
                                     required
-                                    value={formValues.username}
-                                    onChange={({ target }) => setFormValue(target.value, 'username')}
+                                    name="username"
+                                    value={username}
+                                    onChange={setFormValue}
                                 />
                                 {errors.username && <ErrorMessage error={errors.username} />}
                             </div>
@@ -88,8 +72,9 @@ export const Register: React.FC<{}> = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    value={formValues.email}
-                                    onChange={({ target }) => setFormValue(target.value, 'email')}
+                                    name="email"
+                                    value={email}
+                                    onChange={setFormValue}
                                 />
                                 {errors.email && <ErrorMessage error={errors.email} />}
                             </div>
@@ -101,8 +86,9 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    value={formValues.password}
-                                    onChange={({ target }) => setFormValue(target.value, 'password')}
+                                    name="password"
+                                    value={password}
+                                    onChange={setFormValue}
                                 />
                                 {errors.password && <ErrorMessage error={errors.password} />}
                             </div>
@@ -114,8 +100,9 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    value={formValues.passwordConfirmation}
-                                    onChange={({ target }) => setFormValue(target.value, 'passwordConfirmation')}
+                                    name="passwordConfirmation"
+                                    value={passwordConfirmation}
+                                    onChange={setFormValue}
                                 />
                             </div>
                             <button className="form__button--wide button button--primary" type="submit">

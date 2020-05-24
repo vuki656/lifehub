@@ -3,6 +3,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import DoneAllIcon from '@material-ui/icons/DoneAll'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import SettingsIcon from '@material-ui/icons/Settings'
+import moment from 'moment'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
@@ -11,7 +12,7 @@ import { useToggle } from 'react-use'
 
 import { ReactComponent as IconLogo } from '../../assets/images/logo/IconLogo.svg'
 import { ReactComponent as TextLogo } from '../../assets/images/logo/TextLogo.svg'
-import { logUserOut } from '../../redux/actions/userActions'
+import { setUser } from '../../redux/actions/userActions'
 
 export const SideMenu: React.FC<{}> = () => {
     const history = useHistory()
@@ -21,7 +22,7 @@ export const SideMenu: React.FC<{}> = () => {
 
     // Logout - clear redux user, remove token from LS and redirect to /login
     const handleLogout = React.useCallback(() => {
-        dispatch(logUserOut())
+        dispatch(setUser(''))
         window.localStorage.removeItem('token')
         history.push('/login')
     }, [dispatch, history])
@@ -35,7 +36,7 @@ export const SideMenu: React.FC<{}> = () => {
                         : <IconLogo className="side-menu__svg" />}
                 </div>
                 <NavLink
-                    to="/dashboard"
+                    to={`/dashboard/${moment().format('DoddddMMYYYY')}`}
                     name="dashboard"
                     className="side-menu__item"
                     activeClassName="side-menu__item--selected"

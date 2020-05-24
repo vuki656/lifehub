@@ -2,21 +2,17 @@ import _ from 'lodash'
 import { useState } from 'react'
 
 export function useFormFields(initialValues) {
-    const [formValues, setValues] = useState(initialValues)
+    const [fields, setValues] = useState(initialValues)
 
-    const resetForm = () => {
-        setValues(initialValues)
-    }
-
-    const setFormValue = (value, name) => {
-        setValues({ ...formValues, [name]: value })
+    const handleValueSet = (event) => {
+        setValues({ ...fields, [event.target.name]: event.target.value })
     }
 
     // Set all values in object to empty string
     const clearForm = () => {
-        const emptyObject = _.mapValues(formValues, () => '')
-        setValues(emptyObject)
+        const result = _.mapValues(fields, field => _.isNil(field) ? '' : field)
+        setValues(result)
     }
 
-    return { formValues, setFormValue, clearForm, resetForm }
+    return [fields, handleValueSet, clearForm]
 }

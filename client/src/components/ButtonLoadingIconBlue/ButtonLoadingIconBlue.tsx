@@ -2,11 +2,8 @@ import React from 'react'
 import Lottie from 'react-lottie'
 
 import animationData from '../../assets/images/lottie/loading-circle-blue.json'
-import { ButtonLoadingIconBlueProps } from './ButtonLoadingIconBlueProps.types'
 
-export const ButtonLoadingIconBlue: React.FC<ButtonLoadingIconBlueProps> = (props) => {
-    const { size } = props
-
+export const ButtonLoadingIconBlue: React.FC<{}> = () => {
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -19,8 +16,8 @@ export const ButtonLoadingIconBlue: React.FC<ButtonLoadingIconBlueProps> = (prop
     return (
         <div className="button-transition">
             <Lottie
-                height={size}
-                width={size}
+                height={18}
+                width={18}
                 options={defaultOptions}
                 isStopped={true}
             />

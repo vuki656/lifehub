@@ -17,9 +17,3 @@ export const setSelectedDate = (selectedDate) => {
         },
     }
 }
-
-export const logUserOut = () => {
-    return {
-        type: actionTypes.LOG_OUT_USER,
-    }
-}
