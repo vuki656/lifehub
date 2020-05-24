@@ -10,31 +10,99 @@ type AuthResponse {
     username: String!
 }
 
+type CreateTaskPayload {
+    task: Task!
+}
+
+type DeleteAllTasksAndMetaDataPayload {
+    taskMetaDataId: ID!
+}
+
+type DeleteSingleTaskInstancePayload {
+    taskId: ID!
+}
+
+type DeleteTaskPayload {
+    taskId: ID!
+}
+
+type GetTasksByDateAndTaskCardPayload {
+    tasks: [Task]!
+}
+
 type Mutation {
     _empty: String
     createReminder(description: String, endDate: String!, startDate: String!, title: String!, username: String!): Reminder!
+    createTask(input: CreateTaskInput!): CreateTaskPayload!
+    createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
+    deleteAllTasksAndMetaData(input: DeleteAllTasksAndMetaDataInput!): DeleteAllTasksAndMetaDataPayload!
     deleteReminder(id: String!): ReminderDeleteResponse!
+    deleteSingleTaskInstance(input: DeleteSingleTaskInstanceInput!): DeleteSingleTaskInstancePayload!
+    deleteTask(input: DeleteTaskInput!): DeleteTaskPayload!
+    deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
+    toggleTaskCompleted(input: ToggleTaskCompletedInput!): ToggleTaskCompletedPayload!
     updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
+    updateTask(input: UpdateTaskInput!): UpdateTaskPayload!
+    updateTaskCard(id: String!, name: String): TaskCard!
 }
 
 type Query {
     _empty: String
+    getAllTaskCards(username: String!): [TaskCard]!
     getRemindersByDate(selectedDate: String!, username: String!): [Reminder]!
+    getTasksByDateAndTaskCard(input: GetTasksByDateAndTaskCardInput!): GetTasksByDateAndTaskCardPayload!
     verifyUser(token: String): AuthResponse
 }
 
 type Reminder {
     description: String
-    endDate: DateTime!
+    endDate: Date!
     id: String!
-    startDate: DateTime!
+    startDate: Date!
     title: String!
 }
 
 type ReminderDeleteResponse {
     id: String!
+}
+
+type Task {
+    date: Date!
+    id: ID!
+    isCompleted: Boolean
+    taskCardId: String
+    taskMetaData: TaskMetaData!
+}
+
+type TaskCard {
+    id: String!
+    name: String!
+}
+
+type TaskCardDeleteResponse {
+    id: String!
+}
+
+type TaskMetaData {
+    endDate: Date
+    id: ID!
+    isHabit: Boolean
+    isRepeating: Boolean
+    nextRepeatingInstance: Date
+    note: String
+    rrule: String
+    startDate: Date
+    title: String!
+}
+
+type ToggleTaskCompletedPayload {
+    task: Task!
+}
+
+type UpdateTaskPayload {
+    task: Task!
 }
 
 type User {
@@ -53,9 +121,59 @@ enum CacheControlScope {
     PUBLIC
 }
 
+input CreateTaskInput {
+    date: Date!
+    taskCardId: String
+    taskMetaData: TaskMetaDataInput
+}
 
-"A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
-scalar DateTime
+input DeleteAllTasksAndMetaDataInput {
+    taskMetaDataId: ID!
+}
+
+input DeleteSingleTaskInstanceInput {
+    rruleStr: String!
+    taskId: ID!
+    taskMetaDataId: ID!
+}
+
+input DeleteTaskInput {
+    taskId: ID!
+    taskMetaDataId: ID!
+}
+
+input GetTasksByDateAndTaskCardInput {
+    selectedDate: Date!
+    taskCardId: String!
+}
+
+input TaskMetaDataInput {
+    endDate: Date
+    id: ID
+    isHabit: Boolean
+    isRepeating: Boolean
+    nextRepeatingInstance: Date
+    note: String
+    rrule: String
+    startDate: Date
+    title: String!
+}
+
+input ToggleTaskCompletedInput {
+    id: ID!
+}
+
+input UpdateTaskInput {
+    date: Date!
+    id: ID!
+    isCompleted: Boolean
+    taskCard: String
+    taskMetaData: TaskMetaDataInput!
+}
+
+
+"A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
+scalar Date
 
 "The `Upload` scalar type represents a file upload."
 scalar Upload

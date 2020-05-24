@@ -1,9 +1,17 @@
-import { reminderType } from './reminder.type-def'
-import { rootType } from './root.type-def'
-import { userType } from './user.type-def'
+import { DocumentNode } from 'graphql'
 
-export const typeDefs = [
+import { reminderType } from './reminder.typeDef'
+import { rootType } from './root.typeDef'
+import { taskType } from './task.typeDef'
+import { taskCardType } from './taskCard.typeDef'
+import { taskMetaDataType } from './taskMetaData.typeDef'
+import { userType } from './user.typeDef'
+
+export const typeDefs: DocumentNode[] = [
     rootType,
     userType,
     reminderType,
+    taskType,
+    taskCardType,
+    taskMetaDataType,
 ]

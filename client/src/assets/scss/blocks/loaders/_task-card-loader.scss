@@ -1,0 +1,22 @@
+.task-card--loading {
+  background-color: $background-color-white;
+  border-radius: $border-radius-def;
+  box-shadow: $box-shadow-default;
+  flex-basis: 45%;
+  margin-bottom: $spacing-xl;
+  padding: $spacing-def;
+}
+
+.task-card__title--loading {
+  @include loader-block-shine;
+  border-radius: $border-radius-loader-block;
+  height: 30px;
+  margin-bottom: $spacing-xs;
+}
+
+.task-card__task--loading {
+  @include loader-block-shine;
+  border-radius: $border-radius-loader-block;
+  height: 25px;
+  margin-bottom: $spacing-xxs;
+}

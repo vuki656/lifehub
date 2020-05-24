@@ -1,14 +1,12 @@
 import { gql } from 'apollo-server'
 
 export const reminderType = gql`
-    scalar GraphQLDateTime
-
     type Reminder {
         id: String!
         title: String!,
         description: String,
-        startDate: GraphQLDateTime!,
-        endDate: GraphQLDateTime!,
+        startDate: GraphQLDate!,
+        endDate: GraphQLDate!,
     }
 
     type ReminderDeleteResponse {
