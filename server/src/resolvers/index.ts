@@ -12,7 +12,7 @@ export const resolvers: IResolvers[] = [
     taskResolver,
     taskCardResolver,
 
-    // Custom scalars1
+    // Custom scalars
     {
         GraphQLDate,
     },

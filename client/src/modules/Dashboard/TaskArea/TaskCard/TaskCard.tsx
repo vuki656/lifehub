@@ -6,8 +6,8 @@ import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
 import {
     createTaskResponse,
@@ -127,17 +127,19 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                         </div>
                         <div className="task-card__input">
                             <form onSubmit={handleSubmit}>
-                                {createLoading ? <ButtonLoadingIconBlue size={35} /> : (
-                                    <input
-                                        className="form__input-field task-card__input-field"
-                                        type="text"
-                                        required
-                                        value={formValues.title}
-                                        placeholder="Click to quickly add a task"
-                                        onChange={({ target }) => setFormValue(target.value, 'title')}
-                                        maxLength={150}
-                                    />
-                                )}
+                                {createLoading
+                                    ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'button'} />
+                                    : (
+                                        <input
+                                            className="form__input-field task-card__input-field"
+                                            type="text"
+                                            required
+                                            value={formValues.title}
+                                            placeholder="Click to quickly add a task"
+                                            onChange={({ target }) => setFormValue(target.value, 'title')}
+                                            maxLength={150}
+                                        />
+                                    )}
                             </form>
                         </div>
                         {errors?.error && <ErrorMessage error={errors.error} />}

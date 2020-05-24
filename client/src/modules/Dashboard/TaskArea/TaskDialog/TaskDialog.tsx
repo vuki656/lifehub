@@ -10,9 +10,8 @@ import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 import { RRule, RRuleSet } from 'rrule'
 
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
-import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
 import { DELETE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
 import { deleteTaskResponse, deleteTaskVariables, TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
@@ -205,7 +204,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             },
         })
         .catch((error) => {
-            console.log(error)
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
     }, [
@@ -268,7 +266,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             },
         })
         .catch((error) => {
-            console.log(error)
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
     }, [
@@ -285,6 +282,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         if (!updateLoading || !deleteLoading) updateTask()
     }, [
         updateTask,
+        updateLoading,
+        deleteLoading,
     ])
 
     return (
@@ -302,7 +301,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 className="button button--secondary"
                                 type="button"
                             >
-                                {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Delete'}
+                                {deleteLoading
+                                    ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'button'} />
+                                    : 'Delete'
+                                }
                             </button>
                         </div>
                         <div className="dialog__navigation">
@@ -505,7 +507,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 type="submit"
                                 className="form__button button button--primary"
                             >
-                                {updateLoading ? <ButtonLoadingIconWhite /> : 'Save'}
+                                {updateLoading
+                                    ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
+                                    : 'Save'
+                                }
                             </button>
                         </div>
                     </div>

@@ -5,10 +5,9 @@ import _ from 'lodash'
 import React, { useCallback } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
-
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
-import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
+
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { CREATE_REMINDER, DELETE_REMINDER, GET_REMINDERS_BY_DATE, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
 import {
     createReminderResponse,
@@ -47,7 +46,10 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         toggleDialog()
         resetForm()
         setErrors({})
-    }, [toggleDialog, resetForm])
+    }, [
+        toggleDialog,
+        resetForm,
+    ])
 
     // Remove reminder from cache if the updated date range doesnt't contain selected date
     // Cache should contain only reminders for selected day
@@ -59,9 +61,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         }
 
         return cachedReminders
-    }, [
-        selectedDate,
-    ])
+    }, [selectedDate])
 
     // Save reminder
     const createReminder = useCallback(() => {
@@ -241,7 +241,11 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                                 className="button button--secondary button-delete"
                                 type="button"
                             >
-                                {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Delete'}
+                                {
+                                    deleteLoading
+                                        ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'button'} />
+                                        : 'Delete'
+                                }
                             </button>
                         )}
                     </div>
@@ -300,7 +304,10 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             type="submit"
                             className="form__button button button--primary"
                         >
-                            {createLoading || updateLoading ? <ButtonLoadingIconWhite /> : 'Save'}
+                            {createLoading || updateLoading ?
+                                <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
+                                : 'Save'
+                            }
                         </button>
                     </div>
                 </div>

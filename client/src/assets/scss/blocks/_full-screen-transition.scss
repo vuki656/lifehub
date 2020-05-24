@@ -1,5 +1,4 @@
 .full-screen-transition {
-  align-items: center;
-  display: flex;
   min-height: 100vh;
+  @include flex-i-center-c-center;
 }

@@ -2,9 +2,9 @@ import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
-
-import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
+
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { CREATE_TASK_CARD, GET_ALL_TASK_CARDS, UPDATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
 import { createTaskCardResponse, createTaskCardVariables, updateTaskCardResponse, updateTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
@@ -123,7 +123,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                             type="submit"
                             className="form__button button button--primary"
                         >
-                            {createLoading || updateLoading ? <ButtonLoadingIconWhite /> : 'Save'}
+                            {createLoading || updateLoading ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} /> : 'Save'}
                         </button>
                     </div>
                 </div>

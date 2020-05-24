@@ -4,13 +4,13 @@ import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { ErrorMessage } from '../../components/ErrorMessage'
-import { FullScreenTransition } from '../../components/FullScreenTransition'
+import { LoadingSpinner } from '../../components/LoadingSpinner'
 import { CREATE_USER } from '../../graphql/user/user'
 import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
 import { useFormFields } from '../../util/hooks/useFormFields.hook'
 import { UserErrors } from './Register.types'
 
-// TODO fix
+// TODO fix register not working
 export const Register: React.FC<{}> = () => {
     const history = useHistory()
 
@@ -61,7 +61,7 @@ export const Register: React.FC<{}> = () => {
 
     return (
         loading
-            ? <FullScreenTransition isLoadingActive={loading} />
+            ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'fullScreen'} />
             : (
                 <form onSubmit={handleSubmit}>
                     <div className="form">

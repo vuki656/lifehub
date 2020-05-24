@@ -5,8 +5,8 @@ import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RRule, RRuleSet } from 'rrule'
 
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { DELETE_ALL_TASKS_AND_META_DATA, DELETE_SINGLE_TASK_INSTANCE, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
 import {
     deleteAllTasksAndMetaDataResponse,
@@ -175,6 +175,8 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
         deleteAllTasksAndMetaData,
         toggleDeleteDialog,
         handleDeleteSingleTaskInstance,
+        deleteSingleLoading,
+        deleteAllLoading,
     ])
 
     return (
@@ -236,7 +238,10 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                         className="button button--primary button-delete"
                         type="button"
                     >
-                        {deleteSingleLoading || deleteAllLoading ? <ButtonLoadingIconBlue size={18} /> : 'Ok'}
+                        {deleteSingleLoading || deleteAllLoading
+                            ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
+                            : 'Ok'
+                        }
                     </button>
                 </div>
             </div>

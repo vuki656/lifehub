@@ -6,7 +6,7 @@ import { Redirect, Route, withRouter } from 'react-router-dom'
 import { VERIFY_USER } from '../../graphql/user/user'
 import { verifyUserResponse, verifyUserVariables } from '../../graphql/user/user.types'
 import { setUser } from '../../redux/actions/userActions'
-import { FullScreenTransition } from '../FullScreenTransition'
+import { LoadingSpinner } from '../LoadingSpinner'
 import SideMenu from '../SideMenu/SideMenu'
 import { ProtectedRouteProps } from './ProtectedRoute.types'
 
@@ -45,7 +45,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
     }, [path, component, exact, error, dispatch, data])
 
     return loading
-        ? <FullScreenTransition isLoadingActive={loading} />
+        ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'fullScreen'} />
         : checkIfAuth()
 }
 

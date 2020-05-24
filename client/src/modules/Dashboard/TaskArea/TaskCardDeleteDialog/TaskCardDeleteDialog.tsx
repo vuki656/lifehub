@@ -3,8 +3,8 @@ import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
 import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { DELETE_TASK_CARD, GET_ALL_TASK_CARDS } from '../../../../graphql/taskCard/taskCard'
 import { deleteTaskCardResponse, deleteTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
 import { TaskCardDeleteDialogProps } from './TaskCardDeleteDialog.types'
@@ -75,7 +75,10 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
                         className="button button--primary button-delete"
                         type="button"
                     >
-                        {deleteLoading ? <ButtonLoadingIconBlue size={18}/> : 'Yes'}
+                        {deleteLoading
+                            ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
+                            : 'Yes'
+                        }
                     </button>
                 </div>
             </div>
