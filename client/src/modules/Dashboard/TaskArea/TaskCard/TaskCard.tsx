@@ -5,9 +5,9 @@ import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-
-import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+
+import { Message } from '../../../../components/Message'
 import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
 import {
     createTaskResponse,
@@ -142,7 +142,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                                     )}
                             </form>
                         </div>
-                        {errors?.error && <ErrorMessage error={errors.error} />}
+                        {errors?.error && <Message message={errors.error} type="error" />}
                         <TaskCardDialog
                             isDialogOpen={isEditDialogOpen}
                             toggleDialog={toggleEditDialog}

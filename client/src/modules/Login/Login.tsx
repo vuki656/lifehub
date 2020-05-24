@@ -3,8 +3,8 @@ import React, { useCallback } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
-import { ErrorMessage } from '../../components/ErrorMessage'
 import { LoadingSpinner } from '../../components/LoadingSpinner'
+import { Message } from '../../components/Message'
 import { LOGIN_USER } from '../../graphql/user/user'
 import { logInUserResponse, logInUserVariables } from '../../graphql/user/user.types'
 import { useFormFields } from '../../util/hooks/useFormFields.hook'
@@ -59,7 +59,7 @@ export const Login: React.FC<{}> = () => {
                             value={formValues.email}
                             onChange={({ target }) => setFormValue(target.value, 'email')}
                         />
-                        {errors.email && <ErrorMessage error={errors.email} />}
+                        {errors.email && <Message message={errors.email} type="error" />}
                     </div>
                     <div className="form__field-wrapper">
                         <p className="form__field-title">Password</p>
@@ -72,7 +72,8 @@ export const Login: React.FC<{}> = () => {
                             value={formValues.password}
                             onChange={({ target }) => setFormValue(target.value, 'password')}
                         />
-                        {errors.password && <ErrorMessage error={errors.password} />}
+                        {/*{errors.password && <Message message={errors.password} type="error" />}*/}
+                        {true && <Message message={'This is a test'} type="error" />}
                     </div>
                     <button
                         className="form__button--wide button button--primary"

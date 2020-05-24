@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
+import AssignmentTurnedInOutlinedIcon from '@material-ui/icons/AssignmentTurnedInOutlined'
 import LoopIcon from '@material-ui/icons/Loop'
 import NotesIcon from '@material-ui/icons/Notes'
 import dayjs from 'dayjs'
@@ -9,9 +10,9 @@ import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 import { RRule, RRuleSet } from 'rrule'
-
-import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+
+import { Message } from '../../../../components/Message'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
 import { DELETE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
 import { deleteTaskResponse, deleteTaskVariables, TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
@@ -320,17 +321,30 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 <p className="dialog__button-text">Details</p>
                             </button>
                             {isRepeating && (
-                                <button
-                                    className={
-                                        'button button--secondary dialog__navigation-button '
-                                        + (selectedTab === 'repeat' && 'dialog__navigation-button--selected')
-                                    }
-                                    type="button"
-                                    onClick={() => setSelectedTab('repeat')}
-                                >
-                                    <LoopIcon className="dialog__button-icon" />
-                                    <p className="dialog__button-text">Repeat</p>
-                                </button>
+                                <>
+                                    <button
+                                        className={
+                                            'button button--secondary dialog__navigation-button '
+                                            + (selectedTab === 'repeat' && 'dialog__navigation-button--selected')
+                                        }
+                                        type="button"
+                                        onClick={() => setSelectedTab('repeat')}
+                                    >
+                                        <LoopIcon className="dialog__button-icon" />
+                                        <p className="dialog__button-text">Repeat</p>
+                                    </button>
+                                    <button
+                                        className={
+                                            'button button--secondary dialog__navigation-button '
+                                            + (selectedTab === 'repeat' && 'dialog__navigation-button--selected')
+                                        }
+                                        type="button"
+                                        onClick={() => setSelectedTab('habit')}
+                                    >
+                                        <AssignmentTurnedInOutlinedIcon className="dialog__button-icon" />
+                                        <p className="dialog__button-text">Habit</p>
+                                    </button>
+                                </>
                             )}
                         </div>
                         <div className="dialog__main-wrapper">
@@ -385,26 +399,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                                 className="task__title"
                                             >
                                                 Repeat Task
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div className="form__field-wrapper">
-                                        <div
-                                            className="dialog__checkbox"
-                                            onClick={toggleIsHabit}
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={isHabit}
-                                                className="task__checkbox"
-                                                onClick={(event) => event.stopPropagation()}
-                                                onChange={toggleIsHabit}
-                                            />
-                                            <label
-                                                htmlFor="task__checkbox"
-                                                className="task__title"
-                                            >
-                                                Is Habit
                                             </label>
                                         </div>
                                     </div>
@@ -493,8 +487,36 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                     </div>
                                 </div>
                             )}
+                            {selectedTab === 'habit' && (
+                                <div className="form__field-wrapper">
+                                    <div
+                                        className="dialog__checkbox"
+                                        onClick={toggleIsHabit}
+                                    >
+                                        <input
+                                            disabled={!isRepeating}
+                                            type="checkbox"
+                                            checked={isHabit}
+                                            className="task__checkbox"
+                                            onClick={(event) => event.stopPropagation()}
+                                            onChange={toggleIsHabit}
+                                        />
+                                        <label
+                                            htmlFor="task__checkbox"
+                                            className="task__title"
+                                        >
+                                            Is Habit
+                                        </label>
+                                    </div>
+                                    <Message
+                                        message="If checked, you can track how consistent you are with your
+                                        habits as well as some other neat info about it."
+                                        type="info"
+                                    />
+                                </div>
+                            )}
                         </div>
-                        {errors.error && <ErrorMessage error={errors.error} />}
+                        {errors.error && <Message message={errors.error} type="error" />}
                         <div className="form__button-group--right">
                             <button
                                 onClick={handleDialogToggle}

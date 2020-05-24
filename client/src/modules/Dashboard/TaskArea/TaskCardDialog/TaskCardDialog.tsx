@@ -2,9 +2,9 @@ import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
-import { ErrorMessage } from '../../../../components/ErrorMessage'
 
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+import { Message } from '../../../../components/Message'
 import { CREATE_TASK_CARD, GET_ALL_TASK_CARDS, UPDATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
 import { createTaskCardResponse, createTaskCardVariables, updateTaskCardResponse, updateTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
@@ -109,7 +109,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                                 maxLength={150}
                             />
                         </div>
-                        {errors.error && <ErrorMessage error={errors.error} />}
+                        {errors.error && <Message message={errors.error} type="error" />}
                     </div>
                     <div className="form__button-group--right">
                         <button

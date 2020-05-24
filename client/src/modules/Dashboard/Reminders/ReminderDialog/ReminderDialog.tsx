@@ -5,9 +5,9 @@ import _ from 'lodash'
 import React, { useCallback } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
-import { ErrorMessage } from '../../../../components/ErrorMessage'
 
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+import { Message } from '../../../../components/Message'
 import { CREATE_REMINDER, DELETE_REMINDER, GET_REMINDERS_BY_DATE, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
 import {
     createReminderResponse,
@@ -291,7 +291,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             />
                         </div>
                     </div>
-                    {errors.error && <ErrorMessage error={errors.error} />}
+                    {errors.error && <Message message={errors.error} type="error" />}
                     <div className="form__button-group--right">
                         <button
                             onClick={handleDialogToggle}

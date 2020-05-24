@@ -4,7 +4,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
-import { ErrorMessage } from '../../../components/ErrorMessage'
+import { Message } from '../../../components/Message'
 import { GET_REMINDERS_BY_DATE } from '../../../graphql/reminder/reminder'
 import { getRemindersByDateResponse, getRemindersByDateVariables } from '../../../graphql/reminder/reminder.types'
 import { renderLoaders } from '../../../util/helpers/renderLoaders'
@@ -57,7 +57,7 @@ export const Reminders: React.FC<{}> = () => {
                 : (
                     <>
                         {renderReminderCards()}
-                        {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}
+                        {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />}
                     </>
                 )}
             <ReminderDialog

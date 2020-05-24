@@ -4,9 +4,9 @@ import _ from 'lodash'
 import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RRule, RRuleSet } from 'rrule'
-
-import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+
+import { Message } from '../../../../components/Message'
 import { DELETE_ALL_TASKS_AND_META_DATA, DELETE_SINGLE_TASK_INSTANCE, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
 import {
     deleteAllTasksAndMetaDataResponse,
@@ -224,7 +224,7 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                         All Tasks
                     </label>
                 </div>
-                {errors.error && <ErrorMessage error={errors.error} />}
+                {errors.error && <Message message={errors.error} type="error" />}
                 <div className="form__button-group--right">
                     <button
                         onClick={toggleDeleteDialog}

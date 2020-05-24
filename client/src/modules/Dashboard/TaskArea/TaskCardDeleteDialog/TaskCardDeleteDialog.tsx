@@ -2,9 +2,9 @@ import { useMutation } from '@apollo/react-hooks'
 import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
-
-import { ErrorMessage } from '../../../../components/ErrorMessage'
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+
+import { Message } from '../../../../components/Message'
 import { DELETE_TASK_CARD, GET_ALL_TASK_CARDS } from '../../../../graphql/taskCard/taskCard'
 import { deleteTaskCardResponse, deleteTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
 import { TaskCardDeleteDialogProps } from './TaskCardDeleteDialog.types'
@@ -61,7 +61,7 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
                 <div className="dialog__text">
                     <p>Are you sure you want to delete <strong>{taskCard?.name}</strong>?</p>
                 </div>
-                {errors.error && <ErrorMessage error={errors.error} />}
+                {errors.error && <Message message={errors.error} type="error" />}
                 <div className="form__button-group--right">
                     <button
                         onClick={toggleDialog}
