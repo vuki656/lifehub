@@ -72,6 +72,7 @@ export type createTaskResponse = {
 export type getTasksByDateAndTaskCardResponse = {
     getTasksByDateAndTaskCard: {
         tasks: [TaskType],
+        __typename: string,
     },
 }
 

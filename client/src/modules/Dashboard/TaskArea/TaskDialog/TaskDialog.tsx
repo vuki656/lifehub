@@ -15,7 +15,14 @@ import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
 import { DELETE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
-import { deleteTaskResponse, deleteTaskVariables, TaskType, updateTaskResponse, updateTaskVariables } from '../../../../graphql/task/task.types'
+import {
+    deleteTaskResponse,
+    deleteTaskVariables,
+    getTasksByDateAndTaskCardResponse,
+    TaskType,
+    updateTaskResponse,
+    updateTaskVariables,
+} from '../../../../graphql/task/task.types'
 import { toCompatibleDate } from '../../../../util/helpers/convertToCompatibleDate'
 import { rruleWeekDaysArr } from '../../../../util/helpers/variables'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
@@ -173,8 +180,9 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 },
             },
             update(cache, response) {
+                if (!response.data?.updateTask) return
                 toggleDialog()
-                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
@@ -183,8 +191,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         },
                     },
                 })
-                const updatedList = removeTaskIfNotInDateRange(response.data?.updateTask.task!, getTasksByDateAndTaskCard.tasks)
-                cache.writeQuery({
+                const updatedList = removeTaskIfNotInDateRange(response.data?.updateTask.task, localCache?.getTasksByDateAndTaskCard.tasks!)
+                cache.writeQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: {
                         getTasksByDateAndTaskCard: {
@@ -234,7 +242,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             },
             update(cache, response) {
                 handleDialogToggle() // Has to be here to prevent call to unmounted (deleted) component
-                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                if (!response.data?.deleteTask) return
+                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
@@ -243,15 +252,15 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         },
                     },
                 })
-                const updatedList = _.filter(getTasksByDateAndTaskCard.tasks, (cachedTask) => (
+                const updatedList = _.filter(localCache?.getTasksByDateAndTaskCard.tasks, (cachedTask) => (
                     cachedTask.id !== response.data?.deleteTask.taskId
                 ))
-                cache.writeQuery({
+                cache.writeQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: {
                         getTasksByDateAndTaskCard: {
                             tasks: updatedList,
-                            __typename: response.data?.deleteTask.__typename,
+                            __typename: response.data.deleteTask.__typename!,
                         },
                     },
                     variables: {

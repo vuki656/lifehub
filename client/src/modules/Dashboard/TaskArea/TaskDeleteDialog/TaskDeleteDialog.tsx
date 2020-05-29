@@ -13,6 +13,7 @@ import {
     deleteAllTasksAndMetaDataVariables,
     deleteSingleTaskInstanceResponse,
     deleteSingleTaskInstanceVariables,
+    getTasksByDateAndTaskCardResponse,
 } from '../../../../graphql/task/task.types'
 import { TaskDeleteDialogProps } from './TaskDeleteDialog.types'
 
@@ -70,7 +71,7 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                 },
             },
             update(cache, response) {
-                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
@@ -79,15 +80,15 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                         },
                     },
                 })
-                const updatedList = _.filter(getTasksByDateAndTaskCard.tasks, (cachedTask) => (
+                const updatedList = _.filter(localCache?.getTasksByDateAndTaskCard.tasks, (cachedTask) => (
                     cachedTask.id !== response.data?.deleteSingleTaskInstance.taskId
                 ))
-                cache.writeQuery({
+                cache.writeQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: {
                         getTasksByDateAndTaskCard: {
                             tasks: updatedList,
-                            __typename: response.data?.deleteSingleTaskInstance.__typename,
+                            __typename: response.data?.deleteSingleTaskInstance.__typename!,
                         },
                     },
                     variables: {

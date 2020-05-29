@@ -6,7 +6,13 @@ import { useSelector } from 'react-redux'
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
 import { CREATE_TASK_CARD, GET_ALL_TASK_CARDS, UPDATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
-import { createTaskCardResponse, createTaskCardVariables, updateTaskCardResponse, updateTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
+import {
+    createTaskCardResponse,
+    createTaskCardVariables,
+    getAllTaskCardsResponse,
+    updateTaskCardResponse,
+    updateTaskCardVariables,
+} from '../../../../graphql/taskCard/taskCard.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { TaskCardDialogProps } from './TaskCardDialog.types'
 
@@ -37,12 +43,12 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                 name: formValues.name,
             },
             update(cache, response) {
-                const { getAllTaskCards }: any = cache.readQuery({
+                const localCache = cache.readQuery<getAllTaskCardsResponse>({
                     query: GET_ALL_TASK_CARDS,
                     variables: { username },
                 })
-                const updatedList = _.concat(getAllTaskCards, { ...response.data?.createTaskCard })
-                cache.writeQuery({
+                const updatedList = _.concat(localCache?.getAllTaskCards, { ...response.data?.createTaskCard })
+                cache.writeQuery<getAllTaskCardsResponse>({
                     query: GET_ALL_TASK_CARDS,
                     data: { getAllTaskCards: updatedList },
                     variables: { username },

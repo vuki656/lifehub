@@ -6,7 +6,7 @@ import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 
 import { Message } from '../../../../components/Message'
 import { DELETE_TASK_CARD, GET_ALL_TASK_CARDS } from '../../../../graphql/taskCard/taskCard'
-import { deleteTaskCardResponse, deleteTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
+import { deleteTaskCardResponse, deleteTaskCardVariables, getAllTaskCardsResponse } from '../../../../graphql/taskCard/taskCard.types'
 import { TaskCardDeleteDialogProps } from './TaskCardDeleteDialog.types'
 
 export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props) => {
@@ -30,14 +30,14 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
             },
             update(cache, { data }) {
                 handleDialogToggle()
-                const { getAllTaskCards }: any = cache.readQuery({
+                const localCache = cache.readQuery<getAllTaskCardsResponse>({
                     query: GET_ALL_TASK_CARDS,
                     variables: { username },
                 })
-                const updatedList = _.filter(getAllTaskCards, ({ id }) => (
+                const updatedList = _.filter(localCache?.getAllTaskCards, ({ id }) => (
                     id !== data?.deleteTaskCard.id
                 ))
-                cache.writeQuery({
+                cache.writeQuery<getAllTaskCardsResponse>({
                     query: GET_ALL_TASK_CARDS,
                     data: { getAllTaskCards: updatedList },
                     variables: { username },

@@ -14,6 +14,7 @@ import {
     createReminderVariables,
     deleteReminderResponse,
     deleteReminderVariables,
+    getRemindersByDateResponse,
     updateReminderResponse,
     updateReminderVariables,
 } from '../../../../graphql/reminder/reminder.types'
@@ -80,18 +81,18 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                         response.data?.createReminder.startDate!,
                         response.data?.createReminder.endDate!,
                         'date',
-                        '[]', // Indicates inclusion of edge (start/end)
+                        '[]', // Indicates inclusion of edge date (start/end)
                     )
                 ) {
-                    const { getRemindersByDate }: any = cache.readQuery({
+                    const localCache = cache.readQuery<getRemindersByDateResponse>({
                         query: GET_REMINDERS_BY_DATE,
                         variables: {
                             username,
                             selectedDate,
                         },
                     })
-                    const updatedList = _.concat(getRemindersByDate, { ...response.data?.createReminder })
-                    cache.writeQuery({
+                    const updatedList = _.concat(localCache?.getRemindersByDate, { ...response.data?.createReminder })
+                    cache.writeQuery<getRemindersByDateResponse>({
                         query: GET_REMINDERS_BY_DATE,
                         data: { getRemindersByDate: sortRemindersByDate(updatedList) },
                         variables: {
