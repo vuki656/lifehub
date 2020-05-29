@@ -146,7 +146,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         }
 
         // If no matching dates found, remove from cache
-        if (!isInRepeatingDateRange) {
+        if (!isInRepeatingDateRange && !dayjs(task.date).isSame(selectedDate)) {
             return _.filter(cachedTaskList, ({ id }) => id !== task.id)
         }
 
@@ -241,7 +241,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                 },
             },
             update(cache, response) {
-                handleDialogToggle() // Has to be here to prevent call to unmounted (deleted) component
+                toggleDialog() // Has to be here to prevent call to unmounted (deleted) component
                 if (!response.data?.deleteTask) return
                 const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
@@ -355,7 +355,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 Update Task
                             </p>
                             <button
-                                onClick={isRepeating ? toggleDeleteDialog : deleteTask}
+                                onClick={task.taskMetaData.isRepeating ? toggleDeleteDialog : deleteTask}
                                 className="button button--secondary"
                                 type="button"
                             >
