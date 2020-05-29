@@ -274,7 +274,6 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         taskCardId,
     ])
 
-    // If reminder exists update, else create
     const handleSubmit = useCallback((event) => {
         event.preventDefault()
         if (!updateLoading || !deleteLoading) updateTask()
@@ -323,13 +322,14 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         task.taskMetaData.isRepeating,
     ])
 
+    // TODO: REMOVE
     const handleFreq = useCallback((num) => {
-        console.log(frequency)
-        console.log(num)
+        // console.log(frequency)
+        // console.log(num)
 
         setFrequency(parseInt(num, 10))
 
-        console.log(frequency)
+        // console.log(frequency)
     }, [
         setFrequency,
         frequency,
@@ -498,6 +498,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                                 selected={formValues.startDate}
                                                 onChange={(date) => setFormValue(date, 'startDate')}
                                                 minDate={new Date()}
+                                                maxDate={dayjs(formValues.endDate).isSame(new Date()) ? null : formValues.endDate}
                                             />
                                         </div>
                                         <div className="form__field-wrapper">
@@ -591,7 +592,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         <div className="dialog__header-wrapper">
                             <p className="title">
                                 <span role="img" aria-label="trash">📋</span>️
-                                Turn off repeating and habit tracking
+                                Turn off repeating and delete habit tracking
                             </p>
                         </div>
                         <div className="dialog__text">
@@ -603,18 +604,18 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         {errors.error && <Message message={errors.error} type="error" />}
                         <div className="form__button-group--right">
                             <button
-                                // onClick={toggleDialog} //TODO
+                                onClick={toggleRepeatingAlertDialog}
                                 className="button button--secondary button-delete"
                                 type="button"
                             >
                                 Cancel
                             </button>
                             <button
-                                // onClick={deleteTaskCard} //TODO
+                                // onClick={deleteTaskCard} // TODO: handle
                                 className="button button--primary button-delete"
                                 type="button"
                             >
-                                Yes
+                                Ok
                             </button>
                         </div>
                     </div>

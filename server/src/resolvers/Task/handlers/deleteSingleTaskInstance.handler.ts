@@ -8,7 +8,6 @@ export const deleteSingleTaskInstanceHandler = async (input) => {
     const { taskId, taskMetaDataId, rruleStr } = input.input
 
     const taskCount: number = await getConnection().getRepository(TaskEntity).count()
-    console.log('-> taskCount', taskCount)
 
     // Verify task existence
     const taskToDelete: TaskEntity | undefined =
@@ -26,7 +25,7 @@ export const deleteSingleTaskInstanceHandler = async (input) => {
 
     taskMetaDataToUpdate.rrule = rruleStr
 
-    // Delete delete task and update meta data rrule string
+    // Delete single task instance and update meta data rrule string
     await getManager()
     .transaction(async transactionalEntityManager => {
         await transactionalEntityManager.delete(

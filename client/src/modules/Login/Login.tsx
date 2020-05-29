@@ -72,8 +72,7 @@ export const Login: React.FC<{}> = () => {
                             value={formValues.password}
                             onChange={({ target }) => setFormValue(target.value, 'password')}
                         />
-                        {/*{errors.password && <Message message={errors.password} type="error" />}*/}
-                        {true && <Message message={'This is a test'} type="error" />}
+                        {errors.password && <Message message={errors.password} type="error" />}
                     </div>
                     <button
                         className="form__button--wide button button--primary"
