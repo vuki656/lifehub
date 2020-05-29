@@ -164,7 +164,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         id: taskMetaDataId,
                         title: formValues.title,
                         note: formValues.note,
-                        startDate: toCompatibleDate(formValues.startDate),
+                        startDate: isRepeating ? toCompatibleDate(formValues.startDate) : null,
                         endDate: doesEnd ? toCompatibleDate(formValues.endDate) : null,
                         rrule: isRepeating ? getRrule().toString() : null,
                         isRepeating,

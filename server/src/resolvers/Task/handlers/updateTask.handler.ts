@@ -12,9 +12,18 @@ import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 dayjs.extend(utc)
 
 export const updateTaskHandler = async (input) => {
-    const { date, taskCardId } = input.input
+    const { date, taskCardId, taskMetaData } = input.input
 
-    await createRepeatingInstances(taskCardId, input.input, date)
+    if (taskMetaData.isRepeating) {
+        await createRepeatingInstances(taskCardId, input.input, date)
+    } else {
+        await getRepository(TaskEntity)
+        .save(input.input)
+        .catch((err) => {
+            console.log(err)
+            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+        })
+    }
 
     return { task: input.input }
 }

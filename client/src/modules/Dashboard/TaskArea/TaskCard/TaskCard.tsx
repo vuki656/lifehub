@@ -5,8 +5,8 @@ import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
 import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
 import {
