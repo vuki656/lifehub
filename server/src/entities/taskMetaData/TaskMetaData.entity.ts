@@ -24,13 +24,13 @@ export class TaskMetaDataEntity extends BaseEntity {
     note: string
 
     @Column(StartDateOptions)
-    startDate: Date
+    startDate: Date | null
 
     @Column(EndDateOptions)
-    endDate: Date
+    endDate: Date | null
 
     @Column(RRuleOptions)
-    rrule: string
+    rrule: string | null
 
     @Column(IsRepeatingOptions)
     isRepeating: boolean
@@ -39,7 +39,7 @@ export class TaskMetaDataEntity extends BaseEntity {
     isHabit: boolean
 
     @Column(NextRepeatingInstanceOptions)
-    nextRepeatingInstance: Date | null // If task repeating, it holds its next instance
+    nextRepeatingInstance: Date | null
 
     @OneToMany(() => TaskEntity, task => task.taskMetaData)
     tasks: TaskEntity[]

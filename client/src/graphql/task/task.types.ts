@@ -61,6 +61,13 @@ export type deleteAllTasksAndMetaDataVariables = {
     },
 }
 
+export type turnOffRepeatingVariables = {
+    input: {
+        taskId: string,
+        taskMetaDataId: string,
+    },
+}
+
 // ** RESPONSES **
 export type createTaskResponse = {
     createTask: {

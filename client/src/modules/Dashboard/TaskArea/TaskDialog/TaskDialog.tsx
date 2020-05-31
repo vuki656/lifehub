@@ -14,12 +14,13 @@ import { RRule, RRuleSet } from 'rrule'
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
-import { DELETE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD, UPDATE_TASK } from '../../../../graphql/task/task'
+import { DELETE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD, TURN_OFF_REPEATING, UPDATE_TASK } from '../../../../graphql/task/task'
 import {
     deleteTaskResponse,
     deleteTaskVariables,
     getTasksByDateAndTaskCardResponse,
     TaskType,
+    turnOffRepeatingVariables,
     updateTaskResponse,
     updateTaskVariables,
 } from '../../../../graphql/task/task.types'
@@ -53,6 +54,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
     const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
+    const [turnOffRepeatingMutation, { loading: turnOffRepeatingLoading }] = useMutation<{}, turnOffRepeatingVariables>(TURN_OFF_REPEATING)
 
     // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})
@@ -279,31 +281,12 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         deleteTaskMutation,
         task,
         selectedDate,
-        handleDialogToggle,
         taskCardId,
-    ])
-
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-        if (!updateLoading || !deleteLoading) updateTask()
-    }, [
-        updateTask,
-        updateLoading,
-        deleteLoading,
+        toggleDialog,
     ])
 
     // Toggle is repeating and reset form if repeating status being set back to false
     const handleIsRepeatingToggle = useCallback(() => {
-
-        // If its true, it means its being set from true to false
-        // Repeating data and habit data exists, so warn user about that being deleted
-        // If set back to false
-        if (task.taskMetaData.isRepeating) {
-            toggleRepeatingAlertDialog()
-
-            // TODO: remove all tasks and task meta data related to repeating
-            // If they want it to stop just change end date.
-        }
 
         // If its true, it means its being set from true to false, so reset form
         if (isRepeating) {
@@ -316,7 +299,12 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             setFormValue(new Date(selectedDate), 'endDate')
         }
 
-        toggleIsRepeating()
+        // If repeating being set back to false, toggle repeating alert
+        if (task.taskMetaData.isRepeating && isRepeating) {
+            toggleRepeatingAlertDialog()
+        } else {
+            toggleIsRepeating()
+        }
     }, [
         setDoesEnd,
         setSelectedWeekDays,
@@ -331,17 +319,45 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         task.taskMetaData.isRepeating,
     ])
 
-    // TODO: REMOVE
-    const handleFreq = useCallback((num) => {
-        // console.log(frequency)
-        // console.log(num)
-
-        setFrequency(parseInt(num, 10))
-
-        // console.log(frequency)
+    const handleIsRepeatingTurnOff = useCallback(() => {
+        toggleIsRepeating()
+        toggleRepeatingAlertDialog()
     }, [
-        setFrequency,
-        frequency,
+        toggleIsRepeating,
+        toggleRepeatingAlertDialog,
+    ])
+
+    // If its true, it means its being set from true to false
+    // Repeating data and habit data exists, so warn user about that being deleted
+    const turnOffRepeating = useCallback(() => {
+        turnOffRepeatingMutation({
+            variables: {
+                input: {
+                    taskId,
+                    taskMetaDataId,
+                },
+            },
+        })
+        .catch((error) => {
+            setErrors(error.graphQLErrors?.[0].extensions.exception)
+        })
+    }, [
+        turnOffRepeatingMutation,
+        taskId,
+        taskMetaDataId,
+    ])
+
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault()
+        if (!updateLoading || !deleteLoading) updateTask()
+        if (task.taskMetaData.isRepeating && !isRepeating) turnOffRepeating()
+    }, [
+        updateTask,
+        updateLoading,
+        deleteLoading,
+        turnOffRepeating,
+        task.taskMetaData.isRepeating,
+        isRepeating,
     ])
 
     return (
@@ -475,7 +491,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                             />
                                             {/* RRule parses frequency = month = 1, week = 2, day = 3, same with week days*/}
                                             <select
-                                                onChange={({ target }) => handleFreq(target.value)}
+                                                onChange={({ target }) => setFrequency(parseInt(target.value, 10))}
                                                 value={frequency}
                                                 className="form__input-field repeating-task__frequency"
                                             >
@@ -586,7 +602,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 type="submit"
                                 className="form__button button button--primary"
                             >
-                                {updateLoading
+                                {updateLoading || turnOffRepeatingLoading
                                     ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
                                     : 'Save'
                                 }
@@ -601,14 +617,15 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                         <div className="dialog__header-wrapper">
                             <p className="title">
                                 <span role="img" aria-label="trash">📋</span>️
-                                Turn off repeating and delete habit tracking
+                                Turn off repeating
                             </p>
                         </div>
                         <div className="dialog__text">
-                            <p>
-                                If you set repeating back to false, you will lose all your habit statistics related to this task.
-                                If you wish to just stop repeating this task you can set the end date to today and it will not repeat any more.
-                            </p>
+                            <Message
+                                message="  If you set repeating back to false, you will lose all your habit statistics related to this task.
+                                If you wish to just stop repeating this task you can set the end date to today and it will not repeat any more."
+                                type="info"
+                            />
                         </div>
                         {errors.error && <Message message={errors.error} type="error" />}
                         <div className="form__button-group--right">
@@ -620,7 +637,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 Cancel
                             </button>
                             <button
-                                // onClick={deleteTaskCard} // TODO: handle
+                                onClick={handleIsRepeatingTurnOff}
                                 className="button button--primary button-delete"
                                 type="button"
                             >

@@ -43,6 +43,7 @@ type Mutation {
     deleteTaskCard(id: String!): TaskCardDeleteResponse!
     logInUser(email: String!, password: String!): UserAuth!
     toggleTaskCompleted(input: ToggleTaskCompletedInput!): ToggleTaskCompletedPayload!
+    turnOffRepeating(input: TurnOffRepeatingInput!): Void
     updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
     updateTask(input: UpdateTaskInput!): UpdateTaskPayload!
     updateTaskCard(id: String!, name: String): TaskCard!
@@ -163,6 +164,11 @@ input ToggleTaskCompletedInput {
     id: ID!
 }
 
+input TurnOffRepeatingInput {
+    taskId: ID!
+    taskMetaDataId: ID!
+}
+
 input UpdateTaskInput {
     date: Date!
     id: ID!
@@ -174,6 +180,9 @@ input UpdateTaskInput {
 
 "A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
 scalar Date
+
+"Represents NULL values"
+scalar Void
 
 "The `Upload` scalar type represents a file upload."
 scalar Upload

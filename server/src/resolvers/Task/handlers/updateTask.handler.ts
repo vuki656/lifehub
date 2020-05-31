@@ -15,12 +15,11 @@ export const updateTaskHandler = async (input) => {
     const { date, taskCardId, taskMetaData } = input.input
 
     if (taskMetaData.isRepeating) {
-        await createRepeatingInstances(taskCardId, input.input, date)
+        await createRepeatingInstances(taskCardId, input.input)
     } else {
         await getRepository(TaskEntity)
         .save(input.input)
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
     }
@@ -28,18 +27,18 @@ export const updateTaskHandler = async (input) => {
     return { task: input.input }
 }
 
-const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEntity, taskDate: Date) => {
+const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEntity) => {
     const { taskMetaData } = updatedTask
     const { startDate, endDate, rrule } = taskMetaData
 
     const maxDateRangeEndDate: Date = dayjs.utc(dayjs().add(20, 'day')).startOf('day').toDate()
-    const rruleObj: RRule | RRuleSet = rrulestr(rrule)
-    const updatedEndDate: Date = getEndDate(endDate, maxDateRangeEndDate)
+    const rruleObj: RRule | RRuleSet = rrulestr(rrule!)
+    const updatedEndDate: Date = getEndDate(endDate!, maxDateRangeEndDate)
     const nextRepeatingInstance = rruleObj.after(updatedEndDate)
 
     // Get repeating instance dates
     let taskInstanceToCreateDates: Date[] = rruleObj.between(
-        dayjs(startDate).toDate(),
+        dayjs(startDate!).toDate(),
         dayjs(updatedEndDate).toDate(),
         true,
     )
@@ -68,15 +67,13 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
     if (_.isEmpty(taskEntitiesToCreate)) {
         await getRepository(TaskMetaDataEntity)
         .save(taskMetaData)
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
     } else {
         await getRepository(TaskEntity)
         .save(taskEntitiesToCreate)
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
     }
@@ -101,8 +98,7 @@ const removeExistingTasks = async (taskInstanceToCreateDates: Date[], updatedTas
         .andWhere('task.date >= :startDate', { startDate: updatedTask.taskMetaData.startDate })
         .andWhere('task.date <= :endDate', { endDate: updatedTask.taskMetaData.endDate || maxDateRangeEndDate })
         .getMany()
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
 
@@ -122,7 +118,7 @@ const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData
 
     // Dates that match rrule filter
     const datesMatchingFilter: Date[] = rruleObj.between(
-        dayjs(startDate).toDate(),
+        dayjs(startDate!).toDate(),
         dayjs(endDate || maxDateRangeEndDate).toDate(),
         true,
     )
@@ -135,8 +131,7 @@ const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData
         .where('taskMetaData = :taskMetaDataId', { taskMetaDataId })
         .andWhere('date NOT IN (:...datesMatchingFilter)', { datesMatchingFilter })
         .execute()
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
     }

@@ -8,17 +8,11 @@ export const deleteTaskHandler = async (input) => {
     const { taskId, taskMetaDataId } = input.input
 
     // Verify task existence
-    const taskToDelete: TaskEntity | undefined =
-        await getConnection()
-        .getRepository(TaskEntity)
-        .findOne(taskId)
+    const taskToDelete: TaskEntity | undefined = await getConnection().getRepository(TaskEntity).findOne(taskId)
     if (!taskToDelete) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
     // Verify task meta data existence
-    const taskMetaDataToDelete: TaskMetaDataEntity | undefined =
-        await getConnection()
-        .getRepository(TaskMetaDataEntity)
-        .findOne(taskMetaDataId)
+    const taskMetaDataToDelete: TaskMetaDataEntity | undefined = await getConnection().getRepository(TaskMetaDataEntity).findOne(taskMetaDataId)
     if (!taskMetaDataToDelete) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
     // Delete both task and task meta data
