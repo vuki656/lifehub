@@ -1,0 +1,57 @@
+.task-card {
+  background-color: $background-color-white;
+  border-radius: $border-radius-def;
+  box-shadow: $box-shadow-default;
+  flex-basis: 45%;
+  margin-bottom: $spacing-xl;
+  padding: $spacing-def;
+
+  &:hover {
+    .task-card__icon {
+      opacity: 1;
+    }
+  }
+}
+
+.task-card__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: $spacing-sm;
+}
+
+.task-card__name {
+  align-items: center;
+  display: flex;
+  font-weight: $font-weight-bold;
+  padding: $spacing-xs 0;
+}
+
+.task-card__icon {
+  background-color: $background-color-white;
+  border-radius: 50%;
+  cursor: pointer;
+  fill: $icon-button-color-primary-dark;
+  height: 20px;
+  opacity: 0;
+  padding: $spacing-xxs;
+  transition-duration: 150ms, 150ms, 100ms !important;
+
+  // Icon has default transition that needs override
+  transition-property: background, box-shadow, opacity !important;
+  transition-timing-function: ease-in-out !important;
+  width: 20px;
+
+  &:hover {
+    background-color: $background-color-grey-light;
+    border-radius: 50%;
+    box-shadow: $box-shadow-default;
+    padding: $spacing-xxs;
+  }
+}
+
+.task-card__input {
+  transition-duration: 150ms;
+  transition-property: opacity;
+  transition-timing-function: ease-in-out;
+}

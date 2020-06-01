@@ -1,7 +1,22 @@
-import { ReminderType } from '../../modules/Dashboard/Reminders/Reminder.types'
+export type ReminderType = {
+    id?: string,
+    title: string,
+    description?: string,
+    startDate: string,
+    endDate: string,
+}
 
 export type DeleteReminderResponse = {
     id: string,
+}
+
+export type UpdateReminderResponse = {
+    id: string,
+    username: string,
+    title: string,
+    description: string,
+    startDate: string,
+    endDate: string,
 }
 
 // ** VARIABLES **
@@ -9,8 +24,8 @@ export type createReminderVariables = {
     username: string,
     title: string,
     description: string,
-    startDate: Date,
-    endDate: Date,
+    startDate: string,
+    endDate: string,
 }
 
 export type updateReminderVariables = {
@@ -18,8 +33,8 @@ export type updateReminderVariables = {
     username: string,
     title: string,
     description: string,
-    startDate: Date,
-    endDate: Date,
+    startDate: string,
+    endDate: string,
 }
 
 export type deleteReminderVariables = {
@@ -28,7 +43,7 @@ export type deleteReminderVariables = {
 
 export type getRemindersByDateVariables = {
     username: string,
-    selectedDate: string,
+    selectedDate: string | Date,
 }
 
 // ** RESPONSES **
@@ -37,12 +52,7 @@ export type createReminderResponse = {
 }
 
 export type updateReminderResponse = {
-    id: string,
-    username: string,
-    title: string,
-    description: string,
-    startDate: Date,
-    Date: Date,
+    updateReminder: UpdateReminderResponse,
 }
 
 export type deleteReminderResponse = {

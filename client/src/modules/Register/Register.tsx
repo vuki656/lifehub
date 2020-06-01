@@ -3,8 +3,8 @@ import React, { useCallback } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
-import { ErrorMessage } from '../../components/ErrorMessage'
-import { FullScreenTransition } from '../../components/FullScreenTransition'
+import { LoadingSpinner } from '../../components/LoadingSpinner'
+import { Message } from '../../components/Message'
 import { CREATE_USER } from '../../graphql/user/user'
 import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
 import { useFormFields } from '../../util/hooks/useFormFields.hook'
@@ -15,7 +15,7 @@ export const Register: React.FC<{}> = () => {
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
-    const [{ username, email, password, passwordConfirmation }, setFormValue, clearForm] = useFormFields({
+    const { formValues, setFormValue, clearForm } = useFormFields({
         username: '',
         email: '',
         password: '',
@@ -23,11 +23,14 @@ export const Register: React.FC<{}> = () => {
     })
 
     // Save user in database
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-
+    const createUser = useCallback(() => {
         createUserMutation({
-            variables: { username, email, password, passwordConfirmation },
+            variables: {
+                username: formValues.username,
+                email: formValues.email,
+                password: formValues.password,
+                passwordConfirmation: formValues.passwordConfirmation,
+            },
         })
         .then((response) => {
             const token = response?.data?.createUser.token ?? ''
@@ -40,11 +43,24 @@ export const Register: React.FC<{}> = () => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createUserMutation, history, clearForm, username, email, password, passwordConfirmation])
+    }, [
+        clearForm,
+        createUserMutation,
+        formValues.email,
+        formValues.username,
+        formValues.password,
+        formValues.passwordConfirmation,
+        history,
+    ])
+
+    const handleSubmit = useCallback((event) => {
+        event.preventDefault()
+        createUser()
+    }, [createUser])
 
     return (
         loading
-            ? <FullScreenTransition isLoadingActive={loading} />
+            ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'fullScreen'} />
             : (
                 <form onSubmit={handleSubmit}>
                     <div className="form">
@@ -59,11 +75,10 @@ export const Register: React.FC<{}> = () => {
                                     type="text"
                                     minLength={4}
                                     required
-                                    name="username"
-                                    value={username}
-                                    onChange={setFormValue}
+                                    value={formValues.username}
+                                    onChange={({ target }) => setFormValue(target.value, 'username')}
                                 />
-                                {errors.username && <ErrorMessage error={errors.username} />}
+                                {errors.username && <Message message={errors.username} type="error" />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Email</p>
@@ -72,11 +87,10 @@ export const Register: React.FC<{}> = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    name="email"
-                                    value={email}
-                                    onChange={setFormValue}
+                                    value={formValues.email}
+                                    onChange={({ target }) => setFormValue(target.value, 'email')}
                                 />
-                                {errors.email && <ErrorMessage error={errors.email} />}
+                                {errors.email && <Message message={errors.email} type="error" />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Password</p>
@@ -86,11 +100,10 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    name="password"
-                                    value={password}
-                                    onChange={setFormValue}
+                                    value={formValues.password}
+                                    onChange={({ target }) => setFormValue(target.value, 'password')}
                                 />
-                                {errors.password && <ErrorMessage error={errors.password} />}
+                                {errors.password && <Message message={errors.password} type="error" />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Confirm Password </p>
@@ -100,9 +113,8 @@ export const Register: React.FC<{}> = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    name="passwordConfirmation"
-                                    value={passwordConfirmation}
-                                    onChange={setFormValue}
+                                    value={formValues.passwordConfirmation}
+                                    onChange={({ target }) => setFormValue(target.value, 'passwordConfirmation')}
                                 />
                             </div>
                             <button className="form__button--wide button button--primary" type="submit">

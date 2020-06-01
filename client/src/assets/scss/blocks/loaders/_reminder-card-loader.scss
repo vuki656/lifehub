@@ -8,14 +8,14 @@
 .reminder-card__title--loading {
   @include loader-block-shine;
   border-radius: $border-radius-loader-block;
-  height: $loader-title-text-height;
+  height: 20px;
   margin-bottom: $spacing-xs;
 }
 
 .reminder-card__description-line--loading {
   @include loader-block-shine;
   border-radius: $border-radius-loader-block;
-  height: $loader-description-text-height;
+  height:  16px;
   margin-bottom: $spacing-xxs;
 }
 
@@ -32,6 +32,6 @@
 .reminder-card__tag--loading {
   @include loader-block-shine;
   border-radius: $border-radius-loader-block;
-  height: $loader-tag-height;
-  width: $loader-tag-width;
+  height: 15px;
+  width: 50px;
 }

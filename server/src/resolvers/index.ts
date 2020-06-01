@@ -1,6 +1,21 @@
+import { GraphQLDate } from 'graphql-iso-date'
+import { IResolvers } from 'graphql-tools'
+
+import { Void } from '../customScalars/void.scalar'
 import { reminderResolver } from './Reminder/reminder.resolver'
+import { taskResolver } from './Task/task.resolver'
+import { taskCardResolver } from './TaskCard/taskCard.resolver'
 import { userResolver } from './User/user.resolver'
 
-const { GraphQLDateTime } = require('graphql-iso-date')
+export const resolvers: IResolvers[] = [
+    userResolver,
+    reminderResolver,
+    taskResolver,
+    taskCardResolver,
 
-export const resolvers = [{ GraphQLDateTime }, userResolver, reminderResolver]
+    // Custom scalars
+    {
+        GraphQLDate,
+        Void,
+    },
+]

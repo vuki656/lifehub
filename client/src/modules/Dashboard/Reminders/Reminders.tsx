@@ -4,7 +4,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
-import { ErrorMessage } from '../../../components/ErrorMessage'
+import { Message } from '../../../components/Message'
 import { GET_REMINDERS_BY_DATE } from '../../../graphql/reminder/reminder'
 import { getRemindersByDateResponse, getRemindersByDateVariables } from '../../../graphql/reminder/reminder.types'
 import { renderLoaders } from '../../../util/helpers/renderLoaders'
@@ -25,10 +25,14 @@ export const Reminders: React.FC<{}> = () => {
         },
     })
 
-    // Sort reminders by date starting at latest then render
-    const renderReminderItems = () => {
+    // Sort reminders by date ascending then render
+    const renderReminderCards = () => {
         if (data?.getRemindersByDate.length === 0) {
-            return <p className="info-message">No reminders 📅</p>
+            return (
+                <p className="info-message">
+                    No reminders <span role="img" aria-label="calendar">📅</span>
+                </p>
+            )
         }
 
         const sortedReminders = data && sortRemindersByDate(data?.getRemindersByDate)
@@ -51,12 +55,15 @@ export const Reminders: React.FC<{}> = () => {
             {loading
                 ? (renderLoaders(4, <ReminderCardLoader />))
                 : (
-                    <div>
-                        {renderReminderItems()}
-                        {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}
-                    </div>
+                    <>
+                        {renderReminderCards()}
+                        {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />}
+                    </>
                 )}
-            <ReminderDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />
+            <ReminderDialog
+                isDialogOpen={isDialogOpen}
+                toggleDialog={toggleDialog}
+            />
         </div>
     )
 }
