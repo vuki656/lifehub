@@ -47,6 +47,11 @@ export const taskType = gql`
         taskMetaDataId: ID!,
     }
 
+    input TurnOffRepeatingInput {
+        taskId: ID!,
+        taskMetaDataId: ID!,
+    }
+
     type CreateTaskPayload {
         task: Task!
     }
@@ -86,5 +91,6 @@ export const taskType = gql`
         deleteTask(input: DeleteTaskInput!): DeleteTaskPayload!
         deleteSingleTaskInstance(input: DeleteSingleTaskInstanceInput!): DeleteSingleTaskInstancePayload!
         deleteAllTasksAndMetaData(input: DeleteAllTasksAndMetaDataInput!): DeleteAllTasksAndMetaDataPayload!
+        turnOffRepeating(input: TurnOffRepeatingInput!): Void
     }
 `

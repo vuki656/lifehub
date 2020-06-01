@@ -6,6 +6,7 @@ import { gql } from 'apollo-server'
 // Also holds custom scalars
 export const rootType = gql`
     scalar GraphQLDate
+    scalar Void
 
     type Query { _empty: String }
     type Mutation { _empty: String }

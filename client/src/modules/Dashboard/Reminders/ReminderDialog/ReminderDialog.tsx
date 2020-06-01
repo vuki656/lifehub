@@ -6,15 +6,15 @@ import React, { useCallback } from 'react'
 import DatePicker from 'react-datepicker'
 import { useSelector } from 'react-redux'
 
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
-import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
-import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+import { Message } from '../../../../components/Message'
 import { CREATE_REMINDER, DELETE_REMINDER, GET_REMINDERS_BY_DATE, UPDATE_REMINDER } from '../../../../graphql/reminder/reminder'
 import {
     createReminderResponse,
     createReminderVariables,
     deleteReminderResponse,
     deleteReminderVariables,
+    getRemindersByDateResponse,
     updateReminderResponse,
     updateReminderVariables,
 } from '../../../../graphql/reminder/reminder.types'
@@ -47,7 +47,10 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         toggleDialog()
         resetForm()
         setErrors({})
-    }, [toggleDialog, resetForm])
+    }, [
+        toggleDialog,
+        resetForm,
+    ])
 
     // Remove reminder from cache if the updated date range doesnt't contain selected date
     // Cache should contain only reminders for selected day
@@ -59,9 +62,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         }
 
         return cachedReminders
-    }, [
-        selectedDate,
-    ])
+    }, [selectedDate])
 
     // Save reminder
     const createReminder = useCallback(() => {
@@ -80,18 +81,18 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                         response.data?.createReminder.startDate!,
                         response.data?.createReminder.endDate!,
                         'date',
-                        '[]', // Indicates inclusion of edge (start/end)
+                        '[]', // Indicates inclusion of edge date (start/end)
                     )
                 ) {
-                    const { getRemindersByDate }: any = cache.readQuery({
+                    const localCache = cache.readQuery<getRemindersByDateResponse>({
                         query: GET_REMINDERS_BY_DATE,
                         variables: {
                             username,
                             selectedDate,
                         },
                     })
-                    const updatedList = _.concat(getRemindersByDate, { ...response.data?.createReminder })
-                    cache.writeQuery({
+                    const updatedList = _.concat(localCache?.getRemindersByDate, { ...response.data?.createReminder })
+                    cache.writeQuery<getRemindersByDateResponse>({
                         query: GET_REMINDERS_BY_DATE,
                         data: { getRemindersByDate: sortRemindersByDate(updatedList) },
                         variables: {
@@ -241,7 +242,11 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                                 className="button button--secondary button-delete"
                                 type="button"
                             >
-                                {deleteLoading ? <ButtonLoadingIconBlue size={18} /> : 'Delete'}
+                                {
+                                    deleteLoading
+                                        ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'button'} />
+                                        : 'Delete'
+                                }
                             </button>
                         )}
                     </div>
@@ -287,7 +292,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             />
                         </div>
                     </div>
-                    {errors.error && <ErrorMessage error={errors.error} />}
+                    {errors.error && <Message message={errors.error} type="error" />}
                     <div className="form__button-group--right">
                         <button
                             onClick={handleDialogToggle}
@@ -300,7 +305,10 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             type="submit"
                             className="form__button button button--primary"
                         >
-                            {createLoading || updateLoading ? <ButtonLoadingIconWhite /> : 'Save'}
+                            {createLoading || updateLoading ?
+                                <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
+                                : 'Save'
+                            }
                         </button>
                     </div>
                 </div>

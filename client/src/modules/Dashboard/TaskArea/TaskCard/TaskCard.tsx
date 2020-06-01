@@ -6,8 +6,8 @@ import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
-import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+import { Message } from '../../../../components/Message'
 import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
 import {
     createTaskResponse,
@@ -31,16 +31,24 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const [errors, setErrors] = React.useState<{ error?: string }>()
     const { selectedDate } = useSelector((state) => state.user)
 
-    // TODO: handle fetch error
-    const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
-    const { data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
-        variables: {
-            input: {
-                taskCardId: taskCard.id,
-                selectedDate,
+    const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(
+        CREATE_TASK,
+        {
+            onError: (error) => {
+                setErrors({ error: error.message })
             },
         },
-    })
+    )
+    const { data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(
+        GET_TASKS_BY_DATE_AND_TASK_CARD, {
+            variables: {
+                input: {
+                    taskCardId: taskCard.id,
+                    selectedDate,
+                },
+            },
+            fetchPolicy: 'network-only',
+        })
 
     // Form
     const { formValues, setFormValue, clearForm } = useFormFields({
@@ -60,7 +68,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                 },
             },
             update(cache, response) {
-                const readCacheData: any = cache.readQuery({
+                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
@@ -75,7 +83,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                         getTasksByDateAndTaskCard: {
                             __typename: response.data?.createTask.__typename,
                             tasks: _.concat(
-                                readCacheData.getTasksByDateAndTaskCard.tasks,
+                                localCache?.getTasksByDateAndTaskCard.tasks,
                                 { ...response.data?.createTask.task },
                             ),
                         },
@@ -127,20 +135,22 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                         </div>
                         <div className="task-card__input">
                             <form onSubmit={handleSubmit}>
-                                {createLoading ? <ButtonLoadingIconBlue size={35} /> : (
-                                    <input
-                                        className="form__input-field task-card__input-field"
-                                        type="text"
-                                        required
-                                        value={formValues.title}
-                                        placeholder="Click to quickly add a task"
-                                        onChange={({ target }) => setFormValue(target.value, 'title')}
-                                        maxLength={150}
-                                    />
-                                )}
+                                {createLoading
+                                    ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'button'} />
+                                    : (
+                                        <input
+                                            className="form__input-field task-card__input-field"
+                                            type="text"
+                                            required
+                                            value={formValues.title}
+                                            placeholder="Click to quickly add a task"
+                                            onChange={({ target }) => setFormValue(target.value, 'title')}
+                                            maxLength={150}
+                                        />
+                                    )}
                             </form>
                         </div>
-                        {errors?.error && <ErrorMessage error={errors.error} />}
+                        {errors?.error && <Message message={errors.error} type="error" />}
                         <TaskCardDialog
                             isDialogOpen={isEditDialogOpen}
                             toggleDialog={toggleEditDialog}

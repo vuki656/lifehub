@@ -20,6 +20,7 @@ export const EndDateOptions: any = {
 }
 
 export const RRuleOptions: any = {
+    type: 'text',
     nullable: true,
 }
 

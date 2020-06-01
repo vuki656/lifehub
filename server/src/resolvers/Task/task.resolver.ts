@@ -7,6 +7,7 @@ import { deleteSingleTaskInstanceHandler } from './handlers/deleteSingleTaskInst
 import { deleteTaskHandler } from './handlers/deleteTask.handler'
 import { getTasksByDateAndTaskCardHandler } from './handlers/getTasksByDateAndTaskCard.handler'
 import { toggleTaskCompletedHandler } from './handlers/toggleTaskCompleted.handler'
+import { turnOffRepeatingHandler } from './handlers/turnOffRepeating.handler'
 import { updateTaskHandler } from './handlers/updateTask.handler'
 
 export const taskResolver = {
@@ -28,6 +29,10 @@ export const taskResolver = {
         updateTask: combineResolvers(
             (parent, input, context) => isAuthenticated(context),
             (parent, input) => updateTaskHandler(input),
+        ),
+        turnOffRepeating: combineResolvers(
+            (parent, input, context) => isAuthenticated(context),
+            (parent, input) => turnOffRepeatingHandler(input),
         ),
         deleteTask: combineResolvers(
             (parent, input, context) => isAuthenticated(context),

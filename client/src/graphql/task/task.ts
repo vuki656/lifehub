@@ -119,3 +119,9 @@ export const DELETE_ALL_TASKS_AND_META_DATA = gql`
         }
     }
 `
+
+export const TURN_OFF_REPEATING = gql`
+    mutation turnOffRepeating($input: TurnOffRepeatingInput!) {
+        turnOffRepeating(input: $input)
+    }
+`

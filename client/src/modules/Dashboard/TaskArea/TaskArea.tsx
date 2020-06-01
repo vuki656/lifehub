@@ -6,7 +6,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
-import { ErrorMessage } from '../../../components/ErrorMessage'
+import { Message } from '../../../components/Message'
 import { GET_ALL_TASK_CARDS } from '../../../graphql/taskCard/taskCard'
 import { getAllTaskCardsResponse, getAllTaskCardsVariables } from '../../../graphql/taskCard/taskCard.types'
 import { renderLoaders } from '../../../util/helpers/renderLoaders'
@@ -55,7 +55,7 @@ export const TaskArea: React.FC<{}> = () => {
                             {data && data.getAllTaskCards.map((taskCard) => (
                                 <TaskCard taskCard={taskCard} key={taskCard.id} />
                             ))}
-                            {error && <ErrorMessage error={'Something wen\'t wrong, please try again.'} />}
+                            {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />}
                         </>
                     )}
             </div>

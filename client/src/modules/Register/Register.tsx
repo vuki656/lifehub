@@ -3,14 +3,13 @@ import React, { useCallback } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
-import { ErrorMessage } from '../../components/ErrorMessage'
-import { FullScreenTransition } from '../../components/FullScreenTransition'
+import { LoadingSpinner } from '../../components/LoadingSpinner'
+import { Message } from '../../components/Message'
 import { CREATE_USER } from '../../graphql/user/user'
 import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
 import { useFormFields } from '../../util/hooks/useFormFields.hook'
 import { UserErrors } from './Register.types'
 
-// TODO fix
 export const Register: React.FC<{}> = () => {
     const history = useHistory()
 
@@ -61,7 +60,7 @@ export const Register: React.FC<{}> = () => {
 
     return (
         loading
-            ? <FullScreenTransition isLoadingActive={loading} />
+            ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'fullScreen'} />
             : (
                 <form onSubmit={handleSubmit}>
                     <div className="form">
@@ -79,7 +78,7 @@ export const Register: React.FC<{}> = () => {
                                     value={formValues.username}
                                     onChange={({ target }) => setFormValue(target.value, 'username')}
                                 />
-                                {errors.username && <ErrorMessage error={errors.username} />}
+                                {errors.username && <Message message={errors.username} type="error" />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Email</p>
@@ -91,7 +90,7 @@ export const Register: React.FC<{}> = () => {
                                     value={formValues.email}
                                     onChange={({ target }) => setFormValue(target.value, 'email')}
                                 />
-                                {errors.email && <ErrorMessage error={errors.email} />}
+                                {errors.email && <Message message={errors.email} type="error" />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Password</p>
@@ -104,7 +103,7 @@ export const Register: React.FC<{}> = () => {
                                     value={formValues.password}
                                     onChange={({ target }) => setFormValue(target.value, 'password')}
                                 />
-                                {errors.password && <ErrorMessage error={errors.password} />}
+                                {errors.password && <Message message={errors.password} type="error" />}
                             </div>
                             <div className="form__field-wrapper">
                                 <p className="form__field-title">Confirm Password </p>

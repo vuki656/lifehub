@@ -4,15 +4,16 @@ import _ from 'lodash'
 import React, { useCallback, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RRule, RRuleSet } from 'rrule'
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 
-import { ButtonLoadingIconBlue } from '../../../../components/ButtonLoadingIconBlue'
-import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { Message } from '../../../../components/Message'
 import { DELETE_ALL_TASKS_AND_META_DATA, DELETE_SINGLE_TASK_INSTANCE, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
 import {
     deleteAllTasksAndMetaDataResponse,
     deleteAllTasksAndMetaDataVariables,
     deleteSingleTaskInstanceResponse,
     deleteSingleTaskInstanceVariables,
+    getTasksByDateAndTaskCardResponse,
 } from '../../../../graphql/task/task.types'
 import { TaskDeleteDialogProps } from './TaskDeleteDialog.types'
 
@@ -70,7 +71,7 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                 },
             },
             update(cache, response) {
-                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
@@ -79,15 +80,15 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                         },
                     },
                 })
-                const updatedList = _.filter(getTasksByDateAndTaskCard.tasks, (cachedTask) => (
+                const updatedList = _.filter(localCache?.getTasksByDateAndTaskCard.tasks, (cachedTask) => (
                     cachedTask.id !== response.data?.deleteSingleTaskInstance.taskId
                 ))
-                cache.writeQuery({
+                cache.writeQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: {
                         getTasksByDateAndTaskCard: {
                             tasks: updatedList,
-                            __typename: response.data?.deleteSingleTaskInstance.__typename,
+                            __typename: response.data?.deleteSingleTaskInstance.__typename!,
                         },
                     },
                     variables: {
@@ -175,6 +176,8 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
         deleteAllTasksAndMetaData,
         toggleDeleteDialog,
         handleDeleteSingleTaskInstance,
+        deleteSingleLoading,
+        deleteAllLoading,
     ])
 
     return (
@@ -222,7 +225,7 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                         All Tasks
                     </label>
                 </div>
-                {errors.error && <ErrorMessage error={errors.error} />}
+                {errors.error && <Message message={errors.error} type="error" />}
                 <div className="form__button-group--right">
                     <button
                         onClick={toggleDeleteDialog}
@@ -236,7 +239,10 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                         className="button button--primary button-delete"
                         type="button"
                     >
-                        {deleteSingleLoading || deleteAllLoading ? <ButtonLoadingIconBlue size={18} /> : 'Ok'}
+                        {deleteSingleLoading || deleteAllLoading
+                            ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
+                            : 'Ok'
+                        }
                     </button>
                 </div>
             </div>

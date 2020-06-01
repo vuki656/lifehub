@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useToggle } from 'react-use'
 import RRule, { RRuleSet, rrulestr } from 'rrule'
 
-import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { Message } from '../../../../components/Message'
 import { TOGGLE_TASK_COMPLETED } from '../../../../graphql/task/task'
 import { toggleTaskCompletedResponse, toggleTaskCompletedVariables } from '../../../../graphql/task/task.types'
 import { TaskDialog } from '../TaskDialog'
@@ -76,7 +76,7 @@ export const Task: React.FC<TaskProps> = (props) => {
             </label>
             {errors.error && (
                 <div className="task__error">
-                    <ErrorMessage error={errors.error} />
+                    <Message message={errors.error} type="error" />
                 </div>
             )}
             {task.taskMetaData.isRepeating && (

@@ -3,10 +3,16 @@ import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
-import { ButtonLoadingIconWhite } from '../../../../components/ButtonLoadingIconWhite'
-import { ErrorMessage } from '../../../../components/ErrorMessage'
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+import { Message } from '../../../../components/Message'
 import { CREATE_TASK_CARD, GET_ALL_TASK_CARDS, UPDATE_TASK_CARD } from '../../../../graphql/taskCard/taskCard'
-import { createTaskCardResponse, createTaskCardVariables, updateTaskCardResponse, updateTaskCardVariables } from '../../../../graphql/taskCard/taskCard.types'
+import {
+    createTaskCardResponse,
+    createTaskCardVariables,
+    getAllTaskCardsResponse,
+    updateTaskCardResponse,
+    updateTaskCardVariables,
+} from '../../../../graphql/taskCard/taskCard.types'
 import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { TaskCardDialogProps } from './TaskCardDialog.types'
 
@@ -37,12 +43,12 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                 name: formValues.name,
             },
             update(cache, response) {
-                const { getAllTaskCards }: any = cache.readQuery({
+                const localCache = cache.readQuery<getAllTaskCardsResponse>({
                     query: GET_ALL_TASK_CARDS,
                     variables: { username },
                 })
-                const updatedList = _.concat(getAllTaskCards, { ...response.data?.createTaskCard })
-                cache.writeQuery({
+                const updatedList = _.concat(localCache?.getAllTaskCards, { ...response.data?.createTaskCard })
+                cache.writeQuery<getAllTaskCardsResponse>({
                     query: GET_ALL_TASK_CARDS,
                     data: { getAllTaskCards: updatedList },
                     variables: { username },
@@ -109,7 +115,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                                 maxLength={150}
                             />
                         </div>
-                        {errors.error && <ErrorMessage error={errors.error} />}
+                        {errors.error && <Message message={errors.error} type="error" />}
                     </div>
                     <div className="form__button-group--right">
                         <button
@@ -123,7 +129,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                             type="submit"
                             className="form__button button button--primary"
                         >
-                            {createLoading || updateLoading ? <ButtonLoadingIconWhite /> : 'Save'}
+                            {createLoading || updateLoading ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} /> : 'Save'}
                         </button>
                     </div>
                 </div>

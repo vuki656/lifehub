@@ -2,7 +2,7 @@ import { UserInputError } from 'apollo-server'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import _ from 'lodash'
-import { RRule, rrulestr } from 'rrule'
+import { RRule, RRuleSet, rrulestr } from 'rrule'
 import { getConnection, getRepository } from 'typeorm'
 
 import { TaskEntity } from '../../../entities/task'
@@ -12,207 +12,82 @@ import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 dayjs.extend(utc)
 
 export const updateTaskHandler = async (input) => {
-    const { id, date, taskCardId, taskMetaData } = input.input
+    const { date, taskCardId, taskMetaData } = input.input
 
-    console.log(taskMetaData)
+    if (taskMetaData.isRepeating) {
+        await createRepeatingInstances(taskCardId, input.input)
+    } else {
+        await getRepository(TaskEntity)
+        .save(input.input)
+        .catch(() => {
+            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+        })
+    }
 
-    // Verify existence
-    const taskToUpdate: TaskEntity | undefined = await getConnection().getRepository(TaskEntity).findOne(id)
-    if (!taskToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-
-    // Generate task instances if its repeating
-    if (taskMetaData.isRepeating) await createRepeatingInstances(taskCardId, input.input)
-
-    taskToUpdate.date = date
-    taskToUpdate.taskMetaData = taskMetaData
-
-    // Try to save updated task
-    const updatedTask = await getRepository(TaskEntity)
-    .save(taskToUpdate)
-    .catch(() => {
-        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-    })
-
-    console.log(updatedTask)
-
-    return { task: updatedTask }
+    return { task: input.input }
 }
 
 const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEntity) => {
     const { taskMetaData } = updatedTask
     const { startDate, endDate, rrule } = taskMetaData
 
-    const firstRepeatingInstanceDate: Date | undefined = await getEdgeTaskInstance(updatedTask, 'ASC')
-    const lastRepeatingInstanceDate: Date | undefined = await getEdgeTaskInstance(updatedTask, 'DESC')
     const maxDateRangeEndDate: Date = dayjs.utc(dayjs().add(20, 'day')).startOf('day').toDate()
-    const rruleObj = rrulestr(rrule)
+    const rruleObj: RRule | RRuleSet = rrulestr(rrule!)
+    const updatedEndDate: Date = getEndDate(endDate!, maxDateRangeEndDate)
+    const nextRepeatingInstance = rruleObj.after(updatedEndDate)
 
-    console.log('-> firstRepeatingInstanceDate', firstRepeatingInstanceDate)
-    console.log('-> lastRepeatingInstanceDate', lastRepeatingInstanceDate)
+    // Get repeating instance dates
+    let taskInstanceToCreateDates: Date[] = rruleObj.between(
+        dayjs(startDate!).toDate(),
+        dayjs(updatedEndDate).toDate(),
+        true,
+    )
 
-    let nextRepeatingInstance: Date | null = null
-    let taskInstanceToCreateDates: Date[] = []
-
-    console.log('utc start: ', dayjs.utc().startOf('day').toDate())
-    console.log('normal start: ')
-
-    // If end date before max day span, generate all, set next repeating instance to null
-    if (dayjs(startDate).isBefore(maxDateRangeEndDate)) {
-        taskInstanceToCreateDates = rruleObj.between(
-            dayjs(startDate).toDate(),
-            maxDateRangeEndDate,
-            true,
-        )
-        nextRepeatingInstance = null
-        console.log('1')
-        console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
-    }
-
-    // If end date after max day span, generate until end of max day span, set next repeating instance to following one
-    if (dayjs(endDate).isAfter(maxDateRangeEndDate)) {
-        taskInstanceToCreateDates = rruleObj.between(
-            dayjs(startDate).toDate(),
-            maxDateRangeEndDate,
-            true,
-        )
-        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate)
-        console.log('2')
-        console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
-    }
-
-    // If no end date, generate until end of max day span, set the next repeating instance to the following one
-    if (!endDate) {
-        taskInstanceToCreateDates = rruleObj.between(
-            dayjs(startDate).toDate(),
-            maxDateRangeEndDate,
-            true,
-        )
-        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate)
-        console.log('3')
-        console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
-    }
-
-    // If new end date is after the old one, delete old instances, set the next repeating instance to the following one
-    if (lastRepeatingInstanceDate && dayjs(endDate).isAfter(lastRepeatingInstanceDate)) {
-        taskInstanceToCreateDates = rruleObj.between(
-            dayjs(lastRepeatingInstanceDate).toDate(),
-            maxDateRangeEndDate, // If rrule has no end date or rrule end date > max, max wins, else rrule end date wins
-            true,
-        )
-        nextRepeatingInstance = rruleObj.after(maxDateRangeEndDate)
-        console.log('4')
-        console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
-    }
-
-    // If new end date is before the old one, delete all instances after the new one
-    if (lastRepeatingInstanceDate && dayjs(endDate).isBefore(lastRepeatingInstanceDate)) {
-        await getConnection()
-        .createQueryBuilder()
-        .delete()
-        .from(TaskEntity)
-        .where('taskMetaData = :taskMetaDataId', { taskMetaDataId: taskMetaData.id })
-        .andWhere('date > :newEndDate', { newEndDate: endDate })
-        .execute()
-        .catch(() => {
-            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-        })
-        nextRepeatingInstance = null
-        console.log('5')
-        console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
-    }
-
-    // If start date is before the first repeating instance, create difference
-    if (firstRepeatingInstanceDate && dayjs(startDate).isBefore(firstRepeatingInstanceDate)) {
-        taskInstanceToCreateDates = rruleObj.between(
-            dayjs(startDate).toDate(),
-            dayjs(firstRepeatingInstanceDate).toDate(),
-            true,
-        )
-        console.log('6')
-        console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
-    }
-
-    // If start date is after the first repeating instance, delete all before
-    if (firstRepeatingInstanceDate && dayjs(startDate).isAfter(firstRepeatingInstanceDate)) {
-        await getConnection()
-        .createQueryBuilder()
-        .delete()
-        .from(TaskEntity)
-        .where('taskMetaData = :taskMetaDataId', { taskMetaDataId: taskMetaData.id })
-        .andWhere('date < :newStartDate', { newStartDate: startDate })
-        .execute()
-        .catch((err) => {
-            console.log(err)
-            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-        })
-        console.log('7')
-        console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
-    }
-
-    taskInstanceToCreateDates = await removeExisting(taskInstanceToCreateDates, updatedTask, maxDateRangeEndDate)
+    taskInstanceToCreateDates = await removeExistingTasks(taskInstanceToCreateDates, updatedTask, maxDateRangeEndDate)
     await deleteAllInstancesNotMatchingFilter(rruleObj, taskMetaData, maxDateRangeEndDate)
-
-    console.log('-> taskInstanceToCreateDates', taskInstanceToCreateDates)
-
-    const taskEntitiesToCreate: TaskEntity[] = []
 
     // Get and verify task card
     const tasksTaskCard: TaskCardEntity | undefined = await getConnection().getRepository(TaskCardEntity).findOne(taskCardId)
     if (!tasksTaskCard) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
+    taskMetaData.nextRepeatingInstance = nextRepeatingInstance
+
     // Create task instances from toBeCreated list
-    taskInstanceToCreateDates.forEach((repeatingTaskDateInstanceDate) => {
+    const taskEntitiesToCreate = taskInstanceToCreateDates.map((repeatingTaskDateInstanceDate) => {
         const taskEntity = new TaskEntity()
 
         taskEntity.date = repeatingTaskDateInstanceDate
         taskEntity.taskCard = tasksTaskCard
         taskEntity.taskMetaData = taskMetaData
 
-        taskEntitiesToCreate.push(taskEntity)
+        return taskEntity
     })
 
-    taskMetaData.nextRepeatingInstance = nextRepeatingInstance
-
     // If no tasks to create, update only meta data, else create tasks and update meta data
-    if (_.isEmpty(taskInstanceToCreateDates)) {
+    if (_.isEmpty(taskEntitiesToCreate)) {
         await getRepository(TaskMetaDataEntity)
         .save(taskMetaData)
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
     } else {
         await getRepository(TaskEntity)
         .save(taskEntitiesToCreate)
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
     }
 }
 
-// First ('DESC') or last ('ASC')
-export const getEdgeTaskInstance = async (task: TaskEntity, instanceToGet: 'ASC' | 'DESC') => {
-    const { taskMetaData } = task
-
-    const instance =
-        await getConnection()
-        .getRepository(TaskEntity)
-        .createQueryBuilder('task')
-        .where('task.taskMetaData = :taskMetaDataId', { taskMetaDataId: taskMetaData.id })
-        .andWhere('task.date >= :today', { today: dayjs().startOf('day').toDate() })
-        .orderBy('date', instanceToGet)
-        .getOne()
-        .catch((err) => {
-            console.log(err)
-            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-        })
-
-    return instance?.date
+// If end date after maxDateRangeEndDate return maxDateRangeEndDate, else return current end date
+const getEndDate = (currentEndDate: Date, maxDateRangeEndDate: Date) => {
+    return !currentEndDate || dayjs(currentEndDate).isAfter(maxDateRangeEndDate)
+        ? maxDateRangeEndDate
+        : currentEndDate
 }
 
-// Get existing task instances and remove all existing from taskInstanceToCreateDates
-const removeExisting = async (taskInstanceToCreateDates: Date[], updatedTask: TaskEntity, maxDateRangeEndDate: Date) => {
+// Get existing task instances and remove all existing from the given list
+const removeExistingTasks = async (taskInstanceToCreateDates: Date[], updatedTask: TaskEntity, maxDateRangeEndDate: Date) => {
 
     // Get existing task dates
     const existingTasks = await
@@ -242,8 +117,8 @@ const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData
     const { startDate, endDate, id: taskMetaDataId } = taskMetaData
 
     // Dates that match rrule filter
-    const datesMatchingFilter = rruleObj.between(
-        dayjs(startDate).toDate(),
+    const datesMatchingFilter: Date[] = rruleObj.between(
+        dayjs(startDate!).toDate(),
         dayjs(endDate || maxDateRangeEndDate).toDate(),
         true,
     )
@@ -256,8 +131,7 @@ const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData
         .where('taskMetaData = :taskMetaDataId', { taskMetaDataId })
         .andWhere('date NOT IN (:...datesMatchingFilter)', { datesMatchingFilter })
         .execute()
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
     }
