@@ -17,9 +17,8 @@ export const toggleTaskCompletedHandler = async (input) => {
     })
     if (!taskToUpdate) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
-    // TODO: check why updated task isn't returned
     // Change isCompleted state
-    const updatedTask = await getConnection()
+    await getConnection()
     .createQueryBuilder()
     .update(TaskEntity)
     .set({ isCompleted: !taskToUpdate.isCompleted })

@@ -25,8 +25,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         .andWhere(`task.date < :selectedDate`, { selectedDate: dayjs().toDate() })
         .andWhere('task.taskCard = :taskCardId', { taskCardId })
         .getMany()
-        .catch((err) => {
-            console.log(err)
+        .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
         })
 

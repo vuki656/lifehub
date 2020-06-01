@@ -31,16 +31,24 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const [errors, setErrors] = React.useState<{ error?: string }>()
     const { selectedDate } = useSelector((state) => state.user)
 
-    // TODO: handle fetch error
-    const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(CREATE_TASK)
-    const { data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(GET_TASKS_BY_DATE_AND_TASK_CARD, {
-        variables: {
-            input: {
-                taskCardId: taskCard.id,
-                selectedDate,
+    const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(
+        CREATE_TASK,
+        {
+            onError: (error) => {
+                setErrors({ error: error.message })
             },
         },
-    })
+    )
+    const { data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(
+        GET_TASKS_BY_DATE_AND_TASK_CARD, {
+            variables: {
+                input: {
+                    taskCardId: taskCard.id,
+                    selectedDate,
+                },
+            },
+            fetchPolicy: 'network-only',
+        })
 
     // Form
     const { formValues, setFormValue, clearForm } = useFormFields({

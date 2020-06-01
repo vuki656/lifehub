@@ -10,7 +10,6 @@ export const setUser = (username) => {
 }
 
 export const setSelectedDate = (selectedDate) => {
-    console.log(selectedDate)
     return {
         type: actionTypes.SET_SELECTED_DATE,
         payload: {
