@@ -29,8 +29,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
 
     // Get token auth status
     const {
-        data, error, loading,
-    } = useQuery<verifyUserResponse, verifyUserVariables>(VERIFY_USER, { variables: { token: window.localStorage.getItem('token') ?? '' } })
+        data,
+        error,
+        loading,
+    } = useQuery<verifyUserResponse, verifyUserVariables>(
+        VERIFY_USER,
+        { variables: { token: window.localStorage.getItem('token') ?? '' } },
+    )
 
     // If error redirect to login and clear user, else refresh user and proceed
     const checkIfAuth = React.useCallback(() => {

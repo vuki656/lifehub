@@ -23,16 +23,21 @@ import { TaskCardDialogProps } from './TaskCardDialog.types'
 
 export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
     const {
-        isDialogOpen, toggleDialog, taskCard,
+        isDialogOpen,
+        toggleDialog,
+        taskCard,
     } = props
 
     const [createTaskCardMutation, { loading: createLoading }] = useMutation<createTaskCardResponse, createTaskCardVariables>(CREATE_TASK_CARD)
     const [updateTaskCardMutation, { loading: updateLoading }] = useMutation<updateTaskCardResponse, updateTaskCardVariables>(UPDATE_TASK_CARD)
 
     const { username } = useSelector((state) => state.user)
-    const [errors, setErrors] = React.useState<{ error?: string }>({})
+    const [errors, setErrors] = React.useState<{ error?: string }>({ error: '' })
     const {
-        formValues, setFormValue, clearForm, resetForm,
+        formValues,
+        setFormValue,
+        clearForm,
+        resetForm,
     } = useFormFields({ name: taskCard ? taskCard.name : '' })
 
     // Clear errors and toggle dialog

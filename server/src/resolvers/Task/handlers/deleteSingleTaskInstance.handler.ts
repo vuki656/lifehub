@@ -1,11 +1,18 @@
 import { UserInputError } from 'apollo-server'
-import { getConnection, getManager } from 'typeorm'
+import {
+    getConnection,
+    getManager,
+} from 'typeorm'
 
 import { TaskEntity } from '../../../entities/task'
 import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 
 export const deleteSingleTaskInstanceHandler = async (input) => {
-    const { taskId, taskMetaDataId, rruleStr } = input.input
+    const {
+        taskId,
+        taskMetaDataId,
+        rruleStr,
+    } = input.input
 
     const taskCount: number = await getConnection().getRepository(TaskEntity).count()
 
@@ -27,7 +34,7 @@ export const deleteSingleTaskInstanceHandler = async (input) => {
 
     // Delete single task instance and update meta data rrule string
     await getManager()
-    .transaction(async transactionalEntityManager => {
+    .transaction(async (transactionalEntityManager) => {
         await transactionalEntityManager.delete(
             TaskEntity,
             { id: taskId },

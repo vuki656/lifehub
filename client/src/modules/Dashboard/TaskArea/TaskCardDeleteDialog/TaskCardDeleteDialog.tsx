@@ -25,7 +25,7 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
     } = props
 
     const { username } = useSelector((state) => state.user)
-    const [errors, setErrors] = React.useState<{ error?: string }>({})
+    const [errors, setErrors] = React.useState<{ error?: string }>({ error: '' })
     const [deleteTaskCardMutation, { loading: deleteLoading }] = useMutation<deleteTaskCardResponse, deleteTaskCardVariables>(DELETE_TASK_CARD)
 
     // Cancel task creation, clear form, close dialog
@@ -47,8 +47,8 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
                     id !== data?.deleteTaskCard.id
                 ))
                 cache.writeQuery<getAllTaskCardsResponse>({
-                    query: GET_ALL_TASK_CARDS,
                     data: { getAllTaskCards: updatedList },
+                    query: GET_ALL_TASK_CARDS,
                     variables: { username },
                 })
             },

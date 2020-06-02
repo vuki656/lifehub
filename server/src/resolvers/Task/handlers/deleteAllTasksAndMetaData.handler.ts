@@ -1,5 +1,8 @@
 import { UserInputError } from 'apollo-server'
-import { getConnection, getManager } from 'typeorm'
+import {
+    getConnection,
+    getManager,
+} from 'typeorm'
 
 import { TaskEntity } from '../../../entities/task'
 import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
@@ -16,7 +19,7 @@ export const deleteAllTasksAndMetaDataHandler = async (input) => {
 
     // Delete delete task meta data and its tasks
     await getManager()
-    .transaction(async transactionalEntityManager => {
+    .transaction(async (transactionalEntityManager) => {
         await transactionalEntityManager.delete(TaskEntity, { taskMetaData: taskMetaDataId })
         await transactionalEntityManager.delete(TaskMetaDataEntity, { id: taskMetaDataId })
     })

@@ -28,6 +28,7 @@ export const createTypeORMConnection = () => {
         type,
         username,
 
+        // eslint-disable-next-line sort-keys
         entities: [__dirname + '/entities/**/*.entity.ts'],
     } as ConnectionOptions)
 }

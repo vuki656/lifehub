@@ -128,7 +128,7 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
     const deleteAllTasksAndMetaData = useCallback(() => {
         deleteAllTasksAndMetaDataMutation({
             update(cache, response) {
-                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
@@ -141,7 +141,7 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                     data: {
                         getTasksByDateAndTaskCard: {
                             __typename: response.data?.deleteAllTasksAndMetaData.__typename,
-                            tasks: _.remove(getTasksByDateAndTaskCard, task),
+                            tasks: _.remove(localCache?.getTasksByDateAndTaskCard, task),
                         },
                     },
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,

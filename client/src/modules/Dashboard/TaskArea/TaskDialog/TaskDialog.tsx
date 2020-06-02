@@ -73,7 +73,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
     const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
-    const [turnOffRepeatingMutation, { loading: turnOffRepeatingLoading }] = useMutation<{}, turnOffRepeatingVariables>(TURN_OFF_REPEATING)
+    const [turnOffRepeatingMutation, { loading: turnOffRepeatingLoading }] = useMutation<turnOffRepeatingVariables>(TURN_OFF_REPEATING)
 
     // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})

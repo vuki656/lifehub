@@ -22,7 +22,7 @@ export const Router: React.FC = () => {
                 <Route path="/" component={RegisterPage} exact />
                 <Route path="/login" component={LoginPage} />
                 <ProtectedRoute path="/dashboard" component={DashboardPage} />
-                <Redirect from="/dashboard" to={today} component={DashboardPage} exact /> // Prevents link/active link mismatch
+                <Redirect from="/dashboard" to={today} component={DashboardPage} exact />
                 <ProtectedRoute path="/settings" component={SettingsPage} />
             </Switch>
         </BrowserRouter>

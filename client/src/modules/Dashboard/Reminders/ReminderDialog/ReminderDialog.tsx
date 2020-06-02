@@ -143,17 +143,17 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     // Update reminder
     const updateReminder = useCallback(() => {
         updateReminderMutation({
-            update(cache, { data }) {
+            update(cache, response) {
                 toggleDialog()
-                const { getRemindersByDate }: any = cache.readQuery({
+                const localCache = cache.readQuery<getRemindersByDateResponse>({
                     query: GET_REMINDERS_BY_DATE,
                     variables: {
                         selectedDate,
                         username,
                     },
                 })
-                const updatedList = removeFromTodayIfOutOfRange(data?.updateReminder, getRemindersByDate)
-                cache.writeQuery({
+                const updatedList = removeFromTodayIfOutOfRange(response.data?.updateReminder, localCache?.getRemindersByDate)
+                cache.writeQuery<getRemindersByDateResponse>({
                     data: { getRemindersByDate: sortRemindersByDate(updatedList) },
                     query: GET_REMINDERS_BY_DATE,
                     variables: {
@@ -200,19 +200,19 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     // Delete reminder
     const deleteReminder = useCallback(() => {
         deleteReminderMutation({
-            update(cache, { data }) {
+            update(cache, response) {
                 handleDialogToggle() // Has to be here to prevent call to unmounted (deleted) component
-                const { getRemindersByDate }: any = cache.readQuery({
+                const localCache = cache.readQuery<getRemindersByDateResponse>({
                     query: GET_REMINDERS_BY_DATE,
                     variables: {
                         selectedDate,
                         username,
                     },
                 })
-                const updatedList = _.filter(getRemindersByDate, ({ id }) => (
-                    id !== data?.deleteReminder.id
+                const updatedList = _.filter(localCache?.getRemindersByDate, ({ id }) => (
+                    id !== response.data?.deleteReminder.id
                 ))
-                cache.writeQuery({
+                cache.writeQuery<getRemindersByDateResponse>({
                     data: { getRemindersByDate: sortRemindersByDate(updatedList) },
                     query: GET_REMINDERS_BY_DATE,
                     variables: {

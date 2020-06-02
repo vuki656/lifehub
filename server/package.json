@@ -39,6 +39,7 @@
       "typescript": "^3.8.3"
    },
    "scripts": {
-      "start": "nodemon src/index.ts"
+      "start": "nodemon src/index.ts",
+      "lint": "eslint ./src/**/*"
    }
 }
