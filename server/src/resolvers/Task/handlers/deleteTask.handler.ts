@@ -1,11 +1,17 @@
 import { UserInputError } from 'apollo-server'
-import { getConnection, getManager } from 'typeorm'
+import {
+    getConnection,
+    getManager,
+} from 'typeorm'
 
 import { TaskEntity } from '../../../entities/task'
 import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 
 export const deleteTaskHandler = async (input) => {
-    const { taskId, taskMetaDataId } = input.input
+    const {
+        taskId,
+        taskMetaDataId,
+    } = input.input
 
     // Verify task existence
     const taskToDelete: TaskEntity | undefined = await getConnection().getRepository(TaskEntity).findOne(taskId)
@@ -17,7 +23,7 @@ export const deleteTaskHandler = async (input) => {
 
     // Delete both task and task meta data
     await getManager()
-    .transaction(async transactionalEntityManager => {
+    .transaction(async (transactionalEntityManager) => {
         await transactionalEntityManager.delete(TaskEntity, { id: taskId })
         await transactionalEntityManager.delete(TaskMetaDataEntity, { id: taskMetaDataId })
     })

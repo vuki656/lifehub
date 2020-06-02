@@ -1,6 +1,10 @@
 import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded'
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {
+    useCallback,
+    useEffect,
+    useState,
+} from 'react'
 
 import { MessageProps } from './Message.types'
 

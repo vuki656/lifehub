@@ -9,7 +9,9 @@ export function useFormFields(initialValues) {
     }
 
     const setFormValue = (value, name) => {
-        setValues({ ...formValues, [name]: value })
+        setValues({
+            ...formValues, [name]: value,
+        })
     }
 
     // Set all values in object to empty string
@@ -18,5 +20,10 @@ export function useFormFields(initialValues) {
         setValues(emptyObject)
     }
 
-    return { formValues, setFormValue, clearForm, resetForm }
+    return {
+        clearForm,
+        formValues,
+        resetForm,
+        setFormValue,
+    }
 }

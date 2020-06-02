@@ -1,14 +1,18 @@
 import { UserInputError } from 'apollo-server'
 import * as bcrypt from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
-
 import { getRepository } from 'typeorm'
+
 import { UserEntity } from '../../../entities/user'
 import { emailRegEx } from '../../../util/variables'
 import { UserInput } from '../user.types'
 
 export const logInUserHandler = async (input, context) => {
-    const { email, password } = input
+    const {
+        email,
+        password,
+    } = input
+
     const { secret } = context
     const errors: UserInput = {}
 

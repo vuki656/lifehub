@@ -6,8 +6,8 @@ import * as actionTypes from '../actions/types'
 dayjs.extend(utc)
 
 const initialState = {
-    username: '',
     selectedDate: dayjs().format('YYYY-MM-DD'),
+    username: '',
 }
 
 const userReducer = (state = initialState, action) => {
@@ -23,9 +23,7 @@ const userReducer = (state = initialState, action) => {
                 selectedDate: action.payload.selectedDate,
             }
         case actionTypes.LOG_OUT_USER:
-            return {
-                ...initialState,
-            }
+            return { ...initialState }
         default:
             return state
     }

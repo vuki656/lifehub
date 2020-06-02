@@ -6,7 +6,10 @@ import { TaskEntity } from '../../../entities/task'
 import { TaskCardEntity } from '../../../entities/taskCard'
 
 export const getTasksByDateAndTaskCardHandler = async (input) => {
-    const { selectedDate, taskCardId } = input.input
+    const {
+        selectedDate,
+        taskCardId,
+    } = input.input
 
     const dayBeforeDayRange = dayjs().subtract(1, 'day').startOf('day').format('YYYY-MM-DD')
     const dayAfterDayRange = dayjs().add(20, 'day').startOf('day').format('YYYY-MM-DD')
@@ -22,7 +25,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         const foundOverdueTasks = await getRepository(TaskEntity)
         .createQueryBuilder('task')
         .leftJoinAndSelect('task.taskMetaData', 'taskMetaData')
-        .andWhere(`task.date < :selectedDate`, { selectedDate: dayjs().toDate() })
+        .andWhere('task.date < :selectedDate', { selectedDate: dayjs().toDate() })
         .andWhere('task.taskCard = :taskCardId', { taskCardId })
         .getMany()
         .catch(() => {
@@ -37,7 +40,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         const foundUpcomingTasks = await getRepository(TaskEntity)
         .createQueryBuilder('task')
         .leftJoinAndSelect('task.taskMetaData', 'taskMetaData')
-        .where(`task.date > :selectedDate`, { selectedDate: dayjs.utc().add(20, 'day') })
+        .where('task.date > :selectedDate', { selectedDate: dayjs.utc().add(20, 'day') })
         .andWhere('task.taskCard = :taskCardId', { taskCardId })
         .getMany()
         .catch(() => {

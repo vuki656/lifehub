@@ -1,4 +1,8 @@
-import { Dispatch, SetStateAction } from 'react'
+import {
+    Dispatch,
+    SetStateAction,
+} from 'react'
+
 import { RruleWeekDayType } from '../../util/helpers/variables'
 
 export type DayCheckboxProps = {

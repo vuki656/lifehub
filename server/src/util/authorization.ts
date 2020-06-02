@@ -1,4 +1,7 @@
-import { AuthenticationError, ForbiddenError } from 'apollo-server'
+import {
+    AuthenticationError,
+    ForbiddenError,
+} from 'apollo-server'
 import { skip } from 'graphql-resolvers'
 import { verify } from 'jsonwebtoken'
 

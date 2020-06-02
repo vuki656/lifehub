@@ -2,8 +2,15 @@ import { UserInputError } from 'apollo-server'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import _ from 'lodash'
-import { RRule, RRuleSet, rrulestr } from 'rrule'
-import { getConnection, getRepository } from 'typeorm'
+import {
+    RRule,
+    RRuleSet,
+    rrulestr,
+} from 'rrule'
+import {
+    getConnection,
+    getRepository,
+} from 'typeorm'
 
 import { TaskEntity } from '../../../entities/task'
 import { TaskCardEntity } from '../../../entities/taskCard'
@@ -12,7 +19,10 @@ import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 dayjs.extend(utc)
 
 export const updateTaskHandler = async (input) => {
-    const { date, taskCardId, taskMetaData } = input.input
+    const {
+        taskCardId,
+        taskMetaData,
+    } = input.input
 
     if (taskMetaData.isRepeating) {
         await createRepeatingInstances(taskCardId, input.input)
@@ -29,7 +39,9 @@ export const updateTaskHandler = async (input) => {
 
 const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEntity) => {
     const { taskMetaData } = updatedTask
-    const { startDate, endDate, rrule } = taskMetaData
+    const {
+        startDate, endDate, rrule,
+    } = taskMetaData
 
     const maxDateRangeEndDate: Date = dayjs.utc(dayjs().add(20, 'day')).startOf('day').toDate()
     const rruleObj: RRule | RRuleSet = rrulestr(rrule!)
@@ -88,19 +100,18 @@ const getEndDate = (currentEndDate: Date, maxDateRangeEndDate: Date) => {
 
 // Get existing task instances and remove all existing from the given list
 const removeExistingTasks = async (taskInstanceToCreateDates: Date[], updatedTask: TaskEntity, maxDateRangeEndDate: Date) => {
-
     // Get existing task dates
     const existingTasks = await
-        getRepository(TaskEntity)
-        .createQueryBuilder('task')
-        .select(['task.date'])
-        .where(`task.taskMetaData = :taskMetaDataId`, { taskMetaDataId: updatedTask.taskMetaData.id })
-        .andWhere('task.date >= :startDate', { startDate: updatedTask.taskMetaData.startDate })
-        .andWhere('task.date <= :endDate', { endDate: updatedTask.taskMetaData.endDate || maxDateRangeEndDate })
-        .getMany()
-        .catch(() => {
-            throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-        })
+    getRepository(TaskEntity)
+    .createQueryBuilder('task')
+    .select(['task.date'])
+    .where('task.taskMetaData = :taskMetaDataId', { taskMetaDataId: updatedTask.taskMetaData.id })
+    .andWhere('task.date >= :startDate', { startDate: updatedTask.taskMetaData.startDate })
+    .andWhere('task.date <= :endDate', { endDate: updatedTask.taskMetaData.endDate || maxDateRangeEndDate })
+    .getMany()
+    .catch(() => {
+        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
+    })
 
     // Remove all taskInstanceToCreateDates that already exist
     existingTasks.forEach((existingTaskInstance) => {
@@ -114,7 +125,9 @@ const removeExistingTasks = async (taskInstanceToCreateDates: Date[], updatedTas
 
 // Delete all instances from database that dont match the rrule filter
 const deleteAllInstancesNotMatchingFilter = async (rruleObj: RRule, taskMetaData: TaskMetaDataEntity, maxDateRangeEndDate: Date) => {
-    const { startDate, endDate, id: taskMetaDataId } = taskMetaData
+    const {
+        startDate, endDate, id: taskMetaDataId,
+    } = taskMetaData
 
     // Dates that match rrule filter
     const datesMatchingFilter: Date[] = rruleObj.between(

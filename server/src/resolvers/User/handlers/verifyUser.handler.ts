@@ -15,8 +15,8 @@ export const verifyUserHandler = async (input) => {
         if (error) throw new AuthenticationError('Authentication Failed')
 
         user = {
-            username: decodedToken.username,
             isUserAuthenticated: true,
+            username: decodedToken.username,
         }
     })
 

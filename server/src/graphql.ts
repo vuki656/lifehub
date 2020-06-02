@@ -7,9 +7,9 @@ import { typeDefs } from './typeDefs'
 export const startGQLServer = () => {
     const port = 4000
     const server = new ApolloServer({
-        typeDefs,
-        resolvers,
         context,
+        resolvers,
+        typeDefs,
     })
 
     server

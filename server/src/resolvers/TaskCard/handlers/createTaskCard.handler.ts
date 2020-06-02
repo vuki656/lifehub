@@ -5,7 +5,10 @@ import { TaskCardEntity } from '../../../entities/taskCard'
 import { UserEntity } from '../../../entities/user'
 
 export const createTaskCardHandler = async (input) => {
-    const { username, name } = input
+    const {
+        username,
+        name,
+    } = input
 
     const user = await getRepository(UserEntity).findOne({ where: { username } })
     const existingTaskCard = await getRepository(TaskCardEntity).findOne({ where: { name } })

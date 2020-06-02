@@ -1,21 +1,29 @@
 import { useMutation } from '@apollo/react-hooks'
 import React, { useCallback } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import {
+    Link,
+    useHistory,
+} from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { LoadingSpinner } from '../../components/LoadingSpinner'
 import { Message } from '../../components/Message'
 import { LOGIN_USER } from '../../graphql/user/user'
-import { logInUserResponse, logInUserVariables } from '../../graphql/user/user.types'
+import {
+    logInUserResponse,
+    logInUserVariables,
+} from '../../graphql/user/user.types'
 import { useFormFields } from '../../util/hooks/useFormFields.hook'
 import { UserErrors } from '../Register'
 
-export const Login: React.FC<{}> = () => {
+export const Login: React.FC = () => {
     const history = useHistory()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
-    const { formValues, setFormValue, clearForm } = useFormFields({
+    const {
+        formValues, setFormValue, clearForm,
+    } = useFormFields({
         email: '',
         password: '',
     })
@@ -84,7 +92,7 @@ export const Login: React.FC<{}> = () => {
                         }
                     </button>
                     <div className="bottom-info">
-                        <p className="bottom-info__text">Don't have an account?
+                        <p className="bottom-info__text">Don&lsquot have an account?
                             <Link to="/" className="bottom-info__link"> Register</Link>
                         </p>
                     </div>

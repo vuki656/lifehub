@@ -1,4 +1,7 @@
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import {
+    useMutation,
+    useQuery,
+} from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
 import _ from 'lodash'
@@ -8,7 +11,10 @@ import { useToggle } from 'react-use'
 
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
-import { CREATE_TASK, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
+import {
+    CREATE_TASK,
+    GET_TASKS_BY_DATE_AND_TASK_CARD,
+} from '../../../../graphql/task/task'
 import {
     createTaskResponse,
     createTaskVariables,
@@ -21,6 +27,7 @@ import { Task } from '../Task'
 import { TaskCardDeleteDialog } from '../TaskCardDeleteDialog'
 import { TaskCardDialog } from '../TaskCardDialog'
 import { TaskCardLoader } from '../TaskCardLoader'
+
 import { TaskCardProps } from './TaskCard.types'
 
 export const TaskCard: React.FC<TaskCardProps> = (props) => {
@@ -39,46 +46,38 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             },
         },
     )
-    const { data, loading: fetchLoading } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(
+    const {
+        data, loading: fetchLoading,
+    } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(
         GET_TASKS_BY_DATE_AND_TASK_CARD, {
+            fetchPolicy: 'network-only',
             variables: {
                 input: {
-                    taskCardId: taskCard.id,
                     selectedDate,
+                    taskCardId: taskCard.id,
                 },
             },
-            fetchPolicy: 'network-only',
         })
 
     // Form
-    const { formValues, setFormValue, clearForm } = useFormFields({
-        title: '',
-    })
+    const {
+        formValues, setFormValue, clearForm,
+    } = useFormFields({ title: '' })
 
     // Save task
     const createTask = useCallback(() => {
         createTaskMutation({
-            variables: {
-                input: {
-                    taskCardId: taskCard.id,
-                    date: selectedDate,
-                    taskMetaData: {
-                        title: formValues.title,
-                    },
-                },
-            },
             update(cache, response) {
                 const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
-                            taskCardId: taskCard.id,
                             selectedDate,
+                            taskCardId: taskCard.id,
                         },
                     },
                 })
                 cache.writeQuery({
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: {
                         getTasksByDateAndTaskCard: {
                             __typename: response.data?.createTask.__typename,
@@ -88,13 +87,21 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                             ),
                         },
                     },
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
-                            taskCardId: taskCard.id,
                             selectedDate,
+                            taskCardId: taskCard.id,
                         },
                     },
                 })
+            },
+            variables: {
+                input: {
+                    date: selectedDate,
+                    taskCardId: taskCard.id,
+                    taskMetaData: { title: formValues.title },
+                },
             },
         })
         .then(() => clearForm())
@@ -129,7 +136,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                             </div>
                         </div>
                         <div className="task-card__body">
-                            {data?.getTasksByDateAndTaskCard.tasks.map(task => (
+                            {data?.getTasksByDateAndTaskCard.tasks.map((task) => (
                                 <Task task={task} taskCard={taskCard} key={task.id} />
                             ))}
                         </div>

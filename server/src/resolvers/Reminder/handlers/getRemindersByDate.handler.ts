@@ -10,13 +10,15 @@ import { ReminderQueryType } from '../reminder.types'
 dayjs.extend(utc)
 
 export const getRemindersByDateHandler = async (input) => {
-    const { username, selectedDate } = input
+    const {
+        username, selectedDate,
+    } = input
 
     // Get user
     const user = await getRepository(UserEntity).findOne({ where: { username } })
     let query: ReminderQueryType = {
-        query: `:selectedDate BETWEEN reminder.startDate AND reminder.endDate`,
         condition: { selectedDate },
+        query: ':selectedDate BETWEEN reminder.startDate AND reminder.endDate',
     }
 
     // Throw error if no user
@@ -25,16 +27,16 @@ export const getRemindersByDateHandler = async (input) => {
     // Return empty set on overdue select by using a date in the past
     if (selectedDate === 'overdue') {
         query = {
-            query: `:today = reminder.endDate`,
             condition: { today: dayjs.utc(dayjs().subtract(200000, 'day')) },
+            query: ':today = reminder.endDate',
         }
     }
 
     // Return all reminders that are after the last day in the days list
     if (selectedDate === 'upcoming') {
         query = {
-            query: `:lastDayInList < reminder.endDate`,
             condition: { today: dayjs.utc(dayjs().add(200000, 'day')) },
+            query: ':lastDayInList < reminder.endDate',
         }
     }
 
@@ -42,7 +44,7 @@ export const getRemindersByDateHandler = async (input) => {
     return getRepository(ReminderEntity)
     .createQueryBuilder('reminder')
     .where(query.query, query.condition)
-    .andWhere(`reminder.userId = :userId`, { userId: user?.id })
+    .andWhere('reminder.userId = :userId', { userId: user?.id })
     .getMany()
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })

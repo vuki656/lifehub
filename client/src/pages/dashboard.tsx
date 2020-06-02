@@ -6,7 +6,7 @@ import { DaysSidebar } from '../modules/Dashboard/DaysSidebar'
 import { Reminders } from '../modules/Dashboard/Reminders'
 import { TaskArea } from '../modules/Dashboard/TaskArea'
 
-export const DashboardPage: React.FC<{}> = () => {
+export const DashboardPage: React.FC = () => {
     const todayUnix = dayjs().startOf('day').valueOf()
 
     return (
