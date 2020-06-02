@@ -1,6 +1,13 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+    BaseEntity,
+    Column,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm'
 
 import { TaskEntity } from '../task'
+
 import {
     EndDateOptions,
     IsHabitOptions,
@@ -14,6 +21,7 @@ import {
 
 @Entity('taskMetaData')
 export class TaskMetaDataEntity extends BaseEntity {
+
     @PrimaryGeneratedColumn('uuid')
     id: string
 
@@ -41,6 +49,7 @@ export class TaskMetaDataEntity extends BaseEntity {
     @Column(NextRepeatingInstanceOptions)
     nextRepeatingInstance: Date | null
 
-    @OneToMany(() => TaskEntity, task => task.taskMetaData)
+    @OneToMany(() => TaskEntity, (task) => task.taskMetaData)
     tasks: TaskEntity[]
+
 }

@@ -5,7 +5,9 @@ import { ReminderEntity } from '../../../entities/reminder'
 import { UserEntity } from '../../../entities/user'
 
 export const createReminderHandler = async (input) => {
-    const { username, title, description, startDate, endDate } = input
+    const {
+        username, title, description, startDate, endDate,
+    } = input
 
     // Get user
     const user = await getRepository(UserEntity).findOne({ where: { username } })

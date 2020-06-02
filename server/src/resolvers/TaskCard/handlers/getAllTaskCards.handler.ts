@@ -1,5 +1,6 @@
 import { UserInputError } from 'apollo-server'
 import { getRepository } from 'typeorm'
+
 import { TaskCardEntity } from '../../../entities/taskCard'
 import { UserEntity } from '../../../entities/user'
 

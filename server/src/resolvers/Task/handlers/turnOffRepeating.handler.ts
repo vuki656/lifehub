@@ -1,10 +1,13 @@
 import { UserInputError } from 'apollo-server'
 import { getManager } from 'typeorm'
+
 import { TaskEntity } from '../../../entities/task'
 import { TaskMetaDataEntity } from '../../../entities/taskMetaData'
 
 export const turnOffRepeatingHandler = async (input) => {
-    const { taskId, taskMetaDataId } = input.input
+    const {
+        taskId, taskMetaDataId,
+    } = input.input
 
     // Get and verify task meta data existence
     const taskMetaDataToUpdate = await TaskMetaDataEntity.findOne(taskMetaDataId)
@@ -24,7 +27,7 @@ export const turnOffRepeatingHandler = async (input) => {
 
     // Delete all tasks except current and delete task metadata related to repeating
     await getManager()
-    .transaction(async transactionalEntityManager => {
+    .transaction(async (transactionalEntityManager) => {
         await transactionalEntityManager.save(TaskMetaDataEntity, taskMetaDataToUpdate)
         await transactionalEntityManager
         .getRepository(TaskEntity)
@@ -34,7 +37,6 @@ export const turnOffRepeatingHandler = async (input) => {
         .where('taskMetaData = :taskMetaDataId', { taskMetaDataId })
         .andWhere('id != :taskId', { taskId })
         .execute()
-
     })
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })

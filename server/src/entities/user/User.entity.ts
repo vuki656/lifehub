@@ -1,11 +1,25 @@
 import * as bcrypt from 'bcryptjs'
-import { BaseEntity, BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+    BaseEntity,
+    BeforeInsert,
+    Column,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from 'typeorm'
+
 import { ReminderEntity } from '../reminder'
 import { TaskCardEntity } from '../taskCard'
-import { EmailOptions, PasswordOptions, UsernameOptions } from './Users.options'
+
+import {
+    EmailOptions,
+    PasswordOptions,
+    UsernameOptions,
+} from './Users.options'
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
+
     @PrimaryGeneratedColumn('uuid')
     id: string
 
@@ -18,10 +32,10 @@ export class UserEntity extends BaseEntity {
     @Column(PasswordOptions)
     password: string
 
-    @OneToMany(() => ReminderEntity, reminder => reminder.userId)
+    @OneToMany(() => ReminderEntity, (reminder) => reminder.userId)
     reminders: ReminderEntity[]
 
-    @OneToMany(() => TaskCardEntity, taskCard => taskCard.userId)
+    @OneToMany(() => TaskCardEntity, (taskCard) => taskCard.userId)
     taskCards: TaskCardEntity[]
 
     @BeforeInsert()
@@ -33,4 +47,5 @@ export class UserEntity extends BaseEntity {
     emailToLowercase() {
         this.email = (this.email).toLowerCase()
     }
+
 }

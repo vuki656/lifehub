@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { GraphQLScalarType } from 'graphql'
 
 export const Void = new GraphQLScalarType({
