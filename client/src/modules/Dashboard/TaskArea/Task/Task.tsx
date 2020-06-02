@@ -1,17 +1,31 @@
 import { useMutation } from '@apollo/react-hooks'
 import LoopIcon from '@material-ui/icons/Loop'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {
+    useCallback,
+    useEffect,
+    useState,
+} from 'react'
 import { useToggle } from 'react-use'
-import RRule, { RRuleSet, rrulestr } from 'rrule'
+import RRule, {
+    RRuleSet,
+    rrulestr,
+} from 'rrule'
 
 import { Message } from '../../../../components/Message'
 import { TOGGLE_TASK_COMPLETED } from '../../../../graphql/task/task'
-import { toggleTaskCompletedResponse, toggleTaskCompletedVariables } from '../../../../graphql/task/task.types'
+import {
+    toggleTaskCompletedResponse,
+    toggleTaskCompletedVariables,
+} from '../../../../graphql/task/task.types'
 import { TaskDialog } from '../TaskDialog'
+
 import { TaskProps } from './Task.types'
 
 export const Task: React.FC<TaskProps> = (props) => {
-    const { task, taskCard } = props
+    const {
+        task,
+        taskCard,
+    } = props
 
     const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [isTaskCompleted, toggleTaskCompletedCheckbox] = useToggle(task.isCompleted)
@@ -36,18 +50,12 @@ export const Task: React.FC<TaskProps> = (props) => {
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog
     const handleTaskClick = useCallback(() => {
-        !isDialogOpen && toggleDialog()
+        if (!isDialogOpen) toggleDialog()
     }, [isDialogOpen, toggleDialog])
 
     // Toggle task isCompleted status in database
     const toggleTaskCompleted = useCallback(() => {
-        toggleTaskCompletedMutation({
-            variables: {
-                input: {
-                    id: task.id,
-                },
-            },
-        })
+        toggleTaskCompletedMutation({ variables: { input: { id: task.id } } })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })

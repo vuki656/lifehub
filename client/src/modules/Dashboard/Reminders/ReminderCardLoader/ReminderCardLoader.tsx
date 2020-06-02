@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ReminderCardLoader: React.FC<{}> = () => {
+export const ReminderCardLoader: React.FC = () => {
     return (
         <div className="reminder-card--loading">
             <div className="reminder-card__title--loading" />

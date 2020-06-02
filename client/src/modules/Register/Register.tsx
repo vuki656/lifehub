@@ -1,35 +1,44 @@
 import { useMutation } from '@apollo/react-hooks'
 import React, { useCallback } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import {
+    Link,
+    useHistory,
+} from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { LoadingSpinner } from '../../components/LoadingSpinner'
 import { Message } from '../../components/Message'
 import { CREATE_USER } from '../../graphql/user/user'
-import { createUserResponse, createUserVariables } from '../../graphql/user/user.types'
+import {
+    createUserResponse,
+    createUserVariables,
+} from '../../graphql/user/user.types'
 import { useFormFields } from '../../util/hooks/useFormFields.hook'
+
 import { UserErrors } from './Register.types'
 
-export const Register: React.FC<{}> = () => {
+export const Register: React.FC = () => {
     const history = useHistory()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
-    const { formValues, setFormValue, clearForm } = useFormFields({
-        username: '',
+    const {
+        formValues, setFormValue, clearForm,
+    } = useFormFields({
         email: '',
         password: '',
         passwordConfirmation: '',
+        username: '',
     })
 
     // Save user in database
     const createUser = useCallback(() => {
         createUserMutation({
             variables: {
-                username: formValues.username,
                 email: formValues.email,
                 password: formValues.password,
                 passwordConfirmation: formValues.passwordConfirmation,
+                username: formValues.username,
             },
         })
         .then((response) => {

@@ -5,31 +5,31 @@ export type RruleWeekDayType = {
 
 export const rruleWeekDaysArr: RruleWeekDayType[] = [
     {
-        dayString: 'mo',
         dayRruleNumber: 0,
+        dayString: 'mo',
     },
     {
-        dayString: 'tu',
         dayRruleNumber: 1,
+        dayString: 'tu',
     },
     {
-        dayString: 'we',
         dayRruleNumber: 2,
+        dayString: 'we',
     },
     {
-        dayString: 'th',
         dayRruleNumber: 3,
+        dayString: 'th',
     },
     {
-        dayString: 'fr',
         dayRruleNumber: 4,
+        dayString: 'fr',
     },
     {
-        dayString: 'sa',
         dayRruleNumber: 5,
+        dayString: 'sa',
     },
     {
-        dayString: 'su',
         dayRruleNumber: 6,
+        dayString: 'su',
     },
 ]

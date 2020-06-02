@@ -1,6 +1,11 @@
 import dayjs from 'dayjs'
 import React from 'react'
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import {
+    BrowserRouter,
+    Redirect,
+    Route,
+    Switch,
+} from 'react-router-dom'
 
 import { DashboardPage } from '../../pages/dashboard'
 import { LoginPage } from '../../pages/login'
@@ -8,7 +13,7 @@ import { RegisterPage } from '../../pages/register'
 import { SettingsPage } from '../../pages/settings'
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 
-export const Router: React.FC<{}> = () => {
+export const Router: React.FC = () => {
     const today = `/dashboard/${dayjs().startOf('day').valueOf()}`
 
     return (

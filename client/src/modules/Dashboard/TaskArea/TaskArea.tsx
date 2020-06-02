@@ -8,25 +8,31 @@ import { useToggle } from 'react-use'
 
 import { Message } from '../../../components/Message'
 import { GET_ALL_TASK_CARDS } from '../../../graphql/taskCard/taskCard'
-import { getAllTaskCardsResponse, getAllTaskCardsVariables } from '../../../graphql/taskCard/taskCard.types'
+import {
+    getAllTaskCardsResponse,
+    getAllTaskCardsVariables,
+} from '../../../graphql/taskCard/taskCard.types'
 import { renderLoaders } from '../../../util/helpers/renderLoaders'
+
 import { TaskCard } from './TaskCard'
 import { TaskCardDialog } from './TaskCardDialog'
 import { TaskCardLoader } from './TaskCardLoader'
 
 dayjs.extend(advancedFormat)
 
-export const TaskArea: React.FC<{}> = () => {
+export const TaskArea: React.FC = () => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
 
-    const { username, selectedDate, tasksLoadingStatus } = useSelector((state) => state.user)
+    const {
+        username,
+        selectedDate,
+        tasksLoadingStatus,
+    } = useSelector((state) => state.user)
 
     // Fetch all task cards
-    const { error, data } = useQuery<getAllTaskCardsResponse, getAllTaskCardsVariables>(GET_ALL_TASK_CARDS, {
-        variables: {
-            username,
-        },
-    })
+    const {
+        error, data,
+    } = useQuery<getAllTaskCardsResponse, getAllTaskCardsVariables>(GET_ALL_TASK_CARDS, { variables: { username } })
 
     // If overdue/upcoming display word, else display date
     const getDateTitle = () => {

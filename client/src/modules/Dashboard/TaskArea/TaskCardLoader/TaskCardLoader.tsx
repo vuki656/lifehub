@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const TaskCardLoader: React.FC<{}> = () => {
+export const TaskCardLoader: React.FC = () => {
     return (
         <div className="task-card--loading">
             <div className="task-card__title--loading" />
