@@ -15,11 +15,13 @@ jobs:
       - run: yarn install
 
       - name: Lint client
+        if: always()
         run: |
           cd client
           yarn lint
 
       - name: Lint server
+        if: always()
         run: |
           cd server
           yarn lint
