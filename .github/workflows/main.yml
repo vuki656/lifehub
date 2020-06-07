@@ -1,0 +1,25 @@
+name: Pull Request Check
+
+# Runs on PR to master and develop but also for direct commits to master in develop as they shouldn't be skipped
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn install
+
+      - name: Lint client
+        run: |
+          cd client
+          yarn lint
+
+      - name: Lint server
+        run: |
+          cd server
+          yarn lint

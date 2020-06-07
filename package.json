@@ -7,6 +7,7 @@
         "server"
     ],
     "scripts": {
-        "dev": "concurrently \"cd ./client && yarn start\" \"cd ./server && yarn start\""
+        "dev": "concurrently \"cd ./client && yarn start\" \"cd ./server && yarn start\"",
+        "lint": "\"cd ./client && yarn lint\""
     }
 }

@@ -42,10 +42,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "import/default": "off",
-        "import/export": "off",
-        "no-restricted-imports": "off",
+        "--no-error-on-unmatched-pattern": true,
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
