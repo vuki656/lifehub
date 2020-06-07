@@ -38,6 +38,6 @@
    },
    "scripts": {
       "start": "nodemon src/index.ts",
-      "lint": "eslint ./src/**/*"
+      "lint": "eslint src/**/*.{ts,tsx}"
    }
 }
