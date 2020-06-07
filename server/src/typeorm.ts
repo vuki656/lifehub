@@ -1,5 +1,8 @@
 import config from 'config'
-import { ConnectionOptions, createConnection } from 'typeorm'
+import {
+    ConnectionOptions,
+    createConnection,
+} from 'typeorm'
 
 export const createTypeORMConnection = () => {
     const {
@@ -15,16 +18,17 @@ export const createTypeORMConnection = () => {
     } = config.get('databaseConnection')
 
     return createConnection({
-        type,
-        host,
-        port,
-        username,
-        password,
         database,
-        synchronize,
+        host,
         logging,
+        password,
+        port,
         ssl,
+        synchronize,
+        type,
+        username,
 
+        // eslint-disable-next-line sort-keys
         entities: [__dirname + '/entities/**/*.entity.ts'],
     } as ConnectionOptions)
 }

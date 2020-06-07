@@ -2,6 +2,7 @@ import { GraphQLDate } from 'graphql-iso-date'
 import { IResolvers } from 'graphql-tools'
 
 import { Void } from '../customScalars/void.scalar'
+
 import { reminderResolver } from './Reminder/reminder.resolver'
 import { taskResolver } from './Task/task.resolver'
 import { taskCardResolver } from './TaskCard/taskCard.resolver'

@@ -1,5 +1,8 @@
 import { UserInputError } from 'apollo-server'
-import { getConnection, getRepository } from 'typeorm'
+import {
+    getConnection,
+    getRepository,
+} from 'typeorm'
 
 import { TaskEntity } from '../../../entities/task'
 

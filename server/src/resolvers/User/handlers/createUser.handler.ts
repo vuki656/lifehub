@@ -7,7 +7,13 @@ import { emailRegEx } from '../../../util/variables'
 import { RegisterErrors } from '../user.types'
 
 export const createUserHandler = async (input, context) => {
-    const { username, email, password, passwordConfirmation } = input
+    const {
+        username,
+        email,
+        password,
+        passwordConfirmation,
+    } = input
+
     const { secret } = context
     const errors: RegisterErrors = {}
 

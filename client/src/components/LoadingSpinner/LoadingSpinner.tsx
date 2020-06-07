@@ -1,9 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {
+    useCallback,
+    useEffect,
+    useState,
+} from 'react'
 
-import { LoadingSpinnerProps, VariantType } from './LoadingSpinner.types'
+import {
+    LoadingSpinnerProps,
+    VariantType,
+} from './LoadingSpinner.types'
 
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = (props) => {
-    const { loaderVariant, loaderColor } = props
+    const {
+        loaderVariant,
+        loaderColor,
+    } = props
 
     const [color, setColor] = useState<string>('')
     const [variant, setVariant] = useState<VariantType>({
@@ -13,18 +23,18 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = (props) => {
 
     const setInitialVariant = useCallback(() => {
         switch (loaderVariant) {
-            case('button'):
+            case ('button'):
                 setVariant({
+                    minHeight: 'inherit',
                     size: '18px',
                     spinnerWidth: '2px',
-                    minHeight: 'inherit',
                 })
                 break
-            case('fullScreen'):
+            case ('fullScreen'):
                 setVariant({
+                    minHeight: '100vh',
                     size: '70px',
                     spinnerWidth: '6px',
-                    minHeight: '100vh',
                 })
                 break
         }
@@ -32,10 +42,10 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = (props) => {
 
     const setInitialColor = useCallback(() => {
         switch (loaderColor) {
-            case('blue'):
+            case ('blue'):
                 setColor('#0083ff')
                 break
-            case('white'):
+            case ('white'):
                 setColor('#ffffff')
                 break
         }
@@ -54,10 +64,10 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = (props) => {
             <div
                 className="loader"
                 style={{
+                    borderTopColor: color,
+                    borderWidth: variant.spinnerWidth,
                     height: variant.size,
                     width: variant.size,
-                    borderWidth: variant.spinnerWidth,
-                    borderTopColor: color,
                 }} />
         </div>
     )

@@ -6,22 +6,30 @@ import { useToggle } from 'react-use'
 
 import { Message } from '../../../components/Message'
 import { GET_REMINDERS_BY_DATE } from '../../../graphql/reminder/reminder'
-import { getRemindersByDateResponse, getRemindersByDateVariables } from '../../../graphql/reminder/reminder.types'
+import {
+    getRemindersByDateResponse,
+    getRemindersByDateVariables,
+} from '../../../graphql/reminder/reminder.types'
 import { renderLoaders } from '../../../util/helpers/renderLoaders'
 import { sortRemindersByDate } from '../../../util/helpers/sortRemindersByDate'
+
 import { ReminderCard } from './ReminderCard'
 import { ReminderCardLoader } from './ReminderCardLoader'
 import { ReminderDialog } from './ReminderDialog'
 
-export const Reminders: React.FC<{}> = () => {
+export const Reminders: React.FC = () => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
-    const { username, selectedDate } = useSelector((state) => state.user)
+    const {
+        username, selectedDate,
+    } = useSelector((state) => state.user)
 
     // Fetch reminders for selected date
-    const { error, data, loading } = useQuery<getRemindersByDateResponse, getRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
+    const {
+        error, data, loading,
+    } = useQuery<getRemindersByDateResponse, getRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
         variables: {
-            username,
             selectedDate,
+            username,
         },
     })
 

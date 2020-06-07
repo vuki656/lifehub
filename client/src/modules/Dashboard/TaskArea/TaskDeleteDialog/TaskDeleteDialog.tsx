@@ -1,13 +1,23 @@
 import { useMutation } from '@apollo/react-hooks'
 import dayjs from 'dayjs'
 import _ from 'lodash'
-import React, { useCallback, useState } from 'react'
+import React, {
+    useCallback,
+    useState,
+} from 'react'
 import { useSelector } from 'react-redux'
-import { RRule, RRuleSet } from 'rrule'
-import { LoadingSpinner } from '../../../../components/LoadingSpinner'
+import {
+    RRule,
+    RRuleSet,
+} from 'rrule'
 
+import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
-import { DELETE_ALL_TASKS_AND_META_DATA, DELETE_SINGLE_TASK_INSTANCE, GET_TASKS_BY_DATE_AND_TASK_CARD } from '../../../../graphql/task/task'
+import {
+    DELETE_ALL_TASKS_AND_META_DATA,
+    DELETE_SINGLE_TASK_INSTANCE,
+    GET_TASKS_BY_DATE_AND_TASK_CARD,
+} from '../../../../graphql/task/task'
 import {
     deleteAllTasksAndMetaDataResponse,
     deleteAllTasksAndMetaDataVariables,
@@ -15,6 +25,7 @@ import {
     deleteSingleTaskInstanceVariables,
     getTasksByDateAndTaskCardResponse,
 } from '../../../../graphql/task/task.types'
+
 import { TaskDeleteDialogProps } from './TaskDeleteDialog.types'
 
 export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
@@ -49,10 +60,10 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
         // Clone the old rrule
         const updatedRruleSet = new RRuleSet()
         updatedRruleSet.rrule(new RRule({
-            freq: rruleSet._rrule[0].options.freq,
-            interval: rruleSet._rrule[0].options.interval,
             byweekday: rruleSet._rrule[0].options.byweekday,
             dtstart: rruleSet._rrule[0].options.dtstart,
+            freq: rruleSet._rrule[0].options.freq,
+            interval: rruleSet._rrule[0].options.interval,
             until: rruleSet._rrule[0].options.until,
         }))
 
@@ -63,20 +74,13 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
         )
 
         deleteSingleTaskInstanceMutation({
-            variables: {
-                input: {
-                    taskId: task.id,
-                    taskMetaDataId: task.taskMetaData.id,
-                    rruleStr: updatedRruleSet.toString(),
-                },
-            },
             update(cache, response) {
                 const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
-                            taskCardId,
                             selectedDate,
+                            taskCardId,
                         },
                     },
                 })
@@ -84,20 +88,27 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
                     cachedTask.id !== response.data?.deleteSingleTaskInstance.taskId
                 ))
                 cache.writeQuery<getTasksByDateAndTaskCardResponse>({
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: {
                         getTasksByDateAndTaskCard: {
-                            tasks: updatedList,
                             __typename: response.data?.deleteSingleTaskInstance.__typename!,
+                            tasks: updatedList,
                         },
                     },
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
-                            taskCardId,
                             selectedDate,
+                            taskCardId,
                         },
                     },
                 })
+            },
+            variables: {
+                input: {
+                    rruleStr: updatedRruleSet.toString(),
+                    taskId: task.id,
+                    taskMetaDataId: task.taskMetaData.id,
+                },
             },
         })
         .catch((error) => {
@@ -116,37 +127,33 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
     // Delete all tasks and their corresponding meta data
     const deleteAllTasksAndMetaData = useCallback(() => {
         deleteAllTasksAndMetaDataMutation({
-            variables: {
-                input: {
-                    taskMetaDataId: task.taskMetaData.id,
-                },
-            },
             update(cache, response) {
-                const { getTasksByDateAndTaskCard }: any = cache.readQuery({
+                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
                     query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
-                            taskCardId,
                             selectedDate,
+                            taskCardId,
                         },
                     },
                 })
                 cache.writeQuery({
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     data: {
                         getTasksByDateAndTaskCard: {
-                            tasks: _.remove(getTasksByDateAndTaskCard, task),
                             __typename: response.data?.deleteAllTasksAndMetaData.__typename,
+                            tasks: _.remove(localCache?.getTasksByDateAndTaskCard, task),
                         },
                     },
+                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
                     variables: {
                         input: {
-                            taskCardId,
                             selectedDate,
+                            taskCardId,
                         },
                     },
                 })
             },
+            variables: { input: { taskMetaDataId: task.taskMetaData.id } },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)

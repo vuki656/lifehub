@@ -1,5 +1,6 @@
 import { UserInputError } from 'apollo-server'
 import { getRepository } from 'typeorm'
+
 import { ReminderEntity } from '../../../entities/reminder'
 
 export const deleteReminderHandler = async (input) => {

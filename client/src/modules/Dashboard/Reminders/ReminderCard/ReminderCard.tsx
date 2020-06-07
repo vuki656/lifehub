@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
 import { ReminderDialog } from '../ReminderDialog'
+
 import { ReminderListItemProps } from './ReminderCard.types'
 
 dayjs.extend(advancedFormat)
@@ -24,7 +25,7 @@ export const ReminderCard: React.FC<ReminderListItemProps> = (props) => {
         // Return correct day, days or today string
         switch (dayDifference) {
             case 0:
-                return `Today`
+                return 'Today'
             case 1:
                 return `${dayDifference} Day`
             default:
@@ -34,7 +35,7 @@ export const ReminderCard: React.FC<ReminderListItemProps> = (props) => {
 
     // Disable onClick if dialog open so its not closed on click anywhere in dialog
     const handleCardClick = useCallback(() => {
-        !isDialogOpen && toggleDialog()
+        if (!isDialogOpen) toggleDialog()
     }, [isDialogOpen, toggleDialog])
 
     return (

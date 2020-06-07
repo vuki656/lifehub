@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom'
 
 import { setSelectedDate } from '../../../redux/actions/userActions'
 
-export const DaysSidebar: React.FC<{}> = () => {
+export const DaysSidebar: React.FC = () => {
     const dispatch = useDispatch()
 
     // Render 20 days from today

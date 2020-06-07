@@ -1,13 +1,21 @@
 import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Redirect, Route, withRouter } from 'react-router-dom'
+import {
+    Redirect,
+    Route,
+    withRouter,
+} from 'react-router-dom'
 
 import { VERIFY_USER } from '../../graphql/user/user'
-import { verifyUserResponse, verifyUserVariables } from '../../graphql/user/user.types'
+import {
+    verifyUserResponse,
+    verifyUserVariables,
+} from '../../graphql/user/user.types'
 import { setUser } from '../../redux/actions/userActions'
 import { LoadingSpinner } from '../LoadingSpinner'
-import SideMenu from '../SideMenu/SideMenu'
+import { SideMenu } from '../SideMenu'
+
 import { ProtectedRouteProps } from './ProtectedRoute.types'
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
@@ -20,11 +28,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
     const dispatch = useDispatch()
 
     // Get token auth status
-    const { data, error, loading } = useQuery<verifyUserResponse, verifyUserVariables>(VERIFY_USER, {
-        variables: {
-            token: window.localStorage.getItem('token') ?? '',
-        },
-    })
+    const {
+        data,
+        error,
+        loading,
+    } = useQuery<verifyUserResponse, verifyUserVariables>(
+        VERIFY_USER,
+        { variables: { token: window.localStorage.getItem('token') ?? '' } },
+    )
 
     // If error redirect to login and clear user, else refresh user and proceed
     const checkIfAuth = React.useCallback(() => {

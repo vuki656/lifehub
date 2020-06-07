@@ -1,5 +1,11 @@
 {
     "name": "lifehub",
+    "license": "UNLICENSED",
+    "private": true,
+    "workspaces": [
+        "client",
+        "server"
+    ],
     "scripts": {
         "dev": "concurrently \"cd ./client && yarn start\" \"cd ./server && yarn start\""
     }
