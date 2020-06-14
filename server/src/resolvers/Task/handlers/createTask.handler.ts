@@ -20,10 +20,10 @@ export const createTaskHandler = async (input) => {
     const taskMetaDataEntity = new TaskMetaDataEntity()
     taskMetaDataEntity.title = taskMetaData.title
     taskMetaDataEntity.startDate = taskMetaData.startDate
+    taskMetaDataEntity.taskCard = foundTaskCard
 
     // Create task entity
     const taskEntity = new TaskEntity()
-    taskEntity.taskCard = foundTaskCard
     taskEntity.date = date
     taskEntity.taskMetaData = taskMetaDataEntity
 

@@ -20,4 +20,5 @@ export type TaskMetaDataVariables = {
     rrule: string | null,
     isRepeating: boolean,
     isHabit: boolean,
+    taskCard: string,
 }

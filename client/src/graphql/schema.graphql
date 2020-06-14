@@ -73,7 +73,6 @@ type Task {
     date: Date!
     id: ID!
     isCompleted: Boolean
-    taskCardId: String
     taskMetaData: TaskMetaData!
 }
 
@@ -95,6 +94,7 @@ type TaskMetaData {
     note: String
     rrule: String
     startDate: Date
+    taskCard: TaskCard!
     title: String!
 }
 
@@ -124,7 +124,6 @@ enum CacheControlScope {
 
 input CreateTaskInput {
     date: Date!
-    taskCardId: String
     taskMetaData: TaskMetaDataInput
 }
 
@@ -157,6 +156,7 @@ input TaskMetaDataInput {
     note: String
     rrule: String
     startDate: Date
+    taskCard: String!
     title: String!
 }
 
@@ -173,7 +173,6 @@ input UpdateTaskInput {
     date: Date!
     id: ID!
     isCompleted: Boolean
-    taskCard: String
     taskMetaData: TaskMetaDataInput!
 }
 

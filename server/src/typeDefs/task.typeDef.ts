@@ -5,13 +5,11 @@ export const taskType = gql`
         id: ID!,
         date: GraphQLDate!,
         isCompleted: Boolean,
-        taskCardId: String,
         taskMetaData: TaskMetaData!
     }
 
     input CreateTaskInput {
         date: GraphQLDate!,
-        taskCardId: String,
         taskMetaData: TaskMetaDataInput
     }
 
@@ -28,7 +26,6 @@ export const taskType = gql`
         id: ID!,
         date: GraphQLDate!,
         isCompleted: Boolean,
-        taskCard: String,
         taskMetaData: TaskMetaDataInput!,
     }
 

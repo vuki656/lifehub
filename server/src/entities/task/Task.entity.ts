@@ -6,8 +6,6 @@ import {
     ManyToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm'
-
-import { TaskCardEntity } from '../taskCard'
 import { TaskMetaDataEntity } from '../taskMetaData'
 
 import {
@@ -30,9 +28,5 @@ export class TaskEntity extends BaseEntity {
     @ManyToOne(() => TaskMetaDataEntity, (taskMetaData) => taskMetaData.tasks, { cascade: true })
     @JoinColumn({ name: 'taskMetaData' })
     taskMetaData: TaskMetaDataEntity
-
-    @ManyToOne(() => TaskCardEntity, (taskCard) => taskCard.tasks, { cascade: true })
-    @JoinColumn({ name: 'taskCard' })
-    taskCard: TaskCardEntity
 
 }

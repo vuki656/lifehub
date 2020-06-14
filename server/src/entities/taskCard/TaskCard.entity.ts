@@ -9,7 +9,7 @@ import {
     Unique,
 } from 'typeorm'
 
-import { TaskEntity } from '../task'
+import { TaskMetaDataEntity } from '../taskMetaData'
 import { UserEntity } from '../user'
 
 import { TitleOptions } from './TaskCard.options'
@@ -24,8 +24,8 @@ export class TaskCardEntity extends BaseEntity {
     @Column(TitleOptions)
     name: string
 
-    @OneToMany(() => TaskEntity, (task) => task.taskCard)
-    tasks: TaskEntity[]
+    @OneToMany(() => TaskMetaDataEntity, (taskMetaData) => taskMetaData.taskCard)
+    taskMetaData: TaskMetaDataEntity
 
     @ManyToOne(() => UserEntity, (user) => user.taskCards, { cascade: true })
     @JoinColumn({ name: 'userId' })

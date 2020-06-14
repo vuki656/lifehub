@@ -15,7 +15,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
     const dayAfterDayRange = dayjs().add(20, 'day').startOf('day').format('YYYY-MM-DD')
     const formattedSelectedDate = dayjs(selectedDate).format('YYYY-MM-DD')
 
-    // Check if card exists
+    // Check if task card exists
     if (!await getRepository(TaskCardEntity).findOne({ where: { id: taskCardId } })) {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     }
@@ -26,7 +26,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         .createQueryBuilder('task')
         .leftJoinAndSelect('task.taskMetaData', 'taskMetaData')
         .andWhere('task.date < :selectedDate', { selectedDate: dayjs().toDate() })
-        .andWhere('task.taskCard = :taskCardId', { taskCardId })
+        .andWhere('taskMetaData.taskCard = :taskCardId', { taskCardId })
         .getMany()
         .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
@@ -41,7 +41,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         .createQueryBuilder('task')
         .leftJoinAndSelect('task.taskMetaData', 'taskMetaData')
         .where('task.date > :selectedDate', { selectedDate: dayjs.utc().add(20, 'day') })
-        .andWhere('task.taskCard = :taskCardId', { taskCardId })
+        .andWhere('taskMetaData.taskCard = :taskCardId', { taskCardId })
         .getMany()
         .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
@@ -54,7 +54,7 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
     .createQueryBuilder('task')
     .leftJoinAndSelect('task.taskMetaData', 'taskMetaData')
     .where('task.date = :taskDate', { taskDate: selectedDate })
-    .andWhere('task.taskCard = :taskCardId', { taskCardId })
+    .andWhere('taskMetaData.taskCard = :taskCardId', { taskCardId })
     .getMany()
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
