@@ -1,0 +1,22 @@
+overwrite: true
+schema: "./src/graphql/schema.graphql"
+documents: "src/graphql/**/*.ts"
+config:
+  scalars:
+    DateTime: "string"
+    JSON: "{ [key: string]: any }"
+generates:
+  src/graphql/types.ts:
+    plugins:
+      - "add":
+          "content":
+            - "/* eslint-disable */"
+            - "// @generated"
+            - "// This file was automatically generated and should not be edited."
+            - ""
+      - "typescript"
+      - "typescript-operations"
+    config:
+      avoidOptionals: true
+      maybeValue: "null"
+
