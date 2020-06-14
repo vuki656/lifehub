@@ -76,7 +76,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createTaskCardMutation, username, handleDialogToggle])
+    }, [createTaskCardMutation, username, handleDialogToggle, taskCardForm])
 
     // Update task card
     const updateTaskCard = useCallback((formValues: TaskCardFormTypes) => {
@@ -90,7 +90,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [taskCardForm, toggleDialog, taskCard, updateTaskCardMutation])
+    }, [toggleDialog, taskCard, updateTaskCardMutation])
 
     // If task exists update, else create
     const handleSubmit = useCallback((formValues: TaskCardFormTypes) => {

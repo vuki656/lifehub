@@ -5,3 +5,10 @@ export type ReminderDialogProps = {
     isDialogOpen: boolean,
     reminder?: ReminderType,
 }
+
+export type ReminderFormTypes = {
+    title: string,
+    description: string,
+    startDate: Date,
+    endDate: Date | undefined,
+}

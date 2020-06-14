@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
+import { useFormik } from 'formik'
 import _ from 'lodash'
 import React, { useCallback } from 'react'
 import DatePicker from 'react-datepicker'
@@ -25,9 +26,11 @@ import {
 } from '../../../../graphql/reminder/reminder.types'
 import { toCompatibleDate } from '../../../../util/helpers/convertToCompatibleDate'
 import { sortRemindersByDate } from '../../../../util/helpers/sortRemindersByDate'
-import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 
-import { ReminderDialogProps } from './ReminderDialog.types'
+import type {
+    ReminderDialogProps,
+    ReminderFormTypes,
+} from './ReminderDialog.types'
 
 dayjs.extend(isBetween)
 
@@ -42,30 +45,29 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         username,
         selectedDate,
     } = useSelector((state) => state.user)
+
     const [createReminderMutation, { loading: createLoading }] = useMutation<createReminderResponse, createReminderVariables>(CREATE_REMINDER)
     const [updateReminderMutation, { loading: updateLoading }] = useMutation<updateReminderResponse, updateReminderVariables>(UPDATE_REMINDER)
     const [deleteReminderMutation, { loading: deleteLoading }] = useMutation<deleteReminderResponse, deleteReminderVariables>(DELETE_REMINDER)
 
     // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})
-    const {
-        formValues, setFormValue, clearForm, resetForm,
-    } = useFormFields({
-        description: reminder?.description ? reminder.description : '',
-        endDate: reminder ? new Date(reminder.endDate) : undefined,
-        startDate: reminder ? new Date(reminder.startDate) : new Date(selectedDate),
-        title: reminder ? reminder.title : '',
+    const reminderForm = useFormik<ReminderFormTypes>({
+        initialValues: {
+            description: reminder?.description ? reminder.description : '',
+            endDate: reminder ? new Date(reminder.endDate) : undefined,
+            startDate: reminder ? new Date(reminder.startDate) : new Date(selectedDate),
+            title: reminder ? reminder.title : '',
+        },
+        onSubmit: (formValues) => handleSubmit(formValues),
     })
 
     // Clear errors and toggle dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
-        resetForm()
+        reminderForm.resetForm()
         setErrors({})
-    }, [
-        toggleDialog,
-        resetForm,
-    ])
+    }, [toggleDialog, reminderForm])
 
     // Remove reminder from cache if the updated date range doesnt't contain selected date
     // Cache should contain only reminders for selected day
@@ -83,7 +85,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     }, [selectedDate])
 
     // Save reminder
-    const createReminder = useCallback(() => {
+    const createReminder = useCallback((formValues: ReminderFormTypes) => {
         createReminderMutation({
             update(cache, response) {
                 // If selected day in between reminder date range, display it in view
@@ -115,7 +117,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
             },
             variables: {
                 description: formValues.description,
-                endDate: toCompatibleDate(formValues.endDate),
+                endDate: toCompatibleDate(formValues.endDate!),
                 startDate: toCompatibleDate(formValues.startDate),
                 title: formValues.title,
                 username,
@@ -123,25 +125,15 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         })
         .then(() => {
             handleDialogToggle()
-            clearForm()
+            reminderForm.resetForm()
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [
-        clearForm,
-        handleDialogToggle,
-        createReminderMutation,
-        username,
-        formValues.endDate,
-        formValues.startDate,
-        formValues.title,
-        formValues.description,
-        selectedDate,
-    ])
+    }, [handleDialogToggle, createReminderMutation, username, reminderForm, selectedDate])
 
     // Update reminder
-    const updateReminder = useCallback(() => {
+    const updateReminder = useCallback((formValues: ReminderFormTypes) => {
         updateReminderMutation({
             update(cache, response) {
                 toggleDialog()
@@ -164,7 +156,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
             },
             variables: {
                 description: formValues.description,
-                endDate: toCompatibleDate(formValues.endDate),
+                endDate: toCompatibleDate(formValues.endDate!),
                 id: reminder?.id!,
                 startDate: toCompatibleDate(formValues.startDate),
                 title: formValues.title,
@@ -174,28 +166,14 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [
-        removeFromTodayIfOutOfRange,
-        updateReminderMutation,
-        formValues.description,
-        formValues.title,
-        selectedDate,
-        toggleDialog,
-        formValues.startDate,
-        reminder,
-        username,
-        formValues.endDate,
-    ])
+    }, [removeFromTodayIfOutOfRange, updateReminderMutation, selectedDate, toggleDialog, reminder, username])
 
     // If reminder exists update, else create
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-        reminder ? updateReminder() : createReminder()
-    }, [
-        reminder,
-        createReminder,
-        updateReminder,
-    ])
+    const handleSubmit = useCallback((formValues: ReminderFormTypes) => {
+        reminder
+            ? updateReminder(formValues)
+            : createReminder(formValues)
+    }, [reminder, createReminder, updateReminder])
 
     // Delete reminder
     const deleteReminder = useCallback(() => {
@@ -235,7 +213,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     ])
 
     return (
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={reminderForm.handleSubmit}>
             <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
                 <div className="dialog__content">
                     <div className="dialog__header-wrapper">
@@ -273,8 +251,9 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                                 className="form__input-field"
                                 type="text"
                                 required
-                                value={formValues.title}
-                                onChange={({ target }) => setFormValue(target.value, 'title')}
+                                name="title"
+                                onChange={reminderForm.handleChange}
+                                value={reminderForm.values.title}
                             />
                         </div>
                         <div className="form__field-wrapper">
@@ -282,8 +261,9 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             <textarea
                                 className="form__input-field form__input-area"
                                 rows={8}
-                                value={formValues.description}
-                                onChange={({ target }) => setFormValue(target.value, 'description')}
+                                name="description"
+                                onChange={reminderForm.handleChange}
+                                value={reminderForm.values.description}
                                 maxLength={1900}
                             />
                         </div>
@@ -291,8 +271,9 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             <p className="form__field-title">Start</p>
                             <DatePicker
                                 className="form__input-field"
-                                selected={formValues.startDate}
-                                onChange={(date) => setFormValue(date, 'startDate')}
+                                name="startDate"
+                                onChange={(event) => reminderForm.setFieldValue('startDate', event)}
+                                selected={reminderForm.values.startDate}
                                 minDate={new Date()}
                                 required
                             />
@@ -301,9 +282,10 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                             <p className="form__field-title">End</p>
                             <DatePicker
                                 className="form__input-field"
-                                selected={formValues.endDate}
-                                onChange={(date) => setFormValue(date, 'endDate')}
-                                minDate={formValues.startDate}
+                                name="endDate"
+                                onChange={(event) => reminderForm.setFieldValue('endDate', event)}
+                                selected={reminderForm.values.endDate}
+                                minDate={reminderForm.values.startDate}
                                 required
                             />
                         </div>
