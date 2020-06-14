@@ -4,6 +4,7 @@ import {
 } from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
+import { useFormik } from 'formik'
 import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
@@ -22,13 +23,15 @@ import {
     getTasksByDateAndTaskCardVariables,
 } from '../../../../graphql/task/task.types'
 import { renderLoaders } from '../../../../util/helpers/renderLoaders'
-import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { Task } from '../Task'
 import { TaskCardDeleteDialog } from '../TaskCardDeleteDialog'
 import { TaskCardDialog } from '../TaskCardDialog'
 import { TaskCardLoader } from '../TaskCardLoader'
 
-import { TaskCardProps } from './TaskCard.types'
+import type {
+    CreateTaskFormTypes,
+    TaskCardProps,
+} from './TaskCard.types'
 
 export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const { taskCard } = props
@@ -59,13 +62,13 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             },
         })
 
-    // Form
-    const {
-        formValues, setFormValue, clearForm,
-    } = useFormFields({ title: '' })
+    const createTaskForm = useFormik<CreateTaskFormTypes>({
+        initialValues: { title: '' },
+        onSubmit: (formValues) => handleSubmit(formValues),
+    })
 
     // Save task
-    const createTask = useCallback(() => {
+    const handleSubmit = useCallback((formValues: CreateTaskFormTypes) => {
         createTaskMutation({
             update(cache, response) {
                 const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
@@ -99,22 +102,21 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
             variables: {
                 input: {
                     date: selectedDate,
-                    taskCardId: taskCard.id,
-                    taskMetaData: { title: formValues.title },
+                    taskMetaData: {
+                        taskCard: taskCard.id,
+                        title: formValues.title,
+                    },
                 },
             },
         })
-        .then(() => clearForm())
+        .then(() => {
+            createTaskForm.resetForm()
+            setErrors({})
+        })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [clearForm, createTaskMutation, selectedDate, taskCard.id, formValues.title])
-
-    // Handle form submit
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-        createTask()
-    }, [createTask])
+    }, [createTaskMutation, selectedDate, taskCard.id, createTaskForm])
 
     return (
         <>
@@ -141,7 +143,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                             ))}
                         </div>
                         <div className="task-card__input">
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={createTaskForm.handleSubmit}>
                                 {createLoading
                                     ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'button'} />
                                     : (
@@ -149,9 +151,10 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                                             className="form__input-field task-card__input-field"
                                             type="text"
                                             required
-                                            value={formValues.title}
                                             placeholder="Click to quickly add a task"
-                                            onChange={({ target }) => setFormValue(target.value, 'title')}
+                                            name="title"
+                                            onChange={createTaskForm.handleChange}
+                                            value={createTaskForm.values.title}
                                             maxLength={150}
                                         />
                                     )}

@@ -13,10 +13,10 @@ export type TaskType = {
 // ** VARIABLES **
 export type createTaskVariables = {
     input: {
-        taskCardId: string,
         date: string,
         taskMetaData: {
             title: string,
+            taskCard: string
         },
     },
 }
