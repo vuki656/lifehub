@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
+import { useFormik } from 'formik'
 import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
@@ -17,9 +18,11 @@ import {
     updateTaskCardResponse,
     updateTaskCardVariables,
 } from '../../../../graphql/taskCard/taskCard.types'
-import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 
-import { TaskCardDialogProps } from './TaskCardDialog.types'
+import {
+    TaskCardDialogProps,
+    TaskCardFormTypes,
+} from './TaskCardDialog.types'
 
 export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
     const {
@@ -33,22 +36,21 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
 
     const { username } = useSelector((state) => state.user)
     const [errors, setErrors] = React.useState<{ error?: string }>({ error: '' })
-    const {
-        formValues,
-        setFormValue,
-        clearForm,
-        resetForm,
-    } = useFormFields({ name: taskCard ? taskCard.name : '' })
+
+    const taskCardForm = useFormik<TaskCardFormTypes>({
+        initialValues: { name: '' },
+        onSubmit: (formValues) => handleSubmit(formValues),
+    })
 
     // Clear errors and toggle dialog
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
-        resetForm()
+        taskCardForm.resetForm()
         setErrors({})
-    }, [toggleDialog, resetForm])
+    }, [toggleDialog, taskCardForm])
 
     // Save task card
-    const createTaskCard = useCallback(() => {
+    const createTaskCard = useCallback((formValues: TaskCardFormTypes) => {
         createTaskCardMutation({
             update(cache, response) {
                 const localCache = cache.readQuery<getAllTaskCardsResponse>({
@@ -69,15 +71,15 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         })
         .then(() => {
             handleDialogToggle()
-            clearForm()
+            taskCardForm.resetForm()
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createTaskCardMutation, username, formValues.name, handleDialogToggle, clearForm])
+    }, [createTaskCardMutation, username, handleDialogToggle])
 
     // Update task card
-    const updateTaskCard = useCallback(() => {
+    const updateTaskCard = useCallback((formValues: TaskCardFormTypes) => {
         updateTaskCardMutation({
             variables: {
                 id: taskCard?.id!,
@@ -88,16 +90,17 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [formValues, toggleDialog, taskCard, updateTaskCardMutation])
+    }, [taskCardForm, toggleDialog, taskCard, updateTaskCardMutation])
 
     // If task exists update, else create
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-        taskCard ? updateTaskCard() : createTaskCard()
+    const handleSubmit = useCallback((formValues: TaskCardFormTypes) => {
+        taskCard
+            ? updateTaskCard(formValues)
+            : createTaskCard(formValues)
     }, [createTaskCard, updateTaskCard, taskCard])
 
     return (
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={taskCardForm.handleSubmit}>
             <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
                 <div className="dialog__content">
                     <div className="dialog__header-wrapper">
@@ -122,8 +125,9 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
                                 className="form__input-field"
                                 type="text"
                                 required
-                                value={formValues.name}
-                                onChange={({ target }) => setFormValue(target.value, 'name')}
+                                name="name"
+                                onChange={taskCardForm.handleChange}
+                                value={taskCardForm.values.email}
                                 maxLength={150}
                             />
                         </div>

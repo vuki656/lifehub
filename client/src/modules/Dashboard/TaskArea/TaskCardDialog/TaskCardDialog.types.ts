@@ -5,3 +5,7 @@ export type TaskCardDialogProps = {
     toggleDialog: () => void,
     taskCard?: TaskCardType,
 }
+
+export type TaskCardFormTypes = {
+    name: string,
+}
