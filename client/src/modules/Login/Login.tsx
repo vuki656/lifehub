@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
+import { useFormik } from 'formik'
 import React, { useCallback } from 'react'
 import {
     Link,
@@ -13,25 +14,26 @@ import {
     logInUserResponse,
     logInUserVariables,
 } from '../../graphql/user/user.types'
-import { useFormFields } from '../../util/hooks/useFormFields.hook'
 import { UserErrors } from '../Register'
+
+import { LoginFormTypes } from './Login.types'
 
 export const Login: React.FC = () => {
     const history = useHistory()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
-    const {
-        formValues, setFormValue, clearForm,
-    } = useFormFields({
-        email: '',
-        password: '',
+
+    const loginForm = useFormik<LoginFormTypes>({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        onSubmit: (formValues) => handleSubmit(formValues),
     })
 
     // Log user in
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-
+    const handleSubmit = useCallback((formValues: LoginFormTypes) => {
         logInUserQuery({
             variables: {
                 email: formValues.email,
@@ -43,16 +45,16 @@ export const Login: React.FC = () => {
             window.localStorage.setItem('token', token)
 
             setErrors({})
-            clearForm()
+            loginForm.resetForm()
             history.push('/dashboard')
         })
         .catch((error) => {
             setErrors(error.graphQLErrors[0]?.extensions)
         })
-    }, [logInUserQuery, history, clearForm, formValues.email, formValues.password])
+    }, [logInUserQuery, history, loginForm])
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={loginForm.handleSubmit}>
             <div className="form">
                 <div className="form__card">
                     <Logo className="form__logo" />
@@ -63,9 +65,10 @@ export const Login: React.FC = () => {
                             className="form__input-field"
                             autoComplete="email"
                             type="email"
+                            name="email"
                             required
-                            value={formValues.email}
-                            onChange={({ target }) => setFormValue(target.value, 'email')}
+                            onChange={loginForm.handleChange}
+                            value={loginForm.values.email}
                         />
                         {errors.email && <Message message={errors.email} type="error" />}
                     </div>
@@ -75,10 +78,11 @@ export const Login: React.FC = () => {
                             className="form__input-field"
                             autoComplete="password"
                             type="password"
+                            name="password"
                             minLength={7}
                             required
-                            value={formValues.password}
-                            onChange={({ target }) => setFormValue(target.value, 'password')}
+                            onChange={loginForm.handleChange}
+                            value={loginForm.values.password}
                         />
                         {errors.password && <Message message={errors.password} type="error" />}
                     </div>

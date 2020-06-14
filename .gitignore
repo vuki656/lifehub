@@ -1,6 +1,6 @@
 # IntelliJ project files
 .idea
 
-!/client/src/react-app-env.d.ts
+/client/src/react-app-env.d.ts
 
 /node_modules/
