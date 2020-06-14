@@ -65,8 +65,8 @@ export const Login: React.FC = () => {
                             className="form__input-field"
                             autoComplete="email"
                             type="email"
-                            name="email"
                             required
+                            name="email"
                             onChange={loginForm.handleChange}
                             value={loginForm.values.email}
                         />
