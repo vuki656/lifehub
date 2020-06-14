@@ -1,4 +1,7 @@
-import { TaskMetaDataType, TaskMetaDataVariables } from '../taskMetaData/taskMetaData.types'
+import {
+    TaskMetaDataType,
+    TaskMetaDataVariables,
+} from '../taskMetaData/taskMetaData.types'
 
 export type TaskType = {
     id: string,
@@ -35,7 +38,6 @@ export type updateTaskVariables = {
     input: {
         id: string,
         date: string,
-        taskCard: string,
         taskMetaData: TaskMetaDataVariables,
     },
 }

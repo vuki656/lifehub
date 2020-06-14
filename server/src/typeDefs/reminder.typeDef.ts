@@ -14,7 +14,7 @@ export const reminderType = gql`
     }
 
     extend type Query {
-        getRemindersByDate(username: String!, selectedDate: String!): [Reminder]!
+        getRemindersByDate(username: String!, selectedDate: String!): [Reminder!]!
     }
 
     extend type Mutation {

@@ -7,7 +7,6 @@ export const CREATE_TASK = gql`
                 id
                 date
                 isCompleted
-                taskCardId
                 taskMetaData {
                     title
                     note
@@ -18,6 +17,9 @@ export const CREATE_TASK = gql`
                     isRepeating
                     isHabit
                     nextRepeatingInstance
+                    taskCard {
+                        id
+                    }
                 }
             }
         }
@@ -31,7 +33,6 @@ export const GET_TASKS_BY_DATE_AND_TASK_CARD = gql`
                 id
                 date
                 isCompleted
-                taskCardId
                 taskMetaData {
                     id
                     title
@@ -42,6 +43,9 @@ export const GET_TASKS_BY_DATE_AND_TASK_CARD = gql`
                     isRepeating
                     isHabit
                     nextRepeatingInstance
+                    taskCard {
+                        id
+                    }
                 }
             }
         }
@@ -55,7 +59,6 @@ export const TOGGLE_TASK_COMPLETED = gql`
                 id
                 date
                 isCompleted
-                taskCardId
                 taskMetaData {
                     id
                     title
@@ -66,6 +69,9 @@ export const TOGGLE_TASK_COMPLETED = gql`
                     isRepeating
                     isHabit
                     nextRepeatingInstance
+                    taskCard {
+                        id
+                    }
                 }
             }
         }
@@ -79,7 +85,6 @@ export const UPDATE_TASK = gql`
                 id
                 date
                 isCompleted
-                taskCardId
                 taskMetaData {
                     id
                     title
@@ -90,6 +95,9 @@ export const UPDATE_TASK = gql`
                     isRepeating
                     isHabit
                     nextRepeatingInstance
+                    taskCard {
+                        id
+                    }
                 }
             }
         }
