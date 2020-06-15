@@ -10,6 +10,10 @@ type AuthResponse {
     username: String!
 }
 
+type CreateReminderPayload {
+    reminder: ReminderPayload
+}
+
 type CreateTaskPayload {
     task: Task!
 }
@@ -32,7 +36,7 @@ type GetTasksByDateAndTaskCardPayload {
 
 type Mutation {
     _empty: String
-    createReminder(description: String, endDate: String!, startDate: String!, title: String!, username: String!): Reminder!
+    createReminder(input: CreateReminderInput): CreateReminderPayload!
     createTask(input: CreateTaskInput!): CreateTaskPayload!
     createTaskCard(name: String!, username: String!): TaskCard!
     createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
@@ -67,6 +71,15 @@ type Reminder {
 
 type ReminderDeleteResponse {
     id: String!
+}
+
+type ReminderPayload {
+    description: String
+    endDate: Date!
+    id: ID!
+    startDate: Date!
+    title: String!
+    user: UserPayload!
 }
 
 type Task {
@@ -117,9 +130,23 @@ type UserAuth {
     token: String!
 }
 
+type UserPayload {
+    email: String!
+    id: ID!
+    username: String!
+}
+
 enum CacheControlScope {
     PRIVATE
     PUBLIC
+}
+
+input CreateReminderInput {
+    description: String
+    endDate: Date!
+    startDate: Date!
+    title: String!
+    username: String!
 }
 
 input CreateTaskInput {

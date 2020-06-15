@@ -4,29 +4,36 @@ import { getRepository } from 'typeorm'
 import { ReminderEntity } from '../../../entities/reminder'
 import { UserEntity } from '../../../entities/user'
 
-export const createReminderHandler = async (input) => {
+import { CreateReminderInput } from './types/inputs'
+import { CreateReminderPayload } from './types/payloads'
+
+export const createReminderHandler = async (input: CreateReminderInput): Promise<CreateReminderPayload> => {
     const {
-        username, title, description, startDate, endDate,
+        title,
+        description,
+        startDate,
+        endDate,
+        username,
     } = input
 
-    // Get user
+    // Verify and get user
     const user = await getRepository(UserEntity).findOne({ where: { username } })
-
-    // Throw error if no user
     if (!user) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
     // Create reminder
-    const reminder = new ReminderEntity()
-    reminder.title = title
-    reminder.description = description
-    reminder.startDate = startDate
-    reminder.endDate = endDate
-    reminder.userId = user
+    const reminderToCreate = new ReminderEntity()
+    reminderToCreate.title = title
+    reminderToCreate.description = description
+    reminderToCreate.startDate = startDate
+    reminderToCreate.endDate = endDate
+    reminderToCreate.user = user
 
     // Try to save reminder
-    return getRepository(ReminderEntity)
-    .save(reminder)
+    const createdReminder = await getRepository(ReminderEntity)
+    .save(reminderToCreate)
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
     })
+
+    return { reminder: createdReminder }
 }

@@ -12,7 +12,7 @@ export const reminderResolver = {
         createReminder: (
             combineResolvers(
                 (parent, input, context) => isAuthenticated(context),
-                (parent, input) => createReminderHandler(input),
+                (parent, { input }) => createReminderHandler(input),
             )
         ),
         deleteReminder: (

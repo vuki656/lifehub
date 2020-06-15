@@ -6,11 +6,11 @@ export type ReminderType = {
     endDate: string,
 }
 
-export type DeleteReminderResponse = {
+export type DeleteReminderResponse_OLD = {
     id: string,
 }
 
-export type UpdateReminderResponse = {
+export type UpdateReminderResponse_OLD = {
     id: string,
     username: string,
     title: string,
@@ -20,7 +20,7 @@ export type UpdateReminderResponse = {
 }
 
 // ** VARIABLES **
-export type createReminderVariables = {
+export type CreateReminderVariables = {
     username: string,
     title: string,
     description: string,
@@ -28,7 +28,7 @@ export type createReminderVariables = {
     endDate: string,
 }
 
-export type updateReminderVariables = {
+export type UpdateReminderVariables = {
     id: string,
     username: string,
     title: string,
@@ -37,28 +37,24 @@ export type updateReminderVariables = {
     endDate: string,
 }
 
-export type deleteReminderVariables = {
+export type DeleteReminderVariables = {
     id: string,
 }
 
-export type getRemindersByDateVariables = {
+export type GetRemindersByDateVariables = {
     username: string,
     selectedDate: string | Date,
 }
 
 // ** RESPONSES **
-export type createReminderResponse = {
-    createReminder: ReminderType,
+export type UpdateReminderResponse = {
+    updateReminder: UpdateReminderResponse_OLD,
 }
 
-export type updateReminderResponse = {
-    updateReminder: UpdateReminderResponse,
+export type DeleteReminderResponse = {
+    deleteReminder: DeleteReminderResponse_OLD,
 }
 
-export type deleteReminderResponse = {
-    deleteReminder: DeleteReminderResponse,
-}
-
-export type getRemindersByDateResponse = {
+export type GetRemindersByDateResponse = {
     getRemindersByDate: ReminderType[],
 }

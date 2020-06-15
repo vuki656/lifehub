@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
 import { Message } from '../../../components/Message'
-import { GET_REMINDERS_BY_DATE } from '../../../graphql/reminder/reminder'
+import { GET_REMINDERS_BY_DATE } from '../../../graphql/reminder/queries'
 import {
-    getRemindersByDateResponse,
-    getRemindersByDateVariables,
+    GetRemindersByDateResponse,
+    GetRemindersByDateVariables,
 } from '../../../graphql/reminder/reminder.types'
 import { renderLoaders } from '../../../util/helpers/renderLoaders'
 import { sortRemindersByDate } from '../../../util/helpers/sortRemindersByDate'
@@ -26,7 +26,7 @@ export const Reminders: React.FC = () => {
     // Fetch reminders for selected date
     const {
         error, data, loading,
-    } = useQuery<getRemindersByDateResponse, getRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
+    } = useQuery<GetRemindersByDateResponse, GetRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
         variables: {
             selectedDate,
             username,
