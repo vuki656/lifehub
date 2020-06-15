@@ -16,7 +16,7 @@ export type createTaskVariables = {
         date: string,
         taskMetaData: {
             title: string,
-            taskCard: string
+            taskCard: string,
         },
     },
 }

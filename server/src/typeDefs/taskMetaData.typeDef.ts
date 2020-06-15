@@ -11,7 +11,7 @@ export const taskMetaDataType = gql`
         isRepeating: Boolean,
         isHabit: Boolean,
         nextRepeatingInstance: GraphQLDate,
-        taskCard: TaskCard!,
+        taskCard: ID!,
     }
 
     input TaskMetaDataInput {
@@ -24,6 +24,6 @@ export const taskMetaDataType = gql`
         isRepeating: Boolean,
         isHabit: Boolean,
         nextRepeatingInstance: GraphQLDate,
-        taskCard: String!,
+        taskCard: ID!,
     }
 `

@@ -8,6 +8,7 @@ export type TaskMetaDataType = {
     isRepeating: boolean,
     isHabit: boolean,
     nextRepeatingInstance: string,
+    taskCard: string,
 }
 
 // ** VARIABLES **

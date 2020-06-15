@@ -52,7 +52,7 @@ type Mutation {
 type Query {
     _empty: String
     getAllTaskCards(username: String!): [TaskCard]!
-    getRemindersByDate(selectedDate: String!, username: String!): [Reminder]!
+    getRemindersByDate(selectedDate: String!, username: String!): [Reminder!]!
     getTasksByDateAndTaskCard(input: GetTasksByDateAndTaskCardInput!): GetTasksByDateAndTaskCardPayload!
     verifyUser(token: String): AuthResponse
 }
@@ -94,7 +94,7 @@ type TaskMetaData {
     note: String
     rrule: String
     startDate: Date
-    taskCard: TaskCard!
+    taskCard: ID!
     title: String!
 }
 
@@ -147,6 +147,10 @@ input GetTasksByDateAndTaskCardInput {
     taskCardId: String!
 }
 
+input TaskCardInput {
+    id: ID!
+}
+
 input TaskMetaDataInput {
     endDate: Date
     id: ID
@@ -156,7 +160,7 @@ input TaskMetaDataInput {
     note: String
     rrule: String
     startDate: Date
-    taskCard: String!
+    taskCard: ID!
     title: String!
 }
 

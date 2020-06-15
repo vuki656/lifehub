@@ -1,6 +1,6 @@
 export type TaskCardType = {
     id: string,
-    name: string,
+    name?: string,
 }
 
 export type DeleteTaskCardResponse = {

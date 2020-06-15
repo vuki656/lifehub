@@ -1,5 +1,6 @@
 import { UserInputError } from 'apollo-server'
 import dayjs from 'dayjs'
+// eslint-disable-next-line import/default
 import utc from 'dayjs/plugin/utc'
 import _ from 'lodash'
 import {
@@ -135,14 +136,14 @@ const createRepeatingInstances = async (taskCardId: string, updatedTask: TaskEnt
 }
 
 export const updateTaskHandler = async (input) => {
-    const {
-        taskCardId,
-        taskMetaData,
-    } = input.input
+    const { taskMetaData } = input.input
 
     if (taskMetaData.isRepeating) {
-        await createRepeatingInstances(taskCardId, input.input)
+        await createRepeatingInstances(taskMetaData.taskCardId, input.input)
     } else {
+        const taskEntity: TaskEntity = input.input
+        taskEntity.taskMetaData.taskCard.id = input.input.taskCard.id
+
         await getRepository(TaskEntity)
         .save(input.input)
         .catch(() => {

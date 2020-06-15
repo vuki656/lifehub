@@ -4,6 +4,7 @@ import LoopIcon from '@material-ui/icons/Loop'
 import NotesIcon from '@material-ui/icons/Notes'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import { useFormik } from 'formik'
 import _ from 'lodash'
 import React, {
     useCallback,
@@ -38,23 +39,36 @@ import {
 } from '../../../../graphql/task/task.types'
 import { toCompatibleDate } from '../../../../util/helpers/convertToCompatibleDate'
 import { rruleWeekDaysArr } from '../../../../util/helpers/variables'
-import { useFormFields } from '../../../../util/hooks/useFormFields.hook'
 import { TaskDeleteDialog } from '../TaskDeleteDialog'
 
-import { TaskDialogProps } from './TaskDialog.types'
+import type {
+    TaskDialogFormTypes,
+    TaskDialogProps,
+} from './TaskDialog.types'
 
 dayjs.extend(utc)
 
 export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const {
-        isDialogOpen, toggleDialog, task, taskCardId, taskRRuleObj,
+        isDialogOpen,
+        toggleDialog,
+        task,
+        taskCardId,
+        taskRRuleObj,
     } = props
+
     const { options } = taskRRuleObj
+
     const {
-        id: taskId, date, taskMetaData,
+        id: taskId,
+        date,
+        taskMetaData,
     } = task
+
     const {
-        title, note, id: taskMetaDataId,
+        title,
+        note,
+        id: taskMetaDataId,
     } = taskMetaData
 
     const { selectedDate } = useSelector((state) => state.user)
@@ -77,14 +91,16 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})
-    const {
-        formValues, setFormValue, resetForm,
-    } = useFormFields({
-        date: new Date(date),
-        endDate: taskMetaData.endDate ? new Date(taskMetaData.endDate) : new Date(selectedDate),
-        note: note || '',
-        startDate: taskMetaData.startDate ? new Date(taskMetaData.startDate) : new Date(selectedDate),
-        title,
+
+    const taskDialogForm = useFormik<TaskDialogFormTypes>({
+        initialValues: {
+            date: new Date(date),
+            endDate: taskMetaData.endDate ? new Date(taskMetaData.endDate) : new Date(selectedDate),
+            note: note || '',
+            startDate: taskMetaData.startDate ? new Date(taskMetaData.startDate) : new Date(selectedDate),
+            title,
+        },
+        onSubmit: (formValues) => handleSubmit(formValues),
     })
 
     useEffect(() => {
@@ -96,7 +112,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const handleDialogToggle = useCallback(() => {
         toggleDialog()
         setErrors({})
-        resetForm()
+        taskDialogForm.resetForm()
 
         // If its not delayed, then you can see reset happening
         setTimeout(() => {
@@ -106,17 +122,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             setSelectedWeekDays(options.byweekday ? options.byweekday : [])
             setFrequency(options.freq ? options.freq : 2)
         }, 300)
-    }, [
-        toggleDialog,
-        resetForm,
-        setDoesEnd,
-        taskMetaData.isRepeating,
-        taskMetaData.endDate,
-        options.byweekday,
-        toggleIsRepeating,
-        options.interval,
-        options.freq,
-    ])
+    }, [toggleDialog, setDoesEnd, taskMetaData.isRepeating, taskMetaData.endDate, options.byweekday, toggleIsRepeating, options.interval, options.freq, taskDialogForm])
 
     // Return a rruleset object with set needed props
     const getRrule = useCallback(() => {
@@ -125,10 +131,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         // Set rruleset props
         rruleSet.rrule(new RRule({
             byweekday: frequency === 2 ? [...selectedWeekDays] : null, // 2 means weekly, if weekly, include selected weekdays
-            dtstart: formValues.startDate,
+            dtstart: taskDialogForm.values.startDate,
             freq: frequency,
             interval,
-            until: doesEnd ? formValues.endDate : null,
+            until: doesEnd ? taskDialogForm.values.endDate : null,
         }))
 
         // Apply existing excluded dates
@@ -137,15 +143,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         })
 
         return rruleSet
-    }, [
-        formValues.endDate,
-        formValues.startDate,
-        selectedWeekDays,
-        interval,
-        frequency,
-        excludedDates,
-        doesEnd,
-    ])
+    }, [selectedWeekDays, interval, frequency, excludedDates, doesEnd, taskDialogForm.values.endDate, taskDialogForm.values.startDate])
 
     // Remove task from selected date view (cache) if task date doesn't match selected date
     const removeTaskIfNotInDateRange = useCallback((task: TaskType, cachedTaskList: TaskType[]) => {
@@ -154,8 +152,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         if (isRepeating) {
             // Get rrule date span
             const recurringSelectedDays: Date[] = getRrule().between(
-                dayjs(formValues.startDate).toDate(),
-                dayjs(formValues.endDate).toDate(),
+                dayjs(taskDialogForm.values.startDate).toDate(),
+                dayjs(taskDialogForm.values.endDate).toDate(),
                 true,
             )
 
@@ -173,16 +171,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         }
 
         return cachedTaskList
-    }, [
-        selectedDate,
-        formValues.startDate,
-        formValues.endDate,
-        getRrule,
-        isRepeating,
-    ])
+    }, [selectedDate, getRrule, isRepeating, taskDialogForm.values.endDate, taskDialogForm.values.startDate])
 
     // Update task
-    const updateTask = useCallback(() => {
+    const updateTask = useCallback((formValues: TaskDialogFormTypes) => {
         updateTaskMutation({
             update(cache, response) {
                 if (!response.data?.updateTask) return
@@ -234,24 +226,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [
-        formValues.title,
-        formValues.note,
-        formValues.date,
-        formValues.startDate,
-        formValues.endDate,
-        taskId,
-        taskMetaDataId,
-        taskCardId,
-        getRrule,
-        isRepeating,
-        isHabit,
-        updateTaskMutation,
-        removeTaskIfNotInDateRange,
-        selectedDate,
-        toggleDialog,
-        doesEnd,
-    ])
+    }, [taskId, taskMetaDataId, taskCardId, getRrule, isRepeating, isHabit, updateTaskMutation, removeTaskIfNotInDateRange, selectedDate, toggleDialog, doesEnd])
 
     // Delete task
     const deleteTask = useCallback(() => {
@@ -297,13 +272,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [
-        deleteTaskMutation,
-        task,
-        selectedDate,
-        taskCardId,
-        toggleDialog,
-    ])
+    }, [deleteTaskMutation, task, selectedDate, taskCardId, toggleDialog])
 
     // Toggle is repeating and reset form if repeating status being set back to false
     const handleIsRepeatingToggle = useCallback(() => {
@@ -314,8 +283,8 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
             setFrequency(2)
             setInterval(1)
             toggleIsHabit(false)
-            setFormValue(new Date(selectedDate), 'startDate')
-            setFormValue(new Date(selectedDate), 'endDate')
+            taskDialogForm.setFieldValue('startDate', new Date(selectedDate))
+            taskDialogForm.setFieldValue('endDate', new Date(selectedDate))
         }
 
         // If repeating being set back to false, toggle repeating alert
@@ -324,19 +293,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         } else {
             toggleIsRepeating()
         }
-    }, [
-        setDoesEnd,
-        setSelectedWeekDays,
-        setFrequency,
-        setInterval,
-        setFormValue,
-        isRepeating,
-        toggleIsRepeating,
-        selectedDate,
-        toggleIsHabit,
-        toggleRepeatingAlertDialog,
-        task.taskMetaData.isRepeating,
-    ])
+    }, [setDoesEnd, setSelectedWeekDays, setFrequency, setInterval, isRepeating, toggleIsRepeating, selectedDate, toggleIsHabit, toggleRepeatingAlertDialog, task.taskMetaData.isRepeating, taskDialogForm])
 
     const handleIsRepeatingTurnOff = useCallback(() => {
         toggleIsRepeating()
@@ -366,22 +323,14 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         taskMetaDataId,
     ])
 
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-        if (!updateLoading || !deleteLoading) updateTask()
+    const handleSubmit = useCallback((formValues: TaskDialogFormTypes) => {
+        if (!updateLoading || !deleteLoading) updateTask(formValues)
         if (task.taskMetaData.isRepeating && !isRepeating) turnOffRepeating()
-    }, [
-        updateTask,
-        updateLoading,
-        deleteLoading,
-        turnOffRepeating,
-        task.taskMetaData.isRepeating,
-        isRepeating,
-    ])
+    }, [updateTask, updateLoading, deleteLoading, turnOffRepeating, task.taskMetaData.isRepeating, isRepeating])
 
     return (
         <>
-            <form autoComplete="off" onSubmit={handleSubmit}>
+            <form autoComplete="off" onSubmit={taskDialogForm.handleSubmit}>
                 <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
                     <div className="dialog__content">
                         <div className="dialog__header-wrapper">
@@ -448,9 +397,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                             className="form__input-field"
                                             type="text"
                                             required
-                                            value={formValues.title}
-                                            onChange={({ target }) => setFormValue(target.value, 'title')}
                                             maxLength={150}
+                                            name="title"
+                                            onChange={taskDialogForm.handleChange}
+                                            value={taskDialogForm.values.title}
                                         />
                                     </div>
                                     <div className="form__field-wrapper">
@@ -458,20 +408,22 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                         <textarea
                                             className="form__input-field form__input-area"
                                             rows={8}
-                                            value={formValues.note}
-                                            onChange={({ target }) => setFormValue(target.value, 'note')}
                                             maxLength={2000}
+                                            name="note"
+                                            onChange={taskDialogForm.handleChange}
+                                            value={taskDialogForm.values.note}
                                         />
                                     </div>
                                     <div className="form__field-wrapper">
                                         <p className="form__field-title">Date</p>
                                         <DatePicker
                                             className="form__input-field"
-                                            selected={formValues.date}
-                                            onChange={(date) => setFormValue(date, 'date')}
                                             minDate={new Date()}
-                                            maxDate={isRepeating ? formValues.endDate : null}
+                                            maxDate={isRepeating ? taskDialogForm.values.endDate : null}
                                             required
+                                            name="date"
+                                            onChange={(event) => taskDialogForm.setFieldValue('date', event)}
+                                            selected={taskDialogForm.values.date}
                                         />
                                     </div>
                                     <div className="form__field-wrapper">
@@ -539,10 +491,14 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                             <DatePicker
                                                 required
                                                 className="form__input-field"
-                                                selected={formValues.startDate}
-                                                onChange={(date) => setFormValue(date, 'startDate')}
                                                 minDate={new Date()}
-                                                maxDate={dayjs(formValues.endDate).isSame(new Date()) ? null : formValues.endDate}
+                                                maxDate={dayjs(taskDialogForm.values.endDate).isSame(new Date())
+                                                    ? null
+                                                    : taskDialogForm.values.endDate
+                                                }
+                                                name="startDate"
+                                                onChange={(event) => taskDialogForm.setFieldValue('startDate', event)}
+                                                selected={taskDialogForm.values.startDate}
                                             />
                                         </div>
                                         <div className="form__field-wrapper">
@@ -571,9 +527,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                                 <DatePicker
                                                     required={doesEnd}
                                                     className="form__input-field"
-                                                    selected={formValues.endDate}
-                                                    onChange={(date) => setFormValue(date, 'endDate')}
-                                                    minDate={formValues.startDate}
+                                                    minDate={taskDialogForm.values.startDate}
+                                                    name="endDate"
+                                                    onChange={(event) => taskDialogForm.setFieldValue('endDate', event)}
+                                                    selected={taskDialogForm.values.endDate}
                                                 />
                                             </div>
                                         )}
