@@ -32,7 +32,7 @@ export const reminderResolver = {
         getRemindersByDate: (
             combineResolvers(
                 (parent, input, context) => isAuthenticated(context),
-                (parent, input) => getRemindersByDateHandler(input),
+                (parent, { input }) => getRemindersByDateHandler(input),
             )
         ),
     },
