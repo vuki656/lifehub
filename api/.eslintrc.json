@@ -89,7 +89,7 @@
             4,
             {
                 "SwitchCase": 1,
-                "MemberExpression": 0
+                "MemberExpression": 1
             }
         ],
         "no-unused-expressions": "off",
