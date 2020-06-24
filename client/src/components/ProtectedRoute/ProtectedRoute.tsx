@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import {
     Redirect,
     Route,
-    withRouter,
 } from 'react-router-dom'
 
 import { VERIFY_USER } from '../../graphql/user/user'
@@ -18,7 +17,7 @@ import { SideMenu } from '../SideMenu'
 
 import { ProtectedRouteProps } from './ProtectedRoute.types'
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
+const ProtectedRoute: React.FunctionComponent<ProtectedRouteProps> = (props) => {
     const {
         exact = false,
         path,
@@ -60,4 +59,5 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
         : checkIfAuth()
 }
 
-export default withRouter(ProtectedRoute)
+// export default withRouter(RrotectedRoute) // TODO: FIX
+export default ProtectedRoute
