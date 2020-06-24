@@ -18,7 +18,6 @@ export const DaysSidebar: React.FC = () => {
             return (
                 <NavLink
                     to={`/dashboard/${day.valueOf()}`}
-                    name={`/dashboard/${day.valueOf()}`}
                     title={day.format('Do dddd MM YYYY')}
                     className="days-sidebar__item"
                     activeClassName="days-sidebar__item--active"
@@ -35,7 +34,6 @@ export const DaysSidebar: React.FC = () => {
         <div className="days-sidebar">
             <NavLink
                 to="/dashboard/overdue"
-                name="overdue"
                 title="overdue"
                 className="days-sidebar__button"
                 activeClassName="days-sidebar__item--active"
@@ -51,7 +49,6 @@ export const DaysSidebar: React.FC = () => {
             </div>
             <NavLink
                 to="/dashboard/upcoming"
-                name="upcoming"
                 title="upcoming"
                 className="days-sidebar__button"
                 activeClassName="days-sidebar__item--active"
