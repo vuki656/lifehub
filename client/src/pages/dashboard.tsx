@@ -16,7 +16,6 @@ export const DashboardPage: React.FC = () => {
                 exact
                 from="/dashboard"
                 to={`/dashboard/${todayUnix}`}
-                component={DashboardPage}
             />
             <DaysSidebar />
             <TaskArea />
