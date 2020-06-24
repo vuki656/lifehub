@@ -1,5 +1,8 @@
+import { UserType } from '../../redux/reducers/user'
+
 export type UserAuth = {
     token: string,
+    user: UserType
 }
 
 // ** VARIABLES **
