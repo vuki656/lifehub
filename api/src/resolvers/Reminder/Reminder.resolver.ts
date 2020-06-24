@@ -53,7 +53,7 @@ export class ReminderResolver {
     @Authorized()
     @Mutation(() => EditReminderPayload)
     public async editReminder(
-        @Args() args: EditReminderArgs,
+        @Args() args: EditReminderArgs, // TODO: switch to input
     ): Promise<EditReminderPayload> {
         return this.reminderService.editReminder(args)
     }
