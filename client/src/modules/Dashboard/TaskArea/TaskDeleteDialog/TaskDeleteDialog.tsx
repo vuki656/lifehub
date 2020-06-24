@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
 import dayjs from 'dayjs'
-import _ from 'lodash'
 import React, {
     useCallback,
     useState,
@@ -16,15 +15,14 @@ import { Message } from '../../../../components/Message'
 import {
     DELETE_ALL_TASKS_AND_META_DATA,
     DELETE_SINGLE_TASK_INSTANCE,
-    GET_TASKS_BY_DATE_AND_TASK_CARD,
 } from '../../../../graphql/task/task'
 import {
     deleteAllTasksAndMetaDataResponse,
     deleteAllTasksAndMetaDataVariables,
     deleteSingleTaskInstanceResponse,
     deleteSingleTaskInstanceVariables,
-    getTasksByDateAndTaskCardResponse,
 } from '../../../../graphql/task/task.types'
+import { UserStateType } from '../../../../redux/reducers/user'
 
 import { TaskDeleteDialogProps } from './TaskDeleteDialog.types'
 
@@ -37,7 +35,7 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
         getRrule,
     } = props
 
-    const { selectedDate } = useSelector((state) => state.user)
+    const { selectedDate } = useSelector((state: UserStateType) => state)
     const [selectedOption, setSelectedOption] = useState('this')
     const [errors, setErrors] = React.useState<{ error?: string }>({})
 
@@ -74,35 +72,35 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
         )
 
         deleteSingleTaskInstanceMutation({
-            update(cache, response) {
-                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId,
-                        },
-                    },
-                })
-                const updatedList = _.filter(localCache?.getTasksByDateAndTaskCard.tasks, (cachedTask) => (
-                    cachedTask.id !== response.data?.deleteSingleTaskInstance.taskId
-                ))
-                cache.writeQuery<getTasksByDateAndTaskCardResponse>({
-                    data: {
-                        getTasksByDateAndTaskCard: {
-                            __typename: response.data?.deleteSingleTaskInstance.__typename!,
-                            tasks: updatedList,
-                        },
-                    },
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId,
-                        },
-                    },
-                })
-            },
+            // update(cache, response) {
+            //     const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
+            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+            //         variables: {
+            //             input: {
+            //                 selectedDate,
+            //                 taskCardId,
+            //             },
+            //         },
+            //     })
+            //     const updatedList = _.filter(localCache?.getTasksByDateAndTaskCard.tasks, (cachedTask) => (
+            //         cachedTask.id !== response.data?.deleteSingleTaskInstance.taskId
+            //     ))
+            //     cache.writeQuery<getTasksByDateAndTaskCardResponse>({
+            //         data: {
+            //             getTasksByDateAndTaskCard: {
+            //                 __typename: response.data?.deleteSingleTaskInstance.__typename!,
+            //                 tasks: updatedList,
+            //             },
+            //         },
+            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+            //         variables: {
+            //             input: {
+            //                 selectedDate,
+            //                 taskCardId,
+            //             },
+            //         },
+            //     })
+            // },
             variables: {
                 input: {
                     rruleStr: updatedRruleSet.toString(),
@@ -127,32 +125,32 @@ export const TaskDeleteDialog: React.FC<TaskDeleteDialogProps> = (props) => {
     // Delete all tasks and their corresponding meta data
     const deleteAllTasksAndMetaData = useCallback(() => {
         deleteAllTasksAndMetaDataMutation({
-            update(cache, response) {
-                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId,
-                        },
-                    },
-                })
-                cache.writeQuery({
-                    data: {
-                        getTasksByDateAndTaskCard: {
-                            __typename: response.data?.deleteAllTasksAndMetaData.__typename,
-                            tasks: _.remove(localCache?.getTasksByDateAndTaskCard, task),
-                        },
-                    },
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId,
-                        },
-                    },
-                })
-            },
+            // update(cache, response) {
+            //     const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
+            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+            //         variables: {
+            //             input: {
+            //                 selectedDate,
+            //                 taskCardId,
+            //             },
+            //         },
+            //     })
+            //     cache.writeQuery({
+            //         data: {
+            //             getTasksByDateAndTaskCard: {
+            //                 __typename: response.data?.deleteAllTasksAndMetaData.__typename,
+            //                 tasks: _.remove(localCache?.getTasksByDateAndTaskCard, task),
+            //             },
+            //         },
+            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+            //         variables: {
+            //             input: {
+            //                 selectedDate,
+            //                 taskCardId,
+            //             },
+            //         },
+            //     })
+            // },
             variables: { input: { taskMetaDataId: task.taskMetaData.id } },
         })
         .catch((error) => {

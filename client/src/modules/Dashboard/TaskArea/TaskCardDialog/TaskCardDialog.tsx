@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
 import { useFormik } from 'formik'
-import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -8,16 +7,15 @@ import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
 import {
     CREATE_TASK_CARD,
-    GET_ALL_TASK_CARDS,
     UPDATE_TASK_CARD,
 } from '../../../../graphql/taskCard/taskCard'
 import {
     createTaskCardResponse,
     createTaskCardVariables,
-    getAllTaskCardsResponse,
     updateTaskCardResponse,
     updateTaskCardVariables,
 } from '../../../../graphql/taskCard/taskCard.types'
+import { UserStateType } from '../../../../redux/reducers/user'
 
 import {
     TaskCardDialogProps,
@@ -34,7 +32,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
     const [createTaskCardMutation, { loading: createLoading }] = useMutation<createTaskCardResponse, createTaskCardVariables>(CREATE_TASK_CARD)
     const [updateTaskCardMutation, { loading: updateLoading }] = useMutation<updateTaskCardResponse, updateTaskCardVariables>(UPDATE_TASK_CARD)
 
-    const { username } = useSelector((state) => state.user)
+    const { user } = useSelector((state: UserStateType) => state)
     const [errors, setErrors] = React.useState<{ error?: string }>({ error: '' })
 
     const taskCardForm = useFormik<TaskCardFormTypes>({
@@ -52,21 +50,21 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
     // Save task card
     const createTaskCard = useCallback((formValues: TaskCardFormTypes) => {
         createTaskCardMutation({
-            update(cache, response) {
-                const localCache = cache.readQuery<getAllTaskCardsResponse>({
-                    query: GET_ALL_TASK_CARDS,
-                    variables: { username },
-                })
-                const updatedList = _.concat(localCache?.getAllTaskCards, { ...response.data?.createTaskCard })
-                cache.writeQuery<getAllTaskCardsResponse>({
-                    data: { getAllTaskCards: updatedList },
-                    query: GET_ALL_TASK_CARDS,
-                    variables: { username },
-                })
-            },
+            // update(cache, response) {
+            //     const localCache = cache.readQuery<getAllTaskCardsResponse>({
+            //         query: GET_ALL_TASK_CARDS,
+            //         variables: { username: user.username },
+            //     })
+            //     const updatedList = _.concat(localCache?.getAllTaskCards, { ...response.data?.createTaskCard })
+            //     cache.writeQuery<getAllTaskCardsResponse>({
+            //         data: { getAllTaskCards: updatedList },
+            //         query: GET_ALL_TASK_CARDS,
+            //         variables: { username: user.username },
+            //     })
+            // },
             variables: {
                 name: formValues.name,
-                username,
+                username: user.username,
             },
         })
         .then(() => {
@@ -76,7 +74,7 @@ export const TaskCardDialog: React.FC<TaskCardDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createTaskCardMutation, username, handleDialogToggle, taskCardForm])
+    }, [createTaskCardMutation, user.username, handleDialogToggle, taskCardForm])
 
     // Update task card
     const updateTaskCard = useCallback((formValues: TaskCardFormTypes) => {

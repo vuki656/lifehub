@@ -10,6 +10,7 @@ import {
     GetRemindersByDateResponse,
     GetRemindersByDateVariables,
 } from '../../../graphql/reminder/reminder.types'
+import { UserStateType } from '../../../redux/reducers/user'
 import { renderLoaders } from '../../../util/helpers/renderLoaders'
 import { sortRemindersByDate } from '../../../util/helpers/sortRemindersByDate'
 
@@ -20,8 +21,9 @@ import { ReminderDialog } from './ReminderDialog'
 export const Reminders: React.FC = () => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
     const {
-        username, selectedDate,
-    } = useSelector((state) => state.user)
+        user,
+        selectedDate,
+    } = useSelector((state: UserStateType) => state)
 
     // Fetch reminders for selected date
     const {
@@ -29,7 +31,7 @@ export const Reminders: React.FC = () => {
     } = useQuery<GetRemindersByDateResponse, GetRemindersByDateVariables>(GET_REMINDERS_BY_DATE, {
         variables: {
             selectedDate,
-            username,
+            username: user.username,
         },
     })
 

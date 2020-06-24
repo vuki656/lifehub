@@ -12,6 +12,7 @@ import {
     getAllTaskCardsResponse,
     getAllTaskCardsVariables,
 } from '../../../graphql/taskCard/taskCard.types'
+import { UserStateType } from '../../../redux/reducers/user'
 import { renderLoaders } from '../../../util/helpers/renderLoaders'
 
 import { TaskCard } from './TaskCard'
@@ -24,15 +25,16 @@ export const TaskArea: React.FC = () => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
 
     const {
-        username,
+        user,
         selectedDate,
-        tasksLoadingStatus,
-    } = useSelector((state) => state.user)
+    } = useSelector((state: UserStateType) => state)
 
     // Fetch all task cards
     const {
-        error, data,
-    } = useQuery<getAllTaskCardsResponse, getAllTaskCardsVariables>(GET_ALL_TASK_CARDS, { variables: { username } })
+        error,
+        data,
+        loading,
+    } = useQuery<getAllTaskCardsResponse, getAllTaskCardsVariables>(GET_ALL_TASK_CARDS, { variables: { username: user.username } })
 
     // If overdue/upcoming display word, else display date
     const getDateTitle = () => {
@@ -54,11 +56,11 @@ export const TaskArea: React.FC = () => {
                 </div>
             </div>
             <div className="task-cards">
-                {tasksLoadingStatus
+                {loading
                     ? (renderLoaders(3, <TaskCardLoader />))
                     : (
                         <>
-                            {data && data.getAllTaskCards.map((taskCard) => (
+                            {data?.getAllTaskCards.map((taskCard) => (
                                 <TaskCard taskCard={taskCard} key={taskCard.id} />
                             ))}
                             {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />}

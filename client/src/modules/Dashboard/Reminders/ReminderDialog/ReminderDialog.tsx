@@ -22,6 +22,7 @@ import {
 } from '../../../../graphql/reminder/reminder.types'
 import { CreateReminderResponse } from '../../../../graphql/reminder/types/payloads'
 import { CreateReminderVariables } from '../../../../graphql/reminder/types/variables'
+import { UserStateType } from '../../../../redux/reducers/user'
 import { toCompatibleDate } from '../../../../util/helpers/convertToCompatibleDate'
 import { sortRemindersByDate } from '../../../../util/helpers/sortRemindersByDate'
 
@@ -40,9 +41,9 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     } = props
 
     const {
-        username,
+        user,
         selectedDate,
-    } = useSelector((state) => state.user)
+    } = useSelector((state: UserStateType) => state)
 
     const [createReminderMutation, { loading: createLoading }] = useMutation<CreateReminderResponse, CreateReminderVariables>(CREATE_REMINDER)
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -87,43 +88,41 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
     // Save reminder
     const createReminder = useCallback((formValues: ReminderFormTypes) => {
         createReminderMutation({
-            update(cache, response) {
-                console.log('-> response', response)
-
-                // If selected day in between reminder date range, display it in view
-                if (
-                    dayjs(selectedDate).isBetween(
-                        response.data?.createReminder.startDate!,
-                        response.data?.createReminder.endDate!,
-                        'date',
-                        '[]', // Indicates inclusion of edge date (start/end)
-                    )
-                ) {
-                    const localCache = cache.readQuery<GetRemindersByDateResponse>({
-                        query: GET_REMINDERS_BY_DATE,
-                        variables: {
-                            selectedDate,
-                            username,
-                        },
-                    })
-                    const updatedList = _.concat(localCache?.getRemindersByDate, { ...response.data?.createReminder })
-                    cache.writeQuery<GetRemindersByDateResponse>({
-                        data: { getRemindersByDate: sortRemindersByDate(updatedList) },
-                        query: GET_REMINDERS_BY_DATE,
-                        variables: {
-                            selectedDate,
-                            username,
-                        },
-                    })
-                }
-            },
+            // update(cache, response) {
+            //     // If selected day in between reminder date range, display it in view
+            //     if (
+            //         dayjs(selectedDate).isBetween(
+            //             response.data?.createReminder.startDate!,
+            //             response.data?.createReminder.endDate!,
+            //             'date',
+            //             '[]', // Indicates inclusion of edge date (start/end)
+            //         )
+            //     ) {
+            //         const localCache = cache.readQuery<GetRemindersByDateResponse>({
+            //             query: GET_REMINDERS_BY_DATE,
+            //             variables: {
+            //                 selectedDate,
+            //                 username: user.username,
+            //             },
+            //         })
+            //         const updatedList = _.concat(localCache?.getRemindersByDate, { ...response.data?.createReminder }) || []
+            //         cache.writeQuery<GetRemindersByDateResponse>({
+            //             data: { getRemindersByDate: sortRemindersByDate(updatedList) },
+            //             query: GET_REMINDERS_BY_DATE,
+            //             variables: {
+            //                 selectedDate,
+            //                 username: user.username,
+            //             },
+            //         })
+            //     }
+            // },
             variables: {
                 input: {
                     description: formValues.description,
                     endDate: toCompatibleDate(formValues.endDate!),
                     startDate: toCompatibleDate(formValues.startDate),
                     title: formValues.title,
-                    username,
+                    username: user.username,
                 },
             },
         })
@@ -134,7 +133,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [handleDialogToggle, createReminderMutation, username, reminderForm, selectedDate])
+    }, [handleDialogToggle, createReminderMutation, user.username, reminderForm, selectedDate])
 
     // Update reminder
     const updateReminder = useCallback((formValues: ReminderFormTypes) => {
@@ -145,7 +144,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                     query: GET_REMINDERS_BY_DATE,
                     variables: {
                         selectedDate,
-                        username,
+                        username: user.username,
                     },
                 })
                 const updatedList = removeFromTodayIfOutOfRange(response.data?.updateReminder, localCache?.getRemindersByDate)
@@ -154,7 +153,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                     query: GET_REMINDERS_BY_DATE,
                     variables: {
                         selectedDate,
-                        username,
+                        username: user.username,
                     },
                 })
             },
@@ -164,13 +163,13 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                 id: reminder?.id!,
                 startDate: toCompatibleDate(formValues.startDate),
                 title: formValues.title,
-                username,
+                username: user.username,
             },
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [removeFromTodayIfOutOfRange, updateReminderMutation, selectedDate, toggleDialog, reminder, username])
+    }, [removeFromTodayIfOutOfRange, updateReminderMutation, selectedDate, toggleDialog, reminder, user.username])
 
     // If reminder exists update, else create
     const handleSubmit = useCallback((formValues: ReminderFormTypes) => {
@@ -188,7 +187,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                     query: GET_REMINDERS_BY_DATE,
                     variables: {
                         selectedDate,
-                        username,
+                        username: user.username,
                     },
                 })
                 const updatedList = _.filter(localCache?.getRemindersByDate, ({ id }) => (
@@ -199,7 +198,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
                     query: GET_REMINDERS_BY_DATE,
                     variables: {
                         selectedDate,
-                        username,
+                        username: user.username,
                     },
                 })
             },
@@ -212,7 +211,7 @@ export const ReminderDialog: React.FC<ReminderDialogProps> = (props) => {
         deleteReminderMutation,
         reminder,
         selectedDate,
-        username,
+        user.username,
         handleDialogToggle,
     ])
 

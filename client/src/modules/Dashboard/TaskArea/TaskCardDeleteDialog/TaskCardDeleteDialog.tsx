@@ -14,6 +14,7 @@ import {
     deleteTaskCardVariables,
     getAllTaskCardsResponse,
 } from '../../../../graphql/taskCard/taskCard.types'
+import { UserStateType } from '../../../../redux/reducers/user'
 
 import { TaskCardDeleteDialogProps } from './TaskCardDeleteDialog.types'
 
@@ -24,7 +25,7 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
         taskCard,
     } = props
 
-    const { username } = useSelector((state) => state.user)
+    const { user } = useSelector((state: UserStateType) => state)
     const [errors, setErrors] = React.useState<{ error?: string }>({ error: '' })
     const [deleteTaskCardMutation, { loading: deleteLoading }] = useMutation<deleteTaskCardResponse, deleteTaskCardVariables>(DELETE_TASK_CARD)
 
@@ -41,7 +42,7 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
                 handleDialogToggle()
                 const localCache = cache.readQuery<getAllTaskCardsResponse>({
                     query: GET_ALL_TASK_CARDS,
-                    variables: { username },
+                    variables: { username: user.username },
                 })
                 const updatedList = _.filter(localCache?.getAllTaskCards, ({ id }) => (
                     id !== data?.deleteTaskCard.id
@@ -49,7 +50,7 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
                 cache.writeQuery<getAllTaskCardsResponse>({
                     data: { getAllTaskCards: updatedList },
                     query: GET_ALL_TASK_CARDS,
-                    variables: { username },
+                    variables: { username: user.username },
                 })
             },
             variables: { id: taskCard?.id! },
@@ -57,7 +58,7 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [deleteTaskCardMutation, handleDialogToggle, taskCard, username])
+    }, [deleteTaskCardMutation, handleDialogToggle, taskCard, user.username])
 
     return (
         <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>

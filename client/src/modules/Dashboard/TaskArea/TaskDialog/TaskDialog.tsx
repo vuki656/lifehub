@@ -24,19 +24,18 @@ import { Message } from '../../../../components/Message'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
 import {
     DELETE_TASK,
-    GET_TASKS_BY_DATE_AND_TASK_CARD,
     TURN_OFF_REPEATING,
     UPDATE_TASK,
 } from '../../../../graphql/task/task'
 import {
     deleteTaskResponse,
     deleteTaskVariables,
-    getTasksByDateAndTaskCardResponse,
     TaskType,
     turnOffRepeatingVariables,
     updateTaskResponse,
     updateTaskVariables,
 } from '../../../../graphql/task/task.types'
+import { UserStateType } from '../../../../redux/reducers/user'
 import { toCompatibleDate } from '../../../../util/helpers/convertToCompatibleDate'
 import { rruleWeekDaysArr } from '../../../../util/helpers/variables'
 import { TaskDeleteDialog } from '../TaskDeleteDialog'
@@ -71,7 +70,7 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
         id: taskMetaDataId,
     } = taskMetaData
 
-    const { selectedDate } = useSelector((state) => state.user)
+    const { selectedDate } = useSelector((state: UserStateType) => state)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
     const [isRepeatingAlertDialogOpen, toggleRepeatingAlertDialog] = useToggle(false)
     const [selectedTab, setSelectedTab] = useState('details')
@@ -176,35 +175,35 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     // Update task
     const updateTask = useCallback((formValues: TaskDialogFormTypes) => {
         updateTaskMutation({
-            update(cache, response) {
-                if (!response.data?.updateTask) return
-                toggleDialog()
-                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId,
-                        },
-                    },
-                })
-                const updatedList = removeTaskIfNotInDateRange(response.data?.updateTask.task, localCache?.getTasksByDateAndTaskCard.tasks!)
-                cache.writeQuery<getTasksByDateAndTaskCardResponse>({
-                    data: {
-                        getTasksByDateAndTaskCard: {
-                            __typename: response.data?.updateTask.__typename,
-                            tasks: updatedList,
-                        },
-                    },
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId,
-                        },
-                    },
-                })
-            },
+            // update(cache, response) {
+            //     if (!response.data?.updateTask) return
+            //     toggleDialog()
+            //     const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
+            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+            //         variables: {
+            //             input: {
+            //                 selectedDate,
+            //                 taskCardId,
+            //             },
+            //         },
+            //     })
+            //     const updatedList = removeTaskIfNotInDateRange(response.data?.updateTask.task, localCache?.getTasksByDateAndTaskCard.tasks!)
+            //     cache.writeQuery<getTasksByDateAndTaskCardResponse>({
+            //         data: {
+            //             getTasksByDateAndTaskCard: {
+            //                 __typename: response.data?.updateTask.__typename,
+            //                 tasks: updatedList,
+            //             },
+            //         },
+            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+            //         variables: {
+            //             input: {
+            //                 selectedDate,
+            //                 taskCardId,
+            //             },
+            //         },
+            //     })
+            // },
             variables: {
                 input: {
                     date: toCompatibleDate(formValues.date),
@@ -231,37 +230,37 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     // Delete task
     const deleteTask = useCallback(() => {
         deleteTaskMutation({
-            update(cache, response) {
-                toggleDialog() // Has to be here to prevent call to unmounted (deleted) component
-                if (!response.data?.deleteTask) return
-                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId,
-                        },
-                    },
-                })
-                const updatedList = _.filter(localCache?.getTasksByDateAndTaskCard.tasks, (cachedTask) => (
-                    cachedTask.id !== response.data?.deleteTask.taskId
-                ))
-                cache.writeQuery<getTasksByDateAndTaskCardResponse>({
-                    data: {
-                        getTasksByDateAndTaskCard: {
-                            __typename: response.data.deleteTask.__typename!,
-                            tasks: updatedList,
-                        },
-                    },
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId,
-                        },
-                    },
-                })
-            },
+            // update(cache, response) {
+            //     toggleDialog() // Has to be here to prevent call to unmounted (deleted) component
+            //     if (!response.data?.deleteTask) return
+            //     const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
+            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+            //         variables: {
+            //             input: {
+            //                 selectedDate,
+            //                 taskCardId,
+            //             },
+            //         },
+            //     })
+            //     const updatedList = _.filter(localCache?.getTasksByDateAndTaskCard.tasks, (cachedTask) => (
+            //         cachedTask.id !== response.data?.deleteTask.taskId
+            //     ))
+            //     cache.writeQuery<getTasksByDateAndTaskCardResponse>({
+            //         data: {
+            //             getTasksByDateAndTaskCard: {
+            //                 __typename: response.data.deleteTask.__typename!,
+            //                 tasks: updatedList,
+            //             },
+            //         },
+            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+            //         variables: {
+            //             input: {
+            //                 selectedDate,
+            //                 taskCardId,
+            //             },
+            //         },
+            //     })
+            // },
             variables: {
                 input: {
                     taskId: task.id!,

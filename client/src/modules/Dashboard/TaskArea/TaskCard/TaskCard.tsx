@@ -22,6 +22,7 @@ import {
     getTasksByDateAndTaskCardResponse,
     getTasksByDateAndTaskCardVariables,
 } from '../../../../graphql/task/task.types'
+import { UserStateType } from '../../../../redux/reducers/user'
 import { renderLoaders } from '../../../../util/helpers/renderLoaders'
 import { Task } from '../Task'
 import { TaskCardDeleteDialog } from '../TaskCardDeleteDialog'
@@ -39,7 +40,7 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const [isEditDialogOpen, toggleEditDialog] = useToggle(false)
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
     const [errors, setErrors] = React.useState<{ error?: string }>()
-    const { selectedDate } = useSelector((state) => state.user)
+    const { selectedDate } = useSelector((state: UserStateType) => state)
 
     const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(
         CREATE_TASK,
