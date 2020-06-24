@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import { useFormik } from 'formik'
 import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import {
     Link,
     useHistory,
@@ -14,6 +15,7 @@ import {
     createUserResponse,
     createUserVariables,
 } from '../../graphql/user/user.types'
+import { setUser } from '../../redux/actions/userActions'
 
 import type {
     RegisterFormTypes,
@@ -22,6 +24,7 @@ import type {
 
 export const Register: React.FC = () => {
     const history = useHistory()
+    const dispatch = useDispatch()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
     const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
@@ -48,7 +51,10 @@ export const Register: React.FC = () => {
         })
         .then((response) => {
             const token = response?.data?.createUser.token ?? ''
+            const user = response?.data?.createUser.user
+
             window.localStorage.setItem('token', token)
+            dispatch(setUser(user))
 
             setErrors({})
             registerForm.resetForm()
