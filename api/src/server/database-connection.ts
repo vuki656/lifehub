@@ -1,10 +1,25 @@
+import { Container } from 'typedi'
 import {
     Connection,
     ConnectionOptions,
     createConnection,
+    useContainer,
 } from 'typeorm'
 
+import {
+    CardEntity,
+    MetaDataEntity,
+    ReminderEntity,
+    TaskEntity,
+    UserEntity,
+} from '../entities'
+
+// Register container for dependency injection
+useContainer(Container)
+
 export const createDatabaseConnection = (): Promise<Connection> => {
+    console.log(process.env.DB_DATABASE)
+
     return createConnection({
         database: process.env.DB_DATABASE,
         host: process.env.DB_HOST,
@@ -17,7 +32,7 @@ export const createDatabaseConnection = (): Promise<Connection> => {
         username: process.env.DB_USERNAME,
 
         // eslint-disable-next-line sort-keys
-        entities: [__dirname + '/entities/*.entity.ts'],
+        entities: [UserEntity, ReminderEntity, CardEntity, MetaDataEntity, TaskEntity], // TODO: fix
     } as ConnectionOptions,
     )
 }

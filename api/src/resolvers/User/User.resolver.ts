@@ -21,11 +21,11 @@ export class UserResolver {
     }
 
     @Mutation(() => LogInUserMutationPayload)
-    public async logIn(
+    public async logInUser(
         @Args() args: LogInUserArgs,
         @Ctx() context: ContextType,
     ): Promise<LogInUserMutationPayload> {
-        return this.userService.logInUser(args, context)
+        return this.userService.logIn(args, context)
     }
 
 }

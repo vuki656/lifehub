@@ -14,7 +14,8 @@
             "esnext.asynciterable"
         ],
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "types": ["reflect-metadata"]
     },
     "include": [
         "src/**/*"

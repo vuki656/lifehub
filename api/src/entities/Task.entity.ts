@@ -17,6 +17,7 @@ export class TaskEntity {
     date: Date
 
     @Column({
+        default: false,
         name: 'is_completed',
         nullable: false,
         type: 'boolean',
