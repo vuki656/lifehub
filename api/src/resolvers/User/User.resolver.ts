@@ -1,13 +1,17 @@
 import {
-    Args,
+    Arg,
     Ctx,
     Mutation,
     Resolver,
 } from 'type-graphql'
 
 import { ContextType } from '../../../global/types/context.type'
-import { LogInUserArgs } from './mutations/args'
-import { LogInUserMutationPayload } from './mutations/payloads'
+import { LogInUserInput } from './mutations/inputs'
+import { RegisterUserInput } from './mutations/inputs/RegisterUser.input'
+import {
+    LogInUserPayload,
+    RegisterUserPayload,
+} from './mutations/payloads'
 
 import { UserService } from './User.service'
 import { UserType } from './User.type'
@@ -20,12 +24,20 @@ export class UserResolver {
     ) {
     }
 
-    @Mutation(() => LogInUserMutationPayload)
+    @Mutation(() => LogInUserPayload)
     public async logInUser(
-        @Args() args: LogInUserArgs,
+        @Arg('input') input: LogInUserInput,
         @Ctx() context: ContextType,
-    ): Promise<LogInUserMutationPayload> {
-        return this.userService.logIn(args, context)
+    ): Promise<LogInUserPayload> {
+        return this.userService.logIn(input, context)
+    }
+
+    @Mutation(() => RegisterUserPayload)
+    public async registerUser(
+        @Arg('input') input: RegisterUserInput,
+        @Ctx() context: ContextType,
+    ): Promise<RegisterUserPayload> {
+        return this.userService.register(input, context)
     }
 
 }

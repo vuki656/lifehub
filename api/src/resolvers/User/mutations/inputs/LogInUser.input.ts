@@ -1,10 +1,10 @@
 import {
-    ArgsType,
     Field,
+    InputType,
 } from 'type-graphql'
 
-@ArgsType()
-export class LogInUserArgs {
+@InputType()
+export class LogInUserInput {
 
     @Field()
     public email: string

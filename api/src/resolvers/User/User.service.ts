@@ -1,43 +1,92 @@
 import { UserInputError } from 'apollo-server'
 import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
+import { RegisterErrors } from 'server/src/resolvers/User/user.types'
 import { Service } from 'typedi'
 import {
     EntityRepository,
     Repository,
 } from 'typeorm'
 import { InjectRepository } from 'typeorm-typedi-extensions'
-
+import validator from 'validator'
 import { ContextType } from '../../../global/types/context.type'
 import { UserEntity } from '../../entities'
 
-import { LogInUserArgs } from './mutations/args'
-import { LogInUserMutationPayload } from './mutations/payloads'
+import { LogInUserInput } from './mutations/inputs'
+import { RegisterUserInput } from './mutations/inputs/RegisterUser.input'
+import {
+    LogInUserPayload,
+    RegisterUserPayload,
+} from './mutations/payloads'
+import isEmail = validator.isEmail
 
 @EntityRepository()
 @Service({ global: true })
 export class UserService {
 
     constructor(
-        @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+        @InjectRepository(UserEntity) private readonly repository: Repository<UserEntity>,
     ) {
     }
 
     public async logIn(
-        args: LogInUserArgs,
+        input: LogInUserInput,
         context: ContextType,
-    ): Promise<LogInUserMutationPayload> {
+    ): Promise<LogInUserPayload> {
         const { secret } = context
 
-        const user = await this.userRepository.findOne({ where: { email: args.email } })
+        const user = await this.repository.findOne({ where: { email: input.email } })
         if (!user) throw new UserInputError('Error', { email: 'Wrong email.' })
 
-        const isPasswordValid = await compare(args.password, user.password)
+        const isPasswordValid = await compare(input.password, user.password)
         if (!isPasswordValid) throw new UserInputError('Error', { password: 'Wrong password.' })
 
         const token = sign({ username: user?.username }, secret, { expiresIn: '7 days' })
 
-        return new LogInUserMutationPayload(user, token)
+        return new LogInUserPayload(user, token)
+    }
+
+    public async register(
+        input: RegisterUserInput,
+        context: ContextType,
+    ): Promise<RegisterUserPayload> {
+        const { secret } = context
+
+        const {
+            username,
+            email,
+            password,
+            passwordConfirmation,
+        } = input
+
+        const emailExists = this.repository.findOne({ where: { email } })
+        const usernameExists = this.repository.findOne({ where: { username } })
+
+        const errors: RegisterErrors = {}
+
+        if (usernameExists) {
+            errors.username = 'Username already in use.'
+        }
+
+        if (emailExists) {
+            errors.email = 'Email already in use.'
+        }
+
+        if (!isEmail(email)) {
+            errors.email = 'Email must be a valid email address.'
+        }
+
+        if (password !== passwordConfirmation) {
+            errors.password = 'Passwords must match.'
+        }
+
+        if (Object.keys(errors).length > 0) throw new UserInputError('Error', errors)
+
+        const createdUser = await this.repository.save({ ...input })
+
+        const token = sign({ username: createdUser.username }, secret, { expiresIn: '7 days' })
+
+        return new RegisterUserPayload(createdUser, token)
     }
 
 }
