@@ -4,7 +4,8 @@
     "private": true,
     "workspaces": [
         "client",
-        "server"
+        "server",
+        "api"
     ],
     "scripts": {
         "dev": "concurrently \"cd ./client && yarn start\" \"cd ./server && yarn start\""
