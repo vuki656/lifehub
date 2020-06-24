@@ -1,13 +1,19 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
-import * as actionTypes from '../actions/types'
+import * as actionTypes from '../../actions/types'
+
+import { UserStateType } from './user.types'
 
 dayjs.extend(utc)
 
-const initialState = {
-    selectedDate: dayjs().format('YYYY-MM-DD'),
-    username: '',
+const initialState: UserStateType = {
+    selectedDate: dayjs().format('YYYY-MM-DD'), // Today
+    user: {
+        email: '',
+        id: '',
+        username: '',
+    },
 }
 
 const userReducer = (state = initialState, action) => {
@@ -15,7 +21,7 @@ const userReducer = (state = initialState, action) => {
         case actionTypes.SET_USER:
             return {
                 ...state,
-                username: action.payload.username,
+                user: action.payload.user,
             }
         case actionTypes.SET_SELECTED_DATE:
             return {
