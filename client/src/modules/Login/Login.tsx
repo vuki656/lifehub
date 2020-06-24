@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
 import { useFormik } from 'formik'
 import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import {
     Link,
     useHistory,
@@ -14,15 +15,17 @@ import {
     logInUserResponse,
     logInUserVariables,
 } from '../../graphql/user/user.types'
+import { setUser } from '../../redux/actions/userActions'
 import { UserErrors } from '../Register'
 
 import { LoginFormTypes } from './Login.types'
 
 export const Login: React.FC = () => {
     const history = useHistory()
+    const dispatch = useDispatch()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
-    const [logInUserQuery, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
+    const [logInUserMutation, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
 
     const loginForm = useFormik<LoginFormTypes>({
         initialValues: {
@@ -34,7 +37,7 @@ export const Login: React.FC = () => {
 
     // Log user in
     const handleSubmit = useCallback((formValues: LoginFormTypes) => {
-        logInUserQuery({
+        logInUserMutation({
             variables: {
                 email: formValues.email,
                 password: formValues.password,
@@ -42,16 +45,20 @@ export const Login: React.FC = () => {
         })
         .then((response) => {
             const token = response?.data?.logInUser.token ?? ''
+            const user = response?.data?.logInUser.user
+
             window.localStorage.setItem('token', token)
+            dispatch(setUser(user))
 
             setErrors({})
             loginForm.resetForm()
             history.push('/dashboard')
         })
         .catch((error) => {
-            setErrors(error.graphQLErrors[0]?.extensions)
+            console.log('-> error', error)
+            // setErrors(error.graphQLErrors[0]?.extensions)
         })
-    }, [logInUserQuery, history, loginForm])
+    }, [logInUserMutation, history, loginForm])
 
     return (
         <form onSubmit={loginForm.handleSubmit}>
