@@ -41,11 +41,11 @@ export class UserResolver {
         return this.userService.register(input, context)
     }
 
-    @Query()
+    @Query(() => Boolean)
     public async verifyUser(
         @Arg('token') token: string,
         @Ctx() context: ContextType,
-    ): Promise<void> {
+    ): Promise<boolean> {
         return this.userService.verify(token, context)
     }
 

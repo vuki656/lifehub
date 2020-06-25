@@ -36,6 +36,7 @@ type Mutation {
 type Query {
     reminder(id: String!): ReminderType!
     remindersByDate(id: String!): ReminderType!
+    verifyUser(token: String!): Boolean!
 }
 
 type RegisterUserPayload {

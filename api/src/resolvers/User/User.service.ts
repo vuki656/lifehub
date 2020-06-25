@@ -17,13 +17,13 @@ import isEmail from 'validator/lib/isEmail'
 
 import { ContextType } from '../../../global/types/context.type'
 import { UserEntity } from '../../entities'
+
 import { LogInUserInput } from './mutations/inputs'
 import { RegisterUserInput } from './mutations/inputs/RegisterUser.input'
 import {
     LogInUserPayload,
     RegisterUserPayload,
 } from './mutations/payloads'
-
 import { RegisterErrors } from './types/RegisterError.type'
 
 @EntityRepository()
@@ -95,7 +95,7 @@ export class UserService {
         return new RegisterUserPayload(createdUser, token)
     }
 
-    public async verify(token: string, context: ContextType): Promise<void> {
+    public async verify(token: string, context: ContextType): Promise<boolean> {
         const { secret } = context
 
         if (!token) {
@@ -105,6 +105,8 @@ export class UserService {
         await verify(token, secret, (error) => {
             if (error) throw new AuthenticationError('Authentication Failed')
         })
+
+        return true
     }
 
 }
