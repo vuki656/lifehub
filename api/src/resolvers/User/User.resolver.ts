@@ -2,6 +2,7 @@ import {
     Arg,
     Ctx,
     Mutation,
+    Query,
     Resolver,
 } from 'type-graphql'
 
@@ -38,6 +39,14 @@ export class UserResolver {
         @Ctx() context: ContextType,
     ): Promise<RegisterUserPayload> {
         return this.userService.register(input, context)
+    }
+
+    @Query()
+    public async verifyUser(
+        @Arg('token') token: string,
+        @Ctx() context: ContextType,
+    ): Promise<void> {
+        return this.userService.verify(token, context)
     }
 
 }

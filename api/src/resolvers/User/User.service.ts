@@ -1,24 +1,30 @@
-import { UserInputError } from 'apollo-server'
+import {
+    AuthenticationError,
+    UserInputError,
+} from 'apollo-server'
 import { compare } from 'bcryptjs'
-import { sign } from 'jsonwebtoken'
-import { RegisterErrors } from 'server/src/resolvers/User/user.types'
+import {
+    sign,
+    verify,
+} from 'jsonwebtoken'
 import { Service } from 'typedi'
 import {
     EntityRepository,
     Repository,
 } from 'typeorm'
 import { InjectRepository } from 'typeorm-typedi-extensions'
-import validator from 'validator'
+import isEmail from 'validator/lib/isEmail'
+
 import { ContextType } from '../../../global/types/context.type'
 import { UserEntity } from '../../entities'
-
 import { LogInUserInput } from './mutations/inputs'
 import { RegisterUserInput } from './mutations/inputs/RegisterUser.input'
 import {
     LogInUserPayload,
     RegisterUserPayload,
 } from './mutations/payloads'
-import isEmail = validator.isEmail
+
+import { RegisterErrors } from './Types/RegisterError.type'
 
 @EntityRepository()
 @Service({ global: true })
@@ -87,6 +93,18 @@ export class UserService {
         const token = sign({ username: createdUser.username }, secret, { expiresIn: '7 days' })
 
         return new RegisterUserPayload(createdUser, token)
+    }
+
+    public async verify(token: string, context: ContextType): Promise<void> {
+        const { secret } = context
+
+        if (!token) {
+            throw new AuthenticationError('Authentication Failed')
+        }
+
+        await verify(token, secret, (error) => {
+            if (error) throw new AuthenticationError('Authentication Failed')
+        })
     }
 
 }
