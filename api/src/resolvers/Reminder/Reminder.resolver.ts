@@ -1,15 +1,17 @@
 import {
     Arg,
-    Args,
     Authorized,
+    Ctx,
     Mutation,
     Query,
     Resolver,
 } from 'type-graphql'
+
+import { ContextType } from '../../../global/types/context.type'
 import {
-    CreateReminderArgs,
-    EditReminderArgs,
-} from './mutations/args'
+    CreateReminderInput,
+    EditReminderInput,
+} from './mutations/input'
 import {
     CreateReminderPayload,
     EditReminderPayload,
@@ -27,35 +29,35 @@ export class ReminderResolver {
     }
 
     @Authorized()
-    @Query(() => ReminderType)
+    @Query(() => ReminderType, { nullable: true })
     public async reminder(
         @Arg('id') id: string,
-    ): Promise<ReminderType> {
-        return this.reminderService.reminder(id)
+    ): Promise<ReminderType | null> {
+        return this.reminderService.findOne(id)
     }
 
     @Authorized()
-    @Query(() => ReminderType)
+    @Query(() => [ReminderType])
     public async remindersByDate(
-        @Arg('id') id: string,
-    ): Promise<ReminderType> {
-        return this.reminderService.reminder(id)
+        @Ctx() context: ContextType,
+    ): Promise<ReminderType[]> {
+        return this.reminderService.findAll(context)
     }
 
     @Authorized()
     @Mutation(() => CreateReminderPayload)
     public async createReminder(
-        @Args() args: CreateReminderArgs,
+        @Arg('input') input: CreateReminderInput,
     ): Promise<CreateReminderPayload> {
-        return this.reminderService.createReminder(args)
+        return this.reminderService.create(input)
     }
 
     @Authorized()
     @Mutation(() => EditReminderPayload)
     public async editReminder(
-        @Args() args: EditReminderArgs, // TODO: switch to input
+        @Arg('input') input: EditReminderInput, // TODO: switch to input
     ): Promise<EditReminderPayload> {
-        return this.reminderService.editReminder(args)
+        return this.reminderService.edit(input)
     }
 
 }

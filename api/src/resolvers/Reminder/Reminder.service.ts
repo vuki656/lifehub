@@ -1,10 +1,15 @@
-import { Repository } from 'typeorm'
+import dayjs from 'dayjs'
+import {
+    MoreThanOrEqual,
+    Repository,
+} from 'typeorm'
 
+import { ContextType } from '../../../global/types/context.type'
 import { ReminderEntity } from '../../entities'
 import {
-    CreateReminderArgs,
-    EditReminderArgs,
-} from './mutations/args'
+    CreateReminderInput,
+    EditReminderInput,
+} from './mutations/input'
 import {
     CreateReminderPayload,
     EditReminderPayload,
@@ -19,24 +24,35 @@ export class ReminderService {
     ) {
     }
 
-    public async reminder(id: string): Promise<ReminderType> {
+    public async findOne(id: string): Promise<ReminderType | null> {
         const reminder = await this.repository.findOne(id)
 
-        if (!reminder) throw new Error('Reminder doesn\'t exist.') // TODO: better error throw
+        if (!reminder) return null
 
         return new ReminderType(reminder)
     }
 
-    public async createReminder(args: CreateReminderArgs): Promise<CreateReminderPayload> {
-        return this.repository.save(args)
+    public async findAll(context: ContextType): Promise<ReminderType[]> {
+        const { user } = context
+
+        const today = dayjs().toDate()
+
+        const reminders = await this.repository.find({
+            where: {
+                endDate: MoreThanOrEqual(today),
+                user: { id: user.id },
+            },
+        })
+
+        return reminders.map((reminder) => new ReminderType(reminder))
     }
 
-    public async editReminder(args: EditReminderArgs): Promise<EditReminderPayload> {
-        const reminder = this.repository.findOne(args.id)
+    public async create(input: CreateReminderInput): Promise<CreateReminderPayload> {
+        return this.repository.save(input)
+    }
 
-        if (!reminder) throw new Error('Reminder doesn\'t exist.') // TODO: better error throw
-
-        return this.repository.save(args)
+    public async edit(input: EditReminderInput): Promise<EditReminderPayload> {
+        return this.repository.save(input)
     }
 
 }
