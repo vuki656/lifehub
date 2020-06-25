@@ -18,8 +18,6 @@ import {
 useContainer(Container)
 
 export const createDatabaseConnection = (): Promise<Connection> => {
-    console.log(process.env.DB_DATABASE)
-
     return createConnection({
         database: process.env.DB_DATABASE,
         host: process.env.DB_HOST,

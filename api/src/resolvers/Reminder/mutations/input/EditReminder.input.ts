@@ -1,11 +1,11 @@
 import {
-    ArgsType,
     Field,
     ID,
+    InputType,
 } from 'type-graphql'
 
-@ArgsType()
-export class EditReminderArgs {
+@InputType()
+export class EditReminderInput {
 
     @Field(() => ID)
     public id: string
