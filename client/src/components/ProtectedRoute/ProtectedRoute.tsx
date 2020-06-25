@@ -6,7 +6,7 @@ import {
     Route,
 } from 'react-router-dom'
 
-import { VERIFY_USER } from '../../graphql/user/user'
+import { VERIFY_USER } from '../../graphql/queries/user.queries'
 import {
     verifyUserResponse,
     verifyUserVariables,
