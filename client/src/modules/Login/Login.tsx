@@ -9,14 +9,12 @@ import {
 
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { LoadingSpinner } from '../../components/LoadingSpinner'
-import { Message } from '../../components/Message'
-import { LOGIN_USER } from '../../graphql/user/user'
+import { LOGIN_USER } from '../../graphql/mutations/user.mutations'
 import {
     logInUserResponse,
     logInUserVariables,
 } from '../../graphql/user/user.types'
 import { setUser } from '../../redux/actions/userActions'
-import { UserErrors } from '../Register'
 
 import { LoginFormTypes } from './Login.types'
 
@@ -24,8 +22,13 @@ export const Login: React.FC = () => {
     const history = useHistory()
     const dispatch = useDispatch()
 
-    const [errors, setErrors] = React.useState<UserErrors>({})
-    const [logInUserMutation, { loading }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
+    const [
+        logInUserMutation, {
+            loading,
+            error,
+        }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
+
+    console.log(error)
 
     const loginForm = useFormik<LoginFormTypes>({
         initialValues: {
@@ -35,7 +38,6 @@ export const Login: React.FC = () => {
         onSubmit: (formValues) => handleSubmit(formValues),
     })
 
-    // Log user in
     const handleSubmit = useCallback((formValues: LoginFormTypes) => {
         logInUserMutation({
             variables: {
@@ -50,7 +52,6 @@ export const Login: React.FC = () => {
             window.localStorage.setItem('token', token)
             dispatch(setUser(user))
 
-            setErrors({})
             loginForm.resetForm()
             history.push('/dashboard')
         })
@@ -77,7 +78,7 @@ export const Login: React.FC = () => {
                             onChange={loginForm.handleChange}
                             value={loginForm.values.email}
                         />
-                        {errors.email && <Message message={errors.email} type="error" />}
+                        {/* {errors.email && <Message message={errors.email} type="error" />} */}
                     </div>
                     <div className="form__field-wrapper">
                         <p className="form__field-title">Password</p>
@@ -91,7 +92,7 @@ export const Login: React.FC = () => {
                             onChange={loginForm.handleChange}
                             value={loginForm.values.password}
                         />
-                        {errors.password && <Message message={errors.password} type="error" />}
+                        {/* {errors.password && <Message message={errors.password} type="error" />} */}
                     </div>
                     <button
                         className="form__button--wide button button--primary"

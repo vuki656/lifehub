@@ -10,11 +10,11 @@ import {
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { LoadingSpinner } from '../../components/LoadingSpinner'
 import { Message } from '../../components/Message'
-import { CREATE_USER } from '../../graphql/user/user'
+import { REGISTER_USER } from '../../graphql/mutations/user.mutations'
 import {
-    createUserResponse,
-    createUserVariables,
-} from '../../graphql/user/user.types'
+    RegisterUserMutation,
+    RegisterUserMutationVariables,
+} from '../../graphql/types'
 import { setUser } from '../../redux/actions/userActions'
 
 import type {
@@ -27,7 +27,7 @@ export const Register: React.FC = () => {
     const dispatch = useDispatch()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
-    const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
+    const [RegisterUserMutation, { loading }] = useMutation<RegisterUserMutation, RegisterUserMutationVariables>(REGISTER_USER)
 
     const registerForm = useFormik<RegisterFormTypes>({
         initialValues: {
@@ -41,17 +41,19 @@ export const Register: React.FC = () => {
 
     // Save user in database
     const handleSubmit = useCallback((formValues: RegisterFormTypes) => {
-        createUserMutation({
+        RegisterUserMutation({
             variables: {
-                email: formValues.email,
-                password: formValues.password,
-                passwordConfirmation: formValues.passwordConfirmation,
-                username: formValues.username,
+                input: {
+                    email: formValues.email,
+                    password: formValues.password,
+                    passwordConfirmation: formValues.passwordConfirmation,
+                    username: formValues.username,
+                },
             },
         })
         .then((response) => {
-            const token = response?.data?.createUser.token ?? ''
-            const user = response?.data?.createUser.user
+            const token = response?.data?.registerUser.token ?? ''
+            const user = response?.data?.registerUser.user
 
             window.localStorage.setItem('token', token)
             dispatch(setUser(user))
@@ -63,7 +65,7 @@ export const Register: React.FC = () => {
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [createUserMutation, history, registerForm])
+    }, [RegisterUserMutation, history, registerForm])
 
     return (
         loading
