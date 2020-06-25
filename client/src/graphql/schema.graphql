@@ -21,7 +21,7 @@ type EditReminderPayload {
     title: String!
 }
 
-type LogInUserMutationPayload {
+type LogInUserPayload {
     token: String!
     user: UserType!
 }
@@ -29,12 +29,18 @@ type LogInUserMutationPayload {
 type Mutation {
     createReminder(endDate: DateTime!, note: String!, startDate: DateTime!, title: String!): CreateReminderPayload!
     editReminder(endDate: DateTime!, id: ID!, note: String!, startDate: DateTime!, title: String!): EditReminderPayload!
-    logInUser(email: String!, password: String!): LogInUserMutationPayload!
+    logInUser(input: LogInUserInput!): LogInUserPayload!
+    registerUser(input: RegisterUserInput!): RegisterUserPayload!
 }
 
 type Query {
     reminder(id: String!): ReminderType!
     remindersByDate(id: String!): ReminderType!
+}
+
+type RegisterUserPayload {
+    token: String!
+    user: UserType!
 }
 
 type ReminderType {
@@ -49,6 +55,18 @@ type ReminderType {
 type UserType {
     email: String!
     id: String!
+    username: String!
+}
+
+input LogInUserInput {
+    email: String!
+    password: String!
+}
+
+input RegisterUserInput {
+    email: String!
+    password: String!
+    passwordConfirmation: String!
     username: String!
 }
 

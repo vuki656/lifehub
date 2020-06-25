@@ -3,16 +3,16 @@ import gql from 'graphql-tag'
 export const CREATE_REMINDER = gql`
     mutation createReminder($input: CreateReminderInput!) {
         createReminder(input: $input) {
-          reminder {
-              id
-              title
-              description
-              startDate
-              endDate
-              user {
-                  id
-              }
-          }
+            reminder {
+                id
+                title
+                description
+                startDate
+                endDate
+                user {
+                    id
+                }
+            }
         }
     }
 `
