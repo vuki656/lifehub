@@ -24,7 +24,7 @@ import {
     RegisterUserPayload,
 } from './mutations/payloads'
 
-import { RegisterErrors } from './Types/RegisterError.type'
+import { RegisterErrors } from './types/RegisterError.type'
 
 @EntityRepository()
 @Service({ global: true })
