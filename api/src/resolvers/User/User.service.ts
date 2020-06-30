@@ -95,7 +95,7 @@ export class UserService {
         return new RegisterUserPayload(createdUser, token)
     }
 
-    public async verify(token: string, context: ContextType): Promise<boolean> {
+    public async verify(token: string, context: ContextType): Promise<void> {
         const { secret } = context
 
         if (!token) {
@@ -105,8 +105,6 @@ export class UserService {
         await verify(token, secret, (error) => {
             if (error) throw new AuthenticationError('Authentication Failed')
         })
-
-        return true
     }
 
 }

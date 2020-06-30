@@ -7,6 +7,7 @@ import {
 } from 'type-graphql'
 
 import { ContextType } from '../../../global/types/context.type'
+import { Void } from '../../helpers/scalars'
 import { LogInUserInput } from './mutations/inputs'
 import { RegisterUserInput } from './mutations/inputs/RegisterUser.input'
 import {
@@ -41,11 +42,11 @@ export class UserResolver {
         return this.userService.register(input, context)
     }
 
-    @Query(() => Boolean)
+    @Query(() => Void)
     public async verifyUser(
         @Arg('token') token: string,
         @Ctx() context: ContextType,
-    ): Promise<boolean> {
+    ): Promise<void> {
         return this.userService.verify(token, context)
     }
 
