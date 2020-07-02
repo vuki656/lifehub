@@ -42,7 +42,7 @@ export class UserResolver {
         return this.userService.register(input, context)
     }
 
-    @Query(() => Void)
+    @Query(() => Void, { nullable: true })
     public async verifyUser(
         @Arg('token') token: string,
         @Ctx() context: ContextType,

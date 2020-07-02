@@ -2,7 +2,10 @@ import {
     AuthenticationError,
     UserInputError,
 } from 'apollo-server'
-import { compare } from 'bcryptjs'
+import {
+    compareSync,
+    hash,
+} from 'bcryptjs'
 import {
     sign,
     verify,
@@ -41,15 +44,22 @@ export class UserService {
     ): Promise<LogInUserPayload> {
         const { secret } = context
 
-        const user = await this.repository.findOne({ where: { email: input.email } })
+        const {
+            email,
+            password,
+        } = input
+
+        const user = await this.repository.findOne({ where: { email } })
         if (!user) throw new UserInputError('Error', { email: 'Wrong email.' })
 
-        const isPasswordValid = await compare(input.password, user.password)
-        if (!isPasswordValid) throw new UserInputError('Error', { password: 'Wrong password.' })
+        const isPasswordValid = compareSync(password, user.password)
+        if (!isPasswordValid) {
+            throw new UserInputError('Error', { password: 'Wrong password.' })
+        }
 
-        const token = sign({ username: user?.username }, secret, { expiresIn: '7 days' })
+        const signedToken = sign({ username: user?.username }, secret, { expiresIn: '7 days' })
 
-        return new LogInUserPayload(user, token)
+        return new LogInUserPayload(user, signedToken)
     }
 
     public async register(
@@ -65,8 +75,8 @@ export class UserService {
             passwordConfirmation,
         } = input
 
-        const emailExists = this.repository.findOne({ where: { email } })
-        const usernameExists = this.repository.findOne({ where: { username } })
+        const emailExists = await this.repository.findOne({ where: { email } })
+        const usernameExists = await this.repository.findOne({ where: { username } })
 
         const errors: RegisterErrors = {}
 
@@ -88,7 +98,12 @@ export class UserService {
 
         if (Object.keys(errors).length > 0) throw new UserInputError('Error', errors)
 
-        const createdUser = await this.repository.save({ ...input })
+        const passwordHash = await hash(input.password, 10)
+
+        const createdUser = await this.repository.save({
+            ...input,
+            password: passwordHash,
+        })
 
         const token = sign({ username: createdUser.username }, secret, { expiresIn: '7 days' })
 

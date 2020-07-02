@@ -10,7 +10,6 @@ dotenv.config()
 
 createDatabaseConnection()
     .then(() => startServer())
-    .catch((error) => {
+    .catch(() => {
         console.log('===== FAILED =====')
-        console.error(error)
     })
