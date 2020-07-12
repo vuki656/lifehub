@@ -1,6 +1,6 @@
 overwrite: true
 schema: "./src/graphql/schema.graphql"
-documents: "src/graphql/**/*.mutations.ts"
+documents: "src/graphql/**/*.ts"
 config:
   scalars:
     DateTime: "string"

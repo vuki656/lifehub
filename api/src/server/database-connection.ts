@@ -14,7 +14,7 @@ import {
     UserEntity,
 } from '../entities'
 
-// Register container for dependency injection
+// Register global container for dependency injection
 useContainer(Container)
 
 export const createDatabaseConnection = (): Promise<Connection> => {

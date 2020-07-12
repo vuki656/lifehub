@@ -20,7 +20,6 @@ import isEmail from 'validator/lib/isEmail'
 
 import { ContextType } from '../../../global/types/context.type'
 import { UserEntity } from '../../entities'
-
 import { LogInUserInput } from './mutations/inputs'
 import { RegisterUserInput } from './mutations/inputs/RegisterUser.input'
 import {
@@ -28,6 +27,8 @@ import {
     RegisterUserPayload,
 } from './mutations/payloads'
 import { RegisterErrors } from './types/RegisterError.type'
+
+import { UserType } from './User.type'
 
 @EntityRepository()
 @Service({ global: true })
@@ -96,7 +97,10 @@ export class UserService {
             errors.password = 'Passwords must match.'
         }
 
-        if (Object.keys(errors).length > 0) throw new UserInputError('Error', errors)
+        // Throw errors if any
+        if (Object.keys(errors).length > 0) {
+            throw new UserInputError('Error', errors)
+        }
 
         const passwordHash = await hash(input.password, 10)
 
@@ -110,8 +114,16 @@ export class UserService {
         return new RegisterUserPayload(createdUser, token)
     }
 
-    public async verify(token: string, context: ContextType): Promise<void> {
-        const { secret } = context
+    public async verify(token: string, context: ContextType): Promise<UserType> {
+        const {
+            secret,
+            userId,
+        } = context
+
+        const user = await this.repository.findOne(userId)
+        if (!user) {
+            throw new AuthenticationError('Authentication Failed')
+        }
 
         if (!token) {
             throw new AuthenticationError('Authentication Failed')
@@ -120,6 +132,8 @@ export class UserService {
         await verify(token, secret, (error) => {
             if (error) throw new AuthenticationError('Authentication Failed')
         })
+
+        return new UserType(user)
     }
 
 }
