@@ -1,6 +1,6 @@
 import RRule, { RRuleSet } from 'rrule'
 
-import { TaskType } from '../../../../graphql/task/task.types'
+import { TaskType } from '../Task'
 
 export type TaskDialogProps = {
     isDialogOpen: boolean,

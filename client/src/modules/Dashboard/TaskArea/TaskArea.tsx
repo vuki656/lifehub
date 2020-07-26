@@ -1,23 +1,11 @@
-import { useQuery } from '@apollo/react-hooks'
 import AddRoundedIcon from '@material-ui/icons/AddRounded'
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
-
-import { Message } from '../../../components/Message'
-import { GET_ALL_TASK_CARDS } from '../../../graphql/taskCard/taskCard'
-import {
-    getAllTaskCardsResponse,
-    getAllTaskCardsVariables,
-} from '../../../graphql/taskCard/taskCard.types'
 import { UserStateType } from '../../../redux/reducers/user'
-import { renderLoaders } from '../../../util/helpers/renderLoaders'
-
-import { TaskCard } from './TaskCard'
 import { TaskCardDialog } from './TaskCardDialog'
-import { TaskCardLoader } from './TaskCardLoader'
 
 dayjs.extend(advancedFormat)
 
@@ -30,11 +18,11 @@ export const TaskArea: React.FC = () => {
     } = useSelector((state: UserStateType) => state)
 
     // Fetch all task cards
-    const {
-        error,
-        data,
-        loading,
-    } = useQuery<getAllTaskCardsResponse, getAllTaskCardsVariables>(GET_ALL_TASK_CARDS, { variables: { username: user.username } })
+    // const {
+    //     error,
+    //     data,
+    //     loading,
+    // } = useQuery<getAllTaskCardsResponse, getAllTaskCardsVariables>(GET_ALL_TASK_CARDS, { variables: { username: user.username } })
 
     // If overdue/upcoming display word, else display date
     const getDateTitle = () => {
@@ -56,16 +44,16 @@ export const TaskArea: React.FC = () => {
                 </div>
             </div>
             <div className="task-cards">
-                {loading
-                    ? (renderLoaders(3, <TaskCardLoader />))
-                    : (
-                        <>
-                            {data?.getAllTaskCards.map((taskCard) => (
-                                <TaskCard taskCard={taskCard} key={taskCard.id} />
-                            ))}
-                            {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />}
-                        </>
-                    )}
+                {/* {loading */}
+                {/*    ? (renderLoaders(3, <TaskCardLoader />)) */}
+                {/*    : ( */}
+                {/*        <> */}
+                {/*            {data?.getAllTaskCards.map((taskCard) => ( */}
+                {/*                <TaskCard taskCard={taskCard} key={taskCard.id} /> */}
+                {/*            ))} */}
+                {/*            {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />} */}
+                {/*        </> */}
+                {/*    )} */}
             </div>
             <TaskCardDialog isDialogOpen={isDialogOpen} toggleDialog={toggleDialog} />
         </div>

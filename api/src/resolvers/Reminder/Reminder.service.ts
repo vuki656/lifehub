@@ -1,8 +1,11 @@
-import dayjs from 'dayjs'
+import { Service } from 'typedi'
 import {
+    EntityRepository,
+    LessThanOrEqual,
     MoreThanOrEqual,
     Repository,
 } from 'typeorm'
+import { InjectRepository } from 'typeorm-typedi-extensions'
 
 import { ContextType } from '../../../global/types/context.type'
 import { ReminderEntity } from '../../entities'
@@ -12,15 +15,18 @@ import {
 } from './mutations/input'
 import {
     CreateReminderPayload,
+    DeleteReminderPayload,
     EditReminderPayload,
 } from './mutations/payloads'
 
 import { ReminderType } from './Reminder.type'
 
+@EntityRepository()
+@Service({ global: true })
 export class ReminderService {
 
     constructor(
-        private readonly repository: Repository<ReminderEntity>,
+        @InjectRepository(ReminderEntity) private readonly repository: Repository<ReminderEntity>,
     ) {
     }
 
@@ -32,27 +38,57 @@ export class ReminderService {
         return new ReminderType(reminder)
     }
 
-    public async findAll(context: ContextType): Promise<ReminderType[]> {
-        const { user } = context
-
-        const today = dayjs().toDate()
+    public async findByDate(
+        date: Date,
+        context: ContextType,
+    ): Promise<ReminderType[]> {
+        const { userId } = context
 
         const reminders = await this.repository.find({
             where: {
-                endDate: MoreThanOrEqual(today),
-                user: { id: user.id },
+                endDate: MoreThanOrEqual(date),
+                startDate: LessThanOrEqual(date),
+                user: { id: userId },
             },
         })
 
-        return reminders.map((reminder) => new ReminderType(reminder))
+        return reminders?.map((reminder) => new ReminderType(reminder))
     }
 
-    public async create(input: CreateReminderInput): Promise<CreateReminderPayload> {
-        return this.repository.save(input)
+    public async create(
+        input: CreateReminderInput,
+        context: ContextType,
+    ): Promise<CreateReminderPayload> {
+        const { userId } = context
+
+        const {
+            title,
+            note,
+            startDate,
+            endDate,
+        } = input
+
+        const createdReminder = await this.repository.save({
+            endDate,
+            note,
+            startDate,
+            title,
+            user: { id: userId },
+        })
+
+        return new CreateReminderPayload(createdReminder)
     }
 
     public async edit(input: EditReminderInput): Promise<EditReminderPayload> {
-        return this.repository.save(input)
+        const editedReminder = await this.repository.save(input)
+
+        return new EditReminderPayload(editedReminder)
+    }
+
+    public async delete(id: string): Promise<DeleteReminderPayload> {
+        await this.repository.delete({ id })
+
+        return new DeleteReminderPayload(id)
     }
 
 }

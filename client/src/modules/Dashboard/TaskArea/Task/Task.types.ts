@@ -1,5 +1,4 @@
-import { TaskType } from '../../../../graphql/task/task.types'
-import { TaskCardType } from '../../../../graphql/taskCard/taskCard.types'
+import { TaskCardType } from '../TaskCard'
 
 export type TaskProps = {
     task: TaskType,

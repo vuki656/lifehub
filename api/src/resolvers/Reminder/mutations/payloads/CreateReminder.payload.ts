@@ -1,25 +1,18 @@
 import {
     Field,
-    ID,
     ObjectType,
 } from 'type-graphql'
+
+import { ReminderType } from '../../Reminder.type'
 
 @ObjectType()
 export class CreateReminderPayload {
 
-    @Field(() => ID)
-    public id: string
+    @Field()
+    public reminder: ReminderType
 
-    @Field(() => String)
-    public title: string
-
-    @Field(() => String)
-    public note: string
-
-    @Field(() => Date)
-    public startDate: Date
-
-    @Field(() => Date)
-    public endDate: Date
+    constructor(reminder: ReminderType) {
+        this.reminder = reminder
+    }
 
 }

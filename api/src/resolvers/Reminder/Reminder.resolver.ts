@@ -14,6 +14,7 @@ import {
 } from './mutations/input'
 import {
     CreateReminderPayload,
+    DeleteReminderPayload,
     EditReminderPayload,
 } from './mutations/payloads'
 
@@ -24,7 +25,7 @@ import { ReminderType } from './Reminder.type'
 export class ReminderResolver {
 
     constructor(
-        private readonly reminderService: ReminderService,
+        private readonly service: ReminderService,
     ) {
     }
 
@@ -33,31 +34,41 @@ export class ReminderResolver {
     public async reminder(
         @Arg('id') id: string,
     ): Promise<ReminderType | null> {
-        return this.reminderService.findOne(id)
+        return this.service.findOne(id)
     }
 
     @Authorized()
     @Query(() => [ReminderType])
     public async remindersByDate(
+        @Arg('date') date: Date,
         @Ctx() context: ContextType,
     ): Promise<ReminderType[]> {
-        return this.reminderService.findAll(context)
+        return this.service.findByDate(date, context)
     }
 
     @Authorized()
     @Mutation(() => CreateReminderPayload)
     public async createReminder(
         @Arg('input') input: CreateReminderInput,
+        @Ctx() context: ContextType,
     ): Promise<CreateReminderPayload> {
-        return this.reminderService.create(input)
+        return this.service.create(input, context)
     }
 
     @Authorized()
     @Mutation(() => EditReminderPayload)
     public async editReminder(
-        @Arg('input') input: EditReminderInput, // TODO: switch to input
+        @Arg('input') input: EditReminderInput,
     ): Promise<EditReminderPayload> {
-        return this.reminderService.edit(input)
+        return this.service.edit(input)
+    }
+
+    @Authorized()
+    @Mutation(() => DeleteReminderPayload)
+    public async deleteReminder(
+        @Arg('id') id: string,
+    ): Promise<DeleteReminderPayload> {
+        return this.service.delete(id)
     }
 
 }

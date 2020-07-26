@@ -1,13 +1,12 @@
 import {
     Field,
-    ID,
     InputType,
 } from 'type-graphql'
 
 @InputType()
 export class EditReminderInput {
 
-    @Field(() => ID)
+    @Field()
     public id: string
 
     @Field()

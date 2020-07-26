@@ -1,30 +1,14 @@
-import {
-    useMutation,
-    useQuery,
-} from '@apollo/react-hooks'
 import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded'
 import EditRoundedIcon from '@material-ui/icons/EditRounded'
 import { useFormik } from 'formik'
-import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
-import {
-    CREATE_TASK,
-    GET_TASKS_BY_DATE_AND_TASK_CARD,
-} from '../../../../graphql/task/task'
-import {
-    createTaskResponse,
-    createTaskVariables,
-    getTasksByDateAndTaskCardResponse,
-    getTasksByDateAndTaskCardVariables,
-} from '../../../../graphql/task/task.types'
 import { UserStateType } from '../../../../redux/reducers/user'
 import { renderLoaders } from '../../../../util/helpers/renderLoaders'
-import { Task } from '../Task'
 import { TaskCardDeleteDialog } from '../TaskCardDeleteDialog'
 import { TaskCardDialog } from '../TaskCardDialog'
 import { TaskCardLoader } from '../TaskCardLoader'
@@ -41,27 +25,27 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
     const [isDeleteDialogOpen, toggleDeleteDialog] = useToggle(false)
     const [errors, setErrors] = React.useState<{ error?: string }>()
     const { selectedDate } = useSelector((state: UserStateType) => state)
-
-    const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(
-        CREATE_TASK,
-        {
-            onError: (error) => {
-                setErrors({ error: error.message })
-            },
-        },
-    )
-    const {
-        data, loading: fetchLoading,
-    } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(
-        GET_TASKS_BY_DATE_AND_TASK_CARD, {
-            fetchPolicy: 'network-only',
-            variables: {
-                input: {
-                    selectedDate,
-                    taskCardId: taskCard.id,
-                },
-            },
-        })
+    //
+    // const [createTaskMutation, { loading: createLoading }] = useMutation<createTaskResponse, createTaskVariables>(
+    //     CREATE_TASK,
+    //     {
+    //         onError: (error) => {
+    //             setErrors({ error: error.message })
+    //         },
+    //     },
+    // )
+    // const {
+    //     data, loading: fetchLoading,
+    // } = useQuery<getTasksByDateAndTaskCardResponse, getTasksByDateAndTaskCardVariables>(
+    //     GET_TASKS_BY_DATE_AND_TASK_CARD, {
+    //         fetchPolicy: 'network-only',
+    //         variables: {
+    //             input: {
+    //                 selectedDate,
+    //                 taskCardId: taskCard.id,
+    //             },
+    //         },
+    //     })
 
     const createTaskForm = useFormik<CreateTaskFormTypes>({
         initialValues: { title: '' },
@@ -70,58 +54,60 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
 
     // Save task
     const handleSubmit = useCallback((formValues: CreateTaskFormTypes) => {
-        createTaskMutation({
-            update(cache, response) {
-                const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId: taskCard.id,
-                        },
-                    },
-                })
-                cache.writeQuery({
-                    data: {
-                        getTasksByDateAndTaskCard: {
-                            __typename: response.data?.createTask.__typename,
-                            tasks: _.concat(
-                                localCache?.getTasksByDateAndTaskCard.tasks,
-                                { ...response.data?.createTask.task },
-                            ),
-                        },
-                    },
-                    query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-                    variables: {
-                        input: {
-                            selectedDate,
-                            taskCardId: taskCard.id,
-                        },
-                    },
-                })
-            },
-            variables: {
-                input: {
-                    date: selectedDate,
-                    taskMetaData: {
-                        taskCard: taskCard.id,
-                        title: formValues.title,
-                    },
-                },
-            },
-        })
-        .then(() => {
-            createTaskForm.resetForm()
-            setErrors({})
-        })
-        .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
-    }, [createTaskMutation, selectedDate, taskCard.id, createTaskForm])
+        // createTaskMutation({
+        //     update(cache, response) {
+        //         const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
+        //             query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+        //             variables: {
+        //                 input: {
+        //                     selectedDate,
+        //                     taskCardId: taskCard.id,
+        //                 },
+        //             },
+        //         })
+        //         cache.writeQuery({
+        //             data: {
+        //                 getTasksByDateAndTaskCard: {
+        //                     __typename: response.data?.createTask.__typename,
+        //                     tasks: _.concat(
+        //                         localCache?.getTasksByDateAndTaskCard.tasks,
+        //                         { ...response.data?.createTask.task },
+        //                     ),
+        //                 },
+        //             },
+        //             query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+        //             variables: {
+        //                 input: {
+        //                     selectedDate,
+        //                     taskCardId: taskCard.id,
+        //                 },
+        //             },
+        //         })
+        //     },
+        //     variables: {
+        //         input: {
+        //             date: selectedDate,
+        //             taskMetaData: {
+        //                 taskCard: taskCard.id,
+        //                 title: formValues.title,
+        //             },
+        //         },
+        //     },
+        // })
+        // .then(() => {
+        //     createTaskForm.resetForm()
+        //     setErrors({})
+        // })
+        // .catch((error) => {
+        //     setErrors(error.graphQLErrors?.[0].extensions.exception)
+        // })
+    }, [selectedDate, taskCard.id, createTaskForm])
 
     return (
         <>
-            {fetchLoading
+            {/* {fetchLoading */}
+            {/* eslint-disable-next-line no-constant-condition */}
+            {false
                 ? (renderLoaders(1, <TaskCardLoader />))
                 : (
                     <div className="task-card">
@@ -138,14 +124,16 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                                 />
                             </div>
                         </div>
-                        <div className="task-card__body">
-                            {data?.getTasksByDateAndTaskCard.tasks.map((task) => (
-                                <Task task={task} taskCard={taskCard} key={task.id} />
-                            ))}
-                        </div>
+                        {/* <div className="task-card__body"> */}
+                        {/*    {data?.getTasksByDateAndTaskCard.tasks.map((task) => ( */}
+                        {/*        <Task task={task} taskCard={taskCard} key={task.id} /> */}
+                        {/*    ))} */}
+                        {/* </div> */}
                         <div className="task-card__input">
                             <form onSubmit={createTaskForm.handleSubmit}>
-                                {createLoading
+                                {/* {createLoading */}
+                                {/* eslint-disable-next-line no-constant-condition */}
+                                {false
                                     ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'button'} />
                                     : (
                                         <input

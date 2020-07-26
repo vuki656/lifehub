@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/react-hooks'
 import LoopIcon from '@material-ui/icons/Loop'
 import React, {
     useCallback,
@@ -12,11 +11,6 @@ import RRule, {
 } from 'rrule'
 
 import { Message } from '../../../../components/Message'
-import { TOGGLE_TASK_COMPLETED } from '../../../../graphql/task/task'
-import {
-    toggleTaskCompletedResponse,
-    toggleTaskCompletedVariables,
-} from '../../../../graphql/task/task.types'
 import { TaskDialog } from '../TaskDialog'
 
 import { TaskProps } from './Task.types'
@@ -32,7 +26,7 @@ export const Task: React.FC<TaskProps> = (props) => {
     const [isDialogOpen, toggleDialog] = useToggle(false)
     const [taskRRuleObj, setTaskRRuleObj] = useState<RRule | RRuleSet>()
 
-    const [toggleTaskCompletedMutation] = useMutation<toggleTaskCompletedResponse, toggleTaskCompletedVariables>(TOGGLE_TASK_COMPLETED)
+    // const [toggleTaskCompletedMutation] = useMutation<toggleTaskCompletedResponse, toggleTaskCompletedVariables>(TOGGLE_TASK_COMPLETED)
 
     // Set task rrule to empty obj if it has no rrule
     const setRruleObj = useCallback(() => {
@@ -55,11 +49,11 @@ export const Task: React.FC<TaskProps> = (props) => {
 
     // Toggle task isCompleted status in database
     const toggleTaskCompleted = useCallback(() => {
-        toggleTaskCompletedMutation({ variables: { input: { id: task.id } } })
-        .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
-    }, [toggleTaskCompletedMutation, task.id])
+        // toggleTaskCompletedMutation({ variables: { input: { id: task.id } } })
+        // .catch((error) => {
+        //     setErrors(error.graphQLErrors?.[0].extensions.exception)
+        // })
+    }, [task.id])
 
     // Toggle tasks isChecked status and toggle checkbox
     const handleTaskCompletedToggle = useCallback(() => {

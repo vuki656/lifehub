@@ -3,28 +3,27 @@ import gql from 'graphql-tag'
 export const CREATE_REMINDER = gql`
     mutation createReminder($input: CreateReminderInput!) {
         createReminder(input: $input) {
-            reminder {
-                id
-                title
-                description
-                startDate
-                endDate
-                user {
-                    id
-                }
-            }
+          reminder {
+              id
+              title
+              note
+              startDate
+              endDate
+          }
         }
     }
 `
 
-export const UPDATE_REMINDER = gql`
-    mutation updateReminder($id: String!, $title: String!, $description: String, $startDate: String!, $endDate: String!) {
-        updateReminder(id: $id, title: $title, description: $description, startDate: $startDate, endDate: $endDate) {
-            id
-            title
-            description
-            startDate
-            endDate
+export const EDIT_REMINDER = gql`
+    mutation editReminder($input: EditReminderInput!) {
+        editReminder(input: $input) {
+            reminder {
+                id
+                title
+                note
+                startDate
+                endDate
+            }
         }
     }
 `
@@ -34,7 +33,6 @@ export const DELETE_REMINDER = gql`
         deleteReminder(id: $id) {
             id
         }
-    }
+    } 
 `
-
 

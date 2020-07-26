@@ -1,4 +1,3 @@
-import { useMutation } from '@apollo/react-hooks'
 import AssignmentTurnedInOutlinedIcon from '@material-ui/icons/AssignmentTurnedInOutlined'
 import LoopIcon from '@material-ui/icons/Loop'
 import NotesIcon from '@material-ui/icons/Notes'
@@ -18,26 +17,11 @@ import {
     RRule,
     RRuleSet,
 } from 'rrule'
-
-import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
 import { WeekDayButton } from '../../../../components/WeekDayButton'
-import {
-    DELETE_TASK,
-    TURN_OFF_REPEATING,
-    UPDATE_TASK,
-} from '../../../../graphql/task/task'
-import {
-    deleteTaskResponse,
-    deleteTaskVariables,
-    TaskType,
-    turnOffRepeatingVariables,
-    updateTaskResponse,
-    updateTaskVariables,
-} from '../../../../graphql/task/task.types'
 import { UserStateType } from '../../../../redux/reducers/user'
-import { toCompatibleDate } from '../../../../util/helpers/convertToCompatibleDate'
 import { rruleWeekDaysArr } from '../../../../util/helpers/variables'
+import { TaskType } from '../Task'
 import { TaskDeleteDialog } from '../TaskDeleteDialog'
 
 import type {
@@ -84,9 +68,9 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     const [frequency, setFrequency] = useState<number>(options.freq === 0 ? 2 : options.freq) // 2 is week in select (check rrule source code)
     const [interval, setInterval] = useState<number>(options.interval ? options.interval : 1)
 
-    const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
-    const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
-    const [turnOffRepeatingMutation, { loading: turnOffRepeatingLoading }] = useMutation<turnOffRepeatingVariables>(TURN_OFF_REPEATING)
+    // const [updateTaskMutation, { loading: updateLoading }] = useMutation<updateTaskResponse, updateTaskVariables>(UPDATE_TASK)
+    // const [deleteTaskMutation, { loading: deleteLoading }] = useMutation<deleteTaskResponse, deleteTaskVariables>(DELETE_TASK)
+    // const [turnOffRepeatingMutation, { loading: turnOffRepeatingLoading }] = useMutation<turnOffRepeatingVariables>(TURN_OFF_REPEATING)
 
     // Form
     const [errors, setErrors] = React.useState<{ error?: string }>({})
@@ -174,104 +158,104 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
 
     // Update task
     const updateTask = useCallback((formValues: TaskDialogFormTypes) => {
-        updateTaskMutation({
-            // update(cache, response) {
-            //     if (!response.data?.updateTask) return
-            //     toggleDialog()
-            //     const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
-            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-            //         variables: {
-            //             input: {
-            //                 selectedDate,
-            //                 taskCardId,
-            //             },
-            //         },
-            //     })
-            //     const updatedList = removeTaskIfNotInDateRange(response.data?.updateTask.task, localCache?.getTasksByDateAndTaskCard.tasks!)
-            //     cache.writeQuery<getTasksByDateAndTaskCardResponse>({
-            //         data: {
-            //             getTasksByDateAndTaskCard: {
-            //                 __typename: response.data?.updateTask.__typename,
-            //                 tasks: updatedList,
-            //             },
-            //         },
-            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-            //         variables: {
-            //             input: {
-            //                 selectedDate,
-            //                 taskCardId,
-            //             },
-            //         },
-            //     })
-            // },
-            variables: {
-                input: {
-                    date: toCompatibleDate(formValues.date),
-                    id: taskId,
-                    taskMetaData: {
-                        endDate: doesEnd ? toCompatibleDate(formValues.endDate) : null,
-                        id: taskMetaDataId,
-                        isHabit,
-                        isRepeating,
-                        note: formValues.note,
-                        rrule: isRepeating ? getRrule().toString() : null,
-                        startDate: isRepeating ? toCompatibleDate(formValues.startDate) : null,
-                        taskCard: taskCardId,
-                        title: formValues.title,
-                    },
-                },
-            },
-        })
-        .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
-    }, [taskId, taskMetaDataId, taskCardId, getRrule, isRepeating, isHabit, updateTaskMutation, removeTaskIfNotInDateRange, selectedDate, toggleDialog, doesEnd])
+        // updateTaskMutation({
+        // update(cache, response) {
+        //     if (!response.data?.updateTask) return
+        //     toggleDialog()
+        //     const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
+        //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+        //         variables: {
+        //             input: {
+        //                 selectedDate,
+        //                 taskCardId,
+        //             },
+        //         },
+        //     })
+        //     const updatedList = removeTaskIfNotInDateRange(response.data?.updateTask.task, localCache?.getTasksByDateAndTaskCard.tasks!)
+        //     cache.writeQuery<getTasksByDateAndTaskCardResponse>({
+        //         data: {
+        //             getTasksByDateAndTaskCard: {
+        //                 __typename: response.data?.updateTask.__typename,
+        //                 tasks: updatedList,
+        //             },
+        //         },
+        //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+        //         variables: {
+        //             input: {
+        //                 selectedDate,
+        //                 taskCardId,
+        //             },
+        //         },
+        //     })
+        // },
+        //     variables: {
+        //         input: {
+        //             date: toCompatibleDate(formValues.date),
+        //             id: taskId,
+        //             taskMetaData: {
+        //                 endDate: doesEnd ? toCompatibleDate(formValues.endDate) : null,
+        //                 id: taskMetaDataId,
+        //                 isHabit,
+        //                 isRepeating,
+        //                 note: formValues.note,
+        //                 rrule: isRepeating ? getRrule().toString() : null,
+        //                 startDate: isRepeating ? toCompatibleDate(formValues.startDate) : null,
+        //                 taskCard: taskCardId,
+        //                 title: formValues.title,
+        //             },
+        //         },
+        //     },
+        // })
+        // .catch((error) => {
+        //     setErrors(error.graphQLErrors?.[0].extensions.exception)
+        // })
+    }, [taskId, taskMetaDataId, taskCardId, getRrule, isRepeating, isHabit, removeTaskIfNotInDateRange, selectedDate, toggleDialog, doesEnd])
 
     // Delete task
     const deleteTask = useCallback(() => {
-        deleteTaskMutation({
-            // update(cache, response) {
-            //     toggleDialog() // Has to be here to prevent call to unmounted (deleted) component
-            //     if (!response.data?.deleteTask) return
-            //     const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
-            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-            //         variables: {
-            //             input: {
-            //                 selectedDate,
-            //                 taskCardId,
-            //             },
-            //         },
-            //     })
-            //     const updatedList = _.filter(localCache?.getTasksByDateAndTaskCard.tasks, (cachedTask) => (
-            //         cachedTask.id !== response.data?.deleteTask.taskId
-            //     ))
-            //     cache.writeQuery<getTasksByDateAndTaskCardResponse>({
-            //         data: {
-            //             getTasksByDateAndTaskCard: {
-            //                 __typename: response.data.deleteTask.__typename!,
-            //                 tasks: updatedList,
-            //             },
-            //         },
-            //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
-            //         variables: {
-            //             input: {
-            //                 selectedDate,
-            //                 taskCardId,
-            //             },
-            //         },
-            //     })
-            // },
-            variables: {
-                input: {
-                    taskId: task.id!,
-                    taskMetaDataId: task.taskMetaData.id,
-                },
-            },
-        })
-        .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
-    }, [deleteTaskMutation, task, selectedDate, taskCardId, toggleDialog])
+        // deleteTaskMutation({
+        // update(cache, response) {
+        //     toggleDialog() // Has to be here to prevent call to unmounted (deleted) component
+        //     if (!response.data?.deleteTask) return
+        //     const localCache = cache.readQuery<getTasksByDateAndTaskCardResponse>({
+        //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+        //         variables: {
+        //             input: {
+        //                 selectedDate,
+        //                 taskCardId,
+        //             },
+        //         },
+        //     })
+        //     const updatedList = _.filter(localCache?.getTasksByDateAndTaskCard.tasks, (cachedTask) => (
+        //         cachedTask.id !== response.data?.deleteTask.taskId
+        //     ))
+        //     cache.writeQuery<getTasksByDateAndTaskCardResponse>({
+        //         data: {
+        //             getTasksByDateAndTaskCard: {
+        //                 __typename: response.data.deleteTask.__typename!,
+        //                 tasks: updatedList,
+        //             },
+        //         },
+        //         query: GET_TASKS_BY_DATE_AND_TASK_CARD,
+        //         variables: {
+        //             input: {
+        //                 selectedDate,
+        //                 taskCardId,
+        //             },
+        //         },
+        //     })
+        // },
+        // variables: {
+        //     input: {
+        //         taskId: task.id!,
+        //         taskMetaDataId: task.taskMetaData.id,
+        //     },
+        // },
+        // })
+        // .catch((error) => {
+        //     setErrors(error.graphQLErrors?.[0].extensions.exception)
+        // })
+    }, [task, selectedDate, taskCardId, toggleDialog])
 
     // Toggle is repeating and reset form if repeating status being set back to false
     const handleIsRepeatingToggle = useCallback(() => {
@@ -305,27 +289,23 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
     // If its true, it means its being set from true to false
     // Repeating data and habit data exists, so warn user about that being deleted
     const turnOffRepeating = useCallback(() => {
-        turnOffRepeatingMutation({
-            variables: {
-                input: {
-                    taskId,
-                    taskMetaDataId,
-                },
-            },
-        })
-        .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
-    }, [
-        turnOffRepeatingMutation,
-        taskId,
-        taskMetaDataId,
-    ])
+        // turnOffRepeatingMutation({
+        //     variables: {
+        //         input: {
+        //             taskId,
+        //             taskMetaDataId,
+        //         },
+        //     },
+        // })
+        // .catch((error) => {
+        //     setErrors(error.graphQLErrors?.[0].extensions.exception)
+        // })
+    }, [taskId, taskMetaDataId])
 
     const handleSubmit = useCallback((formValues: TaskDialogFormTypes) => {
-        if (!updateLoading || !deleteLoading) updateTask(formValues)
-        if (task.taskMetaData.isRepeating && !isRepeating) turnOffRepeating()
-    }, [updateTask, updateLoading, deleteLoading, turnOffRepeating, task.taskMetaData.isRepeating, isRepeating])
+        // if (!updateLoading || !deleteLoading) updateTask(formValues)
+        // if (task.taskMetaData.isRepeating && !isRepeating) turnOffRepeating()
+    }, [updateTask, turnOffRepeating, task.taskMetaData.isRepeating, isRepeating])
 
     return (
         <>
@@ -342,10 +322,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 className="button button--secondary"
                                 type="button"
                             >
-                                {deleteLoading
-                                    ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'button'} />
-                                    : 'Delete'
-                                }
+                                {/* {deleteLoading */}
+                                {/*    ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'button'} /> */}
+                                {/*    : 'Delete' */}
+                                {/* } */}
                             </button>
                         </div>
                         <div className="dialog__navigation">
@@ -577,10 +557,10 @@ export const TaskDialog: React.FC<TaskDialogProps> = (props) => {
                                 type="submit"
                                 className="form__button button button--primary"
                             >
-                                {updateLoading || turnOffRepeatingLoading
-                                    ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
-                                    : 'Save'
-                                }
+                                {/* {updateLoading || turnOffRepeatingLoading */}
+                                {/*    ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} /> */}
+                                {/*    : 'Save' */}
+                                {/* } */}
                             </button>
                         </div>
                     </div>

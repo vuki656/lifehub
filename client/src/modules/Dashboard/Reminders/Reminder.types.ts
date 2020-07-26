@@ -1,7 +1,7 @@
 export type ReminderType = {
     id?: string,
     title: string,
-    description?: string,
+    note?: string,
     startDate: string,
     endDate: string,
 }

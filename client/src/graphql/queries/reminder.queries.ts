@@ -1,11 +1,11 @@
 import gql from 'graphql-tag'
 
-export const GET_REMINDERS_BY_DATE = gql`
-    query getRemindersByDate($username: String!, $selectedDate: String!) {
-        getRemindersByDate(username: $username, selectedDate: $selectedDate) {
+export const REMINDERS_BY_DATE = gql`
+    query remindersByDate($date: Date!) {
+        remindersByDate(date: $date) {
             id
             title
-            description
+            note
             startDate
             endDate
         }

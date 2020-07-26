@@ -1,19 +1,8 @@
-import { useMutation } from '@apollo/react-hooks'
-import _ from 'lodash'
 import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
 import { LoadingSpinner } from '../../../../components/LoadingSpinner'
 import { Message } from '../../../../components/Message'
-import {
-    DELETE_TASK_CARD,
-    GET_ALL_TASK_CARDS,
-} from '../../../../graphql/taskCard/taskCard'
-import {
-    deleteTaskCardResponse,
-    deleteTaskCardVariables,
-    getAllTaskCardsResponse,
-} from '../../../../graphql/taskCard/taskCard.types'
 import { UserStateType } from '../../../../redux/reducers/user'
 
 import { TaskCardDeleteDialogProps } from './TaskCardDeleteDialog.types'
@@ -27,7 +16,7 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
 
     const { user } = useSelector((state: UserStateType) => state)
     const [errors, setErrors] = React.useState<{ error?: string }>({ error: '' })
-    const [deleteTaskCardMutation, { loading: deleteLoading }] = useMutation<deleteTaskCardResponse, deleteTaskCardVariables>(DELETE_TASK_CARD)
+    // const [deleteTaskCardMutation, { loading: deleteLoading }] = useMutation<deleteTaskCardResponse, deleteTaskCardVariables>(DELETE_TASK_CARD)
 
     // Cancel task creation, clear form, close dialog
     const handleDialogToggle = useCallback(() => {
@@ -37,28 +26,28 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
 
     // Delete reminder
     const deleteTaskCard = useCallback(() => {
-        deleteTaskCardMutation({
-            update(cache, { data }) {
-                handleDialogToggle()
-                const localCache = cache.readQuery<getAllTaskCardsResponse>({
-                    query: GET_ALL_TASK_CARDS,
-                    variables: { username: user.username },
-                })
-                const updatedList = _.filter(localCache?.getAllTaskCards, ({ id }) => (
-                    id !== data?.deleteTaskCard.id
-                ))
-                cache.writeQuery<getAllTaskCardsResponse>({
-                    data: { getAllTaskCards: updatedList },
-                    query: GET_ALL_TASK_CARDS,
-                    variables: { username: user.username },
-                })
-            },
-            variables: { id: taskCard?.id! },
-        })
-        .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
-    }, [deleteTaskCardMutation, handleDialogToggle, taskCard, user.username])
+        // deleteTaskCardMutation({
+        //     update(cache, { data }) {
+        //         handleDialogToggle()
+        //         const localCache = cache.readQuery<getAllTaskCardsResponse>({
+        //             query: GET_ALL_TASK_CARDS,
+        //             variables: { username: user.username },
+        //         })
+        //         const updatedList = _.filter(localCache?.getAllTaskCards, ({ id }) => (
+        //             id !== data?.deleteTaskCard.id
+        //         ))
+        //         cache.writeQuery<getAllTaskCardsResponse>({
+        //             data: { getAllTaskCards: updatedList },
+        //             query: GET_ALL_TASK_CARDS,
+        //             variables: { username: user.username },
+        //         })
+        //     },
+        //     variables: { id: taskCard?.id! },
+        // })
+        // .catch((error) => {
+        //     setErrors(error.graphQLErrors?.[0].extensions.exception)
+        // })
+    }, [handleDialogToggle, taskCard, user.username])
 
     return (
         <div className={'dialog ' + (isDialogOpen ? 'dialog--open' : 'dialog--closed')}>
@@ -86,7 +75,8 @@ export const TaskCardDeleteDialog: React.FC<TaskCardDeleteDialogProps> = (props)
                         className="button button--primary button-delete"
                         type="button"
                     >
-                        {deleteLoading
+                        {/* eslint-disable-next-line no-constant-condition */}
+                        {false
                             ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
                             : 'Yes'
                         }
