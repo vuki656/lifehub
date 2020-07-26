@@ -22,8 +22,11 @@ export const SideMenu: React.FC = () => {
     // Logout - clear redux user, remove token from LS and redirect to /login
     const handleLogout = React.useCallback(() => {
         dispatch(logUserOut())
-        window.localStorage.removeItem('token')
+
         history.push('/login')
+
+        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('userId')
     }, [dispatch, history])
 
     return (

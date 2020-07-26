@@ -6,49 +6,46 @@ schema {
 }
 
 type CreateReminderPayload {
-    endDate: DateTime!
-    id: ID!
-    note: String!
-    startDate: DateTime!
-    title: String!
+    reminder: ReminderType!
+}
+
+type DeleteReminderPayload {
+    id: String!
 }
 
 type EditReminderPayload {
-    endDate: DateTime!
-    id: ID!
-    note: String!
-    startDate: DateTime!
-    title: String!
+    reminder: ReminderType!
 }
 
 type LogInUserPayload {
     token: String!
-    user: UserType!
+    userId: String!
 }
 
 type Mutation {
-    createReminder(endDate: DateTime!, note: String!, startDate: DateTime!, title: String!): CreateReminderPayload!
-    editReminder(endDate: DateTime!, id: ID!, note: String!, startDate: DateTime!, title: String!): EditReminderPayload!
+    createReminder(input: CreateReminderInput!): CreateReminderPayload!
+    deleteReminder(id: String!): DeleteReminderPayload!
+    editReminder(input: EditReminderInput!): EditReminderPayload!
     logInUser(input: LogInUserInput!): LogInUserPayload!
     registerUser(input: RegisterUserInput!): RegisterUserPayload!
 }
 
 type Query {
-    reminder(id: String!): ReminderType!
-    remindersByDate(id: String!): ReminderType!
-    verifyUser(token: String!): Boolean!
+    reminder(id: String!): ReminderType
+    remindersByDate(date: Date!): [ReminderType!]!
+    verifyUser(token: String!): UserType!
 }
 
 type RegisterUserPayload {
     token: String!
-    user: UserType!
+    userId: String!
 }
 
 type ReminderType {
-    endDate: DateTime!
+    endDate: Date!
     id: String!
     note: String!
-    startDate: DateTime!
+    startDate: Date!
     title: String!
     user: UserType!
 }
@@ -57,6 +54,21 @@ type UserType {
     email: String!
     id: String!
     username: String!
+}
+
+input CreateReminderInput {
+    endDate: Date!
+    note: String!
+    startDate: Date!
+    title: String!
+}
+
+input EditReminderInput {
+    endDate: Date!
+    id: String!
+    note: String!
+    startDate: Date!
+    title: String!
 }
 
 input LogInUserInput {
@@ -72,5 +84,5 @@ input RegisterUserInput {
 }
 
 
-"The javascript `Date` as string. Type represents date and time as the ISO Date string."
-scalar DateTime
+"A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
+scalar Date

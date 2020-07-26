@@ -1,13 +1,17 @@
 import { useQuery } from '@apollo/react-hooks'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Route } from 'react-router-dom'
+import {
+    Redirect,
+    Route,
+} from 'react-router-dom'
 
 import { VERIFY_USER } from '../../graphql/queries/user.queries'
 import {
     VerifyUserQuery,
     VerifyUserQueryVariables,
 } from '../../graphql/types'
+import { setUser } from '../../redux/actions/userActions'
 import { LoadingSpinner } from '../LoadingSpinner'
 import { SideMenu } from '../SideMenu'
 
@@ -35,14 +39,14 @@ const ProtectedRoute: React.FunctionComponent<ProtectedRouteProps> = (props) => 
 
     // If error redirect to login and clear user, else refresh user and proceed
     const checkIfAuth = React.useCallback(() => {
-        // if (error) {
-        //     dispatch(setUser(''))
-        //     window.localStorage.removeItem('token')
-        //     return <Redirect to="/login" />
-        // }
-        //
-        // const user = verifyUserResponse?.verifyUser
-        // dispatch(setUser(user))
+        if (error) {
+            dispatch(setUser(''))
+            window.localStorage.removeItem('token')
+            return <Redirect to="/login" />
+        }
+
+        const user = verifyUserResponse?.verifyUser
+        dispatch(setUser(user))
 
         return (
             <div className="app">
@@ -50,12 +54,20 @@ const ProtectedRoute: React.FunctionComponent<ProtectedRouteProps> = (props) => 
                 <Route path={path} component={component} exact={exact} />
             </div>
         )
-    }, [path, component, exact, error, dispatch, verifyUserResponse])
+    }, [
+        path,
+        component,
+        exact,
+        error,
+        dispatch,
+        verifyUserResponse,
+    ])
 
     return loading
         ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'fullScreen'} />
         : checkIfAuth()
 }
 
-// export default withRouter(RrotectedRoute) // TODO: FIX
+// @ts-ignore
+// export default withRouter(ProtectedRoute) // TODO: FIX
 export default ProtectedRoute

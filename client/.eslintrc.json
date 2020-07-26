@@ -42,6 +42,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "no-console": "warn",
         "import/export": "warn",
         "import/default": "warn",
         "--no-error-on-unmatched-pattern": "off",

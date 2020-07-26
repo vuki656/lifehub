@@ -17,6 +17,7 @@ import {
 import { UserService } from './User.service'
 import { UserType } from './User.type'
 
+// TODO: Resolve this return type and individual resolver action return type, they dont match at the moment
 @Resolver(() => UserType)
 export class UserResolver {
 

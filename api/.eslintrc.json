@@ -42,6 +42,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "no-console": "warn",
         "no-path-concat": "warn",
         "--no-error-on-unmatched-pattern": "off",
         "@typescript-eslint/no-non-null-assertion": "off",

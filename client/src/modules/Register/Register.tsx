@@ -15,7 +15,6 @@ import {
     RegisterUserMutation,
     RegisterUserMutationVariables,
 } from '../../graphql/types'
-import { setUser } from '../../redux/actions/userActions'
 
 import type {
     RegisterFormTypes,
@@ -53,14 +52,14 @@ export const Register: React.FC = () => {
         })
         .then((response) => {
             const token = response?.data?.registerUser.token ?? ''
-            const user = response?.data?.registerUser.user
+            const userId = response?.data?.registerUser.userId ?? ''
 
             window.localStorage.setItem('token', token)
-            dispatch(setUser(user))
+            window.localStorage.setItem('userId', userId)
 
+            history.push('/dashboard')
             setErrors({})
             registerForm.resetForm()
-            history.push('/dashboard')
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)

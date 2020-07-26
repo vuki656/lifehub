@@ -60,7 +60,7 @@ export class UserService {
 
         const signedToken = sign({ username: user?.username }, secret, { expiresIn: '7 days' })
 
-        return new LogInUserPayload(user, signedToken)
+        return new LogInUserPayload(user.id, signedToken)
     }
 
     public async register(
@@ -111,7 +111,7 @@ export class UserService {
 
         const token = sign({ username: createdUser.username }, secret, { expiresIn: '7 days' })
 
-        return new RegisterUserPayload(createdUser, token)
+        return new RegisterUserPayload(createdUser.id, token)
     }
 
     public async verify(token: string, context: ContextType): Promise<UserType> {
@@ -121,6 +121,7 @@ export class UserService {
         } = context
 
         const user = await this.repository.findOne(userId)
+
         if (!user) {
             throw new AuthenticationError('Authentication Failed')
         }

@@ -1,7 +1,6 @@
 import { useMutation } from '@apollo/react-hooks'
 import { useFormik } from 'formik'
 import React, { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import {
     Link,
     useHistory,
@@ -10,25 +9,22 @@ import {
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { LoadingSpinner } from '../../components/LoadingSpinner'
 import { LOGIN_USER } from '../../graphql/mutations/user.mutations'
-import {
-    logInUserResponse,
-    logInUserVariables,
-} from '../../graphql/user/user.types'
-import { setUser } from '../../redux/actions/userActions'
+import type {
+    LogInUserMutation,
+    LogInUserMutationVariables,
+} from '../../graphql/types'
 
 import { LoginFormTypes } from './Login.types'
 
-export const Login: React.FC = () => {
+export const Login: React.FunctionComponent = () => {
     const history = useHistory()
-    const dispatch = useDispatch()
 
     const [
         logInUserMutation, {
             loading,
             error,
-        }] = useMutation<logInUserResponse, logInUserVariables>(LOGIN_USER)
-
-    console.log(error)
+        },
+    ] = useMutation<LogInUserMutation, LogInUserMutationVariables>(LOGIN_USER)
 
     const loginForm = useFormik<LoginFormTypes>({
         initialValues: {
@@ -41,22 +37,24 @@ export const Login: React.FC = () => {
     const handleSubmit = useCallback((formValues: LoginFormTypes) => {
         logInUserMutation({
             variables: {
-                email: formValues.email,
-                password: formValues.password,
+                input: {
+                    email: formValues.email,
+                    password: formValues.password,
+                },
             },
         })
         .then((response) => {
             const token = response?.data?.logInUser.token ?? ''
-            const user = response?.data?.logInUser.user
+            const userId = response?.data?.logInUser.userId ?? ''
 
             window.localStorage.setItem('token', token)
-            dispatch(setUser(user))
+            window.localStorage.setItem('userId', userId)
 
-            loginForm.resetForm()
             history.push('/dashboard')
+            loginForm.resetForm()
         })
         .catch((error) => {
-            console.log('-> error', error)
+            console.log(error)
             // setErrors(error.graphQLErrors[0]?.extensions)
         })
     }, [logInUserMutation, history, loginForm])
@@ -104,7 +102,7 @@ export const Login: React.FC = () => {
                         }
                     </button>
                     <div className="bottom-info">
-                        <p className="bottom-info__text">Don&lsquot have an account?
+                        <p className="bottom-info__text">Don&apos;t have an account?
                             <Link to="/" className="bottom-info__link"> Register</Link>
                         </p>
                     </div>

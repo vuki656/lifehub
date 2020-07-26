@@ -12,37 +12,35 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
-  DateTime: string;
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  Date: any;
 };
 
 export type CreateReminderPayload = {
   __typename?: 'CreateReminderPayload';
-  endDate: Scalars['DateTime'];
-  id: Scalars['ID'];
-  note: Scalars['String'];
-  startDate: Scalars['DateTime'];
-  title: Scalars['String'];
+  reminder: ReminderType;
+};
+
+export type DeleteReminderPayload = {
+  __typename?: 'DeleteReminderPayload';
+  id: Scalars['String'];
 };
 
 export type EditReminderPayload = {
   __typename?: 'EditReminderPayload';
-  endDate: Scalars['DateTime'];
-  id: Scalars['ID'];
-  note: Scalars['String'];
-  startDate: Scalars['DateTime'];
-  title: Scalars['String'];
+  reminder: ReminderType;
 };
 
 export type LogInUserPayload = {
   __typename?: 'LogInUserPayload';
   token: Scalars['String'];
-  user: UserType;
+  userId: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createReminder: CreateReminderPayload;
+  deleteReminder: DeleteReminderPayload;
   editReminder: EditReminderPayload;
   logInUser: LogInUserPayload;
   registerUser: RegisterUserPayload;
@@ -50,19 +48,17 @@ export type Mutation = {
 
 
 export type MutationCreateReminderArgs = {
-  endDate: Scalars['DateTime'];
-  note: Scalars['String'];
-  startDate: Scalars['DateTime'];
-  title: Scalars['String'];
+  input: CreateReminderInput;
+};
+
+
+export type MutationDeleteReminderArgs = {
+  id: Scalars['String'];
 };
 
 
 export type MutationEditReminderArgs = {
-  endDate: Scalars['DateTime'];
-  id: Scalars['ID'];
-  note: Scalars['String'];
-  startDate: Scalars['DateTime'];
-  title: Scalars['String'];
+  input: EditReminderInput;
 };
 
 
@@ -77,8 +73,9 @@ export type MutationRegisterUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  reminder: ReminderType;
-  remindersByDate: ReminderType;
+  reminder: Maybe<ReminderType>;
+  remindersByDate: Array<ReminderType>;
+  verifyUser: UserType;
 };
 
 
@@ -88,21 +85,26 @@ export type QueryReminderArgs = {
 
 
 export type QueryRemindersByDateArgs = {
-  id: Scalars['String'];
+  date: Scalars['Date'];
+};
+
+
+export type QueryVerifyUserArgs = {
+  token: Scalars['String'];
 };
 
 export type RegisterUserPayload = {
   __typename?: 'RegisterUserPayload';
   token: Scalars['String'];
-  user: UserType;
+  userId: Scalars['String'];
 };
 
 export type ReminderType = {
   __typename?: 'ReminderType';
-  endDate: Scalars['DateTime'];
+  endDate: Scalars['Date'];
   id: Scalars['String'];
   note: Scalars['String'];
-  startDate: Scalars['DateTime'];
+  startDate: Scalars['Date'];
   title: Scalars['String'];
   user: UserType;
 };
@@ -112,6 +114,21 @@ export type UserType = {
   email: Scalars['String'];
   id: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type CreateReminderInput = {
+  endDate: Scalars['Date'];
+  note: Scalars['String'];
+  startDate: Scalars['Date'];
+  title: Scalars['String'];
+};
+
+export type EditReminderInput = {
+  endDate: Scalars['Date'];
+  id: Scalars['String'];
+  note: Scalars['String'];
+  startDate: Scalars['Date'];
+  title: Scalars['String'];
 };
 
 export type LogInUserInput = {
@@ -127,6 +144,51 @@ export type RegisterUserInput = {
 };
 
 
+export type CreateReminderMutationVariables = Exact<{
+  input: CreateReminderInput;
+}>;
+
+
+export type CreateReminderMutation = (
+  { __typename?: 'Mutation' }
+  & { createReminder: (
+    { __typename?: 'CreateReminderPayload' }
+    & { reminder: (
+      { __typename?: 'ReminderType' }
+      & Pick<ReminderType, 'id' | 'title' | 'note' | 'startDate' | 'endDate'>
+    ) }
+  ) }
+);
+
+export type EditReminderMutationVariables = Exact<{
+  input: EditReminderInput;
+}>;
+
+
+export type EditReminderMutation = (
+  { __typename?: 'Mutation' }
+  & { editReminder: (
+    { __typename?: 'EditReminderPayload' }
+    & { reminder: (
+      { __typename?: 'ReminderType' }
+      & Pick<ReminderType, 'id' | 'title' | 'note' | 'startDate' | 'endDate'>
+    ) }
+  ) }
+);
+
+export type DeleteReminderMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteReminderMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteReminder: (
+    { __typename?: 'DeleteReminderPayload' }
+    & Pick<DeleteReminderPayload, 'id'>
+  ) }
+);
+
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
 }>;
@@ -136,10 +198,45 @@ export type RegisterUserMutation = (
   { __typename?: 'Mutation' }
   & { registerUser: (
     { __typename?: 'RegisterUserPayload' }
-    & Pick<RegisterUserPayload, 'token'>
-    & { user: (
-      { __typename?: 'UserType' }
-      & Pick<UserType, 'id' | 'username' | 'email'>
-    ) }
+    & Pick<RegisterUserPayload, 'token' | 'userId'>
+  ) }
+);
+
+export type LogInUserMutationVariables = Exact<{
+  input: LogInUserInput;
+}>;
+
+
+export type LogInUserMutation = (
+  { __typename?: 'Mutation' }
+  & { logInUser: (
+    { __typename?: 'LogInUserPayload' }
+    & Pick<LogInUserPayload, 'token' | 'userId'>
+  ) }
+);
+
+export type RemindersByDateQueryVariables = Exact<{
+  date: Scalars['Date'];
+}>;
+
+
+export type RemindersByDateQuery = (
+  { __typename?: 'Query' }
+  & { remindersByDate: Array<(
+    { __typename?: 'ReminderType' }
+    & Pick<ReminderType, 'id' | 'title' | 'note' | 'startDate' | 'endDate'>
+  )> }
+);
+
+export type VerifyUserQueryVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type VerifyUserQuery = (
+  { __typename?: 'Query' }
+  & { verifyUser: (
+    { __typename?: 'UserType' }
+    & Pick<UserType, 'id' | 'username' | 'email'>
   ) }
 );

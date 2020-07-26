@@ -1,6 +1,7 @@
 import {
     Column,
     Entity,
+    JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm'
@@ -26,13 +27,20 @@ export class ReminderEntity {
     })
     note: string
 
-    @Column({ type: 'date' })
+    @Column({
+        name: 'start_date',
+        type: 'date',
+    })
     startDate: Date
 
-    @Column({ type: 'date' })
+    @Column({
+        name: 'end_date',
+        type: 'date',
+    })
     endDate: Date
 
-    @ManyToOne(() => UserEntity, (user) => user.reminders)
+    @ManyToOne(() => UserEntity, (user) => user.reminders, { nullable: false })
+    @JoinColumn({ name: 'user_id' })
     user: UserEntity
 
 }

@@ -3,8 +3,6 @@ import {
     ObjectType,
 } from 'type-graphql'
 
-import { UserType } from '../../User.type'
-
 @ObjectType()
 export class RegisterUserPayload {
 
@@ -12,14 +10,14 @@ export class RegisterUserPayload {
     public token: string
 
     @Field()
-    public user: UserType
+    public userId: string
 
     constructor(
-        user: UserType,
+        userId: string,
         token: string,
     ) {
         this.token = token
-        this.user = user
+        this.userId = userId
     }
 
 }
