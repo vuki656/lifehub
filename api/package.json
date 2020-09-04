@@ -3,7 +3,7 @@
    "version": "1.0.0",
    "license": "UNLICENSED",
    "scripts": {
-      "start": "nodemon src/index.ts",
+      "start api": "nodemon src/index.ts",
       "lint": "eslint src/**/*.{ts,tsx}"
    },
    "dependencies": {
