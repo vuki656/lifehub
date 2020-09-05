@@ -16,14 +16,35 @@ export type Scalars = {
   Date: any;
 };
 
+export type CardType = {
+  __typename?: 'CardType';
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type CreateCardPayload = {
+  __typename?: 'CreateCardPayload';
+  card: CardType;
+};
+
 export type CreateReminderPayload = {
   __typename?: 'CreateReminderPayload';
   reminder: ReminderType;
 };
 
+export type DeleteCardPayload = {
+  __typename?: 'DeleteCardPayload';
+  id: Scalars['String'];
+};
+
 export type DeleteReminderPayload = {
   __typename?: 'DeleteReminderPayload';
   id: Scalars['String'];
+};
+
+export type EditCardPayload = {
+  __typename?: 'EditCardPayload';
+  card: CardType;
 };
 
 export type EditReminderPayload = {
@@ -39,11 +60,19 @@ export type LogInUserPayload = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createCard: CreateCardPayload;
   createReminder: CreateReminderPayload;
+  deleteCard: DeleteCardPayload;
   deleteReminder: DeleteReminderPayload;
+  editCard: EditCardPayload;
   editReminder: EditReminderPayload;
   logInUser: LogInUserPayload;
   registerUser: RegisterUserPayload;
+};
+
+
+export type MutationCreateCardArgs = {
+  input: CreateCardInput;
 };
 
 
@@ -52,8 +81,18 @@ export type MutationCreateReminderArgs = {
 };
 
 
+export type MutationDeleteCardArgs = {
+  input: DeleteCardInput;
+};
+
+
 export type MutationDeleteReminderArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationEditCardArgs = {
+  input: EditCardInput;
 };
 
 
@@ -73,6 +112,7 @@ export type MutationRegisterUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  cards: Array<CardType>;
   reminder: Maybe<ReminderType>;
   remindersByDate: Array<ReminderType>;
   verifyUser: UserType;
@@ -116,11 +156,24 @@ export type UserType = {
   username: Scalars['String'];
 };
 
+export type CreateCardInput = {
+  name: Scalars['String'];
+};
+
 export type CreateReminderInput = {
   endDate: Scalars['Date'];
   note: Scalars['String'];
   startDate: Scalars['Date'];
   title: Scalars['String'];
+};
+
+export type DeleteCardInput = {
+  id: Scalars['String'];
+};
+
+export type EditCardInput = {
+  id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type EditReminderInput = {
@@ -143,6 +196,51 @@ export type RegisterUserInput = {
   username: Scalars['String'];
 };
 
+
+export type CreateCardMutationVariables = Exact<{
+  input: CreateCardInput;
+}>;
+
+
+export type CreateCardMutation = (
+  { __typename?: 'Mutation' }
+  & { createCard: (
+    { __typename?: 'CreateCardPayload' }
+    & { card: (
+      { __typename?: 'CardType' }
+      & Pick<CardType, 'id' | 'name'>
+    ) }
+  ) }
+);
+
+export type EditCardMutationVariables = Exact<{
+  input: EditCardInput;
+}>;
+
+
+export type EditCardMutation = (
+  { __typename?: 'Mutation' }
+  & { editCard: (
+    { __typename?: 'EditCardPayload' }
+    & { card: (
+      { __typename?: 'CardType' }
+      & Pick<CardType, 'id' | 'name'>
+    ) }
+  ) }
+);
+
+export type DeleteCardMutationVariables = Exact<{
+  input: DeleteCardInput;
+}>;
+
+
+export type DeleteCardMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteCard: (
+    { __typename?: 'DeleteCardPayload' }
+    & Pick<DeleteCardPayload, 'id'>
+  ) }
+);
 
 export type CreateReminderMutationVariables = Exact<{
   input: CreateReminderInput;
@@ -213,6 +311,17 @@ export type LogInUserMutation = (
     { __typename?: 'LogInUserPayload' }
     & Pick<LogInUserPayload, 'token' | 'userId'>
   ) }
+);
+
+export type CardsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CardsQuery = (
+  { __typename?: 'Query' }
+  & { cards: Array<(
+    { __typename?: 'CardType' }
+    & Pick<CardType, 'id' | 'name'>
+  )> }
 );
 
 export type RemindersByDateQueryVariables = Exact<{

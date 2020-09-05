@@ -5,12 +5,29 @@ schema {
     mutation: Mutation
 }
 
+type CardType {
+    id: String!
+    name: String!
+}
+
+type CreateCardPayload {
+    card: CardType!
+}
+
 type CreateReminderPayload {
     reminder: ReminderType!
 }
 
+type DeleteCardPayload {
+    id: String!
+}
+
 type DeleteReminderPayload {
     id: String!
+}
+
+type EditCardPayload {
+    card: CardType!
 }
 
 type EditReminderPayload {
@@ -23,14 +40,18 @@ type LogInUserPayload {
 }
 
 type Mutation {
+    createCard(input: CreateCardInput!): CreateCardPayload!
     createReminder(input: CreateReminderInput!): CreateReminderPayload!
+    deleteCard(input: DeleteCardInput!): DeleteCardPayload!
     deleteReminder(id: String!): DeleteReminderPayload!
+    editCard(input: EditCardInput!): EditCardPayload!
     editReminder(input: EditReminderInput!): EditReminderPayload!
     logInUser(input: LogInUserInput!): LogInUserPayload!
     registerUser(input: RegisterUserInput!): RegisterUserPayload!
 }
 
 type Query {
+    cards: [CardType!]!
     reminder(id: String!): ReminderType
     remindersByDate(date: Date!): [ReminderType!]!
     verifyUser(token: String!): UserType!
@@ -56,11 +77,24 @@ type UserType {
     username: String!
 }
 
+input CreateCardInput {
+    name: String!
+}
+
 input CreateReminderInput {
     endDate: Date!
     note: String!
     startDate: Date!
     title: String!
+}
+
+input DeleteCardInput {
+    id: String!
+}
+
+input EditCardInput {
+    id: String!
+    name: String!
 }
 
 input EditReminderInput {

@@ -2,12 +2,10 @@ import {
     BaseEntity,
     Column,
     Entity,
-    ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm'
 
-import { CardEntity } from './Card.entity'
 import { TaskEntity } from './Task.entity'
 
 @Entity('task_meta_data')
@@ -67,8 +65,5 @@ export class MetaDataEntity extends BaseEntity {
 
     @OneToMany(() => TaskEntity, (task) => task.metaData)
     tasks: TaskEntity[]
-
-    @ManyToOne(() => CardEntity, (card) => card.metaData)
-    card: CardEntity
 
 }

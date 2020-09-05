@@ -4,6 +4,7 @@ import { buildSchemaSync } from 'type-graphql'
 import { Container } from 'typedi'
 
 import {
+    CardResolver,
     ReminderResolver,
     UserResolver,
 } from '../resolvers'
@@ -17,6 +18,7 @@ export const getSchema = (): GraphQLSchema => {
         resolvers: [
             UserResolver,
             ReminderResolver,
+            CardResolver,
         ], // TODO: IMPORT FROM ONE
         scalarsMap: [{
             scalar: GraphQLDate,

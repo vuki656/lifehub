@@ -1,4 +1,7 @@
+import { resolve } from 'path'
+
 import dotenv from 'dotenv'
+
 import 'reflect-metadata'
 
 import {
@@ -6,7 +9,7 @@ import {
     startServer,
 } from './server'
 
-dotenv.config()
+dotenv.config({ path: resolve(__dirname, '../.env.local') })
 
 createDatabaseConnection()
     .then(() => startServer())
