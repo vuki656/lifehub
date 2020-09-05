@@ -8,7 +8,6 @@ import {
 
 import {
     CardEntity,
-    MetaDataEntity,
     ReminderEntity,
     TaskEntity,
     UserEntity,

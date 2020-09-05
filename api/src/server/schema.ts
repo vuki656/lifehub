@@ -23,7 +23,7 @@ export const getSchema = (): GraphQLSchema => {
         scalarsMap: [{
             scalar: GraphQLDate,
             type: Date,
-        }],
+        }], // TODO: extract to file
         validate: false,
     })
 }
