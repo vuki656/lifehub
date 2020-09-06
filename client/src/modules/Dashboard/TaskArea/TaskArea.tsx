@@ -31,7 +31,10 @@ export const TaskArea: React.FC = () => {
         error,
         data,
         loading,
-    } = useQuery<CardsQuery, CardsQueryVariables>(CARDS)
+    } = useQuery<CardsQuery, CardsQueryVariables>(
+        CARDS,
+        { variables: { cardTasksArgs: { date: selectedDate } } },
+    )
 
     // If overdue/upcoming display word, else display date
     const getDateTitle = () => {

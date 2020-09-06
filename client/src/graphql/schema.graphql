@@ -8,6 +8,7 @@ schema {
 type CardType {
     id: String!
     name: String!
+    tasks(args: CardTasksArgs!): [TaskType!]!
 }
 
 type CreateCardPayload {
@@ -71,10 +72,22 @@ type ReminderType {
     user: UserType!
 }
 
+type TaskType {
+    date: Date!
+    id: String!
+    isCompleted: Boolean!
+    note: String!
+    title: String!
+}
+
 type UserType {
     email: String!
     id: String!
     username: String!
+}
+
+input CardTasksArgs {
+    date: Date!
 }
 
 input CreateCardInput {

@@ -7,8 +7,6 @@ export type TaskProps = {
 
 export type TaskMetaDataType = {
     id: string,
-    title: string,
-    note: string,
     startDate: string,
     endDate: string,
     rrule: string,
@@ -21,6 +19,7 @@ export type TaskMetaDataType = {
 export type TaskType = {
     id: string,
     date: string,
+    title: string,
+    note: string,
     isCompleted: boolean,
-    taskMetaData: TaskMetaDataType,
 }

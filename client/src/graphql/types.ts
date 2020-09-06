@@ -20,6 +20,12 @@ export type CardType = {
   __typename?: 'CardType';
   id: Scalars['String'];
   name: Scalars['String'];
+  tasks: Array<TaskType>;
+};
+
+
+export type CardTypeTasksArgs = {
+  args: CardTasksArgs;
 };
 
 export type CreateCardPayload = {
@@ -149,11 +155,24 @@ export type ReminderType = {
   user: UserType;
 };
 
+export type TaskType = {
+  __typename?: 'TaskType';
+  date: Scalars['Date'];
+  id: Scalars['String'];
+  isCompleted: Scalars['Boolean'];
+  note: Scalars['String'];
+  title: Scalars['String'];
+};
+
 export type UserType = {
   __typename?: 'UserType';
   email: Scalars['String'];
   id: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type CardTasksArgs = {
+  date: Scalars['Date'];
 };
 
 export type CreateCardInput = {
@@ -313,7 +332,9 @@ export type LogInUserMutation = (
   ) }
 );
 
-export type CardsQueryVariables = Exact<{ [key: string]: never; }>;
+export type CardsQueryVariables = Exact<{
+  cardTasksArgs: CardTasksArgs;
+}>;
 
 
 export type CardsQuery = (
@@ -321,6 +342,10 @@ export type CardsQuery = (
   & { cards: Array<(
     { __typename?: 'CardType' }
     & Pick<CardType, 'id' | 'name'>
+    & { tasks: Array<(
+      { __typename?: 'TaskType' }
+      & Pick<TaskType, 'id' | 'title' | 'note' | 'date' | 'isCompleted'>
+    )> }
   )> }
 );
 

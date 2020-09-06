@@ -1,3 +1,5 @@
+import { TaskType } from '../Task'
+
 export type TaskCardProps = {
     taskCard: TaskCardType,
 }
@@ -8,5 +10,6 @@ export type CreateTaskFormTypes = {
 
 export type TaskCardType = {
     id: string,
-    name?: string,
+    name: string,
+    tasks: TaskType[],
 }

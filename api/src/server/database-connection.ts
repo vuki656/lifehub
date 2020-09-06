@@ -29,7 +29,7 @@ export const createDatabaseConnection = (): Promise<Connection> => {
         username: process.env.DB_USERNAME,
 
         // eslint-disable-next-line sort-keys
-        entities: [UserEntity, ReminderEntity, CardEntity, MetaDataEntity, TaskEntity], // TODO: fix
+        entities: [UserEntity, ReminderEntity, CardEntity, TaskEntity], // TODO: fix
     } as ConnectionOptions,
     )
 }
