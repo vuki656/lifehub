@@ -8,7 +8,7 @@ const HomePage: NextPage = () => {
     return (
         <>
             <NextHead>
-                <title>OEM Dashboard: Login</title>
+                <title>Lifehub: Login</title>
             </NextHead>
             <Login />
         </>

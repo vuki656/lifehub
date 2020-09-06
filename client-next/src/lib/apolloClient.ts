@@ -5,7 +5,6 @@ import {
     NormalizedCacheObject,
 } from '@apollo/client'
 import getConfig from 'next/config'
-import { useMemo } from 'react'
 
 const { publicRuntimeConfig } = getConfig()
 
@@ -27,7 +26,7 @@ function createApolloClient() {
             },
             uri: publicRuntimeConfig.API_URL,
         }),
-        ssrMode: !ssrInProgress,
+        ssrMode: ssrInProgress,
     })
 }
 
