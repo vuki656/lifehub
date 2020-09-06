@@ -2,11 +2,14 @@ import {
     BaseEntity,
     Column,
     Entity,
+    JoinColumn,
+    ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm'
 
 import { TaskEntity } from '../task'
+import { TaskCardEntity } from '../taskCard'
 
 import {
     EndDateOptions,
@@ -51,5 +54,9 @@ export class TaskMetaDataEntity extends BaseEntity {
 
     @OneToMany(() => TaskEntity, (task) => task.taskMetaData)
     tasks: TaskEntity[]
+
+    @ManyToOne(() => TaskCardEntity, (taskCard) => taskCard.taskMetaData, { cascade: true })
+    @JoinColumn({ name: 'taskCard' })
+    taskCard: TaskCardEntity
 
 }

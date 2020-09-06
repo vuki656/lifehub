@@ -6,6 +6,7 @@ import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
+import { UserStateType } from '../../../../redux/reducers/user'
 import { ReminderDialog } from '../ReminderDialog'
 
 import { ReminderListItemProps } from './ReminderCard.types'
@@ -16,7 +17,7 @@ export const ReminderCard: React.FC<ReminderListItemProps> = (props) => {
     const { reminder } = props
 
     const [isDialogOpen, toggleDialog] = useToggle(false)
-    const selectedDate = useSelector((state) => state.user.selectedDate)
+    const selectedDate = useSelector((state: UserStateType) => state.selectedDate)
 
     // Calculate difference between selected date and reminder due date
     const getDateDifference = useCallback(({ endDate }) => {

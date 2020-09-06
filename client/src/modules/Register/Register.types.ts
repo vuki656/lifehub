@@ -3,3 +3,10 @@ export type UserErrors = {
     email?: string,
     password?: string,
 }
+
+export type RegisterFormTypes = {
+    username: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string,
+}

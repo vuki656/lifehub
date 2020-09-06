@@ -22,8 +22,11 @@ export const SideMenu: React.FC = () => {
     // Logout - clear redux user, remove token from LS and redirect to /login
     const handleLogout = React.useCallback(() => {
         dispatch(logUserOut())
-        window.localStorage.removeItem('token')
+
         history.push('/login')
+
+        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('userId')
     }, [dispatch, history])
 
     return (
@@ -36,7 +39,6 @@ export const SideMenu: React.FC = () => {
                 </div>
                 <NavLink
                     to="/dashboard"
-                    name="dashboard"
                     className="side-menu__item"
                     activeClassName="side-menu__item--selected"
                     title="Dashboard"
@@ -46,7 +48,6 @@ export const SideMenu: React.FC = () => {
                 </NavLink>
                 <NavLink
                     to="/settings"
-                    name="settings"
                     className="side-menu__item"
                     activeClassName="side-menu__item--selected"
                     title="Dashboard"

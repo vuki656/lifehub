@@ -1,9 +1,9 @@
 import * as actionTypes from './types'
 
-export const setUser = (username) => {
+export const setUser = (user) => {
     return {
         type: actionTypes.SET_USER,
-        payload: { username },
+        payload: { user },
     }
 }
 
@@ -15,7 +15,5 @@ export const setSelectedDate = (selectedDate) => {
 }
 
 export const logUserOut = () => {
-    return {
-        type: actionTypes.LOG_OUT_USER,
-    }
+    return { type: actionTypes.LOG_OUT_USER }
 }

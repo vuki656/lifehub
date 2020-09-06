@@ -9,24 +9,25 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
     const {
         selectedDate,
         taskCardId,
-    } = input.input
+    } = input
 
     const dayBeforeDayRange = dayjs().subtract(1, 'day').startOf('day').format('YYYY-MM-DD')
     const dayAfterDayRange = dayjs().add(20, 'day').startOf('day').format('YYYY-MM-DD')
     const formattedSelectedDate = dayjs(selectedDate).format('YYYY-MM-DD')
 
-    // Check if card exists
-    if (!await getRepository(TaskCardEntity).findOne({ where: { id: taskCardId } })) {
-        throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
-    }
+    // Verify task card existence
+    const foundTaskCard: TaskCardEntity | undefined = await getRepository(TaskCardEntity).findOne({ where: { id: taskCardId } })
+    if (!foundTaskCard) throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
 
     // Get all tasks whose date is before today and not completed (overdue tasks)
     if (formattedSelectedDate === dayBeforeDayRange) {
         const foundOverdueTasks = await getRepository(TaskEntity)
         .createQueryBuilder('task')
         .leftJoinAndSelect('task.taskMetaData', 'taskMetaData')
+        .leftJoinAndSelect('taskMetaData.taskCard', 'taskCard')
         .andWhere('task.date < :selectedDate', { selectedDate: dayjs().toDate() })
-        .andWhere('task.taskCard = :taskCardId', { taskCardId })
+        .andWhere('task.isCompleted = false')
+        .andWhere('taskMetaData.taskCard = :taskCardId', { taskCardId })
         .getMany()
         .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
@@ -40,8 +41,10 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
         const foundUpcomingTasks = await getRepository(TaskEntity)
         .createQueryBuilder('task')
         .leftJoinAndSelect('task.taskMetaData', 'taskMetaData')
+        .leftJoinAndSelect('taskMetaData.taskCard', 'taskCard')
         .where('task.date > :selectedDate', { selectedDate: dayjs.utc().add(20, 'day') })
-        .andWhere('task.taskCard = :taskCardId', { taskCardId })
+        .andWhere('task.isCompleted = false')
+        .andWhere('taskMetaData.taskCard = :taskCardId', { taskCardId })
         .getMany()
         .catch(() => {
             throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })
@@ -53,8 +56,10 @@ export const getTasksByDateAndTaskCardHandler = async (input) => {
     const foundTasks = await getRepository(TaskEntity)
     .createQueryBuilder('task')
     .leftJoinAndSelect('task.taskMetaData', 'taskMetaData')
+    .leftJoinAndSelect('taskMetaData.taskCard', 'taskCard')
     .where('task.date = :taskDate', { taskDate: selectedDate })
-    .andWhere('task.taskCard = :taskCardId', { taskCardId })
+    .andWhere('task.isCompleted = false')
+    .andWhere('taskMetaData.taskCard = :taskCardId', { taskCardId })
     .getMany()
     .catch(() => {
         throw new UserInputError('Error', { error: 'Something wen\'t wrong.' })

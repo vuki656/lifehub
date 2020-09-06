@@ -36,6 +36,6 @@ export class ReminderEntity extends BaseEntity {
 
     @ManyToOne(() => UserEntity, (user) => user.reminders, { cascade: true })
     @JoinColumn({ name: 'userId' })
-    userId: UserEntity
+    user: UserEntity
 
 }

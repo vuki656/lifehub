@@ -7,6 +7,12 @@ export const userType = gql`
         username: String!
         password: String!
     }
+    
+    type UserPayload {
+        id: ID!,
+        email: String!,
+        username: String!,
+    }
 
     type UserAuth {
         token: String!

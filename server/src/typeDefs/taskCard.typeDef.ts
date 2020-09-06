@@ -9,6 +9,10 @@ export const taskCardType = gql`
     type TaskCardDeleteResponse {
         id: String!,
     }
+    
+    input TaskCardInput {
+        id: ID!,
+    }
 
     extend type Query {
         getAllTaskCards(username: String!): [TaskCard]!

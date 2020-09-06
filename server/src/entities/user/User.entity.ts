@@ -32,7 +32,7 @@ export class UserEntity extends BaseEntity {
     @Column(PasswordOptions)
     password: string
 
-    @OneToMany(() => ReminderEntity, (reminder) => reminder.userId)
+    @OneToMany(() => ReminderEntity, (reminder) => reminder.user)
     reminders: ReminderEntity[]
 
     @OneToMany(() => TaskCardEntity, (taskCard) => taskCard.userId)

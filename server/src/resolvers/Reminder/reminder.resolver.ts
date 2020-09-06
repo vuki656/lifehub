@@ -12,7 +12,7 @@ export const reminderResolver = {
         createReminder: (
             combineResolvers(
                 (parent, input, context) => isAuthenticated(context),
-                (parent, input) => createReminderHandler(input),
+                (parent, { input }) => createReminderHandler(input),
             )
         ),
         deleteReminder: (
@@ -32,7 +32,7 @@ export const reminderResolver = {
         getRemindersByDate: (
             combineResolvers(
                 (parent, input, context) => isAuthenticated(context),
-                (parent, input) => getRemindersByDateHandler(input),
+                (parent, { input }) => getRemindersByDateHandler(input),
             )
         ),
     },

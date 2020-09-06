@@ -1,5 +1,7 @@
 import { useMutation } from '@apollo/react-hooks'
+import { useFormik } from 'formik'
 import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import {
     Link,
     useHistory,
@@ -8,70 +10,67 @@ import {
 import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
 import { LoadingSpinner } from '../../components/LoadingSpinner'
 import { Message } from '../../components/Message'
-import { CREATE_USER } from '../../graphql/user/user'
+import { REGISTER_USER } from '../../graphql/mutations/user.mutations'
 import {
-    createUserResponse,
-    createUserVariables,
-} from '../../graphql/user/user.types'
-import { useFormFields } from '../../util/hooks/useFormFields.hook'
+    RegisterUserMutation,
+    RegisterUserMutationVariables,
+} from '../../graphql/types'
 
-import { UserErrors } from './Register.types'
+import type {
+    RegisterFormTypes,
+    UserErrors,
+} from './Register.types'
 
 export const Register: React.FC = () => {
     const history = useHistory()
+    const dispatch = useDispatch()
 
     const [errors, setErrors] = React.useState<UserErrors>({})
-    const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
-    const {
-        formValues, setFormValue, clearForm,
-    } = useFormFields({
-        email: '',
-        password: '',
-        passwordConfirmation: '',
-        username: '',
+    const [RegisterUserMutation, { loading }] = useMutation<RegisterUserMutation, RegisterUserMutationVariables>(REGISTER_USER)
+
+    const registerForm = useFormik<RegisterFormTypes>({
+        initialValues: {
+            email: '',
+            password: '',
+            passwordConfirmation: '',
+            username: '',
+        },
+        onSubmit: (formValues) => handleSubmit(formValues),
     })
 
     // Save user in database
-    const createUser = useCallback(() => {
-        createUserMutation({
+    const handleSubmit = useCallback((formValues: RegisterFormTypes) => {
+        RegisterUserMutation({
             variables: {
-                email: formValues.email,
-                password: formValues.password,
-                passwordConfirmation: formValues.passwordConfirmation,
-                username: formValues.username,
+                input: {
+                    email: formValues.email,
+                    password: formValues.password,
+                    passwordConfirmation: formValues.passwordConfirmation,
+                    username: formValues.username,
+                },
             },
         })
         .then((response) => {
-            const token = response?.data?.createUser.token ?? ''
-            window.localStorage.setItem('token', token)
+            const token = response?.data?.registerUser.token ?? ''
+            const userId = response?.data?.registerUser.userId ?? ''
 
-            setErrors({})
-            clearForm()
+            window.localStorage.setItem('token', token)
+            window.localStorage.setItem('userId', userId)
+
             history.push('/dashboard')
+            setErrors({})
+            registerForm.resetForm()
         })
         .catch((error) => {
             setErrors(error.graphQLErrors?.[0].extensions.exception)
         })
-    }, [
-        clearForm,
-        createUserMutation,
-        formValues.email,
-        formValues.username,
-        formValues.password,
-        formValues.passwordConfirmation,
-        history,
-    ])
-
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-        createUser()
-    }, [createUser])
+    }, [RegisterUserMutation, history, registerForm])
 
     return (
         loading
             ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'fullScreen'} />
             : (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={registerForm.handleSubmit}>
                     <div className="form">
                         <div className="form__card">
                             <Logo className="form__logo" />
@@ -84,8 +83,9 @@ export const Register: React.FC = () => {
                                     type="text"
                                     minLength={4}
                                     required
-                                    value={formValues.username}
-                                    onChange={({ target }) => setFormValue(target.value, 'username')}
+                                    name="username"
+                                    onChange={registerForm.handleChange}
+                                    value={registerForm.values.username}
                                 />
                                 {errors.username && <Message message={errors.username} type="error" />}
                             </div>
@@ -96,8 +96,9 @@ export const Register: React.FC = () => {
                                     autoComplete="email"
                                     type="email"
                                     required
-                                    value={formValues.email}
-                                    onChange={({ target }) => setFormValue(target.value, 'email')}
+                                    name="email"
+                                    onChange={registerForm.handleChange}
+                                    value={registerForm.values.email}
                                 />
                                 {errors.email && <Message message={errors.email} type="error" />}
                             </div>
@@ -109,8 +110,9 @@ export const Register: React.FC = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    value={formValues.password}
-                                    onChange={({ target }) => setFormValue(target.value, 'password')}
+                                    name="password"
+                                    onChange={registerForm.handleChange}
+                                    value={registerForm.values.password}
                                 />
                                 {errors.password && <Message message={errors.password} type="error" />}
                             </div>
@@ -122,8 +124,9 @@ export const Register: React.FC = () => {
                                     type="password"
                                     minLength={7}
                                     required
-                                    value={formValues.passwordConfirmation}
-                                    onChange={({ target }) => setFormValue(target.value, 'passwordConfirmation')}
+                                    name="passwordConfirmation"
+                                    onChange={registerForm.handleChange}
+                                    value={registerForm.values.passwordConfirmation}
                                 />
                             </div>
                             <button className="form__button--wide button button--primary" type="submit">

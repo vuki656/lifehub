@@ -4,21 +4,20 @@ import { useDispatch } from 'react-redux'
 import {
     Redirect,
     Route,
-    withRouter,
 } from 'react-router-dom'
 
-import { VERIFY_USER } from '../../graphql/user/user'
+import { VERIFY_USER } from '../../graphql/queries/user.queries'
 import {
-    verifyUserResponse,
-    verifyUserVariables,
-} from '../../graphql/user/user.types'
+    VerifyUserQuery,
+    VerifyUserQueryVariables,
+} from '../../graphql/types'
 import { setUser } from '../../redux/actions/userActions'
 import { LoadingSpinner } from '../LoadingSpinner'
 import { SideMenu } from '../SideMenu'
 
 import { ProtectedRouteProps } from './ProtectedRoute.types'
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
+const ProtectedRoute: React.FunctionComponent<ProtectedRouteProps> = (props) => {
     const {
         exact = false,
         path,
@@ -26,15 +25,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
     } = props
 
     const dispatch = useDispatch()
+    const token = window.localStorage.getItem('token') ?? ''
 
     // Get token auth status
     const {
-        data,
+        data: verifyUserResponse,
         error,
         loading,
-    } = useQuery<verifyUserResponse, verifyUserVariables>(
+    } = useQuery<VerifyUserQuery, VerifyUserQueryVariables>(
         VERIFY_USER,
-        { variables: { token: window.localStorage.getItem('token') ?? '' } },
+        { variables: { token } },
     )
 
     // If error redirect to login and clear user, else refresh user and proceed
@@ -43,21 +43,31 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = (props) => {
             dispatch(setUser(''))
             window.localStorage.removeItem('token')
             return <Redirect to="/login" />
-        } else {
-            dispatch(setUser(data?.verifyUser?.username))
-
-            return (
-                <div className="app">
-                    <SideMenu />
-                    <Route path={path} component={component} exact={exact} />
-                </div>
-            )
         }
-    }, [path, component, exact, error, dispatch, data])
+
+        const user = verifyUserResponse?.verifyUser
+        dispatch(setUser(user))
+
+        return (
+            <div className="app">
+                <SideMenu />
+                <Route path={path} component={component} exact={exact} />
+            </div>
+        )
+    }, [
+        path,
+        component,
+        exact,
+        error,
+        dispatch,
+        verifyUserResponse,
+    ])
 
     return loading
         ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'fullScreen'} />
         : checkIfAuth()
 }
 
-export default withRouter(ProtectedRoute)
+// @ts-ignore
+// export default withRouter(ProtectedRoute) // TODO: FIX
+export default ProtectedRoute

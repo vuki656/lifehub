@@ -12,13 +12,34 @@ export const reminderType = gql`
     type ReminderDeleteResponse {
         id: String!,
     }
+    
+    type ReminderPayload {
+        id: ID!
+        title: String!,
+        description: String,
+        startDate: GraphQLDate!
+        endDate: GraphQLDate!
+        user: UserPayload!
+    }
+    
+    type CreateReminderPayload {
+        reminder: ReminderPayload
+    }
+    
+    input CreateReminderInput {
+        title: String!,
+        description: String,
+        startDate: GraphQLDate!
+        endDate: GraphQLDate!
+        username: String!
+    }
 
     extend type Query {
-        getRemindersByDate(username: String!, selectedDate: String!): [Reminder]!
+        getRemindersByDate(username: String!, selectedDate: String!): [Reminder!]!
     }
 
     extend type Mutation {
-        createReminder(title: String!, description: String, username: String!, startDate: String!, endDate: String!): Reminder!
+        createReminder(input: CreateReminderInput): CreateReminderPayload!
         updateReminder(title: String!, description: String, startDate: String!, endDate: String!, id: String!): Reminder!
         deleteReminder(id: String!): ReminderDeleteResponse!
     }
