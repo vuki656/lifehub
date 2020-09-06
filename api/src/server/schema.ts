@@ -6,6 +6,7 @@ import { Container } from 'typedi'
 import {
     CardResolver,
     ReminderResolver,
+    TaskResolver,
     UserResolver,
 } from '../resolvers'
 
@@ -19,11 +20,12 @@ export const getSchema = (): GraphQLSchema => {
             UserResolver,
             ReminderResolver,
             CardResolver,
-        ], // TODO: IMPORT FROM ONE
+            TaskResolver,
+        ],
         scalarsMap: [{
             scalar: GraphQLDate,
             type: Date,
-        }], // TODO: extract to file
+        }],
         validate: false,
     })
 }

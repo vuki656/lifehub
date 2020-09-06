@@ -6,12 +6,7 @@ import {
     useContainer,
 } from 'typeorm'
 
-import {
-    CardEntity,
-    ReminderEntity,
-    TaskEntity,
-    UserEntity,
-} from '../entities'
+import * as entities from '../entities'
 
 // Register global container for dependency injection
 useContainer(Container)
@@ -19,6 +14,7 @@ useContainer(Container)
 export const createDatabaseConnection = (): Promise<Connection> => {
     return createConnection({
         database: process.env.DB_DATABASE,
+        entities: Object.values(entities),
         host: process.env.DB_HOST,
         logging: process.env.DB_LOGGING,
         password: process.env.DB_PASSWORD,
@@ -27,9 +23,6 @@ export const createDatabaseConnection = (): Promise<Connection> => {
         synchronize: process.env.DB_SYNCHRONIZE,
         type: process.env.DB_TYPE,
         username: process.env.DB_USERNAME,
-
-        // eslint-disable-next-line sort-keys
-        entities: [UserEntity, ReminderEntity, CardEntity, TaskEntity], // TODO: fix
     } as ConnectionOptions,
     )
 }
