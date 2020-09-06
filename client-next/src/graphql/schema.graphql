@@ -1,0 +1,168 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type CardType {
+    id: String!
+    name: String!
+    tasks(args: CardTasksArgs!): [TaskType!]!
+}
+
+type CreateCardPayload {
+    card: CardType!
+}
+
+type CreateReminderPayload {
+    reminder: ReminderType!
+}
+
+type CreateTaskPayload {
+    task: TaskType!
+}
+
+type DeleteCardPayload {
+    id: String!
+}
+
+type DeleteReminderPayload {
+    id: String!
+}
+
+type DeleteTaskPayload {
+    id: String!
+}
+
+type EditCardPayload {
+    card: CardType!
+}
+
+type EditReminderPayload {
+    reminder: ReminderType!
+}
+
+type EditTaskPayload {
+    task: TaskType!
+}
+
+type LogInUserPayload {
+    token: String!
+    userId: String!
+}
+
+type Mutation {
+    createCard(input: CreateCardInput!): CreateCardPayload!
+    createReminder(input: CreateReminderInput!): CreateReminderPayload!
+    createTask(input: CreateTaskInput!): CreateTaskPayload!
+    deleteCard(input: DeleteCardInput!): DeleteCardPayload!
+    deleteReminder(id: String!): DeleteReminderPayload!
+    deleteTask(input: DeleteTaskInput!): DeleteTaskPayload!
+    editCard(input: EditCardInput!): EditCardPayload!
+    editReminder(input: EditReminderInput!): EditReminderPayload!
+    editTask(input: EditTaskInput!): EditTaskPayload!
+    logInUser(input: LogInUserInput!): LogInUserPayload!
+    registerUser(input: RegisterUserInput!): RegisterUserPayload!
+}
+
+type Query {
+    cards: [CardType!]!
+    reminder(id: String!): ReminderType
+    remindersByDate(date: Date!): [ReminderType!]!
+    verifyUser(token: String!): UserType!
+}
+
+type RegisterUserPayload {
+    token: String!
+    userId: String!
+}
+
+type ReminderType {
+    endDate: Date!
+    id: String!
+    note: String!
+    startDate: Date!
+    title: String!
+    user: UserType!
+}
+
+type TaskType {
+    date: Date!
+    id: String!
+    isCompleted: Boolean!
+    note: String!
+    title: String!
+}
+
+type UserType {
+    email: String!
+    id: String!
+    username: String!
+}
+
+input CardTasksArgs {
+    date: Date!
+}
+
+input CreateCardInput {
+    name: String!
+}
+
+input CreateReminderInput {
+    endDate: Date!
+    note: String!
+    startDate: Date!
+    title: String!
+}
+
+input CreateTaskInput {
+    cardId: String!
+    date: Date!
+    title: String!
+}
+
+input DeleteCardInput {
+    id: String!
+}
+
+input DeleteTaskInput {
+    id: String!
+}
+
+input EditCardInput {
+    id: String!
+    name: String!
+}
+
+input EditReminderInput {
+    endDate: Date!
+    id: String!
+    note: String!
+    startDate: Date!
+    title: String!
+}
+
+input EditTaskInput {
+    date: Date!
+    id: String!
+    isCompleted: Boolean!
+    note: String!
+    title: String!
+}
+
+input LogInUserInput {
+    email: String!
+    password: String!
+}
+
+input RegisterUserInput {
+    email: String!
+    password: String!
+    passwordConfirmation: String!
+    username: String!
+}
+
+
+"A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
+scalar Date
