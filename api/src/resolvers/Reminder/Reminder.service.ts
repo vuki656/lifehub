@@ -19,7 +19,7 @@ import {
     EditReminderPayload,
 } from './mutations/payloads'
 
-import { ReminderType } from './Reminder.type'
+import { ReminderType } from './types'
 
 @EntityRepository()
 @Service({ global: true })

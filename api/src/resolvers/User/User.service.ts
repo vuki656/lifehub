@@ -20,15 +20,17 @@ import isEmail from 'validator/lib/isEmail'
 
 import { ContextType } from '../../../global/types/context.type'
 import { UserEntity } from '../../entities'
+
 import { LogInUserInput } from './mutations/inputs'
 import { RegisterUserInput } from './mutations/inputs/RegisterUser.input'
 import {
     LogInUserPayload,
     RegisterUserPayload,
 } from './mutations/payloads'
-import { RegisterErrors } from './types/RegisterError.type'
-
-import { UserType } from './User.type'
+import {
+    RegisterErrors,
+    UserType,
+} from './types'
 
 @EntityRepository()
 @Service({ global: true })

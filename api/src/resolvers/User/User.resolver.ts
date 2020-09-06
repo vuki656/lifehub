@@ -7,17 +7,16 @@ import {
 } from 'type-graphql'
 
 import { ContextType } from '../../../global/types/context.type'
+
+import { UserService } from './User.service'
 import { LogInUserInput } from './mutations/inputs'
 import { RegisterUserInput } from './mutations/inputs/RegisterUser.input'
 import {
     LogInUserPayload,
     RegisterUserPayload,
 } from './mutations/payloads'
+import { UserType } from './types'
 
-import { UserService } from './User.service'
-import { UserType } from './User.type'
-
-// TODO: Resolve this return type and individual resolver action return type, they dont match at the moment
 @Resolver(() => UserType)
 export class UserResolver {
 

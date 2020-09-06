@@ -3,7 +3,7 @@ import {
     ObjectType,
 } from 'type-graphql'
 
-import { ReminderType } from '../../Reminder.type'
+import { ReminderType } from '../../types/Reminder.type'
 
 @ObjectType()
 export class CreateReminderPayload {

@@ -8,6 +8,8 @@ import {
 } from 'type-graphql'
 
 import { ContextType } from '../../../global/types/context.type'
+
+import { ReminderService } from './Reminder.service'
 import {
     CreateReminderInput,
     EditReminderInput,
@@ -17,9 +19,7 @@ import {
     DeleteReminderPayload,
     EditReminderPayload,
 } from './mutations/payloads'
-
-import { ReminderService } from './Reminder.service'
-import { ReminderType } from './Reminder.type'
+import { ReminderType } from './types'
 
 @Resolver(() => ReminderType)
 export class ReminderResolver {

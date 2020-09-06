@@ -1,3 +1,3 @@
 export * from './User.resolver'
 export * from './User.service'
-export * from './User.type'
+export * from './types/User.type'
