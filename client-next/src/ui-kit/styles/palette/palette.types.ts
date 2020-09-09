@@ -1,0 +1,30 @@
+export type Palette = {
+    accents: {
+        blue: string,
+        blueDark: string,
+        blueLight: string,
+        blueLighter: string,
+        green: string,
+        greenLight: string,
+        lime: string,
+        orange: string,
+        red: string,
+        yellow: string,
+        yellowDark: string,
+    },
+    greys: {
+        dark: string,
+        darker: string,
+        darkest: string,
+        light: string,
+        lighter: string,
+        medium: string,
+        mediumLight: string,
+        semiDark: string,
+    },
+    neutrals: {
+        black: string,
+        lightGrey: string,
+        white: string,
+    },
+}

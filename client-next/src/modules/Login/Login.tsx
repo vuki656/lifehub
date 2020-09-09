@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { LoginText } from './Login.styles'
+
 export const Login: React.FunctionComponent = () => {
     return (
-        <p>Hi</p>
+        <LoginText>Hi</LoginText>
     )
 }
