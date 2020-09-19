@@ -4,10 +4,10 @@ import React, {
     useState,
 } from 'react'
 import { useToggle } from 'react-use'
-import RRule, {
-    RRuleSet,
-    rrulestr,
-} from 'rrule'
+// import RRule, {
+//     RRuleSet,
+//     rrulestr,
+// } from 'rrule'
 
 import { TaskProps } from './Task.types'
 
@@ -20,7 +20,7 @@ export const Task: React.FC<TaskProps> = (props) => {
     const [errors, setErrors] = React.useState<{ error?: string }>({})
     const [isTaskCompleted, toggleTaskCompletedCheckbox] = useToggle(task.isCompleted)
     const [isDialogOpen, toggleDialog] = useToggle(false)
-    const [taskRRuleObj, setTaskRRuleObj] = useState<RRule | RRuleSet>()
+    // const [taskRRuleObj, setTaskRRuleObj] = useState<RRule | RRuleSet>()
 
     // const [toggleTaskCompletedMutation] = useMutation<toggleTaskCompletedResponse, toggleTaskCompletedVariables>(TOGGLE_TASK_COMPLETED)
 

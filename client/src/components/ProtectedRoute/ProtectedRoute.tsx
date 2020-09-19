@@ -39,14 +39,14 @@ const ProtectedRoute: React.FunctionComponent<ProtectedRouteProps> = (props) => 
 
     // If error redirect to login and clear user, else refresh user and proceed
     const checkIfAuth = React.useCallback(() => {
-        if (error) {
-            dispatch(setUser(''))
-            window.localStorage.removeItem('token')
-            return <Redirect to="/login" />
-        }
-
-        const user = verifyUserResponse?.verifyUser
-        dispatch(setUser(user))
+        // if (error) {
+        //     dispatch(setUser(''))
+        //     window.localStorage.removeItem('token')
+        //     return <Redirect to="/login" />
+        // }
+        //
+        // const user = verifyUserResponse?.verifyUser
+        // dispatch(setUser(user))
 
         return (
             <div className="app">

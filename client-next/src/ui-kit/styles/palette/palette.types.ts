@@ -2,15 +2,6 @@ export type Palette = {
     accents: {
         blue: string,
         blueDark: string,
-        blueLight: string,
-        blueLighter: string,
-        green: string,
-        greenLight: string,
-        lime: string,
-        orange: string,
-        red: string,
-        yellow: string,
-        yellowDark: string,
     },
     greys: {
         dark: string,

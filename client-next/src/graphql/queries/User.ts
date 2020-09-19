@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client/core'
 
 export const VERIFY_USER = gql`
     query verifyUser($token: String!) {

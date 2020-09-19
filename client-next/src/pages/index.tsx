@@ -1,18 +1,24 @@
-import { NextPage } from 'next'
-import NextHead from 'next/head'
-import * as React from 'react'
+import { NextPage } from "next"
+import { useRouter } from "next/router"
+import * as React from "react"
 
-import { Login } from '../modules/Login'
+const ssrInProgress = typeof window === 'undefined'
 
 const HomePage: NextPage = () => {
-    return (
-        <>
-            <NextHead>
-                <title>Lifehub: Login</title>
-            </NextHead>
-            <Login />
-        </>
-    )
+    const router = useRouter()
+
+    const token = !ssrInProgress && localStorage.getItem('token')
+    const userId = !ssrInProgress && localStorage.getItem('userId')
+
+    React.useEffect(() => {
+        if (token && userId) {
+            router.replace("/dashboard")
+        } else {
+            router.replace("/login")
+        }
+    }, [])
+
+    return null
 }
 
 export default HomePage

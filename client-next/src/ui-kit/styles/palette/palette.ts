@@ -2,17 +2,8 @@ import type { Palette } from './palette.types'
 
 export const palette: Palette = {
     accents: {
-        blue: '#26BDEE',
-        blueDark: '#3383F2',
-        blueLight: '#CFEDF9',
-        blueLighter: '#F2FAFF',
-        green: '#0AC77D',
-        greenLight: '#E6F9F2',
-        lime: '#9AE81C',
-        orange: '#F7931E',
-        red: '#F7364A',
-        yellow: '#F7D71F',
-        yellowDark: '#E5A61C',
+        blue: '#0083ff',
+        blueDark: '#006fe4',
     },
     greys: {
         dark: '#414759',

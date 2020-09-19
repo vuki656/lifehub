@@ -8,8 +8,8 @@ export const typography: Typography = {
         lineHeight: '18px',
     },
     fontFamily: {
-        primary: 'Titillium Web',
-        secondary: 'Quantico',
+        primary: 'Roboto',
+        secondary: 'Archivo',
     },
     regular: {
         fontSize: '14px',

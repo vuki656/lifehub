@@ -10,7 +10,7 @@
     "codegen": "graphql-codegen --config ./src/graphql/codegen.yml"
   },
   "dependencies": {
-    "@apollo/client": "^3.1.5",
+    "@apollo/client": "^3.2.0",
     "dayjs": "^1.8.35",
     "formik": "^2.1.5",
     "graphql": "^15.3.0",

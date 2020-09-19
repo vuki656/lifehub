@@ -1,26 +1,30 @@
 import Document, {
     DocumentContext,
     DocumentInitialProps,
+    Head,
+    Html,
+    Main,
+    NextScript,
 } from 'next/document'
-import * as React from 'react'
+import React from 'react'
 import { ServerStyleSheet } from 'styled-components'
 
-export default class MyDocument extends Document {
+class CustomDocument extends Document {
 
     static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
         const sheet = new ServerStyleSheet()
-
         const originalRenderPage = ctx.renderPage
 
         try {
-            ctx.renderPage = () =>
-                originalRenderPage({
-                    enhanceApp: (App) => (props) => {
-                        return (
-                            sheet.collectStyles(<App {...props} />)
-                        )
+            ctx.renderPage = () => {
+                return originalRenderPage({
+                    enhanceApp: (App) => {
+                        return (props) => {
+                            return sheet.collectStyles(<App {...props} />)
+                        }
                     },
                 })
+            }
 
             const initialProps = await Document.getInitialProps(ctx)
 
@@ -38,4 +42,28 @@ export default class MyDocument extends Document {
         }
     }
 
+    public render(): JSX.Element {
+        return (
+            <Html>
+                <Head>
+                    <link
+                        crossOrigin=""
+                        href="https://fonts.googleapis.com/css?family=Roboto|Archivo+Web&display=swap"
+                        rel="stylesheet"
+                    />
+                    <meta
+                        content="#373D4D"
+                        name="theme-color"
+                    />
+                </Head>
+                <body>
+                    <Main />
+                    <NextScript />
+                </body>
+            </Html>
+        )
+    }
+
 }
+
+export default CustomDocument

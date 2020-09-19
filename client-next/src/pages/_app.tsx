@@ -1,34 +1,31 @@
-import { ApolloProvider } from '@apollo/client'
-import NextApp from 'next/app'
-import * as React from 'react'
-
+import { ApolloProvider } from "@apollo/client"
+import { AppProps } from "next/app"
+import React from "react"
 import { useApollo } from '../lib/apolloClient'
 import {
     createTheme,
+    GlobalStyles,
     ThemeProvider,
-} from '../ui-kit/styles'
+} from "../ui-kit/styles"
 
-class App extends NextApp {
+const App = (props: AppProps): JSX.Element => {
+    const {
+        Component,
+        pageProps,
+    } = props
 
-    private readonly theme = createTheme()
+    const client = useApollo(pageProps.initialApolloState)
 
-    public render(): JSX.Element {
-        const {
-            Component,
-            pageProps,
-        } = this.props
+    const theme = createTheme()
 
-        const apolloClient = useApollo(pageProps.initialApolloState)
-
-        return (
-            <ApolloProvider client={apolloClient}>
-                <ThemeProvider theme={this.theme}>
-                    <Component {...pageProps} />
-                </ThemeProvider>
-            </ApolloProvider>
-        )
-    }
-
+    return (
+        <ApolloProvider client={client}>
+            <ThemeProvider theme={theme}>
+                <GlobalStyles />
+                <Component {...pageProps} />
+            </ThemeProvider>
+        </ApolloProvider>
+    )
 }
 
 export default App
