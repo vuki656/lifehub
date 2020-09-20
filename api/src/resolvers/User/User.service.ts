@@ -45,8 +45,6 @@ export class UserService {
         input: LogInUserInput,
         context: ContextType,
     ): Promise<LogInUserPayload> {
-        const { secret } = context
-
         const {
             email,
             password,
@@ -60,7 +58,7 @@ export class UserService {
             throw new UserInputError('Error', { password: 'Wrong password.' })
         }
 
-        const signedToken = sign({ username: user?.username }, secret, { expiresIn: '7 days' })
+        const signedToken = sign({ username: user?.username }, context.secret, { expiresIn: '7 days' })
 
         return new LogInUserPayload(user.id, signedToken)
     }
@@ -69,8 +67,6 @@ export class UserService {
         input: RegisterUserInput,
         context: ContextType,
     ): Promise<RegisterUserPayload> {
-        const { secret } = context
-
         const {
             username,
             email,
@@ -111,18 +107,16 @@ export class UserService {
             password: passwordHash,
         })
 
-        const token = sign({ username: createdUser.username }, secret, { expiresIn: '7 days' })
+        const token = sign({ username: createdUser.username }, context.secret, { expiresIn: '7 days' })
 
         return new RegisterUserPayload(createdUser.id, token)
     }
 
-    public async verify(token: string, context: ContextType): Promise<UserType> {
-        const {
-            secret,
-            userId,
-        } = context
-
-        const user = await this.repository.findOne(userId)
+    public async verify(
+        token: string,
+        context: ContextType,
+    ): Promise<UserType> {
+        const user = await this.repository.findOne(context.userId)
 
         if (!user) {
             throw new AuthenticationError('Authentication Failed')
@@ -132,7 +126,7 @@ export class UserService {
             throw new AuthenticationError('Authentication Failed')
         }
 
-        await verify(token, secret, (error) => {
+        await verify(token, context.secret, (error) => {
             if (error) throw new AuthenticationError('Authentication Failed')
         })
 
