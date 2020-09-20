@@ -1,8 +1,7 @@
-import styled from 'styled-components'
+import styled from "styled-components"
+import { Panel } from "../../ui-kit/components/Panel"
 
-import { Panel } from '../../ui-kit/components/Panel'
-
-export const LoginRoot = styled('div')({
+export const RegisterRoot = styled('div')({
     alignItems: 'center',
     display: 'flex',
     height: '100%',
@@ -10,7 +9,7 @@ export const LoginRoot = styled('div')({
     width: '100%',
 })
 
-export const LoginPanel = styled(Panel)((props) => ({
+export const RegisterPanel = styled(Panel)((props) => ({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
@@ -18,16 +17,14 @@ export const LoginPanel = styled(Panel)((props) => ({
     width: "380px",
 }))
 
-
-export const LoginFooterText = styled('div')((props) => ({
+export const RegisterFooterText = styled('div')((props) => ({
     color: props.theme.palette.grey.darker,
     margin: 0,
     textAlign: 'center',
 }))
 
-export const LoginFooterLink = styled('a')((props) => ({
+export const RegisterFooterLink = styled('a')((props) => ({
     color: props.theme.palette.black,
     cursor: "pointer",
     fontWeight: 'bold',
 }))
-

@@ -1,5 +1,7 @@
-import type { ThemeProviderComponent } from 'styled-components'
-import { ThemeProvider as StyledThemeProvider } from 'styled-components'
+import {
+    ThemeProvider as StyledThemeProvider,
+    ThemeProviderComponent,
+} from 'styled-components'
 
 import type { Theme } from './theme.types'
 

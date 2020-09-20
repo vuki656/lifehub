@@ -7,13 +7,13 @@ import {
 import getConfig from 'next/config'
 import { useMemo } from 'react'
 
-const { publicRuntimeConfig } = getConfig()
-
 let existingApolloClient: ApolloClient<NormalizedCacheObject>
 
 const ssrInProgress = typeof window === 'undefined'
 
 const createApolloClient = () => {
+    const { publicRuntimeConfig } = getConfig()
+
     const bearerToken = !ssrInProgress && `Bearer ${localStorage.getItem('token')}`
     const userId = !ssrInProgress && localStorage.getItem('userId')
 

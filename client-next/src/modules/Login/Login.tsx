@@ -3,6 +3,7 @@ import {
     useMutation,
 } from "@apollo/client"
 import { useFormik } from 'formik'
+import Link from "next/link"
 import { useRouter } from 'next/router'
 import * as React from 'react'
 import { LOGIN_USER } from '../../graphql/mutations'
@@ -10,17 +11,27 @@ import {
     LogInUserMutation,
     LogInUserMutationVariables,
 } from '../../graphql/types'
-import { TextField } from '../../ui-kit/components'
-import { Button } from '../../ui-kit/components/Button'
+import {
+    Button,
+    Divider,
+    TextField,
+} from '../../ui-kit/components'
 
 import {
+    LoginFooterLink,
+    LoginFooterText,
     LoginPanel,
     LoginRoot,
 } from './Login.styles'
-import { LoginFormTypes } from './Login.types'
+import {
+    LoginFormErrorType,
+    LoginFormTypes,
+} from './Login.types'
 
 export const Login: React.FunctionComponent = () => {
     const { push } = useRouter()
+
+    const [errors, setErrors] = React.useState<LoginFormErrorType>({})
 
     const [
         logInUserMutation,
@@ -53,9 +64,12 @@ export const Login: React.FunctionComponent = () => {
                 push('/dashboard')
             })
             .catch((error: ApolloError) => {
-                console.log(error.graphQLErrors)
+                setErrors({ ...error.graphQLErrors[0].extensions?.exception })
             })
-    }, [logInUserMutation, push])
+    }, [
+        logInUserMutation,
+        push,
+    ])
 
     const form = useFormik<LoginFormTypes>({
         initialValues: {
@@ -72,6 +86,10 @@ export const Login: React.FunctionComponent = () => {
             <form onSubmit={form.handleSubmit}>
                 <LoginPanel spacing="lg">
                     <TextField
+                        autoComplete="email"
+                        error={Boolean(errors.email)}
+                        fullWidth
+                        helperText={errors.email}
                         label="Email"
                         name="email"
                         onChange={form.handleChange}
@@ -79,10 +97,15 @@ export const Login: React.FunctionComponent = () => {
                         value={form.values.email}
                     />
                     <TextField
+                        autoComplete="password"
+                        error={Boolean(errors.password)}
+                        fullWidth
+                        helperText={errors.password}
                         label="Password"
                         name="password"
                         onChange={form.handleChange}
                         required
+                        type="password"
                         value={form.values.password}
                     />
                     <Button
@@ -92,6 +115,15 @@ export const Login: React.FunctionComponent = () => {
                     >
                         Login
                     </Button>
+                    <Divider />
+                    <LoginFooterText>
+                        Don&apos;t have an account?{" "}
+                        <Link href="/register">
+                            <LoginFooterLink>
+                                Register
+                            </LoginFooterLink>
+                        </Link>
+                    </LoginFooterText>
                 </LoginPanel>
             </form>
         </LoginRoot>

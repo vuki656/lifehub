@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { SvgRoot } from "./IconBase.styles"
 
 import { IconBaseProps } from './IconBase.types'
 
@@ -6,19 +7,19 @@ export const IconBase: React.FunctionComponent<IconBaseProps> = (props) => {
     const {
         color = 'white',
         children,
-        viewBox = '0 0 24 24',
+        size = "medium",
+        viewBox = "0 0 512 512",
         ...other
     } = props
 
     return (
-        <svg
+        <SvgRoot
             fill={color}
+            size={size}
             viewBox={viewBox}
-            width="24px"
-            height="24px"
             {...other}
         >
             {children}
-        </svg>
+        </SvgRoot>
     )
 }

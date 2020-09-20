@@ -1,15 +1,15 @@
 import type { Typography } from './typography.types'
 
 export const typography: Typography = {
-    caption: {
-        fontSize: '12px',
-        fontStyle: 'italic',
-        fontWeight: 'normal',
-        lineHeight: '18px',
-    },
     fontFamily: {
         primary: 'Roboto',
         secondary: 'Archivo',
+    },
+    helper: {
+        fontSize: '12px',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        lineHeight: '18px',
     },
     regular: {
         fontSize: '14px',

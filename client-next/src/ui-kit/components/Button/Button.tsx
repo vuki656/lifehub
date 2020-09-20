@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-import { Loader } from '../../../modules/Login/Login.styles'
 
 import {
     ButtonIconWrapper,
     ButtonRoot,
+    Loader,
 } from './Button.styles'
 import { ButtonProps } from './Button.types'
 
@@ -22,20 +22,20 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
 
     return (
         <ButtonRoot
-            variant={variant}
-            fullWidth={fullWidth}
             disabled={loading || disabled}
+            fullWidth={fullWidth}
+            variant={variant}
             {...other}
         >
             {loading ? (
                 <Loader />
             ) : (
                 <>
-                    <ButtonIconWrapper position='start'>
+                    <ButtonIconWrapper position="start">
                         {startIcon}
                     </ButtonIconWrapper>
                     {children}
-                    <ButtonIconWrapper position='end'>
+                    <ButtonIconWrapper position="end">
                         {endIcon}
                     </ButtonIconWrapper>
                 </>

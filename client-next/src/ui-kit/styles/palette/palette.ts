@@ -1,23 +1,15 @@
-import type { Palette } from './palette.types'
+import { Palette } from "./palette.types"
 
 export const palette: Palette = {
-    accents: {
-        blue: '#0083ff',
-        blueDark: '#006fe4',
+    black: '#000000',
+    blue: '#0083ff',
+    grey: {
+        dark: "#0000001a",
+        darker: "#777777",
+        light: "#f6f6f6",
+        main: '#0000001a',
     },
-    greys: {
-        dark: '#414759',
-        darker: '#373D4D',
-        darkest: '#1C212E',
-        light: '#D8DBE3',
-        lighter: '#EBEEF5',
-        medium: '#76819E',
-        mediumLight: '#919AB1',
-        semiDark: '#646D86',
-    },
-    neutrals: {
-        black: '#000000',
-        lightGrey: '#F9F9F9',
-        white: '#FFFFFF',
-    },
+    red: '#cd3d64',
+    white: '#FFFFFF',
+    yellow: "#febb01",
 }

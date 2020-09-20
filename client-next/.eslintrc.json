@@ -24,7 +24,9 @@
     },
     "overrides": [
         {
-            "files": ["**/*.tsx"],
+            "files": [
+                "**/*.tsx"
+            ],
             "rules": {
                 "react/prop-types": "off"
             }
@@ -40,7 +42,6 @@
         "no-empty-function": "error",
         "no-floating-decimal": "error",
         "no-implicit-coercion": "error",
-        "no-magic-numbers": "error",
         "no-multi-spaces": "error",
         "no-new": "error",
         "no-param-reassign": "error",
@@ -73,7 +74,10 @@
         "implicit-arrow-linebreak": "error",
         "indent": [
             "error",
-            4
+            4,
+            {
+                "SwitchCase": 1
+            }
         ],
         "jsx-quotes": "error",
         "key-spacing": "error",
@@ -86,7 +90,6 @@
                 "exceptAfterSingleLine": true
             }
         ],
-        "multiline-ternary": "error",
         "newline-per-chained-call": [
             "error",
             {
@@ -111,10 +114,6 @@
         ],
         "object-property-newline": "error",
         "operator-assignment": "error",
-        "operator-linebreak": [
-            "error",
-            "none"
-        ],
         "padded-blocks": [
             "error",
             {
@@ -178,10 +177,6 @@
         ],
         "switch-colon-spacing": "error",
         "wrap-regex": "error",
-        "arrow-body-style": [
-            "error",
-            "always"
-        ],
         "arrow-parens": [
             "error",
             "always"
@@ -239,7 +234,6 @@
                 "checkFragmentShorthand": true
             }
         ],
-        "react/jsx-one-expression-per-line": 2,
         "react/jsx-sort-props": 2,
         "react/jsx-tag-spacing": [
             2,
@@ -249,6 +243,7 @@
                 "afterOpening": "never",
                 "beforeClosing": "never"
             }
-        ]
+        ],
+        "react/display-name": 0
     }
 }

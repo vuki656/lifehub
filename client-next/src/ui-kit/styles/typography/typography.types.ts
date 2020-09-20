@@ -1,6 +1,6 @@
 import type {
-    FontWeightAbsolute,
     FontStyleProperty,
+    FontWeightAbsolute,
 } from 'csstype'
 
 export type TypographyStyle = {
@@ -11,7 +11,7 @@ export type TypographyStyle = {
 }
 
 export type TypographyVariant =
-    | 'caption'
+    | 'helper'
     | 'regular'
     | 'title'
 

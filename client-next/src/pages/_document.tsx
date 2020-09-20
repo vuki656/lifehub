@@ -47,12 +47,11 @@ class CustomDocument extends Document {
             <Html>
                 <Head>
                     <link
-                        crossOrigin=""
-                        href="https://fonts.googleapis.com/css?family=Roboto|Archivo+Web&display=swap"
+                        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
                         rel="stylesheet"
                     />
                     <meta
-                        content="#373D4D"
+                        content="#febb01"
                         name="theme-color"
                     />
                 </Head>

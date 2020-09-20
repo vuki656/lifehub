@@ -1,7 +1,4 @@
 import React from 'react'
+import { IconCommonProps } from "../../icons/Icon.types"
 
-import { IconColorType } from '../../styles'
-
-export type IconBaseProps = React.SVGAttributes<SVGElement> & {
-    color?: IconColorType,
-}
+export type IconBaseProps = React.SVGAttributes<SVGElement> & IconCommonProps
