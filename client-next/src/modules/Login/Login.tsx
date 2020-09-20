@@ -85,6 +85,7 @@ export const Login: React.FunctionComponent = () => {
         <LoginRoot>
             <form onSubmit={form.handleSubmit}>
                 <LoginPanel spacing="lg">
+                    <img src="/images/text-logo.png" />
                     <TextField
                         autoComplete="email"
                         error={Boolean(errors.email)}

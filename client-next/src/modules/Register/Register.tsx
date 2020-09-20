@@ -86,6 +86,7 @@ export const Register: React.FunctionComponent = () => {
         <RegisterRoot>
             <form onSubmit={form.handleSubmit}>
                 <RegisterPanel spacing="lg">
+                    <img src="/images/text-logo.png" />
                     <TextField
                         autoComplete="email"
                         error={Boolean(errors.email)}
