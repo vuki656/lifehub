@@ -1,10 +1,9 @@
 import * as React from 'react'
 
 import { IconBase } from '../../components/IconBase'
+import { IconCommonProps } from "../Icon.types"
 
-import { AddIconProps } from './AddIcon.types'
-
-export const AddIcon = React.memo<AddIconProps>((props) => {
+export const AddIcon = React.memo<IconCommonProps>((props) => {
     return (
         <IconBase {...props}>
             <path

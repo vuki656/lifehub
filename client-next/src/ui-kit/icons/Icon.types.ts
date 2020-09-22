@@ -4,6 +4,6 @@ import {
 } from "../styles"
 
 export type IconCommonProps = {
-    color: IconColorType,
-    size: IconSizeType
+    color?: IconColorType,
+    size?: IconSizeType
 }

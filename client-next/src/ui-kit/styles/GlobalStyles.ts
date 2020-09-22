@@ -4,6 +4,8 @@ import { createGlobalStyle } from 'styled-components'
 export const GlobalStyles = createGlobalStyle((props) => {
     return {
         '#__next': {
+            display: 'flex',
+            flexDirection: 'row',
             height: '100%',
             width: '100%',
         },

@@ -1,1 +1,5 @@
 export * from "./AddIcon"
+export * from "./WarningIcon"
+export * from "./ExitIcon"
+export * from "./SettingsIcon"
+export * from "./DoneAllIcon"

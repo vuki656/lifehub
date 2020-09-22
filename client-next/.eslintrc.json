@@ -62,7 +62,6 @@
                 "ignoreImports": true
             }
         ],
-        "capitalized-comments": "error",
         "comma-dangle": [
             "error",
             "always-multiline"

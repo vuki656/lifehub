@@ -52,13 +52,13 @@ const getSize = (size: IconSizeType) => {
             }
         case "medium":
             return {
-                height: '16px',
-                width: '16px',
+                height: '24px',
+                width: '24px',
             }
         case "big":
             return {
-                height: '18px',
-                width: '18px',
+                height: '32px',
+                width: '32px',
             }
         default:
             return {

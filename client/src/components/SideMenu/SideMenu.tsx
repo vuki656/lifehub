@@ -41,16 +41,16 @@ export const SideMenu: React.FC = () => {
                     to="/dashboard"
                     className="side-menu__item"
                     activeClassName="side-menu__item--selected"
-                    title="Dashboard"
+                    title="Settings"
                 >
                     <DoneAllIcon />
-                    <p className="side-menu__text">Dashboard</p>
+                    <p className="side-menu__text">Settings</p>
                 </NavLink>
                 <NavLink
                     to="/settings"
                     className="side-menu__item"
                     activeClassName="side-menu__item--selected"
-                    title="Dashboard"
+                    title="Settings"
                 >
                     <SettingsIcon />
                     <p className="side-menu__text">Settings</p>

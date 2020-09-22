@@ -8,7 +8,7 @@ export const IconBase: React.FunctionComponent<IconBaseProps> = (props) => {
         color = 'white',
         children,
         size = "medium",
-        viewBox = "0 0 512 512",
+        viewBox = "0 0 24 24",
         ...other
     } = props
 

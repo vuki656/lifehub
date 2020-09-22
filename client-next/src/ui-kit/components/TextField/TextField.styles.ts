@@ -46,7 +46,7 @@ export const TextFieldHelperWrapper = styled('div')({
     padding: "0 3px",
 })
 
-type TextFieldHelperTextProps = {
+type TextFieldHelperTextProps = React.HTMLAttributes<HTMLParagraphElement> & {
     error: boolean,
 }
 

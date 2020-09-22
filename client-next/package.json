@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.0",
+    "@tippyjs/react": "^4.1.0",
     "dayjs": "^1.8.35",
     "formik": "^2.1.5",
     "graphql": "^15.3.0",
