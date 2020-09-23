@@ -33,21 +33,19 @@ export const TextField: React.FunctionComponent<TextFieldProps> = (props) => {
                 {...other}
                 onChange={onChange}
             />
-            {helperText ?
-                (
-                    <TextFieldHelperWrapper>
-                        {error ? (
-                            <WarningIcon
-                                color="red"
-                                size="small"
-                            />
-                        ) : null}
-                        <TextFieldHelperText error={error}>
-                            {helperText}
-                        </TextFieldHelperText>
-                    </TextFieldHelperWrapper>
-                ) :
-                null}
+            {helperText ? (
+                <TextFieldHelperWrapper>
+                    {error ? (
+                        <WarningIcon
+                            color="red"
+                            size="small"
+                        />
+                    ) : null}
+                    <TextFieldHelperText error={error}>
+                        {helperText}
+                    </TextFieldHelperText>
+                </TextFieldHelperWrapper>
+            ) : null}
         </TextFieldRoot>
     )
 }

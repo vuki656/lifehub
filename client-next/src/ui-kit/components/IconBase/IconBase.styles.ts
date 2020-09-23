@@ -47,8 +47,8 @@ const getSize = (size: IconSizeType) => {
     switch (size) {
         case "small":
             return {
-                height: '12px',
-                width: '12px',
+                height: '16px',
+                width: '16px',
             }
         case "medium":
             return {

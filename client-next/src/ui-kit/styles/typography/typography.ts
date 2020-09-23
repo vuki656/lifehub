@@ -18,9 +18,9 @@ export const typography: Typography = {
         lineHeight: '20px',
     },
     title: {
-        fontSize: '16px',
+        fontSize: '26px',
         fontStyle: 'normal',
-        fontWeight: 'normal',
+        fontWeight: 'bold',
         lineHeight: '23px',
     },
 }

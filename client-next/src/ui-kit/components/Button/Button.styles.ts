@@ -30,9 +30,26 @@ const getButtonStyles = (
 
     if (variant === 'primary') {
         styles = {
+            ...styles,
             backgroundColor: theme.palette.blue,
             border: 'none',
             color: theme.palette.white,
+        }
+    }
+
+    if (variant === "outlined") {
+        styles = {
+            ...styles,
+            "&:hover": {
+                backgroundColor: theme.palette.grey.light,
+                cursor: 'pointer',
+                transition: theme.transitions.create('background-color', 300),
+            },
+            backgroundColor: theme.palette.white,
+            borderColor: theme.palette.grey.main,
+            borderRadius: '4px',
+            borderStyle: 'solid',
+            borderWidth: '1px',
         }
     }
 
@@ -40,7 +57,6 @@ const getButtonStyles = (
 }
 
 export const ButtonRoot = styled('button')<ButtonRootTypes>((props) => ({
-    ...getButtonStyles(props.theme, props.variant),
     ...props.theme.typography.regular,
     '&:focus': { outline: 'none' },
     '&:hover': {
@@ -57,6 +73,7 @@ export const ButtonRoot = styled('button')<ButtonRootTypes>((props) => ({
     width: props.fullWidth ?
         '100%' :
         'fit-content',
+    ...getButtonStyles(props.theme, props.variant),
 }))
 
 export const ButtonIconWrapper = styled('div')<ButtonIconTypes>((props) => ({
