@@ -35,7 +35,7 @@ export const SideMenu: React.FunctionComponent = () => {
                         <DrawerIconButton
                             icon={<DoneAllIcon color="black" />}
                             selected={pathname?.includes('dashboard')}
-                            tooltipText="Settings"
+                            tooltipText="Dashboard"
                         />
                     }
                     href="/dashboard"

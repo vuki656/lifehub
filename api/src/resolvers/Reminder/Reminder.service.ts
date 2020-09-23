@@ -9,6 +9,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions'
 
 import { ContextType } from '../../../global/types/context.type'
 import { ReminderEntity } from '../../entities'
+
 import {
     CreateReminderInput,
     EditReminderInput,
@@ -18,7 +19,6 @@ import {
     DeleteReminderPayload,
     EditReminderPayload,
 } from './mutations/payloads'
-
 import { ReminderType } from './types'
 
 @EntityRepository()
@@ -59,21 +59,9 @@ export class ReminderService {
         input: CreateReminderInput,
         context: ContextType,
     ): Promise<CreateReminderPayload> {
-        const { userId } = context
-
-        const {
-            title,
-            note,
-            startDate,
-            endDate,
-        } = input
-
         const createdReminder = await this.repository.save({
-            endDate,
-            note,
-            startDate,
-            title,
-            user: { id: userId },
+            ...input,
+            user: { id: context.userId },
         })
 
         return new CreateReminderPayload(createdReminder)

@@ -2,7 +2,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-export type Maybe<T> = null;
+export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 
 /** All built-in and custom scalars, mapped to their actual values */
@@ -152,7 +152,7 @@ export type MutationRegisterUserArgs = {
 export type Query = {
   __typename?: 'Query';
   cards: Array<CardType>;
-  reminder: Maybe<ReminderType>;
+  reminder?: Maybe<ReminderType>;
   remindersByDate: Array<ReminderType>;
   verifyUser: UserType;
 };
@@ -180,10 +180,9 @@ export type RegisterUserPayload = {
 
 export type ReminderType = {
   __typename?: 'ReminderType';
-  endDate: Scalars['Date'];
+  dueDate: Scalars['Date'];
   id: Scalars['String'];
   note: Scalars['String'];
-  startDate: Scalars['Date'];
   title: Scalars['String'];
   user: UserType;
 };
@@ -213,9 +212,8 @@ export type CreateCardInput = {
 };
 
 export type CreateReminderInput = {
-  endDate: Scalars['Date'];
-  note: Scalars['String'];
-  startDate: Scalars['Date'];
+  dueDate: Scalars['Date'];
+  note?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
@@ -239,10 +237,9 @@ export type EditCardInput = {
 };
 
 export type EditReminderInput = {
-  endDate: Scalars['Date'];
+  dueDate: Scalars['Date'];
   id: Scalars['String'];
-  note: Scalars['String'];
-  startDate: Scalars['Date'];
+  note?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
@@ -266,6 +263,22 @@ export type RegisterUserInput = {
   username: Scalars['String'];
 };
 
+
+export type CreateReminderMutationVariables = Exact<{
+  input: CreateReminderInput;
+}>;
+
+
+export type CreateReminderMutation = (
+  { __typename?: 'Mutation' }
+  & { createReminder: (
+    { __typename?: 'CreateReminderPayload' }
+    & { reminder: (
+      { __typename?: 'ReminderType' }
+      & Pick<ReminderType, 'id' | 'title' | 'note' | 'dueDate'>
+    ) }
+  ) }
+);
 
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;

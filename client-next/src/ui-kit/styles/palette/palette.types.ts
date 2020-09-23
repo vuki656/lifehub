@@ -1,6 +1,9 @@
 export type Palette = {
     black: string,
-    blue: string,
+    blue: {
+        main: string,
+        dark: string,
+    },
     grey: {
         dark: string,
         darker: string,

@@ -31,9 +31,15 @@ const getButtonStyles = (
     if (variant === 'primary') {
         styles = {
             ...styles,
-            backgroundColor: theme.palette.blue,
+            "&:hover": {
+                backgroundColor: theme.palette.blue.dark,
+                cursor: 'pointer',
+                transition: theme.transitions.create('background-color', 300),
+            },
+            backgroundColor: theme.palette.blue.main,
             border: 'none',
             color: theme.palette.white,
+            fontWeight: 'bold',
         }
     }
 
@@ -59,10 +65,6 @@ const getButtonStyles = (
 export const ButtonRoot = styled('button')<ButtonRootTypes>((props) => ({
     ...props.theme.typography.regular,
     '&:focus': { outline: 'none' },
-    '&:hover': {
-        backgroundColor: props.theme.palette.blue,
-        cursor: 'pointer',
-    },
     alignItems: 'center',
     borderRadius: '4px',
     display: 'flex',

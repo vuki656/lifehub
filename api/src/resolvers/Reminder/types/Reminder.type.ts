@@ -18,10 +18,7 @@ export class ReminderType {
     public note: string
 
     @Field()
-    public startDate: Date
-
-    @Field()
-    public endDate: Date
+    public dueDate: Date
 
     @Field(() => UserType)
     public user: UserType
@@ -30,8 +27,7 @@ export class ReminderType {
         this.id = reminder.id
         this.title = reminder.title
         this.note = reminder.note
-        this.startDate = reminder.startDate
-        this.endDate = reminder.endDate
+        this.dueDate = reminder.dueDate
     }
 
 }

@@ -16,7 +16,5 @@ generates:
             - ""
       - "typescript"
       - "typescript-operations"
-    config:
-      avoidOptionals: true
-      maybeValue: "null"
+
 

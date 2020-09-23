@@ -79,10 +79,9 @@ type RegisterUserPayload {
 }
 
 type ReminderType {
-    endDate: Date!
+    dueDate: Date!
     id: String!
     note: String!
-    startDate: Date!
     title: String!
     user: UserType!
 }
@@ -110,9 +109,8 @@ input CreateCardInput {
 }
 
 input CreateReminderInput {
-    endDate: Date!
-    note: String!
-    startDate: Date!
+    dueDate: Date!
+    note: String
     title: String!
 }
 
@@ -136,10 +134,9 @@ input EditCardInput {
 }
 
 input EditReminderInput {
-    endDate: Date!
+    dueDate: Date!
     id: String!
-    note: String!
-    startDate: Date!
+    note: String
     title: String!
 }
 

@@ -10,6 +10,7 @@ import {
     GlobalStyles,
     ThemeProvider,
 } from "../ui-kit/styles"
+import 'react-datepicker/dist/react-datepicker.css'
 
 const App = (props: AppProps): JSX.Element => {
     const {

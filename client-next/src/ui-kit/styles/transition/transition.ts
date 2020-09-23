@@ -5,6 +5,6 @@ export const transition: Transitions = {
         element: string,
         duration = 600,
     ) => {
-        return `${element} ${Math.round(duration)}ms`
+        return `${element} ${Math.round(duration)}ms ease`
     },
 }

@@ -20,9 +20,11 @@ export const TextArea: React.FunctionComponent<TextAreaProps> = (props) => {
 
     return (
         <TextAreaRoot fullWidth={fullWidth}>
-            <TextAreaLabel>
-                {label}
-            </TextAreaLabel>
+            {label ? (
+                <TextAreaLabel>
+                    {label}
+                </TextAreaLabel>
+            ) : null}
             <TextAreaInput
                 {...other}
             />

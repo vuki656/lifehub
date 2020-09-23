@@ -1,5 +1,4 @@
 import { GraphQLSchema } from 'graphql'
-import { GraphQLDate } from 'graphql-iso-date'
 import { buildSchemaSync } from 'type-graphql'
 import { Container } from 'typedi'
 
@@ -22,10 +21,6 @@ export const getSchema = (): GraphQLSchema => {
             CardResolver,
             TaskResolver,
         ],
-        scalarsMap: [{
-            scalar: GraphQLDate,
-            type: Date,
-        }],
         validate: false,
     })
 }

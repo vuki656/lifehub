@@ -26,9 +26,11 @@ export const TextField: React.FunctionComponent<TextFieldProps> = (props) => {
 
     return (
         <TextFieldRoot fullWidth={fullWidth}>
-            <TextFieldLabel>
-                {label}
-            </TextFieldLabel>
+            {label ? (
+                <TextFieldLabel>
+                    {label}
+                </TextFieldLabel>
+            ) : null}
             <TextFieldInput
                 {...other}
                 onChange={onChange}

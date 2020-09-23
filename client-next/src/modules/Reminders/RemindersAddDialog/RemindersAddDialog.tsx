@@ -1,7 +1,15 @@
+import { useMutation } from "@apollo/client"
+
 import { useFormik } from "formik"
 import * as React from 'react'
 import { useToggle } from "react-use"
+import { CREATE_REMINDER } from "../../../graphql/mutations"
+import {
+    CreateReminderMutation,
+    CreateReminderMutationVariables,
+} from "../../../graphql/types"
 import { Button } from "../../../ui-kit/components/Button"
+import { DatePicker } from "../../../ui-kit/components/DatePicker"
 import { Dialog } from "../../../ui-kit/components/Dialog"
 import { DialogActions } from "../../../ui-kit/components/DialogActions"
 import { TextArea } from "../../../ui-kit/components/TextArea"
@@ -9,18 +17,40 @@ import { TextField } from "../../../ui-kit/components/TextField"
 import { ReminderAddDialogFormType } from "./ReminderAddDialog.types"
 
 export const RemindersAddDialog: React.FunctionComponent = () => {
-    const [isDialogOpen, toggleDialog] = useToggle(false)
+    const [
+        isDialogOpen,
+        toggleDialog,
+    ] = useToggle(false)
 
+    const [
+        createReminderMutation,
+        { loading },
+    ] = useMutation<CreateReminderMutation, CreateReminderMutationVariables>(CREATE_REMINDER)
+
+    // TODO: HANDLE CACHE
+    // TODO: HANDLE ERRORS => ERROR NOTIF
     const form = useFormik<ReminderAddDialogFormType>({
         initialValues: {
-            description: '',
+            dueDate: '',
+            note: '',
             title: '',
         },
-        onSubmit: (formValues) => {
-            console.log(formValues)
+        onSubmit: async(formValues) => {
+            await createReminderMutation({
+                variables: {
+                    input: {
+                        dueDate: formValues.dueDate,
+                        note: formValues.note,
+                        title: formValues.title,
+                    },
+                },
+            })
+                .then(() => {
+                    toggleDialog()
+                    form.resetForm()
+                })
         },
     })
-
 
     const handleCancel = () => {
         toggleDialog()
@@ -50,25 +80,33 @@ export const RemindersAddDialog: React.FunctionComponent = () => {
                     />
                     <TextArea
                         fullWidth
-                        label="Description"
-                        name="description"
+                        label="Note"
+                        name="note"
                         onChange={form.handleChange}
-                        required
                         rows={8}
-                        value={form.values.description}
+                        value={form.values.note}
+                    />
+                    <DatePicker
+                        fullWidth
+                        label="Due Date"
+                        minDate={new Date()}
+                        onChange={(selectedDate) => form.setFieldValue("dueDate", selectedDate)}
+                        required
+                        selected={form.values.dueDate}
                     />
                     <DialogActions>
                         <Button
                             onClick={handleCancel}
                             variant="outlined"
                         >
-                        Cancel
+                            Cancel
                         </Button>
                         <Button
+                            loading={loading}
                             type="submit"
                             variant="primary"
                         >
-                        Save
+                            Save
                         </Button>
                     </DialogActions>
                 </form>
