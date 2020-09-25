@@ -38,7 +38,7 @@ export const DatePickerRoot = styled("div")<DatePickerRootProps>((props) => {
         },
         ".react-datepicker__day-names": { padding: `${props.theme.spacing.sm} 0` },
         ".react-datepicker__header": {
-            backgroundColor: props.theme.palette.grey.light,
+            backgroundColor: props.theme.palette.grey.light450,
             border: "none",
             paddingBottom: 0,
             paddingLeft: props.theme.spacing.xs,
@@ -46,8 +46,8 @@ export const DatePickerRoot = styled("div")<DatePickerRootProps>((props) => {
             paddingTop: props.theme.spacing.def,
         },
         ".react-datepicker__input-container input": {
-            '&:focus': { boxShadow: `0 0 0 4px ${props.theme.palette.grey.dark}` },
-            borderColor: props.theme.palette.grey.main,
+            '&:focus': { boxShadow: `0 0 0 4px ${props.theme.palette.grey.light350}` },
+            borderColor: props.theme.palette.grey.light350,
             borderRadius: '4px',
             borderStyle: 'solid',
             borderWidth: '1px',

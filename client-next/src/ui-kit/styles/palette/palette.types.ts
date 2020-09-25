@@ -16,6 +16,7 @@ export type Palette = {
         light300: string,
         light350: string,
         light400: string,
+        light450: string,
         light500: string,
     },
     red: string,

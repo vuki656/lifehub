@@ -18,7 +18,7 @@ export const typography: Typography = {
         lineHeight: '20px',
     },
     subtitle: {
-        fontSize: '16px',
+        fontSize: '15px',
         fontStyle: 'normal',
         fontWeight: 'bold',
         lineHeight: '22px',

@@ -1,7 +1,7 @@
 import React from 'react'
-import { WarningIcon } from "../../icons/WarningIcon"
 
 import {
+    TextFieldErrorIcon,
     TextFieldHelperText,
     TextFieldHelperWrapper,
     TextFieldInput,
@@ -38,10 +38,7 @@ export const TextField: React.FunctionComponent<TextFieldProps> = (props) => {
             {helperText ? (
                 <TextFieldHelperWrapper>
                     {error ? (
-                        <WarningIcon
-                            color="red"
-                            size="small"
-                        />
+                        <TextFieldErrorIcon size="small" />
                     ) : null}
                     <TextFieldHelperText error={error}>
                         {helperText}

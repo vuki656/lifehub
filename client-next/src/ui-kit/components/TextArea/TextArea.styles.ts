@@ -1,5 +1,6 @@
 import React from "react"
 import styled, { CSSObject } from "styled-components"
+import { WarningIcon } from "../../icons/WarningIcon"
 
 type TextAreaRootProps =
     React.HTMLAttributes<HTMLDivElement>
@@ -21,8 +22,8 @@ export const TextAreaRoot = styled('div')<TextAreaRootProps>((props) => {
 })
 
 export const TextAreaInput = styled('textarea')((props) => ({
-    '&:focus': { boxShadow: `0 0 0 4px ${props.theme.palette.grey.light}` },
-    borderColor: props.theme.palette.grey.main,
+    '&:focus': { boxShadow: `0 0 0 4px ${props.theme.palette.grey.light350}` },
+    borderColor: props.theme.palette.grey.light350,
     borderRadius: '4px',
     borderStyle: 'solid',
     borderWidth: '1px',
@@ -69,3 +70,4 @@ export const TextAreaHelperText = styled('p')<TextAreaHelperTextProps>((props) =
     return styles
 })
 
+export const TextAreaErrorIcon = styled(WarningIcon)((props) => ({ fill: props.theme.palette.red }))

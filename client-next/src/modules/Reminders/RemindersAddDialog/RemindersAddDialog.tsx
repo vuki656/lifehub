@@ -14,9 +14,14 @@ import { Dialog } from "../../../ui-kit/components/Dialog"
 import { DialogActions } from "../../../ui-kit/components/DialogActions"
 import { TextArea } from "../../../ui-kit/components/TextArea"
 import { TextField } from "../../../ui-kit/components/TextField"
-import { ReminderAddDialogFormType } from "./ReminderAddDialog.types"
+import {
+    ReminderAddDialogFormType,
+    ReminderAddDialogProps,
+} from "./ReminderAddDialog.types"
 
-export const RemindersAddDialog: React.FunctionComponent = () => {
+export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps> = (props) => {
+    const { onSubmit } = props
+
     const [
         isDialogOpen,
         toggleDialog,
@@ -27,7 +32,6 @@ export const RemindersAddDialog: React.FunctionComponent = () => {
         { loading },
     ] = useMutation<CreateReminderMutation, CreateReminderMutationVariables>(CREATE_REMINDER)
 
-    // TODO: HANDLE CACHE
     // TODO: HANDLE ERRORS => ERROR NOTIF
     const form = useFormik<ReminderAddDialogFormType>({
         initialValues: {
@@ -45,10 +49,11 @@ export const RemindersAddDialog: React.FunctionComponent = () => {
                     },
                 },
             })
-                .then(() => {
-                    toggleDialog()
-                    form.resetForm()
-                })
+            .then(() => {
+                onSubmit()
+                toggleDialog()
+                form.resetForm()
+            })
         },
     })
 

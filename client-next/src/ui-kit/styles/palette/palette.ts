@@ -20,6 +20,7 @@ export const palette: Palette = {
         light300: "#cccccc",
         light350: "#d9d9d9",
         light400: "#e6e6e6",
+        light450: "#ededed",
         light500: "#f2f2f2",
     },
     red: '#cd3d64',

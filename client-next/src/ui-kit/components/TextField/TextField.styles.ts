@@ -1,5 +1,6 @@
 import React from "react"
 import styled, { CSSObject } from 'styled-components'
+import { WarningIcon } from "../../icons/WarningIcon"
 
 type TextFieldRootProps =
     React.HTMLAttributes<HTMLDivElement>
@@ -67,3 +68,5 @@ export const TextFieldHelperText = styled('p')<TextFieldHelperTextProps>((props)
 
     return styles
 })
+
+export const TextFieldErrorIcon = styled(WarningIcon)((props) => ({ fill: props.theme.palette.red }))

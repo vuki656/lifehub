@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { WarningIcon } from "../../icons/WarningIcon"
 import {
+    TextAreaErrorIcon,
     TextAreaHelperText,
     TextAreaHelperWrapper,
     TextAreaInput,
@@ -30,12 +30,10 @@ export const TextArea: React.FunctionComponent<TextAreaProps> = (props) => {
             />
             {helperText ? (
                 <TextAreaHelperWrapper>
-                    {error ? (
-                        <WarningIcon
-                            color="red"
-                            size="small"
-                        />
-                    ) : null}
+                    {error
+                        ? <TextAreaErrorIcon size="small" />
+                        : null
+                    }
                     <TextAreaHelperText error={error}>
                         {helperText}
                     </TextAreaHelperText>
