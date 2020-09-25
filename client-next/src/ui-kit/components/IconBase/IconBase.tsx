@@ -5,7 +5,6 @@ import { IconBaseProps } from './IconBase.types'
 
 export const IconBase: React.FunctionComponent<IconBaseProps> = (props) => {
     const {
-        color = 'white',
         children,
         size = "medium",
         viewBox = "0 0 24 24",
@@ -14,7 +13,6 @@ export const IconBase: React.FunctionComponent<IconBaseProps> = (props) => {
 
     return (
         <SvgRoot
-            fill={color}
             size={size}
             viewBox={viewBox}
             {...other}

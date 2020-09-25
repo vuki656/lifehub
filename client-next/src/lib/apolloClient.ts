@@ -26,7 +26,6 @@ const createApolloClient = () => {
         uri: publicRuntimeConfig.API_URL,
     })
 
-
     return new ApolloClient({
         cache: new InMemoryCache(),
         link: httpLink,

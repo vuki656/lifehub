@@ -69,7 +69,7 @@ type Mutation {
 type Query {
     cards: [CardType!]!
     reminder(id: String!): ReminderType
-    remindersByDate(date: Date!): [ReminderType!]!
+    reminders(args: RemindersArgs!): [ReminderType!]!
     verifyUser(token: String!): UserType!
 }
 
@@ -98,6 +98,12 @@ type UserType {
     email: String!
     id: String!
     username: String!
+}
+
+enum RemindersTimeSpanEnum {
+    ALL
+    FUTURE
+    PAST
 }
 
 input CardTasksArgs {
@@ -158,6 +164,10 @@ input RegisterUserInput {
     password: String!
     passwordConfirmation: String!
     username: String!
+}
+
+input RemindersArgs {
+    timeSpan: RemindersTimeSpanEnum!
 }
 
 

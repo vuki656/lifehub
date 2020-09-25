@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { Palette } from "./palette.types"
 
 export const palette: Palette = {
@@ -7,10 +9,18 @@ export const palette: Palette = {
         main: '#0083ff',
     },
     grey: {
-        dark: "#0000001a",
-        darker: "#777777",
-        light: "#f6f6f6",
-        main: '#0000001a',
+        dark500: "#0d0d0d",
+        dark400: "#191919",
+        dark300: "#333333",
+        dark200: "#4d4d4d",
+        dark100: "#666666",
+        main: '#808080',
+        light100: "#999999",
+        light200: "#b3b3b3",
+        light300: "#cccccc",
+        light350: "#d9d9d9",
+        light400: "#e6e6e6",
+        light500: "#f2f2f2",
     },
     red: '#cd3d64',
     white: '#FFFFFF',

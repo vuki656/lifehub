@@ -11,6 +11,10 @@ import { ContextType } from '../../../global/types/context.type'
 import { ReminderEntity } from '../../entities'
 
 import {
+    RemindersArgs,
+    RemindersTimeSpanEnum,
+} from './args'
+import {
     CreateReminderInput,
     EditReminderInput,
 } from './mutations/input'
@@ -38,19 +42,23 @@ export class ReminderService {
         return new ReminderType(reminder)
     }
 
-    public async findByDate(
-        date: Date,
+    public async findAllByTimeSpan(
+        args: RemindersArgs,
         context: ContextType,
     ): Promise<ReminderType[]> {
         const { userId } = context
 
+        const timeSpanConditions = this.getTimeSpanConditions(args.timeSpan)
+        console.log('-> timeSpanConditions', timeSpanConditions)
+
         const reminders = await this.repository.find({
             where: {
-                endDate: MoreThanOrEqual(date),
-                startDate: LessThanOrEqual(date),
+                ...timeSpanConditions,
                 user: { id: userId },
             },
         })
+
+        console.log(reminders)
 
         return reminders?.map((reminder) => new ReminderType(reminder))
     }
@@ -77,6 +85,17 @@ export class ReminderService {
         await this.repository.delete({ id })
 
         return new DeleteReminderPayload(id)
+    }
+
+    public getTimeSpanConditions(timeSpan: RemindersTimeSpanEnum) {
+        switch (timeSpan) {
+            case 'all':
+                return {}
+            case 'future':
+                return { dueDate: MoreThanOrEqual(new Date()) }
+            case 'past':
+                return { dueDate: LessThanOrEqual(new Date()) }
+        }
     }
 
 }

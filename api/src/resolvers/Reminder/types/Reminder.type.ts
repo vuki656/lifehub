@@ -1,3 +1,4 @@
+import { GraphQLDate } from 'graphql-iso-date'
 import {
     Field,
     ObjectType,
@@ -17,7 +18,7 @@ export class ReminderType {
     @Field()
     public note: string
 
-    @Field()
+    @Field(() => GraphQLDate)
     public dueDate: Date
 
     @Field(() => UserType)

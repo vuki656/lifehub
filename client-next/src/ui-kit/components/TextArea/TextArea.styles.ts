@@ -21,7 +21,7 @@ export const TextAreaRoot = styled('div')<TextAreaRootProps>((props) => {
 })
 
 export const TextAreaInput = styled('textarea')((props) => ({
-    '&:focus': { boxShadow: `0 0 0 4px ${props.theme.palette.grey.dark}` },
+    '&:focus': { boxShadow: `0 0 0 4px ${props.theme.palette.grey.light}` },
     borderColor: props.theme.palette.grey.main,
     borderRadius: '4px',
     borderStyle: 'solid',
@@ -38,7 +38,6 @@ export const TextAreaLabel = styled('p')((props) => ({
     fontWeight: 'bold',
     margin: '0 0 5px 0',
 }))
-
 
 export const TextAreaHelperWrapper = styled('div')({
     alignItems: 'center',

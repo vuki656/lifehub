@@ -1,14 +1,12 @@
 import { useRouter } from "next/router"
 import * as React from 'react'
 import { DrawerIconButton } from "../../ui-kit/components"
-import {
-    DoneAllIcon,
-    ExitIcon,
-    SettingsIcon,
-} from "../../ui-kit/icons"
 import { SideMenuButton } from "../SideMenuButton"
 import {
+    DashboardIcon,
     IconLogo,
+    LogoutIcon,
+    SettingsIcon,
     SideMenuRoot,
     SideMenuTopActions,
 } from "./SideMenu.styles"
@@ -33,7 +31,7 @@ export const SideMenu: React.FunctionComponent = () => {
                 <SideMenuButton
                     component={
                         <DrawerIconButton
-                            icon={<DoneAllIcon color="black" />}
+                            icon={<DashboardIcon />}
                             selected={pathname?.includes('dashboard')}
                             tooltipText="Dashboard"
                         />
@@ -44,7 +42,7 @@ export const SideMenu: React.FunctionComponent = () => {
                 <SideMenuButton
                     component={
                         <DrawerIconButton
-                            icon={<SettingsIcon color="black" />}
+                            icon={<SettingsIcon />}
                             selected={pathname?.includes('settings')}
                             tooltipText="Setting"
                         />
@@ -54,7 +52,7 @@ export const SideMenu: React.FunctionComponent = () => {
                 </SideMenuButton>
             </SideMenuTopActions>
             <DrawerIconButton
-                icon={<ExitIcon color="black" />}
+                icon={<LogoutIcon />}
                 onClick={handleLogout}
                 tooltipText="Logout"
             />

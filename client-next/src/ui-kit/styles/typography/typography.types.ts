@@ -14,6 +14,7 @@ export type TypographyVariant =
     | 'helper'
     | 'regular'
     | 'title'
+    | 'subtitle'
 
 export type Typography =
     {

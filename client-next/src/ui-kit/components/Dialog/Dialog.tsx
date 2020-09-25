@@ -16,7 +16,6 @@ export const Dialog: React.FunctionComponent<DialogProps> = (props) => {
         titleAction,
     } = props
 
-
     return (
         <>
             {isOpen ? (

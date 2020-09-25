@@ -6,11 +6,10 @@ type DrawerRootProps = React.HTMLAttributes<HTMLDivElement> & {
     variant: DrawerVariantType
 }
 
-
 export const DrawerRoot = styled('div')<DrawerRootProps>((props) => {
     let styles: CSSObject = {
         backgroundColor: props.theme.palette.white,
-        boxShadow: `0 2px 10px 0 ${props.theme.palette.grey.dark}`,
+        boxShadow: `0 2px 10px 0 ${props.theme.palette.grey.light300}`,
         display: 'flex',
         flexDirection: "column",
         height: '100%',

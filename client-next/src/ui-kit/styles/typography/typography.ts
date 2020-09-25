@@ -17,6 +17,12 @@ export const typography: Typography = {
         fontWeight: 'normal',
         lineHeight: '20px',
     },
+    subtitle: {
+        fontSize: '16px',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        lineHeight: '22px',
+    },
     title: {
         fontSize: '26px',
         fontStyle: 'normal',

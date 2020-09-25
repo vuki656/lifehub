@@ -47,25 +47,25 @@ export const Login: React.FunctionComponent = () => {
                 },
             },
         })
-            .then((response) => {
-                const token = response?.data?.logInUser.token ?? ''
-                const userId = response?.data?.logInUser.userId ?? ''
+        .then((response) => {
+            const token = response?.data?.logInUser.token ?? ''
+            const userId = response?.data?.logInUser.userId ?? ''
 
-                window.localStorage.setItem(
-                    'token',
-                    token
-                )
+            window.localStorage.setItem(
+                'token',
+                token
+            )
 
-                window.localStorage.setItem(
-                    'userId',
-                    userId
-                )
+            window.localStorage.setItem(
+                'userId',
+                userId
+            )
 
-                push('/dashboard')
-            })
-            .catch((error: ApolloError) => {
-                setErrors({ ...error.graphQLErrors[0].extensions?.exception })
-            })
+            push('/dashboard')
+        })
+        .catch((error: ApolloError) => {
+            setErrors({ ...error.graphQLErrors[0].extensions?.exception })
+        })
     }, [
         logInUserMutation,
         push,

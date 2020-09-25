@@ -48,25 +48,25 @@ export const Register: React.FunctionComponent = () => {
                 },
             },
         })
-            .then((response) => {
-                const token = response?.data?.registerUser.token ?? ''
-                const userId = response?.data?.registerUser.userId ?? ''
+        .then((response) => {
+            const token = response?.data?.registerUser.token ?? ''
+            const userId = response?.data?.registerUser.userId ?? ''
 
-                window.localStorage.setItem(
-                    'token',
-                    token
-                )
+            window.localStorage.setItem(
+                'token',
+                token
+            )
 
-                window.localStorage.setItem(
-                    'userId',
-                    userId
-                )
+            window.localStorage.setItem(
+                'userId',
+                userId
+            )
 
-                push('/dashboard')
-            })
-            .catch((error: ApolloError) => {
-                setErrors({ ...error.graphQLErrors[0].extensions?.exception })
-            })
+            push('/dashboard')
+        })
+        .catch((error: ApolloError) => {
+            setErrors({ ...error.graphQLErrors[0].extensions?.exception })
+        })
     }, [push, registerMutation])
 
     const form = useFormik<RegisterFormType>({
@@ -80,7 +80,6 @@ export const Register: React.FunctionComponent = () => {
             handleSubmit(formValues)
         },
     })
-
 
     return (
         <RegisterRoot>

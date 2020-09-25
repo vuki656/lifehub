@@ -27,8 +27,8 @@ export const TextFieldLabel = styled('p')((props) => ({
 }))
 
 export const TextFieldInput = styled('input')((props) => ({
-    '&:focus': { boxShadow: `0 0 0 4px ${props.theme.palette.grey.dark}` },
-    borderColor: props.theme.palette.grey.main,
+    '&:focus': { boxShadow: `0 0 0 4px ${props.theme.palette.grey.light350}` },
+    borderColor: props.theme.palette.grey.light350,
     borderRadius: '4px',
     borderStyle: 'solid',
     borderWidth: '1px',

@@ -65,6 +65,12 @@ export const Reminders: React.FC = () => {
                             ))
                         })()}
                         {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />}
+                        <ReminderCard reminder={{
+                            description: '123123123',
+                            endDate: new Date(),
+                            startDate: new Date(),
+                            title: '123',
+                        }} />
                     </>
                 )
             }

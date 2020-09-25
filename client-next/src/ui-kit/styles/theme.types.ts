@@ -18,8 +18,6 @@ export type SpacingType = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
 
 export type VariantType = 'primary' | 'outlined'
 
-export type IconColorType = "white" | "black" | "red" | "yellow"
-
 export type IconSizeType = "small" | "medium" | "big"
 
 export type DrawerVariantType = "mini"

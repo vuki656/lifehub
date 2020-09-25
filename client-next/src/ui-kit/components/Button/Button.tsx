@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-
 import {
     ButtonIconWrapper,
     ButtonRoot,
@@ -15,6 +14,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
         loading = false,
         disabled = false,
         children,
+        type = "button",
         startIcon,
         endIcon,
         ...other
@@ -24,6 +24,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
         <ButtonRoot
             disabled={loading || disabled}
             fullWidth={fullWidth}
+            type={type}
             variant={variant}
             {...other}
         >

@@ -18,13 +18,14 @@ export const RegisterPanel = styled(Panel)((props) => ({
 }))
 
 export const RegisterFooterText = styled('div')((props) => ({
-    color: props.theme.palette.grey.darker,
+    color: props.theme.palette.grey.light100,
+    fontSize: '14px',
     margin: 0,
     textAlign: 'center',
 }))
 
 export const RegisterFooterLink = styled('a')((props) => ({
-    color: props.theme.palette.black,
+    color: props.theme.palette.grey.dark300,
     cursor: "pointer",
     fontWeight: 'bold',
 }))

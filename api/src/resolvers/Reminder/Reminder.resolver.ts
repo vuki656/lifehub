@@ -10,6 +10,7 @@ import {
 import { ContextType } from '../../../global/types/context.type'
 
 import { ReminderService } from './Reminder.service'
+import { RemindersArgs } from './args'
 import {
     CreateReminderInput,
     EditReminderInput,
@@ -37,13 +38,13 @@ export class ReminderResolver {
         return this.service.findOne(id)
     }
 
-    @Authorized()
+    // @Authorized()
     @Query(() => [ReminderType])
-    public async remindersByDate(
-        @Arg('date') date: Date,
+    public async reminders(
+        @Arg('args') args: RemindersArgs,
         @Ctx() context: ContextType,
     ): Promise<ReminderType[]> {
-        return this.service.findByDate(date, context)
+        return this.service.findAllByTimeSpan(args, context)
     }
 
     @Authorized()

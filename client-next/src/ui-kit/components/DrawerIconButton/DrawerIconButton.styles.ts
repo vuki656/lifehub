@@ -8,13 +8,18 @@ type DrawerIconButtonRootProps =
 }
 
 export const DrawerIconButtonRoot = styled('div')<DrawerIconButtonRootProps>((props) => ({
+    "& svg": {
+        fill: props.selected
+            ? props.theme.palette.grey.dark300
+            : "",
+    },
     "&:hover": {
         backgroundColor: props.theme.palette.grey.dark,
         transition: props.theme.transitions.create('background-color', 300),
     },
     alignItems: 'center',
     backgroundColor: props.selected ?
-        props.theme.palette.grey.dark :
+        props.theme.palette.grey.light400 :
         "",
     cursor: 'pointer',
     display: 'flex',

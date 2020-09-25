@@ -1,4 +1,5 @@
 import { GraphQLSchema } from 'graphql'
+import { GraphQLDate } from 'graphql-iso-date'
 import { buildSchemaSync } from 'type-graphql'
 import { Container } from 'typedi'
 

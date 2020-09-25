@@ -10,9 +10,10 @@ export const GlobalStyles = createGlobalStyle((props) => {
             width: '100%',
         },
         '*': { boxSizing: "border-box" },
+        '::-webkit-scrollbar': { width: 0 },
         a: { textDecoration: 'none' },
         body: {
-            backgroundColor: props.theme.palette.grey.light,
+            backgroundColor: props.theme.palette.grey.light500,
             fontFamily: props.theme.typography.fontFamily.primary,
             margin: '0px',
         },

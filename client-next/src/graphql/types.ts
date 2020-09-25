@@ -12,8 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  Date: any;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: string;
 };
 
 export type CardType = {
@@ -153,7 +153,7 @@ export type Query = {
   __typename?: 'Query';
   cards: Array<CardType>;
   reminder?: Maybe<ReminderType>;
-  remindersByDate: Array<ReminderType>;
+  reminders: Array<ReminderType>;
   verifyUser: UserType;
 };
 
@@ -163,8 +163,8 @@ export type QueryReminderArgs = {
 };
 
 
-export type QueryRemindersByDateArgs = {
-  date: Scalars['Date'];
+export type QueryRemindersArgs = {
+  args: RemindersArgs;
 };
 
 
@@ -180,7 +180,7 @@ export type RegisterUserPayload = {
 
 export type ReminderType = {
   __typename?: 'ReminderType';
-  dueDate: Scalars['Date'];
+  dueDate: Scalars['DateTime'];
   id: Scalars['String'];
   note: Scalars['String'];
   title: Scalars['String'];
@@ -189,7 +189,7 @@ export type ReminderType = {
 
 export type TaskType = {
   __typename?: 'TaskType';
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   id: Scalars['String'];
   isCompleted: Scalars['Boolean'];
   note: Scalars['String'];
@@ -203,8 +203,14 @@ export type UserType = {
   username: Scalars['String'];
 };
 
+export enum RemindersTimeSpanEnum {
+  All = 'ALL',
+  Future = 'FUTURE',
+  Past = 'PAST'
+}
+
 export type CardTasksArgs = {
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
 };
 
 export type CreateCardInput = {
@@ -212,14 +218,14 @@ export type CreateCardInput = {
 };
 
 export type CreateReminderInput = {
-  dueDate: Scalars['Date'];
+  dueDate: Scalars['DateTime'];
   note?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
 export type CreateTaskInput = {
   cardId: Scalars['String'];
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   title: Scalars['String'];
 };
 
@@ -237,14 +243,14 @@ export type EditCardInput = {
 };
 
 export type EditReminderInput = {
-  dueDate: Scalars['Date'];
+  dueDate: Scalars['DateTime'];
   id: Scalars['String'];
   note?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
 export type EditTaskInput = {
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   id: Scalars['String'];
   isCompleted: Scalars['Boolean'];
   note: Scalars['String'];
@@ -261,6 +267,10 @@ export type RegisterUserInput = {
   password: Scalars['String'];
   passwordConfirmation: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type RemindersArgs = {
+  timeSpan: RemindersTimeSpanEnum;
 };
 
 
@@ -304,6 +314,19 @@ export type LogInUserMutation = (
     { __typename?: 'LogInUserPayload' }
     & Pick<LogInUserPayload, 'token' | 'userId'>
   ) }
+);
+
+export type RemindersQueryVariables = Exact<{
+  args: RemindersArgs;
+}>;
+
+
+export type RemindersQuery = (
+  { __typename?: 'Query' }
+  & { reminders: Array<(
+    { __typename?: 'ReminderType' }
+    & Pick<ReminderType, 'id' | 'title' | 'note' | 'dueDate'>
+  )> }
 );
 
 export type VerifyUserQueryVariables = Exact<{

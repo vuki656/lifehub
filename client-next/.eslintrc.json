@@ -75,7 +75,8 @@
             "error",
             4,
             {
-                "SwitchCase": 1
+                "SwitchCase": 1,
+                "MemberExpression": 0
             }
         ],
         "jsx-quotes": "error",
@@ -96,7 +97,12 @@
             }
         ],
         "no-lonely-if": "error",
-        "no-multiple-empty-lines": "error",
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 1
+            }
+        ],
         "no-negated-condition": "warn",
         "no-trailing-spaces": "error",
         "no-unneeded-ternary": "error",
@@ -116,7 +122,8 @@
         "padded-blocks": [
             "error",
             {
-                "classes": "always"
+                "classes": "always",
+                "blocks": "never"
             }
         ],
         "padding-line-between-statements": [

@@ -18,15 +18,15 @@ export const LoginPanel = styled(Panel)((props) => ({
     width: "380px",
 }))
 
-
 export const LoginFooterText = styled('div')((props) => ({
-    color: props.theme.palette.grey.darker,
+    color: props.theme.palette.grey.light100,
+    fontSize: '14px',
     margin: 0,
     textAlign: 'center',
 }))
 
 export const LoginFooterLink = styled('a')((props) => ({
-    color: props.theme.palette.black,
+    color: props.theme.palette.grey.dark300,
     cursor: "pointer",
     fontWeight: 'bold',
 }))
