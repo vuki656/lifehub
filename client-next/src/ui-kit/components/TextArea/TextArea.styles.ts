@@ -1,5 +1,6 @@
 import React from "react"
 import styled, { CSSObject } from "styled-components"
+
 import { WarningIcon } from "../../icons/WarningIcon"
 
 type TextAreaRootProps =

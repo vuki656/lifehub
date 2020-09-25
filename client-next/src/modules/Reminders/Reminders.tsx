@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client"
 import * as React from 'react'
+
 import { REMINDERS } from "../../graphql/queries/Reminder"
 import {
     RemindersQuery,
@@ -7,6 +8,7 @@ import {
     RemindersTimeSpanEnum,
 } from "../../graphql/types"
 import { Divider } from "../../ui-kit/components/Divider"
+
 import {
     RemindersContent,
     RemindersHeader,

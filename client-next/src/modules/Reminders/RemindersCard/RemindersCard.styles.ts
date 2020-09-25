@@ -1,4 +1,5 @@
 import styled from "styled-components"
+
 import { AlarmOnIcon } from "../../../ui-kit/icons/AlarmOnIcon"
 import { EventIcon } from "../../../ui-kit/icons/EventIcon"
 

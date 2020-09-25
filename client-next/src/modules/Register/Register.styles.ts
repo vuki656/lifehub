@@ -1,4 +1,5 @@
 import styled from "styled-components"
+
 import { Panel } from "../../ui-kit/components/Panel"
 
 export const RegisterRoot = styled('div')({

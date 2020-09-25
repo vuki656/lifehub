@@ -1,4 +1,5 @@
 import styled from "styled-components"
+
 import { Drawer } from "../../ui-kit/components/Drawer"
 import { DoneAllIcon } from "../../ui-kit/icons/DoneAllIcon"
 import { ExitIcon } from "../../ui-kit/icons/ExitIcon"

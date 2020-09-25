@@ -2,6 +2,7 @@ import { ApolloProvider } from "@apollo/client"
 import { AppProps } from "next/app"
 import { useRouter } from "next/router"
 import React from "react"
+
 import 'tippy.js/dist/tippy.css' // optional
 import { SideMenu } from "../components/SideMenu"
 import { useApollo } from '../lib/apolloClient'

@@ -1,8 +1,8 @@
 import { useMutation } from "@apollo/client"
-
 import { useFormik } from "formik"
 import * as React from 'react'
 import { useToggle } from "react-use"
+
 import { CREATE_REMINDER } from "../../../graphql/mutations"
 import {
     CreateReminderMutation,
@@ -14,6 +14,7 @@ import { Dialog } from "../../../ui-kit/components/Dialog"
 import { DialogActions } from "../../../ui-kit/components/DialogActions"
 import { TextArea } from "../../../ui-kit/components/TextArea"
 import { TextField } from "../../../ui-kit/components/TextField"
+
 import {
     ReminderAddDialogFormType,
     ReminderAddDialogProps,

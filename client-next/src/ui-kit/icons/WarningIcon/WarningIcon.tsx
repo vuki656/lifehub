@@ -1,4 +1,5 @@
 import * as React from "react"
+
 import { IconBase } from "../../components/IconBase"
 import { IconCommonProps } from "../Icon.types"
 

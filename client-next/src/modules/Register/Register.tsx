@@ -6,6 +6,7 @@ import { useFormik } from "formik"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import * as React from 'react'
+
 import { REGISTER_USER } from "../../graphql/mutations"
 import {
     RegisterUserMutation,
@@ -16,6 +17,7 @@ import {
     Divider,
     TextField,
 } from "../../ui-kit/components/"
+
 import {
     RegisterFooterLink,
     RegisterFooterText,
