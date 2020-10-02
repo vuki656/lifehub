@@ -49,7 +49,6 @@ export class ReminderService {
         const { userId } = context
 
         const timeSpanConditions = this.getTimeSpanConditions(args.timeSpan)
-        console.log('-> timeSpanConditions', timeSpanConditions)
 
         const reminders = await this.repository.find({
             where: {
@@ -57,8 +56,6 @@ export class ReminderService {
                 user: { id: userId },
             },
         })
-
-        console.log(reminders)
 
         return reminders?.map((reminder) => new ReminderType(reminder))
     }

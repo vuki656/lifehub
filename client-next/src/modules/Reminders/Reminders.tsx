@@ -1,13 +1,14 @@
 import { useQuery } from "@apollo/client"
 import * as React from 'react'
 
-import { REMINDERS } from "../../graphql/queries/Reminder"
+import { REMINDERS } from "../../graphql/queries"
 import {
     RemindersQuery,
     RemindersQueryVariables,
     RemindersTimeSpanEnum,
 } from "../../graphql/types"
-import { Divider } from "../../ui-kit/components/Divider"
+import { NotificationProvider } from "../../ui-kit/components/NotificationProvider"
+import { useNotifications } from "../../ui-kit/components/NotificationProvider/useNotifications"
 
 import {
     RemindersContent,
@@ -19,12 +20,22 @@ import { RemindersAddDialog } from "./RemindersAddDialog"
 import { RemindersCard } from "./RemindersCard"
 
 export const Reminders: React.FunctionComponent = () => {
+    const { display } = useNotifications()
+
     const {
         data: remindersResult,
         refetch,
     } = useQuery<RemindersQuery, RemindersQueryVariables>(
         REMINDERS,
-        { variables: { args: { timeSpan: RemindersTimeSpanEnum.All } } }
+        {
+            onError: () => {
+                display(
+                    "Unable to fetch reminders.",
+                    "error"
+                )
+            },
+            variables: { args: { timeSpan: RemindersTimeSpanEnum.All } },
+        },
     )
 
     const handleSubmit = () => {
@@ -33,13 +44,13 @@ export const Reminders: React.FunctionComponent = () => {
 
     return (
         <RemindersRoot>
+            <NotificationProvider />
             <RemindersHeader>
                 <RemindersTitle>
                     Reminders
                 </RemindersTitle>
                 <RemindersAddDialog onSubmit={handleSubmit} />
             </RemindersHeader>
-            <Divider />
             <RemindersContent>
                 {remindersResult?.reminders.map((reminder) => {
                     return (

@@ -14,10 +14,28 @@ export type Theme = {
     transitions: Transitions,
 }
 
-export type SpacingType = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
+export type SpacingType =
+    | 'xxs'
+    | 'xs'
+    | 'sm'
+    | 'md'
+    | 'lg'
+    | 'xl'
+    | 'xxl'
 
-export type VariantType = 'primary' | 'outlined'
+export type VariantType =
+    | 'primary'
+    | 'outlined'
 
-export type IconSizeType = "small" | "medium" | "big"
+export type IconSizeType =
+    | "small"
+    | "medium"
+    | "big"
 
 export type DrawerVariantType = "mini"
+
+export type NotificationVariantType =
+    | 'error'
+    | 'info'
+    | 'success'
+    | 'warning'

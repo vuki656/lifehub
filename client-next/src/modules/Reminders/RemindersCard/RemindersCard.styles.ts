@@ -35,9 +35,9 @@ export const ReminderCardDate = styled('div')({
 
 export const ReminderCardDateText = styled('p')((props) => ({
     color: props.theme.palette.grey.light100,
-    fontSize: "12px",
+    fontSize: "14px",
     margin: 0,
-    paddingTop: '3px', // Default flex align makes icon and date look a bit off. This fixes it.
+    paddingTop: '1px',
 }))
 
 export const ReminderCardDateIcon = styled(EventIcon)((props) => ({
@@ -57,8 +57,8 @@ export const ReminderCardRemainingDaysIcon = styled(AlarmOnIcon)((props) => ({
 
 export const ReminderCardRemainingText = styled('p')((props) => ({
     color: props.theme.palette.grey.light100,
-    fontSize: "12px",
+    fontSize: "14px",
     margin: 0,
-    paddingTop: '3px', // Default flex align makes icon and date look a bit off. This fixes it.
+    paddingTop: '1px',
 }))
 

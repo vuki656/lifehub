@@ -4,7 +4,6 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useToggle } from 'react-use'
 
-import { Message } from '../../../components/Message'
 import { REMINDERS_BY_DATE } from '../../../graphql/queries/reminder.queries'
 import {
     RemindersByDateQuery,
@@ -48,13 +47,13 @@ export const Reminders: React.FC = () => {
                         {(() => {
                             const reminders = data?.remindersByDate || []
 
-                            if (reminders.length === 0) {
-                                return (
-                                    <p className="info-message">
-                                        No reminders <span role="img" aria-label="calendar">📅</span>
-                                    </p>
-                                )
-                            }
+                            // if (reminders.length === 0) {
+                            //     return (
+                            //         <p className="info-message">
+                            //             No reminders <span role="img" aria-label="calendar">📅</span>
+                            //         </p>
+                            //     )
+                            // }
 
                             const sortedReminders = reminders.sort((a, b) => {
                                 return new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
@@ -64,9 +63,40 @@ export const Reminders: React.FC = () => {
                                 <ReminderCard reminder={reminder} key={reminder.id} />
                             ))
                         })()}
-                        {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />}
+                        {/* {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />} */}
                         <ReminderCard reminder={{
-                            description: '123123123',
+                            endDate: new Date(),
+                            startDate: new Date(),
+                            title: '123',
+                        }} /><ReminderCard reminder={{
+                            endDate: new Date(),
+                            startDate: new Date(),
+                            title: '123',
+                        }} /><ReminderCard reminder={{
+                            endDate: new Date(),
+                            startDate: new Date(),
+                            title: '123',
+                        }} /><ReminderCard reminder={{
+                            endDate: new Date(),
+                            startDate: new Date(),
+                            title: '123',
+                        }} /><ReminderCard reminder={{
+                            endDate: new Date(),
+                            startDate: new Date(),
+                            title: '123',
+                        }} /><ReminderCard reminder={{
+                            endDate: new Date(),
+                            startDate: new Date(),
+                            title: '123',
+                        }} /><ReminderCard reminder={{
+                            endDate: new Date(),
+                            startDate: new Date(),
+                            title: '123',
+                        }} /><ReminderCard reminder={{
+                            endDate: new Date(),
+                            startDate: new Date(),
+                            title: '123',
+                        }} /><ReminderCard reminder={{
                             endDate: new Date(),
                             startDate: new Date(),
                             title: '123',

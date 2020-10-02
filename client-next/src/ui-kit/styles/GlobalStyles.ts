@@ -16,6 +16,7 @@ export const GlobalStyles = createGlobalStyle((props) => {
             backgroundColor: props.theme.palette.grey.light500,
             fontFamily: props.theme.typography.fontFamily.primary,
             margin: '0px',
+            overflow: "hidden",
         },
         html: {
             boxSize: 'border-box',

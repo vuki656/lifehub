@@ -39,8 +39,7 @@ export const SideMenu: React.FunctionComponent = () => {
                         />
                     }
                     href="/dashboard"
-                >
-                </SideMenuButton>
+                />
                 <SideMenuButton
                     component={
                         <DrawerIconButton
@@ -50,8 +49,7 @@ export const SideMenu: React.FunctionComponent = () => {
                         />
                     }
                     href="/settings"
-                >
-                </SideMenuButton>
+                />
             </SideMenuTopActions>
             <DrawerIconButton
                 icon={<LogoutIcon />}

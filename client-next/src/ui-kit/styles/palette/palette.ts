@@ -8,6 +8,7 @@ export const palette: Palette = {
         dark: "#006fd8",
         main: '#0083ff',
     },
+    green: { main: "#21b47e" },
     grey: {
         dark500: "#0d0d0d",
         dark400: "#191919",
@@ -23,7 +24,7 @@ export const palette: Palette = {
         light450: "#ededed",
         light500: "#f2f2f2",
     },
-    red: '#cd3d64',
+    red: { main: '#f12b2c' },
     white: '#FFFFFF',
-    yellow: "#febb01",
+    yellow: { main: "#febb01" },
 }

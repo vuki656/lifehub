@@ -5,7 +5,7 @@ export const RemindersRoot = styled('div')((props) => ({
     boxShadow: `0 2px 10px 0 ${props.theme.palette.grey.light300}`,
     overflow: "hidden",
     padding: props.theme.spacing.lg,
-    width: '300px',
+    width: '350px',
 }))
 
 export const RemindersHeader = styled('div')((props) => ({

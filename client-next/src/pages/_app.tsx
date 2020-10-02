@@ -6,6 +6,7 @@ import React from "react"
 import 'tippy.js/dist/tippy.css' // optional
 import { SideMenu } from "../components/SideMenu"
 import { useApollo } from '../lib/apolloClient'
+import { NotificationProvider } from "../ui-kit/components/NotificationProvider"
 import {
     createTheme,
     GlobalStyles,
@@ -42,8 +43,10 @@ const App = (props: AppProps): JSX.Element => {
     return (
         <ApolloProvider client={client}>
             <ThemeProvider theme={theme}>
-                <GlobalStyles />
-                {RenderComponent}
+                <NotificationProvider>
+                    <GlobalStyles />
+                    {RenderComponent}
+                </NotificationProvider>
             </ThemeProvider>
         </ApolloProvider>
     )

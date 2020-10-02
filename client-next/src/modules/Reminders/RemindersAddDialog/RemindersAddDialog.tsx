@@ -12,6 +12,7 @@ import { Button } from "../../../ui-kit/components/Button"
 import { DatePicker } from "../../../ui-kit/components/DatePicker"
 import { Dialog } from "../../../ui-kit/components/Dialog"
 import { DialogActions } from "../../../ui-kit/components/DialogActions"
+import { useNotifications } from "../../../ui-kit/components/NotificationProvider/useNotifications"
 import { TextArea } from "../../../ui-kit/components/TextArea"
 import { TextField } from "../../../ui-kit/components/TextField"
 
@@ -23,6 +24,8 @@ import {
 export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps> = (props) => {
     const { onSubmit } = props
 
+    const notification = useNotifications()
+
     const [
         isDialogOpen,
         toggleDialog,
@@ -33,7 +36,6 @@ export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps>
         { loading },
     ] = useMutation<CreateReminderMutation, CreateReminderMutationVariables>(CREATE_REMINDER)
 
-    // TODO: HANDLE ERRORS => ERROR NOTIF
     const form = useFormik<ReminderAddDialogFormType>({
         initialValues: {
             dueDate: '',
@@ -54,6 +56,17 @@ export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps>
                 onSubmit()
                 toggleDialog()
                 form.resetForm()
+
+                notification.display(
+                    "Successfully created reminder.",
+                    "success"
+                )
+            })
+            .catch(() => {
+                notification.display(
+                    "Unable to create reminder.",
+                    "error"
+                )
             })
         },
     })

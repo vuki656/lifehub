@@ -40,7 +40,6 @@
         "no-template-curly-in-string": "error",
         "array-callback-return": "error",
         "block-scoped-var": "error",
-        "consistent-return": "error",
         "no-else-return": "error",
         "no-empty-function": "error",
         "no-floating-decimal": "error",

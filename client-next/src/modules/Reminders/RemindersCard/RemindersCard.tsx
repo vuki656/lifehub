@@ -38,7 +38,7 @@ export const RemindersCard: React.FunctionComponent<RemindersCardProps> = (props
                         {(() => {
                             const remainingDays = dayjs(reminder.dueDate).diff(new Date(), 'day')
 
-                            // Return correct day, days or today string
+                            // Return correct day, days or today suffix
                             switch (remainingDays) {
                                 case 0:
                                     return 'Today'

@@ -4,6 +4,9 @@ export type Palette = {
         main: string,
         dark: string,
     },
+    green: {
+        main: string,
+    }
     grey: {
         dark500: string,
         dark400: string,
@@ -19,7 +22,11 @@ export type Palette = {
         light450: string,
         light500: string,
     },
-    red: string,
+    red: {
+        main: string
+    },
     white: string,
-    yellow: string,
+    yellow: {
+        main: string,
+    },
 }
