@@ -1,4 +1,6 @@
 import dayjs from "dayjs"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import * as React from 'react'
 
 import {
@@ -11,6 +13,8 @@ import {
 } from "./TasksDayList.styles"
 
 export const TasksDayList: React.FunctionComponent = () => {
+    const { query } = useRouter()
+
     // List of 20 days (dayjs objects) starting from today
     const initialDayList = [...new Array(20)].map((value, index) => {
         return dayjs()
@@ -49,8 +53,8 @@ export const TasksDayList: React.FunctionComponent = () => {
                 <GoBackwardIcon />
             </DayListButton>
             {daysInFocus.map((day) => {
-                const startOfMonth = dayjs(day).startOf('month')
-                const isDayStartOfMonth = dayjs(startOfMonth).isSame(day)
+                const isDayStartOfMonth = day.startOf('month').isSame(day)
+                const isDaySelected = dayjs(dayjs(query.selectedDate as string).startOf("day")).isSame(day)
 
                 return (
                     <React.Fragment key={day.format('DD dd')}>
@@ -59,9 +63,14 @@ export const TasksDayList: React.FunctionComponent = () => {
                                 {dayjs(day).format("MMMM")}
                             </MonthTitle>
                         ) : null}
-                        <DayListItem>
-                            {day.format('DD dd')}
-                        </DayListItem>
+                        <Link
+                            as={`/dashboard/${dayjs(day).format("MM-DD-YYYY")}`}
+                            href="/dashboard/[selectedDate]"
+                        >
+                            <DayListItem selected={isDaySelected}>
+                                {day.format('DD dd')}
+                            </DayListItem>
+                        </Link>
                     </React.Fragment>
                 )
             })}

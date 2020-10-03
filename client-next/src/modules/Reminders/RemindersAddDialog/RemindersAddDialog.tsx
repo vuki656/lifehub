@@ -90,6 +90,7 @@ export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps>
             >
                 <form onSubmit={form.handleSubmit}>
                     <TextField
+                        autoFocus
                         fullWidth
                         label="Title"
                         name="title"

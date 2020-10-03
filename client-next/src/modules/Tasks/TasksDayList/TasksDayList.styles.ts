@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { CSSObject } from "styled-components"
 
 import { DownIcon } from "../../../ui-kit/icons/DownIcon"
 import { UpIcon } from "../../../ui-kit/icons/UpIcon"
@@ -8,23 +8,39 @@ export const TasksDayLisRoot = styled('div')((props) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    minWidth: '150px',
     width: '150px',
 }))
 
-export const DayListItem = styled('p')((props) => ({
-    "&:hover": {
-        backgroundColor: props.theme.palette.grey.light500,
-        cursor: "pointer",
-    },
-    alignItems: "center",
-    color: props.theme.palette.grey.main,
-    display: "flex",
-    flexGrow: 1,
-    justifyContent: "flex-start",
-    margin: 0,
-    padding: `0 ${props.theme.spacing.md}`,
-    userSelect: "none",
-}))
+type DayListItemProps = {
+    selected: boolean
+}
+
+export const DayListItem = styled('a')<DayListItemProps>((props) => {
+    let styles: CSSObject = {
+        "&:hover": {
+            backgroundColor: props.theme.palette.grey.light500,
+            cursor: "pointer",
+        },
+        alignItems: "center",
+        color: `${props.theme.palette.grey.main} !important`,
+        display: "flex",
+        flexGrow: 1,
+        justifyContent: "flex-start",
+        margin: 0,
+        padding: `0 ${props.theme.spacing.md}`,
+        userSelect: "none",
+    }
+
+    if (props.selected) {
+        styles = {
+            ...styles,
+            backgroundColor: props.theme.palette.grey.light500,
+        }
+    }
+
+    return styles
+})
 
 export const DayListButton = styled('div')((props) => ({
     "&:hover": {

@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-export const DialogOverlay = styled('div')({
+export const DialogOverlay = styled('div')((props) => ({
     alignItems: "center",
-    backgroundColor: "#79797985",
+    backgroundColor: "#00000080",
     bottom: 0,
     display: "flex",
     justifyContent: 'center',
@@ -10,7 +10,8 @@ export const DialogOverlay = styled('div')({
     position: "absolute",
     right: 0,
     top: 0,
-})
+    zIndex: props.theme.zIndex.modal,
+}))
 
 export const DialogRoot = styled('div')((props) => ({
     backgroundColor: props.theme.palette.white,

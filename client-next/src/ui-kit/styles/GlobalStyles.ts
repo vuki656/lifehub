@@ -11,7 +11,10 @@ export const GlobalStyles = createGlobalStyle((props) => {
         },
         '*': { boxSizing: "border-box" },
         '::-webkit-scrollbar': { width: 0 },
-        a: { textDecoration: 'none' },
+        a: {
+            color: 'inherit',
+            textDecoration: 'none',
+        },
         body: {
             backgroundColor: props.theme.palette.grey.light500,
             fontFamily: props.theme.typography.fontFamily.primary,
@@ -23,5 +26,6 @@ export const GlobalStyles = createGlobalStyle((props) => {
             fontSize: '16px',
         },
         'html, body': { height: '100%' },
+        p: { margin: 0 },
     }
 })

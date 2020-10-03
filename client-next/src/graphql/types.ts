@@ -274,9 +274,30 @@ export type RemindersArgs = {
 };
 
 
+export type CardPayloadFragment = (
+  { __typename?: 'CardType' }
+  & Pick<CardType, 'id' | 'name'>
+);
+
 export type ReminderPayloadFragment = (
   { __typename?: 'ReminderType' }
   & Pick<ReminderType, 'id' | 'title' | 'note' | 'dueDate'>
+);
+
+export type CreateCardMutationVariables = Exact<{
+  input: CreateCardInput;
+}>;
+
+
+export type CreateCardMutation = (
+  { __typename?: 'Mutation' }
+  & { createCard: (
+    { __typename?: 'CreateCardPayload' }
+    & { card: (
+      { __typename?: 'CardType' }
+      & CardPayloadFragment
+    ) }
+  ) }
 );
 
 export type CreateReminderMutationVariables = Exact<{
