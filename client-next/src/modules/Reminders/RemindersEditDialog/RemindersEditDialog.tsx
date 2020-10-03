@@ -103,7 +103,7 @@ export const RemindersEditDialog: React.FunctionComponent<RemindersDialogProps> 
                     Edit
                 </Button>
             }
-            title="✏️Edit Reminder"
+            title="✏️ Edit Reminder"
             titleButton={
                 <Button
                     loading={deleteLoading}
