@@ -2,7 +2,8 @@ export type ReminderAddDialogProps = {
     onSubmit(): void,
 }
 
-export type ReminderAddDialogFormType = {
+export type ReminderDialogFormType = {
+    id?: string,
     title: string,
     note?: string,
     dueDate: string,

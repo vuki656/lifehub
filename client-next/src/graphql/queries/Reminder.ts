@@ -1,12 +1,12 @@
 import { gql } from "@apollo/client/core"
 
+import { REMINDER_PAYLOAD } from "../fragements"
+
 export const REMINDERS = gql`
     query Reminders($args: RemindersArgs!) {
         reminders(args: $args) {
-            id
-            title
-            note
-            dueDate
+            ...ReminderPayload
         }
     }
+    ${REMINDER_PAYLOAD}
 `

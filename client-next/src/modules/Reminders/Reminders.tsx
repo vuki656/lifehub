@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client"
 import * as React from 'react'
+import { useToggle } from "react-use"
 
 import { REMINDERS } from "../../graphql/queries"
 import {
@@ -17,10 +18,21 @@ import {
     RemindersTitle,
 } from "./Reminders.styles"
 import { RemindersAddDialog } from "./RemindersAddDialog"
-import { RemindersCard } from "./RemindersCard"
+import {
+    RemindersCard,
+    ReminderType,
+} from "./RemindersCard"
+import { RemindersEditDialog } from "./RemindersEditDialog"
 
 export const Reminders: React.FunctionComponent = () => {
-    const { display } = useNotifications()
+    const notifications = useNotifications()
+
+    const [
+        isDialogOpen,
+        toggleDialog,
+    ] = useToggle(false)
+
+    const selectedReminder = React.useRef<ReminderType | null>(null)
 
     const {
         data: remindersResult,
@@ -29,7 +41,7 @@ export const Reminders: React.FunctionComponent = () => {
         REMINDERS,
         {
             onError: () => {
-                display(
+                notifications.display(
                     "Unable to fetch reminders.",
                     "error"
                 )
@@ -38,29 +50,45 @@ export const Reminders: React.FunctionComponent = () => {
         },
     )
 
+    const handleReminderClick = (reminder: ReminderType) => () => {
+        selectedReminder.current = reminder
+        toggleDialog()
+    }
+
     const handleSubmit = () => {
         refetch()
     }
 
     return (
-        <RemindersRoot>
-            <NotificationProvider />
-            <RemindersHeader>
-                <RemindersTitle>
-                    Reminders
-                </RemindersTitle>
-                <RemindersAddDialog onSubmit={handleSubmit} />
-            </RemindersHeader>
-            <RemindersContent>
-                {remindersResult?.reminders.map((reminder) => {
-                    return (
-                        <RemindersCard
-                            key={reminder.id}
-                            reminder={reminder}
-                        />
-                    )
-                })}
-            </RemindersContent>
-        </RemindersRoot>
+        <>
+            <RemindersRoot>
+                <NotificationProvider />
+                <RemindersHeader>
+                    <RemindersTitle>
+                        Reminders
+                    </RemindersTitle>
+                    <RemindersAddDialog onSubmit={handleSubmit} />
+                </RemindersHeader>
+                <RemindersContent>
+                    {remindersResult?.reminders.map((reminder) => {
+                        return (
+                            <RemindersCard
+                                key={reminder.id}
+                                onClick={handleReminderClick(reminder)}
+                                reminder={reminder}
+                            />
+                        )
+                    })}
+                </RemindersContent>
+            </RemindersRoot>
+            {selectedReminder.current ? (
+                <RemindersEditDialog
+                    isDialogOpen={isDialogOpen}
+                    onSubmit={handleSubmit}
+                    reminder={selectedReminder.current}
+                    toggleDialog={toggleDialog}
+                />
+            ) : null}
+        </>
     )
 }

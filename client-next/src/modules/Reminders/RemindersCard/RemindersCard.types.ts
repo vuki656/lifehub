@@ -1,5 +1,7 @@
-export type RemindersCardProps = {
-    reminder: ReminderType
+import React from "react"
+
+export type RemindersCardProps = React.HTMLAttributes<HTMLDivElement> & {
+    reminder: ReminderType,
 }
 
 export type ReminderType = {

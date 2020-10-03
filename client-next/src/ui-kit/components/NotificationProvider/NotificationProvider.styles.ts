@@ -7,6 +7,7 @@ import {
 } from "../../icons/"
 
 export const NotificationProviderRoot = styled('div')({
+    bottom: 20,
     position: 'absolute',
     right: 0,
 })

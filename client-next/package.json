@@ -10,7 +10,7 @@
     "codegen": "graphql-codegen --config ./src/graphql/codegen.yml"
   },
   "dependencies": {
-    "@apollo/client": "^3.2.0",
+    "@apollo/client": "^3.2.2",
     "@tippyjs/react": "^4.1.0",
     "dayjs": "^1.8.35",
     "formik": "^2.1.5",

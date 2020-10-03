@@ -14,7 +14,7 @@ export const Dialog: React.FunctionComponent<DialogProps> = (props) => {
         children,
         isOpen,
         title,
-        titleAction,
+        titleButton,
     } = props
 
     return (
@@ -26,7 +26,7 @@ export const Dialog: React.FunctionComponent<DialogProps> = (props) => {
                             <DialogTitle>
                                 {title}
                             </DialogTitle>
-                            {titleAction}
+                            {titleButton}
                         </DialogHeader>
                         <DialogContent>
                             {children}

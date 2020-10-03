@@ -17,8 +17,8 @@ import { TextArea } from "../../../ui-kit/components/TextArea"
 import { TextField } from "../../../ui-kit/components/TextField"
 
 import {
-    ReminderAddDialogFormType,
     ReminderAddDialogProps,
+    ReminderDialogFormType,
 } from "./ReminderAddDialog.types"
 
 export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps> = (props) => {
@@ -36,7 +36,7 @@ export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps>
         { loading },
     ] = useMutation<CreateReminderMutation, CreateReminderMutationVariables>(CREATE_REMINDER)
 
-    const form = useFormik<ReminderAddDialogFormType>({
+    const form = useFormik<ReminderDialogFormType>({
         initialValues: {
             dueDate: '',
             note: '',
