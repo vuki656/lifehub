@@ -23,8 +23,9 @@ export const RemindersCard: React.FunctionComponent<RemindersCardProps> = (props
         ...other
     } = props
 
+    // FIXME: OFF BY 1 DAY, UTC RELATED?
     const getRemainingDaysText = () => {
-        const remainingDays = dayjs(reminder.dueDate).diff(new Date(), 'day')
+        const remainingDays = dayjs(reminder.dueDate).diff(dayjs(), 'day')
 
         if (remainingDays === 0) {
             return 'Today'

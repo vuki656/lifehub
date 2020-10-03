@@ -4,6 +4,7 @@ import { AlarmOnIcon } from "../../../ui-kit/icons/AlarmOnIcon"
 import { EventIcon } from "../../../ui-kit/icons/EventIcon"
 
 export const RemindersCardRoot = styled('div')((props) => ({
+    "&:hover": { cursor: "pointer" },
     borderColor: props.theme.palette.grey.light350,
     borderRadius: '4px',
     borderStyle: 'solid',

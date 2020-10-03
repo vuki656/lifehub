@@ -10,6 +10,7 @@ export const NotificationProviderRoot = styled('div')({
     bottom: 20,
     position: 'absolute',
     right: 0,
+    zIndex: 3000,
 })
 
 export const NotificationErrorIcon = styled(WarningIcon)((props) => ({ fill: props.theme.palette.white }))

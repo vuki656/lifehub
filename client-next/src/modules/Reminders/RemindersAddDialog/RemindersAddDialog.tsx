@@ -33,7 +33,7 @@ export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps>
 
     const [
         createReminderMutation,
-        { loading },
+        { loading: createLoading },
     ] = useMutation<CreateReminderMutation, CreateReminderMutationVariables>(CREATE_REMINDER)
 
     const form = useFormik<ReminderDialogFormType>({
@@ -122,7 +122,7 @@ export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps>
                             Cancel
                         </Button>
                         <Button
-                            loading={loading}
+                            loading={createLoading}
                             type="submit"
                             variant="primary"
                         >
