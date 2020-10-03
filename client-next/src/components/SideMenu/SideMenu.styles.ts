@@ -15,6 +15,7 @@ export const SideMenuTopActions = styled('div')({
 })
 
 export const IconLogo = styled('img')({
+    minWidth: '24px',
     padding: "10px 0",
     width: '24px',
 })

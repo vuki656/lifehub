@@ -25,10 +25,10 @@ export const RemindersDialog: React.FunctionComponent<RemindersDialogProps> = (p
     const form = useFormik<ReminderDialogFormType>({
         enableReinitialize: true,
         initialValues: {
-            dueDate: reminder.dueDate,
-            id: reminder.id,
-            note: reminder.note,
-            title: reminder.title,
+            dueDate: reminder?.dueDate ?? '',
+            id: reminder?.id ?? '',
+            note: reminder?.note ?? '',
+            title: reminder?.title ?? '',
         },
         onSubmit: async(formValues) => {
             await onSubmit(formValues)
