@@ -14,6 +14,7 @@ export const DrawerRoot = styled('div')<DrawerRootProps>((props) => {
         display: 'flex',
         flexDirection: "column",
         height: '100%',
+        zIndex: props.theme.zIndex.drawer,
     }
 
     if (props.variant === "mini") {
