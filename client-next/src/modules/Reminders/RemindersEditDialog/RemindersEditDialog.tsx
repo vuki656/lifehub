@@ -12,7 +12,7 @@ import {
     EditReminderMutationVariables,
 } from "../../../graphql/types"
 import { Button } from "../../../ui-kit/components/Button"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider/useNotifications"
+import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
 import { ReminderDialogFormType } from "../RemindersAddDialog"
 import { RemindersDialog } from "../RemindersDialog"
 

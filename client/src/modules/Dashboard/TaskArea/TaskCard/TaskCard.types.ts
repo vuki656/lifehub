@@ -11,5 +11,5 @@ export type CreateTaskFormTypes = {
 export type TaskCardType = {
     id: string,
     name: string,
-    tasks: TaskType[],
+    tasks?: TaskType[],
 }

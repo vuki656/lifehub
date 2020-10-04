@@ -8,7 +8,7 @@ import {
     CreateReminderMutationVariables,
 } from "../../../graphql/types"
 import { Button } from "../../../ui-kit/components/Button"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider/useNotifications"
+import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
 import { RemindersDialog } from "../RemindersDialog"
 
 import {

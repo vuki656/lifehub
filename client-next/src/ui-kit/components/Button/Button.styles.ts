@@ -5,14 +5,14 @@ import styled, {
 } from 'styled-components'
 
 import {
+    ButtonVariantType,
     Theme,
-    VariantType,
 } from '../../styles'
 
 type ButtonRootTypes =
     React.ButtonHTMLAttributes<HTMLButtonElement>
     & {
-    variant: VariantType,
+    variant: ButtonVariantType,
     fullWidth: boolean,
 }
 
@@ -22,11 +22,11 @@ type ButtonIconTypes =
     position: 'start' | 'end',
 }
 
-const getButtonStyles = (
+export const getButtonStyles = (
     theme: Theme,
-    variant: VariantType,
+    variant: ButtonVariantType,
 ) => {
-    let styles: CSSObject = {}
+    let styles: CSSObject = { border: "none" }
 
     if (variant === 'primary') {
         styles = {
@@ -59,6 +59,14 @@ const getButtonStyles = (
         }
     }
 
+    if (variant === 'blank') {
+        styles = {
+            ...styles,
+            backgroundColor: "transparent",
+            cursor: 'pointer',
+        }
+    }
+
     return styles
 }
 
@@ -72,6 +80,7 @@ export const ButtonRoot = styled('button')<ButtonRootTypes>((props) => ({
     height: '30px',
     justifyContent: 'center',
     minWidth: '64px',
+    padding: `0 ${props.theme.spacing.def}`,
     width: props.fullWidth ?
         '100%' :
         'fit-content',
@@ -80,8 +89,8 @@ export const ButtonRoot = styled('button')<ButtonRootTypes>((props) => ({
 
 export const ButtonIconWrapper = styled('div')<ButtonIconTypes>((props) => ({
     display: 'flex',
-    marginLeft: props.position === 'end' && props.theme.spacing.xxs,
-    marginRight: props.position === 'start' && props.theme.spacing.xxs,
+    marginLeft: props.position === 'end' && props.theme.spacing.xs,
+    marginRight: props.position === 'start' && props.theme.spacing.xs,
 }))
 
 const rotateAnimation = keyframes({ '100%': { transform: 'rotate(360deg)' } })

@@ -23,9 +23,10 @@ export type SpacingType =
     | 'xl'
     | 'xxl'
 
-export type VariantType =
+export type ButtonVariantType =
     | 'primary'
     | 'outlined'
+    | 'blank'
 
 export type IconSizeType =
     | "small"

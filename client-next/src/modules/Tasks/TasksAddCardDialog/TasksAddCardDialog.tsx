@@ -1,19 +1,19 @@
 import { useMutation } from "@apollo/client"
-import { useFormik } from "formik"
 import * as React from 'react'
 import { useToggle } from "react-use"
 
 import { CREATE_CARD } from "../../../graphql/mutations"
+import { CARDS } from "../../../graphql/queries"
 import {
+    CardsQuery,
     CreateCardMutation,
     CreateCardMutationVariables,
 } from "../../../graphql/types"
 import { Button } from "../../../ui-kit/components/Button"
-import { Dialog } from "../../../ui-kit/components/Dialog"
-import { DialogActions } from "../../../ui-kit/components/DialogActions"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider/useNotifications"
-import { TextField } from "../../../ui-kit/components/TextField"
+import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
+import { TasksCardDialog } from "../TasksCardDialog"
 
+import { AddCardIcon } from "./TasksAddCardDialog.styles"
 import { CardDialogFormType } from "./TasksAddCardDialog.types"
 
 export const TasksAddCardDialog: React.FunctionComponent = () => {
@@ -29,64 +29,69 @@ export const TasksAddCardDialog: React.FunctionComponent = () => {
         { loading: createLoading },
     ] = useMutation<CreateCardMutation, CreateCardMutationVariables>(CREATE_CARD)
 
-    const form = useFormik<CardDialogFormType>({
-        initialValues: { name: '' },
-        onSubmit: (formValues) => {
-            createCardMutation({ variables: { input: { name: formValues.name } } })
-            .then(() => {
-                toggleDialog()
-                form.resetForm({})
+    const handleSubmit = async(formValues: CardDialogFormType) => {
+        await createCardMutation({
+            update: (cache, mutationResult) => {
+                const createdItem = mutationResult.data?.createCard.card
 
-                notifications.display("Card created successfully.", "success")
-            })
-            .catch(() => {
-                notifications.display("Unable to create card.", "error")
-            })
-        },
-    })
+                if (!createdItem) {
+                    return
+                }
 
-    const handleCancel = () => {
-        toggleDialog()
-        form.resetForm({})
+                const existingList = cache.readQuery<CardsQuery>({ query: CARDS })
+
+                const updatedList = [
+                    ...existingList?.cards ?? [],
+                    createdItem,
+                ] ?? []
+
+                cache.writeQuery<CardsQuery>({
+                    data: { cards: updatedList },
+                    query: CARDS,
+                })
+            },
+            variables: { input: { name: formValues.name } },
+        })
+        .then(() => {
+            toggleDialog()
+
+            notifications.display(
+                "Card created successfully.",
+                "success"
+            )
+        })
+        .catch(() => {
+            notifications.display(
+                "Unable to create card.",
+                "error"
+            )
+        })
     }
 
     return (
         <>
             <Button
+                endIcon={<AddCardIcon />}
                 onClick={toggleDialog}
                 variant="primary"
             >
                 New Card
             </Button>
-            <Dialog
+            <TasksCardDialog
                 isOpen={isDialogOpen}
+                onSubmit={handleSubmit}
+                submitButton={
+                    <Button
+                        loading={createLoading}
+                        type="submit"
+                        variant="primary"
+                    >
+                        Create
+                    </Button>
+                }
                 title="📦 Create Card"
-            >
-                <form onSubmit={form.handleSubmit}>
-                    <TextField
-                        autoFocus
-                        label="Name"
-                        name="name"
-                        onChange={form.handleChange}
-                        value={form.values.name}
-                    />
-                    <DialogActions>
-                        <Button
-                            onClick={handleCancel}
-                            variant="outlined"
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            loading={createLoading}
-                            type="submit"
-                            variant="primary"
-                        >
-                            Create
-                        </Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
+                toggleDialog={toggleDialog}
+            />
         </>
     )
 }

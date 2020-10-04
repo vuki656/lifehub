@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { VariantType } from '../../styles'
+import { ButtonVariantType } from '../../styles'
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    variant?: VariantType,
+    variant?: ButtonVariantType,
     fullWidth?: boolean,
     startIcon?: React.ReactNode,
     endIcon?: React.ReactNode,

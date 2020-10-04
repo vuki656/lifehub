@@ -12,3 +12,11 @@ export const CREATE_CARD = gql`
     }
     ${CARD_PAYLOAD}
 `
+
+export const DELETE_CARD = gql`
+    mutation DeleteCard($input: DeleteCardInput!) {
+        deleteCard(input: $input) {
+            id
+        }
+    }
+`

@@ -37,9 +37,9 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                 </div>
             </div>
             <div className="task-card__body">
-                {taskCard.tasks.map((task) => (
-                    <Task task={task} taskCard={taskCard} key={task.id} />
-                ))}
+                {/* {taskCard.tasks.map((task) => ( */}
+                {/*    <Task task={task} taskCard={taskCard} key={task.id} /> */}
+                {/* ))} */}
             </div>
             <div className="task-card__input">
                 <form>

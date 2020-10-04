@@ -10,5 +10,6 @@ export const TasksContent = styled('div')((props) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: props.theme.spacing.lg,
+    rowGap: props.theme.spacing.xl,
     width: '100%',
 }))

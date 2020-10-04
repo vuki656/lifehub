@@ -300,6 +300,19 @@ export type CreateCardMutation = (
   ) }
 );
 
+export type DeleteCardMutationVariables = Exact<{
+  input: DeleteCardInput;
+}>;
+
+
+export type DeleteCardMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteCard: (
+    { __typename?: 'DeleteCardPayload' }
+    & Pick<DeleteCardPayload, 'id'>
+  ) }
+);
+
 export type CreateReminderMutationVariables = Exact<{
   input: CreateReminderInput;
 }>;
@@ -369,6 +382,17 @@ export type LogInUserMutation = (
     { __typename?: 'LogInUserPayload' }
     & Pick<LogInUserPayload, 'token' | 'userId'>
   ) }
+);
+
+export type CardsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CardsQuery = (
+  { __typename?: 'Query' }
+  & { cards: Array<(
+    { __typename?: 'CardType' }
+    & CardPayloadFragment
+  )> }
 );
 
 export type RemindersQueryVariables = Exact<{

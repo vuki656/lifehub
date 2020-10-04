@@ -32,13 +32,17 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
                 <Loader />
             ) : (
                 <>
-                    <ButtonIconWrapper position="start">
-                        {startIcon}
-                    </ButtonIconWrapper>
+                    {startIcon ? (
+                        <ButtonIconWrapper position="start">
+                            {startIcon}
+                        </ButtonIconWrapper>
+                    ) : null}
                     {children}
-                    <ButtonIconWrapper position="end">
-                        {endIcon}
-                    </ButtonIconWrapper>
+                    {endIcon ? (
+                        <ButtonIconWrapper position="end">
+                            {endIcon}
+                        </ButtonIconWrapper>
+                    ) : null}
                 </>
             )}
         </ButtonRoot>

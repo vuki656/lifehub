@@ -6,7 +6,7 @@ import { PanelProps } from './Panel.types'
 export const Panel: React.FunctionComponent<PanelProps> = (props) => {
     const {
         children,
-        spacing,
+        spacing = "md",
         ...other
     } = props
 
