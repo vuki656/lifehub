@@ -41,8 +41,9 @@ export class TaskService {
     }
 
     public async create(input: CreateTaskInput): Promise<CreateTaskPayload> {
-        const createdTask = await this.repository.create({
+        const createdTask = await this.repository.save({
             card: { id: input.cardId },
+            date: input.date,
             title: input.title,
         })
 

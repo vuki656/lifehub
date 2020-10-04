@@ -1,5 +1,7 @@
 import * as React from 'react'
 
+import { Loader } from "../Button/Button.styles"
+
 import { IconButtonRoot } from "./IconButton.stypes"
 import { IconButtonProps } from "./IconButton.types"
 
@@ -8,6 +10,7 @@ export const IconButton: React.FunctionComponent<IconButtonProps> = (props) => {
         icon,
         size = "medium",
         variant = "primary",
+        loading = false,
         ...other
     } = props
 
@@ -16,9 +19,13 @@ export const IconButton: React.FunctionComponent<IconButtonProps> = (props) => {
             variant={variant}
             {...other}
         >
-            {React.cloneElement(
-                icon,
-                { size: size })
+            {loading
+                ? <Loader />
+                : (
+                    React.cloneElement(
+                        icon,
+                        { size: size })
+                )
             }
         </IconButtonRoot>
     )

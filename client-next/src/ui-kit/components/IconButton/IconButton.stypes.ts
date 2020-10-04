@@ -11,4 +11,8 @@ type IconButtonRoot = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 export const IconButtonRoot = styled('button')<IconButtonRoot>((props) => ({
     '&:focus': { outline: 'none' },
     ...getButtonStyles(props.theme, props.variant),
+    alignItems: 'center',
+    display: "flex",
+    justifyContent: 'center',
+    padding: 0,
 }))

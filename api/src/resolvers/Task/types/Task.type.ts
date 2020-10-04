@@ -12,13 +12,13 @@ export class TaskType {
     @Field()
     public title: string
 
-    @Field()
-    public note: string
+    @Field({ nullable: true })
+    public note?: string
 
     @Field()
     public date: Date
 
-    @Field()
+    @Field({ defaultValue: false })
     public isCompleted: boolean
 
     constructor(task: TaskType) {
