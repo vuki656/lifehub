@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { TasksCardDeleteDialog } from "../TasksCardDeleteDialog"
+import { TasksCardEditDialog } from "../TasksCardEditDialog"
 
 import {
     TasksCardActions,
@@ -20,6 +21,7 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
                     {card.name}
                 </TasksCardTitle>
                 <TasksCardActions>
+                    <TasksCardEditDialog card={card} />
                     <TasksCardDeleteDialog card={card} />
                 </TasksCardActions>
             </TasksCardHeader>

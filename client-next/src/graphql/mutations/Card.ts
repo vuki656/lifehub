@@ -20,3 +20,14 @@ export const DELETE_CARD = gql`
         }
     }
 `
+
+export const EDIT_CARD = gql`
+    mutation EditCard($input: EditCardInput!) {
+        editCard(input: $input) {
+            card {
+                ...CardPayload
+            }
+        }
+    }
+    ${CARD_PAYLOAD}
+`
