@@ -29,8 +29,8 @@ const createApolloClient = () => {
         return {
             headers: {
                 ...headers,
-                token: bearerToken,
-                userId,
+                token: bearerToken ?? '',
+                userId: userId ?? '',
             },
         }
     })
