@@ -14,18 +14,14 @@ export type Scalars = {
   Float: number;
   /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: any;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: string;
 };
 
 export type CardType = {
   __typename?: 'CardType';
   id: Scalars['String'];
   name: Scalars['String'];
-  tasks: Array<TaskType>;
-};
-
-
-export type CardTypeTasksArgs = {
-  args: CardTasksArgs;
 };
 
 export type CreateCardPayload = {
@@ -92,6 +88,7 @@ export type Mutation = {
   editTask: EditTaskPayload;
   logInUser: LogInUserPayload;
   registerUser: RegisterUserPayload;
+  toggleTask: ToggleTaskPayload;
 };
 
 
@@ -149,11 +146,18 @@ export type MutationRegisterUserArgs = {
   input: RegisterUserInput;
 };
 
+
+export type MutationToggleTaskArgs = {
+  input: ToggleTaskInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   cards: Array<CardType>;
   reminder?: Maybe<ReminderType>;
   reminders: Array<ReminderType>;
+  task: TaskType;
+  tasks: Array<TaskType>;
   verifyUser: UserType;
 };
 
@@ -165,6 +169,16 @@ export type QueryReminderArgs = {
 
 export type QueryRemindersArgs = {
   args: RemindersArgs;
+};
+
+
+export type QueryTaskArgs = {
+  args: TaskArgs;
+};
+
+
+export type QueryTasksArgs = {
+  args: TasksArgs;
 };
 
 
@@ -192,8 +206,14 @@ export type TaskType = {
   date: Scalars['Date'];
   id: Scalars['String'];
   isCompleted: Scalars['Boolean'];
-  note: Scalars['String'];
+  note?: Maybe<Scalars['String']>;
   title: Scalars['String'];
+};
+
+export type ToggleTaskPayload = {
+  __typename?: 'ToggleTaskPayload';
+  id: Scalars['String'];
+  isCompleted: Scalars['Boolean'];
 };
 
 export type UserType = {
@@ -209,23 +229,19 @@ export enum RemindersTimeSpanEnum {
   Past = 'PAST'
 }
 
-export type CardTasksArgs = {
-  date: Scalars['Date'];
-};
-
 export type CreateCardInput = {
   name: Scalars['String'];
 };
 
 export type CreateReminderInput = {
-  dueDate: Scalars['Date'];
+  dueDate: Scalars['DateTime'];
   note?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
 export type CreateTaskInput = {
   cardId: Scalars['String'];
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   title: Scalars['String'];
 };
 
@@ -243,14 +259,14 @@ export type EditCardInput = {
 };
 
 export type EditReminderInput = {
-  dueDate: Scalars['Date'];
+  dueDate: Scalars['DateTime'];
   id: Scalars['String'];
   note?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
 export type EditTaskInput = {
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   id: Scalars['String'];
   isCompleted: Scalars['Boolean'];
   note: Scalars['String'];
@@ -272,6 +288,21 @@ export type RegisterUserInput = {
 export type RemindersArgs = {
   timeSpan: RemindersTimeSpanEnum;
 };
+
+export type TaskArgs = {
+  id: Scalars['String'];
+};
+
+export type TasksArgs = {
+  cardId: Scalars['String'];
+  date: Scalars['DateTime'];
+};
+
+export type ToggleTaskInput = {
+  isCompleted: Scalars['Boolean'];
+  taskId: Scalars['String'];
+};
+
 
 
 export type CardPayloadFragment = (
@@ -395,6 +426,19 @@ export type CreateTaskMutation = (
   ) }
 );
 
+export type ToggleTaskMutationVariables = Exact<{
+  input: ToggleTaskInput;
+}>;
+
+
+export type ToggleTaskMutation = (
+  { __typename?: 'Mutation' }
+  & { toggleTask: (
+    { __typename?: 'ToggleTaskPayload' }
+    & Pick<ToggleTaskPayload, 'id' | 'isCompleted'>
+  ) }
+);
+
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
 }>;
@@ -443,6 +487,32 @@ export type RemindersQuery = (
     { __typename?: 'ReminderType' }
     & ReminderPayloadFragment
   )> }
+);
+
+export type TasksQueryVariables = Exact<{
+  args: TasksArgs;
+}>;
+
+
+export type TasksQuery = (
+  { __typename?: 'Query' }
+  & { tasks: Array<(
+    { __typename?: 'TaskType' }
+    & TaskPayloadFragment
+  )> }
+);
+
+export type TaskQueryVariables = Exact<{
+  args: TaskArgs;
+}>;
+
+
+export type TaskQuery = (
+  { __typename?: 'Query' }
+  & { task: (
+    { __typename?: 'TaskType' }
+    & TaskPayloadFragment
+  ) }
 );
 
 export type VerifyUserQueryVariables = Exact<{

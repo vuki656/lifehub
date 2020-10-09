@@ -39,6 +39,12 @@ export const TasksCardForm = styled('form')({
 
 export const SubmitButton = styled(IconButton)({
     margin: '10px 0 10px 10px',
-    paddingLeft: '5px',
-    paddingRight: '5px',
+    paddingLeft: '10px',
+    paddingRight: '10px',
 })
+
+export const TasksCardTasks = styled('div')((props) => ({
+    display: 'flex',
+    flexDirection: "column",
+    rowGap: props.theme.spacing.xs,
+}))

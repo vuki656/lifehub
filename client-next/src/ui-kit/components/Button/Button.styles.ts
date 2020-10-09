@@ -34,12 +34,12 @@ export const getButtonStyles = (
             "&:hover": {
                 backgroundColor: theme.palette.blue.dark,
                 cursor: 'pointer',
-                transition: theme.transitions.create('background-color', 300),
             },
             backgroundColor: theme.palette.blue.main,
             border: 'none',
             color: theme.palette.white,
             fontWeight: 'bold',
+            transition: theme.transitions.create('background-color', 300),
         }
     }
 
@@ -49,13 +49,13 @@ export const getButtonStyles = (
             "&:hover": {
                 backgroundColor: theme.palette.grey.light500,
                 cursor: 'pointer',
-                transition: theme.transitions.create('background-color', 300),
             },
             backgroundColor: theme.palette.white,
             borderColor: theme.palette.grey.light350,
             borderRadius: '4px',
             borderStyle: 'solid',
             borderWidth: '1px',
+            transition: theme.transitions.create('background-color', 300),
         }
     }
 

@@ -40,6 +40,60 @@ export const TaskCard: React.FC<TaskCardProps> = (props) => {
                 {/* {taskCard.tasks.map((task) => ( */}
                 {/*    <Task task={task} taskCard={taskCard} key={task.id} /> */}
                 {/* ))} */}
+                <Task
+                    task={{
+                        id: '123123',
+                        title: 'This is a new task',
+                        note: '12321312',
+                        isCompleted: false,
+                        date: new Date().toISOString(),
+                    }}
+                />
+                <Task
+                    task={{
+                        id: '123123',
+                        title: '123',
+                        note: '12321312',
+                        isCompleted: false,
+                        date: new Date().toISOString(),
+                    }}
+                />
+                <Task
+                    task={{
+                        id: '123123',
+                        title: '123',
+                        note: '12321312',
+                        isCompleted: false,
+                        date: new Date().toISOString(),
+                    }}
+                />
+                <Task
+                    task={{
+                        id: '123123',
+                        title: '123',
+                        note: '12321312',
+                        isCompleted: false,
+                        date: new Date().toISOString(),
+                    }}
+                />
+                <Task
+                    task={{
+                        id: '123123',
+                        title: 'fgjfjfgj',
+                        note: '12321312',
+                        isCompleted: false,
+                        date: new Date().toISOString(),
+                    }}
+                />
+                <Task
+                    task={{
+                        id: '123123',
+                        title: '123',
+                        note: '12321312',
+                        isCompleted: false,
+                        date: new Date().toISOString(),
+                    }}
+                />
             </div>
             <div className="task-card__input">
                 <form>

@@ -65,8 +65,6 @@ export const TaskArea: React.FC = () => {
                             ))}
                             {/* {error && <Message message={'Something wen\'t wrong, please try again.'} type="error" />} */}
                             <TaskCard taskCard={{
-                                id: '1', name: 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv',
-                            }} key={Math.random()} />     <TaskCard taskCard={{
                                 id: '1', name: '123',
                             }} key={Math.random()} />     <TaskCard taskCard={{
                                 id: '1', name: '123',

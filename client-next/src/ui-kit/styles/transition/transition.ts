@@ -2,9 +2,17 @@ import { Transitions } from './transition.types'
 
 export const transition: Transitions = {
     create: (
-        element: string,
+        target: string | string[],
         duration = 600,
     ) => {
-        return `${element} ${Math.round(duration)}ms ease`
+        if (Array.isArray(target)) {
+            const stylesArr = target.map((element) => {
+                return `${element} ${Math.round(duration)}ms ease-in-out`
+            })
+
+            return stylesArr.join(',')
+        }
+
+        return `${target} ${Math.round(duration)}ms ease-in-out`
     },
 }

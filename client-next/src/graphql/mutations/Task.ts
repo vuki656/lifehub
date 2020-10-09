@@ -12,3 +12,12 @@ export const CREATE_TASK = gql`
     }
     ${TASK_PAYLOAD}
 `
+
+export const TOGGLE_TASK = gql`
+    mutation ToggleTask($input: ToggleTaskInput!) {
+        toggleTask(input: $input) {
+            id
+            isCompleted
+        }
+    }
+`

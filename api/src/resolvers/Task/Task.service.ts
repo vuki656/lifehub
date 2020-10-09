@@ -7,16 +7,21 @@ import { InjectRepository } from 'typeorm-typedi-extensions'
 
 import { TaskEntity } from '../../entities'
 
-import { FindByDateAndCardArgs } from './args'
+import {
+    TaskArgs,
+    TasksArgs,
+} from './args'
 import {
     CreateTaskInput,
     DeleteTaskInput,
     EditTaskInput,
+    ToggleTaskInput,
 } from './mutations/inputs'
 import {
     CreateTaskPayload,
     DeleteTaskPayload,
     EditTaskPayload,
+    ToggleTaskPayload,
 } from './mutations/payloads'
 import { TaskType } from './types'
 
@@ -29,7 +34,17 @@ export class TaskService {
     ) {
     }
 
-    public async findByDateAndCard(args: FindByDateAndCardArgs): Promise<TaskType[]> {
+    public async findOne(input: TaskArgs) {
+        const task = await this.repository.findOne(input.id)
+
+        if (!task) {
+            throw new Error('Task not found.')
+        }
+
+        return new TaskType(task)
+    }
+
+    public async findByDateAndCard(args: TasksArgs): Promise<TaskType[]> {
         const tasks = await this.repository.find({
             card: { id: args.cardId },
             date: args.date,
@@ -60,6 +75,20 @@ export class TaskService {
         await this.repository.delete({ id: input.id })
 
         return new DeleteTaskPayload(input.id)
+    }
+
+    public async toggle(input: ToggleTaskInput) {
+        const {
+            taskId,
+            isCompleted,
+        } = input
+
+        await this.repository.save({
+            id: taskId,
+            isCompleted: isCompleted,
+        })
+
+        return new ToggleTaskPayload(taskId, isCompleted)
     }
 
 }

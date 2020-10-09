@@ -8,8 +8,9 @@ import {
     RemindersQueryVariables,
     RemindersTimeSpanEnum,
 } from "../../graphql/types"
-import { NotificationProvider } from "../../ui-kit/components/NotificationProvider"
-import { useNotifications } from "../../ui-kit/components/NotificationProvider/useNotifications"
+import {
+    NotificationProvider, useNotifications,
+} from "../../ui-kit/components/NotificationProvider"
 
 import {
     RemindersContent,

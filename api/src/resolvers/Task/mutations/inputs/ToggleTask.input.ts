@@ -4,12 +4,12 @@ import {
 } from 'type-graphql'
 
 @InputType()
-export class FindByDateAndCardArgs {
+export class ToggleTaskInput {
 
     @Field()
-    public date: Date
+    taskId: string
 
     @Field()
-    public cardId: string
+    isCompleted: boolean
 
 }

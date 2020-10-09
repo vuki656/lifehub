@@ -2,7 +2,7 @@ import { TaskCardType } from '../TaskCard'
 
 export type TaskProps = {
     task: TaskType,
-    taskCard: TaskCardType,
+    taskCard?: TaskCardType,
 }
 
 export type TaskMetaDataType = {

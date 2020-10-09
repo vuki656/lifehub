@@ -4,9 +4,9 @@ import {
 } from 'type-graphql'
 
 @InputType()
-export class CardTasksArgs {
+export class TaskArgs {
 
     @Field()
-    public date: Date
+    public id: string
 
 }

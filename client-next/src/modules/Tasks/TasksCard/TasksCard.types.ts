@@ -5,9 +5,9 @@ export type TasksCardProps = {
 }
 
 export type TaskType = {
-    id?: string,
+    id: string,
     title: string,
-    note?: string,
+    note?: string | null,
     date: string,
     isCompleted: boolean,
 }

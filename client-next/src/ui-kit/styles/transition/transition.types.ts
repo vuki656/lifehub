@@ -1,4 +1,4 @@
 
 export type Transitions = {
-    create(element: string, duration?: number): string,
+    create(target: string | string[], duration?: number): string,
 }

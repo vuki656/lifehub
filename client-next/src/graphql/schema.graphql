@@ -8,7 +8,6 @@ schema {
 type CardType {
     id: String!
     name: String!
-    tasks(args: CardTasksArgs!): [TaskType!]!
 }
 
 type CreateCardPayload {
@@ -64,12 +63,15 @@ type Mutation {
     editTask(input: EditTaskInput!): EditTaskPayload!
     logInUser(input: LogInUserInput!): LogInUserPayload!
     registerUser(input: RegisterUserInput!): RegisterUserPayload!
+    toggleTask(input: ToggleTaskInput!): ToggleTaskPayload!
 }
 
 type Query {
     cards: [CardType!]!
     reminder(id: String!): ReminderType
     reminders(args: RemindersArgs!): [ReminderType!]!
+    task(args: TaskArgs!): TaskType!
+    tasks(args: TasksArgs!): [TaskType!]!
     verifyUser(token: String!): UserType!
 }
 
@@ -90,8 +92,13 @@ type TaskType {
     date: Date!
     id: String!
     isCompleted: Boolean!
-    note: String!
+    note: String
     title: String!
+}
+
+type ToggleTaskPayload {
+    id: String!
+    isCompleted: Boolean!
 }
 
 type UserType {
@@ -106,23 +113,19 @@ enum RemindersTimeSpanEnum {
     PAST
 }
 
-input CardTasksArgs {
-    date: Date!
-}
-
 input CreateCardInput {
     name: String!
 }
 
 input CreateReminderInput {
-    dueDate: Date!
+    dueDate: DateTime!
     note: String
     title: String!
 }
 
 input CreateTaskInput {
     cardId: String!
-    date: Date!
+    date: DateTime!
     title: String!
 }
 
@@ -140,14 +143,14 @@ input EditCardInput {
 }
 
 input EditReminderInput {
-    dueDate: Date!
+    dueDate: DateTime!
     id: String!
     note: String
     title: String!
 }
 
 input EditTaskInput {
-    date: Date!
+    date: DateTime!
     id: String!
     isCompleted: Boolean!
     note: String!
@@ -170,6 +173,23 @@ input RemindersArgs {
     timeSpan: RemindersTimeSpanEnum!
 }
 
+input TaskArgs {
+    id: String!
+}
+
+input TasksArgs {
+    cardId: String!
+    date: DateTime!
+}
+
+input ToggleTaskInput {
+    isCompleted: Boolean!
+    taskId: String!
+}
+
 
 "A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
 scalar Date
+
+"The javascript `Date` as string. Type represents date and time as the ISO Date string."
+scalar DateTime

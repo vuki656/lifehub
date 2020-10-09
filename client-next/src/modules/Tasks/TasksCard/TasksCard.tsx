@@ -1,16 +1,23 @@
-import { useMutation } from "@apollo/client"
+import {
+    useMutation,
+    useQuery,
+} from "@apollo/client"
 import { useFormik } from "formik"
 import { useRouter } from "next/router"
 import * as React from 'react'
 
 import { CREATE_TASK } from "../../../graphql/mutations"
+import { TASKS } from "../../../graphql/queries/Task"
 import {
     CreateTaskMutation,
     CreateTaskMutationVariables,
+    TasksQuery,
+    TasksQueryVariables,
 } from "../../../graphql/types"
 import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
 import { TextField } from "../../../ui-kit/components/TextField"
 import { AddIcon } from "../../../ui-kit/icons/AddIcon"
+import { Task } from "../Task"
 import { TasksCardDeleteDialog } from "../TasksCardDeleteDialog"
 import { TasksCardEditDialog } from "../TasksCardEditDialog"
 
@@ -20,6 +27,7 @@ import {
     TasksCardForm,
     TasksCardHeader,
     TasksCardRoot,
+    TasksCardTasks,
     TasksCardTitle,
 } from "./TasksCard.styles"
 import {
@@ -31,7 +39,25 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
     const { card } = props
 
     const notifications = useNotifications()
-    const { query } = useRouter()
+    const router = useRouter()
+
+    const {
+        data: tasksResult,
+        refetch,
+    } = useQuery<TasksQuery, TasksQueryVariables>(TASKS, {
+        onError: () => {
+            notifications.display(
+                "Unable to fetch tasks",
+                "error"
+            )
+        },
+        variables: {
+            args: {
+                cardId: card.id,
+                date: router.query.selectedDate as string,
+            },
+        },
+    })
 
     const [
         createTaskMutation,
@@ -41,26 +67,18 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
     const form = useFormik<CreateTaskFormType>({
         initialValues: { title: '' },
         onSubmit: async(formValues) => {
-            if (!card.id) {
-                return
-            }
-
             await createTaskMutation({
                 variables: {
                     input: {
                         cardId: card.id,
-                        date: query.selectedDate as string,
+                        date: router.query.selectedDate as string,
                         title: formValues.title,
                     },
                 },
             })
             .then(() => {
                 form.resetForm({})
-
-                notifications.display(
-                    "Task created successfully",
-                    "success"
-                )
+                refetch()
             })
             .catch(() => {
                 notifications.display(
@@ -82,6 +100,17 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
                     <TasksCardDeleteDialog card={card} />
                 </TasksCardActions>
             </TasksCardHeader>
+            <TasksCardTasks>
+                {tasksResult?.tasks.map((task) => {
+                    return (
+                        <Task
+                            cardId={card.id}
+                            key={task.id}
+                            task={task}
+                        />
+                    )
+                })}
+            </TasksCardTasks>
             <TasksCardForm onSubmit={form.handleSubmit}>
                 <TextField
                     fullWidth

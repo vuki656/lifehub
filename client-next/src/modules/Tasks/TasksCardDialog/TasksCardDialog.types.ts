@@ -1,7 +1,7 @@
 import { DialogProps } from "../../../types"
 
 export type CardType = {
-    id?: string,
+    id: string,
     name: string,
 }
 

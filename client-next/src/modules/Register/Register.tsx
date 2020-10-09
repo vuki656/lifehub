@@ -2,6 +2,7 @@ import {
     ApolloError,
     useMutation,
 } from "@apollo/client"
+import dayjs from "dayjs"
 import { useFormik } from "formik"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -64,7 +65,7 @@ export const Register: React.FunctionComponent = () => {
                 userId
             )
 
-            push('/dashboard')
+            push(`/dashboard/${dayjs().format("MM-DD-YYYY")}`)
         })
         .catch((error: ApolloError) => {
             setErrors({ ...error.graphQLErrors[0].extensions?.exception })

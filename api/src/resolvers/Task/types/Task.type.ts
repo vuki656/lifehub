@@ -1,3 +1,4 @@
+import { GraphQLDate } from 'graphql-iso-date'
 import {
     Field,
     ObjectType,
@@ -15,10 +16,10 @@ export class TaskType {
     @Field({ nullable: true })
     public note?: string
 
-    @Field()
+    @Field(() => GraphQLDate)
     public date: Date
 
-    @Field({ defaultValue: false })
+    @Field()
     public isCompleted: boolean
 
     constructor(task: TaskType) {
