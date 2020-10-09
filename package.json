@@ -3,7 +3,6 @@
     "license": "UNLICENSED",
     "private": true,
     "workspaces": [
-        "client",
         "client-next",
         "api"
     ]
