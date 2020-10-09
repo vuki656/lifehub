@@ -21,6 +21,7 @@ export const DrawerRoot = styled('div')<DrawerRootProps>((props) => {
         styles = {
             ...styles,
             maxWidth: '50px',
+            minWidth: '50px',
             width: '50px',
         }
     }

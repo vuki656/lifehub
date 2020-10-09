@@ -31,7 +31,11 @@ export const TasksCardHeader = styled('div')((props) => ({
     paddingBottom: props.theme.spacing.md,
 }))
 
-export const TasksCardTitle = styled('p')((props) => ({ ...props.theme.typography.subtitle }))
+export const TasksCardTitle = styled('p')((props) => ({
+    ...props.theme.typography.subtitle,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+}))
 
 export const TasksCardForm = styled('form')({
     display: 'flex',

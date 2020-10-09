@@ -117,6 +117,7 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
                 <TasksCardForm onSubmit={form.handleSubmit}>
                     <TextField
                         fullWidth
+                        maxLength={150}
                         name="title"
                         onChange={form.handleChange}
                         required
