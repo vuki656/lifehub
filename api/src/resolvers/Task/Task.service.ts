@@ -46,7 +46,7 @@ export class TaskService {
         return new TaskType(task)
     }
 
-    public async findByDateAndCard(args: TasksArgs): Promise<TaskType[]> {
+    public async findByDateAndCard(args: TasksArgs) {
         const tasks = await this.repository.find({
             card: { id: args.cardId },
             date: args.date,
@@ -57,7 +57,7 @@ export class TaskService {
         })
     }
 
-    public async create(input: CreateTaskInput): Promise<CreateTaskPayload> {
+    public async create(input: CreateTaskInput) {
         const createdTask = await this.repository.save({
             card: { id: input.cardId },
             date: input.date,
@@ -67,13 +67,13 @@ export class TaskService {
         return new CreateTaskPayload(createdTask)
     }
 
-    public async edit(input: EditTaskInput): Promise<EditTaskPayload> {
+    public async edit(input: EditTaskInput) {
         const editedTask = await this.repository.save(input)
 
         return new EditTaskPayload(editedTask)
     }
 
-    public async delete(input: DeleteTaskInput): Promise<DeleteTaskPayload> {
+    public async delete(input: DeleteTaskInput) {
         await this.repository.delete({ id: input.id })
 
         return new DeleteTaskPayload(input.id)

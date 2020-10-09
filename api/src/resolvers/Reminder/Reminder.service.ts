@@ -34,7 +34,7 @@ export class ReminderService {
     ) {
     }
 
-    public async findOne(id: string): Promise<ReminderType | null> {
+    public async findOne(id: string) {
         const reminder = await this.repository.findOne(id)
 
         if (!reminder) return null
@@ -45,25 +45,25 @@ export class ReminderService {
     public async findAllByTimeSpan(
         args: RemindersArgs,
         context: ContextType,
-    ): Promise<ReminderType[]> {
-        const { userId } = context
-
+    ) {
         const timeSpanConditions = this.getTimeSpanConditions(args.timeSpan)
 
         const reminders = await this.repository.find({
             where: {
                 ...timeSpanConditions,
-                user: { id: userId },
+                user: { id: context.userId },
             },
         })
 
-        return reminders?.map((reminder) => new ReminderType(reminder))
+        return reminders?.map((reminder) => {
+            return new ReminderType(reminder)
+        })
     }
 
     public async create(
         input: CreateReminderInput,
         context: ContextType,
-    ): Promise<CreateReminderPayload> {
+    ) {
         const createdReminder = await this.repository.save({
             ...input,
             user: { id: context.userId },
@@ -72,13 +72,13 @@ export class ReminderService {
         return new CreateReminderPayload(createdReminder)
     }
 
-    public async edit(input: EditReminderInput): Promise<EditReminderPayload> {
+    public async edit(input: EditReminderInput) {
         const editedReminder = await this.repository.save(input)
 
         return new EditReminderPayload(editedReminder)
     }
 
-    public async delete(id: string): Promise<DeleteReminderPayload> {
+    public async delete(id: string) {
         await this.repository.delete({ id })
 
         return new DeleteReminderPayload(id)
