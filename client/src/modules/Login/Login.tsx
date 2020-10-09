@@ -49,7 +49,7 @@ export const Login: React.FunctionComponent = () => {
                 },
             },
         })
-        .then((response) => {
+        .then(async(response) => {
             const token = response?.data?.logInUser.token ?? ''
             const userId = response?.data?.logInUser.userId ?? ''
 
@@ -63,7 +63,10 @@ export const Login: React.FunctionComponent = () => {
                 userId
             )
 
-            push(`/dashboard/${dayjs().format("MM-DD-YYYY")}`)
+            await push(
+                '/dashboard/[selectedDate]',
+                `/dashboard/${dayjs().format("MM-DD-YYYY")}`,
+            )
         })
         .catch((error: ApolloError) => {
             setErrors({ ...error.graphQLErrors[0].extensions?.exception })
