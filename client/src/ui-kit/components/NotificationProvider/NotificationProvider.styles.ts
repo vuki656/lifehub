@@ -1,10 +1,10 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 import {
     CheckIcon,
     InfoIcon,
     WarningIcon,
-} from "../../icons/"
+} from '../../icons/'
 
 export const NotificationProviderRoot = styled('div')({
     bottom: 20,

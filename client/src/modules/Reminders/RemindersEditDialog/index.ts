@@ -1,2 +1,2 @@
-export * from "./RemindersEditDialog"
-export * from "./RemindersEditDialog.types"
+export * from './RemindersEditDialog'
+export * from './RemindersEditDialog.types'

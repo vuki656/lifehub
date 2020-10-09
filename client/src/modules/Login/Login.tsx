@@ -1,10 +1,10 @@
 import {
     ApolloError,
     useMutation,
-} from "@apollo/client"
-import dayjs from "dayjs"
+} from '@apollo/client'
+import dayjs from 'dayjs'
 import { useFormik } from 'formik'
-import Link from "next/link"
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
@@ -65,7 +65,7 @@ export const Login: React.FunctionComponent = () => {
 
             push(
                 '/dashboard/[selectedDate]',
-                `/dashboard/${dayjs().format("MM-DD-YYYY")}`,
+                `/dashboard/${dayjs().format('MM-DD-YYYY')}`,
             )
         })
         .catch((error: ApolloError) => {
@@ -123,7 +123,7 @@ export const Login: React.FunctionComponent = () => {
                     </Button>
                     <Divider />
                     <LoginFooterText>
-                        Don&apos;t have an account?{" "}
+                        Don&apos;t have an account?{' '}
                         <Link href="/register">
                             <LoginFooterLink>
                                 Register

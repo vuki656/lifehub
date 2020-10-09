@@ -1,1 +1,1 @@
-export * from "./TasksDayList"
+export * from './TasksDayList'

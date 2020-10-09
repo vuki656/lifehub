@@ -36,6 +36,10 @@
         }
     ],
     "rules": {
+        "quotes": [
+            "error",
+            "single"
+        ],
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "no-console": "error",
         "no-template-curly-in-string": "error",
@@ -193,7 +197,13 @@
         "import/order": [
             "error",
             {
-                "groups": ["builtin", "external", "parent", "sibling", "index"],
+                "groups": [
+                    "builtin",
+                    "external",
+                    "parent",
+                    "sibling",
+                    "index"
+                ],
                 "newlines-between": "always",
                 "alphabetize": {
                     "order": "asc",

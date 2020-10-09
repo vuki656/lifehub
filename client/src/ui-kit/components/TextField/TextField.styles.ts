@@ -1,7 +1,7 @@
-import React from "react"
+import React from 'react'
 import styled, { CSSObject } from 'styled-components'
 
-import { WarningIcon } from "../../icons/WarningIcon"
+import { WarningIcon } from '../../icons/WarningIcon'
 
 type TextFieldRootProps =
     React.HTMLAttributes<HTMLDivElement>
@@ -44,8 +44,8 @@ export const TextFieldHelperWrapper = styled('div')({
     alignItems: 'center',
     columnGap: '8px',
     display: 'flex',
-    margin: "5px 0 0 0",
-    padding: "0 3px",
+    margin: '5px 0 0 0',
+    padding: '0 3px',
 })
 
 type TextFieldHelperTextProps = React.HTMLAttributes<HTMLParagraphElement> & {

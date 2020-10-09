@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client/core"
+import { gql } from '@apollo/client/core'
 
-import { REMINDER_PAYLOAD } from "../fragements"
+import { REMINDER_PAYLOAD } from '../fragements'
 
 export const CREATE_REMINDER = gql`
     mutation CreateReminder($input: CreateReminderInput!) {

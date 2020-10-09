@@ -1,26 +1,26 @@
 import {
     useMutation,
     useQuery,
-} from "@apollo/client"
-import { useFormik } from "formik"
-import { useRouter } from "next/router"
+} from '@apollo/client'
+import { useFormik } from 'formik'
+import { useRouter } from 'next/router'
 import * as React from 'react'
 
-import { CREATE_TASK } from "../../../graphql/mutations"
-import { TASKS } from "../../../graphql/queries/Task"
+import { CREATE_TASK } from '../../../graphql/mutations'
+import { TASKS } from '../../../graphql/queries/Task'
 import {
     CreateTaskMutation,
     CreateTaskMutationVariables,
     TasksQuery,
     TasksQueryVariables,
-} from "../../../graphql/types"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { TextField } from "../../../ui-kit/components/TextField"
-import { AddIcon } from "../../../ui-kit/icons/AddIcon"
-import { Task } from "../Task"
-import { TasksCardDeleteDialog } from "../TasksCardDeleteDialog"
-import { TasksCardEditDialog } from "../TasksCardEditDialog"
-import { TasksCardProvider } from "../TasksCardProvider"
+} from '../../../graphql/types'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
+import { TextField } from '../../../ui-kit/components/TextField'
+import { AddIcon } from '../../../ui-kit/icons/AddIcon'
+import { Task } from '../Task'
+import { TasksCardDeleteDialog } from '../TasksCardDeleteDialog'
+import { TasksCardEditDialog } from '../TasksCardEditDialog'
+import { TasksCardProvider } from '../TasksCardProvider'
 
 import {
     SubmitButton,
@@ -30,11 +30,11 @@ import {
     TasksCardRoot,
     TasksCardTasks,
     TasksCardTitle,
-} from "./TasksCard.styles"
+} from './TasksCard.styles'
 import {
     CreateTaskFormType,
     TasksCardProps,
-} from "./TasksCard.types"
+} from './TasksCard.types'
 
 export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
     const { card } = props
@@ -46,11 +46,11 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
         data: tasksResult,
         refetch,
     } = useQuery<TasksQuery, TasksQueryVariables>(TASKS, {
-        fetchPolicy: "network-only",
+        fetchPolicy: 'network-only',
         onError: () => {
             notifications.display(
-                "Unable to fetch tasks",
-                "error"
+                'Unable to fetch tasks',
+                'error'
             )
         },
         variables: {
@@ -84,8 +84,8 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
             })
             .catch(() => {
                 notifications.display(
-                    "Unable to create task.",
-                    "error"
+                    'Unable to create task.',
+                    'error'
                 )
             })
         },

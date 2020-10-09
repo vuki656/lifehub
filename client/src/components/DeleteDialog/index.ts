@@ -1,2 +1,2 @@
-export * from "./DeleteDialog"
-export * from "./DeleteDialog.types"
+export * from './DeleteDialog'
+export * from './DeleteDialog.types'

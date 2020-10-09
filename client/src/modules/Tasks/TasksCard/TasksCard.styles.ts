@@ -1,20 +1,20 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 import {
     IconButton,
     Panel,
-} from "../../../ui-kit/components"
+} from '../../../ui-kit/components'
 
 export const TasksCardActions = styled('div')((props) => ({
     alignItems: 'center',
     columnGap: props.theme.spacing.xs,
     display: 'flex',
-    flexDirection: "row",
+    flexDirection: 'row',
     justifyContent: 'center',
 }))
 
 export const TasksCardRoot = styled(Panel)((props) => ({
-    "&:hover": {
+    '&:hover': {
         [TasksCardActions]: {
             opacity: 1,
             transition: props.theme.transitions.create('opacity', 300),
@@ -25,9 +25,9 @@ export const TasksCardRoot = styled(Panel)((props) => ({
 }))
 
 export const TasksCardHeader = styled('div')((props) => ({
-    display: "flex",
+    display: 'flex',
     flexDirection: 'row',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     paddingBottom: props.theme.spacing.md,
 }))
 
@@ -50,6 +50,6 @@ export const SubmitButton = styled(IconButton)({
 
 export const TasksCardTasks = styled('div')((props) => ({
     display: 'flex',
-    flexDirection: "column",
+    flexDirection: 'column',
     rowGap: props.theme.spacing.xs,
 }))

@@ -1,10 +1,10 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { AlarmOnIcon } from "../../../ui-kit/icons/AlarmOnIcon"
-import { EventIcon } from "../../../ui-kit/icons/EventIcon"
+import { AlarmOnIcon } from '../../../ui-kit/icons/AlarmOnIcon'
+import { EventIcon } from '../../../ui-kit/icons/EventIcon'
 
 export const RemindersCardRoot = styled('div')((props) => ({
-    "&:hover": { cursor: "pointer" },
+    '&:hover': { cursor: 'pointer' },
     borderColor: props.theme.palette.grey.light350,
     borderRadius: '4px',
     borderStyle: 'solid',
@@ -24,7 +24,7 @@ export const RemindersCardTitle = styled('p')((props) => ({
 }))
 
 export const RemindersCardContent = styled('div')({
-    display: "flex",
+    display: 'flex',
     flexDirection: 'row',
 })
 
@@ -36,7 +36,7 @@ export const ReminderCardDate = styled('div')({
 
 export const ReminderCardDateText = styled('p')((props) => ({
     color: props.theme.palette.grey.light100,
-    fontSize: "14px",
+    fontSize: '14px',
     margin: 0,
     paddingTop: '1px',
 }))
@@ -58,7 +58,7 @@ export const ReminderCardRemainingDaysIcon = styled(AlarmOnIcon)((props) => ({
 
 export const ReminderCardRemainingText = styled('p')((props) => ({
     color: props.theme.palette.grey.light100,
-    fontSize: "14px",
+    fontSize: '14px',
     margin: 0,
     paddingTop: '1px',
 }))

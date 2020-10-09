@@ -3,8 +3,8 @@ import {
     HttpLink,
     InMemoryCache,
     NormalizedCacheObject,
-} from "@apollo/client"
-import { setContext } from "@apollo/client/link/context"
+} from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
 import getConfig from 'next/config'
 import { useMemo } from 'react'
 

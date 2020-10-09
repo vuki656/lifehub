@@ -1,17 +1,17 @@
-import { useFormik } from "formik"
+import { useFormik } from 'formik'
 import * as React from 'react'
 
-import { Button } from "../../../ui-kit/components/Button"
-import { DatePicker } from "../../../ui-kit/components/DatePicker"
-import { Dialog } from "../../../ui-kit/components/Dialog"
-import { DialogActions } from "../../../ui-kit/components/DialogActions"
-import { TextArea } from "../../../ui-kit/components/TextArea"
-import { TextField } from "../../../ui-kit/components/TextField"
+import { Button } from '../../../ui-kit/components/Button'
+import { DatePicker } from '../../../ui-kit/components/DatePicker'
+import { Dialog } from '../../../ui-kit/components/Dialog'
+import { DialogActions } from '../../../ui-kit/components/DialogActions'
+import { TextArea } from '../../../ui-kit/components/TextArea'
+import { TextField } from '../../../ui-kit/components/TextField'
 
 import {
     ReminderDialogFormType,
     RemindersDialogProps,
-} from "./RemindersDialog.types"
+} from './RemindersDialog.types'
 
 export const RemindersDialog: React.FunctionComponent<RemindersDialogProps> = (props) => {
     const {
@@ -73,7 +73,7 @@ export const RemindersDialog: React.FunctionComponent<RemindersDialogProps> = (p
                     fullWidth
                     label="Due Date"
                     minDate={new Date()}
-                    onChange={(selectedDate) => form.setFieldValue("dueDate", selectedDate)}
+                    onChange={(selectedDate) => form.setFieldValue('dueDate', selectedDate)}
                     required
                     selected={form.values.dueDate}
                 />

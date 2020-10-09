@@ -1,20 +1,20 @@
-import { useMutation } from "@apollo/client"
+import { useMutation } from '@apollo/client'
 import * as React from 'react'
-import { useToggle } from "react-use"
+import { useToggle } from 'react-use'
 
-import { DeleteDialog } from "../../../components/DeleteDialog"
-import { DELETE_CARD } from "../../../graphql/mutations"
-import { CARDS } from "../../../graphql/queries"
+import { DeleteDialog } from '../../../components/DeleteDialog'
+import { DELETE_CARD } from '../../../graphql/mutations'
+import { CARDS } from '../../../graphql/queries'
 import {
     CardsQuery,
     DeleteCardMutation,
     DeleteCardMutationVariables,
-} from "../../../graphql/types"
-import { IconButton } from "../../../ui-kit/components/IconButton"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { TrashIcon } from "../../../ui-kit/icons/TrashIcon"
+} from '../../../graphql/types'
+import { IconButton } from '../../../ui-kit/components/IconButton'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
+import { TrashIcon } from '../../../ui-kit/icons/TrashIcon'
 
-import { TasksCardDeleteDialogProps } from "./TasksCardDeleteDialog.types"
+import { TasksCardDeleteDialogProps } from './TasksCardDeleteDialog.types'
 
 export const TasksCardDeleteDialog: React.FunctionComponent<TasksCardDeleteDialogProps> = (props) => {
     const { card } = props
@@ -40,8 +40,8 @@ export const TasksCardDeleteDialog: React.FunctionComponent<TasksCardDeleteDialo
             update: (cache, mutationResult) => {
                 toggleDialog()
                 notifications.display(
-                    `Card deleted successfully.`,
-                    "success"
+                    'Card deleted successfully.',
+                    'success'
                 )
 
                 const deletedItemId = mutationResult.data?.deleteCard.id
@@ -65,8 +65,8 @@ export const TasksCardDeleteDialog: React.FunctionComponent<TasksCardDeleteDialo
         })
         .catch(() => {
             notifications.display(
-                `Unable to delete card.`,
-                "error"
+                'Unable to delete card.',
+                'error'
             )
         })
     }

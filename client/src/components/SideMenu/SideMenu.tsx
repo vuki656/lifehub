@@ -1,8 +1,8 @@
-import { useRouter } from "next/router"
+import { useRouter } from 'next/router'
 import * as React from 'react'
 
-import { DrawerIconButton } from "../../ui-kit/components"
-import { SideMenuButton } from "../SideMenuButton"
+import { DrawerIconButton } from '../../ui-kit/components'
+import { SideMenuButton } from '../SideMenuButton'
 
 import {
     DashboardIcon,
@@ -11,7 +11,7 @@ import {
     SettingsIcon,
     SideMenuRoot,
     SideMenuTopActions,
-} from "./SideMenu.styles"
+} from './SideMenu.styles'
 
 export const SideMenu: React.FunctionComponent = () => {
     const {
@@ -23,7 +23,7 @@ export const SideMenu: React.FunctionComponent = () => {
         window.localStorage.removeItem('token',)
         window.localStorage.removeItem('userId',)
 
-        push("/login")
+        push('/login')
     }
 
     return (

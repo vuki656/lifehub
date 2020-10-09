@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const TasksRoot = styled('div')({
     display: 'flex',
-    flexDirection: "row",
+    flexDirection: 'row',
     width: '100%',
 })
 

@@ -1,1 +1,1 @@
-export * from "./SettingsIcon"
+export * from './SettingsIcon'

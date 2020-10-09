@@ -1,24 +1,24 @@
-import { useMutation } from "@apollo/client"
+import { useMutation } from '@apollo/client'
 import * as React from 'react'
 
 import {
     DELETE_REMINDER,
     EDIT_REMINDER,
-} from "../../../graphql/mutations"
+} from '../../../graphql/mutations'
 import {
     DeleteReminderMutation,
     DeleteReminderMutationVariables,
     EditReminderMutation,
     EditReminderMutationVariables,
-} from "../../../graphql/types"
-import { Button } from "../../../ui-kit/components/Button"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
+} from '../../../graphql/types'
+import { Button } from '../../../ui-kit/components/Button'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
 import {
     ReminderDialogFormType,
     RemindersDialog,
-} from "../RemindersDialog"
+} from '../RemindersDialog'
 
-import { RemindersDialogProps } from "./RemindersEditDialog.types"
+import { RemindersDialogProps } from './RemindersEditDialog.types'
 
 export const RemindersEditDialog: React.FunctionComponent<RemindersDialogProps> = (props) => {
     const {
@@ -47,14 +47,14 @@ export const RemindersEditDialog: React.FunctionComponent<RemindersDialogProps> 
             toggleDialog()
 
             notification.display(
-                "Successfully deleted reminder.",
-                "success"
+                'Successfully deleted reminder.',
+                'success'
             )
         })
         .catch(() => {
             notification.display(
-                "Unable to delete reminder.",
-                "error"
+                'Unable to delete reminder.',
+                'error'
             )
         })
     }
@@ -79,14 +79,14 @@ export const RemindersEditDialog: React.FunctionComponent<RemindersDialogProps> 
             toggleDialog()
 
             notification.display(
-                "Successfully edited reminder.",
-                "success"
+                'Successfully edited reminder.',
+                'success'
             )
         })
         .catch(() => {
             notification.display(
-                "Unable to edit reminder.",
-                "error"
+                'Unable to edit reminder.',
+                'error'
             )
         })
     }

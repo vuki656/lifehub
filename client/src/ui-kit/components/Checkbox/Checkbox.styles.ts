@@ -1,20 +1,20 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { DoneIcon } from "../../icons/DoneIcon"
+import { DoneIcon } from '../../icons/DoneIcon'
 
-import { CheckboxProps } from "./Checkbox.types"
+import { CheckboxProps } from './Checkbox.types'
 
 type CheckboxCheckmarkProps = Pick<CheckboxProps, 'checked'>
 
 type CheckboxRectangleProps = Pick<CheckboxProps, 'checked'>
 
 export const CheckboxRoot = styled('label')({
-    display: "grid",
+    display: 'grid',
     gridTemplateColumns: 'auto 1fr auto',
 })
 
 export const CheckboxInput = styled('input')({
-    "&:hover": { cursor: "pointer" },
+    '&:hover': { cursor: 'pointer' },
     height: '18px',
     margin: 0,
     opacity: 0,
@@ -29,7 +29,7 @@ export const CheckboxRectangle = styled('div')<CheckboxRectangleProps>((props) =
     alignItems: 'center',
     backgroundColor: props.theme.palette.white,
     borderColor: props.theme.palette.grey.light350,
-    borderRadius: "3px",
+    borderRadius: '3px',
     borderStyle: 'solid',
     borderWidth: '1px',
     display: 'flex',

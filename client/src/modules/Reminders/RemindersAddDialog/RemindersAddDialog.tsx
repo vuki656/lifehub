@@ -1,20 +1,20 @@
-import { useMutation } from "@apollo/client"
+import { useMutation } from '@apollo/client'
 import * as React from 'react'
-import { useToggle } from "react-use"
+import { useToggle } from 'react-use'
 
-import { CREATE_REMINDER } from "../../../graphql/mutations"
+import { CREATE_REMINDER } from '../../../graphql/mutations'
 import {
     CreateReminderMutation,
     CreateReminderMutationVariables,
-} from "../../../graphql/types"
-import { Button } from "../../../ui-kit/components/Button"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
+} from '../../../graphql/types'
+import { Button } from '../../../ui-kit/components/Button'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
 import {
     ReminderDialogFormType,
     RemindersDialog,
-} from "../RemindersDialog"
+} from '../RemindersDialog'
 
-import { ReminderAddDialogProps } from "./ReminderAddDialog.types"
+import { ReminderAddDialogProps } from './ReminderAddDialog.types'
 
 export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps> = (props) => {
     const { onSubmit } = props
@@ -46,14 +46,14 @@ export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps>
             toggleDialog()
 
             notification.display(
-                "Successfully created reminder.",
-                "success"
+                'Successfully created reminder.',
+                'success'
             )
         })
         .catch(() => {
             notification.display(
-                "Unable to create reminder.",
-                "error"
+                'Unable to create reminder.',
+                'error'
             )
         })
     }

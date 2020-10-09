@@ -1,22 +1,22 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { Drawer } from "../../ui-kit/components/Drawer"
-import { DoneAllIcon } from "../../ui-kit/icons/DoneAllIcon"
-import { ExitIcon } from "../../ui-kit/icons/ExitIcon"
-import { SettingsIcon as SettingsIconComponent } from "../../ui-kit/icons/SettingsIcon"
+import { Drawer } from '../../ui-kit/components/Drawer'
+import { DoneAllIcon } from '../../ui-kit/icons/DoneAllIcon'
+import { ExitIcon } from '../../ui-kit/icons/ExitIcon'
+import { SettingsIcon as SettingsIconComponent } from '../../ui-kit/icons/SettingsIcon'
 
 export const SideMenuRoot = styled(Drawer)({ justifyContent: 'space-between' })
 
 export const SideMenuTopActions = styled('div')({
     alignItems: 'center',
     display: 'flex',
-    flexDirection: "column",
+    flexDirection: 'column',
     width: '100%',
 })
 
 export const IconLogo = styled('img')({
     minWidth: '24px',
-    padding: "10px 0",
+    padding: '10px 0',
     width: '24px',
 })
 

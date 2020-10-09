@@ -1,17 +1,17 @@
-import * as React from "react"
+import * as React from 'react'
 
 import {
     NotificationErrorIcon,
     NotificationInfoIcon,
     NotificationSuccessIcon,
     NotificationWarningIcon,
-} from "../NotificationProvider/NotificationProvider.styles"
+} from '../NotificationProvider/NotificationProvider.styles'
 
 import {
     NotificationMessage,
     NotificationRoot,
-} from "./Notification.styles"
-import { NotificationProps } from "./Notification.types"
+} from './Notification.styles'
+import { NotificationProps } from './Notification.types'
 
 export const Notification: React.FunctionComponent<NotificationProps> = (props) => {
     const {
@@ -29,13 +29,13 @@ export const Notification: React.FunctionComponent<NotificationProps> = (props) 
         >
             {(() => {
                 switch (props.variant) {
-                    case "error":
+                    case 'error':
                         return <NotificationErrorIcon size="small" />
-                    case "info":
+                    case 'info':
                         return <NotificationInfoIcon size="small" />
-                    case "success":
+                    case 'success':
                         return <NotificationSuccessIcon size="small" />
-                    case "warning":
+                    case 'warning':
                         return <NotificationWarningIcon size="small" />
                 }
             })()}
