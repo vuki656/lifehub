@@ -55,6 +55,7 @@ export const TaskDialog: React.FunctionComponent<TaskDialogProps> = (props) => {
                     autoFocus
                     fullWidth
                     label="Title"
+                    maxLength={150}
                     name="title"
                     onChange={form.handleChange}
                     required
@@ -63,6 +64,7 @@ export const TaskDialog: React.FunctionComponent<TaskDialogProps> = (props) => {
                 <TextArea
                     fullWidth
                     label="Note"
+                    maxLength={2000}
                     name="note"
                     onChange={form.handleChange}
                     rows={7}

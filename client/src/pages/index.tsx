@@ -16,7 +16,7 @@ const HomePage: NextPage = () => {
         } else {
             router.replace("/login")
         }
-    }, [])
+    }, [router, token, userId])
 
     return null
 }

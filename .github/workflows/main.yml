@@ -8,20 +8,31 @@ on:
     branches: [ master, develop ]
 
 jobs:
-  lint:
+  Lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: yarn install
 
-      - name: Lint client
+      - name: Lint Client
         if: always()
         run: |
           cd client
-          yarn lint
+          yarn client-lint
 
-      - name: Lint server
+      - name: Lint API
         if: always()
         run: |
-          cd server
-          yarn lint
+          cd api
+          yarn api-lint
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn install
+
+      - name: Build Client
+        if: always()
+        run: |
+          cd client
+          yarn client-build

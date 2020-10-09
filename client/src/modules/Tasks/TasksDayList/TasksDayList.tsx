@@ -58,16 +58,21 @@ export const TasksDayList: React.FunctionComponent = () => {
 
                 return (
                     <React.Fragment key={day.format('DD dd')}>
-                        {isDayStartOfMonth ? (
-                            <MonthTitle>
-                                {dayjs(day).format("MMMM")}
-                            </MonthTitle>
-                        ) : null}
+                        {isDayStartOfMonth ?
+                            (
+                                <MonthTitle>
+                                    {dayjs(day).format("MMMM")}
+                                </MonthTitle>
+                            ) :
+                            null}
                         <Link
                             as={`/dashboard/${dayjs(day).format("MM-DD-YYYY")}`}
                             href="/dashboard/[selectedDate]"
                         >
-                            <DayListItem selected={isDaySelected}>
+                            <DayListItem
+                                day={day}
+                                selected={isDaySelected}
+                            >
                                 {day.format('DD dd')}
                             </DayListItem>
                         </Link>

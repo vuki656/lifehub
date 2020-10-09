@@ -3,7 +3,7 @@ import { AppProps } from "next/app"
 import { useRouter } from "next/router"
 import React from "react"
 
-import 'tippy.js/dist/tippy.css' // optional
+import 'tippy.js/dist/tippy.css'
 import { SideMenu } from "../components/SideMenu"
 import { useApollo } from '../lib/apolloClient'
 import { NotificationProvider } from "../ui-kit/components/NotificationProvider"

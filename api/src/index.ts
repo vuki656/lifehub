@@ -12,8 +12,8 @@ import {
 dotenv.config({ path: resolve(__dirname, '../.env.local') })
 
 createDatabaseConnection()
-    .then(() => startServer())
-    .catch((error) => {
-        console.log('===== FAILED =====')
-        console.log(error)
-    })
+.then(() => startServer())
+.catch(() => {
+    // eslint-disable-next-line no-console
+    console.log('===== FAILED =====')
+})

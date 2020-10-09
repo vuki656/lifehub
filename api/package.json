@@ -3,8 +3,8 @@
    "version": "1.0.0",
    "license": "UNLICENSED",
    "scripts": {
-      "start api": "nodemon src/index.ts",
-      "lint": "eslint src/**/*.{ts,tsx}"
+      "api-start": "nodemon src/index.ts",
+      "api-lint": "eslint src/**/*.{ts,tsx}"
    },
    "dependencies": {
       "apollo-server": "^2.17.0",

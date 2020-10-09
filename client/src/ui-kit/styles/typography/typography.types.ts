@@ -1,11 +1,8 @@
-import type {
-    FontStyleProperty,
-    FontWeightAbsolute,
-} from 'csstype'
+import * as CSS from 'csstype'
 
 export type TypographyStyle = {
-    fontWeight: FontWeightAbsolute,
-    fontStyle: FontStyleProperty,
+    fontWeight: CSS.Property.FontWeight,
+    fontStyle: CSS.Property.FontStyle,
     fontSize: string | number,
     lineHeight: string | number,
 }

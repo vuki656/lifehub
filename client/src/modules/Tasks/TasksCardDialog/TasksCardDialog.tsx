@@ -45,6 +45,7 @@ export const TasksCardDialog: React.FunctionComponent<TasksCardDialogProps> = (p
                 <TextField
                     autoFocus
                     label="Name"
+                    maxLength={150}
                     name="name"
                     onChange={form.handleChange}
                     value={form.values.name}

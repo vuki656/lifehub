@@ -13,7 +13,10 @@ export const TasksCards: React.FunctionComponent = () => {
 
     const { data: cardsResult } = useQuery<CardsQuery>(CARDS, {
         onError: () => {
-            notifications.display("Unable to fetch cards.", "error")
+            notifications.display(
+                "Unable to fetch cards.",
+                "error"
+            )
         },
     })
 

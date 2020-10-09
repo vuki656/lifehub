@@ -46,6 +46,7 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
         data: tasksResult,
         refetch,
     } = useQuery<TasksQuery, TasksQueryVariables>(TASKS, {
+        fetchPolicy: "network-only",
         onError: () => {
             notifications.display(
                 "Unable to fetch tasks",
@@ -116,6 +117,7 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
                 <TasksCardForm onSubmit={form.handleSubmit}>
                     <TextField
                         fullWidth
+                        maxLength={150}
                         name="title"
                         onChange={form.handleChange}
                         required

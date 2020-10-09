@@ -1,7 +1,8 @@
 import { createGlobalStyle } from 'styled-components'
 
-// TODO: FIX
-export const GlobalStyles = createGlobalStyle((props) => {
+import { Theme } from "./theme.types"
+
+export const GlobalStyles = createGlobalStyle<{theme: Theme}>((props) => {
     return {
         '#__next': {
             display: 'flex',

@@ -63,7 +63,10 @@ export const Login: React.FunctionComponent = () => {
                 userId
             )
 
-            push(`/dashboard/${dayjs().format("MM-DD-YYYY")}`)
+            push(
+                '/dashboard/[selectedDate]',
+                `/dashboard/${dayjs().format("MM-DD-YYYY")}`,
+            )
         })
         .catch((error: ApolloError) => {
             setErrors({ ...error.graphQLErrors[0].extensions?.exception })

@@ -8,7 +8,6 @@ import {
 
 import { ContextType } from '../../../global/types/context.type'
 
-import { UserService } from './User.service'
 import { LogInUserInput } from './mutations/inputs'
 import { RegisterUserInput } from './mutations/inputs/RegisterUser.input'
 import {
@@ -16,6 +15,7 @@ import {
     RegisterUserPayload,
 } from './mutations/payloads'
 import { UserType } from './types'
+import { UserService } from './User.service'
 
 @Resolver(() => UserType)
 export class UserResolver {

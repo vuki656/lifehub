@@ -29,7 +29,7 @@ export class CardService {
     ) {
     }
 
-    public async findAll(context: ContextType): Promise<CardType[]> {
+    public async findAll(context: ContextType) {
         const cards = await this.repository.find({ where: { user: { id: context.userId } } })
 
         return cards.map((card) => {
@@ -40,7 +40,7 @@ export class CardService {
     public async create(
         input: CreateCardInput,
         context: ContextType,
-    ): Promise<CreateCardPayload> {
+    ) {
         const createdCard = await this.repository.save({
             name: input.name,
             user: { id: context.userId },
@@ -51,7 +51,7 @@ export class CardService {
 
     public async edit(
         input: EditCardInput,
-    ): Promise<EditCardPayload> {
+    ) {
         const editedCard = await this.repository.save({
             id: input.id,
             name: input.name,
@@ -60,7 +60,7 @@ export class CardService {
         return new EditCardPayload(editedCard)
     }
 
-    public async delete(input: DeleteCardInput): Promise<DeleteCardPayload> {
+    public async delete(input: DeleteCardInput) {
         await this.repository.delete({ id: input.id })
 
         return new DeleteCardPayload(input.id)
