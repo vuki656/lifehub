@@ -54,6 +54,7 @@ export const RemindersDialog: React.FunctionComponent<RemindersDialogProps> = (p
                     autoFocus
                     fullWidth
                     label="Title"
+                    maxLength={55}
                     name="title"
                     onChange={form.handleChange}
                     required
@@ -62,6 +63,7 @@ export const RemindersDialog: React.FunctionComponent<RemindersDialogProps> = (p
                 <TextArea
                     fullWidth
                     label="Note"
+                    maxLength={2000}
                     name="note"
                     onChange={form.handleChange}
                     rows={8}
