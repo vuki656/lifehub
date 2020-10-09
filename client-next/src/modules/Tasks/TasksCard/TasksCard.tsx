@@ -20,6 +20,7 @@ import { AddIcon } from "../../../ui-kit/icons/AddIcon"
 import { Task } from "../Task"
 import { TasksCardDeleteDialog } from "../TasksCardDeleteDialog"
 import { TasksCardEditDialog } from "../TasksCardEditDialog"
+import { TasksCardProvider } from "../TasksCardProvider"
 
 import {
     SubmitButton,
@@ -100,17 +101,19 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
                     <TasksCardDeleteDialog card={card} />
                 </TasksCardActions>
             </TasksCardHeader>
-            <TasksCardTasks>
-                {tasksResult?.tasks.map((task) => {
-                    return (
-                        <Task
-                            cardId={card.id}
-                            key={task.id}
-                            task={task}
-                        />
-                    )
-                })}
-            </TasksCardTasks>
+            <TasksCardProvider refetch={refetch}>
+                <TasksCardTasks>
+                    {tasksResult?.tasks.map((task) => {
+                        return (
+                            <Task
+                                cardId={card.id}
+                                key={task.id}
+                                task={task}
+                            />
+                        )
+                    })}
+                </TasksCardTasks>
+            </TasksCardProvider>
             <TasksCardForm onSubmit={form.handleSubmit}>
                 <TextField
                     fullWidth

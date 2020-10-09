@@ -11,8 +11,10 @@ import {
     ToggleTaskMutationVariables,
 } from "../../../graphql/types"
 import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
+import { TaskDeleteDialog } from "../TaskDeleteDialog"
 
 import {
+    TaskActions,
     TaskCheckbox,
     TaskRoot,
 } from "./Task.styles"
@@ -96,6 +98,9 @@ export const Task: React.FunctionComponent<TaskProps> = (props) => {
                 label={task.title}
                 onChange={handleChange}
             />
+            <TaskActions>
+                <TaskDeleteDialog task={task} />
+            </TaskActions>
         </TaskRoot>
     )
 }

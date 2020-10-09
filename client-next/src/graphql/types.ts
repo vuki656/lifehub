@@ -439,6 +439,19 @@ export type ToggleTaskMutation = (
   ) }
 );
 
+export type DeleteTaskMutationVariables = Exact<{
+  input: DeleteTaskInput;
+}>;
+
+
+export type DeleteTaskMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteTask: (
+    { __typename?: 'DeleteTaskPayload' }
+    & Pick<DeleteTaskPayload, 'id'>
+  ) }
+);
+
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
 }>;
