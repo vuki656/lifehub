@@ -9,7 +9,6 @@ import {
 
 import { ContextType } from '../../../global/types/context.type'
 
-import { ReminderService } from './Reminder.service'
 import { RemindersArgs } from './args'
 import {
     CreateReminderInput,
@@ -20,6 +19,7 @@ import {
     DeleteReminderPayload,
     EditReminderPayload,
 } from './mutations/payloads'
+import { ReminderService } from './Reminder.service'
 import { ReminderType } from './types'
 
 @Resolver(() => ReminderType)

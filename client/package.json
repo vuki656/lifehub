@@ -4,10 +4,11 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "codegen": "graphql-codegen --config ./src/graphql/codegen.yml"
+    "client-start-dev": "next dev",
+    "client-build": "next build",
+    "client-start-prod": "next start",
+    "client-codegen": "graphql-codegen --config ./src/graphql/codegen.yml",
+    "client-lint": "eslint src/**/*.{ts,tsx}"
   },
   "dependencies": {
     "@apollo/client": "^3.2.2",

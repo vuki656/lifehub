@@ -51,9 +51,11 @@ export class UserService {
         } = input
 
         const user = await this.repository.findOne({ where: { email } })
+
         if (!user) throw new UserInputError('Error', { email: 'Wrong email.' })
 
         const isPasswordValid = compareSync(password, user.password)
+
         if (!isPasswordValid) {
             throw new UserInputError('Error', { password: 'Wrong password.' })
         }
