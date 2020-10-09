@@ -26,7 +26,7 @@ jobs:
           cd api
           yarn api-lint
   Build:
-    runs-on: ubunut-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: yarn install
