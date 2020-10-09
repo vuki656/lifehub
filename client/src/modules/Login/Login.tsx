@@ -49,7 +49,7 @@ export const Login: React.FunctionComponent = () => {
                 },
             },
         })
-        .then(async(response) => {
+        .then((response) => {
             const token = response?.data?.logInUser.token ?? ''
             const userId = response?.data?.logInUser.userId ?? ''
 
@@ -63,7 +63,7 @@ export const Login: React.FunctionComponent = () => {
                 userId
             )
 
-            await push(
+            push(
                 '/dashboard/[selectedDate]',
                 `/dashboard/${dayjs().format("MM-DD-YYYY")}`,
             )
