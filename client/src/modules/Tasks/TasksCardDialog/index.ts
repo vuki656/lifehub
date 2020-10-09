@@ -1,2 +1,2 @@
-export * from "./TasksCardDialog"
-export * from "./TasksCardDialog.types"
+export * from './TasksCardDialog'
+export * from './TasksCardDialog.types'

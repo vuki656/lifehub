@@ -1,17 +1,17 @@
-import { useMutation } from "@apollo/client"
+import { useMutation } from '@apollo/client'
 import * as React from 'react'
 
-import { MOVE_TASK_TO_TODAY } from "../../../graphql/mutations"
+import { MOVE_TASK_TO_TODAY } from '../../../graphql/mutations'
 import {
     MoveTaskToTodayMutation,
     MoveTaskToTodayMutationVariables,
-} from "../../../graphql/types"
-import { IconButton } from "../../../ui-kit/components/IconButton"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { MoveIcon } from "../../../ui-kit/icons/MoveIcon"
-import { useTasksCardContext } from "../TasksCardProvider"
+} from '../../../graphql/types'
+import { IconButton } from '../../../ui-kit/components/IconButton'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
+import { MoveIcon } from '../../../ui-kit/icons/MoveIcon'
+import { useTasksCardContext } from '../TasksCardProvider'
 
-import { TaskMoveTaskButtonProps } from "./TaskMoveTaskButton.types"
+import { TaskMoveTaskButtonProps } from './TaskMoveTaskButton.types'
 
 export const TaskMoveTaskButton: React.FunctionComponent<TaskMoveTaskButtonProps> = (props) => {
     const { task } = props
@@ -31,8 +31,8 @@ export const TaskMoveTaskButton: React.FunctionComponent<TaskMoveTaskButtonProps
         })
         .catch(() => {
             notification.display(
-                "Unable to move task to today.",
-                "error"
+                'Unable to move task to today.',
+                'error'
             )
         })
     }

@@ -1,2 +1,2 @@
-export * from "./SideMenuButton"
-export * from "./SideMenuButton.types"
+export * from './SideMenuButton'
+export * from './SideMenuButton.types'

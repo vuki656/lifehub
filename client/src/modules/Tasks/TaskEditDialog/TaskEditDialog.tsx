@@ -1,23 +1,23 @@
-import { useMutation } from "@apollo/client"
+import { useMutation } from '@apollo/client'
 import * as React from 'react'
-import { useToggle } from "react-use"
+import { useToggle } from 'react-use'
 
-import { EDIT_TASK } from "../../../graphql/mutations"
+import { EDIT_TASK } from '../../../graphql/mutations'
 import {
     EditTaskMutation,
     EditTaskMutationVariables,
-} from "../../../graphql/types"
-import { Button } from "../../../ui-kit/components/Button"
-import { IconButton } from "../../../ui-kit/components/IconButton"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { PencilIcon } from "../../../ui-kit/icons/PencilIcon"
+} from '../../../graphql/types'
+import { Button } from '../../../ui-kit/components/Button'
+import { IconButton } from '../../../ui-kit/components/IconButton'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
+import { PencilIcon } from '../../../ui-kit/icons/PencilIcon'
 import {
     TaskDialog,
     TaskDialogFormType,
-} from "../TaskDialog"
-import { useTasksCardContext } from "../TasksCardProvider"
+} from '../TaskDialog'
+import { useTasksCardContext } from '../TasksCardProvider'
 
-import { TaskEditDialogProps } from "./TaskEditDialog.types"
+import { TaskEditDialogProps } from './TaskEditDialog.types'
 
 export const TaskEditDialog: React.FunctionComponent<TaskEditDialogProps> = (props) => {
     const { task } = props
@@ -57,14 +57,14 @@ export const TaskEditDialog: React.FunctionComponent<TaskEditDialogProps> = (pro
             toggleDialog()
 
             notification.display(
-                "Task edited successfully",
-                "success"
+                'Task edited successfully',
+                'success'
             )
         })
         .catch(() => {
             notification.display(
-                "Unable to edit task",
-                "error"
+                'Unable to edit task',
+                'error'
             )
         })
     }

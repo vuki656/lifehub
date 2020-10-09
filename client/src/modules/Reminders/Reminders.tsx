@@ -1,29 +1,29 @@
-import { useQuery } from "@apollo/client"
+import { useQuery } from '@apollo/client'
 import * as React from 'react'
-import { useToggle } from "react-use"
+import { useToggle } from 'react-use'
 
-import { REMINDERS } from "../../graphql/queries"
+import { REMINDERS } from '../../graphql/queries'
 import {
     RemindersQuery,
     RemindersQueryVariables,
     RemindersTimeSpanEnum,
-} from "../../graphql/types"
+} from '../../graphql/types'
 import {
     NotificationProvider, useNotifications,
-} from "../../ui-kit/components/NotificationProvider"
+} from '../../ui-kit/components/NotificationProvider'
 
 import {
     RemindersContent,
     RemindersHeader,
     RemindersRoot,
     RemindersTitle,
-} from "./Reminders.styles"
-import { RemindersAddDialog } from "./RemindersAddDialog"
+} from './Reminders.styles'
+import { RemindersAddDialog } from './RemindersAddDialog'
 import {
     RemindersCard,
     ReminderType,
-} from "./RemindersCard"
-import { RemindersEditDialog } from "./RemindersEditDialog"
+} from './RemindersCard'
+import { RemindersEditDialog } from './RemindersEditDialog'
 
 export const Reminders: React.FunctionComponent = () => {
     const notifications = useNotifications()
@@ -43,8 +43,8 @@ export const Reminders: React.FunctionComponent = () => {
         {
             onError: () => {
                 notifications.display(
-                    "Unable to fetch reminders.",
-                    "error"
+                    'Unable to fetch reminders.',
+                    'error'
                 )
             },
             variables: { args: { timeSpan: RemindersTimeSpanEnum.All } },

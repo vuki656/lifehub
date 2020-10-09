@@ -1,2 +1,2 @@
-export * from "./TaskDeleteDialog"
-export * from "./TaskDeleteDialog.types"
+export * from './TaskDeleteDialog'
+export * from './TaskDeleteDialog.types'

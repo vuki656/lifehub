@@ -1,2 +1,2 @@
-export * from "./RemindersCard"
-export * from "./RemindersCard.types"
+export * from './RemindersCard'
+export * from './RemindersCard.types'

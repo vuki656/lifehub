@@ -15,7 +15,7 @@ export const LoginPanel = styled(Panel)((props) => ({
     display: 'flex',
     flexDirection: 'column',
     rowGap: props.theme.spacing.md,
-    width: "380px",
+    width: '380px',
 }))
 
 export const LoginFooterText = styled('div')((props) => ({
@@ -27,7 +27,7 @@ export const LoginFooterText = styled('div')((props) => ({
 
 export const LoginFooterLink = styled('a')((props) => ({
     color: props.theme.palette.grey.dark300,
-    cursor: "pointer",
+    cursor: 'pointer',
     fontWeight: 'bold',
 }))
 

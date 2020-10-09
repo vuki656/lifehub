@@ -1,6 +1,6 @@
-import dayjs from "dayjs"
-import Link from "next/link"
-import { useRouter } from "next/router"
+import dayjs from 'dayjs'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import * as React from 'react'
 
 import {
@@ -10,7 +10,7 @@ import {
     GoForwardIcon,
     MonthTitle,
     TasksDayLisRoot,
-} from "./TasksDayList.styles"
+} from './TasksDayList.styles'
 
 export const TasksDayList: React.FunctionComponent = () => {
     const { query } = useRouter()
@@ -28,7 +28,7 @@ export const TasksDayList: React.FunctionComponent = () => {
     ] = React.useState(initialDayList)
 
     const handleBackwardClick = () => {
-        const previousDay = daysInFocus[0].subtract(1, "day")
+        const previousDay = daysInFocus[0].subtract(1, 'day')
         const updatedList = [...daysInFocus]
 
         updatedList.pop()
@@ -38,7 +38,7 @@ export const TasksDayList: React.FunctionComponent = () => {
     }
 
     const handleForwardClick = () => {
-        const nextDay = daysInFocus[daysInFocus.length - 1].add(1, "day")
+        const nextDay = daysInFocus[daysInFocus.length - 1].add(1, 'day')
         const updatedList = [...daysInFocus]
 
         updatedList.shift()
@@ -54,19 +54,19 @@ export const TasksDayList: React.FunctionComponent = () => {
             </DayListButton>
             {daysInFocus.map((day) => {
                 const isDayStartOfMonth = day.startOf('month').isSame(day)
-                const isDaySelected = dayjs(dayjs(query.selectedDate as string).startOf("day")).isSame(day)
+                const isDaySelected = dayjs(dayjs(query.selectedDate as string).startOf('day')).isSame(day)
 
                 return (
                     <React.Fragment key={day.format('DD dd')}>
                         {isDayStartOfMonth ?
                             (
                                 <MonthTitle>
-                                    {dayjs(day).format("MMMM")}
+                                    {dayjs(day).format('MMMM')}
                                 </MonthTitle>
                             ) :
                             null}
                         <Link
-                            as={`/dashboard/${dayjs(day).format("MM-DD-YYYY")}`}
+                            as={`/dashboard/${dayjs(day).format('MM-DD-YYYY')}`}
                             href="/dashboard/[selectedDate]"
                         >
                             <DayListItem

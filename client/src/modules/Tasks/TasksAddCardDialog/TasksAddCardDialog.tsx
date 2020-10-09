@@ -1,20 +1,20 @@
-import { useMutation } from "@apollo/client"
+import { useMutation } from '@apollo/client'
 import * as React from 'react'
-import { useToggle } from "react-use"
+import { useToggle } from 'react-use'
 
-import { CREATE_CARD } from "../../../graphql/mutations"
-import { CARDS } from "../../../graphql/queries"
+import { CREATE_CARD } from '../../../graphql/mutations'
+import { CARDS } from '../../../graphql/queries'
 import {
     CardsQuery,
     CreateCardMutation,
     CreateCardMutationVariables,
-} from "../../../graphql/types"
-import { Button } from "../../../ui-kit/components/Button"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { TasksCardDialog } from "../TasksCardDialog"
+} from '../../../graphql/types'
+import { Button } from '../../../ui-kit/components/Button'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
+import { TasksCardDialog } from '../TasksCardDialog'
 
-import { AddCardIcon } from "./TasksAddCardDialog.styles"
-import { CardDialogFormType } from "./TasksAddCardDialog.types"
+import { AddCardIcon } from './TasksAddCardDialog.styles'
+import { CardDialogFormType } from './TasksAddCardDialog.types'
 
 export const TasksAddCardDialog: React.FunctionComponent = () => {
     const notifications = useNotifications()
@@ -56,14 +56,14 @@ export const TasksAddCardDialog: React.FunctionComponent = () => {
             toggleDialog()
 
             notifications.display(
-                "Card created successfully.",
-                "success"
+                'Card created successfully.',
+                'success'
             )
         })
         .catch(() => {
             notifications.display(
-                "Unable to create card.",
-                "error"
+                'Unable to create card.',
+                'error'
             )
         })
     }

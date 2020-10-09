@@ -1,17 +1,17 @@
-import { useFormik } from "formik"
+import { useFormik } from 'formik'
 import * as React from 'react'
 
-import { Button } from "../../../ui-kit/components/Button"
-import { DatePicker } from "../../../ui-kit/components/DatePicker"
-import { Dialog } from "../../../ui-kit/components/Dialog"
-import { DialogActions } from "../../../ui-kit/components/DialogActions"
-import { TextArea } from "../../../ui-kit/components/TextArea"
-import { TextField } from "../../../ui-kit/components/TextField"
+import { Button } from '../../../ui-kit/components/Button'
+import { DatePicker } from '../../../ui-kit/components/DatePicker'
+import { Dialog } from '../../../ui-kit/components/Dialog'
+import { DialogActions } from '../../../ui-kit/components/DialogActions'
+import { TextArea } from '../../../ui-kit/components/TextArea'
+import { TextField } from '../../../ui-kit/components/TextField'
 
 import {
     TaskDialogFormType,
     TaskDialogProps,
-} from "./TaskDialog.types"
+} from './TaskDialog.types'
 
 export const TaskDialog: React.FunctionComponent<TaskDialogProps> = (props) => {
     const {
@@ -74,7 +74,7 @@ export const TaskDialog: React.FunctionComponent<TaskDialogProps> = (props) => {
                     fullWidth
                     label="Date"
                     minDate={new Date()}
-                    onChange={(selectedDate) => form.setFieldValue("date", selectedDate)}
+                    onChange={(selectedDate) => form.setFieldValue('date', selectedDate)}
                     required
                     selected={form.values.date}
                 />

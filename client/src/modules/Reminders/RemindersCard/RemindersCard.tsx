@@ -1,4 +1,4 @@
-import dayjs from "dayjs"
+import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import * as React from 'react'
 
@@ -12,8 +12,8 @@ import {
     RemindersCardContent,
     RemindersCardRoot,
     RemindersCardTitle,
-} from "./RemindersCard.styles"
-import { RemindersCardProps } from "./RemindersCard.types"
+} from './RemindersCard.styles'
+import { RemindersCardProps } from './RemindersCard.types'
 
 dayjs.extend(advancedFormat)
 
@@ -31,14 +31,14 @@ export const RemindersCard: React.FunctionComponent<RemindersCardProps> = (props
         } else if (remainingDays === 1) {
             return `${remainingDays} Day`
         } else if (remainingDays === -1) {
-            return "Yesterday"
+            return 'Yesterday'
         } else if (remainingDays > 1) {
             return `${remainingDays} Days`
         } else if (remainingDays < -1) {
             // Splits the negative number string by -
             // -29 will be split into "" and "29"
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const [_, days] = String(remainingDays).split("-")
+            const [_, days] = String(remainingDays).split('-')
 
             return `${days} Days Ago`
         }

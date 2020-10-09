@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react'
 
-import { NotificationVariantType } from "../../styles"
+import { NotificationVariantType } from '../../styles'
 
 export type NotificationProps = React.HTMLAttributes<HTMLDivElement> & {
     variant: NotificationVariantType

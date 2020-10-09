@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client/core"
+import { gql } from '@apollo/client/core'
 
-import { TASK_PAYLOAD } from "../fragements"
+import { TASK_PAYLOAD } from '../fragements'
 
 export const CREATE_TASK = gql`
     mutation CreateTask($input: CreateTaskInput!) {

@@ -1,1 +1,1 @@
-export * from "./ExitIcon"
+export * from './ExitIcon'

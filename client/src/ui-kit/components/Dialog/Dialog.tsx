@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 
 import {
     DialogContent,
@@ -6,8 +6,8 @@ import {
     DialogOverlay,
     DialogRoot,
     DialogTitle,
-} from "./Dialog.styles"
-import { DialogProps } from "./Dialog.types"
+} from './Dialog.styles'
+import { DialogProps } from './Dialog.types'
 
 export const Dialog: React.FunctionComponent<DialogProps> = (props) => {
     const {

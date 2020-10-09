@@ -1,7 +1,7 @@
-import * as React from "react"
+import * as React from 'react'
 
-import { TasksCardContext } from "./TasksCardProvider"
-import { TasksCardContextType } from "./TasksCardProvider.types"
+import { TasksCardContext } from './TasksCardProvider'
+import { TasksCardContextType } from './TasksCardProvider.types'
 
 export const useTasksCardContext = (): TasksCardContextType => {
     const context = React.useContext(TasksCardContext)

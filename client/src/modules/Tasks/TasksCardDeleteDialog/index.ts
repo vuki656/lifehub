@@ -1,2 +1,2 @@
-export * from "./TasksCardDeleteDialog"
-export * from "./TasksCardDeleteDialog.types"
+export * from './TasksCardDeleteDialog'
+export * from './TasksCardDeleteDialog.types'

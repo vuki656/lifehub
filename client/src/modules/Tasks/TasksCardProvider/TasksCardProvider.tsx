@@ -3,7 +3,7 @@ import * as React from 'react'
 import {
     TasksCardContextType,
     TasksCardProviderProps,
-} from "./TasksCardProvider.types"
+} from './TasksCardProvider.types'
 
 export const TasksCardContext = React.createContext<TasksCardContextType | null>(null)
 

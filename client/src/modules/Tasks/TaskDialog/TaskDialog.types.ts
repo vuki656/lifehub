@@ -1,5 +1,5 @@
-import { DialogProps } from "../../../types"
-import { TaskType } from "../Task"
+import { DialogProps } from '../../../types'
+import { TaskType } from '../Task'
 
 export type TaskDialogProps = DialogProps & {
     task: TaskType

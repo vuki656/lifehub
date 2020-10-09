@@ -1,20 +1,20 @@
-import { useMutation } from "@apollo/client"
+import { useMutation } from '@apollo/client'
 import * as React from 'react'
-import { useToggle } from "react-use"
+import { useToggle } from 'react-use'
 
-import { EDIT_CARD } from "../../../graphql/mutations"
+import { EDIT_CARD } from '../../../graphql/mutations'
 import {
     EditCardMutation,
     EditCardMutationVariables,
-} from "../../../graphql/types"
-import { Button } from "../../../ui-kit/components/Button"
-import { IconButton } from "../../../ui-kit/components/IconButton"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { PencilIcon } from "../../../ui-kit/icons/PencilIcon"
-import { CardDialogFormType } from "../TasksAddCardDialog/TasksAddCardDialog.types"
-import { TasksCardDialog } from "../TasksCardDialog"
+} from '../../../graphql/types'
+import { Button } from '../../../ui-kit/components/Button'
+import { IconButton } from '../../../ui-kit/components/IconButton'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
+import { PencilIcon } from '../../../ui-kit/icons/PencilIcon'
+import { CardDialogFormType } from '../TasksAddCardDialog/TasksAddCardDialog.types'
+import { TasksCardDialog } from '../TasksCardDialog'
 
-import { TasksCardEditDialogProps } from "./TasksCardEditDialog.types"
+import { TasksCardEditDialogProps } from './TasksCardEditDialog.types'
 
 export const TasksCardEditDialog: React.FunctionComponent<TasksCardEditDialogProps> = (props) => {
     const { card } = props
@@ -48,14 +48,14 @@ export const TasksCardEditDialog: React.FunctionComponent<TasksCardEditDialogPro
             toggleDialog()
 
             notifications.display(
-                "Card edited successfully",
-                "success"
+                'Card edited successfully',
+                'success'
             )
         })
         .catch(() => {
             notifications.display(
-                "Unable to edit card",
-                "error"
+                'Unable to edit card',
+                'error'
             )
         })
     }

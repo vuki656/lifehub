@@ -1,27 +1,27 @@
-import { useMutation } from "@apollo/client"
-import dayjs from "dayjs"
-import { useRouter } from "next/router"
+import { useMutation } from '@apollo/client'
+import dayjs from 'dayjs'
+import { useRouter } from 'next/router'
 import * as React from 'react'
 
-import { TOGGLE_TASK } from "../../../graphql/mutations"
-import { TASKS } from "../../../graphql/queries/Task"
+import { TOGGLE_TASK } from '../../../graphql/mutations'
+import { TASKS } from '../../../graphql/queries/Task'
 import {
     TasksQuery,
     TasksQueryVariables,
     ToggleTaskMutation,
     ToggleTaskMutationVariables,
-} from "../../../graphql/types"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { TaskDeleteDialog } from "../TaskDeleteDialog"
-import { TaskEditDialog } from "../TaskEditDialog"
-import { TaskMoveTaskButton } from "../TaskMoveTaskButton"
+} from '../../../graphql/types'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
+import { TaskDeleteDialog } from '../TaskDeleteDialog'
+import { TaskEditDialog } from '../TaskEditDialog'
+import { TaskMoveTaskButton } from '../TaskMoveTaskButton'
 
 import {
     TaskActions,
     TaskCheckbox,
     TaskRoot,
-} from "./Task.styles"
-import { TaskProps } from "./Task.types"
+} from './Task.styles'
+import { TaskProps } from './Task.types'
 
 export const Task: React.FunctionComponent<TaskProps> = (props) => {
     const {
@@ -88,8 +88,8 @@ export const Task: React.FunctionComponent<TaskProps> = (props) => {
         })
         .catch(() => {
             notifications.display(
-                "Unable to toggle task.",
-                "error"
+                'Unable to toggle task.',
+                'error'
             )
         })
     }
@@ -103,7 +103,7 @@ export const Task: React.FunctionComponent<TaskProps> = (props) => {
                 onChange={handleChange}
             />
             <TaskActions>
-                {dayjs(router.query.selectedDate as string).isSame(new Date, "date")
+                {dayjs(router.query.selectedDate as string).isSame(new Date, 'date')
                     ? null
                     : <TaskMoveTaskButton task={task} />
                 }
