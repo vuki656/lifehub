@@ -77,7 +77,7 @@ export const TasksCardDeleteDialog: React.FunctionComponent<TasksCardDeleteDialo
                 icon={<TrashIcon />}
                 onClick={toggleDialog}
                 size="small"
-                variant="blank"
+                variant="outlined"
             />
             <DeleteDialog
                 isOpen={isDialogOpen}

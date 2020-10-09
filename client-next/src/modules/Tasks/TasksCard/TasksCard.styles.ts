@@ -5,12 +5,13 @@ import {
     Panel,
 } from "../../../ui-kit/components"
 
-export const TasksCardActions = styled('div')({
+export const TasksCardActions = styled('div')((props) => ({
     alignItems: 'center',
+    columnGap: props.theme.spacing.xs,
     display: 'flex',
     flexDirection: "row",
     justifyContent: 'center',
-})
+}))
 
 export const TasksCardRoot = styled(Panel)((props) => ({
     "&:hover": {

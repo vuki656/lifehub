@@ -66,7 +66,7 @@ export const TasksCardEditDialog: React.FunctionComponent<TasksCardEditDialogPro
                 icon={<PencilIcon />}
                 onClick={toggleDialog}
                 size="small"
-                variant="blank"
+                variant="outlined"
             />
             <TasksCardDialog
                 card={card}
