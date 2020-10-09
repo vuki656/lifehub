@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import styled, { CSSObject } from "styled-components"
 
 import { DownIcon } from "../../../ui-kit/icons/DownIcon"
@@ -13,7 +14,8 @@ export const TasksDayLisRoot = styled('div')((props) => ({
 }))
 
 type DayListItemProps = {
-    selected: boolean
+    selected: boolean,
+    day: dayjs.Dayjs
 }
 
 export const DayListItem = styled('a')<DayListItemProps>((props) => {
@@ -36,6 +38,13 @@ export const DayListItem = styled('a')<DayListItemProps>((props) => {
         styles = {
             ...styles,
             backgroundColor: props.theme.palette.grey.light500,
+        }
+    }
+
+    if (dayjs(props.day).isSame(new Date, "date")) {
+        styles = {
+            ...styles,
+            fontWeight: 'bold',
         }
     }
 

@@ -6,7 +6,6 @@ import {
     Resolver,
 } from 'type-graphql'
 
-import { TaskService } from './Task.service'
 import {
     TaskArgs,
     TasksArgs,
@@ -15,14 +14,17 @@ import {
     CreateTaskInput,
     DeleteTaskInput,
     EditTaskInput,
+    MoveTaskToTodayInput,
     ToggleTaskInput,
 } from './mutations/inputs'
 import {
     CreateTaskPayload,
     DeleteTaskPayload,
     EditTaskPayload,
+    MoveTaskToTodayPayload,
     ToggleTaskPayload,
 } from './mutations/payloads'
+import { TaskService } from './Task.service'
 import { TaskType } from './types'
 
 @Resolver(() => TaskType)
@@ -79,6 +81,14 @@ export class TaskResolver {
         @Arg('input') input: ToggleTaskInput,
     ): Promise<ToggleTaskPayload> {
         return this.service.toggle(input)
+    }
+
+    @Authorized()
+    @Mutation(() => MoveTaskToTodayPayload)
+    public async moveTaskToToday(
+        @Arg('input') input: MoveTaskToTodayInput,
+    ): Promise<MoveTaskToTodayPayload> {
+        return this.service.moveToToday(input)
     }
 
 }

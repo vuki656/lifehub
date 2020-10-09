@@ -40,3 +40,11 @@ export const EDIT_TASK = gql`
     }
     ${TASK_PAYLOAD}
 `
+
+export const MOVE_TASK_TO_TODAY = gql`
+    mutation MoveTaskToToday($input: MoveTaskToTodayInput!) {
+        moveTaskToToday(input: $input) {
+            id
+        }
+    }
+`

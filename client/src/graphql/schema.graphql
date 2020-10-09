@@ -51,6 +51,10 @@ type LogInUserPayload {
     userId: String!
 }
 
+type MoveTaskToTodayPayload {
+    id: String!
+}
+
 type Mutation {
     createCard(input: CreateCardInput!): CreateCardPayload!
     createReminder(input: CreateReminderInput!): CreateReminderPayload!
@@ -62,6 +66,7 @@ type Mutation {
     editReminder(input: EditReminderInput!): EditReminderPayload!
     editTask(input: EditTaskInput!): EditTaskPayload!
     logInUser(input: LogInUserInput!): LogInUserPayload!
+    moveTaskToToday(input: MoveTaskToTodayInput!): MoveTaskToTodayPayload!
     registerUser(input: RegisterUserInput!): RegisterUserPayload!
     toggleTask(input: ToggleTaskInput!): ToggleTaskPayload!
 }
@@ -160,6 +165,10 @@ input EditTaskInput {
 input LogInUserInput {
     email: String!
     password: String!
+}
+
+input MoveTaskToTodayInput {
+    id: String!
 }
 
 input RegisterUserInput {

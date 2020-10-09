@@ -15,12 +15,14 @@ import {
     CreateTaskInput,
     DeleteTaskInput,
     EditTaskInput,
+    MoveTaskToTodayInput,
     ToggleTaskInput,
 } from './mutations/inputs'
 import {
     CreateTaskPayload,
     DeleteTaskPayload,
     EditTaskPayload,
+    MoveTaskToTodayPayload,
     ToggleTaskPayload,
 } from './mutations/payloads'
 import { TaskType } from './types'
@@ -89,6 +91,15 @@ export class TaskService {
         })
 
         return new ToggleTaskPayload(taskId, isCompleted)
+    }
+
+    public async moveToToday(input: MoveTaskToTodayInput) {
+        await this.repository.save({
+            date: new Date(),
+            id: input.id,
+        })
+
+        return new MoveTaskToTodayPayload(input.id)
     }
 
 }

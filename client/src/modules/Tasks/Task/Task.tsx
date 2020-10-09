@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client"
+import dayjs from "dayjs"
 import { useRouter } from "next/router"
 import * as React from 'react'
 
@@ -13,6 +14,7 @@ import {
 import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
 import { TaskDeleteDialog } from "../TaskDeleteDialog"
 import { TaskEditDialog } from "../TaskEditDialog"
+import { TaskMoveTaskButton } from "../TaskMoveTaskButton"
 
 import {
     TaskActions,
@@ -101,6 +103,10 @@ export const Task: React.FunctionComponent<TaskProps> = (props) => {
                 onChange={handleChange}
             />
             <TaskActions>
+                {dayjs(router.query.selectedDate as string).isSame(new Date, "date")
+                    ? null
+                    : <TaskMoveTaskButton task={task} />
+                }
                 <TaskEditDialog task={task} />
                 <TaskDeleteDialog task={task} />
             </TaskActions>
