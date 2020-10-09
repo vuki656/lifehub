@@ -9,8 +9,8 @@ type CheckboxCheckmarkProps = Pick<CheckboxProps, 'checked'>
 type CheckboxRectangleProps = Pick<CheckboxProps, 'checked'>
 
 export const CheckboxRoot = styled('label')({
-    display: "flex",
-    flexDirection: "row",
+    display: "grid",
+    gridTemplateColumns: 'auto 1fr auto',
 })
 
 export const CheckboxInput = styled('input')({
@@ -46,4 +46,7 @@ export const CheckboxCheckmark = styled(DoneIcon)<CheckboxCheckmarkProps>((props
     transition: props.theme.transitions.create('opacity', 125),
 }))
 
-export const CheckboxLabel = styled('span')({})
+export const CheckboxLabel = styled('span')({
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+})
