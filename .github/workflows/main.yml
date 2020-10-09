@@ -18,10 +18,10 @@ jobs:
         if: always()
         run: |
           cd client
-          yarn lint
+          yarn client-lint
 
       - name: Lint server
         if: always()
         run: |
           cd server
-          yarn lint
+          yarn api-lint
