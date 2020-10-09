@@ -29,3 +29,14 @@ export const DELETE_TASK = gql`
         }
     }
 `
+
+export const EDIT_TASK = gql`
+    mutation EditTask($input: EditTaskInput!) {
+        editTask(input: $input) {
+            task {
+                ...TaskPayload
+            }
+        }
+    }
+    ${TASK_PAYLOAD}
+`

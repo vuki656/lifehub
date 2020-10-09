@@ -6,6 +6,8 @@ import { CheckboxProps } from "./Checkbox.types"
 
 type CheckboxCheckmarkProps = Pick<CheckboxProps, 'checked'>
 
+type CheckboxRectangleProps = Pick<CheckboxProps, 'checked'>
+
 export const CheckboxRoot = styled('label')({
     display: "flex",
     flexDirection: "row",
@@ -23,7 +25,7 @@ export const CheckboxInput = styled('input')({
     zIndex: 1,
 })
 
-export const CheckboxRectangle = styled('div')((props) => ({
+export const CheckboxRectangle = styled('div')<CheckboxRectangleProps>((props) => ({
     alignItems: 'center',
     backgroundColor: props.theme.palette.white,
     borderColor: props.theme.palette.grey.light350,

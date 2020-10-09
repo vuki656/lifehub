@@ -452,6 +452,22 @@ export type DeleteTaskMutation = (
   ) }
 );
 
+export type EditTaskMutationVariables = Exact<{
+  input: EditTaskInput;
+}>;
+
+
+export type EditTaskMutation = (
+  { __typename?: 'Mutation' }
+  & { editTask: (
+    { __typename?: 'EditTaskPayload' }
+    & { task: (
+      { __typename?: 'TaskType' }
+      & TaskPayloadFragment
+    ) }
+  ) }
+);
+
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
 }>;

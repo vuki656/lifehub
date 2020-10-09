@@ -1,4 +1,6 @@
-export type TaskProps = {
+import React from "react"
+
+export type TaskProps = React.HTMLAttributes<HTMLDivElement> & {
     task: TaskType,
     cardId: string,
 }

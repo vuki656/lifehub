@@ -13,8 +13,10 @@ import {
 } from "../../../graphql/types"
 import { Button } from "../../../ui-kit/components/Button"
 import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { ReminderDialogFormType } from "../RemindersAddDialog"
-import { RemindersDialog } from "../RemindersDialog"
+import {
+    ReminderDialogFormType,
+    RemindersDialog,
+} from "../RemindersDialog"
 
 import { RemindersDialogProps } from "./RemindersEditDialog.types"
 

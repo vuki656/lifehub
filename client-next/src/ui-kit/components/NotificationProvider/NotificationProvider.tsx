@@ -18,7 +18,10 @@ export const NotificationContext = React.createContext<NotificationContextType |
 export const NotificationProvider: React.FunctionComponent = (props) => {
     const { children } = props
 
-    const [notifications, setNotification] = React.useState<NotificationType[]>([])
+    const [
+        notifications,
+        setNotification,
+    ] = React.useState<NotificationType[]>([])
 
     const renderNotifications = useTransition(notifications, {
         config: config.gentle,

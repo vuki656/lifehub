@@ -38,13 +38,13 @@ export const TaskDeleteDialog: React.FunctionComponent<TaskDeleteDialogProps> = 
             toggleDialog()
 
             notification.display(
-                "Task deleted successfully",
+                "Task deleted successfully.",
                 "success"
             )
         })
         .catch(() => {
             notification.display(
-                "Unable to delete task",
+                "Unable to delete task.",
                 "error"
             )
         })

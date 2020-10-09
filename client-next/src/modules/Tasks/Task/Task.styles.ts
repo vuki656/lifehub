@@ -25,6 +25,7 @@ export const TaskRoot = styled('div')((props) => ({
 }))
 
 export const TaskActions = styled('div')((props) => ({
+    columnGap: props.theme.spacing.xs,
     display: 'flex',
     flexDirection: "row",
     opacity: 0,
@@ -33,8 +34,10 @@ export const TaskActions = styled('div')((props) => ({
 
 export const TaskCheckbox = styled(Checkbox)<TaskCheckboxProps>((props) => {
     let styles: CSSObject = {
+        "&:hover": { cursor: "pointer" },
         [CheckboxCheckmark]: { fill: props.theme.palette.white },
         [CheckboxLabel]: { transition: props.theme.transitions.create('color', 150) },
+        width: '100%',
     }
 
     if (props.checked) {
@@ -45,7 +48,10 @@ export const TaskCheckbox = styled(Checkbox)<TaskCheckboxProps>((props) => {
                 textDecoration: 'line-through',
                 // Duplication of this is needed because if only put in initial styles, it is lost on checked state
                 // and no animation on un-toggle will be fired.
-                transition: props.theme.transitions.create(['color', 'line-through'], 150),
+                transition: props.theme.transitions.create([
+                    'color',
+                    'line-through',
+                ], 150),
             },
             [CheckboxRectangle]: { backgroundColor: props.theme.palette.grey.light350 },
         }

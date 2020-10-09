@@ -91,17 +91,17 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
     },)
 
     return (
-        <TasksCardRoot>
-            <TasksCardHeader>
-                <TasksCardTitle>
-                    {card.name}
-                </TasksCardTitle>
-                <TasksCardActions>
-                    <TasksCardEditDialog card={card} />
-                    <TasksCardDeleteDialog card={card} />
-                </TasksCardActions>
-            </TasksCardHeader>
-            <TasksCardProvider refetch={refetch}>
+        <TasksCardProvider refetch={refetch}>
+            <TasksCardRoot>
+                <TasksCardHeader>
+                    <TasksCardTitle>
+                        {card.name}
+                    </TasksCardTitle>
+                    <TasksCardActions>
+                        <TasksCardEditDialog card={card} />
+                        <TasksCardDeleteDialog card={card} />
+                    </TasksCardActions>
+                </TasksCardHeader>
                 <TasksCardTasks>
                     {tasksResult?.tasks.map((task) => {
                         return (
@@ -113,23 +113,23 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
                         )
                     })}
                 </TasksCardTasks>
-            </TasksCardProvider>
-            <TasksCardForm onSubmit={form.handleSubmit}>
-                <TextField
-                    fullWidth
-                    name="title"
-                    onChange={form.handleChange}
-                    required
-                    type="text"
-                    value={form.values.title}
-                />
-                <SubmitButton
-                    icon={<AddIcon />}
-                    loading={createLoading}
-                    type="submit"
-                    variant="outlined"
-                />
-            </TasksCardForm>
-        </TasksCardRoot>
+                <TasksCardForm onSubmit={form.handleSubmit}>
+                    <TextField
+                        fullWidth
+                        name="title"
+                        onChange={form.handleChange}
+                        required
+                        type="text"
+                        value={form.values.title}
+                    />
+                    <SubmitButton
+                        icon={<AddIcon />}
+                        loading={createLoading}
+                        type="submit"
+                        variant="outlined"
+                    />
+                </TasksCardForm>
+            </TasksCardRoot>
+        </TasksCardProvider>
     )
 }

@@ -12,6 +12,7 @@ import {
 } from "../../../graphql/types"
 import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
 import { TaskDeleteDialog } from "../TaskDeleteDialog"
+import { TaskEditDialog } from "../TaskEditDialog"
 
 import {
     TaskActions,
@@ -24,6 +25,7 @@ export const Task: React.FunctionComponent<TaskProps> = (props) => {
     const {
         task,
         cardId,
+        ...other
     } = props
 
     const router = useRouter()
@@ -91,7 +93,7 @@ export const Task: React.FunctionComponent<TaskProps> = (props) => {
     }
 
     return (
-        <TaskRoot>
+        <TaskRoot {...other}>
             <TaskCheckbox
                 checked={task.isCompleted}
                 disabled={toggleLoading}
@@ -99,6 +101,7 @@ export const Task: React.FunctionComponent<TaskProps> = (props) => {
                 onChange={handleChange}
             />
             <TaskActions>
+                <TaskEditDialog task={task} />
                 <TaskDeleteDialog task={task} />
             </TaskActions>
         </TaskRoot>

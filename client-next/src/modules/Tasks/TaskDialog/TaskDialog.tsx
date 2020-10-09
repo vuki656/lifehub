@@ -9,28 +9,29 @@ import { TextArea } from "../../../ui-kit/components/TextArea"
 import { TextField } from "../../../ui-kit/components/TextField"
 
 import {
-    ReminderDialogFormType,
-    RemindersDialogProps,
-} from "./RemindersDialog.types"
+    TaskDialogFormType,
+    TaskDialogProps,
+} from "./TaskDialog.types"
 
-export const RemindersDialog: React.FunctionComponent<RemindersDialogProps> = (props) => {
+export const TaskDialog: React.FunctionComponent<TaskDialogProps> = (props) => {
     const {
         toggleDialog,
         isOpen,
         onSubmit,
-        reminder,
+        task,
         title,
         titleButton,
         submitButton,
     } = props
 
-    const form = useFormik<ReminderDialogFormType>({
+    const form = useFormik<TaskDialogFormType>({
         enableReinitialize: true,
         initialValues: {
-            dueDate: reminder?.dueDate ?? '',
-            id: reminder?.id ?? '',
-            note: reminder?.note ?? '',
-            title: reminder?.title ?? '',
+            date: task.date ?? '',
+            id: task.id ?? '',
+            isCompleted: task.isCompleted,
+            note: task.note ?? '',
+            title: task.title ?? '',
         },
         onSubmit: async(formValues) => {
             await onSubmit(formValues)
@@ -64,16 +65,16 @@ export const RemindersDialog: React.FunctionComponent<RemindersDialogProps> = (p
                     label="Note"
                     name="note"
                     onChange={form.handleChange}
-                    rows={8}
+                    rows={7}
                     value={form.values.note}
                 />
                 <DatePicker
                     fullWidth
-                    label="Due Date"
+                    label="Date"
                     minDate={new Date()}
-                    onChange={(selectedDate) => form.setFieldValue("dueDate", selectedDate)}
+                    onChange={(selectedDate) => form.setFieldValue("date", selectedDate)}
                     required
-                    selected={form.values.dueDate}
+                    selected={form.values.date}
                 />
                 <DialogActions>
                     <Button

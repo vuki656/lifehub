@@ -9,12 +9,12 @@ import {
 } from "../../../graphql/types"
 import { Button } from "../../../ui-kit/components/Button"
 import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { RemindersDialog } from "../RemindersDialog"
-
 import {
-    ReminderAddDialogProps,
     ReminderDialogFormType,
-} from "./ReminderAddDialog.types"
+    RemindersDialog,
+} from "../RemindersDialog"
+
+import { ReminderAddDialogProps } from "./ReminderAddDialog.types"
 
 export const RemindersAddDialog: React.FunctionComponent<ReminderAddDialogProps> = (props) => {
     const { onSubmit } = props
