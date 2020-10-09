@@ -38,7 +38,7 @@ export class ReminderResolver {
         return this.service.findOne(id)
     }
 
-    // @Authorized()
+    @Authorized()
     @Query(() => [ReminderType])
     public async reminders(
         @Arg('args') args: RemindersArgs,
