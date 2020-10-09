@@ -1,10 +1,8 @@
 /* eslint-disable */
 // @generated
 // This file was automatically generated and should not be edited.
-
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -75,6 +73,11 @@ export type LogInUserPayload = {
   userId: Scalars['String'];
 };
 
+export type MoveTaskToTodayPayload = {
+  __typename?: 'MoveTaskToTodayPayload';
+  id: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createCard: CreateCardPayload;
@@ -87,6 +90,7 @@ export type Mutation = {
   editReminder: EditReminderPayload;
   editTask: EditTaskPayload;
   logInUser: LogInUserPayload;
+  moveTaskToToday: MoveTaskToTodayPayload;
   registerUser: RegisterUserPayload;
   toggleTask: ToggleTaskPayload;
 };
@@ -139,6 +143,11 @@ export type MutationEditTaskArgs = {
 
 export type MutationLogInUserArgs = {
   input: LogInUserInput;
+};
+
+
+export type MutationMoveTaskToTodayArgs = {
+  input: MoveTaskToTodayInput;
 };
 
 
@@ -276,6 +285,10 @@ export type EditTaskInput = {
 export type LogInUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type MoveTaskToTodayInput = {
+  id: Scalars['String'];
 };
 
 export type RegisterUserInput = {
@@ -465,6 +478,19 @@ export type EditTaskMutation = (
       { __typename?: 'TaskType' }
       & TaskPayloadFragment
     ) }
+  ) }
+);
+
+export type MoveTaskToTodayMutationVariables = Exact<{
+  input: MoveTaskToTodayInput;
+}>;
+
+
+export type MoveTaskToTodayMutation = (
+  { __typename?: 'Mutation' }
+  & { moveTaskToToday: (
+    { __typename?: 'MoveTaskToTodayPayload' }
+    & Pick<MoveTaskToTodayPayload, 'id'>
   ) }
 );
 
