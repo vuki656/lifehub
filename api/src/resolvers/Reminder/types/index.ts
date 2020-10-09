@@ -1,1 +1,1 @@
-export * from "./Reminder.type"
+export * from './Reminder.type'

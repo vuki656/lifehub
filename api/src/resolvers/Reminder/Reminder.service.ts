@@ -9,6 +9,11 @@ import { InjectRepository } from 'typeorm-typedi-extensions'
 
 import { ContextType } from '../../../global/types/context.type'
 import { ReminderEntity } from '../../entities'
+
+import {
+    RemindersArgs,
+    RemindersTimeSpanEnum,
+} from './args'
 import {
     CreateReminderInput,
     EditReminderInput,
@@ -18,7 +23,6 @@ import {
     DeleteReminderPayload,
     EditReminderPayload,
 } from './mutations/payloads'
-
 import { ReminderType } from './types'
 
 @EntityRepository()
@@ -38,16 +42,17 @@ export class ReminderService {
         return new ReminderType(reminder)
     }
 
-    public async findByDate(
-        date: Date,
+    public async findAllByTimeSpan(
+        args: RemindersArgs,
         context: ContextType,
     ): Promise<ReminderType[]> {
         const { userId } = context
 
+        const timeSpanConditions = this.getTimeSpanConditions(args.timeSpan)
+
         const reminders = await this.repository.find({
             where: {
-                endDate: MoreThanOrEqual(date),
-                startDate: LessThanOrEqual(date),
+                ...timeSpanConditions,
                 user: { id: userId },
             },
         })
@@ -59,21 +64,9 @@ export class ReminderService {
         input: CreateReminderInput,
         context: ContextType,
     ): Promise<CreateReminderPayload> {
-        const { userId } = context
-
-        const {
-            title,
-            note,
-            startDate,
-            endDate,
-        } = input
-
         const createdReminder = await this.repository.save({
-            endDate,
-            note,
-            startDate,
-            title,
-            user: { id: userId },
+            ...input,
+            user: { id: context.userId },
         })
 
         return new CreateReminderPayload(createdReminder)
@@ -89,6 +82,17 @@ export class ReminderService {
         await this.repository.delete({ id })
 
         return new DeleteReminderPayload(id)
+    }
+
+    public getTimeSpanConditions(timeSpan: RemindersTimeSpanEnum) {
+        switch (timeSpan) {
+            case 'all':
+                return {}
+            case 'future':
+                return { dueDate: MoreThanOrEqual(new Date()) }
+            case 'past':
+                return { dueDate: LessThanOrEqual(new Date()) }
+        }
     }
 
 }

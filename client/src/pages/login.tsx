@@ -1,9 +1,20 @@
-import React from 'react'
+import { NextPage } from 'next'
+import NextHead from 'next/head'
+import * as React from 'react'
 
 import { Login } from '../modules/Login'
 
-export const LoginPage: React.FC = () => {
+const LoginPage: NextPage = () => {
     return (
-        <Login />
+        <>
+            <NextHead>
+                <title>
+                    Lifehub: Login
+                </title>
+            </NextHead>
+            <Login />
+        </>
     )
 }
+
+export default LoginPage

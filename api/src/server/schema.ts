@@ -22,10 +22,6 @@ export const getSchema = (): GraphQLSchema => {
             CardResolver,
             TaskResolver,
         ],
-        scalarsMap: [{
-            scalar: GraphQLDate,
-            type: Date,
-        }],
         validate: false,
     })
 }

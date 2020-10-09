@@ -28,16 +28,10 @@ export class ReminderEntity {
     note: string
 
     @Column({
-        name: 'start_date',
+        name: 'due_date',
         type: 'date',
     })
-    startDate: Date
-
-    @Column({
-        name: 'end_date',
-        type: 'date',
-    })
-    endDate: Date
+    dueDate: Date
 
     @ManyToOne(() => UserEntity, (user) => user.reminders, { nullable: false })
     @JoinColumn({ name: 'user_id' })

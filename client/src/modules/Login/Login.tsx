@@ -1,41 +1,47 @@
-import { useMutation } from '@apollo/react-hooks'
-import { useFormik } from 'formik'
-import React, { useCallback } from 'react'
 import {
-    Link,
-    useHistory,
-} from 'react-router-dom'
+    ApolloError,
+    useMutation,
+} from "@apollo/client"
+import dayjs from "dayjs"
+import { useFormik } from 'formik'
+import Link from "next/link"
+import { useRouter } from 'next/router'
+import * as React from 'react'
 
-import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
-import { LoadingSpinner } from '../../components/LoadingSpinner'
-import { LOGIN_USER } from '../../graphql/mutations/user.mutations'
-import type {
+import { LOGIN_USER } from '../../graphql/mutations'
+import {
     LogInUserMutation,
     LogInUserMutationVariables,
 } from '../../graphql/types'
+import {
+    Button,
+    Divider,
+    TextField,
+} from '../../ui-kit/components'
 
-import { LoginFormTypes } from './Login.types'
+import {
+    LoginFooterLink,
+    LoginFooterText,
+    LoginPanel,
+    LoginRoot,
+} from './Login.styles'
+import {
+    LoginFormErrorType,
+    LoginFormTypes,
+} from './Login.types'
 
 export const Login: React.FunctionComponent = () => {
-    const history = useHistory()
+    const { push } = useRouter()
+
+    const [errors, setErrors] = React.useState<LoginFormErrorType>({})
 
     const [
-        logInUserMutation, {
-            loading,
-            error,
-        },
+        logInUserMutation,
+        { loading },
     ] = useMutation<LogInUserMutation, LogInUserMutationVariables>(LOGIN_USER)
 
-    const loginForm = useFormik<LoginFormTypes>({
-        initialValues: {
-            email: '',
-            password: '',
-        },
-        onSubmit: (formValues) => handleSubmit(formValues),
-    })
-
-    const handleSubmit = useCallback((formValues: LoginFormTypes) => {
-        logInUserMutation({
+    const handleSubmit = React.useCallback(async(formValues: LoginFormTypes) => {
+        await logInUserMutation({
             variables: {
                 input: {
                     email: formValues.email,
@@ -47,67 +53,82 @@ export const Login: React.FunctionComponent = () => {
             const token = response?.data?.logInUser.token ?? ''
             const userId = response?.data?.logInUser.userId ?? ''
 
-            window.localStorage.setItem('token', token)
-            window.localStorage.setItem('userId', userId)
+            window.localStorage.setItem(
+                'token',
+                token
+            )
 
-            history.push('/dashboard')
-            loginForm.resetForm()
+            window.localStorage.setItem(
+                'userId',
+                userId
+            )
+
+            push(`/dashboard/${dayjs().format("MM-DD-YYYY")}`)
         })
-        .catch((error) => {
-            console.log(error)
-            // setErrors(error.graphQLErrors[0]?.extensions)
+        .catch((error: ApolloError) => {
+            setErrors({ ...error.graphQLErrors[0].extensions?.exception })
         })
-    }, [logInUserMutation, history, loginForm])
+    }, [
+        logInUserMutation,
+        push,
+    ])
+
+    const form = useFormik<LoginFormTypes>({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        onSubmit: (formValues) => {
+            handleSubmit(formValues)
+        },
+    })
 
     return (
-        <form onSubmit={loginForm.handleSubmit}>
-            <div className="form">
-                <div className="form__card">
-                    <Logo className="form__logo" />
-                    <p className="form__title">Sign in</p>
-                    <div className="form__field-wrapper">
-                        <p className="form__field-title">Email</p>
-                        <input
-                            className="form__input-field"
-                            autoComplete="email"
-                            type="email"
-                            required
-                            name="email"
-                            onChange={loginForm.handleChange}
-                            value={loginForm.values.email}
-                        />
-                        {/* {errors.email && <Message message={errors.email} type="error" />} */}
-                    </div>
-                    <div className="form__field-wrapper">
-                        <p className="form__field-title">Password</p>
-                        <input
-                            className="form__input-field"
-                            autoComplete="password"
-                            type="password"
-                            name="password"
-                            minLength={7}
-                            required
-                            onChange={loginForm.handleChange}
-                            value={loginForm.values.password}
-                        />
-                        {/* {errors.password && <Message message={errors.password} type="error" />} */}
-                    </div>
-                    <button
-                        className="form__button--wide button button--primary"
+        <LoginRoot>
+            <form onSubmit={form.handleSubmit}>
+                <LoginPanel spacing="lg">
+                    <img src="/images/text-logo.png" />
+                    <TextField
+                        autoComplete="email"
+                        error={Boolean(errors.email)}
+                        fullWidth
+                        helperText={errors.email}
+                        label="Email"
+                        name="email"
+                        onChange={form.handleChange}
+                        required
+                        value={form.values.email}
+                    />
+                    <TextField
+                        autoComplete="password"
+                        error={Boolean(errors.password)}
+                        fullWidth
+                        helperText={errors.password}
+                        label="Password"
+                        name="password"
+                        onChange={form.handleChange}
+                        required
+                        type="password"
+                        value={form.values.password}
+                    />
+                    <Button
+                        fullWidth
+                        loading={loading}
                         type="submit"
                     >
-                        {loading
-                            ? <LoadingSpinner loaderColor={'white'} loaderVariant={'button'} />
-                            : 'Login'
-                        }
-                    </button>
-                    <div className="bottom-info">
-                        <p className="bottom-info__text">Don&apos;t have an account?
-                            <Link to="/" className="bottom-info__link"> Register</Link>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </form>
+                        Login
+                    </Button>
+                    <Divider />
+                    <LoginFooterText>
+                        Don&apos;t have an account?{" "}
+                        <Link href="/register">
+                            <LoginFooterLink>
+                                Register
+                            </LoginFooterLink>
+                        </Link>
+                    </LoginFooterText>
+                </LoginPanel>
+            </form>
+        </LoginRoot>
     )
 }

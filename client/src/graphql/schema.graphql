@@ -8,7 +8,6 @@ schema {
 type CardType {
     id: String!
     name: String!
-    tasks(args: CardTasksArgs!): [TaskType!]!
 }
 
 type CreateCardPayload {
@@ -19,11 +18,19 @@ type CreateReminderPayload {
     reminder: ReminderType!
 }
 
+type CreateTaskPayload {
+    task: TaskType!
+}
+
 type DeleteCardPayload {
     id: String!
 }
 
 type DeleteReminderPayload {
+    id: String!
+}
+
+type DeleteTaskPayload {
     id: String!
 }
 
@@ -35,6 +42,10 @@ type EditReminderPayload {
     reminder: ReminderType!
 }
 
+type EditTaskPayload {
+    task: TaskType!
+}
+
 type LogInUserPayload {
     token: String!
     userId: String!
@@ -43,18 +54,24 @@ type LogInUserPayload {
 type Mutation {
     createCard(input: CreateCardInput!): CreateCardPayload!
     createReminder(input: CreateReminderInput!): CreateReminderPayload!
+    createTask(input: CreateTaskInput!): CreateTaskPayload!
     deleteCard(input: DeleteCardInput!): DeleteCardPayload!
     deleteReminder(id: String!): DeleteReminderPayload!
+    deleteTask(input: DeleteTaskInput!): DeleteTaskPayload!
     editCard(input: EditCardInput!): EditCardPayload!
     editReminder(input: EditReminderInput!): EditReminderPayload!
+    editTask(input: EditTaskInput!): EditTaskPayload!
     logInUser(input: LogInUserInput!): LogInUserPayload!
     registerUser(input: RegisterUserInput!): RegisterUserPayload!
+    toggleTask(input: ToggleTaskInput!): ToggleTaskPayload!
 }
 
 type Query {
     cards: [CardType!]!
     reminder(id: String!): ReminderType
-    remindersByDate(date: Date!): [ReminderType!]!
+    reminders(args: RemindersArgs!): [ReminderType!]!
+    task(args: TaskArgs!): TaskType!
+    tasks(args: TasksArgs!): [TaskType!]!
     verifyUser(token: String!): UserType!
 }
 
@@ -64,10 +81,9 @@ type RegisterUserPayload {
 }
 
 type ReminderType {
-    endDate: Date!
+    dueDate: Date!
     id: String!
     note: String!
-    startDate: Date!
     title: String!
     user: UserType!
 }
@@ -76,8 +92,13 @@ type TaskType {
     date: Date!
     id: String!
     isCompleted: Boolean!
-    note: String!
+    note: String
     title: String!
+}
+
+type ToggleTaskPayload {
+    id: String!
+    isCompleted: Boolean!
 }
 
 type UserType {
@@ -86,8 +107,10 @@ type UserType {
     username: String!
 }
 
-input CardTasksArgs {
-    date: Date!
+enum RemindersTimeSpanEnum {
+    ALL
+    FUTURE
+    PAST
 }
 
 input CreateCardInput {
@@ -95,13 +118,22 @@ input CreateCardInput {
 }
 
 input CreateReminderInput {
-    endDate: Date!
-    note: String!
-    startDate: Date!
+    dueDate: DateTime!
+    note: String
+    title: String!
+}
+
+input CreateTaskInput {
+    cardId: String!
+    date: DateTime!
     title: String!
 }
 
 input DeleteCardInput {
+    id: String!
+}
+
+input DeleteTaskInput {
     id: String!
 }
 
@@ -111,10 +143,17 @@ input EditCardInput {
 }
 
 input EditReminderInput {
-    endDate: Date!
+    dueDate: DateTime!
     id: String!
+    note: String
+    title: String!
+}
+
+input EditTaskInput {
+    date: DateTime!
+    id: String!
+    isCompleted: Boolean!
     note: String!
-    startDate: Date!
     title: String!
 }
 
@@ -130,6 +169,27 @@ input RegisterUserInput {
     username: String!
 }
 
+input RemindersArgs {
+    timeSpan: RemindersTimeSpanEnum!
+}
+
+input TaskArgs {
+    id: String!
+}
+
+input TasksArgs {
+    cardId: String!
+    date: DateTime!
+}
+
+input ToggleTaskInput {
+    isCompleted: Boolean!
+    taskId: String!
+}
+
 
 "A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
 scalar Date
+
+"The javascript `Date` as string. Type represents date and time as the ISO Date string."
+scalar DateTime

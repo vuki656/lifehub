@@ -2,19 +2,26 @@ import {
     Arg,
     Authorized,
     Mutation,
+    Query,
     Resolver,
 } from 'type-graphql'
 
 import { TaskService } from './Task.service'
 import {
+    TaskArgs,
+    TasksArgs,
+} from './args'
+import {
     CreateTaskInput,
     DeleteTaskInput,
     EditTaskInput,
+    ToggleTaskInput,
 } from './mutations/inputs'
 import {
     CreateTaskPayload,
     DeleteTaskPayload,
     EditTaskPayload,
+    ToggleTaskPayload,
 } from './mutations/payloads'
 import { TaskType } from './types'
 
@@ -24,6 +31,22 @@ export class TaskResolver {
     constructor(
         private readonly service: TaskService,
     ) {
+    }
+
+    @Authorized()
+    @Query(() => TaskType)
+    public async task(
+        @Arg('args') args: TaskArgs,
+    ): Promise<TaskType> {
+        return this.service.findOne(args)
+    }
+
+    @Authorized()
+    @Query(() => [TaskType])
+    public async tasks(
+        @Arg('args') args: TasksArgs,
+    ): Promise<TaskType[]> {
+        return this.service.findByDateAndCard(args)
     }
 
     @Authorized()
@@ -48,6 +71,14 @@ export class TaskResolver {
         @Arg('input') input: DeleteTaskInput,
     ): Promise<DeleteTaskPayload> {
         return this.service.delete(input)
+    }
+
+    @Authorized()
+    @Mutation(() => ToggleTaskPayload)
+    public async toggleTask(
+        @Arg('input') input: ToggleTaskInput,
+    ): Promise<ToggleTaskPayload> {
+        return this.service.toggle(input)
     }
 
 }

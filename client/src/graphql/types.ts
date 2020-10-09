@@ -2,7 +2,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-export type Maybe<T> = null;
+export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 
 /** All built-in and custom scalars, mapped to their actual values */
@@ -14,18 +14,14 @@ export type Scalars = {
   Float: number;
   /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: any;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: string;
 };
 
 export type CardType = {
   __typename?: 'CardType';
   id: Scalars['String'];
   name: Scalars['String'];
-  tasks: Array<TaskType>;
-};
-
-
-export type CardTypeTasksArgs = {
-  args: CardTasksArgs;
 };
 
 export type CreateCardPayload = {
@@ -38,6 +34,11 @@ export type CreateReminderPayload = {
   reminder: ReminderType;
 };
 
+export type CreateTaskPayload = {
+  __typename?: 'CreateTaskPayload';
+  task: TaskType;
+};
+
 export type DeleteCardPayload = {
   __typename?: 'DeleteCardPayload';
   id: Scalars['String'];
@@ -45,6 +46,11 @@ export type DeleteCardPayload = {
 
 export type DeleteReminderPayload = {
   __typename?: 'DeleteReminderPayload';
+  id: Scalars['String'];
+};
+
+export type DeleteTaskPayload = {
+  __typename?: 'DeleteTaskPayload';
   id: Scalars['String'];
 };
 
@@ -58,6 +64,11 @@ export type EditReminderPayload = {
   reminder: ReminderType;
 };
 
+export type EditTaskPayload = {
+  __typename?: 'EditTaskPayload';
+  task: TaskType;
+};
+
 export type LogInUserPayload = {
   __typename?: 'LogInUserPayload';
   token: Scalars['String'];
@@ -68,12 +79,16 @@ export type Mutation = {
   __typename?: 'Mutation';
   createCard: CreateCardPayload;
   createReminder: CreateReminderPayload;
+  createTask: CreateTaskPayload;
   deleteCard: DeleteCardPayload;
   deleteReminder: DeleteReminderPayload;
+  deleteTask: DeleteTaskPayload;
   editCard: EditCardPayload;
   editReminder: EditReminderPayload;
+  editTask: EditTaskPayload;
   logInUser: LogInUserPayload;
   registerUser: RegisterUserPayload;
+  toggleTask: ToggleTaskPayload;
 };
 
 
@@ -87,6 +102,11 @@ export type MutationCreateReminderArgs = {
 };
 
 
+export type MutationCreateTaskArgs = {
+  input: CreateTaskInput;
+};
+
+
 export type MutationDeleteCardArgs = {
   input: DeleteCardInput;
 };
@@ -94,6 +114,11 @@ export type MutationDeleteCardArgs = {
 
 export type MutationDeleteReminderArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationDeleteTaskArgs = {
+  input: DeleteTaskInput;
 };
 
 
@@ -107,6 +132,11 @@ export type MutationEditReminderArgs = {
 };
 
 
+export type MutationEditTaskArgs = {
+  input: EditTaskInput;
+};
+
+
 export type MutationLogInUserArgs = {
   input: LogInUserInput;
 };
@@ -116,11 +146,18 @@ export type MutationRegisterUserArgs = {
   input: RegisterUserInput;
 };
 
+
+export type MutationToggleTaskArgs = {
+  input: ToggleTaskInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   cards: Array<CardType>;
-  reminder: Maybe<ReminderType>;
-  remindersByDate: Array<ReminderType>;
+  reminder?: Maybe<ReminderType>;
+  reminders: Array<ReminderType>;
+  task: TaskType;
+  tasks: Array<TaskType>;
   verifyUser: UserType;
 };
 
@@ -130,8 +167,18 @@ export type QueryReminderArgs = {
 };
 
 
-export type QueryRemindersByDateArgs = {
-  date: Scalars['Date'];
+export type QueryRemindersArgs = {
+  args: RemindersArgs;
+};
+
+
+export type QueryTaskArgs = {
+  args: TaskArgs;
+};
+
+
+export type QueryTasksArgs = {
+  args: TasksArgs;
 };
 
 
@@ -147,10 +194,9 @@ export type RegisterUserPayload = {
 
 export type ReminderType = {
   __typename?: 'ReminderType';
-  endDate: Scalars['Date'];
+  dueDate: Scalars['Date'];
   id: Scalars['String'];
   note: Scalars['String'];
-  startDate: Scalars['Date'];
   title: Scalars['String'];
   user: UserType;
 };
@@ -160,8 +206,14 @@ export type TaskType = {
   date: Scalars['Date'];
   id: Scalars['String'];
   isCompleted: Scalars['Boolean'];
-  note: Scalars['String'];
+  note?: Maybe<Scalars['String']>;
   title: Scalars['String'];
+};
+
+export type ToggleTaskPayload = {
+  __typename?: 'ToggleTaskPayload';
+  id: Scalars['String'];
+  isCompleted: Scalars['Boolean'];
 };
 
 export type UserType = {
@@ -171,22 +223,33 @@ export type UserType = {
   username: Scalars['String'];
 };
 
-export type CardTasksArgs = {
-  date: Scalars['Date'];
-};
+export enum RemindersTimeSpanEnum {
+  All = 'ALL',
+  Future = 'FUTURE',
+  Past = 'PAST'
+}
 
 export type CreateCardInput = {
   name: Scalars['String'];
 };
 
 export type CreateReminderInput = {
-  endDate: Scalars['Date'];
-  note: Scalars['String'];
-  startDate: Scalars['Date'];
+  dueDate: Scalars['DateTime'];
+  note?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+export type CreateTaskInput = {
+  cardId: Scalars['String'];
+  date: Scalars['DateTime'];
   title: Scalars['String'];
 };
 
 export type DeleteCardInput = {
+  id: Scalars['String'];
+};
+
+export type DeleteTaskInput = {
   id: Scalars['String'];
 };
 
@@ -196,10 +259,17 @@ export type EditCardInput = {
 };
 
 export type EditReminderInput = {
-  endDate: Scalars['Date'];
+  dueDate: Scalars['DateTime'];
   id: Scalars['String'];
+  note?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+export type EditTaskInput = {
+  date: Scalars['DateTime'];
+  id: Scalars['String'];
+  isCompleted: Scalars['Boolean'];
   note: Scalars['String'];
-  startDate: Scalars['Date'];
   title: Scalars['String'];
 };
 
@@ -215,6 +285,40 @@ export type RegisterUserInput = {
   username: Scalars['String'];
 };
 
+export type RemindersArgs = {
+  timeSpan: RemindersTimeSpanEnum;
+};
+
+export type TaskArgs = {
+  id: Scalars['String'];
+};
+
+export type TasksArgs = {
+  cardId: Scalars['String'];
+  date: Scalars['DateTime'];
+};
+
+export type ToggleTaskInput = {
+  isCompleted: Scalars['Boolean'];
+  taskId: Scalars['String'];
+};
+
+
+
+export type CardPayloadFragment = (
+  { __typename?: 'CardType' }
+  & Pick<CardType, 'id' | 'name'>
+);
+
+export type ReminderPayloadFragment = (
+  { __typename?: 'ReminderType' }
+  & Pick<ReminderType, 'id' | 'title' | 'note' | 'dueDate'>
+);
+
+export type TaskPayloadFragment = (
+  { __typename?: 'TaskType' }
+  & Pick<TaskType, 'id' | 'title' | 'note' | 'date' | 'isCompleted'>
+);
 
 export type CreateCardMutationVariables = Exact<{
   input: CreateCardInput;
@@ -227,23 +331,7 @@ export type CreateCardMutation = (
     { __typename?: 'CreateCardPayload' }
     & { card: (
       { __typename?: 'CardType' }
-      & Pick<CardType, 'id' | 'name'>
-    ) }
-  ) }
-);
-
-export type EditCardMutationVariables = Exact<{
-  input: EditCardInput;
-}>;
-
-
-export type EditCardMutation = (
-  { __typename?: 'Mutation' }
-  & { editCard: (
-    { __typename?: 'EditCardPayload' }
-    & { card: (
-      { __typename?: 'CardType' }
-      & Pick<CardType, 'id' | 'name'>
+      & CardPayloadFragment
     ) }
   ) }
 );
@@ -261,6 +349,22 @@ export type DeleteCardMutation = (
   ) }
 );
 
+export type EditCardMutationVariables = Exact<{
+  input: EditCardInput;
+}>;
+
+
+export type EditCardMutation = (
+  { __typename?: 'Mutation' }
+  & { editCard: (
+    { __typename?: 'EditCardPayload' }
+    & { card: (
+      { __typename?: 'CardType' }
+      & CardPayloadFragment
+    ) }
+  ) }
+);
+
 export type CreateReminderMutationVariables = Exact<{
   input: CreateReminderInput;
 }>;
@@ -272,7 +376,7 @@ export type CreateReminderMutation = (
     { __typename?: 'CreateReminderPayload' }
     & { reminder: (
       { __typename?: 'ReminderType' }
-      & Pick<ReminderType, 'id' | 'title' | 'note' | 'startDate' | 'endDate'>
+      & ReminderPayloadFragment
     ) }
   ) }
 );
@@ -288,7 +392,7 @@ export type EditReminderMutation = (
     { __typename?: 'EditReminderPayload' }
     & { reminder: (
       { __typename?: 'ReminderType' }
-      & Pick<ReminderType, 'id' | 'title' | 'note' | 'startDate' | 'endDate'>
+      & ReminderPayloadFragment
     ) }
   ) }
 );
@@ -303,6 +407,64 @@ export type DeleteReminderMutation = (
   & { deleteReminder: (
     { __typename?: 'DeleteReminderPayload' }
     & Pick<DeleteReminderPayload, 'id'>
+  ) }
+);
+
+export type CreateTaskMutationVariables = Exact<{
+  input: CreateTaskInput;
+}>;
+
+
+export type CreateTaskMutation = (
+  { __typename?: 'Mutation' }
+  & { createTask: (
+    { __typename?: 'CreateTaskPayload' }
+    & { task: (
+      { __typename?: 'TaskType' }
+      & TaskPayloadFragment
+    ) }
+  ) }
+);
+
+export type ToggleTaskMutationVariables = Exact<{
+  input: ToggleTaskInput;
+}>;
+
+
+export type ToggleTaskMutation = (
+  { __typename?: 'Mutation' }
+  & { toggleTask: (
+    { __typename?: 'ToggleTaskPayload' }
+    & Pick<ToggleTaskPayload, 'id' | 'isCompleted'>
+  ) }
+);
+
+export type DeleteTaskMutationVariables = Exact<{
+  input: DeleteTaskInput;
+}>;
+
+
+export type DeleteTaskMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteTask: (
+    { __typename?: 'DeleteTaskPayload' }
+    & Pick<DeleteTaskPayload, 'id'>
+  ) }
+);
+
+export type EditTaskMutationVariables = Exact<{
+  input: EditTaskInput;
+}>;
+
+
+export type EditTaskMutation = (
+  { __typename?: 'Mutation' }
+  & { editTask: (
+    { __typename?: 'EditTaskPayload' }
+    & { task: (
+      { __typename?: 'TaskType' }
+      & TaskPayloadFragment
+    ) }
   ) }
 );
 
@@ -332,34 +494,54 @@ export type LogInUserMutation = (
   ) }
 );
 
-export type CardsQueryVariables = Exact<{
-  cardTasksArgs: CardTasksArgs;
-}>;
+export type CardsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CardsQuery = (
   { __typename?: 'Query' }
   & { cards: Array<(
     { __typename?: 'CardType' }
-    & Pick<CardType, 'id' | 'name'>
-    & { tasks: Array<(
-      { __typename?: 'TaskType' }
-      & Pick<TaskType, 'id' | 'title' | 'note' | 'date' | 'isCompleted'>
-    )> }
+    & CardPayloadFragment
   )> }
 );
 
-export type RemindersByDateQueryVariables = Exact<{
-  date: Scalars['Date'];
+export type RemindersQueryVariables = Exact<{
+  args: RemindersArgs;
 }>;
 
 
-export type RemindersByDateQuery = (
+export type RemindersQuery = (
   { __typename?: 'Query' }
-  & { remindersByDate: Array<(
+  & { reminders: Array<(
     { __typename?: 'ReminderType' }
-    & Pick<ReminderType, 'id' | 'title' | 'note' | 'startDate' | 'endDate'>
+    & ReminderPayloadFragment
   )> }
+);
+
+export type TasksQueryVariables = Exact<{
+  args: TasksArgs;
+}>;
+
+
+export type TasksQuery = (
+  { __typename?: 'Query' }
+  & { tasks: Array<(
+    { __typename?: 'TaskType' }
+    & TaskPayloadFragment
+  )> }
+);
+
+export type TaskQueryVariables = Exact<{
+  args: TaskArgs;
+}>;
+
+
+export type TaskQuery = (
+  { __typename?: 'Query' }
+  & { task: (
+    { __typename?: 'TaskType' }
+    & TaskPayloadFragment
+  ) }
 );
 
 export type VerifyUserQueryVariables = Exact<{
