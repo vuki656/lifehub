@@ -1,19 +1,19 @@
-import { useMutation } from "@apollo/client"
+import { useMutation } from '@apollo/client'
 import * as React from 'react'
-import { useToggle } from "react-use"
+import { useToggle } from 'react-use'
 
-import { DeleteDialog } from "../../../components/DeleteDialog"
-import { DELETE_TASK } from "../../../graphql/mutations"
+import { DeleteDialog } from '../../../components/DeleteDialog'
+import { DELETE_TASK } from '../../../graphql/mutations'
 import {
     DeleteTaskMutation,
     DeleteTaskMutationVariables,
-} from "../../../graphql/types"
-import { IconButton } from "../../../ui-kit/components/IconButton"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { TrashIcon } from "../../../ui-kit/icons/TrashIcon"
-import { useTasksCardContext } from "../TasksCardProvider"
+} from '../../../graphql/types'
+import { IconButton } from '../../../ui-kit/components/IconButton'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
+import { TrashIcon } from '../../../ui-kit/icons/TrashIcon'
+import { useTasksCardContext } from '../TasksCardProvider'
 
-import { TaskDeleteDialogProps } from "./TaskDeleteDialog.types"
+import { TaskDeleteDialogProps } from './TaskDeleteDialog.types'
 
 export const TaskDeleteDialog: React.FunctionComponent<TaskDeleteDialogProps> = (props) => {
     const { task } = props
@@ -38,14 +38,14 @@ export const TaskDeleteDialog: React.FunctionComponent<TaskDeleteDialogProps> = 
             toggleDialog()
 
             notification.display(
-                "Task deleted successfully.",
-                "success"
+                'Task deleted successfully.',
+                'success'
             )
         })
         .catch(() => {
             notification.display(
-                "Unable to delete task.",
-                "error"
+                'Unable to delete task.',
+                'error'
             )
         })
     }

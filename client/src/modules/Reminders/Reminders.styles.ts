@@ -1,10 +1,10 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const RemindersRoot = styled('div')((props) => ({
     backgroundColor: props.theme.palette.white,
     boxShadow: `0 2px 10px 0 ${props.theme.palette.grey.light300}`,
     minWidth: '350px',
-    overflow: "hidden",
+    overflow: 'hidden',
     padding: props.theme.spacing.lg,
     width: '350px',
 }))
@@ -24,7 +24,7 @@ export const RemindersTitle = styled('p')((props) => ({
 
 export const RemindersContent = styled('div')((props) => ({
     display: 'flex',
-    flexDirection: "column",
+    flexDirection: 'column',
     height: '100%',
     overflow: 'auto',
     paddingBottom: props.theme.spacing.def,

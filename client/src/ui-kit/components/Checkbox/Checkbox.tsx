@@ -6,8 +6,8 @@ import {
     CheckboxLabel,
     CheckboxRectangle,
     CheckboxRoot,
-} from "./Checkbox.styles"
-import { CheckboxProps } from "./Checkbox.types"
+} from './Checkbox.styles'
+import { CheckboxProps } from './Checkbox.types'
 
 export const Checkbox: React.FunctionComponent<CheckboxProps> = (props) => {
     const {

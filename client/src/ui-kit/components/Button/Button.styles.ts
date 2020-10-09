@@ -26,12 +26,12 @@ export const getButtonStyles = (
     theme: Theme,
     variant: ButtonVariantType,
 ) => {
-    let styles: CSSObject = { border: "none" }
+    let styles: CSSObject = { border: 'none' }
 
     if (variant === 'primary') {
         styles = {
             ...styles,
-            "&:hover": {
+            '&:hover': {
                 backgroundColor: theme.palette.blue.dark,
                 cursor: 'pointer',
             },
@@ -43,10 +43,10 @@ export const getButtonStyles = (
         }
     }
 
-    if (variant === "outlined") {
+    if (variant === 'outlined') {
         styles = {
             ...styles,
-            "&:hover": {
+            '&:hover': {
                 backgroundColor: theme.palette.grey.light500,
                 cursor: 'pointer',
             },
@@ -62,7 +62,7 @@ export const getButtonStyles = (
     if (variant === 'blank') {
         styles = {
             ...styles,
-            backgroundColor: "transparent",
+            backgroundColor: 'transparent',
             cursor: 'pointer',
         }
     }

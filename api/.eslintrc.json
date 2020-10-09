@@ -26,6 +26,10 @@
         }
     ],
     "rules": {
+        "quotes": [
+            "error",
+            "single"
+        ],
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "no-console": "error",
         "no-template-curly-in-string": "error",

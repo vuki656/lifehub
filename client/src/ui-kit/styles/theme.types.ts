@@ -29,11 +29,11 @@ export type ButtonVariantType =
     | 'blank'
 
 export type IconSizeType =
-    | "small"
-    | "medium"
-    | "big"
+    | 'small'
+    | 'medium'
+    | 'big'
 
-export type DrawerVariantType = "mini"
+export type DrawerVariantType = 'mini'
 
 export type NotificationVariantType =
     | 'error'

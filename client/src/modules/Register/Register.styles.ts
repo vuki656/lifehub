@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { Panel } from "../../ui-kit/components/Panel"
+import { Panel } from '../../ui-kit/components/Panel'
 
 export const RegisterRoot = styled('div')({
     alignItems: 'center',
@@ -15,7 +15,7 @@ export const RegisterPanel = styled(Panel)((props) => ({
     display: 'flex',
     flexDirection: 'column',
     rowGap: props.theme.spacing.md,
-    width: "380px",
+    width: '380px',
 }))
 
 export const RegisterFooterText = styled('div')((props) => ({
@@ -27,6 +27,6 @@ export const RegisterFooterText = styled('div')((props) => ({
 
 export const RegisterFooterLink = styled('a')((props) => ({
     color: props.theme.palette.grey.dark300,
-    cursor: "pointer",
+    cursor: 'pointer',
     fontWeight: 'bold',
 }))

@@ -4,8 +4,8 @@ import DatePickerComponent from 'react-datepicker'
 import {
     DatePickerLabel,
     DatePickerRoot,
-} from "./DatePicker.styles"
-import { DatePickerProps } from "./DatePicker.types"
+} from './DatePicker.styles'
+import { DatePickerProps } from './DatePicker.types'
 
 export const DatePicker: React.FunctionComponent<DatePickerProps> = (props) => {
     const {

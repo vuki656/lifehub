@@ -1,8 +1,8 @@
-import dayjs from "dayjs"
-import styled, { CSSObject } from "styled-components"
+import dayjs from 'dayjs'
+import styled, { CSSObject } from 'styled-components'
 
-import { DownIcon } from "../../../ui-kit/icons/DownIcon"
-import { UpIcon } from "../../../ui-kit/icons/UpIcon"
+import { DownIcon } from '../../../ui-kit/icons/DownIcon'
+import { UpIcon } from '../../../ui-kit/icons/UpIcon'
 
 export const TasksDayLisRoot = styled('div')((props) => ({
     backgroundColor: props.theme.palette.white,
@@ -20,18 +20,18 @@ type DayListItemProps = {
 
 export const DayListItem = styled('a')<DayListItemProps>((props) => {
     let styles: CSSObject = {
-        "&:hover": {
+        '&:hover': {
             backgroundColor: props.theme.palette.grey.light500,
-            cursor: "pointer",
+            cursor: 'pointer',
         },
-        alignItems: "center",
+        alignItems: 'center',
         color: `${props.theme.palette.grey.main} !important`,
-        display: "flex",
+        display: 'flex',
         flexGrow: 1,
-        justifyContent: "flex-start",
+        justifyContent: 'flex-start',
         margin: 0,
         padding: `0 ${props.theme.spacing.md}`,
-        userSelect: "none",
+        userSelect: 'none',
     }
 
     if (props.selected) {
@@ -41,7 +41,7 @@ export const DayListItem = styled('a')<DayListItemProps>((props) => {
         }
     }
 
-    if (dayjs(props.day).isSame(new Date, "date")) {
+    if (dayjs(props.day).isSame(new Date, 'date')) {
         styles = {
             ...styles,
             fontWeight: 'bold',
@@ -52,14 +52,14 @@ export const DayListItem = styled('a')<DayListItemProps>((props) => {
 })
 
 export const DayListButton = styled('div')((props) => ({
-    "&:hover": {
+    '&:hover': {
         backgroundColor: props.theme.palette.grey.light500,
-        cursor: "pointer",
+        cursor: 'pointer',
     },
-    alignItems: "center",
-    display: "flex",
+    alignItems: 'center',
+    display: 'flex',
     flexGrow: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     margin: 0,
     maxHeight: '35px',
     padding: `0 ${props.theme.spacing.md}`,
@@ -72,10 +72,10 @@ export const MonthTitle = styled('p')((props) => ({
     alignItems: 'center',
     backgroundColor: props.theme.palette.grey.light500,
     color: props.theme.palette.grey.dark300,
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     justifyContent: 'center',
     margin: 0,
     padding: `${props.theme.spacing.sm} ${props.theme.spacing.md}`,
-    userSelect: "none",
+    userSelect: 'none',
 }))

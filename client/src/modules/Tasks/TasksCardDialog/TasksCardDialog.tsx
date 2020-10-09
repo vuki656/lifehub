@@ -1,13 +1,13 @@
-import { useFormik } from "formik"
+import { useFormik } from 'formik'
 import * as React from 'react'
 
-import { Button } from "../../../ui-kit/components/Button"
-import { Dialog } from "../../../ui-kit/components/Dialog"
-import { DialogActions } from "../../../ui-kit/components/DialogActions"
-import { TextField } from "../../../ui-kit/components/TextField"
-import { CardDialogFormType } from "../TasksAddCardDialog/TasksAddCardDialog.types"
+import { Button } from '../../../ui-kit/components/Button'
+import { Dialog } from '../../../ui-kit/components/Dialog'
+import { DialogActions } from '../../../ui-kit/components/DialogActions'
+import { TextField } from '../../../ui-kit/components/TextField'
+import { CardDialogFormType } from '../TasksAddCardDialog/TasksAddCardDialog.types'
 
-import { TasksCardDialogProps } from "./TasksCardDialog.types"
+import { TasksCardDialogProps } from './TasksCardDialog.types'
 
 export const TasksCardDialog: React.FunctionComponent<TasksCardDialogProps> = (props) => {
     const {

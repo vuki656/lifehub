@@ -1,2 +1,2 @@
-export * from "./RegisterError.type"
-export * from "./User.type"
+export * from './RegisterError.type'
+export * from './User.type'

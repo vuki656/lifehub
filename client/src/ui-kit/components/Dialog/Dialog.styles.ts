@@ -1,13 +1,13 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const DialogOverlay = styled('div')((props) => ({
-    alignItems: "center",
-    backgroundColor: "#00000080",
+    alignItems: 'center',
+    backgroundColor: '#00000080',
     bottom: 0,
-    display: "flex",
+    display: 'flex',
     justifyContent: 'center',
     left: 0,
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     top: 0,
     zIndex: props.theme.zIndex.modal,
@@ -15,7 +15,7 @@ export const DialogOverlay = styled('div')((props) => ({
 
 export const DialogRoot = styled('div')((props) => ({
     backgroundColor: props.theme.palette.white,
-    borderRadius: "5px",
+    borderRadius: '5px',
     boxShadow: `0 2px 10px 0 ${props.theme.palette.grey.dark}`,
     padding: props.theme.spacing.md,
     width: '500px',
@@ -24,8 +24,8 @@ export const DialogRoot = styled('div')((props) => ({
 export const DialogHeader = styled('div')((props) => ({
     alignItems: 'center',
     display: 'flex',
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingBottom: props.theme.spacing.md,
 }))
 export const DialogTitle = styled('p')((props) => ({
@@ -34,6 +34,6 @@ export const DialogTitle = styled('p')((props) => ({
 }))
 
 export const DialogContent = styled('div')({
-    display: "flex",
+    display: 'flex',
     flexDirection: 'column',
 })

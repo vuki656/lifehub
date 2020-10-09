@@ -1,12 +1,12 @@
-import { useQuery } from "@apollo/client"
+import { useQuery } from '@apollo/client'
 import * as React from 'react'
 
-import { CARDS } from "../../../graphql/queries"
-import { CardsQuery } from "../../../graphql/types"
-import { useNotifications } from "../../../ui-kit/components/NotificationProvider"
-import { TasksCard } from "../TasksCard"
+import { CARDS } from '../../../graphql/queries'
+import { CardsQuery } from '../../../graphql/types'
+import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
+import { TasksCard } from '../TasksCard'
 
-import { TasksCardsRoot } from "./TasksCards.styles"
+import { TasksCardsRoot } from './TasksCards.styles'
 
 export const TasksCards: React.FunctionComponent = () => {
     const notifications = useNotifications()
@@ -14,8 +14,8 @@ export const TasksCards: React.FunctionComponent = () => {
     const { data: cardsResult } = useQuery<CardsQuery>(CARDS, {
         onError: () => {
             notifications.display(
-                "Unable to fetch cards.",
-                "error"
+                'Unable to fetch cards.',
+                'error'
             )
         },
     })

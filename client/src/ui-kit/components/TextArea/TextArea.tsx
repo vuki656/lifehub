@@ -7,8 +7,8 @@ import {
     TextAreaInput,
     TextAreaLabel,
     TextAreaRoot,
-} from "./TextArea.styles"
-import { TextAreaProps } from "./TextArea.types"
+} from './TextArea.styles'
+import { TextAreaProps } from './TextArea.types'
 
 export const TextArea: React.FunctionComponent<TextAreaProps> = (props) => {
     const {

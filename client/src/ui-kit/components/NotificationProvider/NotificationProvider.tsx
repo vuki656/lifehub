@@ -4,14 +4,14 @@ import * as React from 'react'
 import {
     config,
     useTransition,
-} from "react-spring"
+} from 'react-spring'
 
-import { NotificationVariantType } from "../../styles"
-import { Notification } from "../Notification"
-import { NotificationType } from "../Notification/Notification.types"
+import { NotificationVariantType } from '../../styles'
+import { Notification } from '../Notification'
+import { NotificationType } from '../Notification/Notification.types'
 
-import { NotificationProviderRoot } from "./NotificationProvider.styles"
-import { NotificationContextType } from "./NotificationProvider.types"
+import { NotificationProviderRoot } from './NotificationProvider.styles'
+import { NotificationContextType } from './NotificationProvider.types'
 
 export const NotificationContext = React.createContext<NotificationContextType | null>(null)
 
@@ -28,15 +28,15 @@ export const NotificationProvider: React.FunctionComponent = (props) => {
         keys: notifications.map((item, index) => index),
         from: {
             opacity: 0,
-            transform: "translate3d(100%, 0px, 0px)",
+            transform: 'translate3d(100%, 0px, 0px)',
         },
         enter: {
             opacity: 1,
-            transform: "translate3d(0%, 0px, 0px)",
+            transform: 'translate3d(0%, 0px, 0px)',
         },
         leave: {
             opacity: 0,
-            transform: "translate3d(100%, 0px, 0px)",
+            transform: 'translate3d(100%, 0px, 0px)',
         },
     })
 

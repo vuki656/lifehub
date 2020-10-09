@@ -1,34 +1,34 @@
 import {
     ApolloError,
     useMutation,
-} from "@apollo/client"
-import dayjs from "dayjs"
-import { useFormik } from "formik"
-import Link from "next/link"
-import { useRouter } from "next/router"
+} from '@apollo/client'
+import dayjs from 'dayjs'
+import { useFormik } from 'formik'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import * as React from 'react'
 
-import { REGISTER_USER } from "../../graphql/mutations"
+import { REGISTER_USER } from '../../graphql/mutations'
 import {
     RegisterUserMutation,
     RegisterUserMutationVariables,
-} from "../../graphql/types"
+} from '../../graphql/types'
 import {
     Button,
     Divider,
     TextField,
-} from "../../ui-kit/components/"
+} from '../../ui-kit/components/'
 
 import {
     RegisterFooterLink,
     RegisterFooterText,
     RegisterPanel,
     RegisterRoot,
-} from "./Register.styles"
+} from './Register.styles'
 import {
     RegisterFormErrorType,
     RegisterFormType,
-} from "./Register.types"
+} from './Register.types'
 
 export const Register: React.FunctionComponent = () => {
     const { push } = useRouter()
@@ -67,7 +67,7 @@ export const Register: React.FunctionComponent = () => {
 
             push(
                 '/dashboard/[selectedDate]',
-                `/dashboard/${dayjs().format("MM-DD-YYYY")}`
+                `/dashboard/${dayjs().format('MM-DD-YYYY')}`
             )
         })
         .catch((error: ApolloError) => {
@@ -147,7 +147,7 @@ export const Register: React.FunctionComponent = () => {
                     </Button>
                     <Divider />
                     <RegisterFooterText>
-                        Already have an account?{" "}
+                        Already have an account?{' '}
                         <Link href="/login">
                             <RegisterFooterLink>
                                 Login

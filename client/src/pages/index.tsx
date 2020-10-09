@@ -1,6 +1,6 @@
-import { NextPage } from "next"
-import { useRouter } from "next/router"
-import * as React from "react"
+import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import * as React from 'react'
 
 const ssrInProgress = typeof window === 'undefined'
 
@@ -12,9 +12,9 @@ const HomePage: NextPage = () => {
 
     React.useEffect(() => {
         if (token && userId) {
-            router.replace("/dashboard")
+            router.replace('/dashboard')
         } else {
-            router.replace("/login")
+            router.replace('/login')
         }
     }, [router, token, userId])
 

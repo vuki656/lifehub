@@ -1,6 +1,6 @@
-import { gql } from "@apollo/client/core"
+import { gql } from '@apollo/client/core'
 
-import { CARD_PAYLOAD } from "../fragements"
+import { CARD_PAYLOAD } from '../fragements'
 
 export const CARDS = gql`
     query Cards {

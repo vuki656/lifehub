@@ -1,4 +1,4 @@
-import { DialogProps } from "../../../types"
+import { DialogProps } from '../../../types'
 
 export type CardType = {
     id: string,

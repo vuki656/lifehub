@@ -14,7 +14,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
         loading = false,
         disabled = false,
         children,
-        type = "button",
+        type = 'button',
         startIcon,
         endIcon,
         ...other

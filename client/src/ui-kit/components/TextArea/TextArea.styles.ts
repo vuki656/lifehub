@@ -1,7 +1,7 @@
-import React from "react"
-import styled, { CSSObject } from "styled-components"
+import React from 'react'
+import styled, { CSSObject } from 'styled-components'
 
-import { WarningIcon } from "../../icons/WarningIcon"
+import { WarningIcon } from '../../icons/WarningIcon'
 
 type TextAreaRootProps =
     React.HTMLAttributes<HTMLDivElement>
@@ -45,8 +45,8 @@ export const TextAreaHelperWrapper = styled('div')({
     alignItems: 'center',
     columnGap: '8px',
     display: 'flex',
-    margin: "5px 0 0 0",
-    padding: "0 3px",
+    margin: '5px 0 0 0',
+    padding: '0 3px',
 })
 
 type TextAreaHelperTextProps = React.HTMLAttributes<HTMLParagraphElement> & {

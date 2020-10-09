@@ -1,3 +1,3 @@
-export * from "./CreateCard.payload"
-export * from "./EditCard.payload"
-export * from "./DeleteCard.payload"
+export * from './CreateCard.payload'
+export * from './EditCard.payload'
+export * from './DeleteCard.payload'

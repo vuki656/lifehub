@@ -1,17 +1,17 @@
-import { ApolloProvider } from "@apollo/client"
-import { AppProps } from "next/app"
-import { useRouter } from "next/router"
-import React from "react"
+import { ApolloProvider } from '@apollo/client'
+import { AppProps } from 'next/app'
+import { useRouter } from 'next/router'
+import React from 'react'
 
 import 'tippy.js/dist/tippy.css'
-import { SideMenu } from "../components/SideMenu"
+import { SideMenu } from '../components/SideMenu'
 import { useApollo } from '../lib/apolloClient'
-import { NotificationProvider } from "../ui-kit/components/NotificationProvider"
+import { NotificationProvider } from '../ui-kit/components/NotificationProvider'
 import {
     createTheme,
     GlobalStyles,
     ThemeProvider,
-} from "../ui-kit/styles"
+} from '../ui-kit/styles'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const App = (props: AppProps): JSX.Element => {

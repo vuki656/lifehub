@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-import { Button } from "../../ui-kit/components/Button"
-import { Dialog } from "../../ui-kit/components/Dialog"
-import { DialogActions } from "../../ui-kit/components/DialogActions"
+import { Button } from '../../ui-kit/components/Button'
+import { Dialog } from '../../ui-kit/components/Dialog'
+import { DialogActions } from '../../ui-kit/components/DialogActions'
 
-import { DeleteDialogProps } from "./DeleteDialog.types"
+import { DeleteDialogProps } from './DeleteDialog.types'
 
 export const DeleteDialog: React.FunctionComponent<DeleteDialogProps> = (props) => {
     const {

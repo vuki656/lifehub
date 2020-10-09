@@ -1,4 +1,4 @@
-import { CardType } from "../TasksCardDialog"
+import { CardType } from '../TasksCardDialog'
 
 export type TasksCardProps = {
     card: CardType

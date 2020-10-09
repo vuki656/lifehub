@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 export type RemindersCardProps = React.HTMLAttributes<HTMLDivElement> & {
     reminder: ReminderType,

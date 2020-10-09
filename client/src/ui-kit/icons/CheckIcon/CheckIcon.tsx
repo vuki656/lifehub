@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { IconBase } from '../../components/IconBase'
-import { IconCommonProps } from "../Icon.types"
+import { IconCommonProps } from '../Icon.types'
 
 export const CheckIcon = React.memo<IconCommonProps>((props) => {
     return (

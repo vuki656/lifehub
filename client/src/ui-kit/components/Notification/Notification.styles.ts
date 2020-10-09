@@ -1,9 +1,9 @@
-import React from "react"
-import { animated } from "react-spring"
-import styled, { CSSObject } from "styled-components"
+import React from 'react'
+import { animated } from 'react-spring'
+import styled, { CSSObject } from 'styled-components'
 
-import { WarningIcon } from "../../icons/WarningIcon"
-import { NotificationVariantType } from "../../styles"
+import { WarningIcon } from '../../icons/WarningIcon'
+import { NotificationVariantType } from '../../styles'
 
 type NotificationRootProps = React.HTMLAttributes<HTMLDivElement> & {
     variant: NotificationVariantType
@@ -14,7 +14,7 @@ export const NotificationRoot = styled(animated.div as unknown as 'div')<Notific
         alignItems: 'center',
         borderRadius: '5px 0px 0px 5px',
         color: props.theme.palette.white,
-        display: "flex",
+        display: 'flex',
         margin: props.theme.spacing.def,
         marginRight: 0,
         padding: `${props.theme.spacing.xs} ${props.theme.spacing.md}`,
