@@ -5,184 +5,191 @@ schema {
     mutation: Mutation
 }
 
-type AuthResponse {
-    isUserAuthenticated: Boolean!
-    username: String!
-}
-
-type CreateTaskPayload {
-    task: Task!
-}
-
-type DeleteAllTasksAndMetaDataPayload {
-    taskMetaDataId: ID!
-}
-
-type DeleteSingleTaskInstancePayload {
-    taskId: ID!
-}
-
-type DeleteTaskPayload {
-    taskId: ID!
-}
-
-type GetTasksByDateAndTaskCardPayload {
-    tasks: [Task]!
-}
-
-type Mutation {
-    _empty: String
-    createReminder(description: String, endDate: String!, startDate: String!, title: String!, username: String!): Reminder!
-    createTask(input: CreateTaskInput!): CreateTaskPayload!
-    createTaskCard(name: String!, username: String!): TaskCard!
-    createUser(email: String!, password: String!, passwordConfirmation: String!, username: String!): UserAuth!
-    deleteAllTasksAndMetaData(input: DeleteAllTasksAndMetaDataInput!): DeleteAllTasksAndMetaDataPayload!
-    deleteReminder(id: String!): ReminderDeleteResponse!
-    deleteSingleTaskInstance(input: DeleteSingleTaskInstanceInput!): DeleteSingleTaskInstancePayload!
-    deleteTask(input: DeleteTaskInput!): DeleteTaskPayload!
-    deleteTaskCard(id: String!): TaskCardDeleteResponse!
-    logInUser(email: String!, password: String!): UserAuth!
-    toggleTaskCompleted(input: ToggleTaskCompletedInput!): ToggleTaskCompletedPayload!
-    turnOffRepeating(input: TurnOffRepeatingInput!): Void
-    updateReminder(description: String, endDate: String!, id: String!, startDate: String!, title: String!): Reminder!
-    updateTask(input: UpdateTaskInput!): UpdateTaskPayload!
-    updateTaskCard(id: String!, name: String): TaskCard!
-}
-
-type Query {
-    _empty: String
-    getAllTaskCards(username: String!): [TaskCard]!
-    getRemindersByDate(selectedDate: String!, username: String!): [Reminder]!
-    getTasksByDateAndTaskCard(input: GetTasksByDateAndTaskCardInput!): GetTasksByDateAndTaskCardPayload!
-    verifyUser(token: String): AuthResponse
-}
-
-type Reminder {
-    description: String
-    endDate: Date!
-    id: String!
-    startDate: Date!
-    title: String!
-}
-
-type ReminderDeleteResponse {
-    id: String!
-}
-
-type Task {
-    date: Date!
-    id: ID!
-    isCompleted: Boolean
-    taskCardId: String
-    taskMetaData: TaskMetaData!
-}
-
-type TaskCard {
+type CardType {
     id: String!
     name: String!
 }
 
-type TaskCardDeleteResponse {
+type CreateCardPayload {
+    card: CardType!
+}
+
+type CreateReminderPayload {
+    reminder: ReminderType!
+}
+
+type CreateTaskPayload {
+    task: TaskType!
+}
+
+type DeleteCardPayload {
     id: String!
 }
 
-type TaskMetaData {
-    endDate: Date
-    id: ID!
-    isHabit: Boolean
-    isRepeating: Boolean
-    nextRepeatingInstance: Date
+type DeleteReminderPayload {
+    id: String!
+}
+
+type DeleteTaskPayload {
+    id: String!
+}
+
+type EditCardPayload {
+    card: CardType!
+}
+
+type EditReminderPayload {
+    reminder: ReminderType!
+}
+
+type EditTaskPayload {
+    task: TaskType!
+}
+
+type LogInUserPayload {
+    token: String!
+    userId: String!
+}
+
+type Mutation {
+    createCard(input: CreateCardInput!): CreateCardPayload!
+    createReminder(input: CreateReminderInput!): CreateReminderPayload!
+    createTask(input: CreateTaskInput!): CreateTaskPayload!
+    deleteCard(input: DeleteCardInput!): DeleteCardPayload!
+    deleteReminder(id: String!): DeleteReminderPayload!
+    deleteTask(input: DeleteTaskInput!): DeleteTaskPayload!
+    editCard(input: EditCardInput!): EditCardPayload!
+    editReminder(input: EditReminderInput!): EditReminderPayload!
+    editTask(input: EditTaskInput!): EditTaskPayload!
+    logInUser(input: LogInUserInput!): LogInUserPayload!
+    registerUser(input: RegisterUserInput!): RegisterUserPayload!
+    toggleTask(input: ToggleTaskInput!): ToggleTaskPayload!
+}
+
+type Query {
+    cards: [CardType!]!
+    reminder(id: String!): ReminderType
+    reminders(args: RemindersArgs!): [ReminderType!]!
+    task(args: TaskArgs!): TaskType!
+    tasks(args: TasksArgs!): [TaskType!]!
+    verifyUser(token: String!): UserType!
+}
+
+type RegisterUserPayload {
+    token: String!
+    userId: String!
+}
+
+type ReminderType {
+    dueDate: Date!
+    id: String!
+    note: String!
+    title: String!
+    user: UserType!
+}
+
+type TaskType {
+    date: Date!
+    id: String!
+    isCompleted: Boolean!
     note: String
-    rrule: String
-    startDate: Date
     title: String!
 }
 
-type ToggleTaskCompletedPayload {
-    task: Task!
+type ToggleTaskPayload {
+    id: String!
+    isCompleted: Boolean!
 }
 
-type UpdateTaskPayload {
-    task: Task!
-}
-
-type User {
+type UserType {
     email: String!
-    id: ID!
-    password: String!
+    id: String!
     username: String!
 }
 
-type UserAuth {
-    token: String!
+enum RemindersTimeSpanEnum {
+    ALL
+    FUTURE
+    PAST
 }
 
-enum CacheControlScope {
-    PRIVATE
-    PUBLIC
+input CreateCardInput {
+    name: String!
 }
 
-input CreateTaskInput {
-    date: Date!
-    taskCardId: String
-    taskMetaData: TaskMetaDataInput
-}
-
-input DeleteAllTasksAndMetaDataInput {
-    taskMetaDataId: ID!
-}
-
-input DeleteSingleTaskInstanceInput {
-    rruleStr: String!
-    taskId: ID!
-    taskMetaDataId: ID!
-}
-
-input DeleteTaskInput {
-    taskId: ID!
-    taskMetaDataId: ID!
-}
-
-input GetTasksByDateAndTaskCardInput {
-    selectedDate: Date!
-    taskCardId: String!
-}
-
-input TaskMetaDataInput {
-    endDate: Date
-    id: ID
-    isHabit: Boolean
-    isRepeating: Boolean
-    nextRepeatingInstance: Date
+input CreateReminderInput {
+    dueDate: DateTime!
     note: String
-    rrule: String
-    startDate: Date
     title: String!
 }
 
-input ToggleTaskCompletedInput {
-    id: ID!
+input CreateTaskInput {
+    cardId: String!
+    date: DateTime!
+    title: String!
 }
 
-input TurnOffRepeatingInput {
-    taskId: ID!
-    taskMetaDataId: ID!
+input DeleteCardInput {
+    id: String!
 }
 
-input UpdateTaskInput {
-    date: Date!
-    id: ID!
-    isCompleted: Boolean
-    taskCard: String
-    taskMetaData: TaskMetaDataInput!
+input DeleteTaskInput {
+    id: String!
+}
+
+input EditCardInput {
+    id: String!
+    name: String!
+}
+
+input EditReminderInput {
+    dueDate: DateTime!
+    id: String!
+    note: String
+    title: String!
+}
+
+input EditTaskInput {
+    date: DateTime!
+    id: String!
+    isCompleted: Boolean!
+    note: String!
+    title: String!
+}
+
+input LogInUserInput {
+    email: String!
+    password: String!
+}
+
+input RegisterUserInput {
+    email: String!
+    password: String!
+    passwordConfirmation: String!
+    username: String!
+}
+
+input RemindersArgs {
+    timeSpan: RemindersTimeSpanEnum!
+}
+
+input TaskArgs {
+    id: String!
+}
+
+input TasksArgs {
+    cardId: String!
+    date: DateTime!
+}
+
+input ToggleTaskInput {
+    isCompleted: Boolean!
+    taskId: String!
 }
 
 
 "A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
 scalar Date
 
-"Represents NULL values"
-scalar Void
-
-"The `Upload` scalar type represents a file upload."
-scalar Upload
+"The javascript `Date` as string. Type represents date and time as the ISO Date string."
+scalar DateTime

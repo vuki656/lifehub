@@ -1,142 +1,158 @@
-import { useMutation } from '@apollo/react-hooks'
-import React, { useCallback } from 'react'
 import {
-    Link,
-    useHistory,
-} from 'react-router-dom'
+    ApolloError,
+    useMutation,
+} from "@apollo/client"
+import dayjs from "dayjs"
+import { useFormik } from "formik"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import * as React from 'react'
 
-import { ReactComponent as Logo } from '../../assets/images/logo/TextLogo.svg'
-import { LoadingSpinner } from '../../components/LoadingSpinner'
-import { Message } from '../../components/Message'
-import { CREATE_USER } from '../../graphql/user/user'
+import { REGISTER_USER } from "../../graphql/mutations"
 import {
-    createUserResponse,
-    createUserVariables,
-} from '../../graphql/user/user.types'
-import { useFormFields } from '../../util/hooks/useFormFields.hook'
+    RegisterUserMutation,
+    RegisterUserMutationVariables,
+} from "../../graphql/types"
+import {
+    Button,
+    Divider,
+    TextField,
+} from "../../ui-kit/components/"
 
-import { UserErrors } from './Register.types'
+import {
+    RegisterFooterLink,
+    RegisterFooterText,
+    RegisterPanel,
+    RegisterRoot,
+} from "./Register.styles"
+import {
+    RegisterFormErrorType,
+    RegisterFormType,
+} from "./Register.types"
 
-export const Register: React.FC = () => {
-    const history = useHistory()
+export const Register: React.FunctionComponent = () => {
+    const { push } = useRouter()
 
-    const [errors, setErrors] = React.useState<UserErrors>({})
-    const [createUserMutation, { loading }] = useMutation<createUserResponse, createUserVariables>(CREATE_USER)
-    const {
-        formValues, setFormValue, clearForm,
-    } = useFormFields({
-        email: '',
-        password: '',
-        passwordConfirmation: '',
-        username: '',
-    })
+    const [errors, setErrors] = React.useState<RegisterFormErrorType>({})
 
-    // Save user in database
-    const createUser = useCallback(() => {
-        createUserMutation({
+    const [
+        registerMutation,
+        { loading },
+    ] = useMutation<RegisterUserMutation, RegisterUserMutationVariables>(REGISTER_USER)
+
+    const handleSubmit = React.useCallback(async(formValues: RegisterFormType) => {
+        await registerMutation({
             variables: {
-                email: formValues.email,
-                password: formValues.password,
-                passwordConfirmation: formValues.passwordConfirmation,
-                username: formValues.username,
+                input: {
+                    email: formValues.email,
+                    password: formValues.password,
+                    passwordConfirmation: formValues.passwordConfirmation,
+                    username: formValues.username,
+                },
             },
         })
         .then((response) => {
-            const token = response?.data?.createUser.token ?? ''
-            window.localStorage.setItem('token', token)
+            const token = response?.data?.registerUser.token ?? ''
+            const userId = response?.data?.registerUser.userId ?? ''
 
-            setErrors({})
-            clearForm()
-            history.push('/dashboard')
-        })
-        .catch((error) => {
-            setErrors(error.graphQLErrors?.[0].extensions.exception)
-        })
-    }, [
-        clearForm,
-        createUserMutation,
-        formValues.email,
-        formValues.username,
-        formValues.password,
-        formValues.passwordConfirmation,
-        history,
-    ])
+            window.localStorage.setItem(
+                'token',
+                token
+            )
 
-    const handleSubmit = useCallback((event) => {
-        event.preventDefault()
-        createUser()
-    }, [createUser])
+            window.localStorage.setItem(
+                'userId',
+                userId
+            )
+
+            push(`/dashboard/${dayjs().format("MM-DD-YYYY")}`)
+        })
+        .catch((error: ApolloError) => {
+            setErrors({ ...error.graphQLErrors[0].extensions?.exception })
+        })
+    }, [push, registerMutation])
+
+    const form = useFormik<RegisterFormType>({
+        initialValues: {
+            email: '',
+            password: '',
+            passwordConfirmation: '',
+            username: '',
+        },
+        onSubmit: (formValues) => {
+            handleSubmit(formValues)
+        },
+    })
 
     return (
-        loading
-            ? <LoadingSpinner loaderColor={'blue'} loaderVariant={'fullScreen'} />
-            : (
-                <form onSubmit={handleSubmit}>
-                    <div className="form">
-                        <div className="form__card">
-                            <Logo className="form__logo" />
-                            <p className="form__title">Register your account</p>
-                            <div className="form__field-wrapper">
-                                <p className="form__field-title">Username</p>
-                                <input
-                                    className="form__input-field"
-                                    autoComplete="username"
-                                    type="text"
-                                    minLength={4}
-                                    required
-                                    value={formValues.username}
-                                    onChange={({ target }) => setFormValue(target.value, 'username')}
-                                />
-                                {errors.username && <Message message={errors.username} type="error" />}
-                            </div>
-                            <div className="form__field-wrapper">
-                                <p className="form__field-title">Email</p>
-                                <input
-                                    className="form__input-field"
-                                    autoComplete="email"
-                                    type="email"
-                                    required
-                                    value={formValues.email}
-                                    onChange={({ target }) => setFormValue(target.value, 'email')}
-                                />
-                                {errors.email && <Message message={errors.email} type="error" />}
-                            </div>
-                            <div className="form__field-wrapper">
-                                <p className="form__field-title">Password</p>
-                                <input
-                                    className="form__input-field"
-                                    autoComplete="new-password"
-                                    type="password"
-                                    minLength={7}
-                                    required
-                                    value={formValues.password}
-                                    onChange={({ target }) => setFormValue(target.value, 'password')}
-                                />
-                                {errors.password && <Message message={errors.password} type="error" />}
-                            </div>
-                            <div className="form__field-wrapper">
-                                <p className="form__field-title">Confirm Password </p>
-                                <input
-                                    className="form__input-field"
-                                    autoComplete="new-password"
-                                    type="password"
-                                    minLength={7}
-                                    required
-                                    value={formValues.passwordConfirmation}
-                                    onChange={({ target }) => setFormValue(target.value, 'passwordConfirmation')}
-                                />
-                            </div>
-                            <button className="form__button--wide button button--primary" type="submit">
-                                Create your account
-                            </button>
-                            <div className="bottom-info">
-                                <p className="bottom-info__text">Already have an account?
-                                    <Link to="/login" className="bottom-info__link"> Login</Link>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            )
+        <RegisterRoot>
+            <form onSubmit={form.handleSubmit}>
+                <RegisterPanel spacing="lg">
+                    <img src="/images/text-logo.png" />
+                    <TextField
+                        autoComplete="email"
+                        error={Boolean(errors.email)}
+                        fullWidth
+                        helperText={errors.email}
+                        label="Email"
+                        name="email"
+                        onChange={form.handleChange}
+                        required
+                        value={form.values.email}
+                    />
+                    <TextField
+                        autoComplete="username"
+                        error={Boolean(errors.username)}
+                        fullWidth
+                        helperText={errors.username}
+                        label="Username"
+                        name="username"
+                        onChange={form.handleChange}
+                        required
+                        value={form.values.username}
+                    />
+                    <TextField
+                        autoComplete="new-password"
+                        error={Boolean(errors.password)}
+                        fullWidth
+                        helperText={errors.password}
+                        label="Password"
+                        minLength={8}
+                        name="password"
+                        onChange={form.handleChange}
+                        required
+                        type="password"
+                        value={form.values.password}
+                    />
+                    <TextField
+                        autoComplete="new-password"
+                        fullWidth
+                        label="Repeat Password"
+                        minLength={8}
+                        name="passwordConfirmation"
+                        onChange={form.handleChange}
+                        required
+                        type="password"
+                        value={form.values.passwordConfirmation}
+                    />
+                    <Button
+                        fullWidth
+                        loading={loading}
+                        type="submit"
+                    >
+                        Register
+                    </Button>
+                    <Divider />
+                    <RegisterFooterText>
+                        Already have an account?{" "}
+                        <Link href="/login">
+                            <RegisterFooterLink>
+                                Login
+                            </RegisterFooterLink>
+                        </Link>
+                    </RegisterFooterText>
+                </RegisterPanel>
+            </form>
+        </RegisterRoot>
     )
 }

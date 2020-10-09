@@ -1,78 +1,61 @@
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import DoneAllIcon from '@material-ui/icons/DoneAll'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import SettingsIcon from '@material-ui/icons/Settings'
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router'
-import { NavLink } from 'react-router-dom'
-import { useToggle } from 'react-use'
+import { useRouter } from "next/router"
+import * as React from 'react'
 
-import { ReactComponent as IconLogo } from '../../assets/images/logo/IconLogo.svg'
-import { ReactComponent as TextLogo } from '../../assets/images/logo/TextLogo.svg'
-import { logUserOut } from '../../redux/actions/userActions'
+import { DrawerIconButton } from "../../ui-kit/components"
+import { SideMenuButton } from "../SideMenuButton"
 
-export const SideMenu: React.FC = () => {
-    const history = useHistory()
-    const dispatch = useDispatch()
+import {
+    DashboardIcon,
+    IconLogo,
+    LogoutIcon,
+    SettingsIcon,
+    SideMenuRoot,
+    SideMenuTopActions,
+} from "./SideMenu.styles"
 
-    const [isSidemenuOpen, toggleSidemenu] = useToggle(false)
+export const SideMenu: React.FunctionComponent = () => {
+    const {
+        pathname,
+        push,
+    } = useRouter()
 
-    // Logout - clear redux user, remove token from LS and redirect to /login
-    const handleLogout = React.useCallback(() => {
-        dispatch(logUserOut())
-        window.localStorage.removeItem('token')
-        history.push('/login')
-    }, [dispatch, history])
+    const handleLogout = () => {
+        window.localStorage.removeItem('token',)
+        window.localStorage.removeItem('userId',)
+
+        push("/login")
+    }
 
     return (
-        <div className={'side-menu ' + (isSidemenuOpen ? 'side-menu--open' : 'side-menu--closed')}>
-            <div>
-                <div className="side-menu__logo">
-                    {isSidemenuOpen
-                        ? <TextLogo className="side-menu__svg" />
-                        : <IconLogo className="side-menu__svg" />}
-                </div>
-                <NavLink
-                    to="/dashboard"
-                    name="dashboard"
-                    className="side-menu__item"
-                    activeClassName="side-menu__item--selected"
-                    title="Dashboard"
-                >
-                    <DoneAllIcon />
-                    <p className="side-menu__text">Dashboard</p>
-                </NavLink>
-                <NavLink
-                    to="/settings"
-                    name="settings"
-                    className="side-menu__item"
-                    activeClassName="side-menu__item--selected"
-                    title="Dashboard"
-                >
-                    <SettingsIcon />
-                    <p className="side-menu__text">Settings</p>
-                </NavLink>
-            </div>
-            <div>
-                <div
-                    onClick={handleLogout}
-                    className="side-menu__item"
-                    title="Log Out"
-                >
-                    <ExitToAppIcon />
-                    <p className="side-menu__text">Log Out</p>
-                </div>
-                <div
-                    onClick={toggleSidemenu}
-                    className="side-menu__item"
-                    title="Toggle Menu"
-                >
-                    {isSidemenuOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    <p className="side-menu__text">Toggle Menu</p>
-                </div>
-            </div>
-        </div>
+        <SideMenuRoot variant="mini">
+            <SideMenuTopActions>
+                <IconLogo src="/images/icon-logo.png" />
+                <SideMenuButton
+                    component={
+                        <DrawerIconButton
+                            icon={<DashboardIcon />}
+                            selected={pathname?.includes('dashboard')}
+                            tooltipText="Dashboard"
+                        />
+                    }
+                    href="/dashboard"
+                />
+                <SideMenuButton
+                    component={
+                        <DrawerIconButton
+                            icon={<SettingsIcon />}
+                            selected={pathname?.includes('settings')}
+                            tooltipText="Setting"
+                        />
+                    }
+                    href="/settings"
+                />
+            </SideMenuTopActions>
+            <DrawerIconButton
+                icon={<LogoutIcon />}
+                onClick={handleLogout}
+                tooltipText="Logout"
+            />
+        </SideMenuRoot>
     )
 }

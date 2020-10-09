@@ -1,9 +1,20 @@
-import React from 'react'
+import { NextPage } from 'next'
+import NextHead from 'next/head'
+import * as React from 'react'
 
-import { Register } from '../modules/Register'
+import { Register } from "../modules/Register"
 
-export const RegisterPage: React.FC = () => {
+const RegisterPage: NextPage = () => {
     return (
-        <Register />
+        <>
+            <NextHead>
+                <title>
+                    Lifehub: Register
+                </title>
+            </NextHead>
+            <Register />
+        </>
     )
 }
+
+export default RegisterPage

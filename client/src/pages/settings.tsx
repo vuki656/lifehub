@@ -1,7 +1,20 @@
-import React from 'react'
+import { NextPage } from 'next'
+import NextHead from 'next/head'
+import * as React from 'react'
 
-export const SettingsPage: React.FC = () => {
+import { Settings } from "../modules/Settings"
+
+const SettingsPage: NextPage = () => {
     return (
-        <p>Settings</p>
+        <>
+            <NextHead>
+                <title>
+                    Lifehub: Dashboard
+                </title>
+            </NextHead>
+            <Settings />
+        </>
     )
 }
+
+export default SettingsPage
