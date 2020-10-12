@@ -7,5 +7,6 @@ export const TASK_PAYLOAD = gql`
         note
         date
         isCompleted
+        sequenceNumber
     }
 `

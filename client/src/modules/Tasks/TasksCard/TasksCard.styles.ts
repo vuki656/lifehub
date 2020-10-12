@@ -1,9 +1,12 @@
+import React from 'react'
 import styled from 'styled-components'
 
 import {
     IconButton,
     Panel,
 } from '../../../ui-kit/components'
+
+type TasksCardTasksProps = React.HTMLAttributes<HTMLDivElement>
 
 export const TasksCardActions = styled('div')((props) => ({
     alignItems: 'center',
@@ -48,7 +51,7 @@ export const SubmitButton = styled(IconButton)({
     paddingRight: '10px',
 })
 
-export const TasksCardTasks = styled('div')((props) => ({
+export const TasksCardTasks = styled('div')<TasksCardTasksProps>((props) => ({
     display: 'flex',
     flexDirection: 'column',
     rowGap: props.theme.spacing.xs,

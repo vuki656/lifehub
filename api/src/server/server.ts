@@ -21,4 +21,8 @@ export const startServer = async(): Promise<void> => {
         // eslint-disable-next-line no-console
         console.log(`======== UP ON ${port} ========`)
     })
+    .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.log(e)
+    })
 }

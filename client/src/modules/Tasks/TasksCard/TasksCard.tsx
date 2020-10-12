@@ -5,12 +5,23 @@ import {
 import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
 import * as React from 'react'
+import {
+    DragDropContext,
+    Draggable,
+    Droppable,
+    DropResult,
+} from 'react-beautiful-dnd'
 
-import { CREATE_TASK } from '../../../graphql/mutations'
+import {
+    CREATE_TASK,
+    EDIT_TASK_SEQUENCE,
+} from '../../../graphql/mutations'
 import { TASKS } from '../../../graphql/queries/Task'
 import {
     CreateTaskMutation,
     CreateTaskMutationVariables,
+    EditTaskSequenceMutation,
+    EditTaskSequenceMutationVariables,
     TasksQuery,
     TasksQueryVariables,
 } from '../../../graphql/types'
@@ -42,11 +53,13 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
     const notifications = useNotifications()
     const router = useRouter()
 
+    const [editTaskSequenceMutation] = useMutation<EditTaskSequenceMutation, EditTaskSequenceMutationVariables>(EDIT_TASK_SEQUENCE)
+
     const {
         data: tasksResult,
         refetch,
     } = useQuery<TasksQuery, TasksQueryVariables>(TASKS, {
-        fetchPolicy: 'network-only',
+        fetchPolicy: 'cache-and-network',
         onError: () => {
             notifications.display(
                 'Unable to fetch tasks',
@@ -91,6 +104,42 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
         },
     },)
 
+    // Sort tasks by sequence number
+    const sortedTasks = tasksResult?.tasks.slice().sort((a, b) => {
+        return a.sequenceNumber - b.sequenceNumber
+    }) ?? []
+
+    const handleDragEnd = async(result: DropResult) => {
+        if (!result.destination) {
+            return
+        }
+
+        const fromIndex = result.source.index
+        const toIndex = result.destination.index
+
+        // Remove the element from old spot
+        const [removedElement] = sortedTasks.splice(fromIndex, 1)
+
+        // Add element to the new spot
+        sortedTasks.splice(toIndex, 0, removedElement)
+
+        await editTaskSequenceMutation({
+            fetchPolicy: 'no-cache',
+            variables: {
+                input: sortedTasks.map((task, index) => ({
+                    id: task.id,
+                    sequenceNumber: index + 1,
+                })),
+            },
+        })
+        .catch(() => {
+            notifications.display(
+                'Unable to reorder tasks.',
+                'error'
+            )
+        })
+    }
+
     return (
         <TasksCardProvider refetch={refetch}>
             <TasksCardRoot>
@@ -103,17 +152,39 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
                         <TasksCardDeleteDialog card={card} />
                     </TasksCardActions>
                 </TasksCardHeader>
-                <TasksCardTasks>
-                    {tasksResult?.tasks.map((task) => {
-                        return (
-                            <Task
-                                cardId={card.id}
-                                key={task.id}
-                                task={task}
-                            />
-                        )
-                    })}
-                </TasksCardTasks>
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="cardTasksListDroppable">
+                        {(provided) => (
+                            <TasksCardTasks
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {sortedTasks.map((task, index) => {
+                                    return (
+                                        <Draggable
+                                            draggableId={task.id}
+                                            index={index}
+                                            key={task.id}
+                                        >
+                                            {(provided) => (
+                                                <Task
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    cardId={card.id}
+                                                    innerRef={provided.innerRef}
+                                                    key={task.id}
+                                                    style={{ ...provided.draggableProps.style }}
+                                                    task={task}
+                                                />
+                                            )}
+                                        </Draggable>
+                                    )
+                                })}
+                                {provided.placeholder}
+                            </TasksCardTasks>
+                        )}
+                    </Droppable>
+                </DragDropContext>
                 <TasksCardForm onSubmit={form.handleSubmit}>
                     <TextField
                         fullWidth

@@ -1,6 +1,7 @@
 import {
     Column,
     Entity,
+    JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm'
@@ -40,7 +41,14 @@ export class TaskEntity {
     })
     isCompleted: boolean
 
+    @Column({
+        name: 'sequence_number',
+        nullable: false,
+    })
+    sequenceNumber: number
+
     @ManyToOne(() => CardEntity, (card) => card.tasks)
+    @JoinColumn({ name: 'card_id' })
     card: CardEntity
 
 }

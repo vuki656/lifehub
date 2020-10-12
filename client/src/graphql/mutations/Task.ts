@@ -48,3 +48,12 @@ export const MOVE_TASK_TO_TODAY = gql`
         }
     }
 `
+
+export const EDIT_TASK_SEQUENCE = gql`
+    mutation EditTaskSequence($input: [EditTaskSequenceInput!]!) {
+        editTaskSequence(input: $input) {
+            id
+            sequenceNumber
+        }
+    }
+`

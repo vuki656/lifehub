@@ -89,6 +89,7 @@ export type Mutation = {
   editCard: EditCardPayload;
   editReminder: EditReminderPayload;
   editTask: EditTaskPayload;
+  editTaskSequence: Array<TaskType>;
   logInUser: LogInUserPayload;
   moveTaskToToday: MoveTaskToTodayPayload;
   registerUser: RegisterUserPayload;
@@ -138,6 +139,11 @@ export type MutationEditReminderArgs = {
 
 export type MutationEditTaskArgs = {
   input: EditTaskInput;
+};
+
+
+export type MutationEditTaskSequenceArgs = {
+  input: Array<EditTaskSequenceInput>;
 };
 
 
@@ -216,6 +222,7 @@ export type TaskType = {
   id: Scalars['String'];
   isCompleted: Scalars['Boolean'];
   note?: Maybe<Scalars['String']>;
+  sequenceNumber: Scalars['Float'];
   title: Scalars['String'];
 };
 
@@ -282,6 +289,11 @@ export type EditTaskInput = {
   title: Scalars['String'];
 };
 
+export type EditTaskSequenceInput = {
+  id: Scalars['String'];
+  sequenceNumber: Scalars['Float'];
+};
+
 export type LogInUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -330,7 +342,7 @@ export type ReminderPayloadFragment = (
 
 export type TaskPayloadFragment = (
   { __typename?: 'TaskType' }
-  & Pick<TaskType, 'id' | 'title' | 'note' | 'date' | 'isCompleted'>
+  & Pick<TaskType, 'id' | 'title' | 'note' | 'date' | 'isCompleted' | 'sequenceNumber'>
 );
 
 export type CreateCardMutationVariables = Exact<{
@@ -494,6 +506,19 @@ export type MoveTaskToTodayMutation = (
   ) }
 );
 
+export type EditTaskSequenceMutationVariables = Exact<{
+  input: Array<EditTaskSequenceInput>;
+}>;
+
+
+export type EditTaskSequenceMutation = (
+  { __typename?: 'Mutation' }
+  & { editTaskSequence: Array<(
+    { __typename?: 'TaskType' }
+    & Pick<TaskType, 'id' | 'sequenceNumber'>
+  )> }
+);
+
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
 }>;
@@ -555,19 +580,6 @@ export type TasksQuery = (
     { __typename?: 'TaskType' }
     & TaskPayloadFragment
   )> }
-);
-
-export type TaskQueryVariables = Exact<{
-  args: TaskArgs;
-}>;
-
-
-export type TaskQuery = (
-  { __typename?: 'Query' }
-  & { task: (
-    { __typename?: 'TaskType' }
-    & TaskPayloadFragment
-  ) }
 );
 
 export type VerifyUserQueryVariables = Exact<{

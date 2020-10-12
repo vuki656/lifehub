@@ -27,6 +27,7 @@ export const Task: React.FunctionComponent<TaskProps> = (props) => {
     const {
         task,
         cardId,
+        innerRef,
         ...other
     } = props
 
@@ -95,7 +96,10 @@ export const Task: React.FunctionComponent<TaskProps> = (props) => {
     }
 
     return (
-        <TaskRoot {...other}>
+        <TaskRoot
+            {...other}
+            ref={innerRef}
+        >
             <TaskCheckbox
                 checked={task.isCompleted}
                 disabled={toggleLoading}

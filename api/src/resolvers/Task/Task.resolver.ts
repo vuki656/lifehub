@@ -14,6 +14,7 @@ import {
     CreateTaskInput,
     DeleteTaskInput,
     EditTaskInput,
+    EditTaskSequenceInput,
     MoveTaskToTodayInput,
     ToggleTaskInput,
 } from './mutations/inputs'
@@ -89,6 +90,14 @@ export class TaskResolver {
         @Arg('input') input: MoveTaskToTodayInput,
     ): Promise<MoveTaskToTodayPayload> {
         return this.service.moveToToday(input)
+    }
+
+    @Authorized()
+    @Mutation(() => [TaskType])
+    public async editTaskSequence(
+        @Arg('input', () => [EditTaskSequenceInput]) input: EditTaskSequenceInput[],
+    ): Promise<TaskType[]> {
+        return this.service.editSequence(input)
     }
 
 }
