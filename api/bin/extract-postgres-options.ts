@@ -5,7 +5,8 @@ const dotenv = require('dotenv')
 
 /*
  * Initialize dotenv to load .env variables
- * Those are then logged so they can be accessed in the start-docker-postgres.sh script
+ * Then log those so they can be accessed in the start-docker-postgres.sh script
+ *
  */
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
