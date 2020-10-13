@@ -3,6 +3,7 @@
    "version": "1.0.0",
    "license": "UNLICENSED",
    "scripts": {
+      "api-setup": "./bin/setup-dockerized-services.sh",
       "api-start": "nodemon src/index.ts",
       "api-lint": "eslint src/**/*.{ts,tsx}"
    },
