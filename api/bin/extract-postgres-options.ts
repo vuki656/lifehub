@@ -8,7 +8,7 @@ const dotenv = require('dotenv')
  * Those are then logged so they can be accessed in the start-docker-postgres.sh script
  */
 
-dotenv.config({ path: path.resolve(__dirname, '../.env.local') })
+dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
 const databasePort = process.env.DB_PORT
 const databaseName = process.env.DB_DATABASE
