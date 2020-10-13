@@ -14,7 +14,7 @@ export const DrawerIconButtonRoot = styled('div')<DrawerIconButtonRootProps>((pr
             : '',
     },
     '&:hover': {
-        backgroundColor: props.theme.palette.grey.dark,
+        backgroundColor: props.theme.palette.grey.light400,
         transition: props.theme.transitions.create('background-color', 300),
     },
     alignItems: 'center',
