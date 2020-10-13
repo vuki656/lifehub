@@ -19,7 +19,6 @@ export const createDatabaseConnection = (): Promise<Connection> => {
         logging: process.env.DB_LOGGING,
         password: process.env.DB_PASSWORD,
         port: process.env.DB_PORT,
-        ssl: process.env.DB_SSL,
         synchronize: process.env.DB_SYNCHRONIZE,
         type: process.env.DB_TYPE,
         username: process.env.DB_USERNAME,
