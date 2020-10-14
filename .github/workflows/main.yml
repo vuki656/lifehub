@@ -29,13 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: yarn install
-
-      - name: Build Client
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/client/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn-lock.json') }}
+      - run: yarn install
+
+      - name: Build Client
         if: always()
         run: |
           cd client
