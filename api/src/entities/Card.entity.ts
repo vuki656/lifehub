@@ -2,6 +2,7 @@ import {
     BaseEntity,
     Column,
     Entity,
+    JoinColumn,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
@@ -23,6 +24,7 @@ export class CardEntity extends BaseEntity {
     name: string
 
     @ManyToOne(() => UserEntity, (user) => user.cards)
+    @JoinColumn({ name: 'user_id' })
     user: UserEntity
 
     @OneToMany(() => TaskEntity, (task) => task.card)
