@@ -32,7 +32,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/client/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn-lock.json') }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles(${{ github.workspace }}/yarn.lock) }}
       - run: yarn install
 
       - name: Build Client
