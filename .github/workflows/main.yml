@@ -12,6 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+            **/client/node_modules
+            **/api/node_modules
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
 
       - name: Lint Client
@@ -29,6 +36,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+            **/client/node_modules
+            **/api/node_modules
+            ${{ github.workspace }}/client/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
 
       - name: Build Client
@@ -36,3 +51,5 @@ jobs:
         run: |
           cd client
           yarn client-build
+
+
