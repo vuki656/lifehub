@@ -13,12 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
-          with:
-            path: |
-              **/node_modules
-              **/client/node_modules
-              **/api/node_modules
-            key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
+        with:
+          path: |
+            **/node_modules
+            **/client/node_modules
+            **/api/node_modules
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
 
       - name: Lint Client
