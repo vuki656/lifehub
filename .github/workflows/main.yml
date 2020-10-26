@@ -1,6 +1,5 @@
 name: Pull Request Check
 
-# Runs on PR to master and develop but also for direct commits to master in develop as they shouldn't be skipped
 on:
   push:
     branches: [ master, develop ]
