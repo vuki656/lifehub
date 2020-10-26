@@ -56,7 +56,7 @@ type TextAreaHelperTextProps = React.HTMLAttributes<HTMLParagraphElement> & {
 export const TextAreaHelperText = styled('p')<TextAreaHelperTextProps>((props) => {
     let styles: CSSObject = {
         ...props.theme.typography.helper,
-        color: props.theme.palette.grey.darker,
+        color: props.theme.palette.grey.main,
         fontWeight: 500,
         margin: '0',
     }

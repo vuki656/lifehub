@@ -19,7 +19,7 @@ export const DatePickerRoot = styled('div')<DatePickerRootProps>((props) => {
         '.react-datepicker__day--disabled': { color: props.theme.palette.grey.dark },
         '.react-datepicker__day--keyboard-selected': {
             '&:hover': {
-                backgroundColor: props.theme.palette.blue.darker,
+                backgroundColor: props.theme.palette.blue.dark,
                 transition: props.theme.transitions.create('background-color', 300),
             },
             backgroundColor: props.theme.palette.blue.main,

@@ -67,6 +67,12 @@ export type EditTaskPayload = {
   task: TaskType;
 };
 
+export type EditTaskSequencePayload = {
+  __typename?: 'EditTaskSequencePayload';
+  id: Scalars['String'];
+  sequenceNumber: Scalars['Float'];
+};
+
 export type LogInUserPayload = {
   __typename?: 'LogInUserPayload';
   token: Scalars['String'];
@@ -89,7 +95,7 @@ export type Mutation = {
   editCard: EditCardPayload;
   editReminder: EditReminderPayload;
   editTask: EditTaskPayload;
-  editTaskSequence: Array<TaskType>;
+  editTaskSequence: Array<EditTaskSequencePayload>;
   logInUser: LogInUserPayload;
   moveTaskToToday: MoveTaskToTodayPayload;
   registerUser: RegisterUserPayload;
@@ -514,8 +520,8 @@ export type EditTaskSequenceMutationVariables = Exact<{
 export type EditTaskSequenceMutation = (
   { __typename?: 'Mutation' }
   & { editTaskSequence: Array<(
-    { __typename?: 'TaskType' }
-    & Pick<TaskType, 'id' | 'sequenceNumber'>
+    { __typename?: 'EditTaskSequencePayload' }
+    & Pick<EditTaskSequencePayload, 'id' | 'sequenceNumber'>
   )> }
 );
 

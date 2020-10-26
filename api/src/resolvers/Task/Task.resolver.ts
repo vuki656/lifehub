@@ -22,6 +22,7 @@ import {
     CreateTaskPayload,
     DeleteTaskPayload,
     EditTaskPayload,
+    EditTaskSequencePayload,
     MoveTaskToTodayPayload,
     ToggleTaskPayload,
 } from './mutations/payloads'
@@ -93,7 +94,7 @@ export class TaskResolver {
     }
 
     @Authorized()
-    @Mutation(() => [TaskType])
+    @Mutation(() => [EditTaskSequencePayload])
     public async editTaskSequence(
         @Arg('input', () => [EditTaskSequenceInput]) input: EditTaskSequenceInput[],
     ): Promise<TaskType[]> {

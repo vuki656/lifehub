@@ -28,7 +28,10 @@ import {
 import { useNotifications } from '../../../ui-kit/components/NotificationProvider'
 import { TextField } from '../../../ui-kit/components/TextField'
 import { AddIcon } from '../../../ui-kit/icons/AddIcon'
-import { Task } from '../Task'
+import {
+    Task,
+    TaskType,
+} from '../Task'
 import { TasksCardDeleteDialog } from '../TasksCardDeleteDialog'
 import { TasksCardEditDialog } from '../TasksCardEditDialog'
 import { TasksCardProvider } from '../TasksCardProvider'
@@ -124,7 +127,48 @@ export const TasksCard: React.FunctionComponent<TasksCardProps> = (props) => {
         sortedTasks.splice(toIndex, 0, removedElement)
 
         await editTaskSequenceMutation({
-            fetchPolicy: 'no-cache',
+            optimisticResponse: {
+                __typename: 'Mutation',
+                editTaskSequence: sortedTasks.map((task, index) => ({
+                    __typename: 'EditTaskSequencePayload',
+                    id: task.id,
+                    sequenceNumber: index + 1,
+                })),
+            },
+            update: (proxy, mutationResult) => {
+                const data = proxy.readQuery<TasksQuery, TasksQueryVariables>({
+                    query: TASKS,
+                    variables: {
+                        args: {
+                            cardId: card.id,
+                            date: router.query.selectedDate as string,
+                        },
+                    },
+                })
+
+                const updatedList: TaskType[] = data?.tasks.map((existingTask) => {
+                    const updatedTask = mutationResult.data?.editTaskSequence.find((updatedTask) => {
+                        return existingTask.id === updatedTask.id
+                    })
+
+                    return {
+                        ...existingTask,
+                        ...updatedTask,
+                        __typename: 'TaskType',
+                    }
+                }) ?? []
+
+                proxy.writeQuery<TasksQuery, TasksQueryVariables>({
+                    data: { tasks: updatedList },
+                    query: TASKS,
+                    variables: {
+                        args: {
+                            cardId: card.id,
+                            date: router.query.selectedDate as string,
+                        },
+                    },
+                })
+            },
             variables: {
                 input: sortedTasks.map((task, index) => ({
                     id: task.id,
