@@ -22,6 +22,7 @@ export const TaskRoot = styled('div')((props) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: props.theme.spacing.xs,
     padding: props.theme.spacing.sm,
 }))
 

@@ -51,8 +51,7 @@ export const SubmitButton = styled(IconButton)({
     paddingRight: '10px',
 })
 
-export const TasksCardTasks = styled('div')<TasksCardTasksProps>((props) => ({
+export const TasksCardTasks = styled('div')<TasksCardTasksProps>({
     display: 'flex',
     flexDirection: 'column',
-    rowGap: props.theme.spacing.xs,
-}))
+})
