@@ -1,6 +1,10 @@
 import React from 'react'
+import { DraggableProvided } from 'react-beautiful-dnd'
 
-export type TaskProps = React.HTMLAttributes<HTMLDivElement> & {
+export type TaskProps =
+    Pick<DraggableProvided, 'innerRef'>
+    & React.HTMLAttributes<HTMLDivElement>
+    & {
     task: TaskType,
     cardId: string,
 }
@@ -11,4 +15,5 @@ export type TaskType = {
     note?: string | null,
     date: string,
     isCompleted: boolean,
+    sequenceNumber: number,
 }

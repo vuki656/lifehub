@@ -10,12 +10,3 @@ export const TASKS = gql`
     }
     ${TASK_PAYLOAD}
 `
-
-export const TASK = gql`
-    query Task($args: TaskArgs!) {
-        task(args: $args) {
-            ...TaskPayload
-        }
-    }
-    ${TASK_PAYLOAD}
-`

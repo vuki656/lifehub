@@ -14,6 +14,7 @@ type TaskCheckboxProps = Pick<CheckboxProps, 'checked'>
 
 export const TaskRoot = styled('div')((props) => ({
     '&:hover': { [TaskActions]: { opacity: 1 } },
+    backgroundColor: props.theme.palette.white,
     borderColor: props.theme.palette.grey.light350,
     borderRadius: '4px',
     borderStyle: 'solid',
@@ -21,6 +22,7 @@ export const TaskRoot = styled('div')((props) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: props.theme.spacing.xs,
     padding: props.theme.spacing.sm,
 }))
 

@@ -15,6 +15,7 @@ import {
     CreateTaskInput,
     DeleteTaskInput,
     EditTaskInput,
+    EditTaskSequenceInput,
     MoveTaskToTodayInput,
     ToggleTaskInput,
 } from './mutations/inputs'
@@ -58,9 +59,12 @@ export class TaskService {
     }
 
     public async create(input: CreateTaskInput) {
+        const sequenceNumber = await this.getNextSequenceNumber(input.cardId)
+
         const createdTask = await this.repository.save({
             card: { id: input.cardId },
             date: input.date,
+            sequenceNumber: sequenceNumber,
             title: input.title,
         })
 
@@ -100,6 +104,25 @@ export class TaskService {
         })
 
         return new MoveTaskToTodayPayload(input.id)
+    }
+
+    public async editSequence(input: EditTaskSequenceInput[]) {
+        return this.repository.save(input)
+    }
+
+    // Gets next in line sequence number for a specific card
+    public async getNextSequenceNumber(cardId: string) {
+        const sequenceNumbers = await this.repository
+        .createQueryBuilder('tasks')
+        .where('card_id = :cardId', { cardId })
+        .select('MAX(sequence_number)', 'max')
+        .getRawOne()
+
+        if (!sequenceNumbers.max) {
+            return 1
+        }
+
+        return sequenceNumbers.max + 1
     }
 
 }

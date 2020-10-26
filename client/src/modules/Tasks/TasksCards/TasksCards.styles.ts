@@ -6,5 +6,6 @@ export const TasksCardsRoot = styled('div')((props) => ({
     display: 'grid',
     gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
     overflow: 'auto',
+    paddingBottom: props.theme.spacing.md,
     rowGap: props.theme.spacing.xl,
 }))

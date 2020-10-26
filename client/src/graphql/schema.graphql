@@ -46,6 +46,11 @@ type EditTaskPayload {
     task: TaskType!
 }
 
+type EditTaskSequencePayload {
+    id: String!
+    sequenceNumber: Float!
+}
+
 type LogInUserPayload {
     token: String!
     userId: String!
@@ -65,6 +70,7 @@ type Mutation {
     editCard(input: EditCardInput!): EditCardPayload!
     editReminder(input: EditReminderInput!): EditReminderPayload!
     editTask(input: EditTaskInput!): EditTaskPayload!
+    editTaskSequence(input: [EditTaskSequenceInput!]!): [EditTaskSequencePayload!]!
     logInUser(input: LogInUserInput!): LogInUserPayload!
     moveTaskToToday(input: MoveTaskToTodayInput!): MoveTaskToTodayPayload!
     registerUser(input: RegisterUserInput!): RegisterUserPayload!
@@ -98,6 +104,7 @@ type TaskType {
     id: String!
     isCompleted: Boolean!
     note: String
+    sequenceNumber: Float!
     title: String!
 }
 
@@ -160,6 +167,11 @@ input EditTaskInput {
     isCompleted: Boolean!
     note: String!
     title: String!
+}
+
+input EditTaskSequenceInput {
+    id: String!
+    sequenceNumber: Float!
 }
 
 input LogInUserInput {

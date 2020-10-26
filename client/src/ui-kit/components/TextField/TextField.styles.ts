@@ -55,7 +55,7 @@ type TextFieldHelperTextProps = React.HTMLAttributes<HTMLParagraphElement> & {
 export const TextFieldHelperText = styled('p')<TextFieldHelperTextProps>((props) => {
     let styles: CSSObject = {
         ...props.theme.typography.helper,
-        color: props.theme.palette.grey.darker,
+        color: props.theme.palette.grey.main,
         fontWeight: 500,
         margin: '0',
     }
