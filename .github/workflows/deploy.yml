@@ -1,5 +1,10 @@
 name: Deploy to Amazon ECS
 
+on:
+  push:
+    branches: [ feature/#114_pipeline-deploy-to-aws ]
+
+
 jobs:
   deploy:
     name: Deploy
